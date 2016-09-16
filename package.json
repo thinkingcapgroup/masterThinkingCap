@@ -1,0 +1,16 @@
+{
+  "name": "marsuniversity",
+  "version": "1.0.0",
+  "description": "the basic walkthrough of mars university",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"start": "node server.js"	
+  },
+  "author": "Aaron Miller (aaronjmill.32@gmail.com)",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0"
+  }
+}
