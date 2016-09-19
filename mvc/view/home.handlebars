@@ -1,7 +1,14 @@
 
 
 <div class="page-header">
-<h1 id="check">Mars University Demo</h1>
+	{{#if loggedIn}}
+		<a class='btn btn-primary' href='/logout' style='float: right;'>Logout</a>
+	{{else}}
+		<a class='btn btn-primary' href='/auth/google' style='float: right;'>Sign in with Google</a>
+	{{/if}}
+	<h1 id="check">{{title}}</h1>
+	<a href='/profile'>Profile</a>
+
 </div>
 
 <div id = "gameInfo">
@@ -29,5 +36,3 @@
 	<button onclick = "changePlayerStats(.4)">Make an News Letter - 8 Hours</button>
 	<button onclick = "changePlayerStats(.6)">Set up a Table & Talk to People - 16 Hours</button>
 </div>
-
-
