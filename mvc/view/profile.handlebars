@@ -1,0 +1,42 @@
+<div class="page-header">
+  <a  class='btn btn-primary' href='/logout' style='float: right;'>Log Out</a>
+
+  <h2>Profile</h2>
+  <table class='table table-striped'>
+    <thead>
+      <tr>
+        <td>
+          User Information
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          Id:
+        </td>
+        <td>
+          {{user.id}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Name:
+        </td>
+        <td>
+          {{user.displayName}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Email:
+        </td>
+        {{#each user.emails}}
+          <td>
+            {{ value }}
+          </td>
+        {{/each}}
+      </tr>
+    </tbody>
+  </table>
+</div>
