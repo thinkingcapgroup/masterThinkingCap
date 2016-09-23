@@ -2,6 +2,8 @@
 var groupList = ["socialite", "athlete", "researcher", "mediaLover", "reader"];
 var majorList = ["business", "engineering", "tech", "fineArts", "libArts"];
 var stuEconomic = ["poverty", "low", "midLow", "midHigh", "high"];
+var playerCandidate = new CandidateCreate("ph","ph", "ph", "ph")
+var opponentCandidate = new CandidateCreate("Liz", "Lizard", "Non-Binary", "Average");
 
 //scores go Socialite/Athlete/MediaLover/Researcher/Reader
 //the score goes tuition, tuition var, athletic, athletic var, research, research var, events, events var, medical, medicalvar
@@ -58,6 +60,14 @@ function Student(group, ecoClass, major, tuitionScore, athleticScore, researchSc
 	this.medicalScore = medicalScore + player.medicalVar;
 }
 
+//used for making Player Candidate & Opponent Candidate
+function CandidateCreate(name,race,gender,bodyType){
+	this.name = name;
+	this.race = race;
+	this.gender = gender;
+	this.bodyType = bodyType;
+};
+
 // player
 
 var player = {
@@ -72,6 +82,8 @@ var player = {
 	correctAnswers: 0,
 	wrongAnswers: 0,
 };
+
+var playerScore = [];
 
 var population = 1000;
 var sample = [];
@@ -142,6 +154,57 @@ function getScores(){
 	return returnArray;
 }
 
+//starts the game
+function startGame(){
+	hours = 60;
+	playerScore = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	//whatever other things we have to do when initializing the game here
+	console.log("Game initialized and loaded!");
+	
+}
+
+
+function startCharacterSelect(){
+	//character creator here
+	//for right now we'll do a drop down option
+
+	document.getElementById("gameInfo").innerHTML = "<h1>Character Creation</h1>";
+	document.getElementById("gameInfo").innerHTML += "<label>Candidate Name: </label><input id='charName' type='text' /><br>";
+	document.getElementById("gameInfo").innerHTML += "<label>Race: </label><select id='charRace'><option>Human</option><option>Martian</option><option>Android</option></select><br>";
+	document.getElementById("gameInfo").innerHTML += "<label>Gender: </label><select id='charGender'><option>Male</option><option>Female</option><option>Non-binary</option></select><br>";
+	document.getElementById("gameInfo").innerHTML += "<label>Body Type: </label><select id='charBody'><option>Slim</option><option>Average</option><option>Heavy</option></select><br>";
+	document.getElementById("gameInfo").innerHTML += "<button onclick='startOtherCandidates()'>Create Character</button><br>";
+
+}
+
+
+function startOtherCandidates(){
+	playerCandidate.name = document.getElementById("charName").value;
+	playerCandidate.race = document.getElementById("charRace").value;
+	playerCandidate.gender = document.getElementById("charGender").value;
+	playerCandidate.bodyType = document.getElementById("charBody").value;
+	console.log(playerCandidate);
+	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
+	document.getElementById("gameInfo").innerHTML += "<p>You're candidate, <b>"+ playerCandidate.name +"</b> is going up again Liz the Chameleon. They're going for Student Council President just like your candidate. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
+	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial on how to read poll information?</p>"
+	document.getElementById("gameInfo").innerHTML += "<button onclick='startTutorial()'>Yes</button><button onclick='actualSessionStart()'>No</button>";
+
+}
+
+function startTutorial(){
+	document.getElementById("gameInfo").innerHTML = "<h1>Tutorial</h1>"
+	document.getElementById("gameInfo").innerHTML += "Tutorial Here<br>"
+	document.getElementById("gameInfo").innerHTML += "<button onclick='actualSessionStart()'>Start the Game</button>"
+}
+function actualSessionStart(){
+		document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
+	for (var x=0; x < 5; x++){
+
+	document.getElementById("gameInfo").innerHTML += "<button onclick = 'gameCycleStart("+x+")'>"+ positions[x]+"</button>"
+	}
+}
+
+/*GAME CYCLE FUNCTIONS*/
 function gameQuestions(){
 
 	var stats = samplePositions();
@@ -218,7 +281,6 @@ function gameCycleEnd(text){
 	document.getElementById("gameInfo").appendChild(para);
 	document.getElementById("choices").style.display = "block";
 }
-
 
 
 function gameCycleStart(f){
@@ -389,5 +451,7 @@ function samplePositions(){
 	return results;
 
 }
+
+window.onload = startGame();
 
 
