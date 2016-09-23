@@ -1,0 +1,50 @@
+
+
+<div class="page-header">
+<h1 id="check">Mars University Demo</h1>
+</div>
+
+<div id = "gameArea">
+	<div id = "focusDisplay"> </div>
+	<div id = "mainOutput">
+		<p>Welcome to Mars University! <br>First of, let's select your main position that you will be campaigning for!</p>
+		<div id = "focusSelect">
+			<button onclick = "gameCycleStart(0)">Lowering Tuition</button>
+			<button onclick = "gameCycleStart(1)">Increase Athletic Budget</button>
+			<button onclick = "gameCycleStart(2)">Increase Research Budget</button>
+			<button onclick = "gameCycleStart(3)">More Campus Events</button>
+			<button onclick = "gameCycleStart(4)">Better Medical Services</button>
+		</div>
+	</div> 
+	
+	<div id = "userAction">
+		<div id = "choices" style = "display:none;">
+		
+		</div>
+		
+		<div id = "event" style = "display:none;">
+		
+		</div>
+		
+		<div id = "next" style = "display:none;">
+			<button onclick = "newCycle()">View Results</button>
+		</div>
+	</div>
+	
+	<div id= "eventDisplay">
+</div>
+
+<div id = "questions" style = "display:none;">
+<br>
+	<p>What percentage of the sample is for you? <input type = "text" id = "q1">%</p>
+	<p>What percentage of the sample is neutral towards you? <input type = "text" id = "q2">%</p>
+	<p>What percentage of the sample is against you? <input type = "text" id = "q3">%</p>
+	<p>What percentage of the population is the sample? <input type = "text" id = "q4">%</p>
+	<button id = "answerButton" >Submit Answers</button>
+
+
+</div>
+
+
+
+
