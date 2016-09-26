@@ -1,0 +1,29 @@
+// Colors
+// -----------------------
+
+$white:	#f3f6fa;
+$black:	#231f20;
+$dark: #272727;
+$light: #ecf0f1;
+
+// Base
+// ------------------------
+
+$background-color: $white;
+$foreground-color: $black;
+
+$background-color-accent: $light;
+$foreground-color-accent: $dark;
+
+$link-color: $black;
+$link-color-hover: $dark;
+
+$primary-font: 'Times', sans-serif;
+$header-font: 'Computerfont', sans-serif;
+
+$font-weight: 300;
+$font-weight-bold: 600;
+
+// Duration.
+$duration-transition: 0.2s;
+$duration-transition-long: 0.4s;

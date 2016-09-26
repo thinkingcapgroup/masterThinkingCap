@@ -1,5 +1,13 @@
-body {
-  font-family: 'Helvetica Neue';
-}
+@import
+        // Partials
+        './partials/layout',
+        './partials/mixins',
+        './partials/variables',
 
-@import './components/base';
+        // Components
+        './components/fonts',
+        './components/base',
+
+        // Views
+        './views/index',
+        './views/newUser';

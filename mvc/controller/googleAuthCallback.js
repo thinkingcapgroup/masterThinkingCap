@@ -6,7 +6,7 @@ module.exports = function(app){
   // Otherwise if authentication is successful we redirect to the home page
   app.get('/auth/google/callback',
     passport.authenticate('google',
-    { successRedirect: '/',
+    { successRedirect: '/home',
      failureRedirect: '/'
     }
   ));

@@ -1,3 +1,43 @@
-a {
-  color: #e74c3c;
+html * {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+*, *::after, *::before {
+	box-sizing: border-box;
+}
+
+html {
+
+}
+
+body {
+	background-color: $background-color;
+	color: $foreground-color;
+
+  font-family: $primary-font;
+	font-weight: $font-weight;
+
+	overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $header-font;
+  font-weight: $font-weight-bold;
+
+  line-height: 1em;
+}
+
+#app {
+  margin: auto;
+  width: 90%;
+  max-width: 1170px;
+}
+
+ul {
+	list-style-type: none;
+}
+
+form {
+	margin-top: 1em;
 }

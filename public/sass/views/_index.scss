@@ -1,0 +1,33 @@
+#index {
+  height: 100vh;
+
+  display: flex;
+  flex-flow: column;
+
+  #welcome-section {
+    flex-basis: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    h1 {
+      text-align: center;
+    }
+  }
+
+
+  footer {
+    flex-basis: 10%;
+  }
+
+  ul {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    list-style-type: none;
+    padding: 1em;
+
+    li {
+      padding: 1em;
+    }
+  }
+}

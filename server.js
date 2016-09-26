@@ -1,4 +1,6 @@
-function mainApp() {
+(function() {
+	'use strict';
+
 	//modules
 	var express = require('express'),
 			app = express(),
@@ -6,38 +8,23 @@ function mainApp() {
 			db,
 			// Database credentials
 			dbCredentials,
-			handlebars = require('express-handlebars').create({defaultLayout:'main', layoutsDir: './mvc/view/layouts', partialsDir: './mvc/view/partials'}),
+			handlebars = require('express-handlebars').create(
+				{
+					defaultLayout:'main',
+					layoutsDir: './mvc/view/layouts',
+					partialsDir: './mvc/view/partials'
+				}),
 			fs = require("fs"),
-			// Holds routes
-			route,
+			// Passport Authentication file
+			passportAuth = require('./config/passportAuth'),
+			// Gets our routes
+			routes,
 			// Controllers are js files which contain routes
-			routePath="./mvc/controller/",
+			routeDir="./mvc/controller/",
 			sassMiddleware = require('node-sass-middleware'),
 			port = process.env.PORT || 3000,
 			cookieParser = require('cookie-parser'),
-			session = require('express-session'),
-			authConfig = require('./config/auth'),
-			passport = require('passport'),
-			GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-
-
-	/**
-	 * Passport Authentication
-	 */
-	passport.serializeUser(function(user, done){
-		done(null, user);
-	});
-
-	passport.deserializeUser(function(obj, done){
-		done(null, obj);
-	});
-
-	passport.use(new GoogleStrategy(
-		authConfig.google,
-		function(request, accessToken, refreshToken, profile, done) {
-			return done(null, profile);
-		}
-	));
+			session = require('express-session');
 
 	/**
 	 * Configure Express
@@ -55,6 +42,7 @@ function mainApp() {
 		outputStyle: 'compressed',
 		prefix: '/css'
 	}));
+
 	app.use(express.static(__dirname + '/public'));
 
 	app.engine('handlebars', handlebars.engine);
@@ -68,29 +56,44 @@ function mainApp() {
 		saveUninitialized: true
 	}));
 
-	// Initialize Passport
-	app.use(passport.initialize());
-
-	// Restore Passport Session, if any
-	app.use(passport.session());
+	// Initialize passport
+	passportAuth(app);
 
 	/**
 	 * Routes
 	 */
-	// Automatically gets our routes in 'mvc/controller'
-	// Goes through each file in 'mvc/controller'
-	console.log(fs.readdirSync(routePath).length);
-	fs.readdirSync(routePath).forEach(function(file) {
-		var jsPattern = /.js$/;
+	// Routes function
+	routes = function(dir, filelist) {
+    var route,
+				routesPattern = /.js$/,
+        fs = fs || require('fs'),
+        files = fs.readdirSync(dir);
 
-		if (jsPattern.test(file)) {
-			// Creates a new route var using the file
-			route = routePath + file;
-			console.log(route);
-			// Requires the route
-			require(route)(app);
-		}
-	});
+    // If filelist exists, use it otherwise create new array
+    filelist = filelist || [];
+
+    // Loop through files
+    files.forEach(function(file) {
+      // If file is a directory
+      if (fs.statSync(dir + '/' + file).isDirectory()) {
+        // call this function again in that directory
+        filelist = routes(dir + '/' + file, filelist);
+      }
+      else {
+        // If it is a javascript file
+        if (routesPattern.test(file)) {
+          // Get the route
+          route = dir + '/' + file;
+
+          // Require file
+          require(route)(app);
+        }
+      }
+    });
+  };
+
+	// Call routes
+	routes(routeDir);
 
 	//port starting and listening
 	app.listen(app.get('port'), function(){
@@ -107,22 +110,13 @@ function mainApp() {
 	app.use(function(req,res){
 		res.type('text/html');
 		res.status(404);
-		res.render('404');
+		res.render('errors/404');
 	});
 
 	//500 error - server error
 	app.use(function(err, req,res, next){
 		console.log(err.stack);
 		res.status(500);
-		res.render('500');
+		res.render('errors/500');
 	});
-
-	function ensureAuthenticated(req, res, next){
-		if (req.isAuthenticated()) {
-			return next();
-		}
-		res.redirect('/login');
-	}
-}
-
-mainApp();
+}());
