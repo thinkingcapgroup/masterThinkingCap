@@ -58,7 +58,7 @@ var events =
 		timeRequired: 4, 
 		scoreIncrease: 1, 
 		type: "smallEvent",
-		desc: "Short Description followed by promt to choose options",
+		desc: "Short blurb followed by prompt to choose options",
 		actionChoice:0,
 		options: 
 		[
@@ -66,18 +66,24 @@ var events =
 				optionName: "Option3", 
 				extraTime: 1,
 				bonusScore: 1,
+				groupPos: "Read",
+				groupNeg: "Ath"
 			},
 			
 			{
 				optionName: "Option2", 
 				extraTime: 2,
-				bonusScore: 2
+				bonusScore: 2,
+				groupPos: "Read",
+				groupNeg: "Ath"
 			},
 			
 			{
 				optionName: "Option3", 
 				extraTime: 3,
-				bonusScore: 3
+				bonusScore: 3,
+				groupPos: "Read",
+				groupNeg: "Ath"
 			}
 		]
 	},
@@ -87,7 +93,7 @@ var events =
 		timeRequired: 8, 
 		scoreIncrease: 2, 
 		type: "smallEvent",
-		desc: "Short Description followed by promt to choose options",
+		desc: "Short blurb followed by prompt to choose options",
 		actionChoice:1,
 		options: 
 		[
@@ -110,7 +116,7 @@ var events =
 		timeRequired: 16, 
 		scoreIncrease: 4, 
 		type: "smallEvent", 
-		desc: "Short Description followed by promt to choose options",
+		desc: "Short blurb followed by prompt to choose options",
 		actionChoice:2,
 		options: 
 		[
@@ -235,7 +241,7 @@ function startGame(){
 	console.log("Game initialized and loaded!");
 	
 }
-
+/*GAME INTRO FUNCTIONS8*/
 function startCharacterSelect(){
 	//character creator here
 	//for right now we'll do a drop down option
@@ -277,6 +283,7 @@ function actualSessionStart(){
 	}
 }
 
+/*GAME CYCLE FUNCTIONS8*/
 function gameCycleStart(f)
 {
 	population = 1000;
@@ -337,22 +344,20 @@ function userAction()
 	gameOutput.innerHTML = "";
 	prevChoices.innerHTML = "";
 	prevEvent.innerHTML = "";
-	
+	currentEvents = []
 	
 	//Build User Action Area buttons
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='reportViewer()' >View Result Reports</button>"
-	document.getElementById("choices").innerHTML += "<button type='button'> Poll for My Influence </button>"
+	document.getElementById("choices").innerHTML += "<button type='button'  onclick='poll()'> Poll for My Influence </button>"
 	document.getElementById("gameInfo").innerHTML += "<p> Opponent\'s Last Move:" + opponent.lastMove + "</p>"
-	document.getElementById("choices").innerHTML += "<button type='button'>Poll For Opponent\'s Influence </button>"
+	document.getElementById("choices").innerHTML += "<button type='button'  onclick='poll()'>Poll For Opponent\'s Influence </button>"
 	
 	//Adds events to button list randomly from those available Prevents Duplicates	
 	for(var i = 0;i<2;i++)
 	{
-		currentEvents = []
 		var addEvent = true;
 		var random = Math.floor(Math.random() * 3);
 		var currentEvent = events[random];
-		console.log(currentEvent);
 		for(var j = 0;j<currentEvents.length;j++)
 		{
 			if(currentEvent.name == currentEvents[j].name)
@@ -364,10 +369,10 @@ function userAction()
 		
 		if(addEvent)
 		{
-			var actionCall = currentEvent ;
 			currentEvents.push(currentEvent);
 			var eventDescription =currentEvent.name + " - " + currentEvent.timeRequired;
 			document.getElementById("choices").innerHTML += "<button onclick='action( "+ currentEvent.actionChoice+" )'>" + eventDescription + " hours </button>"
+			//document.getElementById("choices").innerHTML += "<button onclick='action("+ currentEvent.type +","+currentEvent.id+","+currentEvent.groupPos+"," + currentEvent.groupNeg +")'>" + eventDescription + " hours </button>"
 		}
 		else
 		{
@@ -379,15 +384,63 @@ function userAction()
 	document.getElementById("choices").style.display = "block";
 };
 
-function action(choice)
+function event(type, id, groupPos, groupNeg)
 {
-	chosenEvent = events[choice];
 	//Clear previous screen
-	document.getElementById("choices").style.display = "none";
+	var gameOutput = document.getElementById("gameInfo");
+	var prevChoices = document.getElementById("choices");
+	var prevEvent = document.getElementById("event");
+	gameOutput.innerHTML = "";
+	prevChoices.innerHTML = "";
+	prevEvent.innerHTML = "";
 	
-	if(chosenEvent.type=="mini")
+	chosenEvent = events[id];
+	
+	switch (type) 
 	{
-		//Call the function of the minigame from the DB
+    case "minigame":
+		
+        break;
+		
+    case "smallEvent":
+        var eventHours = chosenEvent.timeRequired;
+		var eventDisplay = document.createElement("p");
+		var paratext = document.createTextNode(chosenEvent.desc);
+		eventDisplay.appendChild(paratext);
+		document.getElementById("event").appendChild(eventDisplay);
+		
+		for(var i =0; i<chosenEvent.options.length; i++)
+		{
+			document.getElementById("event").innerHTML += "<p>" + chosenEvent.options[i].optionName + ": </p>";
+			document.getElementById("event").innerHTML += "<input type='checkbox' id = " + chosenEvent.options[i].optionName+" >";
+		}
+		document.getElementById("event").innerHTML += "<br> <button type='button' onclick='submitAction(" + type + "," + id + "," + groupPos + "," + groupNeg + ")' > Perform Event </button>";
+
+		break;
+		
+    case "largeEvent":
+	
+        break;
+	} 
+
+	//Show changes to screen
+	document.getElementById("event").style.display = "block";
+};
+function action(choice) 
+{
+	//Clear previous screen
+	var gameOutput = document.getElementById("gameInfo");
+	var prevChoices = document.getElementById("choices");
+	var prevEvent = document.getElementById("event");
+	gameOutput.innerHTML = "";
+	prevChoices.innerHTML = "";
+	prevEvent.innerHTML = "";
+	
+	chosenEvent = events[choice];
+	
+	if(chosenEvent.type=="minigame")
+	{
+		//Call the function of the minigamegame from the DB
 	}
 	else if(chosenEvent.type=="smallEvent")
 	{
@@ -414,7 +467,7 @@ function action(choice)
 	document.getElementById("event").style.display = "block";
 };
 
-function submitAction(choice, eventHours)
+function submitAction(choice, eventHours)//(type, id, groupPos, groupNeg)
 {
 	chosenEvent = events[choice];
 	for(var j =0; j<chosenEvent.options.length-1; j++)
@@ -426,9 +479,10 @@ function submitAction(choice, eventHours)
 	}
 	remainingHours-= eventHours;
 	playerScore++;
+	//scoreChanger(scoreInc, groupPos, groupNeg)
 	if(remainingHours<4)
 	{
-		gameCycleEnd(0);
+		gameCycleEnd();
 	}
 	else
 	{
@@ -436,30 +490,217 @@ function submitAction(choice, eventHours)
 	}
 };
 
+function scoreChanger(scoreInc, groupPos, groupNeg)
+{
+	switch (groupPos) 
+	{
+		case "Res":
+			playerScore[5]+scoreInc;
+			break;
+			
+		case "Soc":
+			playerScore[6]+scoreInc;
+			break;
+			
+		case "Read":
+			playerScore[7]+scoreInc;
+			break;
+		case "Ath":
+			playerScore[8]+scoreInc;
+			break;
+			
+		case "Medis":
+			playerScore[9]+scoreInc;
+			break;
+			
+		case "Bus":
+			playerScore[10]+scoreInc;
+			break;
+			
+		case "Fine Arts":
+			playerScore[11]+scoreInc;
+			break;
+			
+		case "Lib Arts":
+			playerScore[12]+scoreInc;
+			break;
+			
+		case "Eng":
+			playerScore[13]+scoreInc;
+			break;
+			
+		case "Tech":
+			playerScore[14]+scoreInc;
+			break;
+			
+		case "Poor":
+			playerScore[15]+scoreInc;
+			break;
+			
+		case "Low":
+			playerScore[16]+scoreInc;
+			break;
+			
+		case "Lower Mid":
+			playerScore[17]+scoreInc;
+			break;
+			
+		case "Upper Mid":
+			playerScore[18]+scoreInc;
+			break;
+			
+		case "High":
+			playerScore[19]+scoreInc;
+			break;
+		
+		case "Focus":
+			break;
+			
+		case "Fame":
+		
+			break;
+			
+		case "Opp Focus":
+		
+			break;
+			
+		case "Opp Fame":
+			
+			break;
+	
+	}
+	
+	switch (groupNeg) 
+	{
+		case "Res":
+			playerScore[0]+scoreInc;
+			break;
+			
+		case "Soc":
+			playerScore[1]+scoreInc;
+			break;
+			
+		case "Read":
+			playerScore[2]+scoreInc;
+			break;
+		case "Ath":
+			playerScore[3]+scoreInc;
+			break;
+			
+		case "Medis":
+			playerScore[4]+scoreInc;
+			break;
+			
+		case "Bus":
+			playerScore[5]+scoreInc;
+			break;
+			
+		case "Fine Arts":
+			playerScore[6]+scoreInc;
+			break;
+			
+		case "Lib Arts":
+			playerScore[7]+scoreInc;
+			break;
+			
+		case "Eng":
+			playerScore[8]+scoreInc;
+			break;
+			
+		case "Tech":
+			playerScore[9]+scoreInc;
+			break;
+			
+		case "Poor":
+			playerScore[10]+scoreInc;
+			break;
+			
+		case "Low":
+			playerScore[11]+scoreInc;
+			break;
+			
+		case "Lower Mid":
+			playerScore[12]+scoreInc;
+			break;
+			
+		case "Upper Mid":
+			playerScore[13]+scoreInc;
+			break;
+			
+		case "High":
+			playerScore[14]+scoreInc;
+			break;
+		
+		case "Focus":
+			
+			break;
+			
+		case "Fame":
+		
+			break;
+			
+		case "Opp Focus":
+		
+			break;
+			
+		case "Opp Fame":
+			
+			break;
+	
+	}
+}
+
 function reportViewer()
 {
+	//Clear previous screen
+	var gameOutput = document.getElementById("gameInfo");
+	var prevChoices = document.getElementById("choices");
+	var prevEvent = document.getElementById("event");
+	gameOutput.innerHTML = "";
+	prevChoices.innerHTML = "";
+	prevEvent.innerHTML = "";
 	
+	document.getElementById("gameInfo").innerHTML += "<p> Report Here </p> <button onclick = 'userAction()'> Return to User Action Area </button>";
+};
+function poll()
+{
+	//Clear previous screen
+	var gameOutput = document.getElementById("gameInfo");
+	var prevChoices = document.getElementById("choices");
+	var prevEvent = document.getElementById("event");
+	gameOutput.innerHTML = "";
+	prevChoices.innerHTML = "";
+	prevEvent.innerHTML = "";
+	
+	document.getElementById("gameInfo").innerHTML += "<p> Poll Question Selector Here </p> <button onclick = 'pollResults()'> Poll the Sample </button>";
+};
+function pollResults()
+{
+	//Clear previous screen
+	var gameOutput = document.getElementById("gameInfo");
+	var prevChoices = document.getElementById("choices");
+	var prevEvent = document.getElementById("event");
+	gameOutput.innerHTML = "";
+	prevChoices.innerHTML = "";
+	prevEvent.innerHTML = "";
+	
+	document.getElementById("gameInfo").innerHTML += "<p> Poll Results Here </p> <button onclick = 'userAction()'> Return to User Action Area </button>";
 };
 
 function gameCycleEnd()
 {
+	//Clear previous screen
 	var gameOutput = document.getElementById("gameInfo");
+	var prevChoices = document.getElementById("choices");
+	var prevEvent = document.getElementById("event");
+	gameOutput.innerHTML = "";
+	prevChoices.innerHTML = "";
+	prevEvent.innerHTML = "";
 	
-	while(gameOutput.firstChild){
-		gameOutput.removeChild(gameOutput.firstChild);
-	}
-	
-	document.getElementById("next").style.display = "none";
-	document.getElementById("choices").style.display = "none";
-	var para4 = document.createElement("p");
-	//Displays the results of the election - To be update once win state is calculable
-	var text = "You Win/Lose";
-	var para4text = document.createTextNode(text);
-	para4.appendChild(para4text);
-	document.getElementById("gameInfo").appendChild(para4);
-}
+	document.getElementById("gameInfo").innerHTML += "<p> You Win/Lose </p> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
+};
 
-/*GAME CYCLE FUNCTIONS*/
+/* OLD GAME CYCLE FUNCTIONS*/
 function gameQuestions(){
 
 	var stats = samplePositions();
@@ -514,9 +755,10 @@ function gameQuestions(){
 		textNode += "You got Question 4 Incorrect! "; 
 	}
 	gameCycleEnd(textNode);
-}
+};
 
-function gameCycleEnd(text){
+
+function gameCycleEndOld(text){
 	var gameDiv = document.getElementById("gameInfo");
 	while(gameDiv.firstChild){
 		gameDiv.removeChild(gameDiv.firstChild);
@@ -535,8 +777,7 @@ function gameCycleEnd(text){
 	para.appendChild(paratext);
 	document.getElementById("gameInfo").appendChild(para);
 	document.getElementById("choices").style.display = "block";
-}
-
+};
 
 function gameCycleStartOld(f){
 	player.focus = positions[f];
@@ -576,7 +817,7 @@ function gameCycleStartOld(f){
 	
 	var button = document.getElementById("answerButton");
 	button.onclick = gameQuestions;
-}
+};
 
 function changePlayerStats(num){
 	
@@ -626,7 +867,7 @@ function changePlayerStats(num){
 	para.appendChild(paratext);
 	gameDiv.appendChild(para);
 
-}
+};
 
 
 function samplePositions(){
@@ -705,12 +946,17 @@ function samplePositions(){
 	var results = [like, neutral, dislike]
 	return results;
 
-}
+};
 
 window.onload = startGame();
 
-function reportViewer()
-{
-	
-};
+//Uncomment this to disable the console.
+//window.console.log = function(){
+//    console.error('The ability to view the console is disabled for security purposes.');
+//    window.console.log = function() {
+//        return false;
+//    }
+//}
+
+
 
