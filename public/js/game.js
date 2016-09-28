@@ -59,7 +59,7 @@ var events =
 		scoreIncrease: 1, 
 		type: "smallEvent",
 		desc: "Short Description followed by promt to choose options",
-		actionChoice:1,
+		actionChoice:0,
 		options: 
 		[
 			{
@@ -88,7 +88,7 @@ var events =
 		scoreIncrease: 2, 
 		type: "smallEvent",
 		desc: "Short Description followed by promt to choose options",
-		actionChoice:2,
+		actionChoice:1,
 		options: 
 		[
 			{
@@ -111,7 +111,7 @@ var events =
 		scoreIncrease: 4, 
 		type: "smallEvent", 
 		desc: "Short Description followed by promt to choose options",
-		actionChoice:3,
+		actionChoice:2,
 		options: 
 		[
 			{
@@ -145,7 +145,11 @@ function CandidateCreate(name,race,gender,bodyType){
 	this.gender = gender;
 	this.bodyType = bodyType;
 };
-
+var playerScore = [];
+var player = {
+	
+	wrongAnswers:0,
+}
 var candidate;
 var opponent;
 var turnCounter;
@@ -167,57 +171,7 @@ function createSample(x)
 		var holderStudent = new Student(groupList[scoreHolder[0]], majorList[scoreHolder[1]], stuEconomic[scoreHolder[2]], scoreHolder[3], scoreHolder[4], scoreHolder[5], scoreHolder[6], scoreHolder[7])
 		sample.push(holderStudent);
 	}
-
-function gameCycleStart(f)
-{
-	population = 1000;
-	sample = [];
-	startHours = 336; 
-	remainingHours = startHours;
-	turnCounter = 1
-	playerScore=0;
-	candidate =
-	{
-		focus: "",
-		focusnum: 0,
-		tuitionVar: 0,
-		athleticVar: 0,
-		researchVar: 0,
-		eventsVar: 0,
-		medicalVar: 0,
-		winChance: 0,
-		correctAnswers: 0,
-		wrongAnswers: 0,
-	};
-	
-	opponent =
-	{
-		focus: "",
-		focusnum: 0,
-		tuitionVar: 0,
-		athleticVar: 0,
-		researchVar: 0,
-		eventsVar: 0,
-		medicalVar: 0,
-		winChance: 0,
-		lastMove: "None"
-	};
-	
-	candidate.focus = positions[f];
-	candidate.focusnum = f;
-	
-	while(opponent.focus != "")
-	{
-		var oppFocus = Math.random(0,4);
-			if(oppFocus != f)
-			{
-				opponent.focus = positions[f];
-				opponent.focusnum = f;
-			}
-	}
-	
-	userAction();
-};
+}
 
 function getScores(){
 	var groupRandom = Math.floor(Math.random()* 5);
@@ -282,10 +236,102 @@ function startGame(){
 	
 }
 
+function startCharacterSelect(){
+	//character creator here
+	//for right now we'll do a drop down option
+
+	document.getElementById("gameInfo").innerHTML = "<h1>Character Creation</h1>";
+	document.getElementById("gameInfo").innerHTML += "<label>Candidate Name: </label><input id='charName' type='text' /><br>";
+	document.getElementById("gameInfo").innerHTML += "<label>Race: </label><select id='charRace'><option>Human</option><option>Martian</option><option>Android</option></select><br>";
+	document.getElementById("gameInfo").innerHTML += "<label>Gender: </label><select id='charGender'><option>Male</option><option>Female</option><option>Non-binary</option></select><br>";
+	document.getElementById("gameInfo").innerHTML += "<label>Body Type: </label><select id='charBody'><option>Slim</option><option>Average</option><option>Heavy</option></select><br>";
+	document.getElementById("gameInfo").innerHTML += "<button onclick='startOtherCandidates()'>Create Character</button><br>";
+
+}
+
+
+function startOtherCandidates(){
+	playerCandidate.name = document.getElementById("charName").value;
+	playerCandidate.race = document.getElementById("charRace").value;
+	playerCandidate.gender = document.getElementById("charGender").value;
+	playerCandidate.bodyType = document.getElementById("charBody").value;
+	console.log(playerCandidate);
+	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
+	document.getElementById("gameInfo").innerHTML += "<p>You're candidate, <b>"+ playerCandidate.name +"</b> is going up again Liz the Chameleon. They're going for Student Council President just like your candidate. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
+	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial on how to read poll information?</p>"
+	document.getElementById("gameInfo").innerHTML += "<button onclick='startTutorial()'>Yes</button><button onclick='actualSessionStart()'>No</button>";
+
+}
+
+function startTutorial(){
+	document.getElementById("gameInfo").innerHTML = "<h1>Tutorial</h1>"
+	document.getElementById("gameInfo").innerHTML += "Tutorial Here<br>"
+	document.getElementById("gameInfo").innerHTML += "<button onclick='actualSessionStart()'>Start the Game</button>"
+}
+
+function actualSessionStart(){
+		document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
+	for (var x=0; x < 5; x++){
+
+	document.getElementById("gameInfo").innerHTML += "<button onclick = 'gameCycleStart("+x+")'>"+ positions[x]+"</button>"
+	}
+}
+
+function gameCycleStart(f)
+{
+	population = 1000;
+	sample = [];
+	startHours = 336; 
+	remainingHours = startHours;
+	turnCounter = 1
+	playerScore=0;
+	candidate =
+	{
+		focus: "",
+		focusnum: 0,
+		tuitionVar: 0,
+		athleticVar: 0,
+		researchVar: 0,
+		eventsVar: 0,
+		medicalVar: 0,
+		winChance: 0,
+		correctAnswers: 0,
+		wrongAnswers: 0,
+	};
+	
+	opponent =
+	{
+		focus: "",
+		focusnum: 0,
+		tuitionVar: 0,
+		athleticVar: 0,
+		researchVar: 0,
+		eventsVar: 0,
+		medicalVar: 0,
+		winChance: 0,
+		lastMove: "None"
+	};
+	
+	candidate.focus = positions[f];
+	candidate.focusnum = f;
+	
+	while(opponent.focus != "")
+	{
+		var oppFocus = Math.random(0,4);
+			if(oppFocus != f)
+			{
+				opponent.focus = positions[f];
+				opponent.focusnum = f;
+			}
+	}
+	
+	userAction();
+};
+
 function userAction()
 {
 	//Clear previous screen
-	var gameOutput = document.getElementById("mainOutput");
+	var gameOutput = document.getElementById("gameInfo");
 	var prevChoices = document.getElementById("choices");
 	var prevEvent = document.getElementById("event");
 	gameOutput.innerHTML = "";
@@ -296,7 +342,7 @@ function userAction()
 	//Build User Action Area buttons
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='reportViewer()' >View Result Reports</button>"
 	document.getElementById("choices").innerHTML += "<button type='button'> Poll for My Influence </button>"
-	document.getElementById("mainOutput").innerHTML += "<p> Opponent\'s Last Move:" + opponent.lastMove + "</p>"
+	document.getElementById("gameInfo").innerHTML += "<p> Opponent\'s Last Move:" + opponent.lastMove + "</p>"
 	document.getElementById("choices").innerHTML += "<button type='button'>Poll For Opponent\'s Influence </button>"
 	
 	//Adds events to button list randomly from those available Prevents Duplicates	
@@ -397,7 +443,7 @@ function reportViewer()
 
 function gameCycleEnd()
 {
-	var gameOutput = document.getElementById("mainOutput");
+	var gameOutput = document.getElementById("gameInfo");
 	
 	while(gameOutput.firstChild){
 		gameOutput.removeChild(gameOutput.firstChild);
@@ -410,45 +456,7 @@ function gameCycleEnd()
 	var text = "You Win/Lose";
 	var para4text = document.createTextNode(text);
 	para4.appendChild(para4text);
-	document.getElementById("mainOutput").appendChild(para4);
-}function startCharacterSelect(){
-	//character creator here
-	//for right now we'll do a drop down option
-
-	document.getElementById("gameInfo").innerHTML = "<h1>Character Creation</h1>";
-	document.getElementById("gameInfo").innerHTML += "<label>Candidate Name: </label><input id='charName' type='text' /><br>";
-	document.getElementById("gameInfo").innerHTML += "<label>Race: </label><select id='charRace'><option>Human</option><option>Martian</option><option>Android</option></select><br>";
-	document.getElementById("gameInfo").innerHTML += "<label>Gender: </label><select id='charGender'><option>Male</option><option>Female</option><option>Non-binary</option></select><br>";
-	document.getElementById("gameInfo").innerHTML += "<label>Body Type: </label><select id='charBody'><option>Slim</option><option>Average</option><option>Heavy</option></select><br>";
-	document.getElementById("gameInfo").innerHTML += "<button onclick='startOtherCandidates()'>Create Character</button><br>";
-
-}
-
-
-function startOtherCandidates(){
-	playerCandidate.name = document.getElementById("charName").value;
-	playerCandidate.race = document.getElementById("charRace").value;
-	playerCandidate.gender = document.getElementById("charGender").value;
-	playerCandidate.bodyType = document.getElementById("charBody").value;
-	console.log(playerCandidate);
-	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
-	document.getElementById("gameInfo").innerHTML += "<p>You're candidate, <b>"+ playerCandidate.name +"</b> is going up again Liz the Chameleon. They're going for Student Council President just like your candidate. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
-	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial on how to read poll information?</p>"
-	document.getElementById("gameInfo").innerHTML += "<button onclick='startTutorial()'>Yes</button><button onclick='actualSessionStart()'>No</button>";
-
-}
-
-function startTutorial(){
-	document.getElementById("gameInfo").innerHTML = "<h1>Tutorial</h1>"
-	document.getElementById("gameInfo").innerHTML += "Tutorial Here<br>"
-	document.getElementById("gameInfo").innerHTML += "<button onclick='actualSessionStart()'>Start the Game</button>"
-}
-function actualSessionStart(){
-		document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
-	for (var x=0; x < 5; x++){
-
-	document.getElementById("gameInfo").innerHTML += "<button onclick = 'gameCycleStart("+x+")'>"+ positions[x]+"</button>"
-	}
+	document.getElementById("gameInfo").appendChild(para4);
 }
 
 /*GAME CYCLE FUNCTIONS*/
@@ -530,7 +538,7 @@ function gameCycleEnd(text){
 }
 
 
-function gameCycleStart(f){
+function gameCycleStartOld(f){
 	player.focus = positions[f];
 	player.focusnum = f;
 	var gameDiv = document.getElementById("gameInfo");
@@ -706,20 +714,3 @@ function reportViewer()
 	
 };
 
-function gameCycleEnd()
-{
-	var gameOutput = document.getElementById("mainOutput");
-	
-	while(gameOutput.firstChild){
-		gameOutput.removeChild(gameOutput.firstChild);
-	}
-	
-	document.getElementById("next").style.display = "none";
-	document.getElementById("choices").style.display = "none";
-	var para4 = document.createElement("p");
-	//Displays the results of the election - To be update once win state is calculable
-	var text = "You Win/Lose";
-	var para4text = document.createTextNode(text);
-	para4.appendChild(para4text);
-	document.getElementById("mainOutput").appendChild(para4);
-}
