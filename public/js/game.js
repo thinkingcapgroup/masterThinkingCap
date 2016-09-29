@@ -94,7 +94,6 @@ function createSample(x){
 		var holderStudent = new Student(groupList[scoreHolder[0]], majorList[scoreHolder[1]], stuEconomic[scoreHolder[2]], scoreHolder[3], scoreHolder[4], scoreHolder[5], scoreHolder[6], scoreHolder[7])
 		sample.push(holderStudent);
 	}
-
 }
 
 function getScores(){
@@ -106,7 +105,6 @@ function getScores(){
 	var tuit = 0;
 	var med = 0;
 	var event = 0;
-
 
 
 	//SCORE calculated by (group issue + variable) + (major issue + variable)  + (class issue + variable) 
@@ -149,7 +147,6 @@ function getScores(){
 	else if(med < -4){
 		med = -4;
 	}
-	
 	var returnArray = [groupRandom, majorRandom, ecoClassRandom, tuit, ath,res,event,med];
 	return returnArray;
 }
@@ -159,22 +156,20 @@ function startGame(){
 	hours = 60;
 	playerScore = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	//whatever other things we have to do when initializing the game here
-	console.log("Game initialized and loaded!");
-	
+	var date = Date.now();
+	console.log("Game initialized and loaded @ T:" + date);	
 }
 
 
 function startCharacterSelect(){
 	//character creator here
 	//for right now we'll do a drop down option
-
 	document.getElementById("gameInfo").innerHTML = "<h1>Character Creation</h1>";
 	document.getElementById("gameInfo").innerHTML += "<label>Candidate Name: </label><input id='charName' type='text' /><br>";
 	document.getElementById("gameInfo").innerHTML += "<label>Race: </label><select id='charRace'><option>Human</option><option>Martian</option><option>Android</option></select><br>";
 	document.getElementById("gameInfo").innerHTML += "<label>Gender: </label><select id='charGender'><option>Male</option><option>Female</option><option>Non-binary</option></select><br>";
 	document.getElementById("gameInfo").innerHTML += "<label>Body Type: </label><select id='charBody'><option>Slim</option><option>Average</option><option>Heavy</option></select><br>";
 	document.getElementById("gameInfo").innerHTML += "<button onclick='startOtherCandidates()'>Create Character</button><br>";
-
 }
 
 
