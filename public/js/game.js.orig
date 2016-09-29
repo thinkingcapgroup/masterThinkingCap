@@ -2,13 +2,20 @@
 var groupList = ["socialite", "athlete", "researcher", "mediaLover", "reader"];
 var majorList = ["business", "engineering", "tech", "fineArts", "libArts"];
 var stuEconomic = ["poverty", "low", "midLow", "midHigh", "high"];
-var playerCandidate = new CandidateCreate("ph","ph", "ph", "ph")
-var opponentCandidate = new CandidateCreate("Liz", "Lizard", "Non-Binary", "Average");
+<<<<<<< HEAD
 
 //scores go Socialite/Athlete/MediaLover/Researcher/Reader
 //the score goes tuition, tuition var, athletic, athletic var, research, research var, events, events var, medical, medicalvar
 var positions = 
 [
+=======
+var playerCandidate = new CandidateCreate("ph","ph", "ph", "ph")
+var opponentCandidate = new CandidateCreate("Liz", "Lizard", "Non-Binary", "Average");
+
+//scores go Socialite/Athlete/MediaLover/Researcher/Reader
+//the score goes tuition, tuition var, athletic, athletic var, research, research var, events, events var, medical, medicalvar
+var positions = [
+>>>>>>> aMiller
 	"Lowering Tuition",
 	"Increase Athletic Budget",
 	"Increase Research Budget",
@@ -16,6 +23,10 @@ var positions =
 	"Improve Medical Services"	
 ];
 
+<<<<<<< HEAD
+var groupIssues = 
+[
+=======
 var positionsLower = [
 	"tuition",
 	"athletic",
@@ -25,6 +36,7 @@ var positionsLower = [
 ];
 
 var groupIssues = [
+>>>>>>> aMiller
 	[2,2,2,1,0,3,1,1,-1,2],
 	[0,2,3,1,0,3,1,1,-1,2],
 	[1,1,-1,2,1,2,3,1,-2,3],
@@ -32,8 +44,12 @@ var groupIssues = [
 	[0,3,-2,2,0,2,1,3,3,1]
 ];
 //goes Poverty/Low/MediumLow/MediumHigh/High
+<<<<<<< HEAD
 var classIssues = 
 [
+=======
+var classIssues = [
+>>>>>>> aMiller
 	[2,2,0,1,2,1,-2,2,3,1],
 	[0,2,-1,1,1,3,1,2,2,1],
 	[3,1,1,3,2,2,-1,1,1,1],
@@ -41,8 +57,12 @@ var classIssues =
 	[-1,1,-2,3,2,-1,3,1,0,4]
 ];
 //goes Business/Engineering/Technology/FineArts/LiberalArts
+<<<<<<< HEAD
 var majorIssues = 
 [
+=======
+var majorIssues = [
+>>>>>>> aMiller
 	[-2,1,3,1,1,1,0,3,2,1],
 	[-1,2,1,1,1,3,-2,1,3,1],
 	[3,1,-1,1,3,1,0,4,0,2],
@@ -50,6 +70,7 @@ var majorIssues =
 	[0,3,0,4,-3,1,3,1,-2,1]
 ]
 
+<<<<<<< HEAD
 // Creates an array of events you can perform 
 var events = 
 [
@@ -59,7 +80,7 @@ var events =
 		scoreIncrease: 1, 
 		type: "smallEvent",
 		desc: "Short Description followed by promt to choose options",
-		actionChoice:0,
+		actionChoice:1,
 		options: 
 		[
 			{
@@ -88,7 +109,7 @@ var events =
 		scoreIncrease: 2, 
 		type: "smallEvent",
 		desc: "Short Description followed by promt to choose options",
-		actionChoice:1,
+		actionChoice:2,
 		options: 
 		[
 			{
@@ -111,7 +132,7 @@ var events =
 		scoreIncrease: 4, 
 		type: "smallEvent", 
 		desc: "Short Description followed by promt to choose options",
-		actionChoice:2,
+		actionChoice:3,
 		options: 
 		[
 			{
@@ -131,153 +152,21 @@ function Student(group, ecoClass, major, tuitionScore, athleticScore, researchSc
 	this.group = group;
 	this.ecoClass = ecoClass;
 	this.major = major;
-	this.athleticScore = athleticScore + player.athleticVar;
-	this.researchScore = researchScore + player.researchVar;
-	this.tuitionScore = tuitionScore + player.tuitionVar;
-	this.eventScore = eventScore + player.eventsVar;
-	this.medicalScore = medicalScore + player.medicalVar;
-}
-
-//used for making Player Candidate & Opponent Candidate
-function CandidateCreate(name,race,gender,bodyType){
-	this.name = name;
-	this.race = race;
-	this.gender = gender;
-	this.bodyType = bodyType;
+	this.athleticScore = athleticScore + candidate.athleticVar;
+	this.researchScore = researchScore + candidate.researchVar;
+	this.tuitionScore = tuitionScore + candidate.tuitionVar;
+	this.eventScore = eventScore + candidate.eventsVar;
+	this.medicalScore = medicalScore + candidate.medicalVar;
 };
-var playerScore = [];
-var player = {
-	
-	wrongAnswers:0,
-}
+
 var candidate;
 var opponent;
 var turnCounter;
+var playerScore;
 var population;
 var sample;
 var startHours; 
 var remainingHours;
-// player
-
-var playerScore = [];
-
-var population = 1000;
-var sample = [];
-
-function createSample(x)
-{
-	for (var count= 0; count < x; count++){
-		var scoreHolder = getScores();
-		var holderStudent = new Student(groupList[scoreHolder[0]], majorList[scoreHolder[1]], stuEconomic[scoreHolder[2]], scoreHolder[3], scoreHolder[4], scoreHolder[5], scoreHolder[6], scoreHolder[7])
-		sample.push(holderStudent);
-	}
-}
-
-function getScores(){
-	var groupRandom = Math.floor(Math.random()* 5);
-	var majorRandom = Math.floor(Math.random()* 5);
-	var ecoClassRandom = Math.floor(Math.random()* 5);
-	var ath =0;
-	var res = 0;
-	var tuit = 0;
-	var med = 0;
-	var event = 0;
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 6b6a51663cf4fe865964821dbbbf72050a1a0694
-	//SCORE calculated by (group issue + variable) + (major issue + variable)  + (class issue + variable) 
-	tuit = (((groupIssues[groupRandom][0]) + (Math.floor(Math.random() * (groupIssues[groupRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][0]) + (Math.floor(Math.random() * (groupIssues[majorRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][0]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	ath =  (((groupIssues[groupRandom][2]) + (Math.floor(Math.random() * (groupIssues[groupRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][2]) + (Math.floor(Math.random() * (groupIssues[majorRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][2]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	res =  (((groupIssues[groupRandom][4]) + (Math.floor(Math.random() * (groupIssues[groupRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][4]) + (Math.floor(Math.random() * (groupIssues[majorRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][4]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	event =  (((groupIssues[groupRandom][6]) + (Math.floor(Math.random() * (groupIssues[groupRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][6]) + (Math.floor(Math.random() * (groupIssues[majorRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][6]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	med =  (((groupIssues[groupRandom][8]) + (Math.floor(Math.random() * (groupIssues[groupRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][8]) + (Math.floor(Math.random() * (groupIssues[majorRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][8]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	
-	if (tuit > 4){
-		tuit = 4;
-	}
-	else if(tuit < -4){
-		tuit = -4;
-	}
-
-	if (ath > 4){
-		ath = 4;
-	}
-	else if(ath < -4){
-		ath= -4;
-	}
-
-	if (res > 4){
-		res= 4;
-	}
-	else if(res < -4){
-		res = -4;
-	}
-
-	if (event > 4){
-		event = 4;
-	}
-	else if(event < -4){
-		event = -4;
-	}
-	if (med> 4){
-		med = 4;
-	}
-	else if(med < -4){
-		med = -4;
-	}
-	var returnArray = [groupRandom, majorRandom, ecoClassRandom, tuit, ath,res,event,med];
-	return returnArray;
-}
-
-//starts the game
-function startGame(){
-	hours = 60;
-	playerScore = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-	//whatever other things we have to do when initializing the game here
-	var date = Date.now();
-	console.log("Game initialized and loaded @ T:" + date);	
-}
-
-function startCharacterSelect(){
-	//character creator here
-	//for right now we'll do a drop down option
-	document.getElementById("gameInfo").innerHTML = "<h1>Character Creation</h1>";
-	document.getElementById("gameInfo").innerHTML += "<label>Candidate Name: </label><input id='charName' type='text' /><br>";
-	document.getElementById("gameInfo").innerHTML += "<label>Race: </label><select id='charRace'><option>Human</option><option>Martian</option><option>Android</option></select><br>";
-	document.getElementById("gameInfo").innerHTML += "<label>Gender: </label><select id='charGender'><option>Male</option><option>Female</option><option>Non-binary</option></select><br>";
-	document.getElementById("gameInfo").innerHTML += "<label>Body Type: </label><select id='charBody'><option>Slim</option><option>Average</option><option>Heavy</option></select><br>";
-	document.getElementById("gameInfo").innerHTML += "<button onclick='startOtherCandidates()'>Create Character</button><br>";
-}
-
-
-function startOtherCandidates(){
-	playerCandidate.name = document.getElementById("charName").value;
-	playerCandidate.race = document.getElementById("charRace").value;
-	playerCandidate.gender = document.getElementById("charGender").value;
-	playerCandidate.bodyType = document.getElementById("charBody").value;
-	console.log(playerCandidate);
-	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
-	document.getElementById("gameInfo").innerHTML += "<p>You're candidate, <b>"+ playerCandidate.name +"</b> is going up again Liz the Chameleon. They're going for Student Council President just like your candidate. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
-	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial on how to read poll information?</p>"
-	document.getElementById("gameInfo").innerHTML += "<button onclick='startTutorial()'>Yes</button><button onclick='actualSessionStart()'>No</button>";
-
-}
-
-function startTutorial(){
-	document.getElementById("gameInfo").innerHTML = "<h1>Tutorial</h1>"
-	document.getElementById("gameInfo").innerHTML += "Tutorial Here<br>"
-	document.getElementById("gameInfo").innerHTML += "<button onclick='actualSessionStart()'>Start the Game</button>"
-}
-
-function actualSessionStart(){
-		document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
-	for (var x=0; x < 5; x++){
-
-	document.getElementById("gameInfo").innerHTML += "<button onclick = 'gameCycleStart("+x+")'>"+ positions[x]+"</button>"
-	}
-}
 
 function gameCycleStart(f)
 {
@@ -333,7 +222,7 @@ function gameCycleStart(f)
 function userAction()
 {
 	//Clear previous screen
-	var gameOutput = document.getElementById("gameInfo");
+	var gameOutput = document.getElementById("mainOutput");
 	var prevChoices = document.getElementById("choices");
 	var prevEvent = document.getElementById("event");
 	gameOutput.innerHTML = "";
@@ -344,7 +233,7 @@ function userAction()
 	//Build User Action Area buttons
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='reportViewer()' >View Result Reports</button>"
 	document.getElementById("choices").innerHTML += "<button type='button'> Poll for My Influence </button>"
-	document.getElementById("gameInfo").innerHTML += "<p> Opponent\'s Last Move:" + opponent.lastMove + "</p>"
+	document.getElementById("mainOutput").innerHTML += "<p> Opponent\'s Last Move:" + opponent.lastMove + "</p>"
 	document.getElementById("choices").innerHTML += "<button type='button'>Poll For Opponent\'s Influence </button>"
 	
 	//Adds events to button list randomly from those available Prevents Duplicates	
@@ -445,7 +334,7 @@ function reportViewer()
 
 function gameCycleEnd()
 {
-	var gameOutput = document.getElementById("gameInfo");
+	var gameOutput = document.getElementById("mainOutput");
 	
 	while(gameOutput.firstChild){
 		gameOutput.removeChild(gameOutput.firstChild);
@@ -458,7 +347,164 @@ function gameCycleEnd()
 	var text = "You Win/Lose";
 	var para4text = document.createTextNode(text);
 	para4.appendChild(para4text);
-	document.getElementById("gameInfo").appendChild(para4);
+	document.getElementById("mainOutput").appendChild(para4);
+}
+=======
+
+//sample person
+function Student(group, ecoClass, major, tuitionScore, athleticScore, researchScore, eventScore, medicalScore){
+	this.group = group;
+	this.ecoClass = ecoClass;
+	this.major = major;
+	this.athleticScore = athleticScore + player.athleticVar;
+	this.researchScore = researchScore + player.researchVar;
+	this.tuitionScore = tuitionScore + player.tuitionVar;
+	this.eventScore = eventScore + player.eventsVar;
+	this.medicalScore = medicalScore + player.medicalVar;
+}
+
+//used for making Player Candidate & Opponent Candidate
+function CandidateCreate(name,race,gender,bodyType){
+	this.name = name;
+	this.race = race;
+	this.gender = gender;
+	this.bodyType = bodyType;
+};
+
+// player
+
+var player = {
+	focus: "",
+	focusnum: 0,
+	tuitionVar: 0,
+	athleticVar: 0,
+	researchVar: 0,
+	eventsVar: 0,
+	medicalVar: 0,
+	winChance: 0,
+	correctAnswers: 0,
+	wrongAnswers: 0,
+};
+
+var playerScore = [];
+
+var population = 1000;
+var sample = [];
+
+function createSample(x){
+	for (var count= 0; count < x; count++){
+		var scoreHolder = getScores();
+		var holderStudent = new Student(groupList[scoreHolder[0]], majorList[scoreHolder[1]], stuEconomic[scoreHolder[2]], scoreHolder[3], scoreHolder[4], scoreHolder[5], scoreHolder[6], scoreHolder[7])
+		sample.push(holderStudent);
+	}
+
+}
+
+function getScores(){
+	var groupRandom = Math.floor(Math.random()* 5);
+	var majorRandom = Math.floor(Math.random()* 5);
+	var ecoClassRandom = Math.floor(Math.random()* 5);
+	var ath =0;
+	var res = 0;
+	var tuit = 0;
+	var med = 0;
+	var event = 0;
+
+
+
+	//SCORE calculated by (group issue + variable) + (major issue + variable)  + (class issue + variable) 
+	tuit = (((groupIssues[groupRandom][0]) + (Math.floor(Math.random() * (groupIssues[groupRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][0]) + (Math.floor(Math.random() * (groupIssues[majorRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][0]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	ath =  (((groupIssues[groupRandom][2]) + (Math.floor(Math.random() * (groupIssues[groupRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][2]) + (Math.floor(Math.random() * (groupIssues[majorRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][2]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	res =  (((groupIssues[groupRandom][4]) + (Math.floor(Math.random() * (groupIssues[groupRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][4]) + (Math.floor(Math.random() * (groupIssues[majorRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][4]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	event =  (((groupIssues[groupRandom][6]) + (Math.floor(Math.random() * (groupIssues[groupRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][6]) + (Math.floor(Math.random() * (groupIssues[majorRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][6]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	med =  (((groupIssues[groupRandom][8]) + (Math.floor(Math.random() * (groupIssues[groupRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][8]) + (Math.floor(Math.random() * (groupIssues[majorRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][8]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	
+	if (tuit > 4){
+		tuit = 4;
+	}
+	else if(tuit < -4){
+		tuit = -4;
+	}
+
+	if (ath > 4){
+		ath = 4;
+	}
+	else if(ath < -4){
+		ath= -4;
+	}
+
+	if (res > 4){
+		res= 4;
+	}
+	else if(res < -4){
+		res = -4;
+	}
+
+	if (event > 4){
+		event = 4;
+	}
+	else if(event < -4){
+		event = -4;
+	}
+	if (med> 4){
+		med = 4;
+	}
+	else if(med < -4){
+		med = -4;
+	}
+	
+	var returnArray = [groupRandom, majorRandom, ecoClassRandom, tuit, ath,res,event,med];
+	return returnArray;
+}
+
+//starts the game
+function startGame(){
+	hours = 60;
+	playerScore = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	//whatever other things we have to do when initializing the game here
+	console.log("Game initialized and loaded!");
+	
+}
+
+
+function startCharacterSelect(){
+	//character creator here
+	//for right now we'll do a drop down option
+
+	document.getElementById("gameInfo").innerHTML = "<h1>Character Creation</h1>";
+	document.getElementById("gameInfo").innerHTML += "<label>Candidate Name: </label><input id='charName' type='text' /><br>";
+	document.getElementById("gameInfo").innerHTML += "<label>Race: </label><select id='charRace'><option>Human</option><option>Martian</option><option>Android</option></select><br>";
+	document.getElementById("gameInfo").innerHTML += "<label>Gender: </label><select id='charGender'><option>Male</option><option>Female</option><option>Non-binary</option></select><br>";
+	document.getElementById("gameInfo").innerHTML += "<label>Body Type: </label><select id='charBody'><option>Slim</option><option>Average</option><option>Heavy</option></select><br>";
+	document.getElementById("gameInfo").innerHTML += "<button onclick='startOtherCandidates()'>Create Character</button><br>";
+
+}
+
+
+function startOtherCandidates(){
+	playerCandidate.name = document.getElementById("charName").value;
+	playerCandidate.race = document.getElementById("charRace").value;
+	playerCandidate.gender = document.getElementById("charGender").value;
+	playerCandidate.bodyType = document.getElementById("charBody").value;
+	console.log(playerCandidate);
+	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
+	document.getElementById("gameInfo").innerHTML += "<p>You're candidate, <b>"+ playerCandidate.name +"</b> is going up again Liz the Chameleon. They're going for Student Council President just like your candidate. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
+	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial on how to read poll information?</p>"
+	document.getElementById("gameInfo").innerHTML += "<button onclick='startTutorial()'>Yes</button><button onclick='actualSessionStart()'>No</button>";
+
+}
+
+function startTutorial(){
+	document.getElementById("gameInfo").innerHTML = "<h1>Tutorial</h1>"
+	document.getElementById("gameInfo").innerHTML += "Tutorial Here<br>"
+	document.getElementById("gameInfo").innerHTML += "<button onclick='actualSessionStart()'>Start the Game</button>"
+}
+function actualSessionStart(){
+		document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
+	for (var x=0; x < 5; x++){
+
+	document.getElementById("gameInfo").innerHTML += "<button onclick = 'gameCycleStart("+x+")'>"+ positions[x]+"</button>"
+	}
 }
 
 /*GAME CYCLE FUNCTIONS*/
@@ -540,7 +586,7 @@ function gameCycleEnd(text){
 }
 
 
-function gameCycleStartOld(f){
+function gameCycleStart(f){
 	player.focus = positions[f];
 	player.focusnum = f;
 	var gameDiv = document.getElementById("gameInfo");
@@ -711,8 +757,5 @@ function samplePositions(){
 
 window.onload = startGame();
 
-function reportViewer()
-{
-	
-};
 
+>>>>>>> aMiller

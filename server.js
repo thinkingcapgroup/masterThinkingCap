@@ -19,6 +19,7 @@ function mainApp() {
 			authConfig = require('./config/auth'),
 			passport = require('passport'),
 			GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+			
 
 
 	
