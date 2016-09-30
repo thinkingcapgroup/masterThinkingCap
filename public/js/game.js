@@ -188,6 +188,11 @@ function getScores(){
 	var tuit = 0;
 	var med = 0;
 	var event = 0;
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 6b6a51663cf4fe865964821dbbbf72050a1a0694
 	//SCORE calculated by (group issue + variable) + (major issue + variable)  + (class issue + variable) 
 	tuit = (((groupIssues[groupRandom][0]) + (Math.floor(Math.random() * (groupIssues[groupRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][0]) + (Math.floor(Math.random() * (groupIssues[majorRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][0]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
 	ath =  (((groupIssues[groupRandom][2]) + (Math.floor(Math.random() * (groupIssues[groupRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][2]) + (Math.floor(Math.random() * (groupIssues[majorRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][2]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
@@ -228,7 +233,6 @@ function getScores(){
 	else if(med < -4){
 		med = -4;
 	}
-	
 	var returnArray = [groupRandom, majorRandom, ecoClassRandom, tuit, ath,res,event,med];
 	return returnArray;
 }
@@ -238,21 +242,19 @@ function startGame(){
 	hours = 60;
 	playerScore = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	//whatever other things we have to do when initializing the game here
-	console.log("Game initialized and loaded!");
-	
+	var date = Date.now();
+	console.log("Game initialized and loaded @ T:" + date);	
 }
 /*GAME INTRO FUNCTIONS8*/
 function startCharacterSelect(){
 	//character creator here
 	//for right now we'll do a drop down option
-
 	document.getElementById("gameInfo").innerHTML = "<h1>Character Creation</h1>";
 	document.getElementById("gameInfo").innerHTML += "<label>Candidate Name: </label><input id='charName' type='text' /><br>";
 	document.getElementById("gameInfo").innerHTML += "<label>Race: </label><select id='charRace'><option>Human</option><option>Martian</option><option>Android</option></select><br>";
 	document.getElementById("gameInfo").innerHTML += "<label>Gender: </label><select id='charGender'><option>Male</option><option>Female</option><option>Non-binary</option></select><br>";
 	document.getElementById("gameInfo").innerHTML += "<label>Body Type: </label><select id='charBody'><option>Slim</option><option>Average</option><option>Heavy</option></select><br>";
 	document.getElementById("gameInfo").innerHTML += "<button onclick='startOtherCandidates()'>Create Character</button><br>";
-
 }
 
 
