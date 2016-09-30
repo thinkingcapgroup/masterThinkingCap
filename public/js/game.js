@@ -49,86 +49,6 @@ var majorIssues =
 	[2,2,0,3,-2,2,2,2,2,1],
 	[0,3,0,4,-3,1,3,1,-2,1]
 ]
-
-// Creates an array of events you can perform 
-var events = 
-[
-	{
-		name: "Posters", 
-		timeRequired: 4, 
-		scoreIncrease: 1, 
-		type: "smallEvent",
-		desc: "Short blurb followed by prompt to choose options",
-		actionChoice:0,
-		options: 
-		[
-			{
-				optionName: "Option3", 
-				extraTime: 1,
-				bonusScore: 1,
-				groupPos: "Read",
-				groupNeg: "Ath"
-			},
-			
-			{
-				optionName: "Option2", 
-				extraTime: 2,
-				bonusScore: 2,
-				groupPos: "Read",
-				groupNeg: "Ath"
-			},
-			
-			{
-				optionName: "Option3", 
-				extraTime: 3,
-				bonusScore: 3,
-				groupPos: "Read",
-				groupNeg: "Ath"
-			}
-		]
-	},
-	
-	{
-		name: "News Letter", 
-		timeRequired: 8, 
-		scoreIncrease: 2, 
-		type: "smallEvent",
-		desc: "Short blurb followed by prompt to choose options",
-		actionChoice:1,
-		options: 
-		[
-			{
-				optionName: "Option1", 
-				extraTime: 1,
-				bonusScore: 1
-			},
-			
-			{
-				optionName: "Option2", 
-				extraTime: 2,
-				bonusScore: 2
-			}
-		]
-	},
-	
-	{
-		name: "Booth", 
-		timeRequired: 16, 
-		scoreIncrease: 4, 
-		type: "smallEvent", 
-		desc: "Short blurb followed by prompt to choose options",
-		actionChoice:2,
-		options: 
-		[
-			{
-				optionName: "Option1", 
-				extraTime: 1,
-				bonusScore: 1
-			}
-		]
-		
-	}
-]
 var currentEvents = [];
 
 //sample person
@@ -170,77 +90,24 @@ var playerScore = [];
 var population = 1000;
 var sample = [];
 
-function createSample(x)
-{
-	for (var count= 0; count < x; count++){
-		var scoreHolder = getScores();
-		var holderStudent = new Student(groupList[scoreHolder[0]], majorList[scoreHolder[1]], stuEconomic[scoreHolder[2]], scoreHolder[3], scoreHolder[4], scoreHolder[5], scoreHolder[6], scoreHolder[7])
-		sample.push(holderStudent);
-	}
-}
+var events;
+var questions;
 
-function getScores(){
-	var groupRandom = Math.floor(Math.random()* 5);
-	var majorRandom = Math.floor(Math.random()* 5);
-	var ecoClassRandom = Math.floor(Math.random()* 5);
-	var ath =0;
-	var res = 0;
-	var tuit = 0;
-	var med = 0;
-	var event = 0;
-	//SCORE calculated by (group issue + variable) + (major issue + variable)  + (class issue + variable) 
-	tuit = (((groupIssues[groupRandom][0]) + (Math.floor(Math.random() * (groupIssues[groupRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][0]) + (Math.floor(Math.random() * (groupIssues[majorRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][0]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	ath =  (((groupIssues[groupRandom][2]) + (Math.floor(Math.random() * (groupIssues[groupRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][2]) + (Math.floor(Math.random() * (groupIssues[majorRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][2]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	res =  (((groupIssues[groupRandom][4]) + (Math.floor(Math.random() * (groupIssues[groupRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][4]) + (Math.floor(Math.random() * (groupIssues[majorRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][4]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	event =  (((groupIssues[groupRandom][6]) + (Math.floor(Math.random() * (groupIssues[groupRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][6]) + (Math.floor(Math.random() * (groupIssues[majorRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][6]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	med =  (((groupIssues[groupRandom][8]) + (Math.floor(Math.random() * (groupIssues[groupRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][8]) + (Math.floor(Math.random() * (groupIssues[majorRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][8]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	
-	if (tuit > 4){
-		tuit = 4;
-	}
-	else if(tuit < -4){
-		tuit = -4;
-	}
 
-	if (ath > 4){
-		ath = 4;
-	}
-	else if(ath < -4){
-		ath= -4;
-	}
 
-	if (res > 4){
-		res= 4;
-	}
-	else if(res < -4){
-		res = -4;
-	}
 
-	if (event > 4){
-		event = 4;
-	}
-	else if(event < -4){
-		event = -4;
-	}
-	if (med> 4){
-		med = 4;
-	}
-	else if(med < -4){
-		med = -4;
-	}
-	
-	var returnArray = [groupRandom, majorRandom, ecoClassRandom, tuit, ath,res,event,med];
-	return returnArray;
-}
 
-//starts the game
+
+//Starts the game
 function startGame(){
 	hours = 60;
 	playerScore = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	//whatever other things we have to do when initializing the game here
 	console.log("Game initialized and loaded!");
-	
+	fileLoader(events, "json/events.json", events);
+	//fileLoader(questions, "json/questions.json", questions);
 }
+
 /*GAME INTRO FUNCTIONS8*/
 function startCharacterSelect(){
 	//character creator here
@@ -292,6 +159,7 @@ function gameCycleStart(f)
 	remainingHours = startHours;
 	turnCounter = 1
 	playerScore=0;
+	//Creates player and main opponent
 	candidate =
 	{
 		focus: "",
@@ -321,7 +189,7 @@ function gameCycleStart(f)
 	
 	candidate.focus = positions[f];
 	candidate.focusnum = f;
-	
+	//Decides the opponents focus which cannot be the same as the player
 	while(opponent.focus != "")
 	{
 		var oppFocus = Math.random(0,4);
@@ -332,6 +200,8 @@ function gameCycleStart(f)
 			}
 	}
 	
+	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidate.focus + "</h2>";
+	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours :" + remainingHours + "</h3>";
 	userAction();
 };
 
@@ -341,26 +211,31 @@ function userAction()
 	var gameOutput = document.getElementById("gameInfo");
 	var prevChoices = document.getElementById("choices");
 	var prevEvent = document.getElementById("event");
+	var prevHours = document.getElementById("playerInfo");
 	gameOutput.innerHTML = "";
 	prevChoices.innerHTML = "";
 	prevEvent.innerHTML = "";
+	prevHours.innerHTML = "";
 	currentEvents = []
 	
 	//Build User Action Area buttons
-	document.getElementById("choices").innerHTML += "<button type='button' onclick='reportViewer()' >View Result Reports</button>"
-	document.getElementById("choices").innerHTML += "<button type='button'  onclick='poll()'> Poll for My Influence </button>"
-	document.getElementById("gameInfo").innerHTML += "<p> Opponent\'s Last Move:" + opponent.lastMove + "</p>"
-	document.getElementById("choices").innerHTML += "<button type='button'  onclick='poll()'>Poll For Opponent\'s Influence </button>"
+	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidate.focus + "</h2>";
+	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours :" + remainingHours + "</h3>";
+	document.getElementById("choices").innerHTML += "<button type='button' onclick='reportViewer()' >View Result Reports</button>";
+	document.getElementById("choices").innerHTML += "<button type='button'  onclick='poll()'> Poll for My Influence </button>";
+	document.getElementById("gameInfo").innerHTML += "<h4> Opponent\'s Last Move:" + opponent.lastMove + "</h4>";
+	document.getElementById("choices").innerHTML += "<button type='button'  onclick='poll()'>Poll For Opponent\'s Influence </button>";
 	
-	//Adds events to button list randomly from those available Prevents Duplicates	
+	//Adds events to button list randomly from those available and Prevents Duplicates and events with more time than is available	
 	for(var i = 0;i<2;i++)
 	{
 		var addEvent = true;
-		var random = Math.floor(Math.random() * 3);
+		var random = Math.floor(Math.random() * events.length);
 		var currentEvent = events[random];
 		for(var j = 0;j<currentEvents.length;j++)
 		{
-			if(currentEvent.name == currentEvents[j].name)
+			
+			if(currentEvent.name == currentEvents[j].name || currentEvent.timeRequired > remainingHours)
 			{
 				addEvent = false;
 			}
@@ -371,8 +246,8 @@ function userAction()
 		{
 			currentEvents.push(currentEvent);
 			var eventDescription =currentEvent.name + " - " + currentEvent.timeRequired;
-			document.getElementById("choices").innerHTML += "<button onclick='action( "+ currentEvent.actionChoice+" )'>" + eventDescription + " hours </button>"
-			//document.getElementById("choices").innerHTML += "<button onclick='action("+ currentEvent.type +","+currentEvent.id+","+currentEvent.groupPos+"," + currentEvent.groupNeg +")'>" + eventDescription + " hours </button>"
+			var arrayPos = currentEvent.id -1;
+			document.getElementById("choices").innerHTML += "<button onclick='action( "+ arrayPos+" )'>" + eventDescription + " hours </button>";
 		}
 		else
 		{
@@ -384,48 +259,6 @@ function userAction()
 	document.getElementById("choices").style.display = "block";
 };
 
-function event(type, id, groupPos, groupNeg)
-{
-	//Clear previous screen
-	var gameOutput = document.getElementById("gameInfo");
-	var prevChoices = document.getElementById("choices");
-	var prevEvent = document.getElementById("event");
-	gameOutput.innerHTML = "";
-	prevChoices.innerHTML = "";
-	prevEvent.innerHTML = "";
-	
-	chosenEvent = events[id];
-	
-	switch (type) 
-	{
-    case "minigame":
-		
-        break;
-		
-    case "smallEvent":
-        var eventHours = chosenEvent.timeRequired;
-		var eventDisplay = document.createElement("p");
-		var paratext = document.createTextNode(chosenEvent.desc);
-		eventDisplay.appendChild(paratext);
-		document.getElementById("event").appendChild(eventDisplay);
-		
-		for(var i =0; i<chosenEvent.options.length; i++)
-		{
-			document.getElementById("event").innerHTML += "<p>" + chosenEvent.options[i].optionName + ": </p>";
-			document.getElementById("event").innerHTML += "<input type='checkbox' id = " + chosenEvent.options[i].optionName+" >";
-		}
-		document.getElementById("event").innerHTML += "<br> <button type='button' onclick='submitAction(" + type + "," + id + "," + groupPos + "," + groupNeg + ")' > Perform Event </button>";
-
-		break;
-		
-    case "largeEvent":
-	
-        break;
-	} 
-
-	//Show changes to screen
-	document.getElementById("event").style.display = "block";
-};
 function action(choice) 
 {
 	//Clear previous screen
@@ -444,18 +277,16 @@ function action(choice)
 	}
 	else if(chosenEvent.type=="smallEvent")
 	{
+		//Creates the screen for the event
 		var eventHours = chosenEvent.timeRequired;
-		var eventDisplay = document.createElement("p");
-		var paratext = document.createTextNode(chosenEvent.desc);
-		eventDisplay.appendChild(paratext);
-		document.getElementById("event").appendChild(eventDisplay);
+		document.getElementById("event").innerHTML += "<h4>" + chosenEvent.text + " </h4>";
 		
 		for(var i =0; i<chosenEvent.options.length; i++)
 		{
-			document.getElementById("event").innerHTML += "<p>" + chosenEvent.options[i].optionName + ": </p>";
-			document.getElementById("event").innerHTML += "<input type='checkbox' id = " + chosenEvent.options[i].optionName+" >"
+			document.getElementById("event").innerHTML += "<h4>" + chosenEvent.options[i].optionName + ": </h4>";
+			document.getElementById("event").innerHTML += "<input type='checkbox' id = " + chosenEvent.options[i].optionID+" >";
 		}
-		document.getElementById("event").innerHTML += "<br> <button type='button' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button>"
+		document.getElementById("event").innerHTML += "<br> <button type='button' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button>";
 	}
 	else if(chosenEvent.type=="largeEvent")
 	{
@@ -467,20 +298,26 @@ function action(choice)
 	document.getElementById("event").style.display = "block";
 };
 
-function submitAction(choice, eventHours)//(type, id, groupPos, groupNeg)
+//Subtracts from the remaining hours, 
+function submitAction(id, eventHours)
 {
-	chosenEvent = events[choice];
-	for(var j =0; j<chosenEvent.options.length-1; j++)
+	//Subtracts hours from the remaining hours in the game
+	chosenEvent = events[id];
+	for(var j =0; j<chosenEvent.options.length; j++)
 	{
-		if(document.getElementById(chosenEvent.options[j].optionName).checked == true)
+		if(document.getElementById(chosenEvent.options[j].optionID).checked == true)
 		{
 			eventHours+= chosenEvent.options[j].extraTime;
 		}
 	}
 	remainingHours-= eventHours;
-	playerScore++;
-	//scoreChanger(scoreInc, groupPos, groupNeg)
-	if(remainingHours<4)
+	
+	
+	//Changes the player's score
+	scoreChanger(chosenEvent.scoreInc, chosenEvent.groupPos.split(","), chosenEvent.groupNeg.split(","))
+	
+	//Checks to see if the game has reached it's end
+	if(remainingHours<1)
 	{
 		gameCycleEnd();
 	}
@@ -490,166 +327,27 @@ function submitAction(choice, eventHours)//(type, id, groupPos, groupNeg)
 	}
 };
 
-function scoreChanger(scoreInc, groupPos, groupNeg)
-{
-	switch (groupPos) 
-	{
-		case "Res":
-			playerScore[5]+scoreInc;
-			break;
-			
-		case "Soc":
-			playerScore[6]+scoreInc;
-			break;
-			
-		case "Read":
-			playerScore[7]+scoreInc;
-			break;
-		case "Ath":
-			playerScore[8]+scoreInc;
-			break;
-			
-		case "Medis":
-			playerScore[9]+scoreInc;
-			break;
-			
-		case "Bus":
-			playerScore[10]+scoreInc;
-			break;
-			
-		case "Fine Arts":
-			playerScore[11]+scoreInc;
-			break;
-			
-		case "Lib Arts":
-			playerScore[12]+scoreInc;
-			break;
-			
-		case "Eng":
-			playerScore[13]+scoreInc;
-			break;
-			
-		case "Tech":
-			playerScore[14]+scoreInc;
-			break;
-			
-		case "Poor":
-			playerScore[15]+scoreInc;
-			break;
-			
-		case "Low":
-			playerScore[16]+scoreInc;
-			break;
-			
-		case "Lower Mid":
-			playerScore[17]+scoreInc;
-			break;
-			
-		case "Upper Mid":
-			playerScore[18]+scoreInc;
-			break;
-			
-		case "High":
-			playerScore[19]+scoreInc;
-			break;
-		
-		case "Focus":
-			break;
-			
-		case "Fame":
-		
-			break;
-			
-		case "Opp Focus":
-		
-			break;
-			
-		case "Opp Fame":
-			
-			break;
-	
-	}
-	
-	switch (groupNeg) 
-	{
-		case "Res":
-			playerScore[0]+scoreInc;
-			break;
-			
-		case "Soc":
-			playerScore[1]+scoreInc;
-			break;
-			
-		case "Read":
-			playerScore[2]+scoreInc;
-			break;
-		case "Ath":
-			playerScore[3]+scoreInc;
-			break;
-			
-		case "Medis":
-			playerScore[4]+scoreInc;
-			break;
-			
-		case "Bus":
-			playerScore[5]+scoreInc;
-			break;
-			
-		case "Fine Arts":
-			playerScore[6]+scoreInc;
-			break;
-			
-		case "Lib Arts":
-			playerScore[7]+scoreInc;
-			break;
-			
-		case "Eng":
-			playerScore[8]+scoreInc;
-			break;
-			
-		case "Tech":
-			playerScore[9]+scoreInc;
-			break;
-			
-		case "Poor":
-			playerScore[10]+scoreInc;
-			break;
-			
-		case "Low":
-			playerScore[11]+scoreInc;
-			break;
-			
-		case "Lower Mid":
-			playerScore[12]+scoreInc;
-			break;
-			
-		case "Upper Mid":
-			playerScore[13]+scoreInc;
-			break;
-			
-		case "High":
-			playerScore[14]+scoreInc;
-			break;
-		
-		case "Focus":
-			
-			break;
-			
-		case "Fame":
-		
-			break;
-			
-		case "Opp Focus":
-		
-			break;
-			
-		case "Opp Fame":
-			
-			break;
-	
-	}
-}
 
+//Ends the game
+function gameCycleEnd()
+{
+	//Clear previous screen
+	var gameOutput = document.getElementById("gameInfo");
+	var prevChoices = document.getElementById("choices");
+	var prevEvent = document.getElementById("event");
+	var prevHours = document.getElementById("playerInfo");
+	gameOutput.innerHTML = "";
+	prevChoices.innerHTML = "";
+	prevEvent.innerHTML = "";
+	prevHours.innerHTML = "";
+	
+	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidate.focus + "</h2>";
+	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours :" + remainingHours + "</h3>";
+	document.getElementById("gameInfo").innerHTML += "<p> You Win/Lose </p> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
+};
+
+/*Special Action Pages*/
+//Allows the viewing of Poll Reports you have already taken
 function reportViewer()
 {
 	//Clear previous screen
@@ -662,7 +360,9 @@ function reportViewer()
 	
 	document.getElementById("gameInfo").innerHTML += "<p> Report Here </p> <button onclick = 'userAction()'> Return to User Action Area </button>";
 };
-function poll()
+
+//Allows the user to give a poll ith questions they choose to a sample of the population
+function poll(subject)
 {
 	//Clear previous screen
 	var gameOutput = document.getElementById("gameInfo");
@@ -671,9 +371,14 @@ function poll()
 	gameOutput.innerHTML = "";
 	prevChoices.innerHTML = "";
 	prevEvent.innerHTML = "";
-	
+	for(var i = 0; i<5 ;i++)
+	{
+	document.getElementById("event").innerHTML += "<h4> Select the questions you want to ask on the poll </h4>";
+	}
 	document.getElementById("gameInfo").innerHTML += "<p> Poll Question Selector Here </p> <button onclick = 'pollResults()'> Poll the Sample </button>";
 };
+
+//Displays the result of a poll immediately after it end and then saves the report for later viewing
 function pollResults()
 {
 	//Clear previous screen
@@ -687,18 +392,189 @@ function pollResults()
 	document.getElementById("gameInfo").innerHTML += "<p> Poll Results Here </p> <button onclick = 'userAction()'> Return to User Action Area </button>";
 };
 
-function gameCycleEnd()
+
+/* Helper Functions*/
+//Takes in an Arrays of Groups to affect with the score increase, and parses through each adding the specified increase in score
+function scoreChanger(scoreInc, groupPos, groupNeg)
 {
-	//Clear previous screen
-	var gameOutput = document.getElementById("gameInfo");
-	var prevChoices = document.getElementById("choices");
-	var prevEvent = document.getElementById("event");
-	gameOutput.innerHTML = "";
-	prevChoices.innerHTML = "";
-	prevEvent.innerHTML = "";
+	for(var i=0;i<groupPos.length;i++)
+	{
+		switch (groupPos[i]) 
+		{
+			case "Res":
+				playerScore[5]+scoreInc;
+				break;
+				
+			case "Soc":
+				playerScore[6]+scoreInc;
+				break;
+				
+			case "Read":
+				playerScore[7]+scoreInc;
+				break;
+			case "Ath":
+				playerScore[8]+scoreInc;
+				break;
+				
+			case "Medis":
+				playerScore[9]+scoreInc;
+				break;
+				
+			case "Bus":
+				playerScore[10]+scoreInc;
+				break;
+				
+			case "Fine Arts":
+				playerScore[11]+scoreInc;
+				break;
+				
+			case "Lib Arts":
+				playerScore[12]+scoreInc;
+				break;
+				
+			case "Eng":
+				playerScore[13]+scoreInc;
+				break;
+				
+			case "Tech":
+				playerScore[14]+scoreInc;
+				break;
+				
+			case "Poor":
+				playerScore[15]+scoreInc;
+				break;
+				
+			case "Low":
+				playerScore[16]+scoreInc;
+				break;
+				
+			case "Lower Mid":
+				playerScore[17]+scoreInc;
+				break;
+				
+			case "Upper Mid":
+				playerScore[18]+scoreInc;
+				break;
+				
+			case "High":
+				playerScore[19]+scoreInc;
+				break;
+			
+			case "Focus":
+				break;
+				
+			case "Fame":
+			
+				break;
+				
+			case "Opp Focus":
+			
+				break;
+				
+			case "Opp Fame":
+				
+				break;
+		
+		}
+	}
 	
-	document.getElementById("gameInfo").innerHTML += "<p> You Win/Lose </p> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
-};
+	for(var j=0;j<groupNeg.length;j++)
+	{
+		switch (groupNeg[i]) 
+		{
+			case "Res":
+				playerScore[0]+scoreInc;
+				break;
+				
+			case "Soc":
+				playerScore[1]+scoreInc;
+				break;
+				
+			case "Read":
+				playerScore[2]+scoreInc;
+				break;
+			case "Ath":
+				playerScore[3]+scoreInc;
+				break;
+				
+			case "Medis":
+				playerScore[4]+scoreInc;
+				break;
+				
+			case "Bus":
+				playerScore[5]+scoreInc;
+				break;
+				
+			case "Fine Arts":
+				playerScore[6]+scoreInc;
+				break;
+				
+			case "Lib Arts":
+				playerScore[7]+scoreInc;
+				break;
+				
+			case "Eng":
+				playerScore[8]+scoreInc;
+				break;
+				
+			case "Tech":
+				playerScore[9]+scoreInc;
+				break;
+				
+			case "Poor":
+				playerScore[10]+scoreInc;
+				break;
+				
+			case "Low":
+				playerScore[11]+scoreInc;
+				break;
+				
+			case "Lower Mid":
+				playerScore[12]+scoreInc;
+				break;
+				
+			case "Upper Mid":
+				playerScore[13]+scoreInc;
+				break;
+				
+			case "High":
+				playerScore[14]+scoreInc;
+				break;
+			
+			case "Focus":
+				
+				break;
+				
+			case "Fame":
+			
+				break;
+				
+			case "Opp Focus":
+			
+				break;
+				
+			case "Opp Fame":
+				
+				break;
+		
+		}
+	}
+}
+
+
+function fileLoader(target,jsonLoc,value)
+{
+	var Json;
+	var oReq = new XMLHttpRequest();
+	oReq.onload = function (e) 
+	{
+		Json = JSON.parse(this.responseText);
+		target = Json.value;
+	};
+	oReq.open("get", jsonLoc, true);
+	oReq.send();
+}
+
 
 /* OLD GAME CYCLE FUNCTIONS*/
 function gameQuestions(){
@@ -854,7 +730,6 @@ function changePlayerStats(num){
 			break;
 		
 	}
-	console.log(player);
 	
 	var gameDiv = document.getElementById("gameInfo");
 	while(gameDiv.firstChild){
@@ -947,6 +822,69 @@ function samplePositions(){
 	return results;
 
 };
+
+function createSample(x)
+{
+	for (var count= 0; count < x; count++){
+		var scoreHolder = getScores();
+		var holderStudent = new Student(groupList[scoreHolder[0]], majorList[scoreHolder[1]], stuEconomic[scoreHolder[2]], scoreHolder[3], scoreHolder[4], scoreHolder[5], scoreHolder[6], scoreHolder[7])
+		sample.push(holderStudent);
+	}
+}
+
+function getScores(){
+	var groupRandom = Math.floor(Math.random()* 5);
+	var majorRandom = Math.floor(Math.random()* 5);
+	var ecoClassRandom = Math.floor(Math.random()* 5);
+	var ath =0;
+	var res = 0;
+	var tuit = 0;
+	var med = 0;
+	var event = 0;
+	//SCORE calculated by (group issue + variable) + (major issue + variable)  + (class issue + variable) 
+	tuit = (((groupIssues[groupRandom][0]) + (Math.floor(Math.random() * (groupIssues[groupRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][0]) + (Math.floor(Math.random() * (groupIssues[majorRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][0]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	ath =  (((groupIssues[groupRandom][2]) + (Math.floor(Math.random() * (groupIssues[groupRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][2]) + (Math.floor(Math.random() * (groupIssues[majorRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][2]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	res =  (((groupIssues[groupRandom][4]) + (Math.floor(Math.random() * (groupIssues[groupRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][4]) + (Math.floor(Math.random() * (groupIssues[majorRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][4]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	event =  (((groupIssues[groupRandom][6]) + (Math.floor(Math.random() * (groupIssues[groupRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][6]) + (Math.floor(Math.random() * (groupIssues[majorRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][6]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	med =  (((groupIssues[groupRandom][8]) + (Math.floor(Math.random() * (groupIssues[groupRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][8]) + (Math.floor(Math.random() * (groupIssues[majorRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][8]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	
+	if (tuit > 4){
+		tuit = 4;
+	}
+	else if(tuit < -4){
+		tuit = -4;
+	}
+
+	if (ath > 4){
+		ath = 4;
+	}
+	else if(ath < -4){
+		ath= -4;
+	}
+
+	if (res > 4){
+		res= 4;
+	}
+	else if(res < -4){
+		res = -4;
+	}
+
+	if (event > 4){
+		event = 4;
+	}
+	else if(event < -4){
+		event = -4;
+	}
+	if (med> 4){
+		med = 4;
+	}
+	else if(med < -4){
+		med = -4;
+	}
+	
+	var returnArray = [groupRandom, majorRandom, ecoClassRandom, tuit, ath,res,event,med];
+	return returnArray;
+}
 
 window.onload = startGame();
 
