@@ -5,6 +5,20 @@ var stuEconomic = ["poverty", "low", "midLow", "midHigh", "high"];
 var playerCandidate = new CandidateCreate("ph","ph", "ph", "ph")
 var opponentCandidate = new CandidateCreate("Liz", "Lizard", "Non-Binary", "Average");
 
+//sprite stuff
+var heads = new Image();
+heads.src = "../img/spritehead.png";
+var thinBody = new Image();
+thinBody.src = "../img/thinbodytype.png";
+var medBody = new Image();
+medBody.src = "../img/medbodytype.png";
+var lgBody = new Image();
+lgBody.src = "../img/plusbodytype.png";
+var chairBody = new Image();
+chairBody.src = "../img/chairbodytype.png";
+var imgArrayBody = [thinBody, medBody, lgBody, chairBody];
+var imgArrayBodyWidth = [159,188,247,213];
+
 //scores go Socialite/Athlete/MediaLover/Researcher/Reader
 //the score goes tuition, tuition var, athletic, athletic var, research, research var, events, events var, medical, medicalvar
 var positions = 
@@ -131,6 +145,9 @@ var events =
 ]
 var currentEvents = [];
 
+//sprites
+var spriteHead = new Image();
+spriteHead.src = "../img/spritehead.png";
 //sample person
 function Student(group, ecoClass, major, tuitionScore, athleticScore, researchScore, eventScore, medicalScore)
 {
@@ -151,9 +168,9 @@ function CandidateCreate(name,race,gender,bodyType){
 	this.gender = gender;
 	this.bodyType = bodyType;
 };
+
 var playerScore = [];
-var player = {
-	
+var player = {	
 	wrongAnswers:0,
 }
 var candidate;
@@ -242,14 +259,170 @@ function startGame(){
 }
 /*GAME INTRO FUNCTIONS8*/
 function startCharacterSelect(){
+	
+
 	//character creator here
 	//for right now we'll do a drop down option
 	document.getElementById("gameInfo").innerHTML = "<h1>Character Creation</h1>";
+	document.getElementById("gameInfo").innerHTML += "<canvas id='myCanvas' width='800px' height = '500px'></canvas><br>";
+	document.getElementById("gameInfo").innerHTML += "<button id ='headbutton'>Heads</button><br>";
+	document.getElementById("gameInfo").innerHTML += "<button id ='racebutton'>Race</button><br>";
+	document.getElementById("gameInfo").innerHTML += "<button id ='clothingbutton'>Clothing</button><br>";
+	document.getElementById("gameInfo").innerHTML += "<button id ='bodybutton'>BodyType</button><br>";
 	document.getElementById("gameInfo").innerHTML += "<label>Candidate Name: </label><input id='charName' type='text' /><br>";
 	document.getElementById("gameInfo").innerHTML += "<label>Race: </label><select id='charRace'><option>Human</option><option>Martian</option><option>Android</option></select><br>";
 	document.getElementById("gameInfo").innerHTML += "<label>Gender: </label><select id='charGender'><option>Male</option><option>Female</option><option>Non-binary</option></select><br>";
 	document.getElementById("gameInfo").innerHTML += "<label>Body Type: </label><select id='charBody'><option>Slim</option><option>Average</option><option>Heavy</option></select><br>";
 	document.getElementById("gameInfo").innerHTML += "<button onclick='startOtherCandidates()'>Create Character</button><br>";
+	
+	var c=document.getElementById("myCanvas");
+	
+	var headSheet = new sprite({context: c.getContext("2d"), width: 155, height: 172, image: heads});
+	var bodySheet = new sprite({context: c.getContext("2d"), width: 159, height: 334, image: thinBody});
+
+
+	document.getElementById("headbutton").addEventListener("click", function(){
+			right(headSheet)
+			drawOnCanvas(headSheet, bodySheet);
+	});
+	document.getElementById("racebutton").addEventListener("click", function(){
+			race(headSheet);
+			drawOnCanvas(headSheet, bodySheet);
+	});
+	document.getElementById("clothingbutton").addEventListener("click", function(){
+			clothingChange(bodySheet);
+			drawOnCanvas(headSheet, bodySheet);
+	});
+	document.getElementById("bodybutton").addEventListener("click", function(){
+			bodyChange(headSheet, bodySheet);
+	});
+
+			drawOnCanvas(headSheet, bodySheet);
+
+}
+
+function drawOnCanvas(headsheet,bodysheet){
+	//clear the canvas
+	var c=document.getElementById("myCanvas");
+	var ctx = c.getContext("2d")
+	ctx.clearRect(0,0,c.width,c.height);
+	//draw the background
+	//draw the body
+
+	//draw the face
+	drawHeads(headsheet)
+		drawBody(bodysheet);
+};
+
+
+function drawHeads(heads){
+	heads.render(7,0);	
+}
+function drawBody(body){
+	body.renderBody(0,160);
+}
+
+function clothingChange(bodySheet){
+	bodySheet.updateClothing();
+}
+
+function right(heads){
+	heads.update();
+}
+
+function race(heads){
+	heads.raceUpdate();
+}
+
+function bodyChange(headsheet, body){
+	body.bodyArrayHolder++;
+	var z = body.bodyArrayHolder;
+	if(z > 3){
+		body.bodyArrayHolder = 0;
+		z=0;
+	}
+	
+	body.image = imgArrayBody[z];
+	body.width = imgArrayBodyWidth[z];
+	drawOnCanvas(headsheet,body)
+}
+
+
+function sprite(options){
+	var that = {};
+	that.context = options.context;
+	that.width = options.width;
+	that.height = options.height;
+	that.image = options.image;
+	frameIndex = 0,
+	frameIndexRace = 0,
+	frameIndexClothing = 0,
+	that.bodyArrayHolder = 0,
+	that.isMale = 0,
+   
+
+	that.render = function (x,y) {        
+
+        // Draw the animation
+        that.context.drawImage(
+           that.image,
+           (0 + (that.width * frameIndex)),
+           (0 + (that.height* frameIndexRace)) ,
+           that.width,
+           that.height,
+           x,
+           y,
+           that.width,
+           that.height);
+    };
+
+    that.renderBody = function (x,y) {        
+
+        // Draw the animation
+        that.context.drawImage(
+           that.image,
+           (0 + (imgArrayBodyWidth[that.bodyArrayHolder] * frameIndexClothing) + that.isMale),
+           0,
+           that.width,
+           that.height,
+           x,
+           y,
+           that.width,
+           that.height);
+    };
+
+    that.update = function(){
+    	frameIndex += 1;
+    	if (frameIndex > 5){
+    		frameIndex = 0;
+    	}
+    	
+    };
+
+     that.updateClothing = function(){
+    	frameIndexClothing += 1;
+    	if (frameIndexClothing > 2){
+    		frameIndexClothing = 0;
+    	}
+    	if(frameIndexClothing == 2){
+    		that.isMale = 25;
+    	}
+    	else{
+    		that.isMale = 0;
+    	}
+
+    };
+
+
+    that.raceUpdate = function(){
+    	frameIndexRace += 1;
+    	if (frameIndexRace > 2){
+    		frameIndexRace = 0;
+    	}
+    	
+    };
+
+	return that;
 }
 
 
