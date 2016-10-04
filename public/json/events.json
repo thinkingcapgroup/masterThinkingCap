@@ -10,18 +10,20 @@
 			"groupPos":"Res",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 				{
 					"optionName":"Pay Participant",
 					"optionID":"PayParticipant",
+					"extraTime" : "1", 
 					"posEffects":"Low,Poor",
 					"negEffects":""
 				},
 				{					
 					"optionName":"Publish Findings",
 					"optionID":"PublishFindings",
+					"extraTime" : "1", 
 					"posEffects":"",
 					"negEffects":"Read"
 				}
@@ -38,18 +40,20 @@
 			"groupPos":"Fame",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 				{
 					"optionName":"Catchy Slogan",
 					"optionID":"CatchySlogan",
+					"extraTime" : "1", 
 					"posEffects":"Soc",
 					"negEffects":""
 				},
 				{
 					"optionName":"Web Address",
 					"optionID":"WebAddress",
+					"extraTime" : "1", 
 					"posEffects":"Tech",
 					"negEffects":""
 				}
@@ -67,7 +71,7 @@
 			"groupPos":"Focus",
 			"groupNeg":"",
 			"results":"The voters really responded to your charm and you did a great job of endorsing your platform.",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 			]
@@ -82,12 +86,13 @@
 			"groupPos":"Soc",
 			"groupNeg":"Read",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 				{
 					"optionName":"Hire a DJ",
 					"optionID":"HireaDJ",
+					"extraTime" : "1", 
 					"posEffects":"Media",
 					"negEffects":""
 
@@ -95,6 +100,7 @@
 				{
 					"optionName":"Charge Admisson",
 					"optionID":"ChargeAdmisson",
+					"extraTime" : "1", 
 					"posEffects":"Bus",
 					"negEffects":"Low,Poor"
 				}
@@ -111,18 +117,20 @@
 			"groupPos":"Poor",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 				{
 					"optionName":"Promote Literacy",
 					"optionID":"PromoteLiteracy",
+					"extraTime" : "1", 
 					"posEffects":"Read",
 					"negEffects":""
 				},
 				{
 					"optionName":"Claim Tax Deductable",
 					"optionID":"ClaimTaxDeductable",
+					"extraTime" : "1", 
 					"posEffects":"Bus",
 					"negEffects":""
 				}
@@ -140,18 +148,20 @@
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 				{
 					"optionName":"Black Tie Gala",
 					"optionID":"BlackTieGala",
+					"extraTime" : "1", 
 					"posEffects":"High",
 					"negEffects":"Low,Poor"
 				},
 				{
 					"optionName":"Exhibition Game",
 					"optionID":"ExhibitionGame",
+					"extraTime" : "1", 
 					"posEffects":"Ath",
 					"negEffects":""
 				}
@@ -168,18 +178,20 @@
 			"groupPos":"Bus",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 				{
 					"optionName":"Donate a Percentage of Profits",
 					"optionID":"DonateaPercentageofProfits",
+					"extraTime" : "1", 
 					"posEffects":"Low,Poor",
 					"negEffects":""
 				},
 				{
 					"optionName":"Advertising",
 					"optionID":"Advertising",
+					"extraTime" : "1", 
 					"posEffects":"Bus",
 					"negEffects":""
 				}
@@ -197,12 +209,13 @@
 			"groupPos":"Low",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 				{
 					"optionName":"Ice Cream Social",
 					"optionID":"IceCreamSocial",
+					"extraTime" : "1", 
 					"posEffects":"Soc",
 					"negEffects":""
 				}
@@ -218,12 +231,13 @@
 			"groupPos":"Low Mid",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 				{
 					"optionName":"Community Outreach",
 					"optionID":"CommunityOutreach",
+					"extraTime" : "1", 
 					"posEffects":"Soc",
 					"negEffects":""
 				}
@@ -239,7 +253,7 @@
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 			]
@@ -254,18 +268,20 @@
 			"groupPos":"Media",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 				{
 					"optionName":"Poolside Viewing",
 					"optionID":"PoolsideViewing",
+					"extraTime" : "1", 
 					"posEffects":"Ath",
 					"negEffects":""
 				},
 				{
 					"optionName":"Drive In",
 					"optionID":"DriveIn",
+					"extraTime" : "1", 
 					"posEffects":"Upper Mid",
 					"negEffects":""
 				}
@@ -281,12 +297,13 @@
 			"groupPos":"Fine Arts",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 				{
 					"optionName":"Poetry Slam",
 					"optionID":"PoetrySlam",
+					"extraTime" : "1", 
 					"posEffects":"Read",
 					"negEffects":""
 				}
@@ -303,12 +320,13 @@
 			"groupPos":"Focus",
 			"groupNeg":"Opp Focus",
 			"results":"You managed to sway a lot of people to your side with your quick witted responses.",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 				{
 					"optionName":"Live Stream",
 					"optionID":"LiveStream",
+					"extraTime" : "1", 
 					"posEffects":"Media",
 					"negEffects":""
 				}
@@ -324,12 +342,13 @@
 			"groupPos":"Focus",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 				{
 					"optionName":"Live Stream",
 					"optionID":"LiveStream",
+					"extraTime" : "1", 
 					"posEffects":"Media",
 					"negEffects":""
 				}
@@ -345,12 +364,13 @@
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 				{
 					"optionName":"Donate Profits",
 					"optionID":"DonateProfits",
+					"extraTime" : "1", 
 					"posEffects":"Low,Poor",
 					"negEffects":""
 				}
@@ -366,7 +386,7 @@
 			"groupPos":"Read",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options": 
 			[
 			]
@@ -381,12 +401,13 @@
 			"groupPos":"Lib Arts",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options": 
 			[
 				{
 					"optionName":"Publish Findings",
 					"optionID":"PublishFindings",
+					"extraTime" : "1", 
 					"posEffects":"Read",
 					"negEffects":""
 				}
@@ -402,7 +423,7 @@
 			"groupPos":"Focus",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 			]
@@ -417,18 +438,20 @@
 			"groupPos":"Tech",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 				{
 					"optionName":"Talk about Campaign Funds",
 					"optionID":"TalkaboutCampaignFunds",
+					"extraTime" : "1", 
 					"posEffects":"Bus",
 					"negEffects":""
 				},
 				{
 					"optionName":"Talk about Issue",
 					"optionID":"TalkaboutIssue",
+					"extraTime" : "1", 
 					"posEffects":"Focus",
 					"negEffects":""
 				}
@@ -446,12 +469,13 @@
 			"groupPos":"Ath",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 				{
 					"optionName":"Tailgate",
 					"optionID":"Tailgate",
+					"extraTime" : "1", 
 					"posEffects":"Soc",
 					"negEffects":""
 				}
@@ -467,7 +491,7 @@
 			"groupPos":"Eng",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 			]
@@ -482,7 +506,7 @@
 			"groupPos":"Fame",
 			"groupNeg":"Opp Fame",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 			]
@@ -497,10 +521,59 @@
 			"groupPos":"Fame",
 			"groupNeg":"",
 			"results":"You managed to get tons of publicity. People are loving the designs on the new shirts. ",
-			"scoreInc":"1",
+			"scoreInc":".1",
 			"options":
 			[
 			]
+		}
+	],
+
+	"questions":
+	[
+		{
+			"question":"What issue are you most in favor of?", 
+			"id":"0",
+			"value":"issFav"
+		},
+		{
+			"question":"What issue are you most in opposition to?", 
+			"id":"1",
+			"value":"issOpp"
+		},
+		{
+			"question":"What is your major?", 
+			"id":"2",
+			"value":"major"
+		},
+		{
+			"question":"What is your economic class?", 
+			"id":"3",
+			"value":"class"
+		},
+		{
+			"question":"What group do you identify with?", 
+			"id":"4",
+			"value":"group"
+		},
+		{
+			"question":"How much do you know me?", 
+			"id":"5",
+			"value":"fame"
+		},
+		{
+			"question":"How do you feel about this issue: ", 
+			"id":"6",
+			"value":"issue"
+		},
+		{
+			"question":"How do you feel about this candidate: ", 
+			"id":"7",
+			"value":"candidate"
+		},
+		{
+			"question":"How good of a job do you think I will do? ", 
+			"id":"8",
+			"value":"playerTrust"
 		}
 	]
 }
