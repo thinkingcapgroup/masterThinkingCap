@@ -2,6 +2,31 @@
 
 }
 
+.input {
+	padding: calc(#{$content-padding} / 1.5) $content-padding;
+
+	border: 1px solid $foreground-color;
+	border-radius: 4px;
+
+	&:disabled {
+		background: $gray;
+	}
+
+	&:required {
+		border-color: #e74c3c;
+	}
+
+	&:focus {
+		outline: 0;
+		border-color: darken($light-blue, 25%);
+	}
+}
+
+.required-asterisk {
+	color: #e74c3c;
+	font-size: 1.5em;
+}
+
 .form-fields {
   width: 100%;
   max-width: 480px;
@@ -29,9 +54,15 @@
     &:first-of-type {
       border: none;
     }
-    
+
     label {
       margin-left: $content-padding;
     }
   }
+}
+
+.action-links {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }
