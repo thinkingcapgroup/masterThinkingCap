@@ -541,39 +541,54 @@
 			"value":"issOpp"
 		},
 		{
-			"question":"What is your major?", 
+			"question":"What candidate are you most in favor of?", 
 			"id":"2",
+			"value":"candFav"
+		},
+		{
+			"question":"What candidate are you most in opposition to?", 
+			"id":"3",
+			"value":"candOpp"
+		},
+		{
+			"question":"What is your major?", 
+			"id":"4",
 			"value":"major"
 		},
 		{
 			"question":"What is your economic class?", 
-			"id":"3",
+			"id":"5",
 			"value":"class"
 		},
 		{
 			"question":"What group do you identify with?", 
-			"id":"4",
+			"id":"6",
 			"value":"group"
 		},
 		{
 			"question":"How much do you know me?", 
-			"id":"5",
-			"value":"fame"
-		},
-		{
-			"question":"How do you feel about this issue: ", 
-			"id":"6",
-			"value":"issue"
-		},
-		{
-			"question":"How do you feel about this candidate: ", 
 			"id":"7",
-			"value":"candidate"
+			"value":"fame"
 		},
 		{
 			"question":"How good of a job do you think I will do? ", 
 			"id":"8",
-			"value":"playerTrust"
+			"value":"playTrust"
+		},
+		{
+			"question":"How do you feel about this issue: ", 
+			"id":"9",
+			"value":"issue"
+		},
+		{
+			"question":"What much do you know this candidate? Candidate:", 
+			"id":"10",
+			"value":"candFame"
+		},
+		{
+			"question":"How good of a job do you think this candidate will do? Candidate: ", 
+			"id":"11",
+			"value":"candTrust"
 		}
 	]
 }
