@@ -7,18 +7,12 @@ html * {
 	box-sizing: border-box;
 }
 
-html {
-
-}
-
 body {
 	background-color: $background-color;
 	color: $foreground-color;
 
   font-family: $primary-font;
 	font-weight: $font-weight;
-
-	overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -28,16 +22,155 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1em;
 }
 
-#app {
-  margin: auto;
-  width: 90%;
-  max-width: 1170px;
+p {
+	font-size: 1em;
+	letter-spacing: 0.01rem;
+	line-height: 1.6;
+	margin-bottom: 1em;
+
+	@include MQ(M) {
+		line-height: 1.8;
+	}
+}
+
+a {
+	color: $foreground-color-accent;
 }
 
 ul {
 	list-style-type: none;
 }
 
-form {
-	margin-top: 1em;
+main {
+	background: url('../media/img/login/thinkingcaploginbg.png');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+
+	padding: calc(#{$content-padding} * 2);
+
+	// Cover entire viewport
+	&.full-page {
+		// Remove browser-default margins
+		margin: 0;
+
+		// Height and width fallback for older browsers
+		height: 100%;
+		width: 100%;
+
+		// Set height, width to match old browsers
+		height: 100vh;
+		width: 100vw;
+
+		// Hide overflow
+		overflow: hidden;
+	}
+}
+
+// Wrapper for the view
+.wrapper {
+	position: relative;
+	margin: 0 auto;
+	width: 90%;
+	max-width: $L;
+	height: 100%;
+}
+
+.thinking-cap-header {
+	margin: $content-padding 0;
+	padding: 5px;
+	border: 5px solid $foreground-color;
+}
+
+.thinking-cap-title {
+	padding: $content-padding;
+	background: $light-blue;
+	border: 5px solid $foreground-color;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+#footer {
+	padding: calc(#{$content-padding});
+	text-align: center;
+
+	@include MQ(M) {
+		padding: calc(#{$content-padding} * 5);
+	}
+
+	// Stick footer to bottom when main takes whole viewport
+	.full-page & {
+		// Position it absolutely so we can place it exactly where we want
+		position: absolute;
+
+		// Make it full width
+		width: 100%;
+
+		// Stick footer to bottom
+		bottom: 0;
+		// Use the centering mixin to center it horizontally
+		@include center(x);
+	}
+}
+
+#account-links {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+
+	@include MQ(M) {
+		justify-content: space-between;
+	}
+
+	li {
+		margin: $content-padding calc(#{$content-padding} * 2);
+	}
+}
+
+#reference-links {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+
+	li {
+		margin: $content-padding calc(#{$content-padding} * 2);
+	}
+}
+
+.remove {
+	display: none;
+}
+
+.input {
+	padding: calc(#{$content-padding} / 1.5) $content-padding;
+
+	border: 1px solid $foreground-color;
+	border-radius: 4px;
+
+	&:disabled {
+		background: $gray;
+	}
+
+	&:required {
+		border-color: #e74c3c;
+	}
+
+	&:focus {
+		outline: 0;
+		border-color: darken($light-blue, 25%);
+	}
+}
+
+.action-links {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.required-asterisk {
+	color: #e74c3c;
+	font-size: 1.5em;
 }

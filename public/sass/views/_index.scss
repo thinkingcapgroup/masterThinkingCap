@@ -1,33 +1,20 @@
 #index {
-  height: 100vh;
 
-  display: flex;
-  flex-flow: column;
-
-  #welcome-section {
-    flex-basis: 90%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    h1 {
-      text-align: center;
-    }
+  #index-section {
+    position: absolute;
+    text-align: center;
+    @include center(xy);
+    text-transform: uppercase;
   }
 
-
-  footer {
-    flex-basis: 10%;
+  #index-title {
+    font-size: 4em;
+    margin-bottom: $content-padding;
+    animation: fadeOut 2s;
   }
 
-  ul {
-    display: flex;
-    flex-flow: row;
-    justify-content: center;
-    list-style-type: none;
-    padding: 1em;
-
-    li {
-      padding: 1em;
-    }
+  #index-link {
+    animation: fadeIn 0.2s;
+    font-size: 3em;
   }
 }

@@ -1,0 +1,37 @@
+.form {
+
+}
+
+.form-fields {
+  width: 100%;
+  max-width: 480px;
+  li {
+    margin: $content-padding;
+    padding: $content-padding;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid $foreground-color;
+
+    &:first-of-type {
+      border-top: 1px solid $foreground-color;
+    }
+  }
+
+  ul li {
+    margin-top: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border: none;
+
+    &:first-of-type {
+      border: none;
+    }
+    
+    label {
+      margin-left: $content-padding;
+    }
+  }
+}

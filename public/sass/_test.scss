@@ -1,0 +1,21 @@
+// TEST
+//
+// Declare variable
+// $var = blue;
+
+.test-class {
+
+  // Inheritance!
+  .test-class-child {
+
+  }
+
+  // The & is to reference the .test-class
+  // This only affects the .text-class element
+  // That also has a .special class
+  &.special {
+
+  }
+}
+
+// Go ahead and test css here

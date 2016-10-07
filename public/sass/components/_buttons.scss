@@ -1,0 +1,16 @@
+.btn {
+  background: none;
+  color: $foreground-color;
+
+  border: 1px solid $foreground-color;
+  font-size: 1.5em;
+
+  &.double {
+    border: 5px double $foreground-color;
+  }
+
+  &:hover {
+    background: $foreground-color;
+    color: $background-color;
+  }
+}
