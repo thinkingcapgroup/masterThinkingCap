@@ -9,15 +9,17 @@ var opponentCandidate = new CandidateCreate("Liz", "Lizard", "Non-Binary", "Aver
 var heads = new Image();
 heads.src = "../img/spritehead.png";
 var thinBody = new Image();
-thinBody.src = "../img/thinbodytype.png";
+thinBody.src = "../img/thinSpritesheet.png";
 var medBody = new Image();
-medBody.src = "../img/medbodytype.png";
+medBody.src = "../img/medSpritesheet.png";
 var lgBody = new Image();
-lgBody.src = "../img/plusbodytype.png";
+lgBody.src = "../img/plusSpritesheet.png";
 var chairBody = new Image();
-chairBody.src = "../img/chairbodytype.png";
+chairBody.src = "../img/chairSpritesheet.png";
 var imgArrayBody = [thinBody, medBody, lgBody, chairBody];
-var imgArrayBodyWidth = [159,188,247,213];
+var imgArrayBodyWidth = [164,190,264,215];
+var imgArrayBodyHeight = [343,327,304,334];
+var imgArrayHeadHeight = [171,173,173];
 
 //scores go Socialite/Athlete/MediaLover/Researcher/Reader
 //the score goes tuition, tuition var, athletic, athletic var, research, research var, events, events var, medical, medicalvar
@@ -167,6 +169,10 @@ function CandidateCreate(name,race,gender,bodyType){
 	this.race = race;
 	this.gender = gender;
 	this.bodyType = bodyType;
+	this.raceNum = 1;
+	this.genderNum = 1;
+	this.bodyTypeNum = 1;
+	this.headNum = 1;
 };
 
 var playerScore = [];
@@ -264,21 +270,18 @@ function startCharacterSelect(){
 	//character creator here
 	//for right now we'll do a drop down option
 	document.getElementById("gameInfo").innerHTML = "<h1>Character Creation</h1>";
-	document.getElementById("gameInfo").innerHTML += "<canvas id='myCanvas' width='800px' height = '500px'></canvas><br>";
-	document.getElementById("gameInfo").innerHTML += "<button id ='headbutton'>Heads</button><br>";
-	document.getElementById("gameInfo").innerHTML += "<button id ='racebutton'>Race</button><br>";
-	document.getElementById("gameInfo").innerHTML += "<button id ='clothingbutton'>Clothing</button><br>";
+	document.getElementById("gameInfo").innerHTML += "<canvas id='myCanvas' width='500px' height = '600px'></canvas><br>";
+	document.getElementById("gameInfo").innerHTML += "<button id ='headbutton'>Heads</button>";
+	document.getElementById("gameInfo").innerHTML += "<button id ='racebutton'>Race</button>";
+	document.getElementById("gameInfo").innerHTML += "<button id ='clothingbutton'>Gender</button>";
 	document.getElementById("gameInfo").innerHTML += "<button id ='bodybutton'>BodyType</button><br>";
 	document.getElementById("gameInfo").innerHTML += "<label>Candidate Name: </label><input id='charName' type='text' /><br>";
-	document.getElementById("gameInfo").innerHTML += "<label>Race: </label><select id='charRace'><option>Human</option><option>Martian</option><option>Android</option></select><br>";
-	document.getElementById("gameInfo").innerHTML += "<label>Gender: </label><select id='charGender'><option>Male</option><option>Female</option><option>Non-binary</option></select><br>";
-	document.getElementById("gameInfo").innerHTML += "<label>Body Type: </label><select id='charBody'><option>Slim</option><option>Average</option><option>Heavy</option></select><br>";
-	document.getElementById("gameInfo").innerHTML += "<button onclick='startOtherCandidates()'>Create Character</button><br>";
+	document.getElementById("gameInfo").innerHTML += "<button id='candidateCre'>Create Candidate</button><br>";
 	
 	var c=document.getElementById("myCanvas");
 	
-	var headSheet = new sprite({context: c.getContext("2d"), width: 155, height: 172, image: heads});
-	var bodySheet = new sprite({context: c.getContext("2d"), width: 159, height: 334, image: thinBody});
+	var headSheet = new sprite({context: c.getContext("2d"), width: 155, height: 171, image: heads});
+	var bodySheet = new sprite({context: c.getContext("2d"), width: 164, height: 343, image: thinBody});
 
 
 	document.getElementById("headbutton").addEventListener("click", function(){
@@ -296,6 +299,10 @@ function startCharacterSelect(){
 	document.getElementById("bodybutton").addEventListener("click", function(){
 			bodyChange(headSheet, bodySheet);
 	});
+	document.getElementById("candidateCre").addEventListener("click", function(){
+				startOtherCandidates(headSheet, bodySheet);
+	});
+
 
 			drawOnCanvas(headSheet, bodySheet);
 
@@ -306,20 +313,358 @@ function drawOnCanvas(headsheet,bodysheet){
 	var c=document.getElementById("myCanvas");
 	var ctx = c.getContext("2d")
 	ctx.clearRect(0,0,c.width,c.height);
-	//draw the background
+	ctx.fillRect(0,0,c.width, c.height);
 	//draw the body
-
-	//draw the face
-	drawHeads(headsheet)
-		drawBody(bodysheet);
+	drawBody(bodysheet);
+	drawHeads(headsheet,bodysheet)
 };
 
 
-function drawHeads(heads){
-	heads.render(7,0);	
+function drawHeads(heads,body){
+	var x = fixHeadCord(heads,body);
+	heads.render(x[0],x[1]);	
 }
 function drawBody(body){
-	body.renderBody(0,160);
+	body.renderBody(150,200);
+}
+
+function fixHeadCord(heads, body){
+	
+	//WHAT Body Sheet is being used
+	var xCord = 156;
+	var yCord = 40;
+	//THIN BODY
+	var coordChange = [
+	
+	[
+		[
+		//thin body NB
+			[
+				[[3,1]],
+				[[2,-1]],
+				[[-7,0]],
+				[[-7,0]],
+				[[2,2]],
+				[[2,2]]
+			],
+			[
+				[[3,-1]],
+				[[5,-2]],
+				[[-2,-2]],
+				[[-2,-2]],
+				[[1,0]],
+				[[2,1]]
+			],
+			[
+				[[5,-1]],
+				[[7,-1]],
+				[[-8,0]],
+				[[-8,0]],
+				[[2,-2]],
+				[[2,-2]]
+			]
+		],
+		[//thin body female
+			[
+				[[3,1]],
+				[[2,-1]],
+				[[-7,0]],
+				[[-7,0]],
+				[[2,2]],
+				[[2,2]]
+			],
+			[
+				[[3,-1]],
+				[[5,-2]],
+				[[-4,-3]],
+				[[-4,-3]],
+				[[-1,0]],
+				[[-1,1]]
+			],
+			[
+				[[4,-1]],
+				[[5,-1]],
+				[[-10,0]],
+				[[-8,0]],
+				[[0,-2]],
+				[[0,-2]]
+			]
+		],//thin body male
+		[
+			[
+				[[10,1]],
+				[[10,-1]],
+				[[-1,0]],
+				[[-1,0]],
+				[[8,2]],
+				[[9,2]]
+			],
+			[
+				[[8,-1]],
+				[[10,-2]],
+				[[4,-2]],
+				[[4,-2]],
+				[[5,0]],
+				[[7,1]]
+			],
+			[
+				[[10,-1]],
+				[[12,-2]],
+				[[-2,-2]],
+				[[0,-2]],
+				[[8,-1]],
+				[[8,-1]]
+			]
+		]
+	],
+	[
+		[
+			[
+				[[17,0]],
+				[[15,0]],
+				[[10,0]],
+				[[10,0]],
+				[[17,2]],
+				[[17,2]]
+			],
+			[
+				[[17,0]],
+				[[17,-1]],
+				[[10,-2]],
+				[[10,0]],
+				[[15,2]],
+				[[16,2]]
+			],
+			[
+				[[18,0]],
+				[[18,0]],
+				[[7,0]],
+				[[10,0]],
+				[[15,-1]],
+				[[15,-1]]
+			]
+		],
+		[
+			[
+				[[17,0]],
+				[[15,0]],
+				[[8,0]],
+				[[8,0]],
+				[[15,2]],
+				[[15,2]]
+			],
+			[
+				[[17,0]],
+				[[17,-2]],
+				[[10,-3]],
+				[[10,-2]],
+				[[13,0]],
+				[[14,0]]
+			],
+			[
+				[[18,-2]],
+				[[18,-2]],
+				[[3,0]],
+				[[8,0]],
+				[[12,-3]],
+				[[12,-3]]
+			]
+		],
+		[
+			[
+				[[19,0]],
+				[[17,0]],
+				[[8,0]],
+				[[8,0]],
+				[[17,2]],
+				[[17,2]]
+			],
+			[
+				[[18,0]],
+				[[18,-4]],
+				[[12,-4]],
+				[[10,-3]],
+				[[13,0]],
+				[[16,0]]
+			],
+			[
+				[[19,-2]],
+				[[19,-2]],
+				[[4,-1]],
+				[[9,-1]],
+				[[14,-3]],
+				[[14,-3]]
+			]
+		]
+	],
+	[
+		[
+			[
+				[[46,3]],
+				[[44,3]],
+				[[38,3]],
+				[[38,3]],
+				[[44,5]],
+				[[44,5]]
+			],
+			[
+				[[46,3]],
+				[[46,1]],
+				[[38,1]],
+				[[38,3]],
+				[[44,3]],
+				[[45,4]]
+			],
+			[
+				[[46,3]],
+				[[44,3]],
+				[[35,3]],
+				[[38,3]],
+				[[44,2]],
+				[[44,2]]
+			]
+		],
+		[
+			[
+				[[46,5]],
+				[[44,4]],
+				[[36,3]],
+				[[38,5]],
+				[[44,5]],
+				[[44,5]]
+			],
+			[
+				[[46,3]],
+				[[46,1]],
+				[[38,1]],
+				[[38,3]],
+				[[44,4]],
+				[[45,5]]
+			],
+			[
+				[[46,3]],
+				[[44,3]],
+				[[32,3]],
+				[[38,3]],
+				[[44,2]],
+				[[44,2]]
+			]
+		],
+		[
+			[
+				[[52,0]],
+				[[50,0]],
+				[[43,0]],
+				[[43,0]],
+				[[50,3]],
+				[[52,3]]
+			],
+			[
+				[[52,0]],
+				[[54,-3]],
+				[[46,-1]],
+				[[46,-1]],
+				[[50,0]],
+				[[52,0]]
+			],
+			[
+				[[52,-2]],
+				[[54,-3]],
+				[[42,-1]],
+				[[44,-1]],
+				[[50,-2]],
+				[[50,-2]]
+			]
+		]
+	],
+	[
+		[
+			[
+				[[53,30]],
+				[[53,30]],
+				[[45,30]],
+				[[45,30]],
+				[[53,32]],
+				[[53,32]]
+			],
+			[
+				[[53,29]],
+				[[54,27]],
+				[[45,27]],
+				[[45,29]],
+				[[50,31]],
+				[[53,31]]
+			],
+			[
+				[[53,29]],
+				[[54,27]],
+				[[40,27]],
+				[[45,29]],
+				[[50,29]],
+				[[50,29]]
+			]
+		],
+		[
+			[
+				[[58,40]],
+				[[55,40]],
+				[[48,40]],
+				[[48,40]],
+				[[56,42]],
+				[[56,42]]
+			],
+			[
+				[[58,40]],
+				[[58,40]],
+				[[49,38]],
+				[[49,38]],
+				[[53,42]],
+				[[53,42]]
+			],
+			[
+				[[57,36]],
+				[[58,36]],
+				[[45,40]],
+				[[50,41]],
+				[[55,37]],
+				[[55,37]],
+			]
+		],
+		[
+			[
+				[[65,37]],
+				[[64,37]],
+				[[58,37]],
+				[[58,37]],
+				[[65,39]],
+				[[65,39]],
+			],
+			[
+				[[65,37]],
+				[[65,35]],
+				[[55,34]],
+				[[57,34]],
+				[[63,37]],
+				[[63,39]],
+			],
+			[
+				[[65,35]],
+				[[67,35]],
+				[[51,36]],
+				[[55,35]],
+				[[61,35]],
+				[[61,36]],
+			]
+		]
+	]
+
+	];
+	var txc = coordChange[body.bodyArrayHolder][body.frameIndexClothing][heads.frameIndexRace][heads.frameIndex][0];
+	xCord += txc[0];
+	yCord += txc[1];
+
+	var ret = [xCord, yCord];
+	return ret;
 }
 
 function clothingChange(bodySheet){
@@ -341,9 +686,11 @@ function bodyChange(headsheet, body){
 		body.bodyArrayHolder = 0;
 		z=0;
 	}
+	headsheet.bodyArrayHolder = z;
 	
 	body.image = imgArrayBody[z];
 	body.width = imgArrayBodyWidth[z];
+	body.height = imgArrayBodyHeight[z];
 	drawOnCanvas(headsheet,body)
 }
 
@@ -354,9 +701,9 @@ function sprite(options){
 	that.width = options.width;
 	that.height = options.height;
 	that.image = options.image;
-	frameIndex = 0,
-	frameIndexRace = 0,
-	frameIndexClothing = 0,
+	that.frameIndex = 0,
+	that.frameIndexRace = 0,
+	that.frameIndexClothing = 0,
 	that.bodyArrayHolder = 0,
 	that.isMale = 0,
    
@@ -366,8 +713,8 @@ function sprite(options){
         // Draw the animation
         that.context.drawImage(
            that.image,
-           (0 + (that.width * frameIndex)),
-           (0 + (that.height* frameIndexRace)) ,
+           that.width * that.frameIndex,
+           that.height* that.frameIndexRace ,
            that.width,
            that.height,
            x,
@@ -381,56 +728,52 @@ function sprite(options){
         // Draw the animation
         that.context.drawImage(
            that.image,
-           (0 + (imgArrayBodyWidth[that.bodyArrayHolder] * frameIndexClothing) + that.isMale),
+           (0 + (imgArrayBodyWidth[that.bodyArrayHolder] * that.frameIndexClothing) + that.isMale),
            0,
            that.width,
            that.height,
            x,
            y,
-           that.width,
+           that.width + that.isMale,
            that.height);
     };
 
     that.update = function(){
-    	frameIndex += 1;
-    	if (frameIndex > 5){
-    		frameIndex = 0;
+    	that.frameIndex += 1;
+    	if (that.frameIndex > 5){
+    		that.frameIndex = 0;
     	}
-    	
+   
     };
 
      that.updateClothing = function(){
-    	frameIndexClothing += 1;
-    	if (frameIndexClothing > 2){
-    		frameIndexClothing = 0;
+    	that.frameIndexClothing += 1;
+    	if (that.frameIndexClothing > 2){
+    		that.frameIndexClothing = 0;
     	}
-    	if(frameIndexClothing == 2){
-    		that.isMale = 25;
-    	}
-    	else{
-    		that.isMale = 0;
-    	}
-
+    	
     };
 
 
     that.raceUpdate = function(){
-    	frameIndexRace += 1;
-    	if (frameIndexRace > 2){
-    		frameIndexRace = 0;
+    	that.frameIndexRace += 1;
+    	if (that.frameIndexRace > 2){
+    		that.frameIndexRace = 0;
     	}
-    	
+    	that.height = imgArrayHeadHeight[that.frameIndexRace];
     };
 
 	return that;
 }
 
 
-function startOtherCandidates(){
+function startOtherCandidates(heads,body){
 	playerCandidate.name = document.getElementById("charName").value;
-	playerCandidate.race = document.getElementById("charRace").value;
-	playerCandidate.gender = document.getElementById("charGender").value;
-	playerCandidate.bodyType = document.getElementById("charBody").value;
+	playerCandidate.raceNum = heads.frameIndexRace;
+	playerCandidate.genderNum = body.frameIndexClothing;
+	playerCandidate.bodyTypeNum = body.bodyArrayHolder;
+	playerCandidate.headNum = heads.frameIndex
+
 	console.log(playerCandidate);
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
 	document.getElementById("gameInfo").innerHTML += "<p>You're candidate, <b>"+ playerCandidate.name +"</b> is going up again Liz the Chameleon. They're going for Student Council President just like your candidate. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
