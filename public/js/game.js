@@ -4,6 +4,9 @@ var majorList = ["business", "engineering", "tech", "fineArts", "libArts"];
 var stuEconomic = ["poverty", "low", "midLow", "midHigh", "high"];
 var playerCandidate = new CandidateCreate("ph","ph", "ph", "ph")
 var opponentCandidate = new CandidateCreate("Liz", "Lizard", "Non-Binary", "Average");
+var raceArray = ["Android", "Human", "Martian"];
+var genderArray = ["Non-Binary", "Female", "Male"];
+var bodyTypeArray = ["Thin", "Medium", "Plus", "HoverChair"];
 
 //sprite stuff
 var heads = new Image();
@@ -773,8 +776,10 @@ function startOtherCandidates(heads,body){
 	playerCandidate.genderNum = body.frameIndexClothing;
 	playerCandidate.bodyTypeNum = body.bodyArrayHolder;
 	playerCandidate.headNum = heads.frameIndex
-
-	console.log(playerCandidate);
+	playerCandidate.race = raceArray[heads.frameIndexRace];
+	playerCandidate.gender = genderArray[body.frameIndexClothing];
+	playerCandidate.bodyType = bodyTypeArray[body.bodyArrayHolder];
+	
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
 	document.getElementById("gameInfo").innerHTML += "<p>You're candidate, <b>"+ playerCandidate.name +"</b> is going up again Liz the Chameleon. They're going for Student Council President just like your candidate. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
 	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial on how to read poll information?</p>"
