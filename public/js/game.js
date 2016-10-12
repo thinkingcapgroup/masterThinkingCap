@@ -991,7 +991,7 @@ function pollResults()
 	
 	if(duplicate)
 	{
-		document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'poll("+subject+")'> Reselect Poll Questions </button>";
+		document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'poll()'> Reselect Poll Questions </button>";
 	}
 	else
 	{	
@@ -2033,7 +2033,7 @@ function pollCalc(pollChoices, sampleSize)
 				if(pollChoices[i] == "candTrust" + candidates[k].name)
 				{
 					var counter = 18 +k;
-					tableArrays[counter].push(fameCalc(candidates[k]));
+					tableArrays[counter].push(fameCalc(candidates[k],sample[j]));
 				}
 			}
 		}
@@ -2054,7 +2054,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 	var table = document.getElementById("pollTable");
 	var tableHead = document.getElementById("tableHead");
 	var headRow = tableHead.insertRow(0);
-	
+	console.log(tableHeaders);
 	//Makes the table headers based on the chose questions
 	for(var h = 0; h < pollChoices.length; h++)
 	{
@@ -2105,61 +2105,62 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 					cell.innerHTML = tableHeaders[8];
 			break;
 		}
-	}
-	for(var k = 0;k<positions.length;k++)
-	{
-		if(pollChoices[i] == "issue" + positionsLower[k])
+	
+		for(var k = 0;k<positions.length;k++)
 		{
-			switch(pollChoices[i])
+			if(pollChoices[h] == "issue" + positionsLower[k])
 			{
-				case "issuetuition":
-					var cell = headRow.insertCell(h);
-					var posInfo = tableHeaders[9] + positions[0];
-					cell.innerHTML = posInfo;
-				break;
-				
-				case "issueathletic":
-					var cell = headRow.insertCell(h);
-					var posInfo = tableHeaders[9] + positions[1];
-					cell.innerHTML = posInfo;
-				break;
-				
-				case "issueresearch":
-					var cell = headRow.insertCell(h);
-					var posInfo = tableHeaders[9] + positions[2];
-					cell.innerHTML = posInfo;
-				break;
-				
-				case "issueevents":
-					var cell = headRow.insertCell(h);
-					var posInfo = tableHeaders[9] + positions[3];
-					cell.innerHTML = posInfo;
-				break;
-				
-				case "issuemedical":
-					var cell = headRow.insertCell(h);
-					var posInfo = tableHeaders[9] + positions[4];
-					cell.innerHTML = posInfo;
-				break;
+				switch(pollChoices[h])
+				{
+					case "issuetuition":
+						var cell = headRow.insertCell(h);
+						var posInfo = tableHeaders[9] + positions[0];
+						cell.innerHTML = posInfo;
+					break;
+					
+					case "issueathletic":
+						var cell = headRow.insertCell(h);
+						var posInfo = tableHeaders[9] + positions[1];
+						cell.innerHTML = posInfo;
+					break;
+					
+					case "issueresearch":
+						var cell = headRow.insertCell(h);
+						var posInfo = tableHeaders[9] + positions[2];
+						cell.innerHTML = posInfo;
+					break;
+					
+					case "issueevents":
+						var cell = headRow.insertCell(h);
+						var posInfo = tableHeaders[9] + positions[3];
+						cell.innerHTML = posInfo;
+					break;
+					
+					case "issuemedical":
+						var cell = headRow.insertCell(h);
+						var posInfo = tableHeaders[9] + positions[4];
+						cell.innerHTML = posInfo;
+					break;
+				}
 			}
 		}
-	}
-	for(var k = 1;k<candidates.length;k++)
-	{
-		if(pollChoices[i] == "candFame" + candidates[k].name)
+		for(var k = 1;k<candidates.length;k++)
 		{
-				var cell = headRow.insertCell(h);
-				var candInfo = tableHeaders[10] + candidates[k].name;
-				cell.innerHTML = candInfo;
+			if(pollChoices[h] == "candFame" + candidates[k].name)
+			{
+					var cell = headRow.insertCell(h);
+					var candInfo = tableHeaders[10] + candidates[k].name;
+					cell.innerHTML = candInfo;
+			}
 		}
-	}
-	for(var k = 1;k<candidates.length;k++)
-	{
-		if(pollChoices[i] == "candTrust" + candidates[k].name)
+		for(var k = 1;k<candidates.length;k++)
 		{
-				var cell = headRow.insertCell(rowCounter);
-				var candInfo = tableHeaders[11] + candidates[k].name;
-				cell.innerHTML = candInfo;
+			if(pollChoices[h] == "candTrust" + candidates[k].name)
+			{
+					var cell = headRow.insertCell(rowCounter);
+					var candInfo = tableHeaders[11] + candidates[k].name;
+					cell.innerHTML = candInfo;
+			}
 		}
 	}
 	
@@ -2168,7 +2169,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 		row = table.insertRow(h);
 		for(var i = 0; i < pollChoices.length ;i++)
 		{
-			switch(pollChoices[i])
+			switch(pollChoices[h])
 			{
 				case "issFav":
 						var cell = row.insertCell(i);
@@ -2219,7 +2220,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 			{
 				if(pollChoices[i] == "issue" + positionsLower[k])
 				{
-					switch(pollChoices[i])
+					switch(pollChoices[h])
 					{
 						case "issuetuition":
 								var cell = row.insertCell(i);
