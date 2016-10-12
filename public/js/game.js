@@ -1001,8 +1001,8 @@ function pollResults()
 	
 	if(duplicate)
 	{
-		console.log(pollChoices);
-		console.log(duplicate);
+		//console.log(pollChoices);
+		//console.log(duplicate);
 		document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'poll()'> Reselect Poll Questions </button>";
 	}
 	else
@@ -1805,8 +1805,8 @@ function votePercentage(sampleSize)
 			
 		}
 		//console.log("Student #" +i);
-		console.log("Winner: " + winner + " Vote Percentage: "+ winPercentage);
-		console.log("Loser: " + loser + " Vote Percentage: "+ lowPercentage);
+		//console.log("Winner: " + winner + " Vote Percentage: "+ winPercentage);
+		//console.log("Loser: " + loser + " Vote Percentage: "+ lowPercentage);
 		//console.log("");
 		sample[i].results.winPer = winPercentage;
 		sample[i].results.losPer = lowPercentage;
@@ -2082,7 +2082,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 	var headRow = tableHead.insertRow(0);
 	console.log(tableHeaders);
 	//Makes the table headers based on the chose questions
-	for(var h = 0; h < pollChoices.length+1; h++)
+	for(var h = 0; h < pollChoices.length; h++)
 	{
 		switch(pollChoices[h])
 		{
@@ -2235,12 +2235,12 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 				
 				case "fame":
 							var cell = row.insertCell(i);
-							cell.innerHTML = tableArray2[7][h];
+							cell.innerHTML = parseFloat(tableArray2[7][h]).toFixed(2);
 				break;
 				
 				case "playTrust":
 							var cell = row.insertCell(i);
-							cell.innerHTML = tableArray2[8][h];
+							cell.innerHTML = parseFloat(tableArray2[8][h]).toFixed(2);
 				break;
 			}
 			for(var k = 0;k<positions.length;k++)
@@ -2282,7 +2282,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 				{
 							var cell = row.insertCell(i);
 							var counter = 13+k;
-							cell.innerHTML = tableArray2[counter][h];
+							cell.innerHTML = parseFloat(tableArray2[counter][h]).toFixed(2);
 				}
 			}
 			for(var k = 1;k<candidates.length;k++)
