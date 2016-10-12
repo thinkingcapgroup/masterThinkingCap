@@ -4,16 +4,24 @@
 	//modules
 	var express = require('express'),
 			app = express(),
+			mysql = require('mysql'),
 			// Database
 			db,
 			// Database credentials
-			dbCredentials,
+			dbCredentials = {
+				host: 'localhost',
+				user: 'root',
+				password: 'password',
+				database: 'thinking_cap'
+
+			},
 			handlebars = require('express-handlebars').create(
 				{
 					defaultLayout:'main',
 					layoutsDir: './mvc/view/layouts',
 					partialsDir: './mvc/view/partials'
 				}),
+			bodyParser = require('body-parser'),
 			fs = require("fs"),
 			// Passport Authentication file
 			passportAuth = require('./config/passportAuth'),
@@ -56,8 +64,21 @@
 		saveUninitialized: true
 	}));
 
+	app.use(bodyParser.json());
+	app.use(bodyParser.urlencoded({extended: true}));
+
 	// Initialize passport
 	passportAuth(app);
+
+	db = mysql.createConnection(dbCredentials);
+
+	db.connect();
+
+	// Make our database accessible to our router
+	app.use(function(req, res, next){
+		req.db = db;
+		next();
+	});
 
 	/**
 	 * Routes
@@ -119,4 +140,18 @@
 		res.status(500);
 		res.render('errors/500');
 	});
+
+	// TEST
+	// connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
+	// 	if (err) {
+	// 		throw err;
+	// 	}
+	// 	console.log('The solution is: ' + rows[0].solution);
+	// });
+	// db.query('SELECT * FROM USER', function(err, result, fields) {
+	// 	if (err) {
+	// 		throw err;
+	// 	}
+	// 	console.log(result[0]);
+	// });
 }());
