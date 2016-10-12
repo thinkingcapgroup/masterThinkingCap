@@ -177,7 +177,7 @@ function CandidateCreate(name,race,gender,bodyType){
 	this.bodyTypeNum = 1;
 	this.headNum = 1;
 };
-
+//setting up some more variables
 var playerScore = [];
 var player = {	
 	wrongAnswers:0,
@@ -189,13 +189,13 @@ var population;
 var sample;
 var startHours; 
 var remainingHours;
-// player
 
+// player variables
 var playerScore = [];
-
 var population = 1000;
 var sample = [];
 
+//creates the sample
 function createSample(x)
 {
 	for (var count= 0; count < x; count++){
@@ -205,6 +205,7 @@ function createSample(x)
 	}
 }
 
+//get all the base scores for the students
 function getScores(){
 	var groupRandom = Math.floor(Math.random()* 5);
 	var majorRandom = Math.floor(Math.random()* 5);
@@ -274,19 +275,19 @@ function startCharacterSelect(){
 	//for right now we'll do a drop down option
 	document.getElementById("gameInfo").innerHTML = "<h1>Character Creation</h1>";
 	document.getElementById("gameInfo").innerHTML += "<canvas id='myCanvas' width='500px' height = '600px'></canvas><br>";
-	document.getElementById("gameInfo").innerHTML += "<button id ='headbutton'>Heads</button>";
-	document.getElementById("gameInfo").innerHTML += "<button id ='racebutton'>Race</button>";
+	document.getElementById("gameInfo").innerHTML += "<button class = 'live'id ='headbutton'>Heads</button>";
+	document.getElementById("gameInfo").innerHTML += "<button class = 'live'id ='racebutton'>Race</button>";
 	document.getElementById("gameInfo").innerHTML += "<button id ='clothingbutton'>Gender</button>";
 	document.getElementById("gameInfo").innerHTML += "<button id ='bodybutton'>BodyType</button><br>";
 	document.getElementById("gameInfo").innerHTML += "<label>Candidate Name: </label><input id='charName' type='text' /><br>";
 	document.getElementById("gameInfo").innerHTML += "<button id='candidateCre'>Create Candidate</button><br>";
 	
 	var c=document.getElementById("myCanvas");
-	
+	//creates a sprite for the headsheets
 	var headSheet = new sprite({context: c.getContext("2d"), width: 155, height: 171, image: heads});
 	var bodySheet = new sprite({context: c.getContext("2d"), width: 164, height: 343, image: thinBody});
 
-
+	//sets up all the buttons for changing the canvas
 	document.getElementById("headbutton").addEventListener("click", function(){
 			right(headSheet)
 			drawOnCanvas(headSheet, bodySheet);
@@ -306,8 +307,8 @@ function startCharacterSelect(){
 				startOtherCandidates(headSheet, bodySheet);
 	});
 
-
-			drawOnCanvas(headSheet, bodySheet);
+	//draws on the canvas
+	drawOnCanvas(headSheet, bodySheet);
 
 }
 
@@ -315,15 +316,19 @@ function drawOnCanvas(headsheet,bodysheet){
 	//clear the canvas
 	var c=document.getElementById("myCanvas");
 	var ctx = c.getContext("2d")
+	//clears everything
 	ctx.clearRect(0,0,c.width,c.height);
+	//makes the background black
 	ctx.fillRect(0,0,c.width, c.height);
 	//draw the body
 	drawBody(bodysheet);
+	//draws the head
 	drawHeads(headsheet,bodysheet)
 };
 
-
+//draws the head
 function drawHeads(heads,body){
+	//fixes the head coordinates
 	var x = fixHeadCord(heads,body);
 	heads.render(x[0],x[1]);	
 }
@@ -333,10 +338,10 @@ function drawBody(body){
 
 function fixHeadCord(heads, body){
 	
-	//WHAT Body Sheet is being used
+	//head coords
 	var xCord = 156;
 	var yCord = 40;
-	//THIN BODY
+	//array that holds all th
 	var coordChange = [
 	
 	[
@@ -663,25 +668,26 @@ function fixHeadCord(heads, body){
 
 	];
 	var txc = coordChange[body.bodyArrayHolder][body.frameIndexClothing][heads.frameIndexRace][heads.frameIndex][0];
+	//the adjustments for that specific head/race/gender/bodytype
 	xCord += txc[0];
 	yCord += txc[1];
 
 	var ret = [xCord, yCord];
 	return ret;
 }
-
+//changes gender
 function clothingChange(bodySheet){
 	bodySheet.updateClothing();
 }
-
+//changes head
 function right(heads){
 	heads.update();
 }
-
+//changes race
 function race(heads){
 	heads.raceUpdate();
 }
-
+//changes the body type
 function bodyChange(headsheet, body){
 	body.bodyArrayHolder++;
 	var z = body.bodyArrayHolder;
@@ -697,7 +703,7 @@ function bodyChange(headsheet, body){
 	drawOnCanvas(headsheet,body)
 }
 
-
+//sprite function
 function sprite(options){
 	var that = {};
 	that.context = options.context;
@@ -779,7 +785,7 @@ function startOtherCandidates(heads,body){
 	playerCandidate.race = raceArray[heads.frameIndexRace];
 	playerCandidate.gender = genderArray[body.frameIndexClothing];
 	playerCandidate.bodyType = bodyTypeArray[body.bodyArrayHolder];
-	
+
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
 	document.getElementById("gameInfo").innerHTML += "<p>You're candidate, <b>"+ playerCandidate.name +"</b> is going up again Liz the Chameleon. They're going for Student Council President just like your candidate. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
 	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial on how to read poll information?</p>"
@@ -865,7 +871,7 @@ function userAction()
 	currentEvents = []
 	
 	//Build User Action Area buttons
-	document.getElementById("choices").innerHTML += "<button type='button' onclick='reportViewer()' >View Result Reports</button>"
+	document.getElementById("choices").innerHTML += "<button type='button' class = 'live' onclick='reportViewer()' >View Result Reports</button>"
 	document.getElementById("choices").innerHTML += "<button type='button'  onclick='poll()'> Poll for My Influence </button>"
 	document.getElementById("gameInfo").innerHTML += "<p> Opponent\'s Last Move:" + opponent.lastMove + "</p>"
 	document.getElementById("choices").innerHTML += "<button type='button'  onclick='poll()'>Poll For Opponent\'s Influence </button>"

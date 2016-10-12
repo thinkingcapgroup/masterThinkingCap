@@ -4,6 +4,7 @@
 	//modules
 	var express = require('express'),
 			app = express(),
+			bodyParser = require('body-parser'),
 			// Database
 			db,
 			// Database credentials
@@ -42,6 +43,9 @@
 		outputStyle: 'compressed',
 		prefix: '/css'
 	}));
+	
+	app.use(bodyParser.urlencoded());
+	app.use(bodyParser.json());
 
 	app.use(express.static(__dirname + '/public'));
 
