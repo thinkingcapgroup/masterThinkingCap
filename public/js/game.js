@@ -756,12 +756,15 @@ function userAction()
 	//Build User Action Area buttons
 	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidates[0].focus + "</h2>";
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";	
+	document.getElementById("choices").innerHTML += "<button type='button'  onclick='poll()'> Take A Poll </button>";
+	document.getElementById("choices").innerHTML += "<button type='button'  onclick='gameCycleEnd()'> Skip to the End </button>";
+	document.getElementById("choices").innerHTML += "<br>";
 	for(var i=0; i<pastPollResults.length;i++)
 	{
 		var num = i+1;
 		document.getElementById("choices").innerHTML += "<button type='button' onclick='reportViewer("+i+")' >View Poll "+ num +" Result </button>";
 	}
-	document.getElementById("choices").innerHTML += "<button type='button'  onclick='poll()'> Take A Poll </button>";
+	document.getElementById("choices").innerHTML += "<br>";
 	document.getElementById("gameInfo").innerHTML += "<h4> Opponent\'s Last Move:" + opponentCandidate.lastMove + "</h4>";
 	document.getElementById("choices").innerHTML += "<br>";
 	
@@ -888,8 +891,17 @@ function gameCycleEnd()
 	
 	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidates[0].focus + "</h2>";
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
-	var finalRes = votePercentage(1000);
-	document.getElementById("gameInfo").innerHTML += "<p> WInner: "+ finalRes.win +"	</p> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
+	votePercentage(1000);
+	var winner;
+	var winvotes = 0;
+	for(var i = 0; i<candidates.length;i++)
+	{
+		if(candidates[i].votes > winvotes)
+		{
+			winner = candidates[i].name;
+		}
+	}
+	document.getElementById("gameInfo").innerHTML += "<p> Winner: "+ winner +"</p> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
 };
 
 
@@ -972,10 +984,8 @@ function pollResults()
 		{
 			if(i!=j)
 			{
-				var selectedQuestion1 = document.getElementById("poll"+i+"");
-				var val1 = (selectedQuestion1.options[selectedQuestion1.selectedIndex].value);
-				var selectedQuestion2 = document.getElementById("poll"+j+"");
-				var val2 = (selectedQuestion2.options[selectedQuestion2.selectedIndex].value);
+				var val1 = pollChoices[i];
+				var val2 = pollChoices[j];
 				if(val1 == val2)
 				{
 					duplicate = true;
@@ -991,6 +1001,8 @@ function pollResults()
 	
 	if(duplicate)
 	{
+		console.log(pollChoices);
+		console.log(duplicate);
 		document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'poll()'> Reselect Poll Questions </button>";
 	}
 	else
@@ -1695,6 +1707,7 @@ function CandidateCreate(name,race,gender,bodyType){
 	this.focus= "";
 	this.focusnum= 0;
 	this.winChance= 0;
+	this.votes= 0;
 	this.correctAnswers= 0;
 	this.wrongAnswers= 0;
 	this.lastMove= "None";
@@ -1751,14 +1764,20 @@ function votePercentage(sampleSize)
 {
 	//console.log(candidates);
 	createSample(sampleSize);
-	for(var i =0; i<sample.length; i++)
+	var finalWinner = "";
+	for(var i=0;i<candidates.length; i++)
 		{
+			candidates[i].votes = 0;
+		}
+	for(var i =0; i<sample.length; i++)
+	{
 		var winPercentage=0;
 		var winner ="";
 		var lowPercentage=0;
 		var loser ="";
 		for(var j=0;j<candidates.length; j++)
 		{
+			
 			//console.log(sample[i]);
 			var fame = 0; 
 			fame = fameCalc(candidates[j], sample[i]);
@@ -1786,13 +1805,20 @@ function votePercentage(sampleSize)
 			
 		}
 		//console.log("Student #" +i);
-		//console.log("Winner: " + winner + " Vote Percentage: "+ winPercentage);
-		//console.log("Loser: " + loser + " Vote Percentage: "+ lowPercentage);
+		console.log("Winner: " + winner + " Vote Percentage: "+ winPercentage);
+		console.log("Loser: " + loser + " Vote Percentage: "+ lowPercentage);
 		//console.log("");
 		sample[i].results.winPer = winPercentage;
 		sample[i].results.losPer = lowPercentage;
 		sample[i].results.win = winner;
 		sample[i].results.los = loser;
+		for(var k=0;k<candidates.length; k++)
+		{
+			if(candidates[k].name == winner)
+			{
+				candidates[k].votes++;
+			}
+		}
 	}
 }
 
@@ -2025,7 +2051,7 @@ function pollCalc(pollChoices, sampleSize)
 				if(pollChoices[i] == "candFame" + candidates[k].name)
 				{
 					var counter = 13 +k;
-					tableArrays[counter].push(candidates[k].consMod);
+					tableArrays[counter].push(fameCalc(candidates[k],sample[j]));
 				}
 			}
 			for(var k = 1;k<candidates.length;k++)
@@ -2033,7 +2059,7 @@ function pollCalc(pollChoices, sampleSize)
 				if(pollChoices[i] == "candTrust" + candidates[k].name)
 				{
 					var counter = 18 +k;
-					tableArrays[counter].push(fameCalc(candidates[k],sample[j]));
+					tableArrays[counter].push(candidates[k].consMod);
 				}
 			}
 		}
@@ -2056,7 +2082,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 	var headRow = tableHead.insertRow(0);
 	console.log(tableHeaders);
 	//Makes the table headers based on the chose questions
-	for(var h = 0; h < pollChoices.length; h++)
+	for(var h = 0; h < pollChoices.length+1; h++)
 	{
 		switch(pollChoices[h])
 		{
@@ -2105,6 +2131,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 					cell.innerHTML = tableHeaders[8];
 			break;
 		}
+	
 	
 		for(var k = 0;k<positions.length;k++)
 		{
@@ -2167,9 +2194,9 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 	for(var h = 0; h<sSize; h++)
 	{
 		row = table.insertRow(h);
-		for(var i = 0; i < pollChoices.length ;i++)
+		for(var i = 0; i < pollChoices.length+1 ;i++)
 		{
-			switch(pollChoices[h])
+			switch(pollChoices[i])
 			{
 				case "issFav":
 						var cell = row.insertCell(i);
@@ -2220,7 +2247,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 			{
 				if(pollChoices[i] == "issue" + positionsLower[k])
 				{
-					switch(pollChoices[h])
+					switch(pollChoices[i])
 					{
 						case "issuetuition":
 								var cell = row.insertCell(i);
@@ -2264,7 +2291,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 				{
 							var cell = row.insertCell(i);
 							var counter = 18+k;
-							cell.innerHTML = tableArray2[counter][h];
+							cell.innerHTML = parseFloat(tableArray2[counter][h]).toFixed(2);
 				}
 			}
 		}
