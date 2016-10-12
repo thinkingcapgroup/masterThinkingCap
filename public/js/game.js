@@ -98,11 +98,7 @@ function Student(group, ecoClass, major, tuitionScore, athleticScore, researchSc
 }
 
 //setting up some more variables
-var player = {	
-	wrongAnswers:0,
-}
-var candidate;
-var opponent;
+
 var turnCounter;
 var population;
 var sample;
@@ -114,7 +110,7 @@ var population = 1000;
 
 //starts the game
 function startGame(){
-	hours = 60;
+	
 	//whatever other things we have to do when initializing the game here
 	var date = Date.now();
 	console.log("Game initialized and loaded @ T:" + date);	
@@ -134,8 +130,8 @@ function startGame(){
 
 /*GAME INTRO FUNCTIONS8*/
 function startCharacterSelect(){
-	
-
+	var prevHours = document.getElementById("playerInfo");
+	prevHours.innerHTML = "";
 	//character creator here
 	//for right now we'll do a drop down option
 	document.getElementById("gameInfo").innerHTML = "<h1>Character Creation</h1>";
@@ -715,7 +711,7 @@ function gameCycleStart(f)
 		var oppFocus = Math.floor(Math.random(0,4));
 		opponentCandidate.focus = positions[oppChoice[oppFocus]];
 		opponentCandidate.focusnum = oppChoice[oppFocus];
-		opponentCandidate.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+		opponentCandidate.fame = [2,2,2,2,2,2,2.2,1,1,1,1,1,1,1,1];
 		opponentCandidate.consMod = 0;
 		//console.log(oppFocus);
 		switch(oppChoice[oppFocus])
