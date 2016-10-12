@@ -55,6 +55,7 @@ var majorIssues =
 	[0,3,0,4,-3,1,3,1,-2,1]
 ];
 	
+var oppChoice = [];
 
 var currentEvents = [];
 var sample = [];
@@ -73,9 +74,8 @@ var population = 1000;
 //Starts the game
 function startGame(){
 	hours = 60;
-	playerCandidate.fame = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	//whatever other things we have to do when initializing the game here
-	console.log("Game initialized and loaded!");
+	//console.log("Game initialized and loaded!");
 	
 	var Json;
 	var oReq = new XMLHttpRequest();
@@ -108,7 +108,6 @@ function startOtherCandidates(){
 	playerCandidate.race = document.getElementById("charRace").value;
 	playerCandidate.gender = document.getElementById("charGender").value;
 	playerCandidate.bodyType = document.getElementById("charBody").value;
-	candidates.push(playerCandidate);
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
 	document.getElementById("gameInfo").innerHTML += "<p>You're candidate, <b>"+ playerCandidate.name +"</b> is going up again Liz the Chameleon. They're going for Student Council President just like your playerCandidate. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
 	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial on how to read poll information?</p>"
@@ -141,17 +140,59 @@ function gameCycleStart(f)
 	turnCounter = 1
 	playerCandidate.focus = positions[f];
 	playerCandidate.focusnum = f;
-	
-	//Decides the opponents focus which cannot be the same as the player
-	while(opponentCandidate.focus == "")
+	switch(f)
 	{
-		var oppFocus = Math.random(0,4);
-			if(oppFocus != f)
-			{
-				opponentCandidate.focus = positions[oppFocus];
-				opponentCandidate.focusnum = oppFocus;
-			}
+		case 0:
+		playerCandidate.issueScore[0]++;
+		break;
+		case 1:
+		playerCandidate.issueScore[1]++;
+		break;
+		case 2:
+		playerCandidate.issueScore[2]++;
+		break;
+		case 3:
+		playerCandidate.issueScore[3]++;
+		break;
+		case 4:
+		playerCandidate.issueScore[4]++;
+		break;
 	}
+	candidates.push(playerCandidate);
+	
+	for ( var i =0;i<5; i++)
+	{
+		if(i!=f)
+		{
+			oppChoice.push(i);
+		}
+	}
+
+	//Decides the opponents focus which cannot be the same as the player
+		var oppFocus = Math.floor(Math.random(0,4));
+		opponentCandidate.focus = positions[oppChoice[oppFocus]];
+		opponentCandidate.focusnum = oppChoice[oppFocus];
+		opponentCandidate.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+		opponentCandidate.consMod = 0;
+		//console.log(oppFocus);
+		switch(oppChoice[oppFocus])
+		{
+			case 0:
+			opponentCandidate.issueScore[0]=1;
+			break;
+			case 1:
+			opponentCandidate.issueScore[1]=1;
+			break;
+			case 2:
+			opponentCandidate.issueScore[2]=1;
+			break;
+			case 3:
+			opponentCandidate.issueScore[3]=1;
+			break;
+			case 4:
+			opponentCandidate.issueScore[4]=1;
+			break;
+		}
 	candidates.push(opponentCandidate);
 	
 	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + playerCandidate.focus + "</h2>";
@@ -170,7 +211,7 @@ function userAction()
 	currentEvents = [];
 	
 	//Build User Action Area buttons
-	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + playerCandidate.focus + "</h2>";
+	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidates[0].focus + "</h2>";
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";	
 	for(var i=0; i<pastPollResults.length;i++)
 	{
@@ -265,8 +306,7 @@ function submitAction(id, eventHours)
 	{
 		if(document.getElementById(chosenEvent.options[j].optionID).checked == true)
 		{
-			eventHours+= parseInt(chosenEvent.options[j].extraTime);
-			console.log(eventHours);
+			eventHours+= parseFloat(chosenEvent.options[j].extraTime);
 			//Add Positive/Negative Effects to event based on JSOn
 			var optionPosEffects = chosenEvent.options[j].posEffects.split(",");
 			var optionNegEffects = chosenEvent.options[j].negEffects.split(",");
@@ -303,7 +343,7 @@ function gameCycleEnd()
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
 	
-	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + playerCandidate.focus + "</h2>";
+	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidates[0].focus + "</h2>";
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
 	var finalRes = votePercentage(1000);
 	document.getElementById("gameInfo").innerHTML += "<p> WInner: "+ finalRes.win +"	</p> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
@@ -368,7 +408,7 @@ function poll()
 };
 
 //Displays the result of a poll immediately after it end and then saves the report for later viewing
-function pollResults(subject)
+function pollResults()
 {
 	document.getElementById("event").style.display = "none";
 	var duplicate = false;
@@ -405,7 +445,6 @@ function pollResults(subject)
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 	
-	console.log(pollChoices);
 	
 	if(duplicate)
 	{
@@ -413,7 +452,7 @@ function pollResults(subject)
 	}
 	else
 	{	
-		pollCalc(pollChoices, 80);
+		pollCalc(pollChoices, 20);
 		document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	}
 	
@@ -425,251 +464,253 @@ function pollResults(subject)
 //Takes in an Arrays of Groups to affect with the score increase, and parses through each adding the specified increase in score
 function scoreChanger(scoreInc, groupPos, groupNeg)
 {
-	
+	//console.log(candidates[0].fame);
+	//console.log(candidates[0].issueScore);
+	//console.log(scoreInc);
 	for(var i=0;i<groupPos.length;i++)
 	{
 		
 		switch (groupPos[i]) 
 		{
 			case "Soc":
-				playerCandidate.fame[0]+=parseInt(scoreInc);
-				if(playerCandidate.fame[0] > 2)
+				candidates[0].fame[0]+=parseFloat(scoreInc);
+				if(candidates[0].fame[0] > 2)
 				{
-					playerCandidate.fame[0] = 2;
+					candidates[0].fame[0] = 2;
 				}
-				if(playerCandidate.fame[0] < .1)
+				if(candidates[0].fame[0] < .1)
 				{
-					playerCandidate.fame[0] = .1;
+					candidates[0].fame[0] = .1;
 				}
 				break;
 				
 			case "Ath":
-				playerCandidate.fame[1]+=parseInt(scoreInc);
-				if(playerCandidate.fame[1] > 2)
+				candidates[0].fame[1]+=parseFloat(scoreInc);
+				if(candidates[0].fame[1] > 2)
 				{
-					playerCandidate.fame[1] = 2;
+					candidates[0].fame[1] = 2;
 				}
-				if(playerCandidate.fame[1] < .1)
+				if(candidates[0].fame[1] < .1)
 				{
-					playerCandidate.fame[1] = .1;
+					candidates[0].fame[1] = .1;
 				}
 				break;
 				
 			case "Res":
-				playerCandidate.fame[2]+=parseInt(scoreInc);
-				if(playerCandidate.fame[2] > 2)
+				candidates[0].fame[2]+=parseFloat(scoreInc);
+				if(candidates[0].fame[2] > 2)
 				{
-					playerCandidate.fame[2] = 2;
+					candidates[0].fame[2] = 2;
 				}
-				if(playerCandidate.fame[2] < .1)
+				if(candidates[0].fame[2] < .1)
 				{
-					playerCandidate.fame[2] = .1;
+					candidates[0].fame[2] = .1;
 				}
 				break;
 				
 			case "Medis":
-				playerCandidate.fame[3]+=parseInt(scoreInc);
-				if(playerCandidate.fame[3] > 2)
+				candidates[0].fame[3]+=parseFloat(scoreInc);
+				if(candidates[0].fame[3] > 2)
 				{
-					playerCandidate.fame[3] = 2;
+					candidates[0].fame[3] = 2;
 				}
-				if(playerCandidate.fame[3] < .1)
+				if(candidates[0].fame[3] < .1)
 				{
-					playerCandidate.fame[3] = .1;
+					candidates[0].fame[3] = .1;
 				}
 				break;
 				
 			case "Read":
-				playerCandidate.fame[4]+=parseInt(scoreInc);
-				if(playerCandidate.fame[4] > 2)
+				candidates[0].fame[4]+=parseFloat(scoreInc);
+				if(candidates[0].fame[4] > 2)
 				{
-					playerCandidate.fame[4] = 2;
+					candidates[0].fame[4] = 2;
 				}
-				if(playerCandidate.fame[4] < .1)
+				if(candidates[0].fame[4] < .1)
 				{
-					playerCandidate.fame[4] = .1;
+					candidates[0].fame[4] = .1;
 				}
 				break;
 				
 			case "Bus":
-				playerCandidate.fame[5]+=parseInt(scoreInc);
-				if(playerCandidate.fame[5] > 2)
+				candidates[0].fame[5]+=parseFloat(scoreInc);
+				if(candidates[0].fame[5] > 2)
 				{
-					playerCandidate.fame[5] = 2;
+					candidates[0].fame[5] = 2;
 				}
-				if(playerCandidate.fame[5] < .1)
+				if(candidates[0].fame[5] < .1)
 				{
-					playerCandidate.fame[5] = .1;
+					candidates[0].fame[5] = .1;
 				}
 				break;
 				
 			case "Eng":
-				playerCandidate.fame[6]+=parseInt(scoreInc);
-				if(playerCandidate.fame[6] > 2)
+				candidates[0].fame[6]+=parseFloat(scoreInc);
+				if(candidates[0].fame[6] > 2)
 				{
-					playerCandidate.fame[6] = 2;
+					candidates[0].fame[6] = 2;
 				}
-				if(playerCandidate.fame[6] < .1)
+				if(candidates[0].fame[6] < .1)
 				{
-					playerCandidate.fame[6] = .1;
+					candidates[0].fame[6] = .1;
 				}
 				break;
 				
 			case "Tech":
-				playerCandidate.fame[7]+=parseInt(scoreInc);
-				if(playerCandidate.fame[7] > 2)
+				candidates[0].fame[7]+=parseFloat(scoreInc);
+				if(candidates[0].fame[7] > 2)
 				{
-					playerCandidate.fame[7] = 2;
+					candidates[0].fame[7] = 2;
 				}
-				if(playerCandidate.fame[7] < .1)
+				if(candidates[0].fame[7] < .1)
 				{
-					playerCandidate.fame[7] = .1;
+					candidates[0].fame[7] = .1;
 				}
 				break;
 				
 			case "Fine Arts":
-				playerCandidate.fame[8]+=parseInt(scoreInc);
-				if(playerCandidate.fame[8] > 2)
+				candidates[0].fame[8]+=parseFloat(scoreInc);
+				if(candidates[0].fame[8] > 2)
 				{
-					playerCandidate.fame[8] = 2;
+					candidates[0].fame[8] = 2;
 				}
-				if(playerCandidate.fame[8] < .1)
+				if(candidates[0].fame[8] < .1)
 				{
-					playerCandidate.fame[8] = .1;
+					candidates[0].fame[8] = .1;
 				}
 				break;
 				
 			case "Lib Arts":
-				playerCandidate.fame[9]+=parseInt(scoreInc);
-				if(playerCandidate.fame[9] > 2)
+				candidates[0].fame[9]+=parseFloat(scoreInc);
+				if(candidates[0].fame[9] > 2)
 				{
-					playerCandidate.fame[9] = 2;
+					candidates[0].fame[9] = 2;
 				}
-				if(playerCandidate.fame[9] < .1)
+				if(candidates[0].fame[9] < .1)
 				{
-					playerCandidate.fame[9] = .1;
+					candidates[0].fame[9] = .1;
 				}
 				break;
 				
 			case "Poor":
-				playerCandidate.fame[10]+=parseInt(scoreInc);
-				if(playerCandidate.fame[10] > 2)
+				candidates[0].fame[10]+=parseFloat(scoreInc);
+				if(candidates[0].fame[10] > 2)
 				{
-					playerCandidate.fame[10] = 2;
+					candidates[0].fame[10] = 2;
 				}
-				if(playerCandidate.fame[10] < .1)
+				if(candidates[0].fame[10] < .1)
 				{
-					playerCandidate.fame[10] = .1;
+					candidates[0].fame[10] = .1;
 				}
 				break;
 				
 			case "Low":
-				playerCandidate.fame[11]+=parseInt(scoreInc);
-				if(playerCandidate.fame[11] > 2)
+				candidates[0].fame[11]+=parseFloat(scoreInc);
+				if(candidates[0].fame[11] > 2)
 				{
-					playerCandidate.fame[11] = 2;
+					candidates[0].fame[11] = 2;
 				}
-				if(playerCandidate.fame[11] < .1)
+				if(candidates[0].fame[11] < .1)
 				{
-					playerCandidate.fame[11] = .1;
+					candidates[0].fame[11] = .1;
 				}
 				break;
 				
 			case "Lower Mid":
-				playerCandidate.fame[12]+=parseInt(scoreInc);
-				if(playerCandidate.fame[12] > 2)
+				candidates[0].fame[12]+=parseFloat(scoreInc);
+				if(candidates[0].fame[12] > 2)
 				{
-					playerCandidate.fame[12] = 2;
+					candidates[0].fame[12] = 2;
 				}
-				if(playerCandidate.fame[12] < .1)
+				if(candidates[0].fame[12] < .1)
 				{
-					playerCandidate.fame[12] = .1;
+					candidates[0].fame[12] = .1;
 				}
 				break;
 				
 			case "Upper Mid":
-				playerCandidate.fame[13]+=parseInt(scoreInc);
-				if(playerCandidate.fame[13] > 2)
+				candidates[0].fame[13]+=parseFloat(scoreInc);
+				if(candidates[0].fame[13] > 2)
 				{
-					playerCandidate.fame[13] = 2;
+					candidates[0].fame[13] = 2;
 				}
-				if(playerCandidate.fame[13] < .1)
+				if(candidates[0].fame[13] < .1)
 				{
-					playerCandidate.fame[13] = .1;
+					candidates[0].fame[13] = .1;
 				}
 				break;
 				
 			case "High":
-				playerCandidate.fame[14]+=parseInt(scoreInc);
-				if(playerCandidate.fame[14] > 2)
+				candidates[0].fame[14]+=parseFloat(scoreInc);
+				if(candidates[0].fame[14] > 2)
 				{
-					playerCandidate.fame[14] = 2;
+					candidates[0].fame[14] = 2;
 				}
-				if(playerCandidate.fame[14] < .1)
+				if(candidates[0].fame[14] < .1)
 				{
-					playerCandidate.fame[14] = .1;
+					candidates[0].fame[14] = .1;
 				}
 				break;
 			
 			case "Focus":
-				switch(playerCandidate.focusnum)
+				switch(candidates[0].focusnum)
 				{
 					case 0:
-						playerCandidate.issueScore[0]+=parseInt(scoreInc);
-						if(playerCandidate.issueScore[0] > 4)
+						candidates[0].issueScore[0]+=parseFloat(scoreInc);
+						if(candidates[0].issueScore[0] > 4)
 						{
-							playerCandidate.issueScore[0] = 4;
+							candidates[0].issueScore[0] = 4;
 						}
-						if(playerCandidate.issueScore[0] < -4)
+						if(candidates[0].issueScore[0] < -4)
 						{
-							playerCandidate.issueScore[0] = -4;
+							candidates[0].issueScore[0] = -4;
 						}
 						break;
 						
 					case 1:
-						playerCandidate.issueScore[1]+=parseInt(scoreInc);
-						if(playerCandidate.issueScore[1] > 4)
+						candidates[0].issueScore[1]+=parseFloat(scoreInc);
+						if(candidates[0].issueScore[1] > 4)
 						{
-							playerCandidate.issueScore[1] = 4;
+							candidates[0].issueScore[1] = 4;
 						}
-						if(playerCandidate.issueScore[1] < -4)
+						if(candidates[0].issueScore[1] < -4)
 						{
-							playerCandidate.issueScore[1] = -4;
+							candidates[0].issueScore[1] = -4;
 						}
 						break;
 						
 					case 2:
-						playerCandidate.issueScore[2]+=parseInt(scoreInc);
-						if(playerCandidate.issueScore[2] > 4)
+						candidates[0].issueScore[2]+=parseFloat(scoreInc);
+						if(candidates[0].issueScore[2] > 4)
 						{
-							playerCandidate.issueScore[2] = 4;
+							candidates[0].issueScore[2] = 4;
 						}
-						if(playerCandidate.issueScore[2] < -4)
+						if(candidates[0].issueScore[2] < -4)
 						{
-							playerCandidate.issueScore[2] = -4;
+							candidates[0].issueScore[2] = -4;
 						}
 						break;
 						
 					case 3:
-						playerCandidate.issueScore[3]+=parseInt(scoreInc);
-						if(playerCandidate.issueScore[3] > 4)
+						candidates[0].issueScore[3]+=parseFloat(scoreInc);
+						if(candidates[0].issueScore[3] > 4)
 						{
-							playerCandidate.issueScore[3] = 4;
+							candidates[0].issueScore[3] = 4;
 						}
-						if(playerCandidate.issueScore[3] < -4)
+						if(candidates[0].issueScore[3] < -4)
 						{
-							playerCandidate.issueScore[3] = -4;
+							candidates[0].issueScore[3] = -4;
 						}
 						break;
 					case 4:
-						playerCandidate.issueScore[4]+=parseInt(scoreInc);
-						if(playerCandidate.issueScore[4] > 4)
+						candidates[0].issueScore[4]+=parseFloat(scoreInc);
+						if(candidates[0].issueScore[4] > 4)
 						{
-							playerCandidate.issueScore[4] = 4;
+							candidates[0].issueScore[4] = 4;
 						}
-						if(playerCandidate.issueScore[4] < -4)
+						if(candidates[0].issueScore[4] < -4)
 						{
-							playerCandidate.issueScore[4] = -4;
+							candidates[0].issueScore[4] = -4;
 						}
 						break;
 				}
@@ -677,62 +718,62 @@ function scoreChanger(scoreInc, groupPos, groupNeg)
 				break;
 				
 			case "tuition":
-				playerCandidate.issueScore[0]+=parseInt(scoreInc);
-						if(playerCandidate.issueScore[0] > 4)
+				candidates[0].issueScore[0]+=parseFloat(scoreInc);
+						if(candidates[0].issueScore[0] > 4)
 						{
-							playerCandidate.issueScore[0] = 4;
+							candidates[0].issueScore[0] = 4;
 						}
-						if(playerCandidate.issueScore[0] < -4)
+						if(candidates[0].issueScore[0] < -4)
 						{
-							playerCandidate.issueScore[0] = -4;
+							candidates[0].issueScore[0] = -4;
 						}
 				break;
 				
 			case "athletic":
-				playerCandidate.issueScore[1]+=parseInt(scoreInc);
-						if(playerCandidate.issueScore[1] > 4)
+				candidates[0].issueScore[1]+=parseFloat(scoreInc);
+						if(candidates[0].issueScore[1] > 4)
 						{
-							playerCandidate.issueScore[1] = 4;
+							candidates[0].issueScore[1] = 4;
 						}
-						if(playerCandidate.issueScore[1] < -4)
+						if(candidates[0].issueScore[1] < -4)
 						{
-							playerCandidate.issueScore[1] = -4;
+							candidates[0].issueScore[1] = -4;
 						}
 				break;
 				
 			case "research":
-				playerCandidate.issueScore[2]+=parseInt(scoreInc);
-						if(playerCandidate.issueScore[2] > 4)
+				candidates[0].issueScore[2]+=parseFloat(scoreInc);
+						if(candidates[0].issueScore[2] > 4)
 						{
-							playerCandidate.issueScore[2] = 4;
+							candidates[0].issueScore[2] = 4;
 						}
-						if(playerCandidate.issueScore[2] < -4)
+						if(candidates[0].issueScore[2] < -4)
 						{
-							playerCandidate.issueScore[2] = -4;
+							candidates[0].issueScore[2] = -4;
 						}
 				break;
 				
 			case "events":
-				playerCandidate.issueScore[3]+=parseInt(scoreInc);
-						if(playerCandidate.issueScore[3] > 4)
+				candidates[0].issueScore[3]+=parseFloat(scoreInc);
+						if(candidates[0].issueScore[3] > 4)
 						{
-							playerCandidate.issueScore[3] = 4;
+							candidates[0].issueScore[3] = 4;
 						}
-						if(playerCandidate.issueScore[3] < -4)
+						if(candidates[0].issueScore[3] < -4)
 						{
-							playerCandidate.issueScore[3] = -4;
+							candidates[0].issueScore[3] = -4;
 						}
 				break;
 				
 			case "medical":	
-				playerCandidate.issueScore[4]+=parseInt(scoreInc);
-						if(playerCandidate.issueScore[4] > 4)
+				candidates[0].issueScore[4]+=parseFloat(scoreInc);
+						if(candidates[0].issueScore[4] > 4)
 						{
-							playerCandidate.issueScore[4] = 4;
+							candidates[0].issueScore[4] = 4;
 						}
-						if(playerCandidate.issueScore[4] < -4)
+						if(candidates[0].issueScore[4] < -4)
 						{
-							playerCandidate.issueScore[4] = -4;
+							candidates[0].issueScore[4] = -4;
 						}
 				break;
 				
@@ -756,244 +797,244 @@ function scoreChanger(scoreInc, groupPos, groupNeg)
 		switch (groupNeg[i]) 
 		{
 			case "Soc":
-				playerCandidate.fame[0]-=parseInt(scoreInc);
-				if(playerCandidate.fame[0] > 2)
+				candidates[0].fame[0]-=parseFloat(scoreInc);
+				if(candidates[0].fame[0] > 2)
 				{
-					playerCandidate.fame[0] = 2;
+					candidates[0].fame[0] = 2;
 				}
-				if(playerCandidate.fame[0] < .1)
+				if(candidates[0].fame[0] < .1)
 				{
-					playerCandidate.fame[0] = .1;
+					candidates[0].fame[0] = .1;
 				}
 				break;
 				
 			case "Ath":
-				playerCandidate.fame[1]-=parseInt(scoreInc);
-				if(playerCandidate.fame[1] > 2)
+				candidates[0].fame[1]-=parseFloat(scoreInc);
+				if(candidates[0].fame[1] > 2)
 				{
-					playerCandidate.fame[1] = 2;
+					candidates[0].fame[1] = 2;
 				}
-				if(playerCandidate.fame[1] < .1)
+				if(candidates[0].fame[1] < .1)
 				{
-					playerCandidate.fame[1] = .1;
+					candidates[0].fame[1] = .1;
 				}
 				break;
 				
 			case "Res":
-				playerCandidate.fame[2]-=parseInt(scoreInc);
-				if(playerCandidate.fame[2] > 2)
+				candidates[0].fame[2]-=parseFloat(scoreInc);
+				if(candidates[0].fame[2] > 2)
 				{
-					playerCandidate.fame[2] = 2;
+					candidates[0].fame[2] = 2;
 				}
-				if(playerCandidate.fame[2] < .1)
+				if(candidates[0].fame[2] < .1)
 				{
-					playerCandidate.fame[2] = .1;
+					candidates[0].fame[2] = .1;
 				}
 				break;
 				
 			case "Medis":
-				playerCandidate.fame[3]-=parseInt(scoreInc);
-				if(playerCandidate.fame[3] > 2)
+				candidates[0].fame[3]-=parseFloat(scoreInc);
+				if(candidates[0].fame[3] > 2)
 				{
-					playerCandidate.fame[3] = 2;
+					candidates[0].fame[3] = 2;
 				}
-				if(playerCandidate.fame[3] < .1)
+				if(candidates[0].fame[3] < .1)
 				{
-					playerCandidate.fame[3] = .1;
+					candidates[0].fame[3] = .1;
 				}
 				break;
 				
 			case "Read":
-				playerCandidate.fame[4]-=parseInt(scoreInc);
-				if(playerCandidate.fame[4] > 2)
+				candidates[0].fame[4]-=parseFloat(scoreInc);
+				if(candidates[0].fame[4] > 2)
 				{
-					playerCandidate.fame[4] = 2;
+					candidates[0].fame[4] = 2;
 				}
-				if(playerCandidate.fame[4] < .1)
+				if(candidates[0].fame[4] < .1)
 				{
-					playerCandidate.fame[4] = .1;
+					candidates[0].fame[4] = .1;
 				}
 				break;
 				
 			case "Bus":
-				playerCandidate.fame[5]-=parseInt(scoreInc);
-				if(playerCandidate.fame[5] > 2)
+				candidates[0].fame[5]-=parseFloat(scoreInc);
+				if(candidates[0].fame[5] > 2)
 				{
-					playerCandidate.fame[5] = 2;
+					candidates[0].fame[5] = 2;
 				}
-				if(playerCandidate.fame[5] < .1)
+				if(candidates[0].fame[5] < .1)
 				{
-					playerCandidate.fame[5] = .1;
+					candidates[0].fame[5] = .1;
 				}
 				break;
 				
 			case "Eng":
-				playerCandidate.fame[6]-=parseInt(scoreInc);
-				if(playerCandidate.fame[6] > 2)
+				candidates[0].fame[6]-=parseFloat(scoreInc);
+				if(candidates[0].fame[6] > 2)
 				{
-					playerCandidate.fame[6] = 2;
+					candidates[0].fame[6] = 2;
 				}
-				if(playerCandidate.fame[6] < .1)
+				if(candidates[0].fame[6] < .1)
 				{
-					playerCandidate.fame[6] = .1;
+					candidates[0].fame[6] = .1;
 				}
 				break;
 				
 			case "Tech":
-				playerCandidate.fame[7]-=parseInt(scoreInc);
-				if(playerCandidate.fame[7] > 2)
+				candidates[0].fame[7]-=parseFloat(scoreInc);
+				if(candidates[0].fame[7] > 2)
 				{
-					playerCandidate.fame[7] = 2;
+					candidates[0].fame[7] = 2;
 				}
-				if(playerCandidate.fame[7] < .1)
+				if(candidates[0].fame[7] < .1)
 				{
-					playerCandidate.fame[7] = .1;
+					candidates[0].fame[7] = .1;
 				}
 				break;
 				
 			case "Fine Arts":
-				playerCandidate.fame[8]-=parseInt(scoreInc);
-				if(playerCandidate.fame[8] > 2)
+				candidates[0].fame[8]-=parseFloat(scoreInc);
+				if(candidates[0].fame[8] > 2)
 				{
-					playerCandidate.fame[8] = 2;
+					candidates[0].fame[8] = 2;
 				}
-				if(playerCandidate.fame[8] < .1)
+				if(candidates[0].fame[8] < .1)
 				{
-					playerCandidate.fame[8] = .1;
+					candidates[0].fame[8] = .1;
 				}
 				break;
 				
 			case "Lib Arts":
-				playerCandidate.fame[9]-=parseInt(scoreInc);
-				if(playerCandidate.fame[9] > 2)
+				candidates[0].fame[9]-=parseFloat(scoreInc);
+				if(candidates[0].fame[9] > 2)
 				{
-					playerCandidate.fame[9] = 2;
+					candidates[0].fame[9] = 2;
 				}
-				if(playerCandidate.fame[9] < .1)
+				if(candidates[0].fame[9] < .1)
 				{
-					playerCandidate.fame[9] = .1;
+					candidates[0].fame[9] = .1;
 				}
 				break;
 				
 			case "Poor":
-				playerCandidate.fame[10]-=parseInt(scoreInc);
-				if(playerCandidate.fame[10] > 2)
+				candidates[0].fame[10]-=parseFloat(scoreInc);
+				if(candidates[0].fame[10] > 2)
 				{
-					playerCandidate.fame[10] = 2;
+					candidates[0].fame[10] = 2;
 				}
-				if(playerCandidate.fame[10] < .1)
+				if(candidates[0].fame[10] < .1)
 				{
-					playerCandidate.fame[10] = .1;
+					candidates[0].fame[10] = .1;
 				}
 				break;
 				
 			case "Low":
-				playerCandidate.fame[11]-=parseInt(scoreInc);
-				if(playerCandidate.fame[11] > 2)
+				candidates[0].fame[11]-=parseFloat(scoreInc);
+				if(candidates[0].fame[11] > 2)
 				{
-					playerCandidate.fame[11] = 2;
+					candidates[0].fame[11] = 2;
 				}
-				if(playerCandidate.fame[11] < .1)
+				if(candidates[0].fame[11] < .1)
 				{
-					playerCandidate.fame[11] = .1;
+					candidates[0].fame[11] = .1;
 				}
 				break;
 				
 			case "Lower Mid":
-				playerCandidate.fame[12]-=parseInt(scoreInc);
-				if(playerCandidate.fame[12] > 2)
+				candidates[0].fame[12]-=parseFloat(scoreInc);
+				if(candidates[0].fame[12] > 2)
 				{
-					playerCandidate.fame[12] = 2;
+					candidates[0].fame[12] = 2;
 				}
-				if(playerCandidate.fame[12] < .1)
+				if(candidates[0].fame[12] < .1)
 				{
-					playerCandidate.fame[12] = .1;
+					candidates[0].fame[12] = .1;
 				}
 				break;
 				
 			case "Upper Mid":
-				playerCandidate.fame[13]-=parseInt(scoreInc);
-				if(playerCandidate.fame[13] > 2)
+				candidates[0].fame[13]-=parseFloat(scoreInc);
+				if(candidates[0].fame[13] > 2)
 				{
-					playerCandidate.fame[13] = 2;
+					candidates[0].fame[13] = 2;
 				}
-				if(playerCandidate.fame[13] < .1)
+				if(candidates[0].fame[13] < .1)
 				{
-					playerCandidate.fame[13] = .1;
+					candidates[0].fame[13] = .1;
 				}
 				break;
 				
 			case "High":
-				playerCandidate.fame[14]-=parseInt(scoreInc);
-				if(playerCandidate.fame[14] > 2)
+				candidates[0].fame[14]-=parseFloat(scoreInc);
+				if(candidates[0].fame[14] > 2)
 				{
-					playerCandidate.fame[14] = 2;
+					candidates[0].fame[14] = 2;
 				}
-				if(playerCandidate.fame[14] < .1)
+				if(candidates[0].fame[14] < .1)
 				{
-					playerCandidate.fame[14] = .1;
+					candidates[0].fame[14] = .1;
 				}
 				break;
 			
 			case "Focus":
-				switch(playerCandidate.focusnum)
+				switch(candidates[0].focusnum)
 				{
 					case 0:
-						playerCandidate.issueScore[0]-=parseInt(scoreInc);
-						if(playerCandidate.issueScore[0] > 4)
+						candidates[0].issueScore[0]-=parseFloat(scoreInc);
+						if(candidates[0].issueScore[0] > 4)
 						{
-							playerCandidate.issueScore[0] = 4;
+							candidates[0].issueScore[0] = 4;
 						}
-						if(playerCandidate.issueScore[0] < -4)
+						if(candidates[0].issueScore[0] < -4)
 						{
-							playerCandidate.issueScore[0] = -4;
+							candidates[0].issueScore[0] = -4;
 						}
 						break;
 						
 					case 1:
-						playerCandidate.issueScore[1]-=parseInt(scoreInc);
-						if(playerCandidate.issueScore[1] > 4)
+						candidates[0].issueScore[1]-=parseFloat(scoreInc);
+						if(candidates[0].issueScore[1] > 4)
 						{
-							playerCandidate.issueScore[1] = 4;
+							candidates[0].issueScore[1] = 4;
 						}
-						if(playerCandidate.issueScore[1] < -4)
+						if(candidates[0].issueScore[1] < -4)
 						{
-							playerCandidate.issueScore[1] = -4;
+							candidates[0].issueScore[1] = -4;
 						}
 						break;
 						
 					case 2:
-						playerCandidate.issueScore[2]-=parseInt(scoreInc);
-						if(playerCandidate.issueScore[2] > 4)
+						candidates[0].issueScore[2]-=parseFloat(scoreInc);
+						if(candidates[0].issueScore[2] > 4)
 						{
-							playerCandidate.issueScore[2] = 4;
+							candidates[0].issueScore[2] = 4;
 						}
-						if(playerCandidate.issueScore[2] < -4)
+						if(candidates[0].issueScore[2] < -4)
 						{
-							playerCandidate.issueScore[2] = -4;
+							candidates[0].issueScore[2] = -4;
 						}
 						break;
 						
 					case 3:
-						playerCandidate.issueScore[3]-=parseInt(scoreInc);
-						if(playerCandidate.issueScore[3] > 4)
+						candidates[0].issueScore[3]-=parseFloat(scoreInc);
+						if(candidates[0].issueScore[3] > 4)
 						{
-							playerCandidate.issueScore[3] = 4;
+							candidates[0].issueScore[3] = 4;
 						}
-						if(playerCandidate.issueScore[3] < -4)
+						if(candidates[0].issueScore[3] < -4)
 						{
-							playerCandidate.issueScore[3] = -4;
+							candidates[0].issueScore[3] = -4;
 						}
 						break;
 					case 4:
-						playerCandidate.issueScore[4]-=parseInt(scoreInc);
-						if(playerCandidate.issueScore[4] > 4)
+						candidates[0].issueScore[4]-=parseFloat(scoreInc);
+						if(candidates[0].issueScore[4] > 4)
 						{
-							playerCandidate.issueScore[4] = 4;
+							candidates[0].issueScore[4] = 4;
 						}
-						if(playerCandidate.issueScore[4] < -4)
+						if(candidates[0].issueScore[4] < -4)
 						{
-							playerCandidate.issueScore[4] = -4;
+							candidates[0].issueScore[4] = -4;
 						}
 						break;
 				}
@@ -1001,62 +1042,62 @@ function scoreChanger(scoreInc, groupPos, groupNeg)
 				break;
 				
 			case "tuition":
-				playerCandidate.issueScore[0]-=parseInt(scoreInc);
-						if(playerCandidate.issueScore[0] > 4)
+				candidates[0].issueScore[0]-=parseFloat(scoreInc);
+						if(candidates[0].issueScore[0] > 4)
 						{
-							playerCandidate.issueScore[0] = 4;
+							candidates[0].issueScore[0] = 4;
 						}
-						if(playerCandidate.issueScore[0] < -4)
+						if(candidates[0].issueScore[0] < -4)
 						{
-							playerCandidate.issueScore[0] = -4;
+							candidates[0].issueScore[0] = -4;
 						}
 				break;
 				
 			case "athletic":
-				playerCandidate.issueScore[1]-=parseInt(scoreInc);
-						if(playerCandidate.issueScore[1] > 4)
+				candidates[0].issueScore[1]-=parseFloat(scoreInc);
+						if(candidates[0].issueScore[1] > 4)
 						{
-							playerCandidate.issueScore[1] = 4;
+							candidates[0].issueScore[1] = 4;
 						}
-						if(playerCandidate.issueScore[1] < -4)
+						if(candidates[0].issueScore[1] < -4)
 						{
-							playerCandidate.issueScore[1] = -4;
+							candidates[0].issueScore[1] = -4;
 						}
 				break;
 				
 			case "research":
-				playerCandidate.issueScore[2]-=parseInt(scoreInc);
-						if(playerCandidate.issueScore[2] > 4)
+				candidates[0].issueScore[2]-=parseFloat(scoreInc);
+						if(candidates[0].issueScore[2] > 4)
 						{
-							playerCandidate.issueScore[2] = 4;
+							candidates[0].issueScore[2] = 4;
 						}
-						if(playerCandidate.issueScore[2] < -4)
+						if(candidates[0].issueScore[2] < -4)
 						{
-							playerCandidate.issueScore[2] = -4;
+							candidates[0].issueScore[2] = -4;
 						}
 				break;
 				
 			case "events":
-				playerCandidate.issueScore[3]-=parseInt(scoreInc);
-						if(playerCandidate.issueScore[3] > 4)
+				candidates[0].issueScore[3]-=parseFloat(scoreInc);
+						if(candidates[0].issueScore[3] > 4)
 						{
-							playerCandidate.issueScore[3] = 4;
+							candidates[0].issueScore[3] = 4;
 						}
-						if(playerCandidate.issueScore[3] < -4)
+						if(candidates[0].issueScore[3] < -4)
 						{
-							playerCandidate.issueScore[3] = -4;
+							candidates[0].issueScore[3] = -4;
 						}
 				break;
 				
 			case "medical":	
-				playerCandidate.issueScore[4]-=parseInt(scoreInc);
-						if(playerCandidate.issueScore[4] > 4)
+				candidates[0].issueScore[4]-=parseFloat(scoreInc);
+						if(candidates[0].issueScore[4] > 4)
 						{
-							playerCandidate.issueScore[4] = 4;
+							candidates[0].issueScore[4] = 4;
 						}
-						if(playerCandidate.issueScore[4] < -4)
+						if(candidates[0].issueScore[4] < -4)
 						{
-							playerCandidate.issueScore[4] = -4;
+							candidates[0].issueScore[4] = -4;
 						}
 				break;
 				
@@ -1073,6 +1114,8 @@ function scoreChanger(scoreInc, groupPos, groupNeg)
 				break;
 		
 		}
+	//console.log(candidates[0].fame);
+	//console.log(candidates[0].issueScore);
 	}
 }
 //sample person
@@ -1086,7 +1129,15 @@ function Student(group, ecoClass, major, tuitionScore, athleticScore, researchSc
 	this.tuitionScore = tuitionScore ;
 	this.eventScore = eventScore;
 	this.medicalScore = medicalScore ;
-	this.studentCaring = Math.random(.1,1.0);
+	this.studentCaring = Math.random(.1,1.0).toFixed(2);
+	
+	this.results =
+	{
+		winPer: 0,
+		win: "",
+		losPer: 0,
+		los:""
+	};
 }
 
 //used for making Player Candidate & Opponent Candidate
@@ -1151,41 +1202,51 @@ function getScores(){
 
 function votePercentage(sampleSize)
 {
-	var winPercentage=0;
-	var winner ="";
-	var lowPercentage=0;
-	var loser ="";
+	//console.log(candidates);
 	createSample(sampleSize);
-	for(var j=0;j<candidates.length; j++)
-	{
-		for(var i =0; i<sample.length; i++)
+	for(var i =0; i<sample.length; i++)
 		{
+		var winPercentage=0;
+		var winner ="";
+		var lowPercentage=0;
+		var loser ="";
+		for(var j=0;j<candidates.length; j++)
+		{
+			//console.log(sample[i]);
 			var fame = 0; 
 			fame = fameCalc(candidates[j], sample[i]);
+			//console.log(candidates[j].name +" Fame: "+ fame);
 			
-			var issues = parseInt(sample[i].tuitionScore + candidates[j].issueScore[0]) + parseInt(sample[i].athleticScore + candidates[j].issueScore[1]) + parseInt(sample[i].researchScore+ candidates[j].issueScore[2])+ parseInt(sample[i].eventScore  + candidates[j].issueScore[3])+ parseInt(sample[i].medicalScore+ candidates[j].issueScore[4]);
+			var issues = parseFloat(sample[i].tuitionScore) + parseFloat(candidates[j].issueScore[0]) + parseFloat(sample[i].athleticScore) + parseFloat(candidates[j].issueScore[1]) + parseFloat(sample[i].researchScore)+ parseFloat(candidates[j].issueScore[2])+ parseFloat(sample[i].eventScore)  + parseFloat(candidates[j].issueScore[3])+ parseFloat(sample[i].medicalScore) + parseFloat(candidates[j].issueScore[4]);
+			//console.log(candidates[j].name +" Issue Score: "+ issues);
 			
-			candWinPer = fame + (issues*sample[i].studentCaring) + candidates[j].consMod;
-			if(candWinPer > winPercentage ||winPercentage==0)
+			var candWinPer = fame + (issues*sample[i].studentCaring) + candidates[j].consMod;
+			//console.log(candidates[j].name +" Win Percentage: "+ candWinPer);
+			//console.log("");
+			
+			
+			if(candWinPer > winPercentage|| winPercentage ==0)
 			{
 				winPercentage = candWinPer;
 				winner = candidates[j].name;
 			}
-			else if((candWinPer < lowPercentage || lowPercentage==0) && winner != candidates[j].name)
+			
+			if(candWinPer < lowPercentage || lowPercentage ==0)
 			{
 				lowPercentage = candWinPer;
 				loser = candidates[j].name;
 			}
+			
 		}
+		//console.log("Student #" +i);
+		//console.log("Winner: " + winner + " Vote Percentage: "+ winPercentage);
+		//console.log("Loser: " + loser + " Vote Percentage: "+ lowPercentage);
+		//console.log("");
+		sample[i].results.winPer = winPercentage;
+		sample[i].results.losPer = lowPercentage;
+		sample[i].results.win = winner;
+		sample[i].results.los = loser;
 	}
-	var results =
-	{
-		winPer: winPercentage,
-		win: winner,
-		losPer: lowPercentage,
-		los:loser
-	};
-	return results;
 }
 
 //Calculates the fame of the player's candidate based on a students group 
@@ -1271,7 +1332,7 @@ function clearScreen()
 	gameOutput.innerHTML = "";
 	prevChoices.innerHTML = "";
 	prevEvent.innerHTML = "";
-	prevTable.innerHTML = "<table id = 'pollTable'></table>";
+	prevTable.innerHTML = "<table><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
 }
 
 //Allows you to view previous polls at any time.
@@ -1285,11 +1346,11 @@ function reportViewer(id)
 //Calculates the results of each poll question from each student in the sample and stores them in an array
 function pollCalc(pollChoices, sampleSize)
 {
-	var res = votePercentage(sampleSize);
+	votePercentage(sampleSize);
 	//Gets the results of each question
-	for(var i = 0; i < pollChoices.length ;i++)
-	{
-		for(var j=0;j<sample.length;j++)
+	for(var j=0;j<sample.length;j++)
+		{
+		for(var i = 0; i < pollChoices.length ;i++)
 		{
 			switch(pollChoices[i])
 			{
@@ -1356,11 +1417,11 @@ function pollCalc(pollChoices, sampleSize)
 				break;
 				
 				case "candFav":
-					tableArrays[2].push(res.win);
+					tableArrays[2].push(sample[j].results.win + " Score: " +sample[j].results.winPer.toFixed(2));
 				break;
 				
 				case "candOpp":
-					tableArrays[3].push(res.los);
+					tableArrays[3].push(sample[j].results.los + " Score: " +sample[j].results.losPer.toFixed(2));
 				break;
 				
 				case "major":
@@ -1376,11 +1437,11 @@ function pollCalc(pollChoices, sampleSize)
 				break;
 				
 				case "fame":
-					tableArrays[7].push(fameCalc(playerCandidate));
+					tableArrays[7].push((fameCalc(candidates[0],sample[j])).toFixed(2));
 				break;
 				
 				case "playTrust":
-					tableArrays[8].push(playerCandidate.consMod);
+					tableArrays[8].push(candidates[0].consMod);
 				break;
 				
 			}
@@ -1391,23 +1452,23 @@ function pollCalc(pollChoices, sampleSize)
 					switch(pollChoices[i])
 					{
 						case "issuetuition":
-							tableArrays[9].push(parseInt(sample[j].tuitionScore));
+							tableArrays[9].push(parseFloat(sample[j].tuitionScore).toFixed(2));
 						break;
 						
 						case "issueathletic":
-							tableArrays[10].push(parseInt(sample[j].athleticScore));
+							tableArrays[10].push(parseFloat(sample[j].athleticScore).toFixed(2));
 						break;
 						
 						case "issueresearch":
-							tableArrays[11].push(parseInt(sample[j].researchScore));
+							tableArrays[11].push(parseFloat(sample[j].researchScore).toFixed(2));
 						break;
 						
 						case "issueevents":
-							tableArrays[12].push(parseInt(sample[j].eventScore));
+							tableArrays[12].push(parseFloat(sample[j].eventScore).toFixed(2));
 						break;
 						
 						case "issuemedical":
-							tableArrays[13].push(parseInt(sample[j].medicalScore));
+							tableArrays[13].push(parseFloat(sample[j].medicalScore.toFixed(2)));
 						break;
 					}
 				}
@@ -1430,169 +1491,181 @@ function pollCalc(pollChoices, sampleSize)
 			}
 		}
 	}
+	//console.log(tableArrays);
 	tableBuilder(pollChoices, tableArrays, sampleSize,false);
 }
 
 //Builds a table by looping through the Array created by pollCalc and putting each value into a cell.
 function tableBuilder(pollChoices, tableArray2, sSize, review)
 {
+	//console.log(tableArray2);
 	var rowCounter = 0;
 	var cellCounter = 0;
-	var studentCounter = 0;
+	var h = 0;
 	
 	
 	var table = document.getElementById("pollTable");
-	var row;
-	for(var h = -1; h<sSize; h++)
+	var tableHead = document.getElementById("tableHead");
+	var headRow = tableHead.insertRow(0);
+	
+	//Makes the table headers based on the chose questions
+	for(var h = 0; h < pollChoices.length; h++)
 	{
-		row = table.insertRow(rowCounter);
+		switch(pollChoices[h])
+		{
+			case "issFav":
+				var cell = headRow.insertCell(h);
+				cell.innerHTML = tableHeaders[0];
+			break;
+					
+			case "issOpp":
+					var cell = headRow.insertCell(h);
+					cell.innerHTML = tableHeaders[1];
+			break;
+			
+			case "candFav":
+					var cell = headRow.insertCell(h);
+					cell.innerHTML = tableHeaders[2];
+			break;
+			
+			case "candOpp":
+					var cell = headRow.insertCell(h);
+					cell.innerHTML = tableHeaders[3];
+			break;
+			
+			case "major":
+					var cell = headRow.insertCell(h);
+					cell.innerHTML = tableHeaders[4];
+			break;
+			
+			case "class":
+					var cell = headRow.insertCell(h);
+					cell.innerHTML = tableHeaders[5];
+			break;
+			
+			case "group":
+					var cell = headRow.insertCell(h);
+					cell.innerHTML = tableHeaders[6];
+			break;
+			
+			case "fame":
+					var cell = headRow.insertCell(h);
+					cell.innerHTML = tableHeaders[7];
+			break;
+			
+			case "playTrust":
+					var cell = headRow.insertCell(h);
+					cell.innerHTML = tableHeaders[8];
+			break;
+		}
+	}
+	for(var k = 0;k<positions.length;k++)
+	{
+		if(pollChoices[i] == "issue" + positionsLower[k])
+		{
+			switch(pollChoices[i])
+			{
+				case "issuetuition":
+					var cell = headRow.insertCell(h);
+					var posInfo = tableHeaders[9] + positions[0];
+					cell.innerHTML = posInfo;
+				break;
+				
+				case "issueathletic":
+					var cell = headRow.insertCell(h);
+					var posInfo = tableHeaders[9] + positions[1];
+					cell.innerHTML = posInfo;
+				break;
+				
+				case "issueresearch":
+					var cell = headRow.insertCell(h);
+					var posInfo = tableHeaders[9] + positions[2];
+					cell.innerHTML = posInfo;
+				break;
+				
+				case "issueevents":
+					var cell = headRow.insertCell(h);
+					var posInfo = tableHeaders[9] + positions[3];
+					cell.innerHTML = posInfo;
+				break;
+				
+				case "issuemedical":
+					var cell = headRow.insertCell(h);
+					var posInfo = tableHeaders[9] + positions[4];
+					cell.innerHTML = posInfo;
+				break;
+			}
+		}
+	}
+	for(var k = 1;k<candidates.length;k++)
+	{
+		if(pollChoices[i] == "candFame" + candidates[k].name)
+		{
+				var cell = headRow.insertCell(h);
+				var candInfo = tableHeaders[10] + candidates[k].name;
+				cell.innerHTML = candInfo;
+		}
+	}
+	for(var k = 1;k<candidates.length;k++)
+	{
+		if(pollChoices[i] == "candTrust" + candidates[k].name)
+		{
+				var cell = headRow.insertCell(rowCounter);
+				var candInfo = tableHeaders[11] + candidates[k].name;
+				cell.innerHTML = candInfo;
+		}
+	}
+	
+	for(var h = 0; h<sSize; h++)
+	{
+		row = table.insertRow(h);
 		for(var i = 0; i < pollChoices.length ;i++)
 		{
 			switch(pollChoices[i])
 			{
 				case "issFav":
-					if(h == -1)
-					{
-						var cell = row.insertCell(cellCounter);
-						cell.innerHTML = tableHeaders[0];
-						cellCounter++;
-					}
-					else
-					{
-						var cell = row.insertCell(cellCounter);
-						cell.innerHTML = tableArray2[0][studentCounter];
-						cellCounter++;
-						studentCounter++;
-						
-					}
+						var cell = row.insertCell(i);
+						cell.innerHTML = tableArray2[0][h];
 				break;
 				
 				case "issOpp":
-					if(h == -1)
-					{
-						var cell = row.insertCell(cellCounter);
-						cell.innerHTML = tableHeaders[1];
-						cellCounter++;
-					}
-					else
-					{
-							var cell = row.insertCell(cellCounter);
-							cell.innerHTML = tableArray2[1][studentCounter];
-						cellCounter++;
-						studentCounter++;
-					}
+							var cell = row.insertCell(i);
+							cell.innerHTML = tableArray2[1][h];
 				break;
 				
 				case "candFav":
-					if(h == -1)
-					{
-						var cell = row.insertCell(cellCounter);
-						cell.innerHTML = tableHeaders[2];
-						cellCounter++;
-					}
-					else
-					{
-							var cell = row.insertCell(cellCounter);
-							cell.innerHTML = tableArray2[2][studentCounter];
-						cellCounter++;
-						studentCounter++;
-					}
+							var cell = row.insertCell(i);
+							cell.innerHTML = tableArray2[2][h];
 				break;
 				
 				case "candOpp":
-					if(h == -1)
-					{
-						var cell = row.insertCell(cellCounter);
-						cell.innerHTML = tableHeaders[3];
-						cellCounter++;
-					}
-					else
-					{
-							var cell = row.insertCell(cellCounter);
-							cell.innerHTML = tableArray2[3][studentCounter];
-						cellCounter++;
-						studentCounter++;
-					}
+							var cell = row.insertCell(i);
+							cell.innerHTML = tableArray2[3][h];
 				break;
 				
 				case "major":
-					if(h == -1)
-					{
-						var cell = row.insertCell(cellCounter);
-						cell.innerHTML = tableHeaders[4];
-						cellCounter++;
-					}
-					else
-					{
-							var cell = row.insertCell(cellCounter);
-							cell.innerHTML = tableArray2[4][studentCounter];
-						cellCounter++;
-						studentCounter++;
-					}
+							var cell = row.insertCell(i);
+							cell.innerHTML = tableArray2[4][h];
 				break;
 				
 				case "class":
-					if(h == -1)
-					{
-						var cell = row.insertCell(cellCounter);
-						cell.innerHTML = tableHeaders[5];
-						cellCounter++;
-					}
-					else
-					{
-							var cell = row.insertCell(cellCounter);
-							cell.innerHTML = tableArray2[5][studentCounter];
-						cellCounter++;
-						studentCounter++;
-					}
+							var cell = row.insertCell(i);
+							cell.innerHTML = tableArray2[5][h];
 				break;
 				
 				case "group":
-					if(h == -1)
-					{
-						var cell = row.insertCell(cellCounter);
-						cell.innerHTML = tableHeaders[6];
-						cellCounter++;
-					}
-					else
-					{
-							var cell = row.insertCell(cellCounter);
-							cell.innerHTML = tableArray2[6][studentCounter];
-						cellCounter++;
-						studentCounter++;
-					}
+							var cell = row.insertCell(i);
+							cell.innerHTML = tableArray2[6][h];
 				break;
 				
 				case "fame":
-					if(h == -1)
-					{
-						var cell = row.insertCell(cellCounter);
-						cell.innerHTML = tableHeaders[7];
-						cellCounter++;
-					}
-					else
-					{
-							var cell = row.insertCell(cellCounter);
-							cell.innerHTML = tableArray2[7][studentCounter];
-						cellCounter++;
-						studentCounter++;
-					}
+							var cell = row.insertCell(i);
+							cell.innerHTML = tableArray2[7][h];
 				break;
 				
 				case "playTrust":
-					if(h == -1)
-					{
-						var cell = row.insertCell(cellCounter);
-						cell.innerHTML = tableHeaders[8];
-						cellCounter++;
-					}
-					else
-					{
-							var cell = row.insertCell(cellCounter);
-							cell.innerHTML = tableArray2[8][studentCounter];
-						cellCounter++;
-						studentCounter++;
-					}
+							var cell = row.insertCell(i);
+							cell.innerHTML = tableArray2[8][h];
 				break;
 			}
 			for(var k = 0;k<positions.length;k++)
@@ -1602,87 +1675,28 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 					switch(pollChoices[i])
 					{
 						case "issuetuition":
-						if(h == -1)
-						{
-							var cell = row.insertCell(cellCounter);
-							var posInfo = tableHeaders[9] + positions[0];
-							cell.innerHTML = posInfo;
-							cellCounter++;
-						}
-						else
-						{
-								var cell = row.insertCell(cellCounter);
-								cell.innerHTML = tableArray2[9][studentCounter];
-						cellCounter++;
-						studentCounter++;
-						}
+								var cell = row.insertCell(i);
+								cell.innerHTML = tableArray2[9][h];
 						break;
 						
 						case "issueathletic":
-							if(h == -1)
-						{
-							var cell = row.insertCell(cellCounter);
-							var posInfo = tableHeaders[9] + positions[1];
-							cell.innerHTML = posInfo;
-							cellCounter++;
-						}
-						else
-						{
-								var cell = row.insertCell(cellCounter);
-								cell.innerHTML = tableArray2[10][studentCounter];
-						cellCounter++;
-						studentCounter++;
-						}
+								var cell = row.insertCell(i);
+								cell.innerHTML = tableArray2[10][h];
+						break;
 						
 						case "issueresearch":
-							if(h == -1)
-						{
-							var cell = row.insertCell(cellCounter);
-							var posInfo = tableHeaders[9] + positions[2];
-							cell.innerHTML = posInfo;
-							cellCounter++;
-						}
-						else
-						{
-							cell = row.insertCell(cellCounter);
-								cell.innerHTML = tableArray2[11][studentCounter];
-						cellCounter++;
-						studentCounter++;
-						}
+							cell = row.insertCell(i);
+							cell.innerHTML = tableArray2[11][h];
 						break;
 						
 						case "issueevents":
-							if(h == -1)
-						{
-							var cell = row.insertCell(cellCounter);
-							var posInfo = tableHeaders[9] + positions[3];
-							cell.innerHTML = posInfo;
-							cellCounter++;
-						}
-						else
-						{
-								var cell = row.insertCell(cellCounter);
-								cell.innerHTML = tableArray2[12][studentCounter];
-						cellCounter++;
-						studentCounter++;
-						}
+								var cell = row.insertCell(i);
+								cell.innerHTML = tableArray2[12][h];
 						break;
 						
 						case "issuemedical":
-							if(h == -1)
-						{
-							var cell = row.insertCell(cellCounter);
-							var posInfo = tableHeaders[9] + positions[4];
-							cell.innerHTML = posInfo;
-							cellCounter++;
-						}
-						else
-						{
-								var cell = row.insertCell(cellCounter);
-								cell.innerHTML = tableArray2[13][studentCounter];
-								cellCounter++;
-								studentCounter++;
-						}
+								var cell = row.insertCell(i);
+								cell.innerHTML = tableArray2[13][h];
 						break;
 					}
 				}
@@ -1691,51 +1705,21 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 			{
 				if(pollChoices[i] == "candFame" + candidates[k].name)
 				{
-					if(h == -1)
-					{
-						var cell = row.insertCell(cellCounter);
-						var candInfo = tableHeaders[10] + candidates[k].name;
-						cell.innerHTML = candInfo;
-						cellCounter++;
-					}
-					else
-					{
-							var cell = row.insertCell(cellCounter);
+							var cell = row.insertCell(i);
 							var counter = 13+k;
-							cell.innerHTML = tableArray2[counter][studentCounter];
-						cellCounter++;
-						studentCounter++;
-					}
+							cell.innerHTML = tableArray2[counter][h];
 				}
 			}
 			for(var k = 1;k<candidates.length;k++)
+			{	
 				if(pollChoices[i] == "candTrust" + candidates[k].name)
-			{
 				{
-					if(h == -1)
-					{
-						var cell = row.insertCell(rowCounter);
-						var candInfo = tableHeaders[11] + candidates[k].name;
-						cell.innerHTML = candInfo;
-						cellCounter++;
-					}
-					else
-					{
-							var cell = row.insertCell(cellCounter);
+							var cell = row.insertCell(i);
 							var counter = 18+k;
-							cell.innerHTML = tableArray2[counter][studentCounter];
-						cellCounter++;
-						studentCounter++;
-					}
+							cell.innerHTML = tableArray2[counter][h];
 				}
 			}
-			if(studentCounter==sSize)
-			{
-			studentCounter=0;
-			}
 		}
-			rowCounter++;
-			cellCounter = 0;
 	}
 	if(!review)
 	{
@@ -1843,8 +1827,8 @@ function gameCycleEndOld(text){
 };
 
 function gameCycleStartOld(f){
-	playerCandidate.focus = positions[f];
-	playerCandidate.focusnum = f;
+	candidates[0].focus = positions[f];
+	candidates[0].focusnum = f;
 	var gameDiv = document.getElementById("gameInfo");
 	while(gameDiv.firstChild){
 		gameDiv.removeChild(gameDiv.firstChild);
@@ -1858,13 +1842,13 @@ function gameCycleStartOld(f){
 	createSample(Math.floor(Math.random() *100) + 35);
 	//ask the sample a question
 	var para = document.createElement("p");
-	var text = "We have asked the sample you've taken of "+ sample.length+ " out of 1000 students.  We asked them how they feel about " + playerCandidate.focus; + "and they have answered..."
+	var text = "We have asked the sample you've taken of "+ sample.length+ " out of 1000 students.  We asked them how they feel about " + candidates[0].focus; + "and they have answered..."
 	var paratext = document.createTextNode(text);
 	para.appendChild(paratext);
 	document.getElementById("gameInfo").appendChild(para);
 
 	//lets find out how they feel about your position
-	var r = samplePositions(playerCandidate.focusnum);
+	var r = samplePositions(candidates[0].focusnum);
 	var para2 = document.createElement("p");
 	var text = r[0] + " agree on your position, " + r[1] + " are neutral on your position, and " + r[2] + " are against your position."; 
 	var para2text = document.createTextNode(text);
@@ -1886,34 +1870,34 @@ function changePlayerStats(num){
 	
 	
 	if(num ==.3){
-		var textNode = "You created posters and were able to raise people's standing for " + playerCandidate.focus + ".";
+		var textNode = "You created posters and were able to raise people's standing for " + candidates[0].focus + ".";
 		
 	}
 	else if(num == .4){
-		var textNode = "You created a newsletter and were able to raise people's standing for " + playerCandidate.focus + ".";
+		var textNode = "You created a newsletter and were able to raise people's standing for " + candidates[0].focus + ".";
 	}
 	else if(num == .6){
-		var textNode = "You spent time setting up a table in the Student Union and were able to raise people's standing for " + playerCandidate.focus + ".";
+		var textNode = "You spent time setting up a table in the Student Union and were able to raise people's standing for " + candidates[0].focus + ".";
 	}
 	
-	switch(playerCandidate.focusnum){
+	switch(candidates[0].focusnum){
 		case 0:
-			playerCandidate.issueScore[0] += num;
+			candidates[0].issueScore[0] += num;
 			break;
 		case 1:
-			playerCandidate.issueScore[1] += num;
+			candidates[0].issueScore[1] += num;
 			break;
 		
 		case 2:
-			playerCandidate.issueScore[2] += num;
+			candidates[0].issueScore[2] += num;
 			break;
 		
 		case 3:
-			playerCandidate.issueScore[3] += num;
+			candidates[0].issueScore[3] += num;
 			break;
 		
 		case 4:
-			playerCandidate.issueScore[4] += num;
+			candidates[0].issueScore[4] += num;
 			break;
 		
 	}
@@ -1936,7 +1920,7 @@ function samplePositions(){
 	var like = 0
 	var neutral = 0;
 	var dislike = 0;
-	playerPosition = playerCandidate.focusnum;
+	playerPosition = candidates[0].focusnum;
 
 
 	if(playerPosition = 0){
@@ -2012,13 +1996,46 @@ function samplePositions(){
 
 window.onload = startGame();
 
-//Uncomment this to disable the console.
+
+/* Console Disabling Code */
+
+//Disable Console Logging
 //window.console.log = function(){
 //    console.error('The ability to view the console is disabled for security purposes.');
 //    window.console.log = function() {
 //        return false;
 //    }
 //}
+
+//Disable Console Funntions
+Object.defineProperty(window, "console", {
+    value: console,
+    writable: false,
+    configurable: false
+});
+
+var i = 0;
+function showWarningAndThrow() {
+    if (!i) {
+        setTimeout(function () {
+            console.log("%cWarning message", "font: 2em sans-serif; color: yellow; background-color: red;");
+        }, 1);
+        i = 1;
+    }
+    throw "Console is disabled";
+}
+
+var l, n = {
+        set: function (o) {
+            l = o;
+        },
+        get: function () {
+            showWarningAndThrow();
+            return l;
+        }
+    };
+Object.defineProperty(console, "_commandLineAPI", n);
+Object.defineProperty(console, "__commandLineAPI", n);
 
 
 
