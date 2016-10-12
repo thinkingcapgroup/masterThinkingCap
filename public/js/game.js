@@ -2015,7 +2015,7 @@ function pollCalc(pollChoices, sampleSize)
 						break;
 						
 						case "issuemedical":
-							tableArrays[13].push(parseFloat(sample[j].medicalScore.toFixed(2)));
+							tableArrays[13].push(parseFloat(sample[j].medicalScore).toFixed(2));
 						break;
 					}
 				}
