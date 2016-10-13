@@ -1,0 +1,34 @@
+#login {
+
+  #login-section {
+    position: absolute;
+    text-align: center;
+    @include center(xy);
+    text-transform: uppercase;
+
+
+  }
+
+  #login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .input {
+      margin: $content-padding 0;
+    }
+
+  }
+
+  #normal-curve-container {
+    background: url('../media/img/login/normalcurve.gif');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 250px;
+    height: 250px;
+    transform: translateX(-100vw);
+    animation: moveNormalCurveLeft 10s linear;
+  }
+
+}

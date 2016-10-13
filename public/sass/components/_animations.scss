@@ -1,0 +1,28 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes moveNormalCurveLeft {
+  0% {
+    transform: translateX(70vw);
+  }
+  100% {
+    transform: translateX(-70vw);
+  }
+}
