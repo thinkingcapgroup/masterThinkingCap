@@ -1,0 +1,17 @@
+header {
+
+}
+
+.thinking-cap-header {
+	margin: $content-padding 0;
+	padding: 5px;
+	border: 5px solid $foreground-color;
+}
+
+.thinking-cap-title {
+	padding: $content-padding;
+	background: $light-blue;
+	border: 5px solid $foreground-color;
+	text-transform: uppercase;
+	text-align: center;
+}

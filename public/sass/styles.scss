@@ -5,9 +5,20 @@
         './partials/variables',
 
         // Components
+        './components/reset',
+        './components/animations',
         './components/fonts',
         './components/base',
+        './components/header',
+        './components/footer',
+        './components/buttons',
+        './components/forms',
+        './components/cards',
 
         // Views
         './views/index',
-        './views/newUser';
+        './views/login',
+        './views/viewLayout',
+
+        // TEST FILE
+        './test';

@@ -1,25 +1,24 @@
-<div id='index'>
-  <section id='welcome-section'>
-    <h1>Welcome</h1>
-    <ul>
-      <li>
-        <a class='btn btn-primary' href='/auth/google'>Returning User</a>
-        <a class='btn btn-default' href='/newuser'>New User</a>
-      </li>
-    </ul>
- 
-  </section>
-  <footer>
-    <ul id='reference-links'>
-      <li>
-        <a href='/'>Privacy</a>
-      </li>
-      <li>
-        <a href='/'>Support</a>
-      </li>
-      <li>
-        <a href='/'>Terms of Service</a>
-      </li>
-    </ul>
-  </footer>
-</div>
+<main class='full-page' id='index'>
+  <article class='wrapper'>
+    <header class='thinking-cap-header'>
+      <h1 class='thinking-cap-title'>{{content.appTitle}}</h1>
+    </header>
+    <section id='index-section'>
+      <h1 id='index-title'>Welcome</h1>
+      <a id='index-link' href='/login' class='btn double'>Proceed</a>
+    </section>
+    <footer id='footer'>
+      <ul id='reference-links'>
+        <li>
+          <a href='/help'>Help</a>
+        </li>
+        <li>
+          <a href='/terms'>Terms of Service</a>
+        </li>
+        <li>
+          <a href='/credits'>Credits</a>
+        </li>
+      </ul>
+    </footer>
+  </article>
+</main>

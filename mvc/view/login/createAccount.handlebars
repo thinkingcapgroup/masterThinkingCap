@@ -1,0 +1,190 @@
+<main class='main-page-layout' id='create-account'>
+  <article class='wrapper'>
+    <header id='main-page-header'>
+      <h1 id='main-page-title'>{{content.pageTitle}}</h1>
+    </header>
+    <section id='main-page-section'>
+      <form method='post' action='/createaccount' class='form'>
+        <legend>
+          New User
+        </legend>
+          <p>
+            Please fill out the fields below with your information.
+          </p>
+          <ul class='form-fields'>
+            <li>
+              <label id='firstNameLabel' for='firstName'>First Name:</label>
+              <input id='firstName' class='input' type='text' name='firstName' value='{{user.firstName}}' />
+            </li>
+            <li>
+              <label id='lastNameLabel' for='lastName'>Last Name:</label>
+              <input id='lastName' class='input' type='text' name='lastName' value='{{user.lastName}}' />
+            </li>
+            <li>
+              <label id='displayNameLabel' for='displayName'>Display Name:</label>
+              <input id='displayName' class='input' type='text' name='displayName' value='{{user.displayName}}' />
+            </li>
+            <li>
+              <label id='usernameLabel' for='username'>Username: <span class='required-asterisk'>*</span></label>
+              <input id='username' class='input' type='text' name='username' value='{{user.email}}' required/>
+            </li>
+            <li>
+              <label id='emailLabel' for='email'>Email: <span class='required-asterisk'>*</span></label>
+              <input id='email' class='input' type='text' name='email' value='{{user.email}}' disabled required/>
+            </li>
+            <li>
+              <label id='majorLabel' for='major'>Major:</label>
+              <input id='major' class='input' type='text' name='major'/>
+            </li>
+            <li>
+              <label id='schoolYearLabel' for='schoolYear'>School Year:</label>
+              <select name='schoolYear'>
+                <option value='1'>
+                  First Year
+                </option>
+                <option value='2'>
+                  Second Year
+                </option>
+                <option value='3'>
+                  Third Year
+                </option>
+                <option value='4'>
+                  Fourth Year
+                </option>
+                <option value='5'>
+                  Fifth Year
+                </option>
+                <option value='grad'>
+                  Graduate Student
+                </option>
+              </select>
+            </li>
+            <li>
+              <label id='languagesLabel' for='languages'>List any languages you know separated by a ','</label>
+              <input id='languages' class='input' type='text' name='languages' placeholder='ASL, English'/>
+            </li>
+            <li>
+              <label id='mathCoursesTakenLabel' for='mathCoursesTaken'>List any math courses you have taken separated by a ','</label>
+              <input id='mathCoursesTaken' class='input' type='text' name='mathCoursesTaken' placeholder='College Algebra, Trignonomety'/>
+            </li>
+            <li>
+              <label id='statsCoursesTakenLabel' for='statsCoursesTaken'>Have you taken any statistics Courses before?</label>
+              <ul>
+                <li>
+                  <input id='yesStats' type='radio' name='statsCoursesTaken' value='yes'>
+                  <label id='yesStatsLabel' for='yesStats'>Yes, I have</label>
+                </li>
+                <li>
+                  <input id='noStats' type='radio' name='statsCoursesTaken' value='no'>
+                  <label id='noStatsLabel' for='noStats'>No, I haven't</label>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <label id='readingLevelLabel' for='readingLevel'>What is your reading level?</label>
+              <select id='readingLevel' name='readingLevel'>
+                <option value='beginner'>
+                  Beginner
+                </option>
+                <option value='intermediate'>
+                  Intermediate
+                </option>
+                <option value='advanced'>
+                  Advanced
+                </option>
+              </select>
+            </li>
+            <li>
+              <label>Gender</label>
+              <ul>
+                <li>
+                  <input id='femaleGender' type='radio' name='gender' value='female'>
+                  <label id='femaleGenderLabel' for='femaleGender'>Female</label>
+                </li>
+                <li>
+                  <input id='maleGender' type='radio' name='gender' value='male'>
+                  <label id='maleGenderLabel' for='maleGender'>Male</label>
+                </li>
+                <li>
+                  <input id='otherGender' type='radio' name='gender' value='other'>
+                  <label id='otherGenderLabel' for='otherGender'>Other</label>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <label>Do you identify as part of the Hard of Hearing/Deaf Community?</label>
+              <ul>
+                <li>
+                  <input id='yesDeafCommunity' type='radio' name='deafCommunity' value='yes'>
+                  <label id='yesDeafCommunityLabel' for='yesDeafCommunity'>Yes</label>
+                </li>
+                <li>
+                  <input id='noDeafCommunity' type='radio' name='deafCommunity' value='no'>
+                  <label id='noDeafCommunityLabel' for='noDeafCommunity'>No</label>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <label>Is your ethnicity Hispanic or Latino?</label>
+              <ul>
+                <li>
+                  <input id='yesLatino' type='radio' name='latino' value='yes'>
+                  <label id='yesLatinoLabel' for='yesLatino'>Yes, I am of Hispanic or Latino origin.</label>
+                </li>
+                <li>
+                  <input id='noLatino' type='radio' name='latino' value='no'>
+                  <label id='noLatinoLabel' for='noLatino'>No, I am not of Hispanic or Latino origin.</label>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <label>What race(s) do you consider yourself to be?</label>
+              <ul>
+                <li>
+                  <input id='raceWhite' type='checkbox' name='race' value='white'>
+                  <label id='raceWhiteLabel' for='raceWhite'>White</label>
+                </li>
+                <li>
+                  <input id='raceBlack' type='checkbox' name='race' value='black'>
+                  <label id='raceBlackLabel' for='raceBlack'>Black or African American</label>
+                </li>
+                <li>
+                  <input id='raceAsian' type='checkbox' name='race' value='asian'>
+                  <label id='raceAsianLabel' for='raceAsian'>Asian</label>
+                </li>
+                <li>
+                  <input id='raceAmerindian' type='checkbox' name='race' value='amerindian'>
+                  <label id='raceAmerindianLabel' for='raceAmerindian'>American Indian or Alaskan Native</label>
+                </li>
+                <li>
+                  <input id='racePacific' type='checkbox' name='race' value='pacific'>
+                  <label id='racePacificLabel' for='racePacific'>Native Hawaiian or Other Pacific Islander</label>
+                </li>
+              </ul>
+            </li>
+            <ul class='action-links'>
+              <li>
+                <button class='btn' type='submit' name='userInfoSubmit' value='true'>Create Account</button>
+              </li>
+              <li>
+                <button class='btn' type='reset'>Clear</button>
+              </li>
+            </ul>
+          </ul>
+      </form>
+    </section>
+    <footer id='footer'>
+      <ul id='reference-links'>
+        <li>
+          <a href='/help'>Help</a>
+        </li>
+        <li>
+          <a href='/terms'>Terms of Service</a>
+        </li>
+        <li>
+          <a href='/credits'>Credits</a>
+        </li>
+      </ul>
+    </footer>
+  </article>
+</main>

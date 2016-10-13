@@ -1,0 +1,22 @@
+.main-page-layout {
+
+  #main-page-header {
+    margin: $content-padding 0;
+  	padding: 5px;
+  }
+
+  #main-page-title {
+    padding: $content-padding;
+    background: $light-blue;
+    border: 5px solid $foreground-color;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  #main-page-section {
+    margin: $content-padding 0;
+    padding: $content-padding;
+
+    border: 5px solid $foreground-color;
+  }
+}
