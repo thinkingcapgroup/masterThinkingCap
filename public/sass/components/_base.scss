@@ -42,10 +42,6 @@ ul {
 }
 
 main {
-	background: url('../media/img/login/thinkingcaploginbg.png');
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
 
 	padding: calc(#{$content-padding} * 2);
 
@@ -64,6 +60,11 @@ main {
 
 		// Hide overflow
 		overflow: hidden;
+
+		background: url('../media/img/login/thinkingcaploginbg.png');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
 	}
 }
 
@@ -78,4 +79,13 @@ main {
 
 .remove {
 	display: none;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 5px;
 }

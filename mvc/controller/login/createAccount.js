@@ -10,8 +10,8 @@ module.exports = function(app){
 
     // If user submits information
     if (req.body.userInfoSubmit) {
-      var race = '',
-          raceLength = rb.race.length;
+      var race = '';
+          //raceLength = rb.race.length;
 
       if (rb.race === Array) {
         // TODO: Fix this
