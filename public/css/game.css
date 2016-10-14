@@ -1,9 +1,9 @@
-body{font-family:'Helvetica Neue'}a{color:#e74c3c}  
-table, th, td {  
-    border: 1px solid black;  
-    border-collapse: collapse;  
-}  
-  
-th, td {  
-    padding: 5px;  
-} 
+body{font-family:'Helvetica Neue'} 
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 5px;
+}
