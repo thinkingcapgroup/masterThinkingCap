@@ -13,6 +13,7 @@ var raceArray = ["Android", "Human", "Martian"];
 var genderArray = ["Non-Binary", "Female", "Male"];
 var bodyTypeArray = ["Thin", "Medium", "Plus", "HoverChair"];
 var back = false;
+var num = 1;
 
 //sprite stuff
 var heads = new Image();
@@ -754,8 +755,8 @@ function userAction()
 	//Build User Action Area buttons
 	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidates[0].focus + "</h2>";
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
-	document.getElementById("choices").innerHTML += "<button type='button'  onclick='poll()'> Take A Poll </button>";
-	document.getElementById("choices").innerHTML += "<button type='button'  onclick='gameCycleEnd()'> Skip to the End </button>";
+	document.getElementById("choices").innerHTML += "<button type='button' class='logEvent' onclick='poll()'> Take A Poll </button>";
+	document.getElementById("choices").innerHTML += "<button type='button' class='logEvent' onclick='gameCycleEnd()'> Skip to the End </button>";
 	document.getElementById("choices").innerHTML += "<br>";
 	for(var i=0; i<pastPollResults.length;i++)
 	{
@@ -805,7 +806,7 @@ function userAction()
 			{
 				var eventDescription = currentEvents[j].name + " - " + currentEvents[j].timeRequired;
 				var arrayPos = currentEvents[j].id -1;
-				document.getElementById("choices").innerHTML += "<button onclick='action( "+ arrayPos+" )'>" + eventDescription + " hours </button>";
+				document.getElementById("choices").innerHTML += "<button class='logEvent' onclick='action( "+ arrayPos+" )'>" + eventDescription + " hours </button>";
 			}
 	}
 
@@ -819,10 +820,11 @@ function action(choice)
 	clearScreen();
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
-	chosenEvent = events[id];
+	chosenEvent = events[choice];
 	back = false;
+	console.log(events);
 	
-	document.getElementById("choices").innerHTML += "<button type='button' onclick='userAction()' >View Poll "+ num +" Result </button>";
+	//document.getElementById("choices").innerHTML += "<button type='button' onclick='userAction()' >View Poll "+ num +" Result </button>";
 	if(remainingHours > chosenEvent.timeRequired)
 	{
 		chosenEvent = events[choice];
@@ -842,19 +844,16 @@ function action(choice)
 				document.getElementById("event").innerHTML += "<h4>" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours</h4>";
 				document.getElementById("event").innerHTML += "<input type='checkbox' id = " + chosenEvent.options[i].optionID+" >";
 			}
-			document.getElementById("event").innerHTML += "<br> <button type='button' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button>";
+			
 		}
 		else if(chosenEvent.type=="largeEvent")
 		{
 	
 		}
 	}
-	else()
-	{
-		
-	}
 
-
+	document.getElementById("event").innerHTML += "<br> <button type='button' class='logEvent' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
+	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='userAction()' > Back </button>";
 	//Show changes to screen
 	document.getElementById("event").style.display = "block";
 };
