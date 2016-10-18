@@ -1975,7 +1975,7 @@ function clearScreen()
 	gameOutput.innerHTML = "";
 	prevChoices.innerHTML = "";
 	prevEvent.innerHTML = "";
-	prevTable.innerHTML = "<table><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
+	prevTable.innerHTML = "<table id = 'tab' class='sortable'><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
 }
 
 function resetGame()
@@ -2388,6 +2388,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 		tableArrays =  [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
 		pollTime(sSize, pollChoices);
 	}
+	sorttable.makeSortable(document.getElementById('tab'));
 	document.getElementById("table").style.display = "block";
 }
 
