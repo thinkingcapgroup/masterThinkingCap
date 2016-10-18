@@ -755,7 +755,7 @@ function userAction()
 	//Build User Action Area buttons
 	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidates[0].focus + "</h2>";
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
-	document.getElementById("choices").innerHTML += "<button type='button' class='logEvent' onclick='poll()'> Take A Poll </button>";
+	document.getElementById("choices").innerHTML += "<button type='button' onclick='poll()'> Take A Poll </button>";
 	document.getElementById("choices").innerHTML += "<button type='button' class='logEvent' onclick='gameCycleEnd()'> Skip to the End </button>";
 	document.getElementById("choices").innerHTML += "<br>";
 	for(var i=0; i<pastPollResults.length;i++)
@@ -939,7 +939,7 @@ function poll()
 	for(var i = 0; i<5 ;i++)
 	{
 		var none = "";
-		document.getElementById("event").innerHTML += " <select id =\"poll"+i+ "\"> </select> ";
+		document.getElementById("event").innerHTML += " <select class = 'pollQ'id =\"poll"+i+ "\"> </select> ";
 		document.getElementById("poll"+i+"").options.add(new Option("None", none));
 			for(var j = 0; j<questions.length; j++)
 			{
@@ -976,7 +976,7 @@ function poll()
 		document.getElementById("event").innerHTML += "<br><br>";
 	}
 	//Displays the screen for this event
-	document.getElementById("next").innerHTML += "<button onclick = 'pollResults()'> Submit Poll </button>";
+	document.getElementById("next").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults()'> Submit Poll </button>";
 	document.getElementById("event").style.display = "block";
 	document.getElementById("next").style.display = "block";
 };
@@ -1929,7 +1929,7 @@ function clearScreen()
 	gameOutput.innerHTML = "";
 	prevChoices.innerHTML = "";
 	prevEvent.innerHTML = "";
-	prevTable.innerHTML = "<table><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
+	prevTable.innerHTML = "<table class='sortable'><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
 }
 
 function resetGame()
@@ -2118,7 +2118,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 	var table = document.getElementById("pollTable");
 	var tableHead = document.getElementById("tableHead");
 	var headRow = tableHead.insertRow(0);
-	console.log(tableHeaders);
+	
 	//Makes the table headers based on the chose questions
 	for(var h = 0; h < pollChoices.length; h++)
 	{

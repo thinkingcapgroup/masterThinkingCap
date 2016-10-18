@@ -15,18 +15,28 @@ module.exports = function(app) {
  
     var event = req.body.eventName;
     var id = req.user.id
-    var stringTem = "\n" + id + " has preformed action " + event + " at " + Date.now();
+    var stringTem = "\n" + id + "-" + event + "-" + Date.now();
 	 	fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
 
       console.log('Student information logged');
     });
-  
-
 	 	res.end();
- 
-
- 
  	});
+
+  app.post('/loggerPoll',  function (req, res, next) {
+     var id = req.user.id
+    var q1 = req.body.q1;
+    var q2 = req.body.q2;
+    var q3 = req.body.q3;
+    var q4 = req.body.q4;
+    var q5 = req.body.q5;
+    var stringThing ="\n"+id+"-"+ q1 + "-" + q2 + "-" +q3 + "-" +q4 + "-" +q5;
+      fs.appendFile('logInfo/useraction.txt', stringThing, function (err) {
+
+      console.log('Student information logged');
+    });
+    res.end();
+  });
 
   function renderMarsUniversityGame(req, res) {
     var model = require('../../model/global')(req, res);
