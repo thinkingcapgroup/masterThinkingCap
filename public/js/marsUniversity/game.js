@@ -808,7 +808,8 @@ function userAction()
 				document.getElementById("choices").innerHTML += "<button onclick='action( "+ arrayPos+" )'>" + eventDescription + " hours </button>";
 			}
 	}
-
+	back = false; 
+	
 	//Show changes to screen
 	document.getElementById("choices").style.display = "block";
 };
@@ -819,11 +820,10 @@ function action(choice)
 	clearScreen();
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
-	chosenEvent = events[id];
+	chosenEvent = events[choice];
 	back = false;
 	
-	document.getElementById("choices").innerHTML += "<button type='button' onclick='userAction()' >View Poll "+ num +" Result </button>";
-	if(remainingHours > chosenEvent.timeRequired)
+	if(remainingHours >= chosenEvent.timeRequired)
 	{
 		chosenEvent = events[choice];
 	
@@ -834,13 +834,15 @@ function action(choice)
 		else if(chosenEvent.type=="smallEvent")
 		{
 			//Creates the screen for the event
-			var eventHours = chosenEvent.timeRequired;
+			var eventHours = parseInt(chosenEvent.timeRequired);
 			document.getElementById("event").innerHTML += "<h4>" + chosenEvent.text + " </h4>";
 	
 			for(var i =0; i<chosenEvent.options.length; i++)
 			{
-				document.getElementById("event").innerHTML += "<h4>" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours</h4>";
-				document.getElementById("event").innerHTML += "<input type='checkbox' id = " + chosenEvent.options[i].optionID+" >";
+				if( (eventHours + parseInt(chosenEvent.options[i].extraTime)) <= remainingHours)
+				{
+					document.getElementById("event").innerHTML += "<input type='radio' id = " + chosenEvent.options[i].optionID + ">" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours <br>";
+				}
 			}
 			document.getElementById("event").innerHTML += "<br> <button type='button' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button>";
 		}
@@ -849,10 +851,11 @@ function action(choice)
 	
 		}
 	}
-	else()
+	else
 	{
-		
+		document.getElementById("event").innerHTML += "<h4> You dont have the enough time left to do the selected action. \n Return to the User Action area to select another action or end the game.</h4>";
 	}
+	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
 
 
 	//Show changes to screen
@@ -870,17 +873,20 @@ function submitAction(id, eventHours)
 	totalNegEffects = chosenEvent.groupNeg.split(",");
 	for(var j =0; j<chosenEvent.options.length; j++)
 	{
-		if(document.getElementById(chosenEvent.options[j].optionID).checked == true)
+		if( (parseFloat(chosenEvent.timeRequired) + parseFloat(chosenEvent.options[j].extraTime)) <= remainingHours)
 		{
-			eventHours+= parseFloat(chosenEvent.options[j].extraTime);
-			//Add Positive/Negative Effects to event based on JSOn
-			var optionPosEffects = chosenEvent.options[j].posEffects.split(",");
-			var optionNegEffects = chosenEvent.options[j].negEffects.split(",");
-			for(var i =0;i<optionPosEffects.length;i++)
-			{totalPosEffects.push(optionPosEffects[i]);}
-
-			for(var k =0;k<optionNegEffects.length;k++)
-			{totalNegEffects.push(optionNegEffects[k]);}
+			if(document.getElementById(chosenEvent.options[j].optionID).checked == true)
+			{
+				eventHours+= parseFloat(chosenEvent.options[j].extraTime);
+				//Add Positive/Negative Effects to event based on JSOn
+				var optionPosEffects = chosenEvent.options[j].posEffects.split(",");
+				var optionNegEffects = chosenEvent.options[j].negEffects.split(",");
+				for(var i =0;i<optionPosEffects.length;i++)
+				{totalPosEffects.push(optionPosEffects[i]);}
+	
+				for(var k =0;k<optionNegEffects.length;k++)
+				{totalNegEffects.push(optionNegEffects[k]);}
+			}
 		}
 	}
 	remainingHours-= eventHours;
@@ -934,48 +940,79 @@ function poll()
 	clearScreen();
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
-
-	document.getElementById("event").innerHTML += "<h4> Select the questions you want to ask on the poll </h4>";
-	//Populates the questions based on the JSON File
-	for(var i = 0; i<5 ;i++)
+	
+	if(remainingHours> 2 )
 	{
-		var none = "";
-		document.getElementById("event").innerHTML += " <select id =\"poll"+i+ "\"> </select> ";
-		document.getElementById("poll"+i+"").options.add(new Option("None", none));
-			for(var j = 0; j<questions.length; j++)
-			{
-				if(questions[j].id == 9)
+		document.getElementById("event").innerHTML += "<h4> Select the amount of people you want to poll. The time will increase by 1 hour for every 10 people.  </h4>";
+		document.getElementById("event").innerHTML += " <select id = 'sample'> </select> ";
+		
+		document.getElementById("sample").options.add(new Option("Sample 10 Students", 10));
+		if(remainingHours> 3 )
+			document.getElementById("sample").options.add(new Option("Sample 20 Students", 20));
+		if(remainingHours> 4 )
+			document.getElementById("sample").options.add(new Option("Sample 30 Students", 30));
+		if(remainingHours> 5 )
+			document.getElementById("sample").options.add(new Option("Sample 40 Students", 40));
+		if(remainingHours> 6 )
+			document.getElementById("sample").options.add(new Option("Sample 50 Students", 50));
+		if(remainingHours> 7 )
+			document.getElementById("sample").options.add(new Option("Sample 60 Students", 60));
+		if(remainingHours> 8 )
+			document.getElementById("sample").options.add(new Option("Sample 70 Students", 70));
+		if(remainingHours> 9 )
+			document.getElementById("sample").options.add(new Option("Sample 80 Students", 80));
+		if(remainingHours> 10 )
+			document.getElementById("sample").options.add(new Option("Sample 90 Students", 90));
+			
+		document.getElementById("event").innerHTML += "<h4> Select the questions you want to ask on the poll. Every set of one or two questions you add will equal an hour. </h4>";
+		//Populates the questions based on the JSON File
+		for(var i = 0; i<5 ;i++)
+		{
+			var none = "";
+			document.getElementById("event").innerHTML += " <select id =\"poll"+i+ "\"> </select> ";
+			document.getElementById("poll"+i+"").options.add(new Option("None", none));
+				for(var j = 0; j<questions.length; j++)
 				{
-					for(var k = 0;k<positions.length;k++)
+					if(questions[j].id == 9)
 					{
-						var questionText = questions[j].question + positions[k];
-						var questionVal = questions[j].value + "" + positionsLower[k];
-						document.getElementById("poll"+i+"").options.add(new Option(questionText, questionVal));
+						for(var k = 0;k<positions.length;k++)
+						{
+							var questionText = questions[j].question + positions[k];
+							var questionVal = questions[j].value + "" + positionsLower[k];
+							document.getElementById("poll"+i+"").options.add(new Option(questionText, questionVal));
+						}
 					}
-				}
-				else if(questions[j].id == 10)
-				{
-					for(var l = 1;l<candidates.length;l++)
+					else if(questions[j].id == 10)
 					{
-						var questionText = questions[j].question +  candidates[l].name;
-						var questionVal = questions[j].value + candidates[l].name;
-						document.getElementById("poll"+i+"").options.add(new Option(questionText, questionVal));
+						for(var l = 1;l<candidates.length;l++)
+						{
+							var questionText = questions[j].question +  candidates[l].name;
+							var questionVal = questions[j].value + candidates[l].name;
+							document.getElementById("poll"+i+"").options.add(new Option(questionText, questionVal));
+						}
 					}
-				}
-				else if(questions[j].id == 11)
-				{
-					for(var l = 1;l<candidates.length;l++)
+					else if(questions[j].id == 11)
 					{
-						var questionText = questions[j].question +  candidates[l].name;
-						var questionVal = questions[j].value + candidates[l].name;
-						document.getElementById("poll"+i+"").options.add(new Option(questionText, questionVal));
+						for(var l = 1;l<candidates.length;l++)
+						{
+							var questionText = questions[j].question +  candidates[l].name;
+							var questionVal = questions[j].value + candidates[l].name;
+							document.getElementById("poll"+i+"").options.add(new Option(questionText, questionVal));
+						}
 					}
+					else
+					{document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));}
 				}
-				else
-				{document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));}
-			}
-		document.getElementById("event").innerHTML += "<br><br>";
+			document.getElementById("event").innerHTML += "<br><br>";
+		}
 	}
+	else
+	{
+		document.getElementById("event").innerHTML += "<h4> You do not have enough time remaining to take a poll.</h4>";
+	}
+	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
+	
+	
 	//Displays the screen for this event
 	document.getElementById("next").innerHTML += "<button onclick = 'pollResults()'> Submit Poll </button>";
 	document.getElementById("event").style.display = "block";
@@ -1013,14 +1050,18 @@ function pollResults()
 			}
 		}
 	}
+	
+	var sample = document.getElementById("sample");
+	var sampleSize = parseFloat(sample.options[sample.selectedIndex].value);
+	
 	//Clear previous screen
 	clearScreen();
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 
-	if(pollChoices.length == 0)
+	if(pollChoices.length < 2)
 	{
-		document.getElementById("gameInfo").innerHTML += "<p> You have no questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'poll()'> Reselect Poll Questions </button>";
+		document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'poll()'> Reselect Poll Questions </button>";
 	}
 	else if(duplicate)
 	{
@@ -1028,9 +1069,13 @@ function pollResults()
 		//console.log(duplicate);
 		document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'poll()'> Reselect Poll Questions </button>";
 	}
+	else if(!pollTimeCheck(sampleSize, pollChoices))
+	{
+		document.getElementById("gameInfo").innerHTML += "<p> You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.</p>  <button onclick = 'poll()'> Reselect Poll Questions </button>";
+	}
 	else
 	{
-		pollCalc(pollChoices, 20);
+		pollCalc(pollChoices, sampleSize);
 		document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	}
 
@@ -2360,7 +2405,24 @@ function pollTime(sSize, pollQuestions)
 	remainingHours -= timeRequired;
 }
 
+function pollTimeCheck(sSize, pollQuestions)
+{
+	if(pollQuestions.length%2 == 0)
+	{
+		timeRequired = sSize/10 + (pollQuestions.length*.5);
+	}
+	else
+	{
+		timeRequired = sSize/10 + (pollQuestions.length*0.5) +0.5;
+	}
+	return (timeRequired < remainingHours);
+}
 
+function backtoUA()
+{
+	back = true;
+	userAction();
+}
 /* Back Button Prevention code */
 function HandleBackFunctionality()
 {
