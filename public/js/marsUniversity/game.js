@@ -772,11 +772,11 @@ function userAction()
 		currentEvents = [];
 	
 		//Adds events to button list randomly from those available and Prevents Duplicates and events with more time than is available
-		for(var i = 0;i<5;i++)
+		for(var i = 1;i<events.length;i++)
 		{
 			var addEvent = true;
-			var random = Math.floor(Math.random() * events.length);
-			var currentEvent = events[random];
+			
+			var currentEvent = events[i];
 			for(var j = 0;j<currentEvents.length;j++)
 			{
 	
@@ -792,13 +792,15 @@ function userAction()
 				currentEvents.push(currentEvent);
 				var eventDescription = currentEvent.name + " - " + currentEvent.timeRequired;
 				var arrayPos = currentEvent.id -1;
-				document.getElementById("choices").innerHTML += "<button onclick='action( "+ arrayPos+" )'>" + eventDescription + " hours </button>";
+				document.getElementById("choices").innerHTML += "<input type = 'radio' name = 'actionRadio' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
+				
 			}
 			else
 			{
 				i--;
 			}
 		}
+		document.getElementById("choices").innerHTML += "<button onclick='action()'>Preform Action</button>";
 	}
 	else 
 	{
@@ -806,7 +808,7 @@ function userAction()
 			{
 				var eventDescription = currentEvents[j].name + " - " + currentEvents[j].timeRequired;
 				var arrayPos = currentEvents[j].id -1;
-				document.getElementById("choices").innerHTML += "<button class='logEvent' onclick='action( "+ arrayPos+" )'>" + eventDescription + " hours </button>";
+				document.getElementById("choices").innerHTML += "<button onclick='action()'>Preform Action</button>";
 			}
 	}
 
@@ -814,10 +816,12 @@ function userAction()
 	document.getElementById("choices").style.display = "block";
 };
 
-function action(choice)
+function action()
 {
 	//Clear previous screen
+	var choice = $('input[name="actionRadio"]:checked').val();
 	clearScreen();
+	
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 	chosenEvent = events[choice];
