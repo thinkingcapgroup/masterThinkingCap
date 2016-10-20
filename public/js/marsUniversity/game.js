@@ -1,3 +1,5 @@
+var requirejs = require('requirejs');
+var fs = requirejs("fs");
 //making all the score presets
 var groupList = ["socialite", "athlete", "researcher", "mediaLover", "reader"];
 var majorList = ["business", "engineering", "tech", "fineArts", "libArts"];
@@ -750,6 +752,7 @@ function userAction()
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
 
+	saveGameState();
 
 	//Build User Action Area buttons
 	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidates[0].focus + "</h2>";
@@ -964,7 +967,7 @@ function poll()
 		if(remainingHours> 10 )
 			document.getElementById("sample").options.add(new Option("Sample 90 Students", 90));
 			
-		document.getElementById("event").innerHTML += "<h4> Select the questions you want to ask on the poll. Every set of one or two questions you add will equal an hour. </h4>";
+		document.getElementById("event").innerHTML += "<h4> Select the questions you want to ask on the poll. Every set of one or two questions you add will equal an hour. </h4> <br>";
 		//Populates the questions based on the JSON File
 		for(var i = 0; i<5 ;i++)
 		{
@@ -1010,11 +1013,11 @@ function poll()
 	{
 		document.getElementById("event").innerHTML += "<h4> You do not have enough time remaining to take a poll.</h4>";
 	}
-	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
 	
 	
 	//Displays the screen for this event
 	document.getElementById("next").innerHTML += "<button onclick = 'pollResults()'> Submit Poll </button>";
+	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
 	document.getElementById("event").style.display = "block";
 	document.getElementById("next").style.display = "block";
 };
@@ -2424,6 +2427,59 @@ function backtoUA()
 	back = true;
 	userAction();
 }
+
+function saveGameState()
+{
+	//Create a text file
+	var textContents;
+   //Save contents of pastPollChoices into the text file
+	for(var i=0; i<pastPollChoices.length;i++)
+	{
+		for(var j=0; j<pastPollChoices[i].length;j++)
+		{
+			textContents+=pastPollChoices[j].toString();
+		}
+		textContents+="\n";
+	}
+	textContents+="\n;";
+	
+    //Save contents of pastPollResults into the text file
+	for(var i=0; i<pastPollResults.length;i++)
+	{
+		for(var j=0; j<pastPollResults[i].length;j++)
+		{
+			textContents+=pastPollResults[j].toString();
+		}
+		textContents+="\n";
+	}
+	textContents+="\n;";
+	
+	// Save contents of pastPollSizes   into the text file
+	for(var i=0; i<pastPollSizes.length;i++)
+	{
+		textContents+=pastPollSizes[i].toString();
+	}
+	textContents+="\n;";
+	
+	//Save currentEvents
+	for(var i=0; i<currentEvents.length;i++)
+	{
+		textContents+=currentEvents[i].toString();
+	}
+	textContents+="\n;";
+	
+	//Save candidates array
+	for(var i=0; i<candidates.length;i++)
+	{
+		textContents+=candidates[i].toString();
+	}
+	textContents+="\n;";
+	
+	//Save remainingHours
+	textContents+=remainingHours;
+	
+	fs.writeFile('/public/js/saveFile.txt',textContents);
+}
 /* Back Button Prevention code */
 function HandleBackFunctionality()
 {
@@ -2472,3 +2528,11 @@ var l, n = {
     };
 Object.defineProperty(console, "_commandLineAPI", n);
 Object.defineProperty(console, "__commandLineAPI", n);
+
+
+requirejs.config({
+    //Pass the top-level main.js/index.js require
+    //function to requirejs so that node modules
+    //are loaded relative to the top-level JS file.
+    nodeRequire: require
+});
