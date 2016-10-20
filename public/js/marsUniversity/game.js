@@ -792,7 +792,7 @@ function userAction()
 				currentEvents.push(currentEvent);
 				var eventDescription = currentEvent.name + " - " + currentEvent.timeRequired;
 				var arrayPos = currentEvent.id -1;
-				document.getElementById("choices").innerHTML += "<input type = 'radio' name = 'actionRadio' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
+				document.getElementById("choices").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
 				
 			}
 			else
@@ -801,6 +801,7 @@ function userAction()
 			}
 		}
 		document.getElementById("choices").innerHTML += "<button onclick='action()'>Preform Action</button>";
+		document.getElementById("actionRadio1").checked = true;
 	}
 	else 
 	{

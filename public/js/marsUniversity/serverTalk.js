@@ -20,9 +20,7 @@ $(document).on('change','.pollQ', function(req, res, next){
       var quest = $(this).val();
       var place = $(this).attr('id');
       var x = place.charAt(4);
-      theJSONEvents[x] = quest;
-
-      console.log(theJSONEvents);
+      theJSONEvents[x] = quest; 
 	
  });
 
