@@ -1,5 +1,3 @@
-var requirejs = require('requirejs');
-var fs = requirejs("fs");
 //making all the score presets
 var groupList = ["socialite", "athlete", "researcher", "mediaLover", "reader"];
 var majorList = ["business", "engineering", "tech", "fineArts", "libArts"];
@@ -15,6 +13,7 @@ var raceArray = ["Android", "Human", "Martian"];
 var genderArray = ["Non-Binary", "Female", "Male"];
 var bodyTypeArray = ["Thin", "Medium", "Plus", "HoverChair"];
 var back = false;
+var textContents;
 
 //sprite stuff
 var heads = new Image();
@@ -757,7 +756,7 @@ function userAction()
 	//Build User Action Area buttons
 	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidates[0].focus + "</h2>";
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
-	document.getElementById("choices").innerHTML += "<button type='button'  onclick='poll()'> Take A Poll </button>";
+	document.getElementById("choices").innerHTML += "<button type='button' class = 'saveData'  onclick='poll()'> Take A Poll </button>";
 	document.getElementById("choices").innerHTML += "<button type='button'  onclick='gameCycleEnd()'> Skip to the End </button>";
 	document.getElementById("choices").innerHTML += "<br>";
 	for(var i=0; i<pastPollResults.length;i++)
@@ -794,7 +793,7 @@ function userAction()
 				currentEvents.push(currentEvent);
 				var eventDescription = currentEvent.name + " - " + currentEvent.timeRequired;
 				var arrayPos = currentEvent.id -1;
-				document.getElementById("choices").innerHTML += "<button onclick='action( "+ arrayPos+" )'>" + eventDescription + " hours </button>";
+				document.getElementById("choices").innerHTML += "<button class = 'saveData' onclick='action( "+ arrayPos+" )'>" + eventDescription + " hours </button>";
 			}
 			else
 			{
@@ -2430,8 +2429,6 @@ function backtoUA()
 
 function saveGameState()
 {
-	//Create a text file
-	var textContents;
    //Save contents of pastPollChoices into the text file
 	for(var i=0; i<pastPollChoices.length;i++)
 	{
@@ -2478,7 +2475,7 @@ function saveGameState()
 	//Save remainingHours
 	textContents+=remainingHours;
 	
-	fs.writeFile('/public/js/saveFile.txt',textContents);
+	//$.post('/saver', {saveData: textContents});
 }
 /* Back Button Prevention code */
 function HandleBackFunctionality()
@@ -2528,11 +2525,3 @@ var l, n = {
     };
 Object.defineProperty(console, "_commandLineAPI", n);
 Object.defineProperty(console, "__commandLineAPI", n);
-
-
-requirejs.config({
-    //Pass the top-level main.js/index.js require
-    //function to requirejs so that node modules
-    //are loaded relative to the top-level JS file.
-    nodeRequire: require
-});
