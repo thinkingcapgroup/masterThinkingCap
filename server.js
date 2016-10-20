@@ -8,6 +8,14 @@
 			// Database
 			db,
 			// Database credentials
+			// dbCredentials = {
+			// 	host: 'thinkingcapdb.czhw7fuktjqv.us-east-1.rds.amazonaws.com',
+			// 	port: '3306',
+			// 	user: 'thinkingcap',
+			// 	password: 'thinkingcappassword',
+			// 	database: 'thinkingcap'
+			//
+			// },
 			dbCredentials = {
 				host: 'localhost',
 				user: 'root',
@@ -50,7 +58,7 @@
 		outputStyle: 'compressed',
 		prefix: '/css'
 	}));
-	
+
 	app.use(bodyParser.urlencoded());
 	app.use(bodyParser.json());
 
@@ -145,12 +153,12 @@
 	});
 
 	// TEST
-	// connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
-	// 	if (err) {
-	// 		throw err;
-	// 	}
-	// 	console.log('The solution is: ' + rows[0].solution);
-	// });
+	db.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
+		if (err) {
+			throw err;
+		}
+		console.log('The solution is: ' + rows[0].solution);
+	});
 	// db.query('SELECT * FROM USER', function(err, result, fields) {
 	// 	if (err) {
 	// 		throw err;

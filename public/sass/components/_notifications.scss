@@ -1,0 +1,26 @@
+.notifications {
+  position: absolute;
+  right: $content-padding;
+  background: #e4e4e4;
+  z-index: 9999;
+
+  border-left: 5px solid darken(#e4e4e4, 5%);
+
+  li {
+    padding: 1em;
+    border-bottom: 1px solid #999;
+
+    &:last-of-type {
+      border: none;
+    }
+  }
+
+  &.error-notifications {
+    background: $error-notifications-background;
+    border-color: $error-notifications-background-accent;
+
+    li {
+      border-color: $error-notifications-background-accent;
+    }
+  }
+}
