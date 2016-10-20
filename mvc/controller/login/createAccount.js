@@ -32,27 +32,8 @@ module.exports = function(app){
       validUserData = validateUserInput(req);
 
       if (validUserData) {
-        // If user picked a race
-        if (rb.race) {
-          // check if user picked multiple races
-          if (rb.race === Array) {
-            // Get the length of options user chose
-            userRaceLength = rb.race.length;
 
-            // Go through each option
-            rb.race.forEach(function(r) {
-              // Concatenate options
-              userRace += r + ',';
-            });
-          }
-          // If only one race
-          else {
-            // set user race to that
-            userRace = rb.race;
-          }
-        }
-
-        console.log('Race' + userRace);
+        // Make an object for user data
         userData = {
           userName: rb.username,
           email: req.user.emails[0].value,
@@ -61,7 +42,7 @@ module.exports = function(app){
           displayName: rb.displayName,
           gender: rb.gender,
           ethnicity: rb.latino,
-          race: userRace,
+          race: rb.race,
           major: rb.major,
           schoolYear: rb.schoolYear,
           deafCommunity: rb.deafCommunity,
@@ -75,11 +56,10 @@ module.exports = function(app){
 
         require('../../model/insertUser')(req, userData, function(err, success) {
           if (err) {
-            console.log(err);
+            console.error(err);
             res.redirect('/createaccount');
           }
           else {
-            console.log(success);
             // Allow user to login
              res.redirect('/dashboard');
           }
