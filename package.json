@@ -19,5 +19,7 @@
     "mysql": "^2.11.1",
     "node-sass-middleware": "^0.9.8",
     "passport": "^0.3.2",
-    "passport-google-oauth": "^1.0.0" }
+    "passport-google-oauth": "^1.0.0",
+    "validator": "^6.1.0"
+  }
 }

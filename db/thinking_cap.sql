@@ -6,10 +6,9 @@
 # https://github.com/sequelpro/sequelpro
 #
 # Host: 127.0.0.1 (MySQL 5.7.15)
-# Database: thinking_cap
+# Database: thinkingcap
 # Generation Time: 2016-10-07 20:09:14 +0000
 # ************************************************************
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -19,41 +18,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-
-# Dump of table events
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `events`;
-
-CREATE TABLE `events` (
-  `eventID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'event id',
-  `eventName` varchar(100) DEFAULT NULL COMMENT 'event name',
-  `eventDescription` varchar(1000) DEFAULT NULL COMMENT 'event text',
-  `eventType` varchar(100) DEFAULT NULL COMMENT 'event type',
-  `option1` varchar(100) DEFAULT NULL COMMENT 'option one',
-  `option1Neg` varchar(100) DEFAULT NULL COMMENT 'option one negative',
-  `option1Pos` varchar(100) DEFAULT NULL COMMENT 'option one positive',
-  `option2` varchar(100) DEFAULT NULL COMMENT 'option two',
-  `option2Neg` varchar(100) DEFAULT NULL COMMENT 'option two negative',
-  `option2Pos` varchar(100) DEFAULT NULL COMMENT 'option two positive',
-  `negEffect` varchar(100) DEFAULT NULL COMMENT 'negative Effect',
-  `posEffect` varchar(100) DEFAULT NULL COMMENT 'positive effect',
-  `results` varchar(100) DEFAULT NULL COMMENT 'results',
-  `timeRequired` int(100) unsigned DEFAULT NULL COMMENT 'time required',
-  PRIMARY KEY (`eventID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-LOCK TABLES `events` WRITE;
-/*!40000 ALTER TABLE `events` DISABLE KEYS */;
-
-INSERT INTO `events` (`eventID`, `eventName`, `eventDescription`, `eventType`, `option1`, `option1Neg`, `option1Pos`, `option2`, `option2Neg`, `option2Pos`, `negEffect`, `posEffect`, `results`, `timeRequired`)
-VALUES
-	(1,'Poll','You\'ve decided ot take a poll to gauge opinions about your campaign. Choose the questions you would like to include below.','Small Event','Pay Participant',NULL,'Low/Poor','Publish Findings',NULL,'Read',NULL,'Res',NULL,1);
-
-/*!40000 ALTER TABLE `events` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
 # Dump of table roles
 # ------------------------------------------------------------
 
@@ -61,7 +25,8 @@ DROP TABLE IF EXISTS `roles`;
 
 CREATE TABLE `roles` (
   `roleId` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'role id',
-  `roleName` varchar(64) DEFAULT NULL COMMENT 'role name',
+  `roleName` varchar(64) NOT NULL COMMENT 'role name',
+  `roleAccess` varchar(64) NOT NULL COMMENT 'role access',
   PRIMARY KEY (`roleId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -70,11 +35,14 @@ LOCK TABLES `roles` WRITE;
 
 INSERT INTO `roles` (`roleId`, `roleName`)
 VALUES
-	(1,'Student'),
-	(2,'Instructor'),
-	(3,'Researcher'),
-	(4,'Admin'),
-	(5,'Developer');
+	(1,'Student','none'),
+  (2,'Student','video'),
+  (3,'Student','game'),
+  (4,'Student','all'),
+	(5,'Instructor','all'),
+	(6,'Researcher','all'),
+	(7,'Admin','all'),
+	(8,'Developer','all');
 
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -106,18 +74,6 @@ CREATE TABLE `users` (
   `role` tinyint(1) NOT NULL COMMENT 'user''s role',
   PRIMARY KEY (`userId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-
-INSERT INTO `users` (`userId`, `userName`, `email`, `firstName`, `lastName`, `displayName`, `gender`, `ethnicity`, `race`, `major`, `schoolYear`, `deafCommunity`, `languages`, `mathCoursesTaken`, `statisticsCoursesTaken`, `readingLevel`, `research`, `role`)
-VALUES
-	(2,'aaronjmill.32@gmail.com','aaronjmill.32@gmail.com','Aaron','Miller','Aaron Miller','male','no','white','Blargh','5','no','English','Graphical Liberal Algebra','Yes','advanced','opt-in',5);
-
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

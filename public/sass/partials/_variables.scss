@@ -20,6 +20,12 @@ $foreground-color-accent: $dark;
 $link-color: $black;
 $link-color-hover: $dark;
 
+$error-notifications-background: lighten(#e74c3c, 5%);
+$error-notifications-background-accent: darken(#e74c3c, 5%);
+
+$success-notifications-background: #52D681;
+$success-notifications-background-accent: darken(#52D681, 5%);
+
 $primary-font: 'Times😀', sans-serif;
 $header-font: 'Computerfont😀', sans-serif;
 
