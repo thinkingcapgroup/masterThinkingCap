@@ -12,6 +12,8 @@ var pastPollSizes = [];
 var raceArray = ["Android", "Human", "Martian"];
 var genderArray = ["Non-Binary", "Female", "Male"];
 var bodyTypeArray = ["Thin", "Medium", "Plus", "HoverChair"];
+var back = false;
+var num = 1;
 
 //sprite stuff
 var heads = new Image();
@@ -132,6 +134,7 @@ function startGame(){
 function startCharacterSelect(){
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
+	resetGame();
 	//character creator here
 	//for right now we'll do a drop down option
 	document.getElementById("gameInfo").innerHTML = "<h1>Character Creation</h1>";
@@ -747,13 +750,13 @@ function userAction()
 	var nextArea = document.getElementById("next");
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
-	currentEvents = [];
+
 
 	//Build User Action Area buttons
 	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidates[0].focus + "</h2>";
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
-	document.getElementById("choices").innerHTML += "<button type='button'  onclick='poll()'> Take A Poll </button>";
-	document.getElementById("choices").innerHTML += "<button type='button'  onclick='gameCycleEnd()'> Skip to the End </button>";
+	document.getElementById("choices").innerHTML += "<button type='button' onclick='poll()'> Take A Poll </button>";
+	document.getElementById("choices").innerHTML += "<button type='button' class='logEvent' onclick='gameCycleEnd()'> Skip to the End </button>";
 	document.getElementById("choices").innerHTML += "<br>";
 	for(var i=0; i<pastPollResults.length;i++)
 	{
@@ -764,73 +767,98 @@ function userAction()
 	document.getElementById("gameInfo").innerHTML += "<h4> Opponent\'s Last Move:" + opponentCandidate.lastMove + "</h4>";
 	document.getElementById("choices").innerHTML += "<br>";
 
-
-
-	//Adds events to button list randomly from those available and Prevents Duplicates and events with more time than is available
-	for(var i = 0;i<5;i++)
+	if(!back)
 	{
-		var addEvent = true;
-		var random = Math.floor(Math.random() * events.length);
-		var currentEvent = events[random];
-		for(var j = 0;j<currentEvents.length;j++)
+		currentEvents = [];
+	
+		//Adds events to button list randomly from those available and Prevents Duplicates and events with more time than is available
+		for(var i = 1;i<events.length;i++)
 		{
-
-			if(currentEvent.name == currentEvents[j].name || currentEvent.timeRequired > remainingHours)
+			var addEvent = true;
+			
+			var currentEvent = events[i];
+			for(var j = 0;j<currentEvents.length;j++)
 			{
-				addEvent = false;
+	
+				if(currentEvent.name == currentEvents[j].name || currentEvent.timeRequired > remainingHours)
+				{
+					addEvent = false;
+				}
+	
 			}
-
+	
+			if(addEvent)
+			{
+				currentEvents.push(currentEvent);
+				var eventDescription = currentEvent.name + " - " + currentEvent.timeRequired;
+				var arrayPos = currentEvent.id -1;
+				document.getElementById("choices").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
+				
+			}
+			else
+			{
+				i--;
+			}
 		}
-
-		if(addEvent)
-		{
-			currentEvents.push(currentEvent);
-			var eventDescription = currentEvent.name + " - " + currentEvent.timeRequired;
-			var arrayPos = currentEvent.id -1;
-			document.getElementById("choices").innerHTML += "<button onclick='action( "+ arrayPos+" )'>" + eventDescription + " hours </button>";
-		}
-		else
-		{
-			i--;
-		}
+		document.getElementById("choices").innerHTML += "<button onclick='action()'>Preform Action</button>";
+		document.getElementById("actionRadio1").checked = true;
+	}
+	else 
+	{
+		for(var j = 0;j<currentEvents.length;j++)
+			{
+				var eventDescription = currentEvents[j].name + " - " + currentEvents[j].timeRequired;
+				var arrayPos = currentEvents[j].id -1;
+				document.getElementById("choices").innerHTML += "<button onclick='action()'>Preform Action</button>";
+			}
 	}
 
 	//Show changes to screen
 	document.getElementById("choices").style.display = "block";
 };
 
-function action(choice)
+function action()
 {
 	//Clear previous screen
+	var choice = $('input[name="actionRadio"]:checked').val();
 	clearScreen();
+	
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
-
 	chosenEvent = events[choice];
-
-	if(chosenEvent.type=="minigame")
+	back = false;
+	console.log(events);
+	
+	//document.getElementById("choices").innerHTML += "<button type='button' onclick='userAction()' >View Poll "+ num +" Result </button>";
+	if(remainingHours > chosenEvent.timeRequired)
 	{
-		//Call the function of the minigamegame from the DB
-	}
-	else if(chosenEvent.type=="smallEvent")
-	{
-		//Creates the screen for the event
-		var eventHours = chosenEvent.timeRequired;
-		document.getElementById("event").innerHTML += "<h4>" + chosenEvent.text + " </h4>";
-
-		for(var i =0; i<chosenEvent.options.length; i++)
+		chosenEvent = events[choice];
+	
+		if(chosenEvent.type=="minigame")
 		{
-			document.getElementById("event").innerHTML += "<h4>" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours</h4>";
-			document.getElementById("event").innerHTML += "<input type='checkbox' id = " + chosenEvent.options[i].optionID+" >";
+			//Call the function of the minigamegame from the DB
 		}
-		document.getElementById("event").innerHTML += "<br> <button type='button' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button>";
+		else if(chosenEvent.type=="smallEvent")
+		{
+			//Creates the screen for the event
+			var eventHours = chosenEvent.timeRequired;
+			document.getElementById("event").innerHTML += "<h4>" + chosenEvent.text + " </h4>";
+	
+			for(var i =0; i<chosenEvent.options.length; i++)
+			{
+				document.getElementById("event").innerHTML += "<h4>" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours</h4>";
+				document.getElementById("event").innerHTML += "<input type='checkbox' id = " + chosenEvent.options[i].optionID+" >";
+			}
+			
+		}
+		else if(chosenEvent.type=="largeEvent")
+		{
+	
+		}
 	}
-	else if(chosenEvent.type=="largeEvent")
-	{
 
-	}
-
-
+	document.getElementById("event").innerHTML += "<br> <button type='button' class='logEvent' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
+	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='userAction()' > Back </button>";
 	//Show changes to screen
 	document.getElementById("event").style.display = "block";
 };
@@ -916,7 +944,7 @@ function poll()
 	for(var i = 0; i<5 ;i++)
 	{
 		var none = "";
-		document.getElementById("event").innerHTML += " <select id =\"poll"+i+ "\"> </select> ";
+		document.getElementById("event").innerHTML += " <select class = 'pollQ'id =\"poll"+i+ "\"> </select> ";
 		document.getElementById("poll"+i+"").options.add(new Option("None", none));
 			for(var j = 0; j<questions.length; j++)
 			{
@@ -953,7 +981,7 @@ function poll()
 		document.getElementById("event").innerHTML += "<br><br>";
 	}
 	//Displays the screen for this event
-	document.getElementById("next").innerHTML += "<button onclick = 'pollResults()'> Submit Poll </button>";
+	document.getElementById("next").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults()'> Submit Poll </button>";
 	document.getElementById("event").style.display = "block";
 	document.getElementById("next").style.display = "block";
 };
@@ -994,8 +1022,11 @@ function pollResults()
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 
-
-	if(duplicate)
+	if(pollChoices.length == 0)
+	{
+		document.getElementById("gameInfo").innerHTML += "<p> You have no questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'poll()'> Reselect Poll Questions </button>";
+	}
+	else if(duplicate)
 	{
 		//console.log(pollChoices);
 		//console.log(duplicate);
@@ -1008,6 +1039,8 @@ function pollResults()
 	}
 
 };
+
+
 
 
 /* Helper Functions*/
@@ -1901,7 +1934,21 @@ function clearScreen()
 	gameOutput.innerHTML = "";
 	prevChoices.innerHTML = "";
 	prevEvent.innerHTML = "";
-	prevTable.innerHTML = "<table><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
+	prevTable.innerHTML = "<table class='sortable'><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
+}
+
+function resetGame()
+{
+	tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
+	pastPollChoices = [];
+	pastPollResults = [];
+	pastPollSizes = [];
+	oppChoice = [];
+	currentEvents = [];
+	sample = [];
+	candidates=[];
+	playerCandidate = new CandidateCreate("ph","ph", "ph", "ph")
+	opponentCandidate = new CandidateCreate("Liz", "Lizard", "Non-Binary", "Average");
 }
 
 //Allows you to view previous polls at any time.
@@ -2076,7 +2123,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 	var table = document.getElementById("pollTable");
 	var tableHead = document.getElementById("tableHead");
 	var headRow = tableHead.insertRow(0);
-	console.log(tableHeaders);
+	
 	//Makes the table headers based on the chose questions
 	for(var h = 0; h < pollChoices.length; h++)
 	{
@@ -2180,7 +2227,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 		{
 			if(pollChoices[h] == "candTrust" + candidates[k].name)
 			{
-					var cell = headRow.insertCell(rowCounter);
+					var cell = headRow.insertCell(h);
 					var candInfo = tableHeaders[11] + candidates[k].name;
 					cell.innerHTML = candInfo;
 			}
@@ -2318,6 +2365,11 @@ function pollTime(sSize, pollQuestions)
 }
 
 
+/* Back Button Prevention code */
+function HandleBackFunctionality()
+{
+	
+}
 
 window.onload = startGame();
 
