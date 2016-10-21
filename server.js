@@ -9,11 +9,11 @@
 			db,
 			// Database credentials
 			dbCredentials = {
-				host: 'localhost',
-				user: 'root',
-				password: 'password',
-				database: 'thinking_cap'
-
+				host: 'thinkingcapdb.c2bwfidxhwyj.us-east-2.rds.amazonaws.com',
+				port: '3306',
+				database: 'thinkingcapdb',
+				user: 'thinkingcapdevs',
+				password: 'thinkingcap2016'
 			},
 			handlebars = require('express-handlebars').create(
 				{
@@ -50,7 +50,7 @@
 		outputStyle: 'compressed',
 		prefix: '/css'
 	}));
-	
+
 	app.use(bodyParser.urlencoded());
 	app.use(bodyParser.json());
 
@@ -145,16 +145,10 @@
 	});
 
 	// TEST
-	// connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
+	// db.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
 	// 	if (err) {
 	// 		throw err;
 	// 	}
 	// 	console.log('The solution is: ' + rows[0].solution);
-	// });
-	// db.query('SELECT * FROM USER', function(err, result, fields) {
-	// 	if (err) {
-	// 		throw err;
-	// 	}
-	// 	console.log(result[0]);
 	// });
 }());
