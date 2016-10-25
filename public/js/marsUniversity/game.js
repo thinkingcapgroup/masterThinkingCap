@@ -2,10 +2,10 @@
 var groupList = ["socialite", "athlete", "researcher", "mediaLover", "reader"];
 var majorList = ["business", "engineering", "tech", "fineArts", "libArts"];
 var stuEconomic = ["poverty", "low", "midLow", "midHigh", "high"];
-var playerCandidate = new CandidateCreate("ph","ph", "ph", "ph")
-var opponentCandidate = new CandidateCreate("Liz", "Lizard", "Non-Binary", "Average");
+var playerCandidate = new CandidateCreate("ph")
+var opponentCandidate = new CandidateCreate("Liz");
 var tableHeaders = ["Favored Issue", "Least Favored Issue", "Favored Candidate", "Least Favored Candidate", "Major", "Class", "Group", "Our Candidate's Fame", "Our Candidate's Trust", "Issue Support: ", "Candidate's Fame: ","Candidate's Trust: "];
-var tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
+var tableArrays = [[ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
 var pastPollChoices = [];
 var pastPollResults = [];
 var pastPollSizes = [];
@@ -14,6 +14,7 @@ var genderArray = ["Non-Binary", "Female", "Male"];
 var bodyTypeArray = ["Thin", "Medium", "Plus", "HoverChair"];
 var back = false;
 var textContents;
+var saveState;
 
 //sprite stuff
 var heads = new Image();
@@ -126,7 +127,7 @@ function startGame(){
 		events = Json.events;
 		questions = Json.questions;
 	};
-	oReq.open("get", "json/events.json", true);
+	oReq.open("get", "json/data.json", true);
 	oReq.send();
 }
 
@@ -750,8 +751,8 @@ function userAction()
 	var nextArea = document.getElementById("next");
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
-
-	saveGameState();
+	if(!back)
+		saveGameState();
 
 	//Build User Action Area buttons
 	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidates[0].focus + "</h2>";
@@ -1768,11 +1769,8 @@ function Student(group, ecoClass, major, tuitionScore, athleticScore, researchSc
 }
 
 //used for making Player Candidate & Opponent Candidate
-function CandidateCreate(name,race,gender,bodyType){
+function CandidateCreate(name){
 	this.name = name;
-	this.race = race;
-	this.gender = gender;
-	this.bodyType = bodyType;
 	this.fame= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	this.issueScore= [0,0,0,0,0];
 	this.consMod= .5;
@@ -1999,6 +1997,7 @@ function reportViewer(id)
 {
 	clearScreen();
 	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
+	document.getElementById("next").style.display = "block";
 	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],true);
 }
 
@@ -2429,53 +2428,177 @@ function backtoUA()
 
 function saveGameState()
 {
+	textContents="";
    //Save contents of pastPollChoices into the text file
 	for(var i=0; i<pastPollChoices.length;i++)
 	{
 		for(var j=0; j<pastPollChoices[i].length;j++)
 		{
-			textContents+=pastPollChoices[j].toString();
+				textContents+= pastPollChoices[i][j];
+				if(j!=pastPollChoices[i].length-1)
+				textContents+="*";
 		}
-		textContents+="\n";
+		if(i!=pastPollChoices.length-1)
+			textContents+="_";
 	}
-	textContents+="\n;";
-	
+	textContents+="~";
     //Save contents of pastPollResults into the text file
 	for(var i=0; i<pastPollResults.length;i++)
 	{
 		for(var j=0; j<pastPollResults[i].length;j++)
 		{
-			textContents+=pastPollResults[j].toString();
+			textContents+= pastPollResults[i][j];
+				if(j!=pastPollResults[i].length-1)
+				textContents+="*";
 		}
-		textContents+="\n";
+		if(i!=pastPollResults.length-1)
+			textContents+="_";
 	}
-	textContents+="\n;";
+	textContents+="~";
 	
 	// Save contents of pastPollSizes   into the text file
 	for(var i=0; i<pastPollSizes.length;i++)
 	{
-		textContents+=pastPollSizes[i].toString();
+		textContents+=pastPollSizes[i];
+			if(i!=pastPollSizes.length-1)
+				textContents+="*";
 	}
-	textContents+="\n;";
+	textContents+="~";
 	
 	//Save currentEvents
 	for(var i=0; i<currentEvents.length;i++)
 	{
-		textContents+=currentEvents[i].toString();
+		textContents+=currentEvents[i].id;
+				if(i!=currentEvents.length-1)
+			textContents+="*";
 	}
-	textContents+="\n;";
+	textContents+="~";
 	
 	//Save candidates array
 	for(var i=0; i<candidates.length;i++)
 	{
-		textContents+=candidates[i].toString();
+		textContents+=candidates[i].name;
+			textContents+="*";
+		textContents+=candidates[i].fame;
+			textContents+="*";
+		textContents+=candidates[i].issueScore;
+			textContents+="*";
+		textContents+=candidates[i].consMod;
+			textContents+="*";
+		textContents+=candidates[i].focus;
+			textContents+="*";
+		textContents+=candidates[i].focusnum;
+			textContents+="*";
+		textContents+=candidates[i].winChance;
+			textContents+="*";
+		textContents+=candidates[i].votes;
+			textContents+="*";
+		textContents+=candidates[i].correctAnswers;
+			textContents+="*";
+		textContents+=candidates[i].wrongAnswers;
+			textContents+="*";
+		textContents+=candidates[i].lastMove;
+			textContents+="*";
+		textContents+=candidates[i].raceNum;
+			textContents+="*";
+		textContents+=candidates[i].genderNum;
+			textContents+="*";
+		textContents+=candidates[i].bodyTypeNum;
+			textContents+="*";
+		textContents+=candidates[i].headNum;
+			if(i!=candidates.length-1)
+				textContents+="_";
 	}
-	textContents+="\n;";
+	textContents+="~";
 	
 	//Save remainingHours
 	textContents+=remainingHours;
 	
-	//$.post('/saver', {saveData: textContents});
+	
+	$.post('/saver', {saveData: textContents});
+}
+
+function loadGame()
+{
+	//Takes the Whole data and splits it into sections
+	var saveArray = saveState.split("~");
+	
+	//Past Poll Choices Section
+	var ppcOuterArray = saveArray[0].split("_");
+	for(var i =0; i < ppcOuterArray.length; i++)
+	{
+		pastPollChoices.push(ppcOuterArray[i].split("*"));
+	}
+	
+	// Past Poll Results Section
+	var pprOuterArray = saveArray[1].split("_");
+	
+	for(var i =0; i < pprOuterArray.length; i++)
+	{
+		var pprResults =[];
+		var tempResults = pprOuterArray[i].split("*");
+		for(var j = 0; j< tempResults.length; j++)
+		{
+			if(tempResults[j] != "")
+			{
+				var currentResults = tempResults[j].split(",");
+				pprResults.push(currentResults);
+			}
+			else
+			{
+				pprResults.push([]);
+			}
+		}
+		pastPollResults.push(pprResults);
+	}
+	
+	//Past Poll Sizes Section
+	var ppsArray = saveArray[2].split("_");
+	pastPollSizes = ppsArray[0].split("*");
+	
+	//Current Events Section
+	var ceArray = saveArray[3].split("_");
+	eventIds = ceArray[0].split("*");
+	for(var i =0; i<eventIds.length;i++)
+	{
+		currentEvents.push(events[i]);
+	}
+	
+	//Candidates Section
+	var candArray = saveArray[4].split("_");
+	var candAtts=[]; 
+	for( var i= 0; i < candArray.length; i++)
+	{
+		candAtts.push(candArray[i].split("*"));
+	}
+	for( var i= 0; i < candAtts.length; i++)
+	{
+		var cand = new CandidateCreate(candAtts[i][0]);
+		cand.fame = candAtts[i][1].split(",");
+		cand.issueScore = candAtts[i][2].split(",");
+		cand.consMod = parseFloat(candAtts[i][3]);
+		cand.focus = candAtts[i][4];
+		cand.focusnum = parseInt(candAtts[i][5]);
+		cand.winChance = parseInt(candAtts[i][6]);
+		cand.votes = parseInt(candAtts[i][7]);
+		cand.correctAnswers = parseInt(candAtts[i][8]);
+		cand.wrongAnswers = parseInt(candAtts[i][9]);
+		cand.lastMove = candAtts[i][10];
+		cand.raceNum = parseInt(candAtts[i][11]);
+		cand.genderNum = parseInt(candAtts[i][12]);
+		cand.bodyTypeNum = parseInt(candAtts[i][13]);
+		cand.headnum = parseInt(candAtts[i][14]);
+		
+		candidates.push(cand);
+	}
+
+	console.log(candAtts);
+	
+	//Remaining Hours Section
+	remainingHours = parseInt(saveArray[5]);
+	
+	back=true;
+	userAction();
 }
 /* Back Button Prevention code */
 function HandleBackFunctionality()

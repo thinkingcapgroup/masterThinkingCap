@@ -15,13 +15,6 @@ $(document).on('click','.logEvent', function(req, res, next){
      	    $.post('/logger', {eventName: name});
      } )
  });
- 
-$(document).on('click','.saveData', function(req, res, next){
-      //grab event ID
-      //userAction
-  $.post('/saver', {saveData: textContents});
-  console.log(textContents);
- });
 
 $(document).on('change','.pollQ', function(req, res, next){
       var quest = $(this).val();

@@ -10,6 +10,10 @@ module.exports = function(app) {
 
     renderMarsUniversityGame(req, res);
   });
+  
+  app.get('/ajax', function(req, res) {
+	res.send(getData());
+  });
 
   app.post('/logger',  function (req, res, next) {
  
@@ -25,11 +29,24 @@ module.exports = function(app) {
 	
   app.post('/saver',  function (req, res, next) 
 	{
-	console.log(req.body);
     var stringTem = req.body.saveData;
 	 	fs.writeFile('saveFile/userSave.txt', stringTem, function (err) 
 		{
 			console.log('Save File Updated logged');
+		});
+	 	res.end();
+ 	});
+	
+	app.post('/loader',  function (req, res, next) 
+	{
+	 	fs.readFile('saveFile/userSave.txt', function(err, data) 
+		{
+			if(err) throw err;
+			var array = data.toString().split(";");
+			for(i in array) 
+			{
+				console.log(array[i]);
+			}
 		});
 	 	res.end();
  	});
@@ -49,13 +66,27 @@ module.exports = function(app) {
     res.end();
   });
 
+
   function renderMarsUniversityGame(req, res) {
     var model = require('../../model/global')(req, res);
     model.content.pageTitle = 'Thinking Cap - Mars University';
     model.content.gameTitle = 'Mars University';
-
+	var x = getData();
+	model.saveState = x;
     res.render('marsUniversity/game', model);
   }
 
- 
+ var getData = function() 
+ {
+	var array;
+	var holder = fs.readFileSync('saveFile/userSave.txt', "utf8")
+	
+	array = arrayBuilder(holder);
+ 	return holder;
+ }
+ function arrayBuilder (data) 
+ {
+ 	array = data.toString().split(":");
+ 	return array;
+ };
 };
