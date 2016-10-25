@@ -844,7 +844,7 @@ function action(choice)
 			{
 				if( (eventHours + parseInt(chosenEvent.options[i].extraTime)) <= remainingHours)
 				{
-					document.getElementById("event").innerHTML += "<input type='radio' id = " + chosenEvent.options[i].optionID + ">" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours <br>";
+					document.getElementById("event").innerHTML += "<input type='radio' name = 'option' id = " + chosenEvent.options[i].optionID + ">" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours <br>";
 				}
 			}
 			document.getElementById("event").innerHTML += "<br> <button type='button' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button>";
@@ -2603,11 +2603,10 @@ function loadGame()
 /* Back Button Prevention code */
 function HandleBackFunctionality()
 {
-	
+
 }
 
 window.onload = startGame();
-
 
 /* Console Disabling Code */
 

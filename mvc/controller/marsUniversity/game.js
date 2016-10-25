@@ -29,16 +29,19 @@ module.exports = function(app) {
 	
   app.post('/saver',  function (req, res, next) 
 	{
-    var stringTem = req.body.saveData;
+		//TextFile Saving
+		var stringTem = req.body.saveData;
 	 	fs.writeFile('saveFile/userSave.txt', stringTem, function (err) 
-		{
-			console.log('Save File Updated logged');
-		});
+		{});
 	 	res.end();
+		
+		//Database Saving
+		
  	});
 	
 	app.post('/loader',  function (req, res, next) 
 	{
+		//TextFile Loading
 	 	fs.readFile('saveFile/userSave.txt', function(err, data) 
 		{
 			if(err) throw err;
@@ -49,6 +52,9 @@ module.exports = function(app) {
 			}
 		});
 	 	res.end();
+		
+		//Database Loading
+		
  	});
 
   app.post('/loggerPoll',  function (req, res, next) {
