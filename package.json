@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node-dev server.js"
   },
   "author": "Aaron Miller (aaronjmill.32@gmail.com)",
   "license": "ISC",
@@ -18,6 +19,7 @@
     "mysql": "^2.11.1",
     "node-sass-middleware": "^0.9.8",
     "passport": "^0.3.2",
-    "passport-google-oauth": "^1.0.0"
+    "passport-google-oauth": "^1.0.0",
+    "validator": "^6.1.0"
   }
 }

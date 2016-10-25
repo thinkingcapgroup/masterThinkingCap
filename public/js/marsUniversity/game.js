@@ -13,6 +13,7 @@ var raceArray = ["Android", "Human", "Martian"];
 var genderArray = ["Non-Binary", "Female", "Male"];
 var bodyTypeArray = ["Thin", "Medium", "Plus", "HoverChair"];
 var back = false;
+var num = 1;
 var textContents;
 var saveState;
 
@@ -757,8 +758,8 @@ function userAction()
 	//Build User Action Area buttons
 	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidates[0].focus + "</h2>";
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
-	document.getElementById("choices").innerHTML += "<button type='button' class = 'saveData'  onclick='poll()'> Take A Poll </button>";
-	document.getElementById("choices").innerHTML += "<button type='button'  onclick='gameCycleEnd()'> Skip to the End </button>";
+	document.getElementById("choices").innerHTML += "<button type='button' onclick='poll()'> Take A Poll </button>";
+	document.getElementById("choices").innerHTML += "<button type='button' class='logEvent' onclick='gameCycleEnd()'> Skip to the End </button>";
 	document.getElementById("choices").innerHTML += "<br>";
 	for(var i=0; i<pastPollResults.length;i++)
 	{
@@ -774,11 +775,11 @@ function userAction()
 		currentEvents = [];
 	
 		//Adds events to button list randomly from those available and Prevents Duplicates and events with more time than is available
-		for(var i = 0;i<5;i++)
+		for(var i = 1;i<events.length;i++)
 		{
 			var addEvent = true;
-			var random = Math.floor(Math.random() * events.length);
-			var currentEvent = events[random];
+			
+			var currentEvent = events[i];
 			for(var j = 0;j<currentEvents.length;j++)
 			{
 	
@@ -794,13 +795,16 @@ function userAction()
 				currentEvents.push(currentEvent);
 				var eventDescription = currentEvent.name + " - " + currentEvent.timeRequired;
 				var arrayPos = currentEvent.id -1;
-				document.getElementById("choices").innerHTML += "<button class = 'saveData' onclick='action( "+ arrayPos+" )'>" + eventDescription + " hours </button>";
+				document.getElementById("choices").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
+				
 			}
 			else
 			{
 				i--;
 			}
 		}
+		document.getElementById("choices").innerHTML += "<button onclick='action()'>Preform Action</button>";
+		document.getElementById("actionRadio1").checked = true;
 	}
 	else 
 	{
@@ -808,7 +812,7 @@ function userAction()
 			{
 				var eventDescription = currentEvents[j].name + " - " + currentEvents[j].timeRequired;
 				var arrayPos = currentEvents[j].id -1;
-				document.getElementById("choices").innerHTML += "<button onclick='action( "+ arrayPos+" )'>" + eventDescription + " hours </button>";
+				document.getElementById("choices").innerHTML += "<button onclick='action()'>Preform Action</button>";
 			}
 	}
 	back = false; 
@@ -817,15 +821,18 @@ function userAction()
 	document.getElementById("choices").style.display = "block";
 };
 
-function action(choice)
+function action()
 {
 	//Clear previous screen
+	var choice = $('input[name="actionRadio"]:checked').val();
 	clearScreen();
+	
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 	chosenEvent = events[choice];
 	back = false;
 	
+	//document.getElementById("choices").innerHTML += "<button type='button' onclick='userAction()' >View Poll "+ num +" Result </button>";
 	if(remainingHours >= chosenEvent.timeRequired)
 	{
 		chosenEvent = events[choice];
@@ -847,7 +854,7 @@ function action(choice)
 					document.getElementById("event").innerHTML += "<input type='radio' name = 'option' id = " + chosenEvent.options[i].optionID + ">" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours <br>";
 				}
 			}
-			document.getElementById("event").innerHTML += "<br> <button type='button' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button>";
+			
 		}
 		else if(chosenEvent.type=="largeEvent")
 		{
@@ -861,6 +868,8 @@ function action(choice)
 	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
 
 
+	document.getElementById("event").innerHTML += "<br> <button type='button' class='logEvent' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
+	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='userAction()' > Back </button>";
 	//Show changes to screen
 	document.getElementById("event").style.display = "block";
 };
@@ -972,7 +981,7 @@ function poll()
 		for(var i = 0; i<5 ;i++)
 		{
 			var none = "";
-			document.getElementById("event").innerHTML += " <select id =\"poll"+i+ "\"> </select> ";
+			document.getElementById("event").innerHTML += " <select class = 'pollQ' id =\"poll"+i+ "\"> </select> ";
 			document.getElementById("poll"+i+"").options.add(new Option("None", none));
 				for(var j = 0; j<questions.length; j++)
 				{
@@ -1016,7 +1025,7 @@ function poll()
 	
 	
 	//Displays the screen for this event
-	document.getElementById("next").innerHTML += "<button onclick = 'pollResults()'> Submit Poll </button>";
+	document.getElementById("next").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults()'> Submit Poll </button>";
 	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
 	document.getElementById("event").style.display = "block";
 	document.getElementById("next").style.display = "block";
@@ -2165,7 +2174,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 	var table = document.getElementById("pollTable");
 	var tableHead = document.getElementById("tableHead");
 	var headRow = tableHead.insertRow(0);
-	console.log(tableHeaders);
+	
 	//Makes the table headers based on the chose questions
 	for(var h = 0; h < pollChoices.length; h++)
 	{
