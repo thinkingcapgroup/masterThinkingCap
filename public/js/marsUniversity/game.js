@@ -865,11 +865,10 @@ function action()
 	{
 		document.getElementById("event").innerHTML += "<h4> You dont have the enough time left to do the selected action. \n Return to the User Action area to select another action or end the game.</h4>";
 	}
-	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
 
 
 	document.getElementById("event").innerHTML += "<br> <button type='button' class='logEvent' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
-	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='userAction()' > Back </button>";
+	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
 	//Show changes to screen
 	document.getElementById("event").style.display = "block";
 };
