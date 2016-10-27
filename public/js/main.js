@@ -1,6 +1,14 @@
 (function() {
   'use strict';
 
+  var bugReportButton = document.getElementById('bug-report-button'),
+      bugReportForm = document.getElementById('bug-report-form'),
+      bugReportCancelButton = document.getElementById('bug-report-cancel-button');
+
+  // Event listeners
+  bugReportButton.addEventListener('click', displayBugReportModal);
+  bugReportCancelButton.addEventListener('click', hideBugReportModal);
+
   // Index
   if (document.getElementById('index')) {
     // Hide button
@@ -27,4 +35,13 @@
     }
   } // End Index
 
+  // Shows the bug report modal
+  function displayBugReportModal () {
+    bugReportForm.classList.remove('hide');
+  }
+
+  // Hides the bug report modal
+  function hideBugReportModal () {
+    bugReportForm.classList.add('hide');
+  }
 }());
