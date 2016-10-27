@@ -37,6 +37,8 @@ module.exports = function(app){
         userData = {
           userName: rb.username,
           email: req.user.emails[0].value,
+          password: (rb.password)? rb.password : undefined,
+          passportType: rb.passportType,
           firstName: rb.firstName,
           lastName: rb.lastName,
           displayName: rb.displayName,
@@ -53,7 +55,7 @@ module.exports = function(app){
           research: 'opt-in',
           role: 5,
         }
-
+        console.log(userData);
         require('../../model/insertUser')(req, userData, function(err, success) {
           if (err) {
             console.error(err);
