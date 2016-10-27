@@ -5,13 +5,12 @@ var bodyParser = require('body-parser');
 
 module.exports = function(app) {
 
-
   app.get('/game', auth, function(req, res){
 
     renderMarsUniversityGame(req, res);
   });
   
-  app.get('/ajax', function(req, res) {
+	app.get('/ajax', function(req, res) {
 	res.send(getData());
   });
 
@@ -27,34 +26,24 @@ module.exports = function(app) {
 	 	res.end();
  	});
 	
-  app.post('/saver',  function (req, res, next) 
+  app.post('/saver',  function (req, res) 
 	{
 		//TextFile Saving
 		var stringTem = req.body.saveData;
-	 	fs.writeFile('saveFile/userSave.txt', stringTem, function (err) 
-		{});
-	 	res.end();
+	 	//fs.writeFile('saveFile/userSave.txt', stringTem, function (err) 
+		//{});
 		
 		//Database Saving
-		
- 	});
 	
-	app.post('/loader',  function (req, res, next) 
-	{
-		//TextFile Loading
-	 	fs.readFile('saveFile/userSave.txt', function(err, data) 
-		{
-			if(err) throw err;
-			var array = data.toString().split(";");
-			for(i in array) 
-			{
-				console.log(array[i]);
-			}
-		});
+		require('../../model/marsUniversity/saveUserGame.js')(req, stringTem, function(err, success) {
+         if (err) {
+            console.error(err);
+         }
+        else {
+           
+         }
+        });
 	 	res.end();
-		
-		//Database Loading
-		
  	});
 
   app.post('/loggerPoll',  function (req, res, next) {
@@ -72,27 +61,49 @@ module.exports = function(app) {
     res.end();
   });
 
-
+/*
   function renderMarsUniversityGame(req, res) {
     var model = require('../../model/global')(req, res);
+	model.saveState = getData(req,res);
     model.content.pageTitle = 'Thinking Cap - Mars University';
     model.content.gameTitle = 'Mars University';
-	var x = getData();
-	model.saveState = x;
+	console.log(model.saveState);
     res.render('marsUniversity/game', model);
   }
 
- var getData = function() 
+ var getData = function(req,res) 
  {
-	var array;
-	var holder = fs.readFileSync('saveFile/userSave.txt', "utf8")
+	//var holder = fs.readFileSync('saveFile/userSave.txt', "utf8")
+	var holder;
 	
-	array = arrayBuilder(holder);
- 	return holder;
+	//Database Loading
+		require('../../model/marsUniversity/loadSave.js')(req, function(err, success) 
+{
+          if (err) {
+            console.error(err);
+          }
+          else {
+            return success;
+          }
+        });
  }
- function arrayBuilder (data) 
- {
- 	array = data.toString().split(":");
- 	return array;
- };
+ */
+ 
+ function renderMarsUniversityGame(req, res) {
+	var model = require('../../model/global')(req, res);
+    model.content.pageTitle = 'Thinking Cap - Mars University';
+    model.content.gameTitle = 'Mars University';
+	require('../../model/marsUniversity/loadSave.js')(req, function(err, success) 
+		 {
+          if (err) {
+            console.error(err);
+          }
+          else {
+            model.saveState = success;
+			console.log(model.safeState);
+          }
+		  res.render('marsUniversity/game', model)
+        });
+	
+  }
 };

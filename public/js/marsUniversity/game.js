@@ -120,6 +120,8 @@ function startGame(){
 	console.log("Game initialized and loaded @ T:" + date);
 	//console.log("Game initialized and loaded!");
 
+	
+	console.log(saveState);
 	var Json;
 	var oReq = new XMLHttpRequest();
 	oReq.onload = function (e)
@@ -770,52 +772,39 @@ function userAction()
 	document.getElementById("gameInfo").innerHTML += "<h4> Opponent\'s Last Move:" + opponentCandidate.lastMove + "</h4>";
 	document.getElementById("choices").innerHTML += "<br>";
 
-	if(!back)
+	currentEvents = [];
+	
+	//Adds events to button list randomly from those available and Prevents Duplicates and events with more time than is available
+	for(var i = 1;i<events.length;i++)
 	{
-		currentEvents = [];
-	
-		//Adds events to button list randomly from those available and Prevents Duplicates and events with more time than is available
-		for(var i = 1;i<events.length;i++)
-		{
-			var addEvent = true;
-			
-			var currentEvent = events[i];
-			for(var j = 0;j<currentEvents.length;j++)
-			{
-	
-				if(currentEvent.name == currentEvents[j].name || currentEvent.timeRequired > remainingHours)
-				{
-					addEvent = false;
-				}
-	
-			}
-	
-			if(addEvent)
-			{
-				currentEvents.push(currentEvent);
-				var eventDescription = currentEvent.name + " - " + currentEvent.timeRequired;
-				var arrayPos = currentEvent.id -1;
-				document.getElementById("choices").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
-				
-			}
-			else
-			{
-				i--;
-			}
-		}
-		document.getElementById("choices").innerHTML += "<button onclick='action()'>Preform Action</button>";
-		document.getElementById("actionRadio1").checked = true;
-	}
-	else 
-	{
+		var addEvent = true;
+		
+		var currentEvent = events[i];
 		for(var j = 0;j<currentEvents.length;j++)
+		{
+	
+			if(currentEvent.name == currentEvents[j].name || currentEvent.timeRequired > remainingHours)
 			{
-				var eventDescription = currentEvents[j].name + " - " + currentEvents[j].timeRequired;
-				var arrayPos = currentEvents[j].id -1;
-				document.getElementById("choices").innerHTML += "<button onclick='action()'>Preform Action</button>";
+				addEvent = false;
 			}
+	
+		}
+	
+		if(addEvent)
+		{
+			currentEvents.push(currentEvent);
+			var eventDescription = currentEvent.name + " - " + currentEvent.timeRequired;
+			var arrayPos = currentEvent.id -1;
+			document.getElementById("choices").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
+			
+		}
+		else
+		{
+			i--;
+		}
 	}
-	back = false; 
+	document.getElementById("choices").innerHTML += "<button onclick='action()'>Perform Action</button>";
+	document.getElementById("actionRadio1").checked = true; 
 	
 	//Show changes to screen
 	document.getElementById("choices").style.display = "block";
@@ -837,11 +826,7 @@ function action()
 	{
 		chosenEvent = events[choice];
 	
-		if(chosenEvent.type=="minigame")
-		{
-			//Call the function of the minigamegame from the DB
-		}
-		else if(chosenEvent.type=="smallEvent")
+		if(chosenEvent.type=="smallEvent")
 		{
 			//Creates the screen for the event
 			var eventHours = parseInt(chosenEvent.timeRequired);
@@ -952,6 +937,7 @@ function poll()
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 	
+	back = false;
 	if(remainingHours> 2 )
 	{
 		document.getElementById("event").innerHTML += "<h4> Select the amount of people you want to poll. The time will increase by 1 hour for every 10 people.  </h4>";
@@ -2329,11 +2315,34 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 				case "fame":
 							var cell = row.insertCell(i);
 							cell.innerHTML = parseFloat(tableArray2[7][h]).toFixed(2);
+							if(parseFloat(tableArray2[7][h]).toFixed(2) <= 0.33)
+								{
+									cell.innerHTML = "Candidate Unknown Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+								}
+								else if(parseFloat(tableArray2[7][h]).toFixed(2)>0.33 && parseFloat(tableArray2[7][h]).toFixed(2)<0.66)
+								{
+									cell.innerHTML = "Aware of Candidate Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+								}
+								else
+								{
+									cell.innerHTML = "Candidate Known: " + parseFloat(tableArray2[7][h]).toFixed(2);
+								}
 				break;
 
 				case "playTrust":
 							var cell = row.insertCell(i);
-							cell.innerHTML = parseFloat(tableArray2[8][h]).toFixed(2);
+							if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.33)
+								{
+									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+								}
+								else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.33 && parseFloat(tableArray2[8][h]).toFixed(2)<0.66)
+								{
+									cell.innerHTML = "Sort Of Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+								}
+								else
+								{
+									cell.innerHTML = "Completely Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+								}
 				break;
 			}
 			for(var k = 0;k<positions.length;k++)
@@ -2344,27 +2353,82 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 					{
 						case "issuetuition":
 								var cell = row.insertCell(i);
-								cell.innerHTML = tableArray2[9][h];
+								if(tableArray2[9][h] <= -2)
+								{
+									cell.innerHTML = "Issue Disliked Score: " + tableArray2[9][h];
+								}
+								else if(tableArray2[9][h]>-2 && tableArray2[9][h]<2)
+								{
+									cell.innerHTML = "Issue Neutral Score: " + tableArray2[9][h];
+								}
+								else
+								{
+									cell.innerHTML = "Issue Liked Score: " + tableArray2[9][h];
+								}
 						break;
 
 						case "issueathletic":
 								var cell = row.insertCell(i);
-								cell.innerHTML = tableArray2[10][h];
+								if(tableArray2[10][h] <= -2)
+								{
+									cell.innerHTML = "Issue Disliked Score: " + tableArray2[10][h];
+								}
+								else if(tableArray2[10][h]>-2 && tableArray2[10][h]<2)
+								{
+									cell.innerHTML = "Issue Neutral Score: " + tableArray2[10][h];
+								}
+								else
+								{
+									cell.innerHTML = "Issue Liked Score: " + tableArray2[10][h];
+								}
 						break;
 
 						case "issueresearch":
 							cell = row.insertCell(i);
-							cell.innerHTML = tableArray2[11][h];
+							if(tableArray2[11][h] <= -2)
+								{
+									cell.innerHTML = "Issue Disliked Score: " + tableArray2[11][h];
+								}
+								else if(tableArray2[11][h]>-2 && tableArray2[11][h]<2)
+								{
+									cell.innerHTML = "Issue Neutral Score: " + tableArray2[11][h];
+								}
+								else
+								{
+									cell.innerHTML = "Issue Liked Score: " + tableArray2[11][h];
+								}
 						break;
 
 						case "issueevents":
 								var cell = row.insertCell(i);
-								cell.innerHTML = tableArray2[12][h];
+								if(tableArray2[12][h] <= -2)
+								{
+									cell.innerHTML = "Issue Disliked Score: " + tableArray2[12][h];
+								}
+								else if(tableArray2[12][h]>-2 && tableArray2[12][h]<2)
+								{
+									cell.innerHTML = "Issue Neutral Score: " + tableArray2[12][h];
+								}
+								else
+								{
+									cell.innerHTML = "Issue Liked Score: " + tableArray2[12][h];
+								}
 						break;
 
 						case "issuemedical":
 								var cell = row.insertCell(i);
-								cell.innerHTML = tableArray2[13][h];
+								if(tableArray2[13][h] <= -2)
+								{
+									cell.innerHTML = "Issue Disliked Score: " + tableArray2[13][h];
+								}
+								else if(tableArray2[13][h]>-2 && tableArray2[13][h]<2)
+								{
+									cell.innerHTML = "Issue Neutral Score: " + tableArray2[13][h];
+								}
+								else
+								{
+									cell.innerHTML = "Issue Liked Score: " + tableArray2[13][h];
+								}
 						break;
 					}
 				}
@@ -2375,7 +2439,18 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 				{
 							var cell = row.insertCell(i);
 							var counter = 13+k;
-							cell.innerHTML = parseFloat(tableArray2[counter][h]).toFixed(2);
+								if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
+								{
+									cell.innerHTML = "Candidate Unknown Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+								}
+								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
+								{
+									cell.innerHTML = "Aware of Candidate Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+								}
+								else
+								{
+									cell.innerHTML = "Candidate Known: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+								}
 				}
 			}
 			for(var k = 1;k<candidates.length;k++)
@@ -2384,7 +2459,18 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 				{
 							var cell = row.insertCell(i);
 							var counter = 18+k;
-							cell.innerHTML = parseFloat(tableArray2[counter][h]).toFixed(2);
+							if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
+							{
+								cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+							}
+							else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
+							{
+								cell.innerHTML = "Issue Neutral Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+							}
+							else
+							{
+								cell.innerHTML = "Issue Liked Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+							}
 				}
 			}
 		}
@@ -2472,16 +2558,6 @@ function saveGameState()
 				textContents+="*";
 	}
 	textContents+="~";
-	
-	//Save currentEvents
-	for(var i=0; i<currentEvents.length;i++)
-	{
-		textContents+=currentEvents[i].id;
-				if(i!=currentEvents.length-1)
-			textContents+="*";
-	}
-	textContents+="~";
-	
 	//Save candidates array
 	for(var i=0; i<candidates.length;i++)
 	{
@@ -2564,16 +2640,8 @@ function loadGame()
 	var ppsArray = saveArray[2].split("_");
 	pastPollSizes = ppsArray[0].split("*");
 	
-	//Current Events Section
-	var ceArray = saveArray[3].split("_");
-	eventIds = ceArray[0].split("*");
-	for(var i =0; i<eventIds.length;i++)
-	{
-		currentEvents.push(events[i]);
-	}
-	
 	//Candidates Section
-	var candArray = saveArray[4].split("_");
+	var candArray = saveArray[3].split("_");
 	var candAtts=[]; 
 	for( var i= 0; i < candArray.length; i++)
 	{
@@ -2603,7 +2671,7 @@ function loadGame()
 	console.log(candAtts);
 	
 	//Remaining Hours Section
-	remainingHours = parseInt(saveArray[5]);
+	remainingHours = parseInt(saveArray[4]);
 	
 	back=true;
 	userAction();
