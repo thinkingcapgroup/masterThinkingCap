@@ -9,11 +9,13 @@ var tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [
 var pastPollChoices = [];
 var pastPollResults = [];
 var pastPollSizes = [];
+var pastGraphData = [];
 var raceArray = ["Android", "Human", "Martian"];
 var genderArray = ["Non-Binary", "Female", "Male"];
 var bodyTypeArray = ["Thin", "Medium", "Plus", "HoverChair"];
 var back = false;
 var num = 1;
+var graphData;
 
 //sprite stuff
 var heads = new Image();
@@ -108,7 +110,6 @@ var startHours;
 var remainingHours;
 
 var population = 1000;
-
 
 //starts the game
 function startGame(){
@@ -1021,6 +1022,7 @@ function pollResults()
 	clearScreen();
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
+	
 
 	if(pollChoices.length == 0)
 	{
@@ -1035,8 +1037,9 @@ function pollResults()
 	else
 	{
 		pollCalc(pollChoices, 20);
-		document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
+		document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button><br>";
 	}
+
 
 };
 
@@ -1956,12 +1959,14 @@ function reportViewer(id)
 {
 	clearScreen();
 	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
-	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],true);
+	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],pastGraphData[id], true);
 }
 
 //Calculates the results of each poll question from each student in the sample and stores them in an array
 function pollCalc(pollChoices, sampleSize)
-{
+{	
+
+	graphData = [[0,0,0,0,0],[0,0,0,0,0],[0,0],[0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0], [0,0,0]];
 	votePercentage(sampleSize);
 	//Gets the results of each question
 	for(var j=0;j<sample.length;j++)
@@ -1999,6 +2004,23 @@ function pollCalc(pollChoices, sampleSize)
 						var favName = "Medical";
 					}
 				tableArrays[0].push(favName);
+				//find if fave
+				if(favName == "Tuition"){
+					graphData[0][0]++;
+				}
+				else if(favName == "Athletics"){
+					graphData[0][1]++;
+				}
+				else if(favName == "Research"){
+					graphData[0][2]++;
+				}
+				else if(favName == "Events"){
+					graphData[0][3]++;
+				}
+				else if(favName == "Medical"){
+					graphData[0][4]++;
+				}
+		
 				break;
 
 				case "issOpp":
@@ -2030,34 +2052,133 @@ function pollCalc(pollChoices, sampleSize)
 						var oppName = "Medical";
 					}
 				tableArrays[1].push(oppName);
+
+				if(oppName == "Tuition"){
+					graphData[1][0]++;
+				}
+				else if(oppName == "Athletics"){
+					graphData[1][1]++;
+				}
+				else if(oppName == "Research"){
+					graphData[1][2]++;
+				}
+				else if(oppName == "Events"){
+					graphData[1][3]++;
+				}
+				else if(oppName == "Medical"){
+					graphData[1][4]++;
+				}
+
+
 				break;
 
 				case "candFav":
 					tableArrays[2].push(sample[j].results.win + " Score: " +sample[j].results.winPer.toFixed(2));
+					if(sample[j].results.win == "Liz"){
+						graphData[2][0]++;
+					}
+					else{
+						graphData[2][1]++;
+					}
 				break;
 
 				case "candOpp":
 					tableArrays[3].push(sample[j].results.los + " Score: " +sample[j].results.losPer.toFixed(2));
+					if(sample[j].results.los == "Liz"){
+						graphData[3][1]++;
+					}
+					else{
+						graphData[3][0]++;
+					}
 				break;
 
 				case "major":
 					tableArrays[4].push(sample[j].major);
+				var majorHolder = sample[j].major;
+				if(majorHolder == "business"){
+					graphData[4][0]++;
+				}
+				else if(majorHolder == "engineering"){
+					graphData[4][1]++;
+				}
+				else if(majorHolder == "tech"){
+					graphData[4][2]++;
+				}
+				else if(majorHolder == "libArts"){
+					graphData[4][3]++;
+				}
+				else if(majorHolder == "fineArts"){
+					graphData[4][4]++;
+				}
+
 				break;
 
 				case "class":
 					tableArrays[5].push(sample[j].ecoClass);
+					var ecoHolder = sample[j].ecoClass;
+					if(ecoHolder == "poverty"){
+						graphData[5][0]++;
+					}
+					else if(ecoHolder == "low"){
+						graphData[5][1]++;
+					}
+					else if(ecoHolder == "midLow"){
+						graphData[5][2]++;
+					}
+					else if(ecoHolder == "midHigh"){
+						graphData[5][3]++;
+					}
+					else if(ecoHolder == "high"){
+						graphData[5][4]++;
+					}		
 				break;
 
 				case "group":
 					tableArrays[6].push(sample[j].group);
+					var groupHolder = sample[j].group;
+					if(groupHolder == "socialite"){
+						graphData[6][0]++;
+					}
+					else if(groupHolder == "athlete"){
+						graphData[6][1]++;
+					}
+					else if(groupHolder == "researcher"){
+						graphData[6][2]++;
+					}
+					else if(groupHolder == "reader"){
+						graphData[6][3]++;
+					}
+					else if(groupHolder == "socialite"){
+						graphData[6][4]++;
+					}
 				break;
 
 				case "fame":
-					tableArrays[7].push((fameCalc(candidates[0],sample[j])).toFixed(2));
+					var playFame = fameCalc(candidates[0],sample[j]).toFixed(2);
+					tableArrays[7].push(playFame);
+					if(playFame > 0.66){
+						graphData[7][0]++;
+					}
+					else if(playFame > 0.33){
+						graphData[7][1]++;
+					}
+					else{
+						graphData[7][2]++;
+					}
 				break;
 
 				case "playTrust":
 					tableArrays[8].push(candidates[0].consMod);
+					var playConst = candidates[0].cosMod;
+					if(playConst > 0.66){
+						graphData[8][0]++;
+					}
+					else if(playConst > 0.33){
+						graphData[8][1]++;
+					}
+					else{
+						graphData[8][2]++;
+					}
 				break;
 
 			}
@@ -2069,56 +2190,132 @@ function pollCalc(pollChoices, sampleSize)
 					{
 						case "issuetuition":
 							tableArrays[9].push(parseFloat(sample[j].tuitionScore).toFixed(2));
+							if(sample[j].tuitionScore >=2){
+								graphData[9][0]++;
+							}
+							else if(sample[j].tuitionScore >=-1){
+								graphData[9][1]++;
+							}
+							else{
+								graphData[9][2]++;
+							}
 						break;
 
 						case "issueathletic":
 							tableArrays[10].push(parseFloat(sample[j].athleticScore).toFixed(2));
+							if(sample[j].athleticScore >=2){
+								graphData[10][0]++;
+							}
+							else if(sample[j].athleticScore >=-1){
+								graphData[10][1]++;
+							}
+							else{
+								graphData[10][2]++;
+							}
 						break;
 
 						case "issueresearch":
 							tableArrays[11].push(parseFloat(sample[j].researchScore).toFixed(2));
+							if(sample[j].researchScore >=2){
+								graphData[11][0]++;
+							}
+							else if(sample[j].researchScore >=-1){
+								graphData[11][1]++;
+							}
+							else{
+								graphData[11][2]++;
+							}
 						break;
 
 						case "issueevents":
 							tableArrays[12].push(parseFloat(sample[j].eventScore).toFixed(2));
+							if(sample[j].eventScore >=2){
+								graphData[12][0]++;
+							}
+							else if(sample[j].eventScore >=-1){
+								graphData[12][1]++;
+							}
+							else{
+								graphData[12][2]++;
+							}
 						break;
 
 						case "issuemedical":
 							tableArrays[13].push(parseFloat(sample[j].medicalScore).toFixed(2));
+							if(sample[j].medicalScore >=2){
+								graphData[13][0]++;
+							}
+							else if(sample[j].medicalScore >=-1){
+								graphData[13][1]++;
+							}
+							else{
+								graphData[13][2]++;
+							}
 						break;
 					}
 				}
 			}
+			var candCounter = 14;
 			for(var k = 1;k<candidates.length;k++)
 			{
 				if(pollChoices[i] == "candFame" + candidates[k].name)
 				{
-					var counter = 13 +k;
-					tableArrays[counter].push(fameCalc(candidates[k],sample[j]));
+					var calcHolder = fameCalc(candidates[k], sample[j]);
+					console.log(calcHolder);
+					tableArrays[candCounter].push(calcHolder);
+				
+
+					if(sample[j].results.win == "Liz"){
+						graphData[candCounter][1]++;
+					}
+					else{
+						graphData[candCounter][0]++;
+					}
+					
+
 				}
+				candCounter++;
 			}
 			for(var k = 1;k<candidates.length;k++)
 			{
 				if(pollChoices[i] == "candTrust" + candidates[k].name)
 				{
-					var counter = 18 +k;
-					tableArrays[counter].push(candidates[k].consMod);
+					
+					tableArrays[candCounter].push(candidates[k].consMod);
+					
+					if(candidates[k].consMod> 0.66){
+						graphData[candCounter][0]++;
+					}
+					else if(candidates[k].consMod > 0.33){
+						graphData[candCounter][1]++;
+					}
+					else{
+						graphData[candCounter][2]++;
+					}
 				}
+				candCounter++;
 			}
 		}
 	}
+
+	
 	//console.log(tableArrays);
-	tableBuilder(pollChoices, tableArrays, sampleSize,false);
+	tableBuilder(pollChoices, tableArrays, sampleSize, graphData, false);
 }
 
 //Builds a table by looping through the Array created by pollCalc and putting each value into a cell.
-function tableBuilder(pollChoices, tableArray2, sSize, review)
+function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 {
 	//console.log(tableArray2);
 	var rowCounter = 0;
 	var cellCounter = 0;
+	var graphQuestions = [];
 	var h = 0;
-
+	document.getElementById("gameInfo").innerHTML += "<div id = 'q1text'><br></div><div class = 'chart0 chart'></div>";
+	document.getElementById("gameInfo").innerHTML += "<div id = 'q2text'><br></div><div class = 'chart1 chart'></div>";
+	document.getElementById("gameInfo").innerHTML += "<div id = 'q3text'><br></div><div class = 'chart2 chart'></div>";
+	document.getElementById("gameInfo").innerHTML += "<div id = 'q4text'><br></div><div class = 'chart3 chart'></div>";
+	document.getElementById("gameInfo").innerHTML += "<div id = 'q5text'><br></div><div class = 'chart4 chart'></div>";
 
 	var table = document.getElementById("pollTable");
 	var tableHead = document.getElementById("tableHead");
@@ -2132,46 +2329,55 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 			case "issFav":
 				var cell = headRow.insertCell(h);
 				cell.innerHTML = tableHeaders[0];
+				graphQuestions.push(0);
 			break;
 
 			case "issOpp":
 					var cell = headRow.insertCell(h);
 					cell.innerHTML = tableHeaders[1];
+					graphQuestions.push(1);
 			break;
 
 			case "candFav":
 					var cell = headRow.insertCell(h);
 					cell.innerHTML = tableHeaders[2];
+					graphQuestions.push(2);
 			break;
 
 			case "candOpp":
 					var cell = headRow.insertCell(h);
 					cell.innerHTML = tableHeaders[3];
+					graphQuestions.push(3);
 			break;
 
 			case "major":
 					var cell = headRow.insertCell(h);
 					cell.innerHTML = tableHeaders[4];
+					graphQuestions.push(4);
 			break;
 
 			case "class":
 					var cell = headRow.insertCell(h);
 					cell.innerHTML = tableHeaders[5];
+					graphQuestions.push(5);
 			break;
 
 			case "group":
 					var cell = headRow.insertCell(h);
 					cell.innerHTML = tableHeaders[6];
+					graphQuestions.push(6);
 			break;
 
 			case "fame":
 					var cell = headRow.insertCell(h);
 					cell.innerHTML = tableHeaders[7];
+					graphQuestions.push(7);
 			break;
 
 			case "playTrust":
 					var cell = headRow.insertCell(h);
 					cell.innerHTML = tableHeaders[8];
+					graphQuestions.push(8);
 			break;
 		}
 
@@ -2180,36 +2386,43 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 		{
 			if(pollChoices[h] == "issue" + positionsLower[k])
 			{
+			
 				switch(pollChoices[h])
 				{
 					case "issuetuition":
 						var cell = headRow.insertCell(h);
 						var posInfo = tableHeaders[9] + positions[0];
-						cell.innerHTML = posInfo;
+						cell.innerHTML = posInfo + "yea";
+						graphQuestions.push(9);
+
 					break;
 
 					case "issueathletic":
 						var cell = headRow.insertCell(h);
 						var posInfo = tableHeaders[9] + positions[1];
 						cell.innerHTML = posInfo;
+						graphQuestions.push(10);
 					break;
 
 					case "issueresearch":
 						var cell = headRow.insertCell(h);
 						var posInfo = tableHeaders[9] + positions[2];
 						cell.innerHTML = posInfo;
+						graphQuestions.push(11);
 					break;
 
 					case "issueevents":
 						var cell = headRow.insertCell(h);
 						var posInfo = tableHeaders[9] + positions[3];
 						cell.innerHTML = posInfo;
+						graphQuestions.push(12);
 					break;
 
 					case "issuemedical":
 						var cell = headRow.insertCell(h);
 						var posInfo = tableHeaders[9] + positions[4];
 						cell.innerHTML = posInfo;
+						graphQuestions.push(13);
 					break;
 				}
 			}
@@ -2221,6 +2434,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 					var cell = headRow.insertCell(h);
 					var candInfo = tableHeaders[10] + candidates[k].name;
 					cell.innerHTML = candInfo;
+					graphQuestions.push(14);
 			}
 		}
 		for(var k = 1;k<candidates.length;k++)
@@ -2230,6 +2444,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 					var cell = headRow.insertCell(h);
 					var candInfo = tableHeaders[11] + candidates[k].name;
 					cell.innerHTML = candInfo;
+					graphQuestions.push(15);
 			}
 		}
 	}
@@ -2295,6 +2510,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 						case "issuetuition":
 								var cell = row.insertCell(i);
 								cell.innerHTML = tableArray2[9][h];
+
 						break;
 
 						case "issueathletic":
@@ -2319,23 +2535,29 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 					}
 				}
 			}
+
+			canCounter = 14
 			for(var k = 1;k<candidates.length;k++)
 			{
 				if(pollChoices[i] == "candFame" + candidates[k].name)
 				{
 							var cell = row.insertCell(i);
-							var counter = 13+k;
-							cell.innerHTML = parseFloat(tableArray2[counter][h]).toFixed(2);
+							cell.innerHTML = parseFloat(tableArray2[canCounter][h]).toFixed(2);
+							console.log(tableArray2[canCounter[h]]);
+							
 				}
+				canCounter++;
 			}
 			for(var k = 1;k<candidates.length;k++)
 			{
 				if(pollChoices[i] == "candTrust" + candidates[k].name)
 				{
-							var cell = row.insertCell(i);
-							var counter = 18+k;
-							cell.innerHTML = parseFloat(tableArray2[counter][h]).toFixed(2);
+							var cell = row.insertCell(i);							
+							cell.innerHTML = parseFloat(tableArray2[canCounter][h]).toFixed(2);
+				
+							
 				}
+				canCounter ++;
 			}
 		}
 	}
@@ -2344,10 +2566,53 @@ function tableBuilder(pollChoices, tableArray2, sSize, review)
 		pastPollResults.push(tableArray2);
 		pastPollSizes.push(sSize);
 		pastPollChoices.push(pollChoices);
+		pastGraphData.push(graphData);
 		tableArrays =  [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
 		pollTime(sSize, pollChoices);
 	}
 	document.getElementById("table").style.display = "block";
+
+	var counter = 0;
+	var pollLabelArray = [["Tuition", "ATH Equipment", "RES Equipment", "School Events", "Medical"], ["Tuition", "Athletic Equipment", "Research Equipment", "School Events", "Medical"], ["Liz", "You"], ["You", "Liz"], ["Business", "Engineering", "Tech", "Fine Arts", "Liberal Arts"], ["Poverty", "Low", "Middle Low", "Middle High", "High"], ["Socialite", "Athlete", "Researcher", "Media Lover", "Reader"], ["Like", "Neutral", "Dislike"], ["Good", "Neutral", "Bad"], ["Like", "Neutral", "Dislike"], ["Like", "Neutral", "Dislike"],["Like", "Neutral", "Dislike"],["Like", "Neutral", "Dislike"],["Like", "Neutral", "Dislike"],["Like", "Neutral", "Dislike"],["Like", "Neutral", "Dislike"]];
+	
+	//graph dat table
+
+	for(var u =0; u < 5; u++){
+		
+		document.getElementById("q"+(u+1)+"text").innerHTML = "";
+
+	}
+
+	for(var i = 0; i < graphQuestions.length; i++){
+		var counter = 0;
+		var data = [];
+		var x = 0;
+
+		
+		document.getElementById("q"+(i+1)+"text").innerHTML = questions[graphQuestions[i]].question;
+
+	
+		for (var j = 0; j < graphData[i].length; j++){
+			if(graphData[graphQuestions[i]][j] != null){
+				data.push(graphData[graphQuestions[i]][j]);			
+			}			
+		}
+
+		x = d3.scaleLinear()
+		    .domain([0, d3.max(data)])
+		    .range([0, 420]);
+
+			d3.select(".chart" + i)
+		  	.selectAll("div")
+		    .data(data)
+		  	.enter().append("div")
+		    .style("width", function(d) { return x(d) + "px"; })
+		    .text(function(d) { 
+		    	var zid = pollLabelArray[graphQuestions[i]][counter] + "-" + d;
+		  		counter++;
+		    	return zid; })
+		    ;
+	}
 }
 
 //Subtracts time required to take a poll based on both sample size and the number of questions

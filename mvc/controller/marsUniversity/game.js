@@ -43,6 +43,7 @@ module.exports = function(app) {
     model.content.pageTitle = 'Thinking Cap - Mars University';
     model.content.gameTitle = 'Mars University';
 
+
     res.render('marsUniversity/game', model);
   }
 
