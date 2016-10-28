@@ -1,21 +1,26 @@
 module.exports = function(req, data, next){
   var db = req.db,
-      getUserByPassword = 'SELECT * FROM `users` WHERE `userName` = ?, `password` = ?;',
+      resultRow,
+      getUserByPassword = 'SELECT * FROM `users` WHERE `userName` = ? AND `password` = ?;',
       error = false;
 
   db.query(getUserByPassword, [data.username, data.password],function(err, result) {
-  	if (err) {
+    resultRow = result[0];
+
+    if (err) {
       error = err.toString();
-      console.log(error);
+      console.error(error);
   		next(err, result)
   	}
-    else if (!result[0]) {
+
+    else if (!resultRow) {
       error = 'No user with that password was found';
-      console.log(error);
+      console.error(error);
       next(error, result);
     }
+
     else {
-      next(err, result);
+      next(err, resultRow);
     }
   });
 }

@@ -21,7 +21,8 @@ module.exports = function(app){
         userData = {},
         userRace = '',
         userRaceLength,
-        validUserData;
+        validUserData,
+        encrypt = require('../../model/encrypt');
 
     // Reset error notifications
     errorNotifications.length = 0;
@@ -37,7 +38,7 @@ module.exports = function(app){
         userData = {
           userName: rb.username,
           email: req.user.emails[0].value,
-          password: (rb.password)? rb.password : undefined,
+          password: (rb.password)? encrypt(rb.password) : undefined,
           passportType: rb.passportType,
           firstName: rb.firstName,
           lastName: rb.lastName,
