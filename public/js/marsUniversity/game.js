@@ -705,7 +705,7 @@ function gameCycleStart(f)
 		break;
 	}
 	candidates.push(playerCandidate);
-
+	
 	for ( var i =0;i<5; i++)
 	{
 		if(i!=f)
@@ -718,7 +718,7 @@ function gameCycleStart(f)
 		var oppFocus = Math.floor(Math.random(0,4));
 		opponentCandidate.focus = positions[oppChoice[oppFocus]];
 		opponentCandidate.focusnum = oppChoice[oppFocus];
-		opponentCandidate.fame = [2,2,2,2,2,2,2.2,1,1,1,1,1,1,1,1];
+		opponentCandidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
 		opponentCandidate.consMod = 0;
 		//console.log(oppFocus);
 		switch(oppChoice[oppFocus])
@@ -741,7 +741,6 @@ function gameCycleStart(f)
 		}
 	candidates.push(opponentCandidate);
 
-	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + playerCandidate.focus + "</h2>";
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
 	userAction();
 };
@@ -758,7 +757,6 @@ function userAction()
 		saveGameState();
 
 	//Build User Action Area buttons
-	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidates[0].focus + "</h2>";
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='poll()'> Take A Poll </button>";
 	document.getElementById("choices").innerHTML += "<button type='button' class='logEvent' onclick='gameCycleEnd()'> Skip to the End </button>";
@@ -777,31 +775,10 @@ function userAction()
 	//Adds events to button list randomly from those available and Prevents Duplicates and events with more time than is available
 	for(var i = 1;i<events.length;i++)
 	{
-		var addEvent = true;
-		
-		var currentEvent = events[i];
-		for(var j = 0;j<currentEvents.length;j++)
-		{
-	
-			if(currentEvent.name == currentEvents[j].name || currentEvent.timeRequired > remainingHours)
-			{
-				addEvent = false;
-			}
-	
-		}
-	
-		if(addEvent)
-		{
-			currentEvents.push(currentEvent);
-			var eventDescription = currentEvent.name + " - " + currentEvent.timeRequired;
-			var arrayPos = currentEvent.id -1;
-			document.getElementById("choices").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
-			
-		}
-		else
-		{
-			i--;
-		}
+		currentEvents.push(events[i]);
+		var eventDescription = events[i].name + " - " + events[i].timeRequired;
+		var arrayPos = events[i].id -1;
+		document.getElementById("choices").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
 	}
 	document.getElementById("choices").innerHTML += "<button onclick='action()'>Perform Action</button>";
 	document.getElementById("actionRadio1").checked = true; 
@@ -831,12 +808,308 @@ function action()
 			//Creates the screen for the event
 			var eventHours = parseInt(chosenEvent.timeRequired);
 			document.getElementById("event").innerHTML += "<h4>" + chosenEvent.text + " </h4>";
+			if(chosenEvent.groupPos != [])
+			{
+				var effects = chosenEvent.groupPos.split(',');
+				var posText =  "<h4> These Groups will be affected positively: ";
+				for (var i =0; i< effects.length;i++)
+				{
+				switch(effects[i])
+				{
+					case "Poor":
+						posText += "Poor Economic Status";
+					break;
+					
+					case "Low":
+						posText += "Lower Economic Status";
+					break;
+					case "Low Mid":
+						posText += "Lower Middle Economic Status";
+					break;
+					case "Upper Mid":
+						posText += "Upper Middle Economic Status";
+					break;
+					case "High":
+						posText += "Upper Economic Status";
+					break;
+					
+					case "Fine Arts":
+						posText += "Fine Arts Major";
+					break;
+					
+					case "Bus":
+						posText += "Business Major";
+					break;
+					case "Eng":
+						posText += "Engineering Major";
+					break;
+					case "Lib Arts":
+						posText += "Liberal Arts Major";
+					break;
+					case "Tech":
+						posText += "Technology Major";
+					break;
+					
+					case "Media":
+						posText += "Media Lover Group";
+					break;
+					
+					case "Soc":
+						posText += "Socialite Group";
+					
+					break;
+					case "Read":
+						posText += "Reader Group";
+					
+					break;
+					case "Res":
+						posText += "Researcher Group";
+					
+					break;
+					case "Ath":
+						posText += "Athlete Group";
+					
+					break;
+				}
+				if(i != effects.length-1)
+				{
+					posText += ", ";
+				}
+				else{
+					posText += " ";
+				}
+			}
+				document.getElementById("event").innerHTML += posText+ " </h4>";
+			}
+			if(chosenEvent.groupNeg != [])
+			{
+				var negEffects = chosenEvent.groupNeg.split(',');
+				var negText =  "<h4> These Groups will be affected negatively: ";
+				for (var i =0; i< negEffects.length;i++)
+				{
+				switch(negEffects[i])
+				{
+					case "Poor":
+						negText += "Poor Economic Status";
+					break;
+					
+					case "Low":
+						negText += "Lower Economic Status";
+					break;
+					case "Low Mid":
+						negText += "Lower Middle Economic Status";
+					break;
+					case "Upper Mid":
+						negText += "Upper Middle Economic Status";
+					break;
+					case "High":
+						negText += "Upper Economic Status";
+					break;
+					
+					case "Fine Arts":
+						negText += "Fine Arts Major";
+					break;
+					
+					case "Bus":
+						negText += "Business Major";
+					break;
+					case "Eng":
+						negText += "Engineering Major";
+					break;
+					case "Lib Arts":
+						negText += "Liberal Arts Major";
+					break;
+					case "Tech":
+						negText += "Technology Major";
+					break;
+					
+					case "Media":
+						negText += "Media Lover Group";
+					break;
+					
+					case "Soc":
+						negText += "Socialite Group";
+					
+					break;
+					case "Read":
+						negText += "Reader Group";
+					
+					break;
+					case "Res":
+						negText += "Researcher Group";
+					
+					break;
+					case "Ath":
+						negText += "Athlete Group";
+					
+					break;
+				}
+				if(i != negEffects.length-1)
+				{
+					negText += ", ";
+				}
+				else{
+					negText += " ";
+				}
+			}
+				document.getElementById("event").innerHTML += negText+ " </h4>";
+			}
+			
 	
 			for(var i =0; i<chosenEvent.options.length; i++)
 			{
+				var totalText = "";
 				if( (eventHours + parseInt(chosenEvent.options[i].extraTime)) <= remainingHours)
 				{
-					document.getElementById("event").innerHTML += "<input type='radio' name = 'option' id = " + chosenEvent.options[i].optionID + ">" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours <br>";
+					var posText ="";
+					var negText = "";
+					if(chosenEvent.options[i].posEffects != [])
+					{
+						var effects = chosenEvent.options[i].posEffects.split(',');
+						posText =  " -  Positive Effects: ";
+						for (var j =0; j< effects.length;j++)
+						{
+							switch(effects[j])
+							{
+								case "Poor":
+									posText += "Poor Economic Status";
+								break;
+								
+								case "Low":
+									posText += "Lower Economic Status";
+								break;
+								case "Low Mid":
+									posText += "Lower Middle Economic Status";
+								break;
+								case "Upper Mid":
+									posText += "Upper Middle Economic Status";
+								break;
+								case "High":
+									posText += "Upper Economic Status";
+								break;
+								
+								case "Fine Arts":
+									posText += "Fine Arts Major";
+								break;
+								
+								case "Bus":
+									posText += "Business Major";
+								break;
+								case "Eng":
+									posText += "Engineering Major";
+								break;
+								case "Lib Arts":
+									posText += "Liberal Arts Major";
+								break;
+								case "Tech":
+									posText += "Technology Major";
+								break;
+								
+								case "Media":
+									posText += "Media Lover Group";
+								break;
+								
+								case "Soc":
+									posText += "Socialite Group";
+								
+								break;
+								case "Read":
+									posText += "Reader Group";
+								
+								break;
+								case "Res":
+									posText += "Researcher Group";
+								
+								break;
+								case "Ath":
+									posText += "Athlete Group";
+								
+								break;
+							}
+							if(j != effects.length-1)
+							{
+								posText += ", ";
+							}
+							else{
+								posText += " ";
+							}
+						}
+					}
+					totalText += posText;
+					if(chosenEvent.options[i].negEffects != [])
+					{
+						var negEffects = chosenEvent.options[i].negEffects.split(',');
+						negText =  " -  Negative Effects: ";
+						for (var j =0; j< negEffects.length;j++)
+						{
+							switch(negEffects[j])
+							{
+								case "Poor":
+									negText += "Poor Economic Status";
+								break;
+								
+								case "Low":
+									negText += "Lower Economic Status";
+								break;
+								case "Low Mid":
+									negText += "Lower Middle Economic Status";
+								break;
+								case "Upper Mid":
+									negText += "Upper Middle Economic Status";
+								break;
+								case "High":
+									negText += "Upper Economic Status";
+								break;
+								
+								case "Fine Arts":
+									negText += "Fine Arts Major";
+								break;
+								
+								case "Bus":
+									negText += "Business Major";
+								break;
+								case "Eng":
+									negText += "Engineering Major";
+								break;
+								case "Lib Arts":
+									negText += "Liberal Arts Major";
+								break;
+								case "Tech":
+									negText += "Technology Major";
+								break;
+								
+								case "Media":
+									negText += "Media Lover Group";
+								break;
+								
+								case "Soc":
+									negText += "Socialite Group";
+								
+								break;
+								case "Read":
+									negText += "Reader Group";
+								
+								break;
+								case "Res":
+									negText += "Researcher Group";
+								
+								break;
+								case "Ath":
+									negText += "Athlete Group";
+								
+								break;
+							}
+							if(j != negEffects.length-1)
+							{
+								negText += ", ";
+							}
+							else{
+								negText += " ";
+							}
+						}
+					}
+					totalText += negText;
+					document.getElementById("event").innerHTML += "<input type='radio' name = 'option' id = " + chosenEvent.options[i].optionID + ">" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours" +totalText+"<br>";
 				}
 			}
 			
@@ -845,14 +1118,14 @@ function action()
 		{
 	
 		}
+		document.getElementById("event").innerHTML += "<br> <button type='button' class='logEvent' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
 	}
 	else
 	{
 		document.getElementById("event").innerHTML += "<h4> You dont have the enough time left to do the selected action. \n Return to the User Action area to select another action or end the game.</h4>";
 	}
 
-
-	document.getElementById("event").innerHTML += "<br> <button type='button' class='logEvent' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
+	
 	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
 	//Show changes to screen
 	document.getElementById("event").style.display = "block";
@@ -911,7 +1184,6 @@ function gameCycleEnd()
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
 
-	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidates[0].focus + "</h2>";
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
 	votePercentage(1000);
 	var winner;
@@ -920,6 +1192,7 @@ function gameCycleEnd()
 	{
 		if(candidates[i].votes > winvotes)
 		{
+			winvotes= candidate[i].votes;
 			winner = candidates[i].name;
 		}
 	}
@@ -1846,11 +2119,26 @@ function votePercentage(sampleSize)
 			var fame = 0;
 			fame = fameCalc(candidates[j], sample[i]);
 			//console.log(candidates[j].name +" Fame: "+ fame);
-
-			var issues = parseFloat(sample[i].tuitionScore) + parseFloat(candidates[j].issueScore[0]) + parseFloat(sample[i].athleticScore) + parseFloat(candidates[j].issueScore[1]) + parseFloat(sample[i].researchScore)+ parseFloat(candidates[j].issueScore[2])+ parseFloat(sample[i].eventScore)  + parseFloat(candidates[j].issueScore[3])+ parseFloat(sample[i].medicalScore) + parseFloat(candidates[j].issueScore[4]);
+			if(i != 1)
+			{
+				var issues = parseFloat(sample[i].tuitionScore) + parseFloat(candidates[j].issueScore[0]) + parseFloat(sample[i].athleticScore) + parseFloat(candidates[j].issueScore[1]) + parseFloat(sample[i].researchScore)+ parseFloat(candidates[j].issueScore[2])+ parseFloat(sample[i].eventScore)  + parseFloat(candidates[j].issueScore[3])+ parseFloat(sample[i].medicalScore) + parseFloat(candidates[j].issueScore[4]);
+			}
+			else
+			{
+				var issues = Math.abs(parseFloat(sample[i].tuitionScore)) + parseFloat(candidates[j].issueScore[0]) + Math.abs(parseFloat(sample[i].athleticScore)) + parseFloat(candidates[j].issueScore[1]) + Math.abs(parseFloat(sample[i].researchScore))+ parseFloat(candidates[j].issueScore[2])+ Math.abs(parseFloat(sample[i].eventScore))  + parseFloat(candidates[j].issueScore[3])+ Math.abs(parseFloat(sample[i].medicalScore)) + parseFloat(candidates[j].issueScore[4]);
+			}
 			//console.log(candidates[j].name +" Issue Score: "+ issues);
-
-			var candWinPer = fame + (issues*sample[i].studentCaring) + candidates[j].consMod;
+			if(i != 1)
+			{
+				var candWinPer = 10*Math.pow(fame*issues,2) - candidates[j].consMod;
+			}
+			else
+			{
+				var candWinPer = 10*0.5*issues;
+			}
+			
+			
+			
 			//console.log(candidates[j].name +" Win Percentage: "+ candWinPer);
 			//console.log("");
 

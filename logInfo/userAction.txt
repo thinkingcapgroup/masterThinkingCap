@@ -54,3 +54,9 @@ candOpp-undefined-undefined-undefined-undefined
 114197433362653630517-undefined-major-undefined-undefined-issueresearch
 114197433362653630517-major-undefined-issueevents-undefined-undefined
 114197433362653630517-major-issueathletic-issueevents-undefined-playTrust
+114197433362653630517-major-issueathletic-undefined-candTrustLiz-undefined
+114197433362653630517-fame-playTrust-undefined-candTrustLiz-undefined
+114197433362653630517-fame-playTrust-undefined-candTrustLiz-undefined
+114197433362653630517-candFameLiz-undefined-undefined-major-undefined
+114197433362653630517-candFameLiz-candTrustLiz-undefined-undefined-undefined
+114197433362653630517-candFav-candOpp-undefined-undefined-undefined
