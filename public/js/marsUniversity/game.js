@@ -2608,38 +2608,46 @@ function loadGame()
 	var saveArray = saveState.split("~");
 	
 	//Past Poll Choices Section
-	var ppcOuterArray = saveArray[0].split("_");
-	for(var i =0; i < ppcOuterArray.length; i++)
+	if(saveArray[0] != [])
 	{
-		pastPollChoices.push(ppcOuterArray[i].split("*"));
+		var ppcOuterArray = saveArray[0].split("_");
+		for(var i =0; i < ppcOuterArray.length; i++)
+		{
+			pastPollChoices.push(ppcOuterArray[i].split("*"));
+		}
 	}
 	
 	// Past Poll Results Section
-	var pprOuterArray = saveArray[1].split("_");
-	
-	for(var i =0; i < pprOuterArray.length; i++)
+	if(saveArray[1] != [])
 	{
-		var pprResults =[];
-		var tempResults = pprOuterArray[i].split("*");
-		for(var j = 0; j< tempResults.length; j++)
+		var pprOuterArray = saveArray[1].split("_");
+		for(var i =0; i < pprOuterArray.length; i++)
 		{
-			if(tempResults[j] != "")
+			var pprResults =[];
+			var tempResults = pprOuterArray[i].split("*");
+			for(var j = 0; j< tempResults.length; j++)
 			{
-				var currentResults = tempResults[j].split(",");
-				pprResults.push(currentResults);
+				if(tempResults[j] != "")
+				{
+					var currentResults = tempResults[j].split(",");
+					pprResults.push(currentResults);
+				}
+				else
+				{
+					pprResults.push([]);
+				}
 			}
-			else
-			{
-				pprResults.push([]);
-			}
+			pastPollResults.push(pprResults);
 		}
-		pastPollResults.push(pprResults);
 	}
 	
 	//Past Poll Sizes Section
-	var ppsArray = saveArray[2].split("_");
-	pastPollSizes = ppsArray[0].split("*");
-	
+	if(saveArray[2] != [])
+	{
+		var ppsArray = saveArray[2].split("_");
+		pastPollSizes = ppsArray[0].split("*");
+	}
+		
 	//Candidates Section
 	var candArray = saveArray[3].split("_");
 	var candAtts=[]; 
