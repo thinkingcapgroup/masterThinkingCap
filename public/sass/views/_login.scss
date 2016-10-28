@@ -1,23 +1,35 @@
 #login {
 
   #login-section {
-    position: absolute;
     text-align: center;
-    @include center(xy);
     text-transform: uppercase;
-
-
   }
 
   #login-form {
+    display: block;
+    margin: 2em auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    max-width: 380px;
 
     .input {
       margin: $content-padding 0;
     }
 
+    #login-actions {
+      width: 100%;
+    }
+
+    .login-action {
+      margin: 1em 0;
+      width: 100%;
+
+      a, button {
+        width: 100%;
+        text-transform: uppercase;
+      }
+    }
   }
 
   #normal-curve-container {
