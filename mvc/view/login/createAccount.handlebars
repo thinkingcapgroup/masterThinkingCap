@@ -28,6 +28,21 @@
               <input id='email' class='input' type='text' name='email' value='{{user.email}}' disabled required/>
             </li>
             <li>
+              <label id='passportTypeLabel' for='passportType'>Authentication mode:</label>
+              <select name='passportType' id='passportType'>
+                <option value='google'>
+                  Google
+                </option>
+                <option value='local'>
+                  Local
+                </option>
+              </select>
+            </li>
+            <li id='password-section' class='hide'>
+              <label id='passwordLabel' for='password'>Password <span class='required-asterisk'>*</span></label>
+              <input type='password' name='password' placeholder='Password' />
+            </li>
+            <li>
               <label id='displayNameLabel' for='displayName'>Display Name:</label>
               <input id='displayName' class='input' type='text' name='displayName' value='{{user.displayName}}' />
             </li>
@@ -45,7 +60,7 @@
             </li>
             <li>
               <label id='schoolYearLabel' for='schoolYear'>School Year:</label>
-              <select name='schoolYear'>
+              <select name='schoolYear' id='schoolYear'>
                 <option value='0'>
                   Select Year
                 </option>
