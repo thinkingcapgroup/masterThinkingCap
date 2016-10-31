@@ -1966,7 +1966,7 @@ function reportViewer(id)
 function pollCalc(pollChoices, sampleSize)
 {	
 
-	graphData = [[0,0,0,0,0],[0,0,0,0,0],[0,0],[0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0], [0,0,0]];
+	graphData = [[0,0,0,0,0],[0,0,0,0,0],[0,0],[0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
 	votePercentage(sampleSize);
 	//Gets the results of each question
 	for(var j=0;j<sample.length;j++)
@@ -2156,10 +2156,10 @@ function pollCalc(pollChoices, sampleSize)
 				case "fame":
 					var playFame = fameCalc(candidates[0],sample[j]).toFixed(2);
 					tableArrays[7].push(playFame);
-					if(playFame > 0.66){
+					if(playFame > 0.69){
 						graphData[7][0]++;
 					}
-					else if(playFame > 0.33){
+					else if(playFame > 0.36){
 						graphData[7][1]++;
 					}
 					else{
@@ -2170,10 +2170,10 @@ function pollCalc(pollChoices, sampleSize)
 				case "playTrust":
 					tableArrays[8].push(candidates[0].consMod);
 					var playConst = candidates[0].cosMod;
-					if(playConst > 0.66){
+					if(playConst > 0.69){
 						graphData[8][0]++;
 					}
-					else if(playConst > 0.33){
+					else if(playConst > 0.36){
 						graphData[8][1]++;
 					}
 					else{
@@ -2225,6 +2225,7 @@ function pollCalc(pollChoices, sampleSize)
 							else{
 								graphData[11][2]++;
 							}
+							
 						break;
 
 						case "issueevents":
@@ -2255,15 +2256,14 @@ function pollCalc(pollChoices, sampleSize)
 					}
 				}
 			}
+
 			var candCounter = 14;
 			for(var k = 1;k<candidates.length;k++)
 			{
 				if(pollChoices[i] == "candFame" + candidates[k].name)
 				{
 					var calcHolder = fameCalc(candidates[k], sample[j]);
-					console.log(calcHolder);
-					tableArrays[candCounter].push(calcHolder);
-				
+					tableArrays[candCounter].push(calcHolder);				
 
 					if(sample[j].results.win == "Liz"){
 						graphData[candCounter][1]++;
@@ -2274,6 +2274,7 @@ function pollCalc(pollChoices, sampleSize)
 					
 
 				}
+				
 				candCounter++;
 			}
 			for(var k = 1;k<candidates.length;k++)
@@ -2293,12 +2294,14 @@ function pollCalc(pollChoices, sampleSize)
 						graphData[candCounter][2]++;
 					}
 				}
+				
 				candCounter++;
+					
 			}
+
 		}
 	}
 
-	
 	//console.log(tableArrays);
 	tableBuilder(pollChoices, tableArrays, sampleSize, graphData, false);
 }
@@ -2306,6 +2309,7 @@ function pollCalc(pollChoices, sampleSize)
 //Builds a table by looping through the Array created by pollCalc and putting each value into a cell.
 function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 {
+	
 	//console.log(tableArray2);
 	var rowCounter = 0;
 	var cellCounter = 0;
@@ -2537,27 +2541,28 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 			}
 
 			canCounter = 14
+
 			for(var k = 1;k<candidates.length;k++)
 			{
 				if(pollChoices[i] == "candFame" + candidates[k].name)
 				{
 							var cell = row.insertCell(i);
-							cell.innerHTML = parseFloat(tableArray2[canCounter][h]).toFixed(2);
-							console.log(tableArray2[canCounter[h]]);
-							
+							cell.innerHTML = parseFloat(tableArray2[canCounter][h]).toFixed(2);							
 				}
 				canCounter++;
+			
 			}
 			for(var k = 1;k<candidates.length;k++)
 			{
 				if(pollChoices[i] == "candTrust" + candidates[k].name)
 				{
 							var cell = row.insertCell(i);							
-							cell.innerHTML = parseFloat(tableArray2[canCounter][h]).toFixed(2);
-				
+							cell.innerHTML = parseFloat(tableArray2[canCounter][h]).toFixed(2);		
 							
 				}
-				canCounter ++;
+				
+				canCounter++;
+			
 			}
 		}
 	}
@@ -2577,42 +2582,66 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 	
 	//graph dat table
 
-	for(var u =0; u < 5; u++){
-		
+	for(var u =0; u < 5; u++){		
 		document.getElementById("q"+(u+1)+"text").innerHTML = "";
-
 	}
 
+
 	for(var i = 0; i < graphQuestions.length; i++){
+	
 		var counter = 0;
 		var data = [];
+		var data2 = [];
 		var x = 0;
-
-		
-		document.getElementById("q"+(i+1)+"text").innerHTML = questions[graphQuestions[i]].question;
-
-	
-		for (var j = 0; j < graphData[i].length; j++){
-			if(graphData[graphQuestions[i]][j] != null){
-				data.push(graphData[graphQuestions[i]][j]);			
-			}			
+		var qID = 0;
+		var questionNum = graphQuestions[i]
+		if (graphQuestions[i] > 9 && graphQuestions[i] < 14){
+			qID = 9;
 		}
+		else if(graphQuestions[i]==14){
+			qID = 10;
+		}
+		else if(graphQuestions[i]==15){
+			qID = 11;
+		}
+		else{
+			qID = graphQuestions[i]
+		}
+	
+		document.getElementById("q"+(i+1)+"text").innerHTML = questions[qID].question;
 
-		x = d3.scaleLinear()
-		    .domain([0, d3.max(data)])
+		//console.log("Question "+graphQuestions[i] + " has a length of: " + graphData[i].length);
+		//console.log(graphData[questionNum]);
+
+		for (var j = 0; j < graphData[questionNum].length; j++){
+				//console.log(graphData[questionNum], " AT ", questions[qID].question)			
+				
+				data2[j]=graphData[questionNum][j];
+					
+			}
+					
+
+			var dataCounter = 0;
+			x = d3.scaleLinear()
+		    .domain([0, d3.max(data2)])
 		    .range([0, 420]);
 
 			d3.select(".chart" + i)
 		  	.selectAll("div")
-		    .data(data)
+		    .data(data2)
 		  	.enter().append("div")
 		    .style("width", function(d) { return x(d) + "px"; })
 		    .text(function(d) { 
-		    	var zid = pollLabelArray[graphQuestions[i]][counter] + "-" + d;
-		  		counter++;
+		    	var zid = pollLabelArray[graphQuestions[i]][dataCounter] + "-" + d;
+		  		console.log(zid);
+		  		dataCounter++;
+		  	  		
 		    	return zid; })
 		    ;
+	
 	}
+
+		
 }
 
 //Subtracts time required to take a poll based on both sample size and the number of questions
