@@ -1,21 +1,23 @@
 module.exports = function(req, next){
 	var db = req.db;
-	var user = req.user.id;
+	var user = req.user.userId;
 	getSaveByID = 'SELECT `saveFile` FROM `saveData` WHERE `userID` = ?;',
 	error = false;
+	console.log(user);
 	var id = user.toString();
 	var saveFile = false;
 	db.query(getSaveByID, [id], function(err, result) 
 	{
-		if (err) 
+		
+		if(!result[0]) 
+		{
+			saveFile = "";
+			next(err, result);
+		}
+		else if (err) 
 		{
 			error = err.toString();
 			next(err, result)
-		}
-		else if (!result[0]) 
-		{
-			error = 'No result';
-			next(error, result);
 		}
 		else 
 		{

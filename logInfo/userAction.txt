@@ -60,3 +60,8 @@ candOpp-undefined-undefined-undefined-undefined
 114197433362653630517-candFameLiz-undefined-undefined-major-undefined
 114197433362653630517-candFameLiz-candTrustLiz-undefined-undefined-undefined
 114197433362653630517-candFav-candOpp-undefined-undefined-undefined
+114331033924308297753-major-undefined-undefined-undefined-undefined
+114331033924308297753-candFav-issueresearch-undefined-undefined-undefined
+114331033924308297753-group-undefined-undefined-group-undefined
+114331033924308297753-candFav-playTrust-undefined-group-undefined
+114331033924308297753-Posters-1477927242741
