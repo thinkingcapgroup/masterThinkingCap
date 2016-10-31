@@ -1,0 +1,10 @@
+.empty-state-section {
+  background: darken($background-color-accent, 5%);
+  width: 100%;
+  padding: $content-padding;
+  border-radius: 4px;
+}
+
+.empty-state-header {
+  text-align: center;
+}
