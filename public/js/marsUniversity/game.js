@@ -750,6 +750,7 @@ function userAction()
 {
 	//Clear previous screen
 	clearScreen();
+	console.log(pastGraphData);
 	var prevHours = document.getElementById("playerInfo");
 	var nextArea = document.getElementById("next");
 	prevHours.innerHTML = "";
@@ -3183,8 +3184,21 @@ function saveGameState()
 	
 	//Save remainingHours
 	textContents+=remainingHours;
-	
-	
+
+	//save graph data
+	textContents+="~";
+	for (var z =0; z < pastGraphData.length; z++){
+		if(z !=0){
+			textContents+="_";
+		}
+		for(var a = 0; a < pastGraphData[z].length;a++){
+			textContents+=pastGraphData[z][a];
+			if(a != pastGraphData[z].length -1){
+				textContents+="*";
+			}
+		}
+	}
+	//post all that information
 	$.post('/saver', {saveData: textContents});
 }
 
@@ -3192,7 +3206,7 @@ function loadGame()
 {
 	//Takes the Whole data and splits it into sections
 	var saveArray = saveState.split("~");
-	console.log(saveState);
+	console.log(saveArray);
 	
 	//Past Poll Choices Section
 	if(saveArray[0] != [])
@@ -3267,6 +3281,26 @@ function loadGame()
 	
 	//Remaining Hours Section
 	remainingHours = parseInt(saveArray[4]);
+
+	//past graph saveData
+	console.log(saveArray[5]);
+	var graph = [];
+	var graphgraph
+	var multiGraphData = saveArray[5].split("_");
+	for(var z = 0; z < multiGraphData.length; z++){
+		var questionData = multiGraphData[z].split("*");
+		for(var y = 0; y < questionData.length; y++){
+			var holderHolder = questionData[y].split(",")
+			var holdArray = []
+			for(var x = 0; x < holderHolder.length; x++){
+				holdArray[x] = holderHolder[x];
+			
+			}
+		graph.push(holdArray);
+		}
+	pastGraphData.push(graph);	
+	}
+	console.log(pastGraphData);
 	
 	back=true;
 	userAction();
