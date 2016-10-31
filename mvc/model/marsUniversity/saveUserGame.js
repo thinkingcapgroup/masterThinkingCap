@@ -1,10 +1,8 @@
 module.exports = function(req, data, next){
   		
 		var db = req.db;
-		var user = req.user.id;
+		var user = req.user.userId;
 		var SavetoID = 'SELECT userId FROM saveData Where userId = ?'; 
-		
-
 		
 		error = false;
 		
@@ -38,6 +36,7 @@ module.exports = function(req, data, next){
 			else
 			{
 				createUserSave = 'INSERT INTO saveData (userId,saveFile) VALUES (?,?);';
+				console.log("SAVING DATA")
 				db.query(createUserSave, [user, data], function(err, result) 
 				{
 					if (err) 
