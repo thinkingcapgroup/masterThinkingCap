@@ -2283,6 +2283,7 @@ function reportViewer(id)
 	clearScreen();
 	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	document.getElementById("next").style.display = "block";
+	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],true);
 	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],pastGraphData[id], true);
 }
 
