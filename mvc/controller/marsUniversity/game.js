@@ -5,10 +5,13 @@ var bodyParser = require('body-parser');
 
 module.exports = function(app) {
 
-
   app.get('/game', auth, function(req, res){
 
     renderMarsUniversityGame(req, res);
+  });
+  
+	app.get('/ajax', function(req, res) {
+	res.send(getData());
   });
 
   app.post('/logger',  function (req, res, next) {
@@ -20,6 +23,26 @@ module.exports = function(app) {
 
       console.log('Student information logged');
     });
+	 	res.end();
+ 	});
+	
+  app.post('/saver',  function (req, res) 
+	{
+		//TextFile Saving
+		var stringTem = req.body.saveData;
+	 	//fs.writeFile('saveFile/userSave.txt', stringTem, function (err) 
+		//{});
+		
+		//Database Saving
+	
+		require('../../model/marsUniversity/saveUserGame.js')(req, stringTem, function(err, success) {
+         if (err) {
+            console.error(err);
+         }
+        else {
+           
+         }
+        });
 	 	res.end();
  	});
 
@@ -38,8 +61,10 @@ module.exports = function(app) {
     res.end();
   });
 
+/*
   function renderMarsUniversityGame(req, res) {
     var model = require('../../model/global')(req, res);
+	model.saveState = getData(req,res);
     model.content.pageTitle = 'Thinking Cap - Mars University';
     model.content.gameTitle = 'Mars University';
 
@@ -47,5 +72,39 @@ module.exports = function(app) {
     res.render('marsUniversity/game', model);
   }
 
+ var getData = function(req,res) 
+ {
+	//var holder = fs.readFileSync('saveFile/userSave.txt', "utf8")
+	var holder;
+	
+	//Database Loading
+		require('../../model/marsUniversity/loadSave.js')(req, function(err, success) 
+{
+          if (err) {
+            console.error(err);
+          }
+          else {
+            return success;
+          }
+        });
+ }
+ */
  
+ function renderMarsUniversityGame(req, res) {
+	var model = require('../../model/global')(req, res);
+    model.content.pageTitle = 'Thinking Cap - Mars University';
+    model.content.gameTitle = 'Mars University';
+	require('../../model/marsUniversity/loadSave.js')(req, function(err, success) 
+		 {
+          if (err) {
+            console.error(err);
+          }
+          else {
+            model.saveState = success;
+			console.log(model.safeState);
+          }
+		  res.render('marsUniversity/game', model)
+        });
+	
+  }
 };
