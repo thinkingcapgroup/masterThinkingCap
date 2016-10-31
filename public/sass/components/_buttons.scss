@@ -1,9 +1,10 @@
 .btn {
   background: none;
   color: $foreground-color;
-
+  padding: calc(#{$content-padding}/1.5) $content-padding;
   border: 1px solid $foreground-color;
   font-size: 1.5em;
+  text-decoration: none;
 
   &.double {
     border: 5px double $foreground-color;

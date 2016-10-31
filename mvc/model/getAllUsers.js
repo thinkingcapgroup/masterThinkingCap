@@ -6,9 +6,9 @@ module.exports = function(req, next){
   db.query(getAllUsers,function(err, result) {
   	if (err) {
       error = err.toString();
-  		next(err, result)
+  		next(error, result)
   	}
-    
+
     else if (!result[0]) {
       error = 'No result';
       next(error, result);
