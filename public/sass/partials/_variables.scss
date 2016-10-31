@@ -1,0 +1,40 @@
+// Colors
+// -----------------------
+
+$white:	#f3f6fa;
+$black:	#231f20;
+$dark: #272727;
+$light: #ecf0f1;
+$gray: #999;
+$light-blue: #8BDBF5;
+
+$red: #e74c3c;
+// Base
+// ------------------------
+
+$background-color: $white;
+$foreground-color: $black;
+
+$background-color-accent: $light;
+$foreground-color-accent: $dark;
+
+$link-color: $black;
+$link-color-hover: $dark;
+
+$error-notifications-background: lighten($red, 5%);
+$error-notifications-background-accent: $red;
+
+$success-notifications-background: #52D681;
+$success-notifications-background-accent: darken(#52D681, 5%);
+
+$primary-font: 'Times😀', sans-serif;
+$header-font: 'Computerfont😀', sans-serif;
+
+$font-weight: 300;
+$font-weight-bold: 600;
+
+// Duration.
+$duration-transition: 0.2s;
+$duration-transition-long: 0.4s;
+
+$content-padding: 15px;

@@ -1,0 +1,23 @@
+.table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-row-heading {
+  background: darken($background-color-accent, 15%);
+}
+
+
+.table-row {
+  &:nth-of-type(2n+1) {
+    background: darken($background-color-accent, 10%);
+  }
+}
+
+.table-column-title {
+  padding: $content-padding;
+}
+
+.table-cell {
+  padding: $content-padding;
+}

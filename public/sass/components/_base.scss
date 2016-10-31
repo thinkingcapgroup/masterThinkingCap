@@ -1,3 +1,82 @@
+html * {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+*, *::after, *::before {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: $background-color;
+	color: $foreground-color;
+
+  font-family: $primary-font;
+	font-weight: $font-weight;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $header-font;
+  font-weight: $font-weight-bold;
+
+  line-height: 1em;
+}
+
+p {
+	font-size: 1em;
+	letter-spacing: 0.01rem;
+	line-height: 1.6;
+	margin-bottom: 1em;
+
+	@include MQ(M) {
+		line-height: 1.8;
+	}
+}
+
 a {
-  color: #e74c3c;
+	color: $foreground-color-accent;
+}
+
+ul {
+	list-style-type: none;
+}
+
+main {
+
+	padding: calc(#{$content-padding} * 2);
+
+	// Cover entire viewport
+	&.full-page {
+		// Remove browser-default margins
+		margin: 0;
+
+		// Height and width fallback for older browsers
+		height: 100%;
+		width: 100%;
+
+		// Set height, width to match old browsers
+		height: 100vh;
+		width: 100vw;
+
+		// Hide overflow
+		overflow: hidden;
+
+		background: url('../media/img/login/thinkingcaploginbg.png');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+}
+
+// Wrapper for the view
+.wrapper {
+	position: relative;
+	margin: 0 auto;
+	width: 90%;
+	max-width: $L;
+	height: 100%;
+}
+
+.remove, .hide {
+	display: none;
 }

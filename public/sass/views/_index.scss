@@ -1,0 +1,20 @@
+#index {
+
+  #index-section {
+    position: absolute;
+    text-align: center;
+    @include center(xy);
+    text-transform: uppercase;
+  }
+
+  #index-title {
+    font-size: 4em;
+    margin-bottom: $content-padding;
+    animation: fadeOut 2s;
+  }
+
+  #index-link {
+    animation: fadeIn 0.2s;
+    font-size: 3em;
+  }
+}

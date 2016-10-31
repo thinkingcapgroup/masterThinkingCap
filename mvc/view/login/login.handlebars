@@ -1,0 +1,51 @@
+<main class='full-page' id='login'>
+  {{#if errorNotifications}}
+    <ul class='notifications error-notifications'>
+      {{#each errorNotifications}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+  <article class='wrapper'>
+    <header class='thinking-cap-header'>
+      <h1 class='thinking-cap-title'>{{content.appTitle}}</h1>
+    </header>
+    <section id='login-section'>
+      <form id='login-form' action='/login' method='post'>
+        <input class='input' type='text' name='username' placeholder='Username' />
+        <input class='input' type='password' name='password' placeholder='Password' />
+
+        <ul id='login-actions'>
+          <li class='login-action'>
+            <button class='btn' type='submit' name='loginSubmit' value='loginSubmit'>Log in</button>
+          </li>
+          <li class='login-action'>
+            <a class='btn' href='auth/google'>Sign in with Google</a>
+          </li>
+        </ul>
+      </form>
+      <div id='normal-curve-container'></div>
+    </section>
+    <footer id='footer'>
+      <ul id='account-links'>
+        <li>
+          <a class='btn' href='/'>Forgot Password</a>
+        </li>
+        <li>
+          <a class='btn' href='/consentauthorization'>Create Account</a>
+        </li>
+      </ul>
+      <ul id='reference-links'>
+        <li>
+          <a href='/help'>Help</a>
+        </li>
+        <li>
+          <a href='/terms'>Terms of Service</a>
+        </li>
+        <li>
+          <a href='/credits'>Credits</a>
+        </li>
+      </ul>
+    </footer>
+  </article>
+</main>

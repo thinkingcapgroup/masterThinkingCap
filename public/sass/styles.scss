@@ -1,5 +1,28 @@
-body {
-  font-family: 'Helvetica Neue';
-}
+@import
+        // Partials
+        './partials/layout',
+        './partials/mixins',
+        './partials/variables',
 
-@import './components/base';
+        // Components
+        './components/reset',
+        './components/animations',
+        './components/fonts',
+        './components/base',
+        './components/header',
+        './components/footer',
+        './components/emptyState',
+        './components/buttons',
+        './components/forms',
+        './components/cards',
+        './components/tables',
+        './components/notifications',
+        './components/bugReport',
+
+        // Views
+        './views/index',
+        './views/login',
+        './views/viewLayout',
+
+        // TEST FILE
+        './test';

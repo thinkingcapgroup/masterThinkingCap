@@ -1,0 +1,29 @@
+.card-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  margin: $content-padding;
+  padding: $content-padding;
+
+  a {
+    font-size: 1.5em;
+    display: block;
+    width: 100%;
+    padding: $content-padding;
+    border: 1px solid $foreground-color-accent;
+    color: $foreground-color;
+    text-decoration: none;
+
+    text-transform: uppercase;
+
+    &:hover {
+      background: $foreground-color;
+      color: $background-color;
+    }
+
+  }
+}
