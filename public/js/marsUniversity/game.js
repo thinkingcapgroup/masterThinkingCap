@@ -2,10 +2,10 @@
 var groupList = ["socialite", "athlete", "researcher", "mediaLover", "reader"];
 var majorList = ["business", "engineering", "tech", "fineArts", "libArts"];
 var stuEconomic = ["poverty", "low", "midLow", "midHigh", "high"];
-var playerCandidate = new CandidateCreate("ph","ph", "ph", "ph")
-var opponentCandidate = new CandidateCreate("Liz", "Lizard", "Non-Binary", "Average");
+var playerCandidate = new CandidateCreate("ph")
+var opponentCandidate = new CandidateCreate("Liz");
 var tableHeaders = ["Favored Issue", "Least Favored Issue", "Favored Candidate", "Least Favored Candidate", "Major", "Class", "Group", "Our Candidate's Fame", "Our Candidate's Trust", "Issue Support: ", "Candidate's Fame: ","Candidate's Trust: "];
-var tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
+var tableArrays = [[ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
 var pastPollChoices = [];
 var pastPollResults = [];
 var pastPollSizes = [];
@@ -16,6 +16,8 @@ var bodyTypeArray = ["Thin", "Medium", "Plus", "HoverChair"];
 var back = false;
 var num = 1;
 var graphData;
+var textContents;
+var saveState;
 
 //sprite stuff
 var heads = new Image();
@@ -119,6 +121,8 @@ function startGame(){
 	console.log("Game initialized and loaded @ T:" + date);
 	//console.log("Game initialized and loaded!");
 
+	
+	console.log(saveState);
 	var Json;
 	var oReq = new XMLHttpRequest();
 	oReq.onload = function (e)
@@ -127,7 +131,7 @@ function startGame(){
 		events = Json.events;
 		questions = Json.questions;
 	};
-	oReq.open("get", "json/events.json", true);
+	oReq.open("get", "json/data.json", true);
 	oReq.send();
 }
 
@@ -702,7 +706,7 @@ function gameCycleStart(f)
 		break;
 	}
 	candidates.push(playerCandidate);
-
+	
 	for ( var i =0;i<5; i++)
 	{
 		if(i!=f)
@@ -715,7 +719,7 @@ function gameCycleStart(f)
 		var oppFocus = Math.floor(Math.random(0,4));
 		opponentCandidate.focus = positions[oppChoice[oppFocus]];
 		opponentCandidate.focusnum = oppChoice[oppFocus];
-		opponentCandidate.fame = [2,2,2,2,2,2,2.2,1,1,1,1,1,1,1,1];
+		opponentCandidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
 		opponentCandidate.consMod = 0;
 		//console.log(oppFocus);
 		switch(oppChoice[oppFocus])
@@ -738,7 +742,6 @@ function gameCycleStart(f)
 		}
 	candidates.push(opponentCandidate);
 
-	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + playerCandidate.focus + "</h2>";
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
 	userAction();
 };
@@ -751,10 +754,10 @@ function userAction()
 	var nextArea = document.getElementById("next");
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
-
+	if(!back)
+		saveGameState();
 
 	//Build User Action Area buttons
-	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidates[0].focus + "</h2>";
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='poll()'> Take A Poll </button>";
 	document.getElementById("choices").innerHTML += "<button type='button' class='logEvent' onclick='gameCycleEnd()'> Skip to the End </button>";
@@ -768,52 +771,19 @@ function userAction()
 	document.getElementById("gameInfo").innerHTML += "<h4> Opponent\'s Last Move:" + opponentCandidate.lastMove + "</h4>";
 	document.getElementById("choices").innerHTML += "<br>";
 
-	if(!back)
+	currentEvents = [];
+	
+	//Adds events to button list randomly from those available and Prevents Duplicates and events with more time than is available
+	for(var i = 1;i<events.length;i++)
 	{
-		currentEvents = [];
-	
-		//Adds events to button list randomly from those available and Prevents Duplicates and events with more time than is available
-		for(var i = 1;i<events.length;i++)
-		{
-			var addEvent = true;
-			
-			var currentEvent = events[i];
-			for(var j = 0;j<currentEvents.length;j++)
-			{
-	
-				if(currentEvent.name == currentEvents[j].name || currentEvent.timeRequired > remainingHours)
-				{
-					addEvent = false;
-				}
-	
-			}
-	
-			if(addEvent)
-			{
-				currentEvents.push(currentEvent);
-				var eventDescription = currentEvent.name + " - " + currentEvent.timeRequired;
-				var arrayPos = currentEvent.id -1;
-				document.getElementById("choices").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
-				
-			}
-			else
-			{
-				i--;
-			}
-		}
-		document.getElementById("choices").innerHTML += "<button onclick='action()'>Preform Action</button>";
-		document.getElementById("actionRadio1").checked = true;
+		currentEvents.push(events[i]);
+		var eventDescription = events[i].name + " - " + events[i].timeRequired;
+		var arrayPos = events[i].id -1;
+		document.getElementById("choices").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
 	}
-	else 
-	{
-		for(var j = 0;j<currentEvents.length;j++)
-			{
-				var eventDescription = currentEvents[j].name + " - " + currentEvents[j].timeRequired;
-				var arrayPos = currentEvents[j].id -1;
-				document.getElementById("choices").innerHTML += "<button onclick='action()'>Preform Action</button>";
-			}
-	}
-
+	document.getElementById("choices").innerHTML += "<button onclick='action()'>Perform Action</button>";
+	document.getElementById("actionRadio1").checked = true; 
+	
 	//Show changes to screen
 	document.getElementById("choices").style.display = "block";
 };
@@ -828,27 +798,320 @@ function action()
 	nextArea.innerHTML = "";
 	chosenEvent = events[choice];
 	back = false;
-	console.log(events);
 	
 	//document.getElementById("choices").innerHTML += "<button type='button' onclick='userAction()' >View Poll "+ num +" Result </button>";
-	if(remainingHours > chosenEvent.timeRequired)
+	if(remainingHours >= chosenEvent.timeRequired)
 	{
 		chosenEvent = events[choice];
 	
-		if(chosenEvent.type=="minigame")
-		{
-			//Call the function of the minigamegame from the DB
-		}
-		else if(chosenEvent.type=="smallEvent")
+		if(chosenEvent.type=="smallEvent")
 		{
 			//Creates the screen for the event
-			var eventHours = chosenEvent.timeRequired;
+			var eventHours = parseInt(chosenEvent.timeRequired);
 			document.getElementById("event").innerHTML += "<h4>" + chosenEvent.text + " </h4>";
+			if(chosenEvent.groupPos != [])
+			{
+				var effects = chosenEvent.groupPos.split(',');
+				var posText =  "<h4> These Groups will be affected positively: ";
+				for (var i =0; i< effects.length;i++)
+				{
+				switch(effects[i])
+				{
+					case "Poor":
+						posText += "Poor Economic Status";
+					break;
+					
+					case "Low":
+						posText += "Lower Economic Status";
+					break;
+					case "Low Mid":
+						posText += "Lower Middle Economic Status";
+					break;
+					case "Upper Mid":
+						posText += "Upper Middle Economic Status";
+					break;
+					case "High":
+						posText += "Upper Economic Status";
+					break;
+					
+					case "Fine Arts":
+						posText += "Fine Arts Major";
+					break;
+					
+					case "Bus":
+						posText += "Business Major";
+					break;
+					case "Eng":
+						posText += "Engineering Major";
+					break;
+					case "Lib Arts":
+						posText += "Liberal Arts Major";
+					break;
+					case "Tech":
+						posText += "Technology Major";
+					break;
+					
+					case "Media":
+						posText += "Media Lover Group";
+					break;
+					
+					case "Soc":
+						posText += "Socialite Group";
+					
+					break;
+					case "Read":
+						posText += "Reader Group";
+					
+					break;
+					case "Res":
+						posText += "Researcher Group";
+					
+					break;
+					case "Ath":
+						posText += "Athlete Group";
+					
+					break;
+				}
+				if(i != effects.length-1)
+				{
+					posText += ", ";
+				}
+				else{
+					posText += " ";
+				}
+			}
+				document.getElementById("event").innerHTML += posText+ " </h4>";
+			}
+			if(chosenEvent.groupNeg != [])
+			{
+				var negEffects = chosenEvent.groupNeg.split(',');
+				var negText =  "<h4> These Groups will be affected negatively: ";
+				for (var i =0; i< negEffects.length;i++)
+				{
+				switch(negEffects[i])
+				{
+					case "Poor":
+						negText += "Poor Economic Status";
+					break;
+					
+					case "Low":
+						negText += "Lower Economic Status";
+					break;
+					case "Low Mid":
+						negText += "Lower Middle Economic Status";
+					break;
+					case "Upper Mid":
+						negText += "Upper Middle Economic Status";
+					break;
+					case "High":
+						negText += "Upper Economic Status";
+					break;
+					
+					case "Fine Arts":
+						negText += "Fine Arts Major";
+					break;
+					
+					case "Bus":
+						negText += "Business Major";
+					break;
+					case "Eng":
+						negText += "Engineering Major";
+					break;
+					case "Lib Arts":
+						negText += "Liberal Arts Major";
+					break;
+					case "Tech":
+						negText += "Technology Major";
+					break;
+					
+					case "Media":
+						negText += "Media Lover Group";
+					break;
+					
+					case "Soc":
+						negText += "Socialite Group";
+					
+					break;
+					case "Read":
+						negText += "Reader Group";
+					
+					break;
+					case "Res":
+						negText += "Researcher Group";
+					
+					break;
+					case "Ath":
+						negText += "Athlete Group";
+					
+					break;
+				}
+				if(i != negEffects.length-1)
+				{
+					negText += ", ";
+				}
+				else{
+					negText += " ";
+				}
+			}
+				document.getElementById("event").innerHTML += negText+ " </h4>";
+			}
+			
 	
 			for(var i =0; i<chosenEvent.options.length; i++)
 			{
-				document.getElementById("event").innerHTML += "<h4>" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours</h4>";
-				document.getElementById("event").innerHTML += "<input type='checkbox' id = " + chosenEvent.options[i].optionID+" >";
+				var totalText = "";
+				if( (eventHours + parseInt(chosenEvent.options[i].extraTime)) <= remainingHours)
+				{
+					var posText ="";
+					var negText = "";
+					if(chosenEvent.options[i].posEffects != [])
+					{
+						var effects = chosenEvent.options[i].posEffects.split(',');
+						posText =  " -  Positive Effects: ";
+						for (var j =0; j< effects.length;j++)
+						{
+							switch(effects[j])
+							{
+								case "Poor":
+									posText += "Poor Economic Status";
+								break;
+								
+								case "Low":
+									posText += "Lower Economic Status";
+								break;
+								case "Low Mid":
+									posText += "Lower Middle Economic Status";
+								break;
+								case "Upper Mid":
+									posText += "Upper Middle Economic Status";
+								break;
+								case "High":
+									posText += "Upper Economic Status";
+								break;
+								
+								case "Fine Arts":
+									posText += "Fine Arts Major";
+								break;
+								
+								case "Bus":
+									posText += "Business Major";
+								break;
+								case "Eng":
+									posText += "Engineering Major";
+								break;
+								case "Lib Arts":
+									posText += "Liberal Arts Major";
+								break;
+								case "Tech":
+									posText += "Technology Major";
+								break;
+								
+								case "Media":
+									posText += "Media Lover Group";
+								break;
+								
+								case "Soc":
+									posText += "Socialite Group";
+								
+								break;
+								case "Read":
+									posText += "Reader Group";
+								
+								break;
+								case "Res":
+									posText += "Researcher Group";
+								
+								break;
+								case "Ath":
+									posText += "Athlete Group";
+								
+								break;
+							}
+							if(j != effects.length-1)
+							{
+								posText += ", ";
+							}
+							else{
+								posText += " ";
+							}
+						}
+					}
+					totalText += posText;
+					if(chosenEvent.options[i].negEffects != [])
+					{
+						var negEffects = chosenEvent.options[i].negEffects.split(',');
+						negText =  " -  Negative Effects: ";
+						for (var j =0; j< negEffects.length;j++)
+						{
+							switch(negEffects[j])
+							{
+								case "Poor":
+									negText += "Poor Economic Status";
+								break;
+								
+								case "Low":
+									negText += "Lower Economic Status";
+								break;
+								case "Low Mid":
+									negText += "Lower Middle Economic Status";
+								break;
+								case "Upper Mid":
+									negText += "Upper Middle Economic Status";
+								break;
+								case "High":
+									negText += "Upper Economic Status";
+								break;
+								
+								case "Fine Arts":
+									negText += "Fine Arts Major";
+								break;
+								
+								case "Bus":
+									negText += "Business Major";
+								break;
+								case "Eng":
+									negText += "Engineering Major";
+								break;
+								case "Lib Arts":
+									negText += "Liberal Arts Major";
+								break;
+								case "Tech":
+									negText += "Technology Major";
+								break;
+								
+								case "Media":
+									negText += "Media Lover Group";
+								break;
+								
+								case "Soc":
+									negText += "Socialite Group";
+								
+								break;
+								case "Read":
+									negText += "Reader Group";
+								
+								break;
+								case "Res":
+									negText += "Researcher Group";
+								
+								break;
+								case "Ath":
+									negText += "Athlete Group";
+								
+								break;
+							}
+							if(j != negEffects.length-1)
+							{
+								negText += ", ";
+							}
+							else{
+								negText += " ";
+							}
+						}
+					}
+					totalText += negText;
+					document.getElementById("event").innerHTML += "<input type='radio' name = 'option' id = " + chosenEvent.options[i].optionID + ">" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours" +totalText+"<br>";
+				}
 			}
 			
 		}
@@ -856,10 +1119,15 @@ function action()
 		{
 	
 		}
+		document.getElementById("event").innerHTML += "<br> <button type='button' class='logEvent' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
+	}
+	else
+	{
+		document.getElementById("event").innerHTML += "<h4> You dont have the enough time left to do the selected action. \n Return to the User Action area to select another action or end the game.</h4>";
 	}
 
-	document.getElementById("event").innerHTML += "<br> <button type='button' class='logEvent' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
-	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='userAction()' > Back </button>";
+	
+	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
 	//Show changes to screen
 	document.getElementById("event").style.display = "block";
 };
@@ -875,17 +1143,20 @@ function submitAction(id, eventHours)
 	totalNegEffects = chosenEvent.groupNeg.split(",");
 	for(var j =0; j<chosenEvent.options.length; j++)
 	{
-		if(document.getElementById(chosenEvent.options[j].optionID).checked == true)
+		if( (parseFloat(chosenEvent.timeRequired) + parseFloat(chosenEvent.options[j].extraTime)) <= remainingHours)
 		{
-			eventHours+= parseFloat(chosenEvent.options[j].extraTime);
-			//Add Positive/Negative Effects to event based on JSOn
-			var optionPosEffects = chosenEvent.options[j].posEffects.split(",");
-			var optionNegEffects = chosenEvent.options[j].negEffects.split(",");
-			for(var i =0;i<optionPosEffects.length;i++)
-			{totalPosEffects.push(optionPosEffects[i]);}
-
-			for(var k =0;k<optionNegEffects.length;k++)
-			{totalNegEffects.push(optionNegEffects[k]);}
+			if(document.getElementById(chosenEvent.options[j].optionID).checked == true)
+			{
+				eventHours+= parseFloat(chosenEvent.options[j].extraTime);
+				//Add Positive/Negative Effects to event based on JSOn
+				var optionPosEffects = chosenEvent.options[j].posEffects.split(",");
+				var optionNegEffects = chosenEvent.options[j].negEffects.split(",");
+				for(var i =0;i<optionPosEffects.length;i++)
+				{totalPosEffects.push(optionPosEffects[i]);}
+	
+				for(var k =0;k<optionNegEffects.length;k++)
+				{totalNegEffects.push(optionNegEffects[k]);}
+			}
 		}
 	}
 	remainingHours-= eventHours;
@@ -914,7 +1185,6 @@ function gameCycleEnd()
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
 
-	document.getElementById("playerInfo").innerHTML += "<h2> Focus Issue: " + candidates[0].focus + "</h2>";
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
 	votePercentage(1000);
 	var winner;
@@ -923,6 +1193,7 @@ function gameCycleEnd()
 	{
 		if(candidates[i].votes > winvotes)
 		{
+			winvotes= candidate[i].votes;
 			winner = candidates[i].name;
 		}
 	}
@@ -939,50 +1210,82 @@ function poll()
 	clearScreen();
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
-
-	document.getElementById("event").innerHTML += "<h4> Select the questions you want to ask on the poll </h4>";
-	//Populates the questions based on the JSON File
-	for(var i = 0; i<5 ;i++)
+	
+	back = false;
+	if(remainingHours> 2 )
 	{
-		var none = "";
-		document.getElementById("event").innerHTML += " <select class = 'pollQ'id =\"poll"+i+ "\"> </select> ";
-		document.getElementById("poll"+i+"").options.add(new Option("None", none));
-			for(var j = 0; j<questions.length; j++)
-			{
-				if(questions[j].id == 9)
+		document.getElementById("event").innerHTML += "<h4> Select the amount of people you want to poll. The time will increase by 1 hour for every 10 people.  </h4>";
+		document.getElementById("event").innerHTML += " <select id = 'sample'> </select> ";
+		
+		document.getElementById("sample").options.add(new Option("Sample 10 Students", 10));
+		if(remainingHours> 3 )
+			document.getElementById("sample").options.add(new Option("Sample 20 Students", 20));
+		if(remainingHours> 4 )
+			document.getElementById("sample").options.add(new Option("Sample 30 Students", 30));
+		if(remainingHours> 5 )
+			document.getElementById("sample").options.add(new Option("Sample 40 Students", 40));
+		if(remainingHours> 6 )
+			document.getElementById("sample").options.add(new Option("Sample 50 Students", 50));
+		if(remainingHours> 7 )
+			document.getElementById("sample").options.add(new Option("Sample 60 Students", 60));
+		if(remainingHours> 8 )
+			document.getElementById("sample").options.add(new Option("Sample 70 Students", 70));
+		if(remainingHours> 9 )
+			document.getElementById("sample").options.add(new Option("Sample 80 Students", 80));
+		if(remainingHours> 10 )
+			document.getElementById("sample").options.add(new Option("Sample 90 Students", 90));
+			
+		document.getElementById("event").innerHTML += "<h4> Select the questions you want to ask on the poll. Every set of one or two questions you add will equal an hour. </h4> <br>";
+		//Populates the questions based on the JSON File
+		for(var i = 0; i<5 ;i++)
+		{
+			var none = "";
+			document.getElementById("event").innerHTML += " <select class = 'pollQ' id =\"poll"+i+ "\"> </select> ";
+			document.getElementById("poll"+i+"").options.add(new Option("None", none));
+				for(var j = 0; j<questions.length; j++)
 				{
-					for(var k = 0;k<positions.length;k++)
+					if(questions[j].id == 9)
 					{
-						var questionText = questions[j].question + positions[k];
-						var questionVal = questions[j].value + "" + positionsLower[k];
-						document.getElementById("poll"+i+"").options.add(new Option(questionText, questionVal));
+						for(var k = 0;k<positions.length;k++)
+						{
+							var questionText = questions[j].question + positions[k];
+							var questionVal = questions[j].value + "" + positionsLower[k];
+							document.getElementById("poll"+i+"").options.add(new Option(questionText, questionVal));
+						}
 					}
-				}
-				else if(questions[j].id == 10)
-				{
-					for(var l = 1;l<candidates.length;l++)
+					else if(questions[j].id == 10)
 					{
-						var questionText = questions[j].question +  candidates[l].name;
-						var questionVal = questions[j].value + candidates[l].name;
-						document.getElementById("poll"+i+"").options.add(new Option(questionText, questionVal));
+						for(var l = 1;l<candidates.length;l++)
+						{
+							var questionText = questions[j].question +  candidates[l].name;
+							var questionVal = questions[j].value + candidates[l].name;
+							document.getElementById("poll"+i+"").options.add(new Option(questionText, questionVal));
+						}
 					}
-				}
-				else if(questions[j].id == 11)
-				{
-					for(var l = 1;l<candidates.length;l++)
+					else if(questions[j].id == 11)
 					{
-						var questionText = questions[j].question +  candidates[l].name;
-						var questionVal = questions[j].value + candidates[l].name;
-						document.getElementById("poll"+i+"").options.add(new Option(questionText, questionVal));
+						for(var l = 1;l<candidates.length;l++)
+						{
+							var questionText = questions[j].question +  candidates[l].name;
+							var questionVal = questions[j].value + candidates[l].name;
+							document.getElementById("poll"+i+"").options.add(new Option(questionText, questionVal));
+						}
 					}
+					else
+					{document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));}
 				}
-				else
-				{document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));}
-			}
-		document.getElementById("event").innerHTML += "<br><br>";
+			document.getElementById("event").innerHTML += "<br><br>";
+		}
 	}
+	else
+	{
+		document.getElementById("event").innerHTML += "<h4> You do not have enough time remaining to take a poll.</h4>";
+	}
+	
+	
 	//Displays the screen for this event
 	document.getElementById("next").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults()'> Submit Poll </button>";
+	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
 	document.getElementById("event").style.display = "block";
 	document.getElementById("next").style.display = "block";
 };
@@ -1018,15 +1321,19 @@ function pollResults()
 			}
 		}
 	}
+	
+	var sample = document.getElementById("sample");
+	var sampleSize = parseFloat(sample.options[sample.selectedIndex].value);
+	
 	//Clear previous screen
 	clearScreen();
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 	
 
-	if(pollChoices.length == 0)
+	if(pollChoices.length < 2)
 	{
-		document.getElementById("gameInfo").innerHTML += "<p> You have no questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'poll()'> Reselect Poll Questions </button>";
+		document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'poll()'> Reselect Poll Questions </button>";
 	}
 	else if(duplicate)
 	{
@@ -1034,10 +1341,14 @@ function pollResults()
 		//console.log(duplicate);
 		document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'poll()'> Reselect Poll Questions </button>";
 	}
+	else if(!pollTimeCheck(sampleSize, pollChoices))
+	{
+		document.getElementById("gameInfo").innerHTML += "<p> You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.</p>  <button onclick = 'poll()'> Reselect Poll Questions </button>";
+	}
 	else
 	{
-		pollCalc(pollChoices, 20);
-		document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button><br>";
+		pollCalc(pollChoices, sampleSize);
+		document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	}
 
 
@@ -1728,11 +2039,8 @@ function Student(group, ecoClass, major, tuitionScore, athleticScore, researchSc
 }
 
 //used for making Player Candidate & Opponent Candidate
-function CandidateCreate(name,race,gender,bodyType){
+function CandidateCreate(name){
 	this.name = name;
-	this.race = race;
-	this.gender = gender;
-	this.bodyType = bodyType;
 	this.fame= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	this.issueScore= [0,0,0,0,0];
 	this.consMod= .5;
@@ -1814,11 +2122,26 @@ function votePercentage(sampleSize)
 			var fame = 0;
 			fame = fameCalc(candidates[j], sample[i]);
 			//console.log(candidates[j].name +" Fame: "+ fame);
-
-			var issues = parseFloat(sample[i].tuitionScore) + parseFloat(candidates[j].issueScore[0]) + parseFloat(sample[i].athleticScore) + parseFloat(candidates[j].issueScore[1]) + parseFloat(sample[i].researchScore)+ parseFloat(candidates[j].issueScore[2])+ parseFloat(sample[i].eventScore)  + parseFloat(candidates[j].issueScore[3])+ parseFloat(sample[i].medicalScore) + parseFloat(candidates[j].issueScore[4]);
+			if(i != 1)
+			{
+				var issues = parseFloat(sample[i].tuitionScore) + parseFloat(candidates[j].issueScore[0]) + parseFloat(sample[i].athleticScore) + parseFloat(candidates[j].issueScore[1]) + parseFloat(sample[i].researchScore)+ parseFloat(candidates[j].issueScore[2])+ parseFloat(sample[i].eventScore)  + parseFloat(candidates[j].issueScore[3])+ parseFloat(sample[i].medicalScore) + parseFloat(candidates[j].issueScore[4]);
+			}
+			else
+			{
+				var issues = Math.abs(parseFloat(sample[i].tuitionScore)) + parseFloat(candidates[j].issueScore[0]) + Math.abs(parseFloat(sample[i].athleticScore)) + parseFloat(candidates[j].issueScore[1]) + Math.abs(parseFloat(sample[i].researchScore))+ parseFloat(candidates[j].issueScore[2])+ Math.abs(parseFloat(sample[i].eventScore))  + parseFloat(candidates[j].issueScore[3])+ Math.abs(parseFloat(sample[i].medicalScore)) + parseFloat(candidates[j].issueScore[4]);
+			}
 			//console.log(candidates[j].name +" Issue Score: "+ issues);
-
-			var candWinPer = fame + (issues*sample[i].studentCaring) + candidates[j].consMod;
+			if(i != 1)
+			{
+				var candWinPer = 10*Math.pow(fame*issues,2) - candidates[j].consMod;
+			}
+			else
+			{
+				var candWinPer = 10*0.5*issues;
+			}
+			
+			
+			
 			//console.log(candidates[j].name +" Win Percentage: "+ candWinPer);
 			//console.log("");
 
@@ -1937,7 +2260,7 @@ function clearScreen()
 	gameOutput.innerHTML = "";
 	prevChoices.innerHTML = "";
 	prevEvent.innerHTML = "";
-	prevTable.innerHTML = "<table class='sortable'><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
+	prevTable.innerHTML = "<table id = 'tab' class='sortable'><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
 }
 
 function resetGame()
@@ -1959,6 +2282,7 @@ function reportViewer(id)
 {
 	clearScreen();
 	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
+	document.getElementById("next").style.display = "block";
 	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],pastGraphData[id], true);
 }
 
@@ -2498,11 +2822,34 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 				case "fame":
 							var cell = row.insertCell(i);
 							cell.innerHTML = parseFloat(tableArray2[7][h]).toFixed(2);
+							if(parseFloat(tableArray2[7][h]).toFixed(2) <= 0.33)
+								{
+									cell.innerHTML = "Candidate Unknown Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+								}
+								else if(parseFloat(tableArray2[7][h]).toFixed(2)>0.33 && parseFloat(tableArray2[7][h]).toFixed(2)<0.66)
+								{
+									cell.innerHTML = "Aware of Candidate Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+								}
+								else
+								{
+									cell.innerHTML = "Candidate Known: " + parseFloat(tableArray2[7][h]).toFixed(2);
+								}
 				break;
 
 				case "playTrust":
 							var cell = row.insertCell(i);
-							cell.innerHTML = parseFloat(tableArray2[8][h]).toFixed(2);
+							if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.33)
+								{
+									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+								}
+								else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.33 && parseFloat(tableArray2[8][h]).toFixed(2)<0.66)
+								{
+									cell.innerHTML = "Sort Of Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+								}
+								else
+								{
+									cell.innerHTML = "Completely Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+								}
 				break;
 			}
 			for(var k = 0;k<positions.length;k++)
@@ -2513,28 +2860,82 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 					{
 						case "issuetuition":
 								var cell = row.insertCell(i);
-								cell.innerHTML = tableArray2[9][h];
-
+								if(tableArray2[9][h] <= -2)
+								{
+									cell.innerHTML = "Issue Disliked Score: " + tableArray2[9][h];
+								}
+								else if(tableArray2[9][h]>-2 && tableArray2[9][h]<2)
+								{
+									cell.innerHTML = "Issue Neutral Score: " + tableArray2[9][h];
+								}
+								else
+								{
+									cell.innerHTML = "Issue Liked Score: " + tableArray2[9][h];
+								}
 						break;
 
 						case "issueathletic":
 								var cell = row.insertCell(i);
-								cell.innerHTML = tableArray2[10][h];
+								if(tableArray2[10][h] <= -2)
+								{
+									cell.innerHTML = "Issue Disliked Score: " + tableArray2[10][h];
+								}
+								else if(tableArray2[10][h]>-2 && tableArray2[10][h]<2)
+								{
+									cell.innerHTML = "Issue Neutral Score: " + tableArray2[10][h];
+								}
+								else
+								{
+									cell.innerHTML = "Issue Liked Score: " + tableArray2[10][h];
+								}
 						break;
 
 						case "issueresearch":
 							cell = row.insertCell(i);
-							cell.innerHTML = tableArray2[11][h];
+							if(tableArray2[11][h] <= -2)
+								{
+									cell.innerHTML = "Issue Disliked Score: " + tableArray2[11][h];
+								}
+								else if(tableArray2[11][h]>-2 && tableArray2[11][h]<2)
+								{
+									cell.innerHTML = "Issue Neutral Score: " + tableArray2[11][h];
+								}
+								else
+								{
+									cell.innerHTML = "Issue Liked Score: " + tableArray2[11][h];
+								}
 						break;
 
 						case "issueevents":
 								var cell = row.insertCell(i);
-								cell.innerHTML = tableArray2[12][h];
+								if(tableArray2[12][h] <= -2)
+								{
+									cell.innerHTML = "Issue Disliked Score: " + tableArray2[12][h];
+								}
+								else if(tableArray2[12][h]>-2 && tableArray2[12][h]<2)
+								{
+									cell.innerHTML = "Issue Neutral Score: " + tableArray2[12][h];
+								}
+								else
+								{
+									cell.innerHTML = "Issue Liked Score: " + tableArray2[12][h];
+								}
 						break;
 
 						case "issuemedical":
 								var cell = row.insertCell(i);
-								cell.innerHTML = tableArray2[13][h];
+								if(tableArray2[13][h] <= -2)
+								{
+									cell.innerHTML = "Issue Disliked Score: " + tableArray2[13][h];
+								}
+								else if(tableArray2[13][h]>-2 && tableArray2[13][h]<2)
+								{
+									cell.innerHTML = "Issue Neutral Score: " + tableArray2[13][h];
+								}
+								else
+								{
+									cell.innerHTML = "Issue Liked Score: " + tableArray2[13][h];
+								}
 						break;
 					}
 				}
@@ -2547,6 +2948,19 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 				if(pollChoices[i] == "candFame" + candidates[k].name)
 				{
 							var cell = row.insertCell(i);
+							var counter = 13+k;
+								if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
+								{
+									cell.innerHTML = "Candidate Unknown Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+								}
+								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
+								{
+									cell.innerHTML = "Aware of Candidate Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+								}
+								else
+								{
+									cell.innerHTML = "Candidate Known: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+								}
 							cell.innerHTML = parseFloat(tableArray2[canCounter][h]).toFixed(2);							
 				}
 				canCounter++;
@@ -2556,6 +2970,20 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 			{
 				if(pollChoices[i] == "candTrust" + candidates[k].name)
 				{
+							var cell = row.insertCell(i);
+							var counter = 18+k;
+							if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
+							{
+								cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+							}
+							else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
+							{
+								cell.innerHTML = "Issue Neutral Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+							}
+							else
+							{
+								cell.innerHTML = "Issue Liked Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+							}
 							var cell = row.insertCell(i);							
 							cell.innerHTML = parseFloat(tableArray2[canCounter][h]).toFixed(2);		
 							
@@ -2575,6 +3003,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 		tableArrays =  [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
 		pollTime(sSize, pollChoices);
 	}
+	sorttable.makeSortable(document.getElementById('tab'));
 	document.getElementById("table").style.display = "block";
 
 	var counter = 0;
@@ -2658,15 +3087,196 @@ function pollTime(sSize, pollQuestions)
 	remainingHours -= timeRequired;
 }
 
+function pollTimeCheck(sSize, pollQuestions)
+{
+	if(pollQuestions.length%2 == 0)
+	{
+		timeRequired = sSize/10 + (pollQuestions.length*.5);
+	}
+	else
+	{
+		timeRequired = sSize/10 + (pollQuestions.length*0.5) +0.5;
+	}
+	return (timeRequired < remainingHours);
+}
 
+function backtoUA()
+{
+	back = true;
+	userAction();
+}
+
+function saveGameState()
+{
+	textContents="";
+   //Save contents of pastPollChoices into the text file
+	for(var i=0; i<pastPollChoices.length;i++)
+	{
+		for(var j=0; j<pastPollChoices[i].length;j++)
+		{
+				textContents+= pastPollChoices[i][j];
+				if(j!=pastPollChoices[i].length-1)
+				textContents+="*";
+		}
+		if(i!=pastPollChoices.length-1)
+			textContents+="_";
+	}
+	textContents+="~";
+    //Save contents of pastPollResults into the text file
+	for(var i=0; i<pastPollResults.length;i++)
+	{
+		for(var j=0; j<pastPollResults[i].length;j++)
+		{
+			textContents+= pastPollResults[i][j];
+				if(j!=pastPollResults[i].length-1)
+				textContents+="*";
+		}
+		if(i!=pastPollResults.length-1)
+			textContents+="_";
+	}
+	textContents+="~";
+	
+	// Save contents of pastPollSizes   into the text file
+	for(var i=0; i<pastPollSizes.length;i++)
+	{
+		textContents+=pastPollSizes[i];
+			if(i!=pastPollSizes.length-1)
+				textContents+="*";
+	}
+	textContents+="~";
+	//Save candidates array
+	for(var i=0; i<candidates.length;i++)
+	{
+		textContents+=candidates[i].name;
+			textContents+="*";
+		textContents+=candidates[i].fame;
+			textContents+="*";
+		textContents+=candidates[i].issueScore;
+			textContents+="*";
+		textContents+=candidates[i].consMod;
+			textContents+="*";
+		textContents+=candidates[i].focus;
+			textContents+="*";
+		textContents+=candidates[i].focusnum;
+			textContents+="*";
+		textContents+=candidates[i].winChance;
+			textContents+="*";
+		textContents+=candidates[i].votes;
+			textContents+="*";
+		textContents+=candidates[i].correctAnswers;
+			textContents+="*";
+		textContents+=candidates[i].wrongAnswers;
+			textContents+="*";
+		textContents+=candidates[i].lastMove;
+			textContents+="*";
+		textContents+=candidates[i].raceNum;
+			textContents+="*";
+		textContents+=candidates[i].genderNum;
+			textContents+="*";
+		textContents+=candidates[i].bodyTypeNum;
+			textContents+="*";
+		textContents+=candidates[i].headNum;
+			if(i!=candidates.length-1)
+				textContents+="_";
+	}
+	textContents+="~";
+	
+	//Save remainingHours
+	textContents+=remainingHours;
+	
+	
+	$.post('/saver', {saveData: textContents});
+}
+
+function loadGame()
+{
+	//Takes the Whole data and splits it into sections
+	var saveArray = saveState.split("~");
+	
+	//Past Poll Choices Section
+	if(saveArray[0] != [])
+	{
+		var ppcOuterArray = saveArray[0].split("_");
+		for(var i =0; i < ppcOuterArray.length; i++)
+		{
+			pastPollChoices.push(ppcOuterArray[i].split("*"));
+		}
+	}
+	
+	// Past Poll Results Section
+	if(saveArray[1] != [])
+	{
+		var pprOuterArray = saveArray[1].split("_");
+		for(var i =0; i < pprOuterArray.length; i++)
+		{
+			var pprResults =[];
+			var tempResults = pprOuterArray[i].split("*");
+			for(var j = 0; j< tempResults.length; j++)
+			{
+				if(tempResults[j] != "")
+				{
+					var currentResults = tempResults[j].split(",");
+					pprResults.push(currentResults);
+				}
+				else
+				{
+					pprResults.push([]);
+				}
+			}
+			pastPollResults.push(pprResults);
+		}
+	}
+	
+	//Past Poll Sizes Section
+	if(saveArray[2] != [])
+	{
+		var ppsArray = saveArray[2].split("_");
+		pastPollSizes = ppsArray[0].split("*");
+	}
+		
+	//Candidates Section
+	var candArray = saveArray[3].split("_");
+	var candAtts=[]; 
+	for( var i= 0; i < candArray.length; i++)
+	{
+		candAtts.push(candArray[i].split("*"));
+	}
+	for( var i= 0; i < candAtts.length; i++)
+	{
+		var cand = new CandidateCreate(candAtts[i][0]);
+		cand.fame = candAtts[i][1].split(",");
+		cand.issueScore = candAtts[i][2].split(",");
+		cand.consMod = parseFloat(candAtts[i][3]);
+		cand.focus = candAtts[i][4];
+		cand.focusnum = parseInt(candAtts[i][5]);
+		cand.winChance = parseInt(candAtts[i][6]);
+		cand.votes = parseInt(candAtts[i][7]);
+		cand.correctAnswers = parseInt(candAtts[i][8]);
+		cand.wrongAnswers = parseInt(candAtts[i][9]);
+		cand.lastMove = candAtts[i][10];
+		cand.raceNum = parseInt(candAtts[i][11]);
+		cand.genderNum = parseInt(candAtts[i][12]);
+		cand.bodyTypeNum = parseInt(candAtts[i][13]);
+		cand.headnum = parseInt(candAtts[i][14]);
+		
+		candidates.push(cand);
+	}
+
+	console.log(candAtts);
+	
+	//Remaining Hours Section
+	remainingHours = parseInt(saveArray[4]);
+	
+	back=true;
+	userAction();
+}
 /* Back Button Prevention code */
 function HandleBackFunctionality()
 {
-	
+
 }
 
 window.onload = startGame();
-
 
 /* Console Disabling Code */
 

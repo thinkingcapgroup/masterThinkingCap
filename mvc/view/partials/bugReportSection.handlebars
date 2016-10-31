@@ -1,0 +1,39 @@
+<form id='bug-report-form' class='hide' method='post' action='/bugreport'>
+  <h1 id='bug-report-title'>Bug Report</h1>
+  <p id='bug-report-instructions'>
+    Enter a bug report. Please give your report a short subject name. Choose a category that most fits the problem.
+    Make sure you enter a message that describes the steps taken and the problem encountered so we can reproduce the bug.
+  </p>
+  <ul id='bug-report-fields'>
+    <li class='bug-report-field'>
+      Enter a Subject:
+      {{! Field for subject }}
+      <input type='text' name="bugSubject" id='bug-report-subject' placeholder='Subject'>
+    </li>
+    <li class='bug-report-field'>
+      Choose a category:
+      {{! Category Selector }}
+      <select id='bug-report-categories' name='bugCategory'>
+        <option value='bug'>
+          Bug
+        </option>
+        <option value='suggestion'>
+          Suggestion
+        </option>
+      </select>
+    </li>
+    <li class='bug-report-field'>
+      Describe the problem encountered:
+      {{! Message }}
+      <textarea id='bug-report-description' rows='5' name='bugDescription'></textarea>
+    </li>
+  </ul>
+  <ul id='bug-report-actions'>
+    <li class='bug-report-action'>
+      <button id='bug-report-cancel-button' type='reset' name='cancelBugReport'>Cancel</button>
+    </li>
+    <li class='bug-report-action'>
+      <button id='bug-report-submit-button' type='submit' name='submitBugReport' value='submit'>Send</button>
+    </li>
+  </ul>
+</form>

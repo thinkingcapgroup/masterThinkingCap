@@ -1,0 +1,85 @@
+<main id='bug-reports'>
+  {{#if errorNotifications}}
+    <ul class='notifications error-notifications'>
+      {{#each errorNotifications}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+  {{#if successNotifications}}
+    <ul class='notifications success-notifications'>
+      {{#each successNotifications}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+  <article class='wrapper'>
+    <header class='thinking-cap-header'>
+      <h1 class='thinking-cap-title'>{{content.appTitle}}</h1>
+    </header>
+
+    <section id='bug-reports-section'>
+      {{#if emptyState}}
+      <section class='empty-state-section'>
+        <h2 class='empty-state-header'>No bugs found 😃</h2>
+      </section>
+
+      {{else}}
+        <table class='table'>
+          <tr class='table-row-heading'>
+            <th class='table-column-title'>
+              Subject
+            </th>
+            <th class='table-column-title'>
+              Description
+            </th>
+            <th class='table-column-title'>
+              Category
+            </th>
+            <th class='table-column-title'>
+              Status
+            </th>
+          </tr>
+          {{#each bugReports}}
+          <tr class='table-row'>
+            <td class='table-cell'>
+              {{subject}}
+            </td>
+            <td class='table-cell'>
+              {{description}}
+            </td>
+            <td class='table-cell'>
+              {{category}}
+            </td>
+            <td class='table-cell'>
+              {{status}}
+            </td>
+          </tr>
+          {{/each}}
+        </table>
+      {{/if}}
+    </section>
+
+    <footer id='footer'>
+      <ul id='account-links'>
+        <li>
+          <a class='btn' href='/logout'>Logout</a>
+        </li>
+        <li>
+          <a class='btn' href='/about'>About</a>
+        </li>
+      </ul>
+      <ul id='reference-links'>
+        <li>
+          <a href='/help'>Help</a>
+        </li>
+        <li>
+          <a href='/terms'>Terms of Service</a>
+        </li>
+        <li>
+          <a href='/credits'>Credits</a>
+        </li>
+      </ul>
+    </footer>
+  </article>
+</main>

@@ -16,3 +16,10 @@ th, td {
   margin: 1px;
   color: black;
 }
+/* Sortable tables */
+table.sortable thead {
+    background-color:#eee;
+    color:#666666;
+    font-weight: bold;
+    cursor: default;
+}

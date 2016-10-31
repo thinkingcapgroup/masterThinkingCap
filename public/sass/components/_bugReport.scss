@@ -1,0 +1,105 @@
+#bug-report-button {
+  background: $red;
+
+  position: fixed;
+  bottom: $content-padding;
+  right: $content-padding;
+
+  padding: calc(#{$content-padding} / 1.5);
+  border-radius: 50%;
+  border: none;
+  transition: transform $duration-transition;
+
+  &:hover {
+    background: darken($red, 5%);
+    cursor: pointer;
+    transform: rotate(-30deg);
+  }
+
+  #bug-report-icon {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+#bug-report-form {
+  background: $white;
+  border-radius: 4px;
+  position: fixed;
+
+  @include center(xy);
+
+  #bug-report-title {
+    text-align: center;
+    margin: 1em;
+  }
+
+  #bug-report-instructions {
+    margin: 0 1em;
+  }
+
+  #bug-report-fields {
+    margin: 1em;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .bug-report-field {
+    flex-basis: 50%;
+
+    display: flex;
+    flex-direction: column;
+    padding: $content-padding;
+
+    &:last-of-type {
+      flex-basis: 100%;
+    }
+  }
+
+  #bug-report-subject,
+    #bug-report-categories,
+    #bug-report-description {
+    margin-top: 1em;
+    padding: 1em;
+  }
+
+  #bug-report-categories {
+    height: 100%;
+  }
+
+  #bug-report-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+
+  .bug-report-action {
+    flex-basis: 50%;
+    margin-bottom: 0;
+
+    button {
+      background: none;
+      border: none;
+      width: 100%;
+      padding: $content-padding;
+    }
+  }
+
+  #bug-report-cancel-button {
+    background: $error-notifications-background;
+    border-bottom-left-radius: 4px;
+    &:hover {
+      background: $error-notifications-background-accent;
+    }
+  }
+
+  #bug-report-submit-button {
+    background: $success-notifications-background;
+    border-bottom-right-radius: 4px;
+    &:hover {
+      background: $success-notifications-background-accent;
+    }
+  }
+}

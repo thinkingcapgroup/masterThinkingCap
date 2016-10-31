@@ -6,7 +6,7 @@ $(document).on('click','.logEvent', function(req, res, next){
      var name;
      var time;
      var eventID = $(this).get(0).id;
-     $.getJSON("json/events.json", function(data){
+     $.getJSON("json/data.json", function(data){
      	name = data.events[eventID].name;
      	time = data.events[eventID].timeRequired;
      	
@@ -20,7 +20,9 @@ $(document).on('change','.pollQ', function(req, res, next){
       var quest = $(this).val();
       var place = $(this).attr('id');
       var x = place.charAt(4);
-      theJSONEvents[x] = quest; 
+      theJSONEvents[x] = quest;
+
+      console.log(theJSONEvents);
 	
  });
 

@@ -1,6 +1,14 @@
 (function() {
   'use strict';
 
+  var bugReportButton = document.getElementById('bug-report-button'),
+      bugReportForm = document.getElementById('bug-report-form'),
+      bugReportCancelButton = document.getElementById('bug-report-cancel-button');
+
+  // Event listeners
+  bugReportButton.addEventListener('click', displayBugReportModal);
+  bugReportCancelButton.addEventListener('click', hideBugReportModal);
+
   // Index
   if (document.getElementById('index')) {
     // Hide button
@@ -27,4 +35,35 @@
     }
   } // End Index
 
+  else if (document.getElementById('create-account')) {
+    var passportSelector = document.getElementById('passportType');
+
+    passportSelector.addEventListener('change', checkPassportType);
+
+    function checkPassportType(event) {
+      var passportType = event.target.value,
+          passwordSection = document.getElementById('password-section');
+
+      // If user chooses local
+      if (passportType === 'local') {
+        // Show password field
+        passwordSection.classList.remove('hide');
+      }
+      // Otherwise
+      else {
+        // Hide password field
+        passwordSection.classList.add('hide');
+      }
+    }
+  } // End Create-account
+
+  // Shows the bug report modal
+  function displayBugReportModal () {
+    bugReportForm.classList.remove('hide');
+  }
+
+  // Hides the bug report modal
+  function hideBugReportModal () {
+    bugReportForm.classList.add('hide');
+  }
 }());
