@@ -2961,7 +2961,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 								{
 									cell.innerHTML = "Candidate Known: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
-							cell.innerHTML = parseFloat(tableArray2[canCounter][h]).toFixed(2);							
+											
 				}
 				canCounter++;
 			
@@ -2985,7 +2985,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 								cell.innerHTML = "Issue Liked Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 							}
 							var cell = row.insertCell(i);							
-							cell.innerHTML = parseFloat(tableArray2[canCounter][h]).toFixed(2);		
+					
 							
 				}
 				
@@ -3192,6 +3192,7 @@ function loadGame()
 {
 	//Takes the Whole data and splits it into sections
 	var saveArray = saveState.split("~");
+	console.log(saveState);
 	
 	//Past Poll Choices Section
 	if(saveArray[0] != [])
