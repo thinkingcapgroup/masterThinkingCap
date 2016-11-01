@@ -2691,6 +2691,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 	
 			for(var k = 0;k<positions.length;k++)
 			{
+				console.log(pollChoices[h]);
 				if(pollChoices[h] == "issue" + positionsLower[k])
 				{
 				
@@ -2699,6 +2700,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 						case "issuetuition":
 							var cell = headRow.insertCell(h);
 							var posInfo = tableHeaders[9] + positions[0];
+							cell.innerHTML = posInfo;
 							graphQuestions.push(9);
 	
 						break;
