@@ -122,7 +122,7 @@ function startGame(){
 	//console.log("Game initialized and loaded!");
 
 	
-	console.log(saveState);
+	//console.log(saveState);
 	var Json;
 	var oReq = new XMLHttpRequest();
 	oReq.onload = function (e)
@@ -1271,6 +1271,10 @@ function poll()
 							var questionVal = questions[j].value + candidates[l].name;
 							document.getElementById("poll"+i+"").options.add(new Option(questionText, questionVal));
 						}
+					}
+					else if(questions[j].id == 4||questions[j].id == 5||questions[j].id == 6)
+					{
+						//Prevents major class and group questions from being added.
 					}
 					else
 					{document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));}
@@ -2640,6 +2644,9 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 	document.getElementById("gameInfo").innerHTML += "<div id = 'q3text'><br></div><div class = 'chart2 chart'></div>";
 	document.getElementById("gameInfo").innerHTML += "<div id = 'q4text'><br></div><div class = 'chart3 chart'></div>";
 	document.getElementById("gameInfo").innerHTML += "<div id = 'q5text'><br></div><div class = 'chart4 chart'></div>";
+	document.getElementById("gameInfo").innerHTML += "<div id = 'q6text'><br></div><div class = 'chart5 chart'></div>";
+	document.getElementById("gameInfo").innerHTML += "<div id = 'q7text'><br></div><div class = 'chart6 chart'></div>";
+	document.getElementById("gameInfo").innerHTML += "<div id = 'q8text'><br></div><div class = 'chart7 chart'></div>";
 
 	var table = document.getElementById("pollTable");
 	var tableHead = document.getElementById("tableHead");
@@ -2650,6 +2657,12 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 	{
 		if(pollChoices[h] != null)
 		{
+			if(h==0)
+			{
+				graphQuestions.push(4);
+				graphQuestions.push(5);
+				graphQuestions.push(6);
+			}
 			switch(pollChoices[h])
 			{
 				case "issFav":
@@ -2999,65 +3012,101 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 	var pollLabelArray = [["Tuition", "ATH Equipment", "RES Equipment", "School Events", "Medical"], ["Tuition", "Athletic Equipment", "Research Equipment", "School Events", "Medical"], ["Liz", "You"], ["You", "Liz"], ["Business", "Engineering", "Tech", "Fine Arts", "Liberal Arts"], ["Poverty", "Low", "Middle Low", "Middle High", "High"], ["Socialite", "Athlete", "Researcher", "Media Lover", "Reader"], ["Like", "Neutral", "Dislike"], ["Good", "Neutral", "Bad"], ["Like", "Neutral", "Dislike"], ["Like", "Neutral", "Dislike"],["Like", "Neutral", "Dislike"],["Like", "Neutral", "Dislike"],["Like", "Neutral", "Dislike"],["Like", "Neutral", "Dislike"],["Like", "Neutral", "Dislike"]];
 	
 	//graph dat table
-
-	for(var u =0; u < 5; u++){		
+	//console.log(graphQuestions);
+	for(var u =0; u < 7; u++){		
 		document.getElementById("q"+(u+1)+"text").innerHTML = "";
 	}
 
 
-	//for(var i = 0; i < graphQuestions.length; i++){
-	//
-	//	var counter = 0;
-	//	var data = [];
-	//	var data2 = [];
-	//	var x = 0;
-	//	var qID = 0;
-	//	var questionNum = graphQuestions[i]
-	//	if (graphQuestions[i] > 9 && graphQuestions[i] < 14){
-	//		qID = 9;
-	//	}
-	//	else if(graphQuestions[i]==14){
-	//		qID = 10;
-	//	}
-	//	else if(graphQuestions[i]==15){
-	//		qID = 11;
-	//	}
-	//	else{
-	//		qID = graphQuestions[i]
-	//	}
-	//
-	//	document.getElementById("q"+(i+1)+"text").innerHTML = questions[qID].question;
-    //
-	//	//console.log("Question "+graphQuestions[i] + " has a length of: " + graphData[i].length);
-	//	//console.log(graphData[questionNum]);
-    //
-	//	for (var j = 0; j < graphData[questionNum].length; j++){
-	//			//console.log(graphData[questionNum], " AT ", questions[qID].question)			
-	//			
-	//			data2[j]=graphData[questionNum][j];
-	//				
-	//		}
-	//				
-    //
-	//		var dataCounter = 0;
-	//		x = d3.scaleLinear()
-	//	    .domain([0, d3.max(data2)])
-	//	    .range([0, 420]);
-    //
-	//		d3.select(".chart" + i)
-	//	  	.selectAll("div")
-	//	    .data(data2)
-	//	  	.enter().append("div")
-	//	    .style("width", function(d) { return x(d) + "px"; })
-	//	    .text(function(d) { 
-	//	    	var zid = pollLabelArray[graphQuestions[i]][dataCounter] + "-" + d;
-	//	  		console.log(zid);
-	//	  		dataCounter++;
-	//	  	  		
-	//	    	return zid; })
-	//	    ;
-	//
-	//}
+	for(var i = 0; i < graphQuestions.length; i++){
+	
+		var counter = 0;
+		var data = [];
+		var data2 = [];
+		var x = 0;
+		var qID = 0;
+		var questionNum = graphQuestions[i];
+		if (graphQuestions[i] > 8 && graphQuestions[i] < 14){
+			qID = 9;
+		}
+		else if(graphQuestions[i]==14){
+			qID = 10;
+		}
+		else if(graphQuestions[i]==15){
+			qID = 11;
+		}
+		else{
+			qID = graphQuestions[i];
+		}
+		//console.log(questions);
+		if(qID == 9)
+		{
+			var name ="";
+			switch(graphQuestions[i])
+			{
+				case 9:
+				name = 	"Lowering Tuition";
+				break;
+				case 10:
+				name = 	"Increase Athletic Budget";
+				break;
+				case 11:
+				name = 	"Increase Research Budget";
+				break;
+				case 12:
+				name = 	"More School Events";
+				break;
+				case 13:
+				name = 	"Improve Medical Services";
+				break;
+			}
+			document.getElementById("q"+(i+1)+"text").innerHTML = questions[qID].question + " " + name;
+		}
+		else if(qID == 10)
+		{
+			var name = candidates[graphQuestions[i]-13].name;
+			document.getElementById("q"+(i+1)+"text").innerHTML = questions[qID].question + " " + name;
+		}
+		else if(qID == 11)
+		{
+			var name = candidates[graphQuestions[i]-14].name;
+			document.getElementById("q"+(i+1)+"text").innerHTML = questions[qID].question + " " + name;
+		}
+		else
+		{
+		document.getElementById("q"+(i+1)+"text").innerHTML = questions[qID].question;
+		}
+    
+		//console.log("Question "+graphQuestions[i] + " has a length of: " + graphData[i].length);
+		//console.log(graphData[questionNum]);
+    
+		for (var j = 0; j < graphData[questionNum].length; j++){
+				//console.log(graphData[questionNum], " AT ", questions[qID].question)			
+				
+				data2[j]=graphData[questionNum][j];
+					
+			}
+					
+    
+			var dataCounter = 0;
+			x = d3.scaleLinear()
+		    .domain([0, d3.max(data2)])
+		    .range([0, 420]);
+    
+			d3.select(".chart" + i)
+		  	.selectAll("div")
+		    .data(data2)
+		  	.enter().append("div")
+		    .style("width", function(d) { return x(d) + "px"; })
+		    .text(function(d) { 
+		    	var zid = pollLabelArray[graphQuestions[i]][dataCounter] + "-" + d;
+		  		//console.log(zid);
+		  		dataCounter++;
+		  	  		
+		    	return zid; })
+		    ;
+	
+	}
 
 		
 }
@@ -3194,7 +3243,7 @@ function loadGame()
 {
 	//Takes the Whole data and splits it into sections
 	var saveArray = saveState.split("~");
-	console.log(saveArray);
+	//console.log(saveArray);
 	
 	//Past Poll Choices Section
 	if(saveArray[0] != [])
@@ -3265,13 +3314,13 @@ function loadGame()
 		candidates.push(cand);
 	}
 
-	console.log(candAtts);
+	//console.log(candAtts);
 	
 	//Remaining Hours Section
 	remainingHours = parseInt(saveArray[4]);
 
 	//past graph saveData
-	console.log(saveArray[5]);
+	//console.log(saveArray[5]);
 	var graph = [];
 	var graphgraph
 	var multiGraphData = saveArray[5].split("_");
@@ -3288,9 +3337,10 @@ function loadGame()
 		}
 	pastGraphData.push(graph);	
 	}
-	console.log(pastGraphData);
+	//console.log(pastGraphData);
 	
 	back=true;
+	saveState = "";
 	userAction();
 }
 /* Back Button Prevention code */

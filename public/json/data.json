@@ -551,6 +551,21 @@
 			"value":"candOpp"
 		},
 		{
+			"question":"What is your major?", 
+			"id":"4",
+			"value":"major"
+		},
+		{
+			"question":"What is your economic class?", 
+			"id":"5",
+			"value":"class"
+		},
+		{
+			"question":"What group do you identify with?", 
+			"id":"6",
+			"value":"group"
+		},
+		{
 			"question":"How much do you know me?", 
 			"id":"7",
 			"value":"fame"
@@ -566,7 +581,7 @@
 			"value":"issue"
 		},
 		{
-			"question":"What much do you know this candidate? Candidate:", 
+			"question":"How much do you know this candidate? Candidate:", 
 			"id":"10",
 			"value":"candFame"
 		},
