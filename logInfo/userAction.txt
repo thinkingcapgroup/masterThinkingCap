@@ -146,3 +146,13 @@ undefined-Posters-1477934890600
 3-issFav-issOpp-candOpp-fame-candFav
 3-playTrust-issuetuition-issueathletic-issueresearch-issueevents
 3-issuemedical-candFameLiz-candTrustLiz-issueresearch-issueevents
+3-issFav-issOpp-candFav-candOpp-fame
+3-playTrust-issuetuition-issueathletic-issueathletic-issueevents
+3-playTrust-issuetuition-issueathletic-issueresearch-issueevents
+3-issuemedical-candFameLiz-candTrustLiz-issueresearch-issueevents
+3-issuetuition-issueresearch-issueevents-issuemedical-undefined
+3-issOpp-undefined-issueresearch-candTrustLiz-issuetuition
+3-issFav-issOpp-candFav-candOpp-fame
+3-playTrust-issuetuition-issueathletic-issueresearch-issueresearch
+3-playTrust-issuetuition-issueathletic-issueresearch-issueevents
+3-issuemedical-candFameLiz-candTrustLiz-issueresearch-issueevents
