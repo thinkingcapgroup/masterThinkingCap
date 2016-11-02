@@ -122,7 +122,7 @@ function startGame(){
 	//console.log("Game initialized and loaded!");
 
 	
-	console.log(saveState);
+	//console.log(saveState);
 	var Json;
 	var oReq = new XMLHttpRequest();
 	oReq.onload = function (e)
@@ -1272,6 +1272,10 @@ function poll()
 							document.getElementById("poll"+i+"").options.add(new Option(questionText, questionVal));
 						}
 					}
+					else if(questions[j].id == 4||questions[j].id == 5||questions[j].id == 6)
+					{
+						//Prevents major class and group questions from being added.
+					}
 					else
 					{document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));}
 				}
@@ -2123,7 +2127,7 @@ function votePercentage(sampleSize)
 			var fame = 0;
 			fame = fameCalc(candidates[j], sample[i]);
 			//console.log(candidates[j].name +" Fame: "+ fame);
-			if(i != 1)
+			if(j != 1)
 			{
 				var issues = parseFloat(sample[i].tuitionScore) + parseFloat(candidates[j].issueScore[0]) + parseFloat(sample[i].athleticScore) + parseFloat(candidates[j].issueScore[1]) + parseFloat(sample[i].researchScore)+ parseFloat(candidates[j].issueScore[2])+ parseFloat(sample[i].eventScore)  + parseFloat(candidates[j].issueScore[3])+ parseFloat(sample[i].medicalScore) + parseFloat(candidates[j].issueScore[4]);
 			}
@@ -2132,7 +2136,7 @@ function votePercentage(sampleSize)
 				var issues = Math.abs(parseFloat(sample[i].tuitionScore)) + parseFloat(candidates[j].issueScore[0]) + Math.abs(parseFloat(sample[i].athleticScore)) + parseFloat(candidates[j].issueScore[1]) + Math.abs(parseFloat(sample[i].researchScore))+ parseFloat(candidates[j].issueScore[2])+ Math.abs(parseFloat(sample[i].eventScore))  + parseFloat(candidates[j].issueScore[3])+ Math.abs(parseFloat(sample[i].medicalScore)) + parseFloat(candidates[j].issueScore[4]);
 			}
 			//console.log(candidates[j].name +" Issue Score: "+ issues);
-			if(i != 1)
+			if(j != 1)
 			{
 				var candWinPer = 10*Math.pow(fame*issues,2) - candidates[j].consMod;
 			}
@@ -2296,6 +2300,60 @@ function pollCalc(pollChoices, sampleSize)
 	//Gets the results of each question
 	for(var j=0;j<sample.length;j++)
 		{
+		tableArrays[4].push(sample[j].major);
+		var majorHolder = sample[j].major;
+		if(majorHolder == "business"){
+			graphData[4][0]++;
+		}
+		else if(majorHolder == "engineering"){
+			graphData[4][1]++;
+		}
+		else if(majorHolder == "tech"){
+			graphData[4][2]++;
+		}
+		else if(majorHolder == "libArts"){
+			graphData[4][3]++;
+		}
+		else if(majorHolder == "fineArts"){
+			graphData[4][4]++;
+		}
+
+		tableArrays[5].push(sample[j].ecoClass);
+		var ecoHolder = sample[j].ecoClass;
+		if(ecoHolder == "poverty"){
+			graphData[5][0]++;
+		}
+		else if(ecoHolder == "low"){
+			graphData[5][1]++;
+		}
+		else if(ecoHolder == "midLow"){
+			graphData[5][2]++;
+		}
+		else if(ecoHolder == "midHigh"){
+			graphData[5][3]++;
+		}
+		else if(ecoHolder == "high"){
+			graphData[5][4]++;
+		}		
+
+		tableArrays[6].push(sample[j].group);
+		var groupHolder = sample[j].group;
+		if(groupHolder == "socialite"){
+			graphData[6][0]++;
+		}
+		else if(groupHolder == "athlete"){
+			graphData[6][1]++;
+		}
+		else if(groupHolder == "researcher"){
+			graphData[6][2]++;
+		}
+		else if(groupHolder == "reader"){
+			graphData[6][3]++;
+		}
+		else if(groupHolder == "socialite"){
+			graphData[6][4]++;
+		}
+					
 		for(var i = 0; i < pollChoices.length ;i++)
 		{
 			switch(pollChoices[i])
@@ -2408,6 +2466,7 @@ function pollCalc(pollChoices, sampleSize)
 				break;
 
 				case "candOpp":
+					console.log(sample[j].results);
 					tableArrays[3].push(sample[j].results.los + " Score: " +sample[j].results.losPer.toFixed(2));
 					if(sample[j].results.los == "Liz"){
 						graphData[3][1]++;
@@ -2417,66 +2476,7 @@ function pollCalc(pollChoices, sampleSize)
 					}
 				break;
 
-				case "major":
-					tableArrays[4].push(sample[j].major);
-				var majorHolder = sample[j].major;
-				if(majorHolder == "business"){
-					graphData[4][0]++;
-				}
-				else if(majorHolder == "engineering"){
-					graphData[4][1]++;
-				}
-				else if(majorHolder == "tech"){
-					graphData[4][2]++;
-				}
-				else if(majorHolder == "libArts"){
-					graphData[4][3]++;
-				}
-				else if(majorHolder == "fineArts"){
-					graphData[4][4]++;
-				}
-
-				break;
-
-				case "class":
-					tableArrays[5].push(sample[j].ecoClass);
-					var ecoHolder = sample[j].ecoClass;
-					if(ecoHolder == "poverty"){
-						graphData[5][0]++;
-					}
-					else if(ecoHolder == "low"){
-						graphData[5][1]++;
-					}
-					else if(ecoHolder == "midLow"){
-						graphData[5][2]++;
-					}
-					else if(ecoHolder == "midHigh"){
-						graphData[5][3]++;
-					}
-					else if(ecoHolder == "high"){
-						graphData[5][4]++;
-					}		
-				break;
-
-				case "group":
-					tableArrays[6].push(sample[j].group);
-					var groupHolder = sample[j].group;
-					if(groupHolder == "socialite"){
-						graphData[6][0]++;
-					}
-					else if(groupHolder == "athlete"){
-						graphData[6][1]++;
-					}
-					else if(groupHolder == "researcher"){
-						graphData[6][2]++;
-					}
-					else if(groupHolder == "reader"){
-						graphData[6][3]++;
-					}
-					else if(groupHolder == "socialite"){
-						graphData[6][4]++;
-					}
-				break;
+				
 
 				case "fame":
 					var playFame = fameCalc(candidates[0],sample[j]).toFixed(2);
@@ -2626,7 +2626,6 @@ function pollCalc(pollChoices, sampleSize)
 
 		}
 	}
-
 	//console.log(tableArrays);
 	tableBuilder(pollChoices, tableArrays, sampleSize, graphData, false);
 }
@@ -2645,6 +2644,9 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 	document.getElementById("gameInfo").innerHTML += "<div id = 'q3text'><br></div><div class = 'chart2 chart'></div>";
 	document.getElementById("gameInfo").innerHTML += "<div id = 'q4text'><br></div><div class = 'chart3 chart'></div>";
 	document.getElementById("gameInfo").innerHTML += "<div id = 'q5text'><br></div><div class = 'chart4 chart'></div>";
+	document.getElementById("gameInfo").innerHTML += "<div id = 'q6text'><br></div><div class = 'chart5 chart'></div>";
+	document.getElementById("gameInfo").innerHTML += "<div id = 'q7text'><br></div><div class = 'chart6 chart'></div>";
+	document.getElementById("gameInfo").innerHTML += "<div id = 'q8text'><br></div><div class = 'chart7 chart'></div>";
 
 	var table = document.getElementById("pollTable");
 	var tableHead = document.getElementById("tableHead");
@@ -2653,127 +2655,131 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 	//Makes the table headers based on the chose questions
 	for(var h = 0; h < pollChoices.length; h++)
 	{
-		switch(pollChoices[h])
+		if(pollChoices[h] != null)
 		{
-			case "issFav":
-				var cell = headRow.insertCell(h);
-				cell.innerHTML = tableHeaders[0];
-				graphQuestions.push(0);
-			break;
-
-			case "issOpp":
-					var cell = headRow.insertCell(h);
-					cell.innerHTML = tableHeaders[1];
-					graphQuestions.push(1);
-			break;
-
-			case "candFav":
-					var cell = headRow.insertCell(h);
-					cell.innerHTML = tableHeaders[2];
-					graphQuestions.push(2);
-			break;
-
-			case "candOpp":
-					var cell = headRow.insertCell(h);
-					cell.innerHTML = tableHeaders[3];
-					graphQuestions.push(3);
-			break;
-
-			case "major":
-					var cell = headRow.insertCell(h);
-					cell.innerHTML = tableHeaders[4];
-					graphQuestions.push(4);
-			break;
-
-			case "class":
-					var cell = headRow.insertCell(h);
-					cell.innerHTML = tableHeaders[5];
-					graphQuestions.push(5);
-			break;
-
-			case "group":
-					var cell = headRow.insertCell(h);
-					cell.innerHTML = tableHeaders[6];
-					graphQuestions.push(6);
-			break;
-
-			case "fame":
-					var cell = headRow.insertCell(h);
-					cell.innerHTML = tableHeaders[7];
-					graphQuestions.push(7);
-			break;
-
-			case "playTrust":
-					var cell = headRow.insertCell(h);
-					cell.innerHTML = tableHeaders[8];
-					graphQuestions.push(8);
-			break;
-		}
-
-
-		for(var k = 0;k<positions.length;k++)
-		{
-			if(pollChoices[h] == "issue" + positionsLower[k])
+			if(h==0)
 			{
-			
-				switch(pollChoices[h])
+				graphQuestions.push(4);
+				graphQuestions.push(5);
+				graphQuestions.push(6);
+			}
+			switch(pollChoices[h])
+			{
+				case "issFav":
+					var cell = headRow.insertCell(h);
+					cell.innerHTML = tableHeaders[0];
+					graphQuestions.push(0);
+				break;
+	
+				case "issOpp":
+						var cell = headRow.insertCell(h);
+						cell.innerHTML = tableHeaders[1];
+						graphQuestions.push(1);
+				break;
+	
+				case "candFav":
+						var cell = headRow.insertCell(h);
+						cell.innerHTML = tableHeaders[2];
+						graphQuestions.push(2);
+				break;
+	
+				case "candOpp":
+						var cell = headRow.insertCell(h);
+						cell.innerHTML = tableHeaders[3];
+						graphQuestions.push(3);
+				break;
+	
+				case "fame":
+						var cell = headRow.insertCell(h);
+						cell.innerHTML = tableHeaders[7];
+						graphQuestions.push(7);
+				break;
+	
+				case "playTrust":
+						var cell = headRow.insertCell(h);
+						cell.innerHTML = tableHeaders[8];
+						graphQuestions.push(8);
+				break;
+			}
+	
+	
+			for(var k = 0;k<positions.length;k++)
+			{
+				console.log(pollChoices[h]);
+				if(pollChoices[h] == "issue" + positionsLower[k])
 				{
-					case "issuetuition":
-						var cell = headRow.insertCell(h);
-						var posInfo = tableHeaders[9] + positions[0];
-						cell.innerHTML = posInfo + "yea";
-						graphQuestions.push(9);
-
-					break;
-
-					case "issueathletic":
-						var cell = headRow.insertCell(h);
-						var posInfo = tableHeaders[9] + positions[1];
-						cell.innerHTML = posInfo;
-						graphQuestions.push(10);
-					break;
-
-					case "issueresearch":
-						var cell = headRow.insertCell(h);
-						var posInfo = tableHeaders[9] + positions[2];
-						cell.innerHTML = posInfo;
-						graphQuestions.push(11);
-					break;
-
-					case "issueevents":
-						var cell = headRow.insertCell(h);
-						var posInfo = tableHeaders[9] + positions[3];
-						cell.innerHTML = posInfo;
-						graphQuestions.push(12);
-					break;
-
-					case "issuemedical":
-						var cell = headRow.insertCell(h);
-						var posInfo = tableHeaders[9] + positions[4];
-						cell.innerHTML = posInfo;
-						graphQuestions.push(13);
-					break;
+				
+					switch(pollChoices[h])
+					{
+						case "issuetuition":
+							var cell = headRow.insertCell(h);
+							var posInfo = tableHeaders[9] + positions[0];
+							cell.innerHTML = posInfo;
+							graphQuestions.push(9);
+	
+						break;
+	
+						case "issueathletic":
+							var cell = headRow.insertCell(h);
+							var posInfo = tableHeaders[9] + positions[1];
+							cell.innerHTML = posInfo;
+							graphQuestions.push(10);
+						break;
+	
+						case "issueresearch":
+							var cell = headRow.insertCell(h);
+							var posInfo = tableHeaders[9] + positions[2];
+							cell.innerHTML = posInfo;
+							graphQuestions.push(11);
+						break;
+	
+						case "issueevents":
+							var cell = headRow.insertCell(h);
+							var posInfo = tableHeaders[9] + positions[3];
+							cell.innerHTML = posInfo;
+							graphQuestions.push(12);
+						break;
+	
+						case "issuemedical":
+							var cell = headRow.insertCell(h);
+							var posInfo = tableHeaders[9] + positions[4];
+							cell.innerHTML = posInfo;
+							graphQuestions.push(13);
+						break;
+					}
 				}
 			}
-		}
-		for(var k = 1;k<candidates.length;k++)
-		{
-			if(pollChoices[h] == "candFame" + candidates[k].name)
+			for(var k = 1;k<candidates.length;k++)
 			{
-					var cell = headRow.insertCell(h);
-					var candInfo = tableHeaders[10] + candidates[k].name;
-					cell.innerHTML = candInfo;
-					graphQuestions.push(14);
+				if(pollChoices[h] == "candFame" + candidates[k].name)
+				{
+						var cell = headRow.insertCell(h);
+						var candInfo = tableHeaders[10] + candidates[k].name;
+						cell.innerHTML = candInfo;
+						graphQuestions.push(14);
+				}
 			}
-		}
-		for(var k = 1;k<candidates.length;k++)
-		{
-			if(pollChoices[h] == "candTrust" + candidates[k].name)
+			for(var k = 1;k<candidates.length;k++)
 			{
-					var cell = headRow.insertCell(h);
-					var candInfo = tableHeaders[11] + candidates[k].name;
-					cell.innerHTML = candInfo;
-					graphQuestions.push(15);
+				if(pollChoices[h] == "candTrust" + candidates[k].name)
+				{
+					console.log(h);
+						var cell = headRow.insertCell(h);
+						var candInfo = tableHeaders[11] + candidates[k].name;
+						cell.innerHTML = candInfo;
+						graphQuestions.push(15);
+				}
+			}
+			if(h==pollChoices.length-1)
+			{
+				var cell = headRow.insertCell(0);
+				cell.innerHTML = tableHeaders[4];
+				
+				var cell = headRow.insertCell(1);
+				cell.innerHTML = tableHeaders[5];
+				
+				var cell = headRow.insertCell(2);
+				cell.innerHTML = tableHeaders[6];
 			}
 		}
 	}
@@ -2781,219 +2787,214 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 	for(var h = 0; h<sSize; h++)
 	{
 		row = table.insertRow(h);
-		for(var i = 0; i < pollChoices.length+1 ;i++)
+
+		
+		for(var i = 0; i < pollChoices.length+1;i++)
 		{
-			switch(pollChoices[i])
+			if(pollChoices[i] != null)
 			{
-				case "issFav":
-						var cell = row.insertCell(i);
-						cell.innerHTML = tableArray2[0][h];
-				break;
-
-				case "issOpp":
-							var cell = row.insertCell(i);
-							cell.innerHTML = tableArray2[1][h];
-				break;
-
-				case "candFav":
-							var cell = row.insertCell(i);
-							cell.innerHTML = tableArray2[2][h];
-				break;
-
-				case "candOpp":
-							var cell = row.insertCell(i);
-							cell.innerHTML = tableArray2[3][h];
-				break;
-
-				case "major":
-							var cell = row.insertCell(i);
-							cell.innerHTML = tableArray2[4][h];
-				break;
-
-				case "class":
-							var cell = row.insertCell(i);
-							cell.innerHTML = tableArray2[5][h];
-				break;
-
-				case "group":
-							var cell = row.insertCell(i);
-							cell.innerHTML = tableArray2[6][h];
-				break;
-
-				case "fame":
-							var cell = row.insertCell(i);
-							cell.innerHTML = parseFloat(tableArray2[7][h]).toFixed(2);
-							if(parseFloat(tableArray2[7][h]).toFixed(2) <= 0.33)
-								{
-									cell.innerHTML = "Candidate Unknown Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
-								}
-								else if(parseFloat(tableArray2[7][h]).toFixed(2)>0.33 && parseFloat(tableArray2[7][h]).toFixed(2)<0.66)
-								{
-									cell.innerHTML = "Aware of Candidate Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
-								}
-								else
-								{
-									cell.innerHTML = "Candidate Known: " + parseFloat(tableArray2[7][h]).toFixed(2);
-								}
-				break;
-
-				case "playTrust":
-							var cell = row.insertCell(i);
-							if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.33)
-								{
-									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
-								}
-								else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.33 && parseFloat(tableArray2[8][h]).toFixed(2)<0.66)
-								{
-									cell.innerHTML = "Sort Of Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
-								}
-								else
-								{
-									cell.innerHTML = "Completely Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
-								}
-				break;
-			}
-			for(var k = 0;k<positions.length;k++)
-			{
-				if(pollChoices[i] == "issue" + positionsLower[k])
+				switch(pollChoices[i])
 				{
-					switch(pollChoices[i])
+					case "issFav":
+							var cell = row.insertCell(i);
+							cell.innerHTML = tableArray2[0][h];
+					break;
+	
+					case "issOpp":
+								var cell = row.insertCell(i);
+								cell.innerHTML = tableArray2[1][h];
+					break;
+	
+					case "candFav":
+								var cell = row.insertCell(i);
+								cell.innerHTML = tableArray2[2][h];
+					break;
+	
+					case "candOpp":
+								var cell = row.insertCell(i);
+								cell.innerHTML = tableArray2[3][h];
+					break;
+	
+					case "fame":
+								var cell = row.insertCell(i);
+								cell.innerHTML = parseFloat(tableArray2[7][h]).toFixed(2);
+								if(parseFloat(tableArray2[7][h]).toFixed(2) <= 0.33)
+									{
+										cell.innerHTML = "Candidate Unknown Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+									}
+									else if(parseFloat(tableArray2[7][h]).toFixed(2)>0.33 && parseFloat(tableArray2[7][h]).toFixed(2)<0.66)
+									{
+										cell.innerHTML = "Aware of Candidate Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+									}
+									else
+									{
+										cell.innerHTML = "Candidate Known: " + parseFloat(tableArray2[7][h]).toFixed(2);
+									}
+					break;
+	
+					case "playTrust":
+								var cell = row.insertCell(i);
+								if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.33)
+									{
+										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+									}
+									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.33 && parseFloat(tableArray2[8][h]).toFixed(2)<0.66)
+									{
+										cell.innerHTML = "Sort Of Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+									}
+									else
+									{
+										cell.innerHTML = "Completely Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+									}
+					break;
+				}
+				for(var k = 0;k<positions.length;k++)
+				{
+					if(pollChoices[i] == "issue" + positionsLower[k])
 					{
-						case "issuetuition":
-								var cell = row.insertCell(i);
-								if(tableArray2[9][h] <= -2)
-								{
-									cell.innerHTML = "Issue Disliked Score: " + tableArray2[9][h];
-								}
-								else if(tableArray2[9][h]>-2 && tableArray2[9][h]<2)
-								{
-									cell.innerHTML = "Issue Neutral Score: " + tableArray2[9][h];
-								}
-								else
-								{
-									cell.innerHTML = "Issue Liked Score: " + tableArray2[9][h];
-								}
-						break;
-
-						case "issueathletic":
-								var cell = row.insertCell(i);
-								if(tableArray2[10][h] <= -2)
-								{
-									cell.innerHTML = "Issue Disliked Score: " + tableArray2[10][h];
-								}
-								else if(tableArray2[10][h]>-2 && tableArray2[10][h]<2)
-								{
-									cell.innerHTML = "Issue Neutral Score: " + tableArray2[10][h];
-								}
-								else
-								{
-									cell.innerHTML = "Issue Liked Score: " + tableArray2[10][h];
-								}
-						break;
-
-						case "issueresearch":
-							cell = row.insertCell(i);
-							if(tableArray2[11][h] <= -2)
-								{
-									cell.innerHTML = "Issue Disliked Score: " + tableArray2[11][h];
-								}
-								else if(tableArray2[11][h]>-2 && tableArray2[11][h]<2)
-								{
-									cell.innerHTML = "Issue Neutral Score: " + tableArray2[11][h];
-								}
-								else
-								{
-									cell.innerHTML = "Issue Liked Score: " + tableArray2[11][h];
-								}
-						break;
-
-						case "issueevents":
-								var cell = row.insertCell(i);
-								if(tableArray2[12][h] <= -2)
-								{
-									cell.innerHTML = "Issue Disliked Score: " + tableArray2[12][h];
-								}
-								else if(tableArray2[12][h]>-2 && tableArray2[12][h]<2)
-								{
-									cell.innerHTML = "Issue Neutral Score: " + tableArray2[12][h];
-								}
-								else
-								{
-									cell.innerHTML = "Issue Liked Score: " + tableArray2[12][h];
-								}
-						break;
-
-						case "issuemedical":
-								var cell = row.insertCell(i);
-								if(tableArray2[13][h] <= -2)
-								{
-									cell.innerHTML = "Issue Disliked Score: " + tableArray2[13][h];
-								}
-								else if(tableArray2[13][h]>-2 && tableArray2[13][h]<2)
-								{
-									cell.innerHTML = "Issue Neutral Score: " + tableArray2[13][h];
-								}
-								else
-								{
-									cell.innerHTML = "Issue Liked Score: " + tableArray2[13][h];
-								}
-						break;
+						switch(pollChoices[i])
+						{
+							case "issuetuition":
+									var cell = row.insertCell(i);
+									if(tableArray2[9][h] <= -2)
+									{
+										cell.innerHTML = "Issue Disliked Score: " + parseFloat(tableArray2[9][h]);
+									}
+									else if(tableArray2[9][h]>-2 && tableArray2[9][h]<2)
+									{
+										cell.innerHTML = "Issue Neutral Score: " + parseFloat(tableArray2[9][h]);
+									}
+									else
+									{
+										cell.innerHTML = "Issue Liked Score: " + parseFloat(tableArray2[9][h]);
+									}
+							break;
+	
+							case "issueathletic":
+									var cell = row.insertCell(i);
+									if(tableArray2[10][h] <= -2)
+									{
+										cell.innerHTML = "Issue Disliked Score: " + parseFloat(tableArray2[10][h]);
+									}
+									else if(tableArray2[10][h]>-2 && tableArray2[10][h]<2)
+									{
+										cell.innerHTML = "Issue Neutral Score: " + parseFloat(tableArray2[10][h]);
+									}
+									else
+									{
+										cell.innerHTML = "Issue Liked Score: " + parseFloat(tableArray2[10][h]);
+									}
+							break;
+	
+							case "issueresearch":
+								cell = row.insertCell(i);
+								if(tableArray2[11][h] <= -2)
+									{
+										cell.innerHTML = "Issue Disliked Score: " + parseFloat(tableArray2[11][h]);
+									}
+									else if(tableArray2[11][h]>-2 && tableArray2[11][h]<2)
+									{
+										cell.innerHTML = "Issue Neutral Score: " + parseFloat(tableArray2[11][h]);
+									}
+									else
+									{
+										cell.innerHTML = "Issue Liked Score: " +parseFloat( tableArray2[11][h]);
+									}
+							break;
+	
+							case "issueevents":
+									var cell = row.insertCell(i);
+									if(tableArray2[12][h] <= -2)
+									{
+										cell.innerHTML = "Issue Disliked Score: " + parseFloat(tableArray2[12][h]);
+									}
+									else if(tableArray2[12][h]>-2 && tableArray2[12][h]<2)
+									{
+										cell.innerHTML = "Issue Neutral Score: " + parseFloat(tableArray2[12][h]);
+									}
+									else
+									{
+										cell.innerHTML = "Issue Liked Score: " + parseFloat(tableArray2[12][h]);
+									}
+							break;
+	
+							case "issuemedical":
+									var cell = row.insertCell(i);
+									if(tableArray2[13][h] <= -2)
+									{
+										cell.innerHTML = "Issue Disliked Score: " + parseFloat(tableArray2[13][h]);
+									}
+									else if(tableArray2[13][h]>-2 && tableArray2[13][h]<2)
+									{
+										cell.innerHTML = "Issue Neutral Score: " + parseFloat(tableArray2[13][h]);
+									}
+									else
+									{
+										cell.innerHTML = "Issue Liked Score: " + parseFloat(tableArray2[13][h]);
+									}
+							break;
+						}
 					}
 				}
-			}
+			
 
-			canCounter = 14
-
-			for(var k = 1;k<candidates.length;k++)
-			{
-				if(pollChoices[i] == "candFame" + candidates[k].name)
+				canCounter = 14;
+	
+				for(var k = 1;k<candidates.length;k++)
 				{
-							var cell = row.insertCell(i);
-							var counter = 13+k;
+					if(pollChoices[i] == "candFame" + candidates[k].name)
+					{
+								var cell = row.insertCell(i);
+								var counter = canCounter;
+									if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
+									{
+										cell.innerHTML = "Candidate Unknown Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									}
+									else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
+									{
+										cell.innerHTML = "Aware of Candidate Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									}
+									else
+									{
+										cell.innerHTML = "Candidate Known: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									}
+					}
+						canCounter++;
+				}
+				for(var k = 1;k<candidates.length;k++)
+				{
+					if(pollChoices[i] == "candTrust" + candidates[k].name)
+					{
+								var cell = row.insertCell(i);
+								var counter = canCounter;
 								if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
 								{
-									cell.innerHTML = "Candidate Unknown Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 								{
-									cell.innerHTML = "Aware of Candidate Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Issue Neutral Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else
 								{
-									cell.innerHTML = "Candidate Known: " + parseFloat(tableArray2[counter][h]).toFixed(2);
-								}
-											
-				}
-				canCounter++;
-			
-			}
-			for(var k = 1;k<candidates.length;k++)
-			{
-				if(pollChoices[i] == "candTrust" + candidates[k].name)
-				{
-							var cell = row.insertCell(i);
-							var counter = 18+k;
-							if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
-							{
-								cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
-							}
-							else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
-							{
-								cell.innerHTML = "Issue Neutral Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
-							}
-							else
-							{
-								cell.innerHTML = "Issue Liked Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
-							}
-							var cell = row.insertCell(i);							
+									cell.innerHTML = "Issue Liked Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+								}		
+					}
 					
-							
-				}
+					canCounter++;
 				
-				canCounter++;
-			
+				}
 			}
 		}
+		
+		var cell = row.insertCell(0);
+		cell.innerHTML = tableArray2[4][h];
+
+		var cell = row.insertCell(1);
+		cell.innerHTML = tableArray2[5][h];
+
+		var cell = row.insertCell(2);
+		cell.innerHTML = tableArray2[6][h];
 	}
 	if(!review)
 	{
@@ -3011,8 +3012,8 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 	var pollLabelArray = [["Tuition", "ATH Equipment", "RES Equipment", "School Events", "Medical"], ["Tuition", "Athletic Equipment", "Research Equipment", "School Events", "Medical"], ["Liz", "You"], ["You", "Liz"], ["Business", "Engineering", "Tech", "Fine Arts", "Liberal Arts"], ["Poverty", "Low", "Middle Low", "Middle High", "High"], ["Socialite", "Athlete", "Researcher", "Media Lover", "Reader"], ["Like", "Neutral", "Dislike"], ["Good", "Neutral", "Bad"], ["Like", "Neutral", "Dislike"], ["Like", "Neutral", "Dislike"],["Like", "Neutral", "Dislike"],["Like", "Neutral", "Dislike"],["Like", "Neutral", "Dislike"],["Like", "Neutral", "Dislike"],["Like", "Neutral", "Dislike"]];
 	
 	//graph dat table
-
-	for(var u =0; u < 5; u++){		
+	//console.log(graphQuestions);
+	for(var u =0; u < 7; u++){		
 		document.getElementById("q"+(u+1)+"text").innerHTML = "";
 	}
 
@@ -3024,8 +3025,8 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 		var data2 = [];
 		var x = 0;
 		var qID = 0;
-		var questionNum = graphQuestions[i]
-		if (graphQuestions[i] > 9 && graphQuestions[i] < 14){
+		var questionNum = graphQuestions[i];
+		if (graphQuestions[i] > 8 && graphQuestions[i] < 14){
 			qID = 9;
 		}
 		else if(graphQuestions[i]==14){
@@ -3035,14 +3036,50 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 			qID = 11;
 		}
 		else{
-			qID = graphQuestions[i]
+			qID = graphQuestions[i];
 		}
-	
+		//console.log(questions);
+		if(qID == 9)
+		{
+			var name ="";
+			switch(graphQuestions[i])
+			{
+				case 9:
+				name = 	"Lowering Tuition";
+				break;
+				case 10:
+				name = 	"Increase Athletic Budget";
+				break;
+				case 11:
+				name = 	"Increase Research Budget";
+				break;
+				case 12:
+				name = 	"More School Events";
+				break;
+				case 13:
+				name = 	"Improve Medical Services";
+				break;
+			}
+			document.getElementById("q"+(i+1)+"text").innerHTML = questions[qID].question + " " + name;
+		}
+		else if(qID == 10)
+		{
+			var name = candidates[graphQuestions[i]-13].name;
+			document.getElementById("q"+(i+1)+"text").innerHTML = questions[qID].question + " " + name;
+		}
+		else if(qID == 11)
+		{
+			var name = candidates[graphQuestions[i]-14].name;
+			document.getElementById("q"+(i+1)+"text").innerHTML = questions[qID].question + " " + name;
+		}
+		else
+		{
 		document.getElementById("q"+(i+1)+"text").innerHTML = questions[qID].question;
-
+		}
+    
 		//console.log("Question "+graphQuestions[i] + " has a length of: " + graphData[i].length);
 		//console.log(graphData[questionNum]);
-
+    
 		for (var j = 0; j < graphData[questionNum].length; j++){
 				//console.log(graphData[questionNum], " AT ", questions[qID].question)			
 				
@@ -3050,12 +3087,12 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 					
 			}
 					
-
+    
 			var dataCounter = 0;
 			x = d3.scaleLinear()
 		    .domain([0, d3.max(data2)])
 		    .range([0, 420]);
-
+    
 			d3.select(".chart" + i)
 		  	.selectAll("div")
 		    .data(data2)
@@ -3063,7 +3100,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 		    .style("width", function(d) { return x(d) + "px"; })
 		    .text(function(d) { 
 		    	var zid = pollLabelArray[graphQuestions[i]][dataCounter] + "-" + d;
-		  		console.log(zid);
+		  		//console.log(zid);
 		  		dataCounter++;
 		  	  		
 		    	return zid; })
@@ -3206,7 +3243,7 @@ function loadGame()
 {
 	//Takes the Whole data and splits it into sections
 	var saveArray = saveState.split("~");
-	console.log(saveArray);
+	//console.log(saveArray);
 	
 	//Past Poll Choices Section
 	if(saveArray[0] != [])
@@ -3277,13 +3314,13 @@ function loadGame()
 		candidates.push(cand);
 	}
 
-	console.log(candAtts);
+	//console.log(candAtts);
 	
 	//Remaining Hours Section
 	remainingHours = parseInt(saveArray[4]);
 
 	//past graph saveData
-	console.log(saveArray[5]);
+	//console.log(saveArray[5]);
 	var graph = [];
 	var graphgraph
 	var multiGraphData = saveArray[5].split("_");
@@ -3300,9 +3337,10 @@ function loadGame()
 		}
 	pastGraphData.push(graph);	
 	}
-	console.log(pastGraphData);
+	//console.log(pastGraphData);
 	
 	back=true;
+	saveState = "";
 	userAction();
 }
 /* Back Button Prevention code */

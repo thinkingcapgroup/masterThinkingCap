@@ -6,7 +6,7 @@ $(document).on('click','.logEvent', function(req, res, next){
      var name;
      var time;
      var eventID = $(this).get(0).id;
-     $.getJSON("json/data.json", function(data){
+     $.getJSON("json/events.json", function(data){
      	name = data.events[eventID].name;
      	time = data.events[eventID].timeRequired;
      	

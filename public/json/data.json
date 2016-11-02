@@ -581,7 +581,7 @@
 			"value":"issue"
 		},
 		{
-			"question":"What much do you know this candidate? Candidate:", 
+			"question":"How much do you know this candidate? Candidate:", 
 			"id":"10",
 			"value":"candFame"
 		},
