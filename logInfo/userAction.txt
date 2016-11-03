@@ -162,3 +162,5 @@ undefined-Posters-1477934890600
 2-Posters-1478183359465
 2-Posters-1478183424784
 2-Posters-1478183433164
+2-issOpp-undefined-undefined-undefined-candOpp
+2-issFav-candOpp-undefined-undefined-candOpp

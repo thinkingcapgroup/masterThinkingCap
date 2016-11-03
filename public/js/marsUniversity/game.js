@@ -756,7 +756,7 @@ function userAction()
 	var nextArea = document.getElementById("next");
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
-	console.log(back);
+
 	if(!back){
 		saveGameState();
 	}
@@ -2645,7 +2645,7 @@ function pollCalc(pollChoices, sampleSize)
 				break;
 
 				case "candOpp":
-					console.log(sample[j].results);
+	
 					tableArrays[3].push(sample[j].results.los + " Score: " +sample[j].results.losPer.toFixed(2));
 					if(sample[j].results.los == "Liz"){
 						graphData[3][1]++;
@@ -2884,7 +2884,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 	
 			for(var k = 0;k<positions.length;k++)
 			{
-				console.log(pollChoices[h]);
+			
 				if(pollChoices[h] == "issue" + positionsLower[k])
 				{
 				
@@ -2942,7 +2942,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 			{
 				if(pollChoices[h] == "candTrust" + candidates[k].name)
 				{
-					console.log(h);
+				
 						var cell = headRow.insertCell(h);
 						var candInfo = tableHeaders[11] + candidates[k].name;
 						cell.innerHTML = candInfo;
@@ -3326,7 +3326,6 @@ function backtoUA()
 
 function saveGameState()
 {
-	console.log("saving game...")
 	textContents="";
    //Save contents of pastPollChoices into the text file
 	for(var i=0; i<pastPollChoices.length;i++)
@@ -3522,7 +3521,7 @@ function loadGame()
 		cand.medNeg = parseInt(candAtts[i][22]);
 		cand.eventPos = parseInt(candAtts[i][23]);
 		cand.eventNeg = parseInt(candAtts[i][24]);
-		console.log(candAtts[i])
+		
 
 		
 		candidates.push(cand);
