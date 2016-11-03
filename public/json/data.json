@@ -532,61 +532,85 @@
 	[
 		{
 			"question":"What issue are you most in favor of?", 
+			"labels":"Tuition, ATH Equipment, RES Equipment, School Events, Medical",
+			"graph":"0,0,0,0,0",
 			"id":"0",
 			"value":"issFav"
 		},
 		{
 			"question":"What issue are you most in opposition to?", 
+			"labels":"Tuition, Athletic Equipment, Research Equipment, School Events,Medical",
+			"graph":"0,0,0,0,0",
 			"id":"1",
 			"value":"issOpp"
 		},
 		{
 			"question":"What candidate are you most in favor of?", 
+			"labels":"Liz, You",
+			"graph":"0,0",
 			"id":"2",
 			"value":"candFav"
 		},
 		{
 			"question":"What candidate are you most in opposition to?", 
 			"id":"3",
+			"labels":"You, Liz",
+			"graph":"0,0",
 			"value":"candOpp"
 		},
 		{
 			"question":"What is your major?", 
+			"labels":"Business, Engineering, Tech, Fine Arts, Liberal Arts",
+			"graph":"0,0,0,0,0",
 			"id":"4",
 			"value":"major"
 		},
 		{
 			"question":"What is your economic class?", 
+			"labels":"Poverty, Low, Middle Low, Middle High, High",
+			"graph":"0,0,0,0,0",
 			"id":"5",
 			"value":"class"
 		},
 		{
 			"question":"What group do you identify with?", 
+			"labels":"Socialite, Athlete, Researcher, Media Lover, Reader",
+			"graph":"0,0,0,0,0",
 			"id":"6",
 			"value":"group"
 		},
 		{
 			"question":"How much do you know me?", 
+			"labels":"Like, Neutral, Dislike",
+			"graph":"0,0,0",
 			"id":"7",
 			"value":"fame"
 		},
 		{
 			"question":"How good of a job do you think I will do? ", 
+			"labels":"Good, Neutral, Bad",
+			"graph":"0,0,0",
 			"id":"8",
 			"value":"playTrust"
 		},
 		{
 			"question":"How do you feel about this issue: ", 
+			"labels":"Like, Neutral, Dislike",
+			"graph":"0,0,0",
 			"id":"9",
 			"value":"issue"
 		},
 		{
 			"question":"How much do you know this candidate? Candidate:", 
+			"labels":"Like, Neutral, Dislike",
+			"graph":"0,0,0",
 			"id":"10",
 			"value":"candFame"
 		},
 		{
 			"question":"How good of a job do you think this candidate will do? Candidate: ", 
+			"labels":"Good, Neutral, Bad",
+			"graph":"0,0,0",
 			"id":"11",
 			"value":"candTrust"
 		}
