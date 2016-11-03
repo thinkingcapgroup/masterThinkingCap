@@ -2822,6 +2822,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, review)
 	document.getElementById("gameInfo").innerHTML += "<div id = 'q1text'><br></div><div class = 'chart0 chart'></div>";
 	document.getElementById("gameInfo").innerHTML += "<div id = 'q2text'><br></div><div class = 'chart1 chart'></div>";
 	document.getElementById("gameInfo").innerHTML += "<div id = 'q3text'><br></div><div class = 'chart2 chart'></div>";
+	document.getElementById("gameInfo").innerHTML += "<hr>";
 	document.getElementById("gameInfo").innerHTML += "<div id = 'q4text'><br></div><div class = 'chart3 chart'></div>";
 	document.getElementById("gameInfo").innerHTML += "<div id = 'q5text'><br></div><div class = 'chart4 chart'></div>";
 	document.getElementById("gameInfo").innerHTML += "<div id = 'q6text'><br></div><div class = 'chart5 chart'></div>";
