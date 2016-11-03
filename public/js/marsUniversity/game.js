@@ -2468,6 +2468,7 @@ function reportViewer(id)
 	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	document.getElementById("next").style.display = "block";
 	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],pastGraphData[id], true);
+	console.log(pastGraphData);
 }
 
 //Calculates the results of each poll question from each student in the sample and stores them in an array
@@ -3422,9 +3423,9 @@ function saveGameState()
 	
 	//Save remainingHours
 	textContents+=remainingHours;
+	textContents+="~";
 
 	//save graph data
-	textContents+="~";
 	for (var z =0; z < pastGraphData.length; z++){
 		if(z !=0){
 			textContents+="_";
@@ -3533,24 +3534,27 @@ function loadGame()
 	remainingHours = parseInt(saveArray[4]);
 
 	//past graph saveData
-	//console.log(saveArray[5]);
+	console.log(saveArray[5]);
 	var graph = [];
 	var graphgraph
 	var multiGraphData = saveArray[5].split("_");
+	console.log(multiGraphData);
 	for(var z = 0; z < multiGraphData.length; z++){
 		var questionData = multiGraphData[z].split("*");
+		console.log(questionData);
 		for(var y = 0; y < questionData.length; y++){
 			var holderHolder = questionData[y].split(",")
-			var holdArray = []
+			var holdArray = [];
 			for(var x = 0; x < holderHolder.length; x++){
-				holdArray[x] = holderHolder[x];
-			
+				holdArray[x] = parseFloat(holderHolder[x]);
 			}
 		graph.push(holdArray);
 		}
+		console.log(graph);
 	pastGraphData.push(graph);	
+	graph = [];
 	}
-	//console.log(pastGraphData);
+	console.log(pastGraphData);
 	
 	back=true;
 	saveState = "";
