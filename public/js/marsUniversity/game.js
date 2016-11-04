@@ -719,7 +719,7 @@ function gameCycleStart(f)
 	
 	//Create Issue Candidates
 	var issueCand1 = new CandidateCreate("Martian Dog");
-	issueCand1.fame = [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2];
+	issueCand1.fame = [1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8];
 	issueCand1.consMod = 0.25;
 	chooseIssue(issueCand1,chosenIssueCands,3,true);
 	candidates.push(issueCand1);
@@ -778,7 +778,7 @@ function userAction()
 		document.getElementById("choices").innerHTML += "<button type='button' onclick='reportViewer("+i+")' >View Poll "+ num +" Result </button>";
 	}
 	document.getElementById("choices").innerHTML += "<br>";
-	document.getElementById("gameInfo").innerHTML += "<h4> Opponent\'s Last Move:" + opponentCandidate.lastMove + "</h4>";
+	document.getElementById("gameInfo").innerHTML += "<h4> Opponent\'s Last Move: " + candidates[1].lastMove + "</h4>";
 	document.getElementById("choices").innerHTML += "<br>";
 
 	currentEvents = [];
@@ -1170,6 +1170,8 @@ function submitAction(id, eventHours)
 		}
 	}
 	remainingHours-= eventHours;
+	
+	candidates[1].lastMove = chosenEvent.name;
 
 	//Changes the player's score
 	scoreChanger(candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
@@ -1323,6 +1325,16 @@ function statement(){
 
 }
 
+//Minigame
+function minigamePlayer(){
+	
+	document.getElementById("gameInfo").innerHTML += "<canvas id='myCanvas' width='500px' height = '600px'></canvas><br>";
+	var c=document.getElementById("myCanvas");
+
+
+}
+
+
 //calculated the effectiveness of your statement & consistancy modifier
 function statementCalc(x){
 	var currentStatement = document.getElementById("statements").value;
@@ -1417,6 +1429,7 @@ function statementCalc(x){
 	candidates[x].consMod = condHolder;
 	//decrease 1 hour and continue back to user action
 	remainingHours--;
+	statementCalcOtherCandidate(1);
 	userAction();
 }
 
@@ -1463,8 +1476,55 @@ function statementCalcOtherCandidate(x){
 			}
 		}
 	}
-	remainingHours--;
-	userAction();
+	//calculate the candidate's constitution mod
+
+	var tuitCond,
+			athCond,
+			resCond,
+			medCond,
+			eventCond;
+
+
+	//check if the issues have anything even in them
+	if(candidates[x].tuitPos>0 || candidates[x].tuitNeg > 0){
+		tuitCond = (Math.min(candidates[x].tuitPos, candidates[x].tuitNeg))/(candidates[x].tuitPos+candidates[x].tuitNeg);
+	}
+	else{
+		tuitCond = 0;
+	}
+
+	if(candidates[x].athPos>0 || candidates[x].athNeg>0){
+		athCond = (Math.min(candidates[x].athPos, candidates[x].athNeg))/(candidates[x].athPos+candidates[x].athNeg);
+	}
+	else{
+		athCond = 0;
+	}
+
+	if(candidates[x].resPos>0 || candidates[x].resNeg>0){
+		resCond = (Math.min(candidates[x].resPos, candidates[x].resNeg))/(candidates[x].resPos+candidates[x].resNeg);
+	}
+
+	else{
+		resCond = 0;
+	}
+
+	if(candidates[x].medPos>0 || candidates[x].medNeg>0){
+		medCond = (Math.min(candidates[x].medPos, candidates[x].medNeg))/(candidates[x].medPos+candidates[x].medNeg);
+	}
+	else{
+		medCond = 0;
+	}
+
+	if(candidates[x].eventPos>0 || candidates[x].eventNeg>0){
+		eventCond = (Math.min(candidates[x].eventPos, candidates[x].eventNeg))/(candidates[x].eventPos+candidates[x].eventNeg);
+	}
+	else{
+		eventCond = 0;
+	}
+
+	var condHolder = (tuitCond + athCond + resCond + medCond + eventCond)/5;
+	candidates[x].consMod = condHolder;
+	candidates[x].lastMove = "Statement";
 }
 
 //Displays the result of a poll immediately after it end and then saves the report for later viewing
@@ -2472,8 +2532,8 @@ function resetGame()
 	currentEvents = [];
 	sample = [];
 	candidates=[];
-	playerCandidate = new CandidateCreate("ph","ph", "ph", "ph")
-	opponentCandidate = new CandidateCreate("Liz", "Lizard", "Non-Binary", "Average");
+	var playerCandidate = new CandidateCreate("ph");
+	var opponentCandidate = new CandidateCreate("Liz");
 }
 
 //Allows you to view previous polls at any time.
@@ -2735,22 +2795,22 @@ function pollCalc(pollChoices, sampleSize)
 
 				case "candFav":
 					tableArrays[2].push(sample[j].results.win + " Score: " +sample[j].results.winPer.toFixed(2));
-					if(sample[j].results.win == "Liz"){
-						graphData[i+3][0]++;
-					}
-					else{
-						graphData[i+3][1]++;
+					for(var k =0; k< candidates.length;k++)
+					{
+						if(sample[j].results.win == candidates[k].name){
+							graphData[i+3][k]++;
+						}
 					}
 				break;
 
 				case "candOpp":
 					//console.log(sample[j].results);
 					tableArrays[3].push(sample[j].results.los + " Score: " +sample[j].results.losPer.toFixed(2));
-					if(sample[j].results.los == "Liz"){
-						graphData[i+3][1]++;
-					}
-					else{
-						graphData[i+3][0]++;
+					for(var k =0; k< candidates.length;k++)
+					{
+						if(sample[j].results.win == candidates[k].name){
+							graphData[i+3][k]++;
+						}
 					}
 				break;
 
@@ -3760,6 +3820,8 @@ function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 		chosenIssueCands.push(oppChoice[oppFocus]);
 	}
 }
+
+
 
 window.onload = startGame();
 
