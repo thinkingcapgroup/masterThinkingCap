@@ -88,6 +88,8 @@ var events=[];
 var questions=[];
 var candidates=[];
 
+//playerIssues
+
 //sprites
 var spriteHead = new Image();
 spriteHead.src = "../img/spritehead.png";
@@ -670,7 +672,7 @@ function startTutorial(){
 }
 
 function actualSessionStart(){
-		document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
+	document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
 	for (var x=0; x < 5; x++){
 
 	document.getElementById("gameInfo").innerHTML += "<button onclick = 'gameCycleStart("+x+")'>"+ positions[x]+"</button>"
@@ -755,17 +757,19 @@ function userAction()
 {
 	//Clear previous screen
 	clearScreen();
-	//console.log(pastGraphData);
 	var prevHours = document.getElementById("playerInfo");
 	var nextArea = document.getElementById("next");
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
-	if(!back)
+
+	if(!back){
 		saveGameState();
+	}
 
 	//Build User Action Area buttons
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='poll()'> Take A Poll </button>";
+	document.getElementById("choices").innerHTML += "<button type='button' onclick='statement()'> Make a Statement</button>";
 	document.getElementById("choices").innerHTML += "<button type='button' class='logEvent' onclick='gameCycleEnd()'> Skip to the End </button>";
 	document.getElementById("choices").innerHTML += "<br>";
 	for(var i=0; i<pastPollResults.length;i++)
@@ -1199,7 +1203,7 @@ function gameCycleEnd()
 	{
 		if(candidates[i].votes > winvotes)
 		{
-			winvotes= candidate[i].votes;
+			winvotes= candidates[i].votes;
 			winner = candidates[i].name;
 		}
 	}
@@ -1299,6 +1303,169 @@ function poll()
 	document.getElementById("event").style.display = "block";
 	document.getElementById("next").style.display = "block";
 };
+
+//makes the statement screen
+function statement(){
+	back = false;
+	clearScreen();
+		document.getElementById("event").style.display = "block";
+		document.getElementById("event").innerHTML += "<h4>People want to know how you feel on certain issues. Time to make a statement!</h4>";
+		document.getElementById("event").innerHTML += " <select id = 'statements'> </select> ";
+		document.getElementById("event").innerHTML += " <select id = 'posneg'> </select> ";
+
+		for(var x = 0; x < positions.length; x++){
+			document.getElementById("statements").options.add(new Option(positions[x], x))
+		}
+
+		document.getElementById("posneg").options.add(new Option('Positive', 0))
+		document.getElementById("posneg").options.add(new Option('Negative', 1))
+		document.getElementById("event").innerHTML += "<br> <button type='button' onclick='statementCalc(0)' > Make Statement </button>";
+
+}
+
+//calculated the effectiveness of your statement & consistancy modifier
+function statementCalc(x){
+	var currentStatement = document.getElementById("statements").value;
+	var currentPosNeg = document.getElementById("posneg").value;
+	//if positive statement
+	if(currentPosNeg == 0){
+		candidates[x].issueScore[currentStatement] += 0.1;
+		if(currentStatement == 0){
+			candidates[x].tuitPos += 1;
+		}
+		else if(currentStatement == 1){
+			candidates[x].athPos += 1;
+		}
+		else if(currentStatement == 2){
+			candidates[x].resPos += 1;
+		}
+		else if(currentStatement == 4){
+			candidates[x].medPos += 1;
+		}
+		else if(currentStatement == 3){
+			candidates[x].eventPos += 1;
+		}
+	}
+	//if negative statement
+	else{
+	
+			candidates[x].issueScore[currentStatement] -= 0.1;
+			if(currentStatement == 0){
+				candidates[x].tuitNeg += 1;
+			}
+			else if(currentStatement == 1){
+				candidates[x].athNeg += 1;
+			}
+			else if(currentStatement == 2){
+				candidates[x].resNeg += 1;
+			}
+			else if(currentStatement == 4){
+				candidates[x].medNeg += 1;
+			}
+		else if(currentStatement == 3){
+			candidates[x].eventNeg += 1;
+			}
+		
+	}
+	//calculate the candidate's constitution mod
+
+	var tuitCond,
+			athCond,
+			resCond,
+			medCond,
+			eventCond;
+
+
+	//check if the issues have anything even in them
+	if(candidates[x].tuitPos>0 || candidates[x].tuitNeg > 0){
+		tuitCond = (Math.min(candidates[x].tuitPos, candidates[x].tuitNeg))/(candidates[x].tuitPos+candidates[x].tuitNeg);
+	}
+	else{
+		tuitCond = 0;
+	}
+
+	if(candidates[x].athPos>0 || candidates[x].athNeg>0){
+		athCond = (Math.min(candidates[x].athPos, candidates[x].athNeg))/(candidates[x].athPos+candidates[x].athNeg);
+	}
+	else{
+		athCond = 0;
+	}
+
+	if(candidates[x].resPos>0 || candidates[x].resNeg>0){
+		resCond = (Math.min(candidates[x].resPos, candidates[x].resNeg))/(candidates[x].resPos+candidates[x].resNeg);
+	}
+
+	else{
+		resCond = 0;
+	}
+
+	if(candidates[x].medPos>0 || candidates[x].medNeg>0){
+		medCond = (Math.min(candidates[x].medPos, candidates[x].medNeg))/(candidates[x].medPos+candidates[x].medNeg);
+	}
+	else{
+		medCond = 0;
+	}
+
+	if(candidates[x].eventPos>0 || candidates[x].eventNeg>0){
+		eventCond = (Math.min(candidates[x].eventPos, candidates[x].eventNeg))/(candidates[x].eventPos+candidates[x].eventNeg);
+	}
+	else{
+		eventCond = 0;
+	}
+
+	var condHolder = (tuitCond + athCond + resCond + medCond + eventCond)/5;
+	candidates[x].consMod = condHolder;
+	//decrease 1 hour and continue back to user action
+	remainingHours--;
+	userAction();
+}
+
+//other candidate (AKA KARMA)
+function statementCalcOtherCandidate(x){
+	var currentStatement = document.getElementById("statements").value;
+	var currentPosNeg = document.getElementById("posneg").value;
+
+	if(currentPosNeg == 1){
+		candidates[x].issueScore[currentStatement] += 0.1;
+		if(currentStatement == 0){
+			candidates[x].tuitPos += 1;
+		}
+		else if(currentStatement == 1){
+			candidates[x].athPos += 1;
+		}
+		else if(currentStatement == 2){
+			candidates[x].resPos += 1;
+		}
+		else if(currentStatement == 3){
+			candidates[x].medPos += 1;
+		}
+		else if(currentStatement == 4){
+			candidates[x].eventPos += 1;
+		}
+	}
+	else{
+		if(currentPosNeg == 1){
+			candidates[x].issueScore[currentStatement] -= 0.1;
+			if(currentStatement == 0){
+				candidates[x].tuitNeg += 1;
+			}
+			else if(currentStatement == 1){
+				candidates[x].athNeg += 1;
+			}
+			else if(currentStatement == 2){
+				candidates[x].resNeg += 1;
+			}
+			else if(currentStatement == 3){
+				candidates[x].medNeg += 1;
+			}
+		else if(currentStatement == 4){
+			candidates[x].eventNeg += 1;
+			}
+		}
+	}
+	remainingHours--;
+	userAction();
+}
 
 //Displays the result of a poll immediately after it end and then saves the report for later viewing
 function pollResults()
@@ -2058,13 +2225,25 @@ function CandidateCreate(name){
 	this.focusnum= 0;
 	this.winChance= 0;
 	this.votes= 0;
-	this.correctAnswers= 0;
-	this.wrongAnswers= 0;
 	this.lastMove= "None";
 	this.raceNum = 1;
 	this.genderNum = 1;
 	this.bodyTypeNum = 1;
 	this.headNum = 1;
+	this.correctAnswers = 0;
+	this.wrongAnswers = 0;
+	//statement choices
+
+	this.tuitPos= 0;
+	this.tuitNeg= 0;
+	this.athPos= 0;
+	this.athNeg= 0;
+	this.resPos= 0;
+	this.resNeg= 0;
+	this.medPos= 0;
+	this.medNeg= 0;
+	this.eventPos= 0;
+	this.eventNeg= 0;
 };
 
 function createSample(x)
@@ -2796,7 +2975,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	
 			for(var k = 0;k<positions.length;k++)
 			{
-				//console.log(pollChoices[h]);
+			
 				if(pollChoices[h] == "issue" + positionsLower[k])
 				{
 				
@@ -3257,6 +3436,7 @@ function pollTimeCheck(sSize, pollQuestions)
 function backtoUA()
 {
 	back = true;
+
 	userAction();
 }
 
@@ -3330,6 +3510,27 @@ function saveGameState()
 		textContents+=candidates[i].bodyTypeNum;
 			textContents+="*";
 		textContents+=candidates[i].headNum;
+			textContents+="*";	
+		textContents+=candidates[i].tuitPos;
+			textContents+="*";
+		textContents+=candidates[i].tuitNeg;
+			textContents+="*";
+		textContents+=candidates[i].athPos;
+			textContents+="*";
+		textContents+=candidates[i].athNeg;
+			textContents+="*";
+		textContents+=candidates[i].resPos;
+			textContents+="*";
+		textContents+=candidates[i].resNeg;
+			textContents+="*";
+		textContents+=candidates[i].medPos;
+			textContents+="*";
+		textContents+=candidates[i].medNeg;
+			textContents+="*";
+		textContents+=candidates[i].eventPos;
+			textContents+="*";
+		textContents+=candidates[i].eventNeg;
+
 			if(i!=candidates.length-1)
 				textContents+="_";
 	}
@@ -3440,7 +3641,19 @@ function loadGame()
 		cand.raceNum = parseInt(candAtts[i][11]);
 		cand.genderNum = parseInt(candAtts[i][12]);
 		cand.bodyTypeNum = parseInt(candAtts[i][13]);
-		cand.headnum = parseInt(candAtts[i][14]);
+		cand.headNum = parseInt(candAtts[i][14]);
+		cand.tuitPos = parseInt(candAtts[i][15]);
+		cand.tuitNeg = parseInt(candAtts[i][16]);
+		cand.athPos = parseInt(candAtts[i][17]);
+		cand.athNeg = parseInt(candAtts[i][18]);
+		cand.resPos = parseInt(candAtts[i][19]);
+		cand.resNeg = parseInt(candAtts[i][20]);
+		cand.medPos = parseInt(candAtts[i][21]);
+		cand.medNeg = parseInt(candAtts[i][22]);
+		cand.eventPos = parseInt(candAtts[i][23]);
+		cand.eventNeg = parseInt(candAtts[i][24]);
+		
+
 		
 		candidates.push(cand);
 	}

@@ -28,6 +28,7 @@ module.exports = function(req, data, next){
 							}
 							else 
 							{
+								console.log('SAVING')
 								next(err, result);
 							}
 						});
