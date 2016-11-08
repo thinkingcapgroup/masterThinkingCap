@@ -594,21 +594,21 @@
 			"value":"playTrust"
 		},
 		{
-			"question":"How do you feel about this issue: ", 
+			"question":"How do you feel about this issue?", 
 			"labels":"Like, Neutral, Dislike",
 			"graph":"0,0,0",
 			"id":"9",
 			"value":"issue"
 		},
 		{
-			"question":"How much do you know this candidate? Candidate:", 
+			"question":"How much do you know this candidate? ", 
 			"labels":"Like, Neutral, Dislike",
 			"graph":"0,0,0",
 			"id":"10",
 			"value":"candFame"
 		},
 		{
-			"question":"How good of a job do you think this candidate will do? Candidate: ", 
+			"question":"How good of a job do you think this candidate will do? ", 
 			"labels":"Good, Neutral, Bad",
 			"graph":"0,0,0",
 			"id":"11",

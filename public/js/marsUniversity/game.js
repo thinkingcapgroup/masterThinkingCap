@@ -18,6 +18,7 @@ var back = false;
 var num = 1;
 var textContents;
 var saveState;
+var qPollHolder;
 
 //sprite stuff
 var heads = new Image();
@@ -99,11 +100,11 @@ function Student(group, ecoClass, major, tuitionScore, athleticScore, researchSc
 	this.group = group;
 	this.ecoClass = ecoClass;
 	this.major = major;
-	this.athleticScore = athleticScore + player.athleticVar;
-	this.researchScore = researchScore + player.researchVar;
-	this.tuitionScore = tuitionScore + player.tuitionVar;
-	this.eventScore = eventScore + player.eventsVar;
-	this.medicalScore = medicalScore + player.medicalVar;
+	this.athleticScore = athleticScore;
+	this.researchScore = researchScore;
+	this.tuitionScore = tuitionScore;
+	this.eventScore = eventScore;
+	this.medicalScore = medicalScore;
 }
 
 //setting up some more variables
@@ -156,8 +157,8 @@ function startCharacterSelect(){
 
 	var c=document.getElementById("myCanvas");
 	//creates a sprite for the headsheets
-	var headSheet = new sprite({context: c.getContext("2d"), width: 155, height: 171, image: heads});
-	var bodySheet = new sprite({context: c.getContext("2d"), width: 164, height: 343, image: thinBody});
+	var headSheet = new Sprite({context: c.getContext("2d"), width: 155, height: 171, image: heads});
+	var bodySheet = new Sprite({context: c.getContext("2d"), width: 164, height: 343, image: thinBody});
 
 	//sets up all the buttons for changing the canvas
 	document.getElementById("headbutton").addEventListener("click", function(){
@@ -576,7 +577,7 @@ function bodyChange(headsheet, body){
 }
 
 //sprite function
-function sprite(options){
+function Sprite(options){
 	var that = {};
 	that.context = options.context;
 	that.width = options.width;
@@ -768,7 +769,7 @@ function userAction()
 
 	//Build User Action Area buttons
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
-	document.getElementById("choices").innerHTML += "<button type='button' onclick='poll()'> Take A Poll </button>";
+	document.getElementById("choices").innerHTML += "<button type='button' onclick='map()'> Take A Poll </button>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='statement()'> Make a Statement</button>";
 	document.getElementById("choices").innerHTML += "<button type='button' class='logEvent' onclick='gameCycleEnd()'> Skip to the End </button>";
 	document.getElementById("choices").innerHTML += "<br>";
@@ -1192,13 +1193,14 @@ function gameCycleEnd()
 {
 	//Clear previous screen
 	clearScreen();
+
 	var prevHours = document.getElementById("playerInfo");
 	var nextArea = document.getElementById("next");
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
 
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
-	votePercentage(1000);
+	votePercentage(1000,5);
 	var winner;
 	var winvotes = 0;
 	for(var i = 0; i<candidates.length;i++)
@@ -1215,82 +1217,65 @@ function gameCycleEnd()
 
 /*Special Action Pages*/
 
-//Allows the user to give a poll ith questions they choose to a sample of the population
-function poll()
-{
-	//Clear previous screen
+function map(){
 	clearScreen();
-	var nextArea = document.getElementById("next");
-	nextArea.innerHTML = "";
-	
+	var timeForPoll = returnTotalPollTime(20,0);
+	qPollHolder = 2;
+	document.getElementById("event").style = "display:block";
+	document.getElementById("event").innerHTML += "<h4>Select an area where you wish to poll.</h4>";
+	document.getElementById("event").innerHTML += "<div id = 'mapArea'></div><div id = 'questionArea'></div>";
+	document.getElementById("questionArea").innerHTML +="<h4>Population & Sample</h4><br>";
+	var buttonLabels = ["Coffee Shop", "Gym", "Lab", "Media Room", "Library", "Quad"];
+	document.getElementById("questionArea").innerHTML += "<label>Location: </label><select id = 'location'></select><br>";
+	for(x =0; x< buttonLabels.length; x++){
+		document.getElementById("location").options.add(new Option(buttonLabels[x],x));
+	}
+	document.getElementById("questionArea").innerHTML += "<label>Sample Size: </label><select id = 'sample' class = 'sampleOptions totalTimeTracker'><br></select><br><label>Rooms: </label><select id = 'rooms' class = 'sampleOptions'></select><br><label>Time Spent: </label><select id = 'timeSpent' class = 'sampleOptions'></select><hr>";
 	back = false;
-	if(remainingHours> 2 )
+	if(remainingHours> 3 )
 	{
-		document.getElementById("event").innerHTML += "<h4> Select the amount of people you want to poll. The time will increase by 1 hour for every 10 people.  </h4>";
-		document.getElementById("event").innerHTML += " <select id = 'sample'> </select> ";
-		
-		document.getElementById("sample").options.add(new Option("Sample 10 Students", 10));
-		if(remainingHours> 3 )
-			document.getElementById("sample").options.add(new Option("Sample 20 Students", 20));
-		if(remainingHours> 4 )
-			document.getElementById("sample").options.add(new Option("Sample 30 Students", 30));
+	
+		document.getElementById("sample").options.add(new Option("Sample 20 Students", 20));
 		if(remainingHours> 5 )
 			document.getElementById("sample").options.add(new Option("Sample 40 Students", 40));
-		if(remainingHours> 6 )
-			document.getElementById("sample").options.add(new Option("Sample 50 Students", 50));
 		if(remainingHours> 7 )
 			document.getElementById("sample").options.add(new Option("Sample 60 Students", 60));
-		if(remainingHours> 8 )
-			document.getElementById("sample").options.add(new Option("Sample 70 Students", 70));
 		if(remainingHours> 9 )
 			document.getElementById("sample").options.add(new Option("Sample 80 Students", 80));
-		if(remainingHours> 10 )
-			document.getElementById("sample").options.add(new Option("Sample 90 Students", 90));
+
+			document.getElementById("rooms").options.add(new Option("1 Room", 20));
+		if(remainingHours> 5 )
+			document.getElementById("rooms").options.add(new Option("2 Rooms", 40));
+		if(remainingHours> 7 )
+			document.getElementById("rooms").options.add(new Option("3 Rooms", 60));
+		if(remainingHours> 9 )
+			document.getElementById("rooms").options.add(new Option("4 Rooms", 80));
+
+			document.getElementById("timeSpent").options.add(new Option("1 Hour", 20));
+		if(remainingHours> 5 )
+				document.getElementById("timeSpent").options.add(new Option("2 Hours", 40));
+		if(remainingHours> 7 )
+				document.getElementById("timeSpent").options.add(new Option("4 Hours", 60));
+		if(remainingHours> 9 )
+				document.getElementById("timeSpent").options.add(new Option("8 Hours", 80));
+
 			
-		document.getElementById("event").innerHTML += "<h4> Select the questions you want to ask on the poll. Every set of one or two questions you add will equal an hour. </h4> <br>";
+		document.getElementById("questions").innerHTML += "<h4> Poll Questions Every set of one or two questions you add will equal an hour. </h4> <br>";
 		//Populates the questions based on the JSON File
-		for(var i = 0; i<5 ;i++)
+		for(var i = 0; i<6 ;i++)
 		{
 			var none = "";
-			document.getElementById("event").innerHTML += " <select class = 'pollQ' id =\"poll"+i+ "\"> </select> ";
+			document.getElementById("questionArea").innerHTML += " <select class = 'pollQ totalTimeTracker' id =\"poll"+i+ "\"> </select> ";
+			document.getElementById("questionArea").innerHTML += " <select class = 'subPollQ' style = 'display:none' id =\"subpoll"+i+ "\"> </select> ";
 			document.getElementById("poll"+i+"").options.add(new Option("None", none));
 				for(var j = 0; j<questions.length; j++)
 				{
-					if(questions[j].id == 9)
-					{
-						for(var k = 0;k<positions.length;k++)
-						{
-							var questionText = questions[j].question + positions[k];
-							var questionVal = questions[j].value + "" + positionsLower[k];
-							document.getElementById("poll"+i+"").options.add(new Option(questionText, questionVal));
-						}
+					if (j < 3 || j > 6){
+						
+						document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));
 					}
-					else if(questions[j].id == 10)
-					{
-						for(var l = 1;l<candidates.length;l++)
-						{
-							var questionText = questions[j].question +  candidates[l].name;
-							var questionVal = questions[j].value + candidates[l].name;
-							document.getElementById("poll"+i+"").options.add(new Option(questionText, questionVal));
-						}
-					}
-					else if(questions[j].id == 11)
-					{
-						for(var l = 1;l<candidates.length;l++)
-						{
-							var questionText = questions[j].question +  candidates[l].name;
-							var questionVal = questions[j].value + candidates[l].name;
-							document.getElementById("poll"+i+"").options.add(new Option(questionText, questionVal));
-						}
-					}
-					else if(questions[j].id == 4||questions[j].id == 5||questions[j].id == 6)
-					{
-						//Prevents major class and group questions from being added.
-					}
-					else
-					{document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));}
 				}
-			document.getElementById("event").innerHTML += "<br><br>";
+			document.getElementById("questionArea").innerHTML += "<br><br>";
 		}
 	}
 	else
@@ -1298,13 +1283,18 @@ function poll()
 		document.getElementById("event").innerHTML += "<h4> You do not have enough time remaining to take a poll.</h4>";
 	}
 	
-	
+	document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph'>Total Time: "+ timeForPoll +" Hours</p><br>";
 	//Displays the screen for this event
-	document.getElementById("next").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults()'> Submit Poll </button>";
-	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
-	document.getElementById("event").style.display = "block";
+	document.getElementById("questionArea").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults()'> Submit Poll </button><button id = 'moreQuestionButton'> Add More Questions </button>";
+	document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
+
+	document.getElementById("questionArea").style.display = "block";
 	document.getElementById("next").style.display = "block";
-};
+
+	document.getElementById("moreQuestionButton").addEventListener("click", function(){
+			addMoreQuestions();
+	});
+}
 
 //makes the statement screen
 function statement(){
@@ -1530,15 +1520,26 @@ function statementCalcOtherCandidate(x){
 //Displays the result of a poll immediately after it end and then saves the report for later viewing
 function pollResults()
 {
+	var bias = document.getElementById('location').value;
 	document.getElementById("event").style.display = "none";
 	var duplicate = false;
 	var pollChoices = [];
-	for(var i = 0; i<5 ;i++)
+	for(var i = 0; i<6 ;i++)
 	{
 		var selectedQuestion = document.getElementById("poll"+i+"");
 		if(selectedQuestion.options[selectedQuestion.selectedIndex].value != "")
 		{
-			pollChoices.push(selectedQuestion.options[selectedQuestion.selectedIndex].value);
+			var pollVal = selectedQuestion.options[selectedQuestion.selectedIndex].value;
+			if(pollVal == 'issue'||pollVal == 'candFame'||pollVal == 'candTrust'){
+				//grab the sub question
+				var selectedSubQuestion = document.getElementById('subpoll' + i + '');
+				var subValue = selectedSubQuestion.value;
+				pollVal = pollVal + subValue;
+			}
+
+			pollChoices.push(pollVal);
+			console.log(pollChoices);
+
 		}
 	}
 
@@ -1551,6 +1552,7 @@ function pollResults()
 			{
 				var val1 = pollChoices[i];
 				var val2 = pollChoices[j];
+
 				if(val1 == val2)
 				{
 					duplicate = true;
@@ -1570,24 +1572,24 @@ function pollResults()
 
 	if(pollChoices.length < 2)
 	{
-		document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'poll()'> Reselect Poll Questions </button>";
+		document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'map()'> Reselect Poll Questions </button>";
 	}
 	else if(duplicate)
 	{
 		//console.log(pollChoices);
 		//console.log(duplicate);
-		document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'poll()'> Reselect Poll Questions </button>";
+		document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'map()'> Reselect Poll Questions </button>";
 	}
 	else if(!pollTimeCheck(sampleSize, pollChoices))
 	{
-		document.getElementById("gameInfo").innerHTML += "<p> You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.</p>  <button onclick = 'poll()'> Reselect Poll Questions </button>";
+		document.getElementById("gameInfo").innerHTML += "<p> You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.</p>  <button onclick = 'map()'> Reselect Poll Questions </button>";
 	}
 	else
 	{
-		pollCalc(pollChoices, sampleSize);
+
+		pollCalc(pollChoices, sampleSize, bias);
 		document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	}
-
 
 };
 
@@ -1595,6 +1597,15 @@ function pollResults()
 
 
 /* Helper Functions*/
+
+function addMoreQuestions(){
+	if(qPollHolder< 6){
+		qh2 = qPollHolder + 1;
+		document.getElementById('poll' + qPollHolder + '').style = "display:block";
+		document.getElementById('poll' + qh2 + '').style = "display:block";
+		qPollHolder = qPollHolder + 2;
+	}
+}
 
 //Takes in an Arrays of Groups to affect with the score increase, and parses through each adding the specified increase in score
 function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
@@ -2306,18 +2317,38 @@ function CandidateCreate(name){
 	this.eventNeg= 0;
 };
 
-function createSample(x)
+function createSample(x, bias)
 {
 	sample = [];
 	for (var count= 0; count < x; count++){
-		var scoreHolder = getScores();
+		var scoreHolder = getScores(x, bias);
 		var holderStudent = new Student(groupList[scoreHolder[0]],  stuEconomic[scoreHolder[1]], majorList[scoreHolder[2]], scoreHolder[3], scoreHolder[4], scoreHolder[5], scoreHolder[6], scoreHolder[7])
 		sample.push(holderStudent);
 	}
 }
 
-function getScores(){
-	var groupRandom = Math.floor(Math.random()* 5);
+function getScores(x, bias){
+	
+	var groupRandom;
+
+	if(bias < 5){
+		var coinFlip = Math.floor(Math.random() * 3)
+		if(coinFlip == 1){			
+					groupRandom = bias;
+					
+				}
+	
+		else{
+					groupRandom = Math.floor(Math.random()* 5);
+					
+					while(groupRandom == bias){
+						groupRandom = Math.floor(Math.random()* 5);
+					}
+		}
+	}
+	else{
+		groupRandom = Math.floor(Math.random()* 5);
+	}
 	var majorRandom = Math.floor(Math.random()* 5);
 	var ecoClassRandom = Math.floor(Math.random()* 5);
 	var ath =0;
@@ -2349,10 +2380,10 @@ function getScores(){
 	return returnArray;
 }
 
-function votePercentage(sampleSize)
+function votePercentage(sampleSize, bias)
 {
 	//console.log(candidates);
-	createSample(sampleSize);
+	createSample(sampleSize, bias);
 	var finalWinner = "";
 	for(var i=0;i<candidates.length; i++)
 		{
@@ -2547,7 +2578,7 @@ function reportViewer(id)
 }
 
 //Calculates the results of each poll question from each student in the sample and stores them in an array
-function pollCalc(pollChoices, sampleSize)
+function pollCalc(pollChoices, sampleSize, bias)
 {	
 	var graphData = [];
 	graphData.push(questions[4].graph.split(','));
@@ -2633,7 +2664,7 @@ function pollCalc(pollChoices, sampleSize)
 		}
 		
 	}
-	votePercentage(sampleSize);
+	votePercentage(sampleSize, bias);
 	//Gets the results of each question
 	for(var j=0;j<sample.length;j++)
 		{
@@ -2674,7 +2705,7 @@ function pollCalc(pollChoices, sampleSize)
 		}		
 
 		tableArrays[6].push(sample[j].group);
-		console.log(sample[j].group);
+		
 		var groupHolder = sample[j].group;
 		if(groupHolder == "socialite"){
 			graphData[2][0]++;
@@ -3335,13 +3366,19 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	for (var i=0;i<graphQuestions.length;i++)
 	{
 	document.getElementById("gameInfo").innerHTML += "<div id = 'q"+i+"text'><br></div><div class = 'chart"+i+" chart'></div>";
+		if(i==2){
+			document.getElementById("gameInfo").innerHTML += "<hr>";
+		}
+		else if( i == 5){
+
+		}
 	}
 	//console.log(graphQuestions);
 	for(var u =0; u < graphQuestions.length; u++){		
 		document.getElementById("q"+u+"text").innerHTML = "";
 	}
     
-    console.log(graphQuestions);
+   
 	for(var i = 0; i < graphQuestions.length; i++){
 	
 		var counter = 0;
@@ -3446,7 +3483,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		    .style("width", function(d) { return x(d) + "px"; })
 		    .text(function(d) { 
 		    	var zid = graphLabels[i][dataCounter] + "-" + d;
-		  		console.log(zid);
+		  		//console.log(zid);
 		  		dataCounter++;
 		  	  		
 		    	return zid; })
@@ -3478,6 +3515,18 @@ function pollTime(sSize, pollQuestions)
 		timeRequired = sSize/10 + (pollQuestions.length*0.5) +0.5;
 	}
 	remainingHours -= timeRequired;
+}
+
+function returnTotalPollTime(sSize, pollQuestions){
+	if(pollQuestions.length%2 == 0)
+	{
+		timeRequired = sSize/10 + (pollQuestions*.5);
+	}
+	else
+	{
+		timeRequired = sSize/10 + (pollQuestions*0.5) +0.5;
+	}
+	return timeRequired;
 }
 
 function pollTimeCheck(sSize, pollQuestions)
@@ -3626,6 +3675,7 @@ function saveGameState()
 		if(i!=pastGraphLabels.length-1)
 			textContents+="_";
 	}
+	//console.log(pastGraphLabels);
 	textContents+="~";
 	//post all that information
 	$.post('/saver', {saveData: textContents});
@@ -3724,7 +3774,7 @@ function loadGame()
 	remainingHours = parseInt(saveArray[4]);
 
 	//past graph saveData
-	//console.log(saveArray[5]);
+
 	var graph = [];
 	var graphgraph
 	var multiGraphData = saveArray[5].split("_");
