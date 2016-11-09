@@ -18,6 +18,8 @@ var back = false;
 var num = 1;
 var textContents;
 var saveState;
+var c; 
+var ctx;
 
 //sprite stuff
 var heads = new Image();
@@ -115,7 +117,7 @@ var startHours;
 var remainingHours;
 
 var population = 1000;
-
+var canvasMouse;
 //starts the game
 function startGame(){
 
@@ -186,8 +188,8 @@ function startCharacterSelect(){
 
 function drawOnCanvas(headsheet,bodysheet){
 	//clear the canvas
-	var c=document.getElementById("myCanvas");
-	var ctx = c.getContext("2d")
+	c = document.getElementById("myCanvas");
+	ctx = c.getContext("2d")
 	//clears everything
 	ctx.clearRect(0,0,c.width,c.height);
 	//makes the background black
@@ -724,7 +726,7 @@ function gameCycleStart(f)
 	chooseIssue(issueCand1,chosenIssueCands,3,true);
 	candidates.push(issueCand1);
 	
-	var issueCand2  = new CandidateCreate("Cyborg");
+	var issueCand2  = new CandidateCreate("Clamps");
 	issueCand2.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
 	issueCand2.consMod = 0.5;
 	chooseIssue(issueCand2,chosenIssueCands,2,true);
@@ -1125,11 +1127,7 @@ function action()
 			}
 			
 		}
-		else if(chosenEvent.type=="largeEvent")
-		{
-	
-		}
-		document.getElementById("event").innerHTML += "<br> <button type='button' class='logEvent' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
+	document.getElementById("event").innerHTML += "<br> <button type='button' class='logEvent' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
 	}
 	else
 	{
@@ -1155,20 +1153,34 @@ function submitAction(id, eventHours)
 	{
 		if( (parseFloat(chosenEvent.timeRequired) + parseFloat(chosenEvent.options[j].extraTime)) <= remainingHours)
 		{
-			if(document.getElementById(chosenEvent.options[j].optionID).checked == true)
+			if(chosenEvent.options[j].type == "boost")
 			{
-				eventHours+= parseFloat(chosenEvent.options[j].extraTime);
-				//Add Positive/Negative Effects to event based on JSOn
-				var optionPosEffects = chosenEvent.options[j].posEffects.split(",");
-				var optionNegEffects = chosenEvent.options[j].negEffects.split(",");
-				for(var i =0;i<optionPosEffects.length;i++)
-				{totalPosEffects.push(optionPosEffects[i]);}
-	
-				for(var k =0;k<optionNegEffects.length;k++)
-				{totalNegEffects.push(optionNegEffects[k]);}
+				if(document.getElementById(chosenEvent.options[j].optionID).checked == true)
+				{
+					eventHours+= parseFloat(chosenEvent.options[j].extraTime);
+					//Add Positive/Negative Effects to event based on JSOn
+					var optionPosEffects = chosenEvent.options[j].posEffects.split(",");
+					var optionNegEffects = chosenEvent.options[j].negEffects.split(",");
+					for(var i =0;i<optionPosEffects.length;i++)
+					{totalPosEffects.push(optionPosEffects[i]);}
+		
+					for(var k =0;k<optionNegEffects.length;k++)
+					{totalNegEffects.push(optionNegEffects[k]);}
+					actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
+				}
+			}
+			else if(chosenEvent.options[j].type == "game")
+			{
+				remainingHours-= eventHours;
+				scoreChanger(candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
+				minigamePlayer(parseInt(chosenEvent.options[j].loader));
 			}
 		}
 	}
+
+};
+function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
+{
 	remainingHours-= eventHours;
 	
 	candidates[1].lastMove = chosenEvent.name;
@@ -1185,8 +1197,7 @@ function submitAction(id, eventHours)
 	{
 		userAction();
 	}
-};
-
+}
 //Ends the game
 function gameCycleEnd()
 {
@@ -1326,12 +1337,25 @@ function statement(){
 }
 
 //Minigame
-function minigamePlayer(){
+function minigamePlayer(id){
+		//Clear previous screen
+	clearScreen();
+	var nextArea = document.getElementById("next");
+	nextArea.innerHTML = "";
 	
-	document.getElementById("gameInfo").innerHTML += "<canvas id='myCanvas' width='500px' height = '600px'></canvas><br>";
+	document.getElementById("event").innerHTML += "<canvas id='myCanvas' width='1000px' height = '500px'></canvas><br>";
 	var c=document.getElementById("myCanvas");
-
-
+	var ctx = c.getContext("2d");
+	
+	
+	c.addEventListener('mousemove', function(evt) {canvasMouse = getMousePos(c, evt);}, false);
+	switch(id)
+	{
+		case 1:
+		runningGame.main.init(c,ctx);
+		break;
+	}
+	
 }
 
 
@@ -1476,54 +1500,6 @@ function statementCalcOtherCandidate(x){
 			}
 		}
 	}
-	//calculate the candidate's constitution mod
-
-	var tuitCond,
-			athCond,
-			resCond,
-			medCond,
-			eventCond;
-
-
-	//check if the issues have anything even in them
-	if(candidates[x].tuitPos>0 || candidates[x].tuitNeg > 0){
-		tuitCond = (Math.min(candidates[x].tuitPos, candidates[x].tuitNeg))/(candidates[x].tuitPos+candidates[x].tuitNeg);
-	}
-	else{
-		tuitCond = 0;
-	}
-
-	if(candidates[x].athPos>0 || candidates[x].athNeg>0){
-		athCond = (Math.min(candidates[x].athPos, candidates[x].athNeg))/(candidates[x].athPos+candidates[x].athNeg);
-	}
-	else{
-		athCond = 0;
-	}
-
-	if(candidates[x].resPos>0 || candidates[x].resNeg>0){
-		resCond = (Math.min(candidates[x].resPos, candidates[x].resNeg))/(candidates[x].resPos+candidates[x].resNeg);
-	}
-
-	else{
-		resCond = 0;
-	}
-
-	if(candidates[x].medPos>0 || candidates[x].medNeg>0){
-		medCond = (Math.min(candidates[x].medPos, candidates[x].medNeg))/(candidates[x].medPos+candidates[x].medNeg);
-	}
-	else{
-		medCond = 0;
-	}
-
-	if(candidates[x].eventPos>0 || candidates[x].eventNeg>0){
-		eventCond = (Math.min(candidates[x].eventPos, candidates[x].eventNeg))/(candidates[x].eventPos+candidates[x].eventNeg);
-	}
-	else{
-		eventCond = 0;
-	}
-
-	var condHolder = (tuitCond + athCond + resCond + medCond + eventCond)/5;
-	candidates[x].consMod = condHolder;
 	candidates[x].lastMove = "Statement";
 }
 
@@ -1787,71 +1763,6 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Focus":
-				switch(candidate.focusnum)
-				{
-					case 0:
-						candidate.issueScore[0]+=parseFloat(scoreInc);
-						if(candidate.issueScore[0] > 4)
-						{
-							candidate.issueScore[0] = 4;
-						}
-						if(candidate.issueScore[0] < -4)
-						{
-							candidate.issueScore[0] = -4;
-						}
-						break;
-
-					case 1:
-						candidate.issueScore[1]+=parseFloat(scoreInc);
-						if(candidate.issueScore[1] > 4)
-						{
-							candidate.issueScore[1] = 4;
-						}
-						if(candidate.issueScore[1] < -4)
-						{
-							candidate.issueScore[1] = -4;
-						}
-						break;
-
-					case 2:
-						candidate.issueScore[2]+=parseFloat(scoreInc);
-						if(candidate.issueScore[2] > 4)
-						{
-							candidate.issueScore[2] = 4;
-						}
-						if(candidate.issueScore[2] < -4)
-						{
-							candidate.issueScore[2] = -4;
-						}
-						break;
-
-					case 3:
-						candidate.issueScore[3]+=parseFloat(scoreInc);
-						if(candidate.issueScore[3] > 4)
-						{
-							candidate.issueScore[3] = 4;
-						}
-						if(candidate.issueScore[3] < -4)
-						{
-							candidate.issueScore[3] = -4;
-						}
-						break;
-					case 4:
-						candidate.issueScore[4]+=parseFloat(scoreInc);
-						if(candidate.issueScore[4] > 4)
-						{
-							candidate.issueScore[4] = 4;
-						}
-						if(candidate.issueScore[4] < -4)
-						{
-							candidate.issueScore[4] = -4;
-						}
-						break;
-				}
-
-				break;
-
 			case "tuition":
 				candidate.issueScore[0]+=parseFloat(scoreInc);
 						if(candidate.issueScore[0] > 4)
@@ -2109,71 +2020,6 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				{
 					candidate.fame[14] = .1;
 				}
-				break;
-
-			case "Focus":
-				switch(candidate.focusnum)
-				{
-					case 0:
-						candidate.issueScore[0]-=parseFloat(scoreInc);
-						if(candidate.issueScore[0] > 4)
-						{
-							candidate.issueScore[0] = 4;
-						}
-						if(candidate.issueScore[0] < -4)
-						{
-							candidate.issueScore[0] = -4;
-						}
-						break;
-
-					case 1:
-						candidate.issueScore[1]-=parseFloat(scoreInc);
-						if(candidate.issueScore[1] > 4)
-						{
-							candidate.issueScore[1] = 4;
-						}
-						if(candidate.issueScore[1] < -4)
-						{
-							candidate.issueScore[1] = -4;
-						}
-						break;
-
-					case 2:
-						candidate.issueScore[2]-=parseFloat(scoreInc);
-						if(candidate.issueScore[2] > 4)
-						{
-							candidate.issueScore[2] = 4;
-						}
-						if(candidate.issueScore[2] < -4)
-						{
-							candidate.issueScore[2] = -4;
-						}
-						break;
-
-					case 3:
-						candidate.issueScore[3]-=parseFloat(scoreInc);
-						if(candidate.issueScore[3] > 4)
-						{
-							candidate.issueScore[3] = 4;
-						}
-						if(candidate.issueScore[3] < -4)
-						{
-							candidate.issueScore[3] = -4;
-						}
-						break;
-					case 4:
-						candidate.issueScore[4]-=parseFloat(scoreInc);
-						if(candidate.issueScore[4] > 4)
-						{
-							candidate.issueScore[4] = 4;
-						}
-						if(candidate.issueScore[4] < -4)
-						{
-							candidate.issueScore[4] = -4;
-						}
-						break;
-				}
-
 				break;
 
 			case "tuition":
@@ -3821,8 +3667,48 @@ function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 	}
 }
 
+function getMousePos(canvas, evt) 
+{
+	var rect = canvas.getBoundingClientRect();
+	return {
+	x: evt.clientX - rect.left,
+	y: evt.clientY - rect.top
+	};
+}
 
+ 
+function gameResults(scores)
+{
+	clearScreen();
+	remainingHours-=3;
+	var pos = ["Res","Read","Soc","Media","Ath","Fine Arts","Lib Arts","Eng","Bus","Tech","Poor","Low","Low Mid","Upper Mid","High"];
 
+	if(scores.score <= scores.tier1)
+	{
+		document.getElementById("event").innerHTML += "<h1>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame across all groups by "+0.5+"</h1>";
+		scoreChanger(candidates[0], 0.5,pos,[]);
+	}
+	else if(scores.score <= scores.tier2 && scores.score >scores.tier1)
+	{
+		document.getElementById("event").innerHTML += "<h1>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame across all groups by "+1+"</h1>";
+		scoreChanger(candidates[0], 1,pos,[]);
+	}
+	else if(scores.score <= scores.tier3 && scores.score >scores.tier2)
+	{
+		document.getElementById("event").innerHTML += "<h1>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame across all groups by "+1.5+"</h1>";
+		scoreChanger(candidates[0], 1.5,pos,[]);
+	}
+	else if(scores.score <= scores.tier4 && scores.score >scores.tier3)
+	{
+		document.getElementById("event").innerHTML += "<h1>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame across all groups by "+2+"</h1>";
+		scoreChanger(candidates[0], 2,pos,[]);
+	}
+	
+	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
+	document.getElementById("next").style.display = "block";
+}
+	
+ 
 window.onload = startGame();
 
 /* Console Disabling Code */
@@ -3864,3 +3750,284 @@ var l, n = {
     };
 Object.defineProperty(console, "_commandLineAPI", n);
 Object.defineProperty(console, "__commandLineAPI", n);
+
+var runningGame ={};
+
+/* Minigame COde*/
+runningGame.main = 
+{
+	player:
+	{
+		width : 50,
+		height : 50,
+		x : 475,
+		y:400
+	},
+	lanes:[],
+	enemies:[],
+	coins:[],
+	removeEns:[],
+	removeCoins:[],
+	mouse:{},
+	speed:50,
+	time: 60,
+	playTime: 60000,
+	scores:
+	{
+		score: 0,
+		tier1: 5,
+		tier2: 10,
+		tier3: 15,
+		tier4: 20
+	},
+	stop: false,
+		
+	init: function (c,ctx)
+	{
+		runningGame.main.lanes.push(
+		{
+			top : 0, 
+			bottom : 500,
+			left:0,
+			right:332
+		});
+		runningGame.main.lanes.push(
+		{
+			top : 0, 
+			bottom : 500,
+			left:334,
+			right:665
+		});
+		runningGame.main.lanes.push(
+		{
+			top : 0, 
+			bottom : 500,
+			left:667,
+			right:999
+		});
+		ctx.strokeRect(0, 0, 1000, 500);
+		
+		ctx.moveTo(333, 0)
+		ctx.lineTo(333,500);
+		ctx.stroke();
+	
+		ctx.moveTo(666, 0);
+		ctx.lineTo(666,500);
+		ctx.stroke();
+		
+		ctx.font = "20px Arial";
+		ctx.strokeText("Minutes Remaining: " +runningGame.main.time+"",790,20);
+		
+		ctx.font = "20px Arial";
+		ctx.strokeText("Score " +runningGame.main.scores.score+"",0,20);
+		
+		c.onmousedown = runningGame.main.doMousedown;
+		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/15)
+		{setTimeout(runningGame.main.enemyGenerator, i);}
+		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/20)
+		{setTimeout(runningGame.main.coinGenerator, i);}
+		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/6)
+		{setTimeout(runningGame.main.increaseSpeed, i);}
+		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/runningGame.main.time)
+		{setTimeout(runningGame.main.timer, i);}
+		setTimeout(runningGame.main.stopGame, runningGame.main.playTime);
+		runningGame.main.update(c,ctx);
+	},
+	
+	update: function (c,ctx)
+	{
+		if(!runningGame.main.stop)
+		{
+			requestAnimationFrame(function(){runningGame.main.update(c,ctx)});
+			requestAnimationFrame(function(){runningGame.main.draw(c,ctx)});
+			
+			ctx.fillStyle = "#FFFFFF";
+			ctx.fillRect(0, 0, 1000, 500);
+			ctx.strokeRect(0, 0, 1000, 500);
+		
+			ctx.moveTo(333, 0)
+			ctx.lineTo(333,500);
+			ctx.stroke();
+		
+			ctx.moveTo(666, 0);
+			ctx.lineTo(666,500);
+			ctx.stroke();
+			
+			ctx.font = "20px Arial";
+			ctx.strokeText("Minutes Remaining: " +runningGame.main.time+"",790,20);
+			
+			ctx.font = "20px Arial";
+			ctx.strokeText("Score " +runningGame.main.scores.score+"",0,20);
+			
+			runningGame.main.collisionManager();
+			for(var i=0;i<runningGame.main.enemies.length;i++)
+			{
+				runningGame.main.enemies[i].move();
+			}
+			for(var i=0;i<runningGame.main.coins.length;i++)
+			{
+				runningGame.main.coins[i].move();
+			}
+		}
+	},
+	
+	draw: function(c,ctx)
+	{
+		ctx.fillStyle="#0000FF";
+		ctx.fillRect(runningGame.main.player.x,runningGame.main.player.y,runningGame.main.player.width,runningGame.main.player.height); 
+			for(var i=0;i<runningGame.main.enemies.length;i++)
+			{
+				ctx.fillStyle="#FF0000";
+				ctx.fillRect(runningGame.main.enemies[i].x,runningGame.main.enemies[i].y,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height); 
+			}
+			for(var i=0;i<runningGame.main.coins.length;i++)
+			{
+				ctx.fillStyle="#00FF00";
+				ctx.fillRect(runningGame.main.coins[i].x,runningGame.main.coins[i].y,runningGame.main.coins[i].width,runningGame.main.coins[i].height); 
+			}
+	},
+	getMouse: function (e)
+	{ 
+		var mouse = {} // make an object 
+		console.log(e.target);
+		mouse.x = e.pageX - e.target.offsetLeft; 
+		mouse.y = e.pageY - e.target.offsetTop; 
+		
+		return mouse; 
+	},
+	doMousedown: function(c, e)
+	{ 
+	console.log(canvasMouse);
+		var mouse = canvasMouse;
+		runningGame.main.laneChanger(mouse);
+	},
+	
+	laneChanger: function (mouse) 
+	{
+		console.log(runningGame.main.lanes);
+		console.log(mouse);
+		
+		for(var i=0; i < runningGame.main.lanes.length; i++)
+		{
+			if(mouse.x >= runningGame.main.lanes[i].left && mouse.x <= runningGame.main.lanes[i].right && mouse.y >= runningGame.main.lanes[i].top && mouse.y <= runningGame.main.lanes[i].top + runningGame.main.lanes[i].bottom )
+			{
+				runningGame.main.player.x = ((runningGame.main.lanes[i].left+runningGame.main.lanes[i].right)/2 - 25);
+				if(i==0)
+				{
+					console.log("1");
+				}
+				else if(i==1)
+				{
+					console.log("2");
+				}
+				else if(i==2)
+				{
+					console.log("3");
+				}
+			}
+		}
+	},
+	
+	enemyGenerator: function () 
+	{
+		var lane = Math.floor(Math.random()* 3);
+		runningGame.main.enemies.push(
+		{
+			width : 50,
+			height : 50,
+			y: 100,
+			x:((runningGame.main.lanes[lane].left+runningGame.main.lanes[lane].right)/2 - 25),
+			move: function(){this.y+=runningGame.main.speed*runningGame.main.calculateDeltaTime()},
+			id: runningGame.main.enemies.length
+		});
+		console.log(runningGame.main.enemies);
+	},
+	
+	coinGenerator: function () 
+	{
+		var lane = Math.floor(Math.random()* 3);
+		runningGame.main.coins.push(
+		{
+			width : 50,
+			height : 50,
+			y: 100,
+			x:((runningGame.main.lanes[lane].left+runningGame.main.lanes[lane].right)/2 - 25),
+			move: function(){this.y+=runningGame.main.speed*runningGame.main.calculateDeltaTime()},
+			id: runningGame.main.coins.length
+		});
+	},
+	
+	collisionDetector: function (rect1, rect2)
+	{
+		if (rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x && rect1.y < rect2.y + rect2.height && rect1.height + rect1.y > rect2.y) 
+		{return true;}
+	},
+	
+	collisionManager: function ()
+	{
+		for(var i=0;i<runningGame.main.enemies.length;i++)
+		{
+			if(runningGame.main.collisionDetector(runningGame.main.player, runningGame.main.enemies[i]))
+			{
+				runningGame.main.scores.score--;
+				if(runningGame.main.scores.score<0)
+						runningGame.main.scores.score=0;
+				runningGame.main.removeEns.push(runningGame.main.enemies[i].id);
+			}
+			else if(runningGame.main.enemies[i].y >1000)
+			{
+				runningGame.main.removeEns.push(runningGame.main.enemies[i].id);
+			}
+		}
+		for(var i=0;i<runningGame.main.coins.length;i++)
+		{
+			if(runningGame.main.collisionDetector(runningGame.main.player, runningGame.main.coins[i]))
+			{
+				runningGame.main.scores.score++;
+				if(runningGame.main.scores.score>20)
+						runningGame.main.scores.score=20;
+				runningGame.main.removeCoins.push(runningGame.main.coins[i].id);
+			}
+			else if(runningGame.main.coins[i].y >1000)
+			{
+				runningGame.main.removeCoins.push(runningGame.main.coins[i].id);
+			}
+		}
+		for(var i=0;i<runningGame.main.removeCoins.length;i++)
+		{
+			runningGame.main.coins.splice(runningGame.main.removeCoins[i].id, 1);
+			runningGame.main.removeCoins.splice(i, 1);
+		}
+		for(var i=0;i<runningGame.main.removeEns.length;i++)
+		{
+			runningGame.main.enemies.splice(runningGame.main.removeEns[i].id, 1);
+			runningGame.main.removeEns.splice(i, 1);
+		}
+	},
+	
+	stopGame: function ()
+	{
+		runningGame.main.stop=true;
+		gameResults(runningGame.main.scores);
+	},
+
+	calculateDeltaTime: function()
+	{
+		var now,fps;
+		now = (+new Date); 
+		fps = 1000 / (now - this.lastTime);
+		fps = Math.max(12, Math.min(60, fps));
+		this.lastTime = now; 
+		return 1/fps;
+	},
+
+	increaseSpeed: function()
+	{
+		runningGame.main.speed += 25;
+	},
+
+	timer: function()
+	{
+		runningGame.main.time--;
+	}
+}
