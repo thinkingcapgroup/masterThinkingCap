@@ -57,7 +57,8 @@ module.exports = function(app) {
     var q3 = req.body.q3;
     var q4 = req.body.q4;
     var q5 = req.body.q5;
-    var stringThing ="\n"+id+"-"+ q1 + "-" + q2 + "-" +q3 + "-" +q4 + "-" +q5;
+    var q6 = req.body.q6;
+    var stringThing ="\n"+id+"-"+ q1 + "-" + q2 + "-" +q3 + "-" +q4 + "-" +q5 + "-"+q6;
       fs.appendFile('logInfo/useraction.txt', stringThing, function (err) {
       console.log('Student information logged with id ' + id);
     });

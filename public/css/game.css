@@ -7,7 +7,34 @@ table, th, td {
 th, td {
     padding: 5px;
 }
+/*map & question divs*/
+#mapArea{
+  float:left;
+  width:50%;
+}
 
+#questionArea{
+  float:right;
+  width:50%;
+}
+
+#poll2{
+  display:none;
+}
+
+#poll3{
+  display:none;
+}
+
+#poll4{
+  display:none;
+}
+
+#poll5{
+  display:none;
+}
+
+/*chart stuff*/
 .chart div {
   font: 10px sans-serif;
   background-color: steelblue;
