@@ -16,6 +16,7 @@
 				{
 					"optionName":"Pay Participant",
 					"optionID":"PayParticipant",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Low,Poor",
 					"negEffects":""
@@ -23,6 +24,7 @@
 				{					
 					"optionName":"Publish Findings",
 					"optionID":"PublishFindings",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"",
 					"negEffects":"Read"
@@ -46,6 +48,7 @@
 				{
 					"optionName":"Catchy Slogan",
 					"optionID":"CatchySlogan",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Soc",
 					"negEffects":""
@@ -53,6 +56,7 @@
 				{
 					"optionName":"Web Address",
 					"optionID":"WebAddress",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Tech",
 					"negEffects":""
@@ -92,6 +96,7 @@
 				{
 					"optionName":"Hire a DJ",
 					"optionID":"HireaDJ",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Media",
 					"negEffects":""
@@ -100,6 +105,7 @@
 				{
 					"optionName":"Charge Admisson",
 					"optionID":"ChargeAdmisson",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Bus",
 					"negEffects":"Low,Poor"
@@ -123,6 +129,7 @@
 				{
 					"optionName":"Promote Literacy",
 					"optionID":"PromoteLiteracy",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Read",
 					"negEffects":""
@@ -130,6 +137,7 @@
 				{
 					"optionName":"Claim Tax Deductable",
 					"optionID":"ClaimTaxDeductable",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Bus",
 					"negEffects":""
@@ -154,6 +162,7 @@
 				{
 					"optionName":"Black Tie Gala",
 					"optionID":"BlackTieGala",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"High",
 					"negEffects":"Low,Poor"
@@ -161,6 +170,7 @@
 				{
 					"optionName":"Exhibition Game",
 					"optionID":"ExhibitionGame",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Ath",
 					"negEffects":""
@@ -184,6 +194,7 @@
 				{
 					"optionName":"Donate a Percentage of Profits",
 					"optionID":"DonateaPercentageofProfits",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Low,Poor",
 					"negEffects":""
@@ -191,6 +202,7 @@
 				{
 					"optionName":"Advertising",
 					"optionID":"Advertising",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Bus",
 					"negEffects":""
@@ -237,6 +249,7 @@
 				{
 					"optionName":"Community Outreach",
 					"optionID":"CommunityOutreach",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Soc",
 					"negEffects":""
@@ -274,6 +287,7 @@
 				{
 					"optionName":"Poolside Viewing",
 					"optionID":"PoolsideViewing",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Ath",
 					"negEffects":""
@@ -281,6 +295,7 @@
 				{
 					"optionName":"Drive In",
 					"optionID":"DriveIn",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Upper Mid",
 					"negEffects":""
@@ -303,6 +318,7 @@
 				{
 					"optionName":"Poetry Slam",
 					"optionID":"PoetrySlam",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Read",
 					"negEffects":""
@@ -326,6 +342,7 @@
 				{
 					"optionName":"Live Stream",
 					"optionID":"LiveStream",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Media",
 					"negEffects":""
@@ -348,6 +365,7 @@
 				{
 					"optionName":"Live Stream",
 					"optionID":"LiveStream",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Media",
 					"negEffects":""
@@ -370,6 +388,7 @@
 				{
 					"optionName":"Donate Profits",
 					"optionID":"DonateProfits",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Low,Poor",
 					"negEffects":""
@@ -407,6 +426,7 @@
 				{
 					"optionName":"Publish Findings",
 					"optionID":"PublishFindings",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Read",
 					"negEffects":""
@@ -444,6 +464,7 @@
 				{
 					"optionName":"Talk about Campaign Funds",
 					"optionID":"TalkaboutCampaignFunds",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Bus",
 					"negEffects":""
@@ -451,6 +472,7 @@
 				{
 					"optionName":"Talk about Issue",
 					"optionID":"TalkaboutIssue",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Read",
 					"negEffects":""
@@ -475,6 +497,7 @@
 				{
 					"optionName":"Tailgate",
 					"optionID":"Tailgate",
+					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Soc",
 					"negEffects":""
@@ -498,32 +521,26 @@
 		},
 		
 		{
-			"name":"Poster Game",
+			"name":"Fun Run",
 			"id":"22",
 			"type":"smallEvent",
-			"text":"The campus has a policy against putting up posters after hours, but you have classes during the day. Time to sneak in and place them at key points, but dont get caught",
-			"timeRequired":"8",
-			"groupPos":"Bus",
+			"text":"Time for a quick burst of advertising. Take an hour and run accross campus high fiving as many voters as you can.",
+			"timeRequired":"1",
+			"groupPos":"Ath",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":".6",
+			"scoreInc":".1",
 			"options":
 			[
-			]
-		},
-		
-		{
-			"name":"T Shirt Canon Game",
-			"id":"23",
-			"type":"smallEvent",
-			"text":"Why advertise on your own when you have your loyal voters to do it for you. Shirts should do the trick. Shoot them to the voters as they stand up.",
-			"timeRequired":"2",
-			"groupPos":"Soc",
-			"groupNeg":"",
-			"results":"You managed to get tons of publicity. People are loving the designs on the new shirts. ",
-			"scoreInc":".2",
-			"options":
-			[
+				{
+					"optionName":"Minigame",
+					"optionID":"Minigame",
+					"type":"game",
+					"extraTime" : "3", 
+					"posEffects":"",
+					"negEffects":"",
+					"loader": "1"
+				}
 			]
 		}
 	],
@@ -532,61 +549,85 @@
 	[
 		{
 			"question":"What issue are you most in favor of?", 
+			"labels":"Tuition, ATH Equipment, RES Equipment, School Events, Medical",
+			"graph":"0,0,0,0,0",
 			"id":"0",
 			"value":"issFav"
 		},
 		{
 			"question":"What issue are you most in opposition to?", 
+			"labels":"Tuition, Athletic Equipment, Research Equipment, School Events,Medical",
+			"graph":"0,0,0,0,0",
 			"id":"1",
 			"value":"issOpp"
 		},
 		{
 			"question":"What candidate are you most in favor of?", 
+			"labels":"Liz, You",
+			"graph":"0,0",
 			"id":"2",
 			"value":"candFav"
 		},
 		{
 			"question":"What candidate are you most in opposition to?", 
 			"id":"3",
+			"labels":"You, Liz",
+			"graph":"0,0",
 			"value":"candOpp"
 		},
 		{
 			"question":"What is your major?", 
+			"labels":"Business, Engineering, Tech, Fine Arts, Liberal Arts",
+			"graph":"0,0,0,0,0",
 			"id":"4",
 			"value":"major"
 		},
 		{
 			"question":"What is your economic class?", 
+			"labels":"Poverty, Low, Middle Low, Middle High, High",
+			"graph":"0,0,0,0,0",
 			"id":"5",
 			"value":"class"
 		},
 		{
 			"question":"What group do you identify with?", 
+			"labels":"Socialite, Athlete, Researcher, Media Lover, Reader",
+			"graph":"0,0,0,0,0",
 			"id":"6",
 			"value":"group"
 		},
 		{
 			"question":"How much do you know me?", 
+			"labels":"Like, Neutral, Dislike",
+			"graph":"0,0,0",
 			"id":"7",
 			"value":"fame"
 		},
 		{
 			"question":"How good of a job do you think I will do? ", 
+			"labels":"Good, Neutral, Bad",
+			"graph":"0,0,0",
 			"id":"8",
 			"value":"playTrust"
 		},
 		{
-			"question":"How do you feel about this issue: ", 
+			"question":"How do you feel about this issue?", 
+			"labels":"Like, Neutral, Dislike",
+			"graph":"0,0,0",
 			"id":"9",
 			"value":"issue"
 		},
 		{
-			"question":"What much do you know this candidate? Candidate:", 
+			"question":"How much do you know this candidate? ", 
+			"labels":"Like, Neutral, Dislike",
+			"graph":"0,0,0",
 			"id":"10",
 			"value":"candFame"
 		},
 		{
-			"question":"How good of a job do you think this candidate will do? Candidate: ", 
+			"question":"How good of a job do you think this candidate will do? ", 
+			"labels":"Good, Neutral, Bad",
+			"graph":"0,0,0",
 			"id":"11",
 			"value":"candTrust"
 		}

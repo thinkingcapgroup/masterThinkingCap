@@ -14,10 +14,12 @@ module.exports = function(app) {
 	res.send(getData());
   });
 
-  app.post('/logger',  function (req, res, next) {
+  app.post('/logger', auth, function (req, res, next) {
  
     var event = req.body.eventName;
-    var id = req.user.id
+    var id = req.user.userId
+    console.log(id);
+
     var stringTem = "\n" + id + "-" + event + "-" + Date.now();
 	 	fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
 
@@ -26,10 +28,12 @@ module.exports = function(app) {
 	 	res.end();
  	});
 	
-  app.post('/saver',  function (req, res) 
+  app.post('/saver', auth, function (req, res) 
 	{
 		//TextFile Saving
 		var stringTem = req.body.saveData;
+   
+    console.log(req.user.id + " IS THE ID");
 	 	//fs.writeFile('saveFile/userSave.txt', stringTem, function (err) 
 		//{});
 		
@@ -46,17 +50,17 @@ module.exports = function(app) {
 	 	res.end();
  	});
 
-  app.post('/loggerPoll',  function (req, res, next) {
-     var id = req.user.id
+  app.post('/loggerPoll', auth, function (req, res, next) {
+    var id = req.user.userId
     var q1 = req.body.q1;
     var q2 = req.body.q2;
     var q3 = req.body.q3;
     var q4 = req.body.q4;
     var q5 = req.body.q5;
-    var stringThing ="\n"+id+"-"+ q1 + "-" + q2 + "-" +q3 + "-" +q4 + "-" +q5;
+    var q6 = req.body.q6;
+    var stringThing ="\n"+id+"-"+ q1 + "-" + q2 + "-" +q3 + "-" +q4 + "-" +q5 + "-"+q6;
       fs.appendFile('logInfo/useraction.txt', stringThing, function (err) {
-
-      console.log('Student information logged');
+      console.log('Student information logged with id ' + id);
     });
     res.end();
   });
@@ -94,14 +98,15 @@ module.exports = function(app) {
 	var model = require('../../model/global')(req, res);
     model.content.pageTitle = 'Thinking Cap - Mars University';
     model.content.gameTitle = 'Mars University';
-	require('../../model/marsUniversity/loadSave.js')(req, function(err, success) 
+    console.log(req.user.id + " is the id when loading");
+	  require('../../model/marsUniversity/loadSave.js')(req, auth, function(err, success) 
 		 {
           if (err) {
             console.error(err);
           }
           else {
             model.saveState = success;
-			console.log(model.safeState);
+			//console.log(model.saveState);
           }
 		  res.render('marsUniversity/game', model)
         });
