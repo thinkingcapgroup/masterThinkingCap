@@ -24,7 +24,9 @@
 			bodyParser = require('body-parser'),
 			fs = require("fs"),
 			// Passport Authentication file
+			auth = require('./config/auth'),
 			passportAuth = require('./config/passportAuth'),
+			recaptcha = require('express-recaptcha'),
 			// Gets our routes
 			routes,
 			// Controllers are js files which contain routes
@@ -72,6 +74,9 @@
 
 	// Initialize passport
 	passportAuth(app);
+
+	// Initialize recaptcha
+	recaptcha.init(auth.recaptcha.siteKey, auth.recaptcha.secretKey);
 
 	db = mysql.createConnection(dbCredentials);
 
