@@ -5,7 +5,7 @@ var stuEconomic = ["poverty", "low", "midLow", "midHigh", "high"];
 var playerCandidate = new CandidateCreate("ph");
 var opponentCandidate = new CandidateCreate("Liz");
 var tableHeaders = ["Favored Issue", "Least Favored Issue", "Favored Candidate", "Least Favored Candidate", "Major", "Class", "Group", "Our Candidate's Fame", "Our Candidate's Trust", "Issue Support: ", "Candidate's Fame: ","Candidate's Trust: "];
-var tableArrays = [[ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
+var tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
 var pastPollChoices = [];
 var pastPollResults = [];
 var pastPollSizes = [];
@@ -810,6 +810,7 @@ function action()
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 	chosenEvent = events[choice];
+	console.log(chosenEvent;)
 	back = false;
 	
 	//document.getElementById("choices").innerHTML += "<button type='button' onclick='userAction()' >View Poll "+ num +" Result </button>";
@@ -1172,9 +1173,12 @@ function submitAction(id, eventHours)
 			}
 			else if(chosenEvent.options[j].type == "game")
 			{
-				remainingHours-= eventHours;
-				scoreChanger(candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
-				minigamePlayer(parseInt(chosenEvent.options[j].loader));
+				if(document.getElementById(chosenEvent.options[j].optionID).checked == true)
+				{
+					remainingHours-= eventHours;
+					scoreChanger(candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
+					minigamePlayer(parseInt(chosenEvent.options[j].loader));
+				}
 			}
 		}
 	}
@@ -2402,7 +2406,7 @@ function clearScreen()
 
 function resetGame()
 {
-	tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
+	tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
 	pastPollChoices = [];
 	pastPollResults = [];
 	pastPollSizes = [];
@@ -3345,7 +3349,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		pastPollChoices.push(pollChoices);
 		pastGraphData.push(graphData);
 		pastGraphLabels.push(graphLabels);
-		tableArrays =  [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
+		tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
 		pollTime(sSize, pollChoices);
 	}
 }
