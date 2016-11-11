@@ -671,6 +671,7 @@ function startTutorial(){
 }
 
 function actualSessionStart(){
+	clearScreen();
 	document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
 	for (var x=0; x < 5; x++){
 
@@ -1254,16 +1255,12 @@ function map(isTutorial){
 	clearScreen();
 
 	if(isTutorial){
-		var fakeCandidateYou = CandidateCreate('FakeCandidate1');
-		var fakeCandidateOther = CandidateCreate('FakeCandidate2');
-		fakeCandidateYou.fame = [1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8];
-		fakeCandidateYou.consMod = 0.25;
-		chooseIssue(fakeCandidateYou,chosenIssueCands,3,true);
-		fakeCandidateOther.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
-		fakeCandidateOther.consMod = 0.25;
-		chooseIssue(fakeCandidateOther,chosenIssueCands,3,true);
-
+		var fakeCandidateYou = new CandidateCreate('FakeCandidate1');
+		var fakeCandidateOther = new CandidateCreate('FakeCandidate2');
+		candidates[0] = fakeCandidateYou;
+		candidates[1] = fakeCandidateOther;
 	}
+
 	var timeForPoll = returnTotalPollTime(20,0);
 	qPollHolder = 2;
 	document.getElementById("event").style = "display:block";
@@ -1602,7 +1599,7 @@ function pollResults(isTutorial)
 	}
 	else if(isTutorial){
 		pollCalc(pollChoices, sampleSize, bias, isTutorial);
-		document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
+		document.getElementById("next").innerHTML += "<button onclick = 'map(true)'> Play Tutorial </button>";
 	}
 	else if(!pollTimeCheck(sampleSize, pollChoices))
 	{
@@ -2440,6 +2437,7 @@ function clearScreen()
 	var prevChoices = document.getElementById("choices");
 	var prevEvent = document.getElementById("event");
 	var prevTable = document.getElementById("table");
+	document.getElementById('next').innerHTML = "";
 	gameOutput.innerHTML = "";
 	prevChoices.innerHTML = "";
 	prevEvent.innerHTML = "";
