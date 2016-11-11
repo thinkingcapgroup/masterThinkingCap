@@ -28,7 +28,7 @@ module.exports = function(req, data, next){
 							}
 							else 
 							{
-								console.log('SAVING')
+								
 								next(err, result);
 							}
 						});
@@ -37,7 +37,7 @@ module.exports = function(req, data, next){
 			else
 			{
 				createUserSave = 'INSERT INTO saveData (userId,saveFile) VALUES (?,?);';
-				console.log("SAVING DATA")
+			
 				db.query(createUserSave, [user, data], function(err, result) 
 				{
 					if (err) 

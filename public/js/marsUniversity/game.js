@@ -124,11 +124,7 @@ function startGame(){
 
 	//whatever other things we have to do when initializing the game here
 	var date = Date.now();
-	//console.log("Game initialized and loaded @ T:" + date);
-	//console.log("Game initialized and loaded!");
 
-	
-	//console.log(saveState);
 	var Json;
 	var oReq = new XMLHttpRequest();
 	oReq.onload = function (e)
@@ -154,7 +150,7 @@ function startCharacterSelect(){
 	document.getElementById("gameInfo").innerHTML += "<button class = 'live'id ='racebutton'>Race</button>";
 	document.getElementById("gameInfo").innerHTML += "<button id ='clothingbutton'>Gender</button>";
 	document.getElementById("gameInfo").innerHTML += "<button id ='bodybutton'>BodyType</button><br>";
-	document.getElementById("gameInfo").innerHTML += "<label>Candidate Name: </label><input id='charName' type='text' /><br>";
+	document.getElementById("gameInfo").innerHTML += "<label>Candidate Name: </label><input id='charName' type='text' value = 'Val'/><br>";
 	document.getElementById("gameInfo").innerHTML += "<button id='candidateCre'>Create Candidate</button><br>";
 
 	var c=document.getElementById("myCanvas");
@@ -664,7 +660,7 @@ function startOtherCandidates(heads,body){
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
 	document.getElementById("gameInfo").innerHTML += "<p>You're candidate, <b>"+ playerCandidate.name +"</b> is going up again Liz the Chameleon. They're going for Student Council President just like your playerCandidate. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
 	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial on how to read poll information?</p>"
-	document.getElementById("gameInfo").innerHTML += "<button onclick='startTutorial()'>Yes</button><button onclick='actualSessionStart()'>No</button>";
+	document.getElementById("gameInfo").innerHTML += "<button onclick='map(true)'>Yes</button><button onclick='actualSessionStart()'>No</button>";
 
 }
 
@@ -686,6 +682,7 @@ function actualSessionStart(){
 /*GAME CYCLE FUNCTIONS8*/
 function gameCycleStart(f)
 {
+	candidates = [];
 	population = 1000;
 	sample = [];
 	startHours = 200; 
@@ -771,7 +768,7 @@ function userAction()
 
 	//Build User Action Area buttons
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
-	document.getElementById("choices").innerHTML += "<button type='button' onclick='map()'> Take A Poll </button>";
+	document.getElementById("choices").innerHTML += "<button type='button' onclick='map(false)'> Take A Poll </button>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='statement()'> Make a Statement</button>";
 	document.getElementById("choices").innerHTML += "<button type='button' class='logEvent' onclick='gameCycleEnd()'> Skip to the End </button>";
 	document.getElementById("choices").innerHTML += "<br>";
@@ -1144,19 +1141,27 @@ function action()
 //Subtracts from the remaining hours,
 function submitAction(id, eventHours)
 {
+
 	//Subtracts hours from the remaining hours in the game
 	chosenEvent = events[id];
 	var totalPosEffects = [];
 	totalPosEffects = chosenEvent.groupPos.split(",");
 	var totalNegEffects = [];
 	totalNegEffects = chosenEvent.groupNeg.split(",");
+
+	console.log(chosenEvent.options.length);
+
 	for(var j =0; j<chosenEvent.options.length; j++)
 	{
 		if( (parseFloat(chosenEvent.timeRequired) + parseFloat(chosenEvent.options[j].extraTime)) <= remainingHours)
 		{
 			if(chosenEvent.options[j].type == "boost")
 			{
-				if(document.getElementById(chosenEvent.options[j].optionID).checked == true)
+				console.log(chosenEvent.options[j].optionID)
+				if(document.getElementById(chosenEvent.options[j].optionID).checked == false || chosenEvent.options.length == 0){
+					actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
+				}
+				else if(document.getElementById(chosenEvent.options[j].optionID).checked == true)
 				{
 					eventHours+= parseFloat(chosenEvent.options[j].extraTime);
 					//Add Positive/Negative Effects to event based on JSOn
@@ -1169,6 +1174,7 @@ function submitAction(id, eventHours)
 					{totalNegEffects.push(optionNegEffects[k]);}
 					actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
 				}
+				
 			}
 			else if(chosenEvent.options[j].type == "game")
 			{
@@ -1179,9 +1185,13 @@ function submitAction(id, eventHours)
 		}
 	}
 
-};
+	if(chosenEvent.options.length ==0)
+		actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
+}
+
 function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
 {
+	console.log('YUP')
 	remainingHours-= eventHours;
 	
 	candidates[1].lastMove = chosenEvent.name;
@@ -1229,8 +1239,20 @@ function gameCycleEnd()
 
 /*Special Action Pages*/
 
-function map(){
+function map(isTutorial){
 	clearScreen();
+
+	if(isTutorial){
+		var fakeCandidateYou = CandidateCreate('FakeCandidate1');
+		var fakeCandidateOther = CandidateCreate('FakeCandidate2');
+		fakeCandidateYou.fame = [1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8];
+		fakeCandidateYou.consMod = 0.25;
+		chooseIssue(fakeCandidateYou,chosenIssueCands,3,true);
+		fakeCandidateOther.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+		fakeCandidateOther.consMod = 0.25;
+		chooseIssue(fakeCandidateOther,chosenIssueCands,3,true);
+
+	}
 	var timeForPoll = returnTotalPollTime(20,0);
 	qPollHolder = 2;
 	document.getElementById("event").style = "display:block";
@@ -1244,7 +1266,7 @@ function map(){
 	}
 	document.getElementById("questionArea").innerHTML += "<label>Sample Size: </label><select id = 'sample' class = 'sampleOptions totalTimeTracker'><br></select><br><label>Rooms: </label><select id = 'rooms' class = 'sampleOptions'></select><br><label>Time Spent: </label><select id = 'timeSpent' class = 'sampleOptions'></select><hr>";
 	back = false;
-	if(remainingHours> 3 )
+	if(isTutorial || remainingHours> 3 )
 	{
 	
 		document.getElementById("sample").options.add(new Option("Sample 20 Students", 20));
@@ -1270,6 +1292,7 @@ function map(){
 				document.getElementById("timeSpent").options.add(new Option("4 Hours", 60));
 		if(remainingHours> 9 )
 				document.getElementById("timeSpent").options.add(new Option("8 Hours", 80));
+
 
 			
 		document.getElementById("questions").innerHTML += "<h4> Poll Questions Every set of one or two questions you add will equal an hour. </h4> <br>";
@@ -1297,8 +1320,14 @@ function map(){
 	
 	document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph'>Total Time: "+ timeForPoll +" Hours</p><br>";
 	//Displays the screen for this event
-	document.getElementById("questionArea").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults()'> Submit Poll </button><button id = 'moreQuestionButton'> Add More Questions </button>";
-	document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
+	document.getElementById("questionArea").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults("+ isTutorial +")'> Submit Poll </button><button id = 'moreQuestionButton'> Add More Questions </button>";
+	
+	if(isTutorial){
+		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='actualSessionStart()'> Start the Game </button>";
+	}
+	else{
+		document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
+	}
 
 	document.getElementById("questionArea").style.display = "block";
 	document.getElementById("next").style.display = "block";
@@ -1323,7 +1352,7 @@ function statement(){
 
 		document.getElementById("posneg").options.add(new Option('Positive', 0))
 		document.getElementById("posneg").options.add(new Option('Negative', 1))
-		document.getElementById("event").innerHTML += "<br> <button type='button' onclick='statementCalc(0)' > Make Statement </button>";
+		document.getElementById("event").innerHTML += "<br> <button type='button' onclick='statementCalc()' > Make Statement </button>";
 
 }
 
@@ -1351,46 +1380,47 @@ function minigamePlayer(id){
 
 
 //calculated the effectiveness of your statement & consistancy modifier
-function statementCalc(x){
+function statementCalc(){
+	if(remainingHours > 0){
 	var currentStatement = document.getElementById("statements").value;
 	var currentPosNeg = document.getElementById("posneg").value;
 	//if positive statement
 	if(currentPosNeg == 0){
-		candidates[x].issueScore[currentStatement] += 0.1;
+		candidates[0].issueScore[currentStatement] += 0.1;
 		if(currentStatement == 0){
-			candidates[x].tuitPos += 1;
+			candidates[0].tuitPos += 1;
 		}
 		else if(currentStatement == 1){
-			candidates[x].athPos += 1;
+			candidates[0].athPos += 1;
 		}
 		else if(currentStatement == 2){
-			candidates[x].resPos += 1;
+			candidates[0].resPos += 1;
 		}
 		else if(currentStatement == 4){
-			candidates[x].medPos += 1;
+			candidates[0].medPos += 1;
 		}
 		else if(currentStatement == 3){
-			candidates[x].eventPos += 1;
+			candidates[0].eventPos += 1;
 		}
 	}
 	//if negative statement
 	else{
 	
-			candidates[x].issueScore[currentStatement] -= 0.1;
+			candidates[0].issueScore[currentStatement] -= 0.1;
 			if(currentStatement == 0){
-				candidates[x].tuitNeg += 1;
+				candidates[0].tuitNeg += 1;
 			}
 			else if(currentStatement == 1){
-				candidates[x].athNeg += 1;
+				candidates[0].athNeg += 1;
 			}
 			else if(currentStatement == 2){
-				candidates[x].resNeg += 1;
+				candidates[0].resNeg += 1;
 			}
 			else if(currentStatement == 4){
-				candidates[x].medNeg += 1;
+				candidates[0].medNeg += 1;
 			}
 		else if(currentStatement == 3){
-			candidates[x].eventNeg += 1;
+			candidates[0].eventNeg += 1;
 			}
 		
 	}
@@ -1404,48 +1434,55 @@ function statementCalc(x){
 
 
 	//check if the issues have anything even in them
-	if(candidates[x].tuitPos>0 || candidates[x].tuitNeg > 0){
-		tuitCond = (Math.min(candidates[x].tuitPos, candidates[x].tuitNeg))/(candidates[x].tuitPos+candidates[x].tuitNeg);
+	if(candidates[0].tuitPos>0 || candidates[0].tuitNeg > 0){
+		tuitCond = (Math.min(candidates[0].tuitPos, candidates[0].tuitNeg))/(candidates[0].tuitPos+candidates[0].tuitNeg);
 	}
 	else{
 		tuitCond = 0;
 	}
 
-	if(candidates[x].athPos>0 || candidates[x].athNeg>0){
-		athCond = (Math.min(candidates[x].athPos, candidates[x].athNeg))/(candidates[x].athPos+candidates[x].athNeg);
+	if(candidates[0].athPos>0 || candidates[0].athNeg>0){
+		athCond = (Math.min(candidates[0].athPos, candidates[0].athNeg))/(candidates[0].athPos+candidates[0].athNeg);
 	}
 	else{
 		athCond = 0;
 	}
 
-	if(candidates[x].resPos>0 || candidates[x].resNeg>0){
-		resCond = (Math.min(candidates[x].resPos, candidates[x].resNeg))/(candidates[x].resPos+candidates[x].resNeg);
+	if(candidates[0].resPos>0 || candidates[0].resNeg>0){
+		resCond = (Math.min(candidates[0].resPos, candidates[0].resNeg))/(candidates[0].resPos+candidates[0].resNeg);
 	}
 
 	else{
 		resCond = 0;
 	}
 
-	if(candidates[x].medPos>0 || candidates[x].medNeg>0){
-		medCond = (Math.min(candidates[x].medPos, candidates[x].medNeg))/(candidates[x].medPos+candidates[x].medNeg);
+	if(candidates[0].medPos>0 || candidates[0].medNeg>0){
+		medCond = (Math.min(candidates[0].medPos, candidates[0].medNeg))/(candidates[0].medPos+candidates[0].medNeg);
 	}
 	else{
 		medCond = 0;
 	}
 
-	if(candidates[x].eventPos>0 || candidates[x].eventNeg>0){
-		eventCond = (Math.min(candidates[x].eventPos, candidates[x].eventNeg))/(candidates[x].eventPos+candidates[x].eventNeg);
+	if(candidates[0].eventPos>0 || candidates[0].eventNeg>0){
+		eventCond = (Math.min(candidates[0].eventPos, candidates[0].eventNeg))/(candidates[0].eventPos+candidates[0].eventNeg);
 	}
 	else{
 		eventCond = 0;
 	}
 
 	var condHolder = (tuitCond + athCond + resCond + medCond + eventCond)/5;
-	candidates[x].consMod = condHolder;
+	candidates[0].consMod = condHolder;
 	//decrease 1 hour and continue back to user action
 	remainingHours--;
 	statementCalcOtherCandidate(1);
-	userAction();
+	
+}
+	if(remainingHours == 0){
+		gameCycleEnd();
+	}
+	else{
+		userAction();
+	}
 }
 
 //other candidate (AKA KARMA)
@@ -1495,7 +1532,7 @@ function statementCalcOtherCandidate(x){
 }
 
 //Displays the result of a poll immediately after it end and then saves the report for later viewing
-function pollResults()
+function pollResults(isTutorial)
 {
 	var bias = document.getElementById('location').value;
 	document.getElementById("event").style.display = "none";
@@ -1513,10 +1550,7 @@ function pollResults()
 				var subValue = selectedSubQuestion.value;
 				pollVal = pollVal + subValue;
 			}
-
-			pollChoices.push(pollVal);
-			console.log(pollChoices);
-
+			pollChoices.push(pollVal);	
 		}
 	}
 
@@ -1549,22 +1583,23 @@ function pollResults()
 
 	if(pollChoices.length < 2)
 	{
-		document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'map()'> Reselect Poll Questions </button>";
+		document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'map("+isTutorial+")'> Reselect Poll Questions </button>";
 	}
 	else if(duplicate)
 	{
-		//console.log(pollChoices);
-		//console.log(duplicate);
-		document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'map()'> Reselect Poll Questions </button>";
+		document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'map("+isTutorial+")'> Reselect Poll Questions </button>";
+	}
+	else if(isTutorial){
+		pollCalc(pollChoices, sampleSize, bias, isTutorial);
+		document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	}
 	else if(!pollTimeCheck(sampleSize, pollChoices))
 	{
-		document.getElementById("gameInfo").innerHTML += "<p> You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.</p>  <button onclick = 'map()'> Reselect Poll Questions </button>";
+		document.getElementById("gameInfo").innerHTML += "<p> You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.</p>  <button onclick = 'map("+isTutorial+")'> Reselect Poll Questions </button>";
 	}
 	else
 	{
-
-		pollCalc(pollChoices, sampleSize, bias);
+		pollCalc(pollChoices, sampleSize, bias, isTutorial);
 		document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	}
 
@@ -2420,12 +2455,12 @@ function reportViewer(id)
 	clearScreen();
 	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	document.getElementById("next").style.display = "block";
-	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],pastGraphData[id],pastGraphLabels[id], true);
+	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],pastGraphData[id],pastGraphLabels[id], true, false);
 	//console.log(pastGraphData);
 }
 
 //Calculates the results of each poll question from each student in the sample and stores them in an array
-function pollCalc(pollChoices, sampleSize, bias)
+function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 {	
 	var graphData = [];
 	graphData.push(questions[4].graph.split(','));
@@ -2843,11 +2878,11 @@ function pollCalc(pollChoices, sampleSize, bias)
 		}
 	}
 	//console.log(tableArrays);
-	tableBuilder(pollChoices, tableArrays, sampleSize, graphData, pollLabelArray, false);
+	tableBuilder(pollChoices, tableArrays, sampleSize, graphData, pollLabelArray, false, isTutorial);
 }
 
 //Builds a table by looping through the Array created by pollCalc and putting each value into a cell.
-function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, review)
+function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, review, isTutorial)
 {
 	
 	//console.log(tableArray2);
@@ -3338,7 +3373,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	
 	}
 
-	if(!review)
+	if(!review || !isTutorial)
 	{
 		pastPollResults.push(tableArray2);
 		pastPollSizes.push(sSize);
@@ -3347,6 +3382,10 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		pastGraphLabels.push(graphLabels);
 		tableArrays =  [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
 		pollTime(sSize, pollChoices);
+	}
+
+	if(isTutorial){
+		document.getElementById('event').innerHTML += "<button onclick = 'map(true)'>Back to Start</button>" 
 	}
 }
 
@@ -3365,7 +3404,7 @@ function pollTime(sSize, pollQuestions)
 }
 
 function returnTotalPollTime(sSize, pollQuestions){
-	if(pollQuestions.length%2 == 0)
+	if(pollQuestions% 2 == 0)
 	{
 		timeRequired = sSize/10 + (pollQuestions*.5);
 	}
