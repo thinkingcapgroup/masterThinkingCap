@@ -713,7 +713,7 @@ function gameCycleStart(f)
 	//Decides the opponents focus which cannot be the same as the player
 	opponentCandidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
 	opponentCandidate.consMod = 0;
-	//console.log(oppFocus);
+	////console.log(oppFocus);
 	chooseIssue(opponentCandidate,[f],1,false);
 	candidates.push(opponentCandidate);
 	
@@ -807,7 +807,7 @@ function action()
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 	chosenEvent = events[choice];
-	console.log(chosenEvent;)
+	//console.log(chosenEvent);
 	back = false;
 	
 	//document.getElementById("choices").innerHTML += "<button type='button' onclick='userAction()' >View Poll "+ num +" Result </button>";
@@ -1150,53 +1150,60 @@ function submitAction(id, eventHours)
 	var totalNegEffects = [];
 	totalNegEffects = chosenEvent.groupNeg.split(",");
 
-	console.log(chosenEvent.options.length);
-
-	for(var j =0; j<chosenEvent.options.length; j++)
+	////console.log(chosenEvent.options.length);
+	
+	if(chosenEvent.options.length > 0)
 	{
-		if( (parseFloat(chosenEvent.timeRequired) + parseFloat(chosenEvent.options[j].extraTime)) <= remainingHours)
+		for(var j =0; j<chosenEvent.options.length; j++)
 		{
-			if(chosenEvent.options[j].type == "boost")
+			if( (parseFloat(chosenEvent.timeRequired) + parseFloat(chosenEvent.options[j].extraTime)) <= remainingHours)
 			{
-				console.log(chosenEvent.options[j].optionID)
-				if(document.getElementById(chosenEvent.options[j].optionID).checked == false || chosenEvent.options.length == 0){
-					actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
-				}
-				else if(document.getElementById(chosenEvent.options[j].optionID).checked == true)
+				if(chosenEvent.options[j].type == "boost")
 				{
-					eventHours+= parseFloat(chosenEvent.options[j].extraTime);
-					//Add Positive/Negative Effects to event based on JSOn
-					var optionPosEffects = chosenEvent.options[j].posEffects.split(",");
-					var optionNegEffects = chosenEvent.options[j].negEffects.split(",");
-					for(var i =0;i<optionPosEffects.length;i++)
-					{totalPosEffects.push(optionPosEffects[i]);}
-		
-					for(var k =0;k<optionNegEffects.length;k++)
-					{totalNegEffects.push(optionNegEffects[k]);}
-					actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
-				}
+					if(document.getElementById(chosenEvent.options[j].optionID) != null)
+					{
+						if(document.getElementById(chosenEvent.options[j].optionID).checked == false && j == chosenEvent.options.length-1)
+						{
+							actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
+						}
+						else if(document.getElementById(chosenEvent.options[j].optionID).checked == true)
+						{
+							eventHours+= parseFloat(chosenEvent.options[j].extraTime);
+							//Add Positive/Negative Effects to event based on JSOn
+							var optionPosEffects = chosenEvent.options[j].posEffects.split(",");
+							var optionNegEffects = chosenEvent.options[j].negEffects.split(",");
+							for(var i =0;i<optionPosEffects.length;i++)
+							{totalPosEffects.push(optionPosEffects[i]);}
 				
-			}
-			else if(chosenEvent.options[j].type == "game")
-			{
-				if(document.getElementById(chosenEvent.options[j].optionID).checked == true)
+							for(var k =0;k<optionNegEffects.length;k++)
+							{totalNegEffects.push(optionNegEffects[k]);}
+							actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
+						}
+					}
+					else{actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)}
+					
+				}
+				else if(chosenEvent.options[j].type == "game")
 				{
-					remainingHours-= eventHours;
-					scoreChanger(candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
-					minigamePlayer(parseInt(chosenEvent.options[j].loader));
+					if(document.getElementById(chosenEvent.options[j].optionID).checked == true)
+					{
+						remainingHours-= eventHours;
+						scoreChanger(candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
+						minigamePlayer(parseInt(chosenEvent.options[j].loader));
+					}
+					else{actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)}
 				}
 			}
 		}
 	}
-
-	if(chosenEvent.options.length ==0)
-		actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
+	else{actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)}
 }
 
 function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
 {
-	console.log('YUP')
+	console.log(remainingHours)
 	remainingHours-= eventHours;
+	console.log(remainingHours)
 	
 	candidates[1].lastMove = chosenEvent.name;
 
@@ -1626,9 +1633,9 @@ function addMoreQuestions(){
 //Takes in an Arrays of Groups to affect with the score increase, and parses through each adding the specified increase in score
 function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 {
-	//console.log(candidate.fame);
-	//console.log(candidate.issueScore);
-	//console.log(scoreInc);
+	////console.log(candidate.fame);
+	////console.log(candidate.issueScore);
+	////console.log(scoreInc);
 	for(var i=0;i<groupPos.length;i++)
 	{
 
@@ -2146,8 +2153,8 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				break;
 
 		}
-	//console.log(candidates[0].fame);
-	//console.log(candidates[0].issueScore);
+	////console.log(candidates[0].fame);
+	////console.log(candidates[0].issueScore);
 	}
 }
 //sample person
@@ -2268,7 +2275,7 @@ function getScores(x, bias){
 
 function votePercentage(sampleSize, bias)
 {
-	//console.log(candidates);
+	////console.log(candidates);
 	createSample(sampleSize, bias);
 	var finalWinner = "";
 	for(var i=0;i<candidates.length; i++)
@@ -2284,10 +2291,10 @@ function votePercentage(sampleSize, bias)
 		for(var j=0;j<candidates.length; j++)
 		{
 
-			//console.log(sample[i]);
+			////console.log(sample[i]);
 			var fame = 0;
 			fame = fameCalc(candidates[j], sample[i]);
-			//console.log(candidates[j].name +" Fame: "+ fame);
+			////console.log(candidates[j].name +" Fame: "+ fame);
 			if(j != 1)
 			{
 				var issues = parseFloat(sample[i].tuitionScore) * parseFloat(candidates[j].issueScore[0]) 
@@ -2306,7 +2313,7 @@ function votePercentage(sampleSize, bias)
 				issues += Math.abs(parseFloat(sample[i].medicalScore)) * parseFloat(candidates[j].issueScore[4]);
 				issues = issues/5;
 			}
-			//console.log(candidates[j].name +" Issue Score: "+ issues);
+			////console.log(candidates[j].name +" Issue Score: "+ issues);
 			if(j != 1)
 			{
 				var candWinPer = 10*Math.pow(fame*issues,2) - candidates[j].consMod;
@@ -2318,8 +2325,8 @@ function votePercentage(sampleSize, bias)
 			
 			
 			
-			//console.log(candidates[j].name +" Win Percentage: "+ candWinPer);
-			//console.log("");
+			////console.log(candidates[j].name +" Win Percentage: "+ candWinPer);
+			////console.log("");
 
 
 			if(candWinPer > winPercentage|| winPercentage ==0)
@@ -2335,10 +2342,10 @@ function votePercentage(sampleSize, bias)
 			}
 
 		}
-		//console.log("Student #" +i);
-		//console.log("Winner: " + winner + " Vote Percentage: "+ winPercentage);
-		//console.log("Loser: " + loser + " Vote Percentage: "+ lowPercentage);
-		//console.log("");
+		////console.log("Student #" +i);
+		////console.log("Winner: " + winner + " Vote Percentage: "+ winPercentage);
+		////console.log("Loser: " + loser + " Vote Percentage: "+ lowPercentage);
+		////console.log("");
 		sample[i].results.winPer = winPercentage;
 		sample[i].results.losPer = lowPercentage;
 		sample[i].results.win = winner;
@@ -2460,7 +2467,7 @@ function reportViewer(id)
 	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	document.getElementById("next").style.display = "block";
 	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],pastGraphData[id],pastGraphLabels[id], true, false);
-	//console.log(pastGraphData);
+	////console.log(pastGraphData);
 }
 
 //Calculates the results of each poll question from each student in the sample and stores them in an array
@@ -2721,7 +2728,7 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 				break;
 
 				case "candOpp":
-					//console.log(sample[j].results);
+					////console.log(sample[j].results);
 					tableArrays[3].push(sample[j].results.los + " Score: " +sample[j].results.losPer.toFixed(2));
 					for(var k =0; k< candidates.length;k++)
 					{
@@ -2881,7 +2888,7 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 
 		}
 	}
-	//console.log(tableArrays);
+	////console.log(tableArrays);
 	tableBuilder(pollChoices, tableArrays, sampleSize, graphData, pollLabelArray, false, isTutorial);
 }
 
@@ -2889,7 +2896,7 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, review, isTutorial)
 {
 	
-	//console.log(tableArray2);
+	////console.log(tableArray2);
 	var rowCounter = 0;
 	var cellCounter = 0;
 	var graphQuestions = [];
@@ -3010,7 +3017,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 			{
 				if(pollChoices[h] == "candTrust" + candidates[k].name)
 				{
-					//console.log(h);
+					////console.log(h);
 						var cell = headRow.insertCell(h);
 						var candInfo = tableHeaders[11] + candidates[k].name;
 						cell.innerHTML = candInfo;
@@ -3259,7 +3266,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 
 		}
 	}
-	//console.log(graphQuestions);
+	////console.log(graphQuestions);
 	for(var u =0; u < graphQuestions.length; u++){		
 		document.getElementById("q"+u+"text").innerHTML = "";
 	}
@@ -3346,11 +3353,11 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 				}
 			}
 		}
-		//console.log("Question "+graphQuestions[i] + " has a length of: " + graphData[i].length);
-		//console.log(graphData[questionNum]);
+		////console.log("Question "+graphQuestions[i] + " has a length of: " + graphData[i].length);
+		////console.log(graphData[questionNum]);
     
 		for (var j = 0; j < graphData[i].length; j++){
-				//console.log(graphData[questionNum], " AT ", questions[qID].question)			
+				////console.log(graphData[questionNum], " AT ", questions[qID].question)			
 				
 				data2[j]=graphData[i][j];
 					
@@ -3369,7 +3376,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		    .style("width", function(d) { return x(d) + "px"; })
 		    .text(function(d) { 
 		    	var zid = graphLabels[i][dataCounter] + "-" + d;
-		  		//console.log(zid);
+		  		////console.log(zid);
 		  		dataCounter++;
 		  	  		
 		    	return zid; })
@@ -3565,7 +3572,7 @@ function saveGameState()
 		if(i!=pastGraphLabels.length-1)
 			textContents+="_";
 	}
-	//console.log(pastGraphLabels);
+	////console.log(pastGraphLabels);
 	textContents+="~";
 	//post all that information
 	$.post('/saver', {saveData: textContents});
@@ -3575,7 +3582,7 @@ function loadGame()
 {
 	//Takes the Whole data and splits it into sections
 	var saveArray = saveState.split("~");
-	//console.log(saveArray);
+	////console.log(saveArray);
 	
 	//Past Poll Choices Section
 	if(saveArray[0] != [])
@@ -3658,7 +3665,7 @@ function loadGame()
 		candidates.push(cand);
 	}
 
-	//console.log(candAtts);
+	////console.log(candAtts);
 	
 	//Remaining Hours Section
 	remainingHours = parseInt(saveArray[4]);
@@ -3668,10 +3675,10 @@ function loadGame()
 	var graph = [];
 	var graphgraph
 	var multiGraphData = saveArray[5].split("_");
-	//console.log(multiGraphData);
+	////console.log(multiGraphData);
 	for(var z = 0; z < multiGraphData.length; z++){
 		var questionData = multiGraphData[z].split("*");
-		//console.log(questionData);
+		////console.log(questionData);
 		for(var y = 0; y < questionData.length; y++){
 			var holderHolder = questionData[y].split(",")
 			var holdArray = [];
@@ -3680,7 +3687,7 @@ function loadGame()
 			}
 		graph.push(holdArray);
 		}
-		//console.log(graph);
+		////console.log(graph);
 	pastGraphData.push(graph);	
 	graph = [];
 	}
@@ -3706,7 +3713,7 @@ function loadGame()
 				}
 			}
 			pastGraphLabels.push(pglResults);
-			//console.log(pglResults);
+			////console.log(pglResults);
 		}
 	}
 	
@@ -3808,9 +3815,9 @@ window.onload = startGame();
 /* Console Disabling Code */
 
 //Disable Console Logging
-//window.console.log = function(){
+//window.//console.log = function(){
 //    console.error('The ability to view the console is disabled for security purposes.');
-//    window.console.log = function() {
+//    window.//console.log = function() {
 //        return false;
 //    }
 //}
@@ -3826,7 +3833,7 @@ var i = 0;
 function showWarningAndThrow() {
     if (!i) {
         setTimeout(function () {
-            console.log("%cWarning message", "font: 2em sans-serif; color: yellow; background-color: red;");
+            //console.log("%cWarning message", "font: 2em sans-serif; color: yellow; background-color: red;");
         }, 1);
         i = 1;
     }
@@ -3983,7 +3990,7 @@ runningGame.main =
 	getMouse: function (e)
 	{ 
 		var mouse = {} // make an object 
-		console.log(e.target);
+		//console.log(e.target);
 		mouse.x = e.pageX - e.target.offsetLeft; 
 		mouse.y = e.pageY - e.target.offsetTop; 
 		
@@ -3991,15 +3998,15 @@ runningGame.main =
 	},
 	doMousedown: function(c, e)
 	{ 
-	console.log(canvasMouse);
+	//console.log(canvasMouse);
 		var mouse = canvasMouse;
 		runningGame.main.laneChanger(mouse);
 	},
 	
 	laneChanger: function (mouse) 
 	{
-		console.log(runningGame.main.lanes);
-		console.log(mouse);
+		//console.log(runningGame.main.lanes);
+		//console.log(mouse);
 		
 		for(var i=0; i < runningGame.main.lanes.length; i++)
 		{
@@ -4008,15 +4015,15 @@ runningGame.main =
 				runningGame.main.player.x = ((runningGame.main.lanes[i].left+runningGame.main.lanes[i].right)/2 - 25);
 				if(i==0)
 				{
-					console.log("1");
+					//console.log("1");
 				}
 				else if(i==1)
 				{
-					console.log("2");
+					//console.log("2");
 				}
 				else if(i==2)
 				{
-					console.log("3");
+					//console.log("3");
 				}
 			}
 		}
@@ -4034,7 +4041,7 @@ runningGame.main =
 			move: function(){this.y+=runningGame.main.speed*runningGame.main.calculateDeltaTime()},
 			id: runningGame.main.enemies.length
 		});
-		console.log(runningGame.main.enemies);
+		//console.log(runningGame.main.enemies);
 	},
 	
 	coinGenerator: function () 
