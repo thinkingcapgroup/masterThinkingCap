@@ -18,7 +18,7 @@ module.exports = function(app) {
  
     var event = req.body.eventName;
     var id = req.user.userId
-    console.log(id);
+
 
     var stringTem = "\n" + id + "-" + event + "-" + Date.now();
 	 	fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
@@ -33,7 +33,7 @@ module.exports = function(app) {
 		//TextFile Saving
 		var stringTem = req.body.saveData;
    
-    console.log(req.user.id + " IS THE ID");
+  
 	 	//fs.writeFile('saveFile/userSave.txt', stringTem, function (err) 
 		//{});
 		
@@ -60,7 +60,7 @@ module.exports = function(app) {
     var q6 = req.body.q6;
     var stringThing ="\n"+id+"-"+ q1 + "-" + q2 + "-" +q3 + "-" +q4 + "-" +q5 + "-"+q6;
       fs.appendFile('logInfo/useraction.txt', stringThing, function (err) {
-      console.log('Student information logged with id ' + id);
+
     });
     res.end();
   });
@@ -98,7 +98,7 @@ module.exports = function(app) {
 	var model = require('../../model/global')(req, res);
     model.content.pageTitle = 'Thinking Cap - Mars University';
     model.content.gameTitle = 'Mars University';
-    console.log(req.user.id + " is the id when loading");
+
 	  require('../../model/marsUniversity/loadSave.js')(req, auth, function(err, success) 
 		 {
           if (err) {
