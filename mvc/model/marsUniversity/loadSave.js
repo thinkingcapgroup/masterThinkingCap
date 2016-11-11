@@ -2,7 +2,7 @@ module.exports = function(req, auth, next){
 	var db = req.db;
 	var user = req.user.userId;
 
-	console.log(req.user.userId + "IS THE USER ID FROM THE LOADING FILE");
+
 	getSaveByID = 'SELECT `saveFile` FROM `saveData` WHERE `userID` = ?;',
 	error = false;
 	//var id = user.toString();

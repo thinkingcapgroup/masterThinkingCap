@@ -35,28 +35,6 @@
     }
   } // End Index
 
-  else if (document.getElementById('create-account')) {
-    var passportSelector = document.getElementById('passportType');
-
-    passportSelector.addEventListener('change', checkPassportType);
-
-    function checkPassportType(event) {
-      var passportType = event.target.value,
-          passwordSection = document.getElementById('password-section');
-
-      // If user chooses local
-      if (passportType === 'local') {
-        // Show password field
-        passwordSection.classList.remove('hide');
-      }
-      // Otherwise
-      else {
-        // Hide password field
-        passwordSection.classList.add('hide');
-      }
-    }
-  } // End Create-account
-
   // Shows the bug report modal
   function displayBugReportModal () {
     bugReportForm.classList.remove('hide');
