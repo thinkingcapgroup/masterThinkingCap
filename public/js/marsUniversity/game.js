@@ -1151,53 +1151,51 @@ function submitAction(id, eventHours)
 	var totalNegEffects = [];
 	totalNegEffects = chosenEvent.groupNeg.split(",");
 
-	////console.log(chosenEvent.options.length);
-	
 	if(chosenEvent.options.length > 0)
 	{
+		var playGame = false;
+		var radio = document.getElementsByName("option");
+		var check;
+		var loaderNum;
+		for (i = 0; i < radio.length; i++) 
+		{
+				if(radio[i].checked == true)
+					check = radio[i].id;
+		}
+		console.log(check);
 		for(var j =0; j<chosenEvent.options.length; j++)
 		{
-			if( (parseFloat(chosenEvent.timeRequired) + parseFloat(chosenEvent.options[j].extraTime)) <= remainingHours)
+			if( check == chosenEvent.options[j].optionID)
 			{
 				if(chosenEvent.options[j].type == "boost")
 				{
-					if(document.getElementById(chosenEvent.options[j].optionID) != null)
-					{
-						if(document.getElementById(chosenEvent.options[j].optionID).checked == false && j == chosenEvent.options.length-1)
-						{
-							actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
-						}
-						else if(document.getElementById(chosenEvent.options[j].optionID).checked == true)
-						{
-							eventHours+= parseFloat(chosenEvent.options[j].extraTime);
-							//Add Positive/Negative Effects to event based on JSOn
-							var optionPosEffects = chosenEvent.options[j].posEffects.split(",");
-							var optionNegEffects = chosenEvent.options[j].negEffects.split(",");
-							for(var i =0;i<optionPosEffects.length;i++)
-							{totalPosEffects.push(optionPosEffects[i]);}
-				
-							for(var k =0;k<optionNegEffects.length;k++)
-							{totalNegEffects.push(optionNegEffects[k]);}
-							actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
-						}
-					}
-					else{actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)}
+					eventHours+= parseFloat(chosenEvent.options[j].extraTime);
+					//Add Positive/Negative Effects to event based on JSOn
+					var optionPosEffects = chosenEvent.options[j].posEffects.split(",");
+					var optionNegEffects = chosenEvent.options[j].negEffects.split(",");
+					for(var i =0;i<optionPosEffects.length;i++)
+					{totalPosEffects.push(optionPosEffects[i]);}
 					
+					for(var k =0;k<optionNegEffects.length;k++)
+					{totalNegEffects.push(optionNegEffects[k]);}
 				}
-				else if(chosenEvent.options[j].type == "game")
+				else if (chosenEvent.options[j].type == "game")
 				{
-					if(document.getElementById(chosenEvent.options[j].optionID).checked == true)
-					{
-						remainingHours-= eventHours;
-						scoreChanger(candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
-						minigamePlayer(parseInt(chosenEvent.options[j].loader));
-					}
-					else{actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)}
+					playGame = true;
+					loaderNum =chosenEvent.options[j].loader;
 				}
 			}
 		}
+		
+		if(playGame)
+		{
+			remainingHours-= eventHours;
+			scoreChanger(candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
+			minigamePlayer(parseInt(loaderNum));
+		}
+		else
+			actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects);
 	}
-	else{actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)}
 }
 
 function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
