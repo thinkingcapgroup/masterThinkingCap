@@ -2884,8 +2884,13 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 
 		}
 	}
+
+	var reviewFlag = false;
+	if(isTutorial){
+		reviewFlag = true;
+	}
 	////console.log(tableArrays);
-	tableBuilder(pollChoices, tableArrays, sampleSize, graphData, pollLabelArray, false, isTutorial);
+	tableBuilder(pollChoices, tableArrays, sampleSize, graphData, pollLabelArray, reviewFlag, isTutorial);
 }
 
 //Builds a table by looping through the Array created by pollCalc and putting each value into a cell.
@@ -3379,7 +3384,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		    ;
 	
 	}
-
+	console.log(isTutorial, review)
 	if(!review || !isTutorial)
 	{
 		pastPollResults.push(tableArray2);
