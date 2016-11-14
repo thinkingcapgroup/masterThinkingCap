@@ -1301,7 +1301,7 @@ function map(isTutorial){
 			document.getElementById("poll"+i+"").options.add(new Option("None", none));
 				for(var j = 0; j<questions.length; j++)
 				{
-					if (j < 3 || j > 6){
+					if (j < 4 || j > 6){
 						
 						document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));
 					}
@@ -2718,7 +2718,7 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 					tableArrays[3].push(sample[j].results.los + " Score: " +sample[j].results.losPer.toFixed(2));
 					for(var k =0; k< candidates.length;k++)
 					{
-						if(sample[j].results.win == candidates[k].name){
+						if(sample[j].results.los == candidates[k].name){
 							graphData[i+3][k]++;
 						}
 					}
@@ -2858,13 +2858,13 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 					tableArrays[candCounter].push(candidates[k].consMod);
 					
 					if(candidates[k].consMod> 0.66){
-						graphData[i+3][0]++;
+						graphData[i+3][2]++;
 					}
 					else if(candidates[k].consMod > 0.33){
 						graphData[i+3][1]++;
 					}
 					else{
-						graphData[i+3][2]++;
+						graphData[i+3][0]++;
 					}
 				}
 				
@@ -3326,7 +3326,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 				if(graphQuestions[i] == "candFame" + candidates[k].name)
 				{
 					name = candidates[k].name;
-					document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
+					document.getElementById("q"+i+"text").innerHTML = questions[10].question + " " + name;
 				}
 			}
 			
@@ -3335,7 +3335,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 				if(graphQuestions[i] == "candTrust" + candidates[k].name)
 				{
 					name = candidates[k].name;
-					document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
+					document.getElementById("q"+i+"text").innerHTML = questions[11].question + " " + name;
 				}
 			}
 		}

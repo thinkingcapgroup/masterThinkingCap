@@ -159,3 +159,12 @@
 2-issFav-candFav-undefined-undefined-undefined-undefined
 2-Posters-1478889374620
 2-Fun Run-1478889377749
+2-issFav-fame-undefined-undefined-undefined-undefined
+2-candFav-candOpp-undefined-undefined-undefined-undefined
+2-issFav-playTrust-undefined-undefined-undefined-undefined
+2-candOpp-issFav-undefined-undefined-undefined-undefined
+2-candOpp-issOpp-undefined-undefined-undefined-undefined
+2-playTrust-candTrust-undefined-undefined-undefined-undefined
+2-candTrust-candFame-undefined-undefined-undefined-undefined
+2-candFame-issFav-undefined-undefined-undefined-undefined
+2-candFame-candTrust-undefined-undefined-undefined-undefined
