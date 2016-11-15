@@ -1196,6 +1196,8 @@ function submitAction(id, eventHours)
 		else
 			actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects);
 	}
+		else
+			actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects);
 }
 
 function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
@@ -3787,23 +3789,23 @@ function gameResults(scores)
 
 	if(scores.score <= scores.tier1)
 	{
-		document.getElementById("event").innerHTML += "<h1>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame across all groups by "+0.5+"</h1>";
-		scoreChanger(candidates[0], 0.5,pos,[]);
+		document.getElementById("event").innerHTML += "<h1>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame across all groups by "+0.25+"</h1>";
+		scoreChanger(candidates[0], 0.25,pos,[]);
 	}
 	else if(scores.score <= scores.tier2 && scores.score >scores.tier1)
 	{
-		document.getElementById("event").innerHTML += "<h1>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame across all groups by "+1+"</h1>";
-		scoreChanger(candidates[0], 1,pos,[]);
+		document.getElementById("event").innerHTML += "<h1>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame across all groups by "+0.5+"</h1>";
+		scoreChanger(candidates[0], 0.5,pos,[]);
 	}
 	else if(scores.score <= scores.tier3 && scores.score >scores.tier2)
 	{
-		document.getElementById("event").innerHTML += "<h1>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame across all groups by "+1.5+"</h1>";
-		scoreChanger(candidates[0], 1.5,pos,[]);
+		document.getElementById("event").innerHTML += "<h1>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame across all groups by "+0.75+"</h1>";
+		scoreChanger(candidates[0], 0.75,pos,[]);
 	}
-	else if(scores.score <= scores.tier4 && scores.score >scores.tier3)
+	else if(scores.score > scores.tier3)
 	{
-		document.getElementById("event").innerHTML += "<h1>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame across all groups by "+2+"</h1>";
-		scoreChanger(candidates[0], 2,pos,[]);
+		document.getElementById("event").innerHTML += "<h1>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame across all groups by "+1+"</h1>";
+		scoreChanger(candidates[0], 1,pos,[]);
 	}
 	
 	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
@@ -3886,6 +3888,33 @@ runningGame.main =
 		
 	init: function (c,ctx)
 	{
+		ctx.restore;
+		ctx.save;
+		runningGame.main.player=
+		{
+			width : 50,
+			height : 50,
+			x : 475,
+			y:400
+		};
+		runningGame.main.lanes=[];
+		runningGame.main.enemies=[];
+		runningGame.main.coins=[];
+		runningGame.main.removeEns=[];
+		runningGame.main.removeCoins=[];
+		runningGame.main.mouse={};
+		runningGame.main.speed=50;
+		runningGame.main.time= 60;
+		runningGame.main.playTime= 60000;
+		runningGame.main.scores=
+		{
+			score: 0,
+			tier1: 5,
+			tier2: 10,
+			tier3: 15
+		};
+		runningGame.main.stop= false;
+		
 		runningGame.main.lanes.push(
 		{
 			top : 0, 
@@ -3943,24 +3972,6 @@ runningGame.main =
 			requestAnimationFrame(function(){runningGame.main.update(c,ctx)});
 			requestAnimationFrame(function(){runningGame.main.draw(c,ctx)});
 			
-			ctx.fillStyle = "#FFFFFF";
-			ctx.fillRect(0, 0, 1000, 500);
-			ctx.strokeRect(0, 0, 1000, 500);
-		
-			ctx.moveTo(333, 0)
-			ctx.lineTo(333,500);
-			ctx.stroke();
-		
-			ctx.moveTo(666, 0);
-			ctx.lineTo(666,500);
-			ctx.stroke();
-			
-			ctx.font = "20px Arial";
-			ctx.strokeText("Minutes Remaining: " +runningGame.main.time+"",790,20);
-			
-			ctx.font = "20px Arial";
-			ctx.strokeText("Score " +runningGame.main.scores.score+"",0,20);
-			
 			runningGame.main.collisionManager();
 			for(var i=0;i<runningGame.main.enemies.length;i++)
 			{
@@ -3975,6 +3986,24 @@ runningGame.main =
 	
 	draw: function(c,ctx)
 	{
+		ctx.fillStyle = "#FFFFFF";
+		ctx.fillRect(0, 0, 1000, 500);
+		ctx.strokeRect(0, 0, 1000, 500);
+		
+		ctx.moveTo(333, 0)
+		ctx.lineTo(333,500);
+		ctx.stroke();
+		
+		ctx.moveTo(666, 0);
+		ctx.lineTo(666,500);
+		ctx.stroke();
+		
+		ctx.font = "20px Arial";
+		ctx.strokeText("Time Remaining: " +runningGame.main.time+"",790,20);
+		
+		ctx.font = "20px Arial";
+		ctx.strokeText("Score " +runningGame.main.scores.score+"",0,20);
+			
 		ctx.fillStyle="#0000FF";
 		ctx.fillRect(runningGame.main.player.x,runningGame.main.player.y,runningGame.main.player.width,runningGame.main.player.height); 
 			for(var i=0;i<runningGame.main.enemies.length;i++)
@@ -4032,37 +4061,104 @@ runningGame.main =
 	
 	enemyGenerator: function () 
 	{
+		var add = true;
 		var lane = Math.floor(Math.random()* 3);
-		runningGame.main.enemies.push(
+		var tempRect = 
 		{
+			touched:false,
 			width : 50,
 			height : 50,
 			y: 100,
 			x:((runningGame.main.lanes[lane].left+runningGame.main.lanes[lane].right)/2 - 25),
 			move: function(){this.y+=runningGame.main.speed*runningGame.main.calculateDeltaTime()},
-			id: runningGame.main.enemies.length
-		});
+		};
+		for(var i =0; i< runningGame.main.enemies.length;i++)
+		{
+			if(runningGame.main.collisionDetector(runningGame.main.enemies[i],tempRect))
+				add = false;
+		}
+		for(var i =0; i< runningGame.main.coins.length;i++)
+		{
+			if(runningGame.main.collisionDetector(runningGame.main.coins[i],tempRect))
+				add = false;
+		}
+		if(add)
+		{
+			runningGame.main.enemies.push(
+			{
+				touched:false,
+				width : 50,
+				height : 50,
+				y: 100,
+				x:((runningGame.main.lanes[lane].left+runningGame.main.lanes[lane].right)/2 - 25),
+				move: function(){this.y+=runningGame.main.speed*runningGame.main.calculateDeltaTime()},
+				id: runningGame.main.enemies.length
+			});
+		}
+		else
+			runningGame.main.enemyGenerator();
+
 		//console.log(runningGame.main.enemies);
 	},
 	
 	coinGenerator: function () 
 	{
+		//var lane = Math.floor(Math.random()* 3);
+		//runningGame.main.coins.push(
+		//{
+		//	width : 50,
+		//	height : 50,
+		//	y: 100,
+		//	x:((runningGame.main.lanes[lane].left+runningGame.main.lanes[lane].right)/2 - 25),
+		//	move: function(){this.y+=runningGame.main.speed*runningGame.main.calculateDeltaTime()},
+		//	id: runningGame.main.coins.length
+		//});
+		
+		
+		var add = true;
 		var lane = Math.floor(Math.random()* 3);
-		runningGame.main.coins.push(
+		var tempRect = 
 		{
 			width : 50,
 			height : 50,
 			y: 100,
 			x:((runningGame.main.lanes[lane].left+runningGame.main.lanes[lane].right)/2 - 25),
 			move: function(){this.y+=runningGame.main.speed*runningGame.main.calculateDeltaTime()},
-			id: runningGame.main.coins.length
-		});
+		};
+		for(var i =0; i< runningGame.main.enemies.length;i++)
+		{
+			if(runningGame.main.collisionDetector(runningGame.main.enemies[i],tempRect))
+				add = false;
+		}
+		for(var i =0; i< runningGame.main.coins.length;i++)
+		{
+			if(runningGame.main.collisionDetector(runningGame.main.coins[i],tempRect))
+				add = false;
+		}
+		if(add)
+		{
+			runningGame.main.coins.push(
+			{
+				touched:false,
+				width : 50,
+				height : 50,
+				y: 100,
+				x:((runningGame.main.lanes[lane].left+runningGame.main.lanes[lane].right)/2 - 25),
+				move: function(){this.y+=runningGame.main.speed*runningGame.main.calculateDeltaTime()},
+				id: runningGame.main.coins.length
+			});
+		}
+		else
+			runningGame.main.coinGenerator();
+
 	},
 	
 	collisionDetector: function (rect1, rect2)
 	{
 		if (rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x && rect1.y < rect2.y + rect2.height && rect1.height + rect1.y > rect2.y) 
-		{return true;}
+			return true;
+		else
+			return false;
 	},
 	
 	collisionManager: function ()
@@ -4071,10 +4167,13 @@ runningGame.main =
 		{
 			if(runningGame.main.collisionDetector(runningGame.main.player, runningGame.main.enemies[i]))
 			{
-				runningGame.main.scores.score--;
-				if(runningGame.main.scores.score<0)
-						runningGame.main.scores.score=0;
-				runningGame.main.removeEns.push(runningGame.main.enemies[i].id);
+				if(runningGame.main.enemies[i].touched == false)
+				{
+					runningGame.main.enemies[i].touched = true;
+					runningGame.main.scores.score--;
+					if(runningGame.main.scores.score<0)
+							runningGame.main.scores.score=0;
+				}
 			}
 			else if(runningGame.main.enemies[i].y >1000)
 			{
@@ -4085,10 +4184,13 @@ runningGame.main =
 		{
 			if(runningGame.main.collisionDetector(runningGame.main.player, runningGame.main.coins[i]))
 			{
-				runningGame.main.scores.score++;
-				if(runningGame.main.scores.score>20)
-						runningGame.main.scores.score=20;
-				runningGame.main.removeCoins.push(runningGame.main.coins[i].id);
+				if(runningGame.main.coins[i].touched == false)
+				{
+					runningGame.main.coins[i].touched = true;
+					runningGame.main.scores.score++;
+					if(runningGame.main.scores.score>20)
+							runningGame.main.scores.score=20;
+				}
 			}
 			else if(runningGame.main.coins[i].y >1000)
 			{
