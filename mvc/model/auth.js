@@ -2,32 +2,32 @@ module.exports = function(req, res, next){
   var userData = {},
   errorMessage;
 
-  // If passport authenticated
-  if (req.isAuthenticated()) {
-
-    userData.email = req.user.emails[0].value;
-
-    require('./authUserByEmail')(req, userData.email, function(err, result) {
-      if (err) {
-        errorMessage = 'Unable to authenticate you by your Google account.';
-        clearUserCookiesAndReturnToLogin(res, errorMessage);
-      }
-      else {
-        if (result.passportType === 'google') {
-          req.user = result;
-          return next();
-        }
-
-        // Redirect to login
-        else {
-          errorMessage = 'This account does not authenticate with a Google Account. Please log in using your username and password.';
-          clearUserCookiesAndReturnToLogin(res, errorMessage);
-        }
-      }
-    });
-  }
+  // // If passport authenticated
+  // if (req.isAuthenticated()) {
+  //
+  //   userData.email = req.user.emails[0].value;
+  //
+  //   require('./authUserByEmail')(req, userData.email, function(err, result) {
+  //     if (err) {
+  //       errorMessage = 'Unable to authenticate you by your Google account.';
+  //       clearUserCookiesAndReturnToLogin(res, errorMessage);
+  //     }
+  //     else {
+  //       if (result.passportType === 'google') {
+  //         req.user = result;
+  //         return next();
+  //       }
+  //
+  //       // Redirect to login
+  //       else {
+  //         errorMessage = 'This account does not authenticate with a Google Account. Please log in using your username and password.';
+  //         clearUserCookiesAndReturnToLogin(res, errorMessage);
+  //       }
+  //     }
+  //   });
+  // }
   // Else local authentication
-  else if ((req.cookies.username && req.cookies.password) || (req.user.userName && req.user.password)) {
+  if ((req.cookies.username && req.cookies.password) || (req.user.userName && req.user.password)) {
 
     if (req.cookies.username && req.cookies.password) {
       userData.username = req.cookies.username;
@@ -38,7 +38,6 @@ module.exports = function(req, res, next){
       userData.username = req.user.userName;
       userData.password = req.user.password;
     }
-
 
     else {
       errorMessage = 'Unable to log you in. Please try again.';
@@ -62,7 +61,7 @@ module.exports = function(req, res, next){
   }
   // Else
   else {
-    errorMessage = 'Please enter your username and password. Or login using your Google Account';
+    errorMessage = 'Please enter your username and password.';
     clearUserCookiesAndReturnToLogin(res, errorMessage);
   }
 

@@ -1,5 +1,6 @@
 var validator = require('validator'),
     recaptcha = require('express-recaptcha'),
+    nodemailer = require('nodemailer'),
     successNotifications = [], errorNotifications = [];
 
 module.exports = function(app){
@@ -35,8 +36,6 @@ module.exports = function(app){
     model.errorNotifications = (errorNotifications.length > 0) ? errorNotifications : null;
 
     res.render('login/createAccount', model);
-
-
   }
 
   function createUserAccount (req, res) {
@@ -56,10 +55,9 @@ module.exports = function(app){
         userData = {
           userName: rb.username,
           email: rb.email,
-          password: (rb.password)? encrypt(rb.password) : undefined,
-          passportType: 'local',
+          password: encrypt(rb.password),
           displayName: rb.displayName,
-          deaf: rb.deaf,
+          elligibleForTest: rb.elligibleForTest,
           research: 'opt-in',
           role: 5,
         }
@@ -70,15 +68,7 @@ module.exports = function(app){
             res.redirect('/createaccount');
           }
           else {
-            req.user = {
-              userName: userData.userName,
-              password: userData.password
-            };
-
-            res.cookie('username', req.user.userName);
-            res.cookie('password', req.user.password);
-            // Allow user to login
-             res.redirect('/dashboard');
+            sendMailToUser(req, res, userData);
           }
         });
       }
@@ -111,21 +101,15 @@ module.exports = function(app){
       valid = false;
     }
 
-    // If it passes
-    else {
-      // Check if passport is local
-      if (rb.passportType === 'local') {
-        // Verify passwords
-        if (!validator.matches(rb.password, pattern.password)) {
-          errorNotifications.push('Password must beat least 8 chars long with a mixture of uppercase and lowercase letters.');
-          valid = false;
-        }
+    // Verify passwords
+    if (!validator.matches(rb.password, pattern.password)) {
+      errorNotifications.push('Password must beat least 8 chars long with a mixture of uppercase and lowercase letters.');
+      valid = false;
+    }
 
-        if (rb.password !== rb.passwordCheck) {
-          errorNotifications('Passwords do not match!');
-          valid = false;
-        }
-      }
+    if (rb.password !== rb.passwordCheck) {
+      errorNotifications('Passwords do not match!');
+      valid = false;
     }
 
     // email: not null, email
@@ -134,15 +118,57 @@ module.exports = function(app){
       valid = false;
     }
 
-    // If user chooses deaf community
-    if (rb.deaf) {
-      // deaf: yes, no
-      if (!validator.matches(rb.deaf, pattern.bool)) {
+    // If user is elligible For Test
+    if (rb.elligibleForTest) {
+      // elligibleForTest: yes, no
+      if (!validator.matches(rb.elligibleForTest, pattern.bool)) {
         errorNotifications.push('There was an issue selecting your affiliation please try again.');
         valid = false;
       }
     }
 
     return valid;
+  }
+
+  function sendMailToUser (req, res, userData) {
+    //
+    var authConfig = require('../../../config/auth'),
+        transporter = nodemailer.createTransport({
+          service: 'Gmail',
+          auth: authConfig.thinkingcapMail
+        }),
+        text = '',
+        mailOptions= {};
+    console.log(authConfig.thinkingcapMail);
+    text = 'Welcome to Thinking Cap, \n\n' + userData.userName + '!';
+    mailOptions = {
+      from: authConfig.thinkingcapMail.user,
+      to: userData.email,
+      subject: 'Thinking Cap Activation Email',
+      html: ''
+    }
+
+    mailOptions.html = '<h1>Welcome to Thinking Cap, ' + userData.displayName + '!</h1>';
+    mailOptions.html += '<p>This is a test email.</p>';
+
+
+
+    transporter.sendMail(mailOptions, function (err, success) {
+      if (err) {
+        console.error(err);
+        res.redirect('createaccount');
+      }
+      else {
+        req.user = {
+          userName: userData.userName,
+          password: userData.password
+        };
+
+        res.cookie('username', req.user.userName);
+        res.cookie('password', req.user.password);
+        // Allow user to login
+        res.redirect('/dashboard');
+      }
+    });
   }
 };
