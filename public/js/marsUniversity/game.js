@@ -1379,6 +1379,8 @@ function statement(){
 		document.getElementById("posneg").options.add(new Option('Positive', 0))
 		document.getElementById("posneg").options.add(new Option('Negative', 1))
 		document.getElementById("event").innerHTML += "<br> <button type='button' onclick='statementCalc()' > Make Statement </button>";
+		document.getElementById("next").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
+		document.getElementById("next").style = "display:block";
 
 }
 
@@ -4119,8 +4121,6 @@ runningGame.main =
 				id: runningGame.main.enemies.length
 			});
 		}
-		else
-			runningGame.main.enemyGenerator();
 
 		//console.log(runningGame.main.enemies);
 	},
@@ -4172,8 +4172,6 @@ runningGame.main =
 				id: runningGame.main.coins.length
 			});
 		}
-		else
-			runningGame.main.coinGenerator();
 
 	},
 	
