@@ -598,7 +598,7 @@
 		},
 		{
 			"question":"How much do you know me?", 
-			"labels":"Like, Neutral, Dislike",
+			"labels":"Well, Neutral, Not Well",
 			"graph":"0,0,0",
 			"id":"7",
 			"value":"fame"

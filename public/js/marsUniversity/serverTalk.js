@@ -68,7 +68,7 @@ $(document).on('change', '.pollQ', function(){
       if(document.getElementById(pollThing).value == "candFame" || document.getElementById(pollThing).value == "candTrust" ){
         
          $('#' + subQuestion).empty();
-        for(var x = 1; x < 7; x++){               
+        for(var x = 1; x < candidates.length; x++){               
             document.getElementById(subQuestion).options.add(new Option(candidates[x].name, candidates[x].name));
         }            
       }    

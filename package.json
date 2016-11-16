@@ -21,6 +21,7 @@
     "express-session": "^1.14.1",
     "mysql": "^2.11.1",
     "node-sass-middleware": "^0.9.8",
+    "nodemailer": "^2.6.4",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",

@@ -30,26 +30,26 @@
             </li>
             <li id='password-section'>
               <label id='passwordLabel' for='password'>Password <span class='required-asterisk'>*</span></label>
-              <input class='input' type='password' name='password' placeholder='Password' pattern='(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$' title='Passwords must be at least 8 characters long, contain an uppercase and lowercase letter, and have either a number or a special character.'/>
+              <input class='input' type='password' name='password' placeholder='Password' pattern='(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$' title='Passwords must be at least 8 characters long, contain an uppercase and lowercase letter, and have either a number or a special character.' required/>
             </li>
             <li id='retype-password-section'>
               <label id='passwordCheckLabel' for='passwordCheck'>Retype Password <span class='required-asterisk'>*</span></label>
-              <input class='input' type='password' name='passwordCheck' placeholder='Password' pattern='(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$' title='Passwords must be at least 8 characters long, contain an uppercase and lowercase letter, and have either a number or a special character.'/>
+              <input class='input' type='password' name='passwordCheck' placeholder='Password' pattern='(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$' title='Passwords must be at least 8 characters long, contain an uppercase and lowercase letter, and have either a number or a special character.' required/>
             </li>
             <li>
               <label id='displayNameLabel' for='displayName'>Display Name:</label>
-              <input id='displayName' class='input' type='text' name='displayName' value='{{user.displayName}}' />
+              <input id='displayName' class='input' type='text' name='displayName' value='{{user.displayName}}' required />
             </li>
             <li>
               <label>Are you deaf or hard of hearing?</label>
               <ul>
                 <li>
-                  <input id='yesDeaf' type='radio' name='deaf' value='yes'>
-                  <label id='yesDeafLabel' for='yesDeaf'>Yes</label>
+                  <input id='yeselligibleForTest' type='radio' name='elligibleForTest' value='yes'>
+                  <label id='yeselligibleForTestLabel' for='yeselligibleForTest'>Yes</label>
                 </li>
                 <li>
-                  <input id='noDeaf' type='radio' name='deaf' value='no'>
-                  <label id='noDeafLabel' for='noDeaf'>No</label>
+                  <input id='noelligibleForTest' type='radio' name='elligibleForTest' value='no' checked>
+                  <label id='noelligibleForTestLabel' for='noelligibleForTest'>No</label>
                 </li>
               </ul>
             </li>
