@@ -1952,7 +1952,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Medis":
+			case "Media":
 				candidate.fame[3]-=parseFloat(scoreInc);
 				if(candidate.fame[3] > 2)
 				{
