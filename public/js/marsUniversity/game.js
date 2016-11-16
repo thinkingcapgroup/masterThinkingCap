@@ -4119,8 +4119,6 @@ runningGame.main =
 				id: runningGame.main.enemies.length
 			});
 		}
-		else
-			runningGame.main.enemyGenerator();
 
 		//console.log(runningGame.main.enemies);
 	},
@@ -4172,8 +4170,6 @@ runningGame.main =
 				id: runningGame.main.coins.length
 			});
 		}
-		else
-			runningGame.main.coinGenerator();
 
 	},
 	
