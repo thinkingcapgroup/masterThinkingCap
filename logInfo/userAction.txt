@@ -172,3 +172,25 @@
 2-candFav-candOpp-undefined-undefined-undefined-undefined
 2-issFav-issOpp-undefined-undefined-undefined-undefined
 2-issOpp-candFav-undefined-undefined-undefined-undefined
+2-Attend Symposium-1479310521534
+2-Movie Night-1479310524701
+2-fame-candFame-undefined-undefined-undefined-undefined
+2-fame-candFame-undefined-undefined-undefined-undefined
+2-candOpp-fame-undefined-undefined-undefined-undefined
+2-fame-candFame-undefined-undefined-undefined-undefined
+2-Posters-1479311394586
+2-Matching Game-1479311397265
+2-fame-playTrust-undefined-undefined-undefined-undefined
+2-fame-candFame-undefined-undefined-undefined-undefined
+2-fame-candFame-undefined-undefined-undefined-undefined
+2-issue-issue-undefined-undefined-undefined-undefined
+2-candFame-candFame-undefined-undefined-undefined-undefined
+2-issFav-fame-undefined-undefined-undefined-undefined
+2-fame-candFame-undefined-undefined-undefined-undefined
+2-issOpp-candFame-undefined-undefined-undefined-undefined
+2-fame-candFame-undefined-undefined-undefined-undefined
+2-fame-candFav-undefined-undefined-undefined-undefined
+2-issFav-fame-undefined-undefined-undefined-undefined
+2-candFame-issFav-undefined-undefined-undefined-undefined
+2-fame-candFame-undefined-undefined-undefined-undefined
+2-candFame-candFame-undefined-undefined-undefined-undefined

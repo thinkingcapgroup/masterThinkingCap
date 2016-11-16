@@ -4,6 +4,18 @@ var majorList = ["business", "engineering", "tech", "fineArts", "libArts"];
 var stuEconomic = ["poverty", "low", "midLow", "midHigh", "high"];
 var playerCandidate = new CandidateCreate("ph");
 var opponentCandidate = new CandidateCreate("Liz");
+var fakeCandidateHolder = []
+var currentCandidateArrayHolder = []
+
+
+var fakeCandidateYou = new CandidateCreate('FakeCandidate1');
+var fakeCandidateOther = new CandidateCreate('FakeCandidate2');
+fakeCandidateYou.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
+fakeCandidateOther.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+fakeCandidateHolder.push(fakeCandidateYou);
+fakeCandidateHolder.push(fakeCandidateOther);
+
+
 var tableHeaders = ["Favored Issue", "Least Favored Issue", "Favored Candidate", "Least Favored Candidate", "Major", "Class", "Group", "Our Candidate's Fame", "Our Candidate's Trust", "Issue Support: ", "Candidate's Fame: ","Candidate's Trust: "];
 var tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
 var pastPollChoices = [];
@@ -660,18 +672,26 @@ function startOtherCandidates(heads,body){
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
 	document.getElementById("gameInfo").innerHTML += "<p>You're candidate, <b>"+ playerCandidate.name +"</b> is going up again Liz the Chameleon. They're going for Student Council President just like your playerCandidate. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
 	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial on how to read poll information?</p>"
-	document.getElementById("gameInfo").innerHTML += "<button onclick='map(true)'>Yes</button><button onclick='actualSessionStart()'>No</button>";
+	document.getElementById("gameInfo").innerHTML += "<button onclick='map(true)'>Yes</button><button onclick='actualSessionStart(false)'>No</button>";
 
 }
 
-function startTutorial(){
-	document.getElementById("gameInfo").innerHTML = "<h1>Tutorial</h1>"
-	document.getElementById("gameInfo").innerHTML += "Tutorial Here<br>"
-	document.getElementById("gameInfo").innerHTML += "<button onclick='actualSessionStart()'>Start the Game</button>"
-}
 
-function actualSessionStart(){
+function actualSessionStart(isFromTut){
+	var tutHolder = isFromTut
 	clearScreen();
+	console.log(isFromTut, tutHolder);
+
+	if(isFromTut){
+		if(currentCandidateArrayHolder.length > 3){
+		candidates = currentCandidateArrayHolder;
+		}
+		else{
+			candidates = [];
+			console.log('hey')
+		}
+	}
+
 	document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
 	for (var x=0; x < 5; x++){
 
@@ -683,7 +703,7 @@ function actualSessionStart(){
 /*GAME CYCLE FUNCTIONS8*/
 function gameCycleStart(f)
 {
-	candidates = [];
+	
 	population = 1000;
 	sample = [];
 	startHours = 200; 
@@ -1255,10 +1275,8 @@ function map(isTutorial){
 	clearScreen();
 
 	if(isTutorial){
-		var fakeCandidateYou = new CandidateCreate('FakeCandidate1');
-		var fakeCandidateOther = new CandidateCreate('FakeCandidate2');
-		candidates[0] = fakeCandidateYou;
-		candidates[1] = fakeCandidateOther;
+		currentCandidateArrayHolder = candidates;
+		candidates = fakeCandidateHolder
 	}
 
 	var timeForPoll = returnTotalPollTime(20,0);
@@ -1331,7 +1349,7 @@ function map(isTutorial){
 	document.getElementById("questionArea").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults("+ isTutorial +")'> Submit Poll </button><button id = 'moreQuestionButton'> Add More Questions </button>";
 	
 	if(isTutorial){
-		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='actualSessionStart()'> Start the Game </button>";
+		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='actualSessionStart(true)'> Start the Game </button>";
 	}
 	else{
 		document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
@@ -1382,8 +1400,7 @@ function minigamePlayer(id){
 		case 1:
 		runningGame.main.init(c,ctx);
 		break;
-	}
-	
+	}	
 }
 
 
@@ -2848,9 +2865,13 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 				if(pollChoices[i] == "candFame" + candidates[k].name)
 				{
 					var calcHolder = fameCalc(candidates[k], sample[j]);
+					console.log(calcHolder);
 					tableArrays[candCounter].push(calcHolder);				
 
-					if(sample[j].results.win == "Liz"){
+					if(calcHolder> 0.66){
+						graphData[i+3][2]++;
+					}
+					else if(calcHolder > 0.33){
 						graphData[i+3][1]++;
 					}
 					else{
@@ -3386,8 +3407,11 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		    ;
 	
 	}
-	console.log(isTutorial, review)
-	if(!review || !isTutorial)
+	if (isTutorial){
+		review = true;
+
+	}
+	if(!review)
 	{
 		pastPollResults.push(tableArray2);
 		pastPollSizes.push(sSize);
