@@ -682,15 +682,7 @@ function actualSessionStart(isFromTut){
 	clearScreen();
 	console.log(isFromTut, tutHolder);
 
-	if(isFromTut){
-		if(currentCandidateArrayHolder.length > 3){
-		candidates = currentCandidateArrayHolder;
-		}
-		else{
-			candidates = [];
-			console.log('hey')
-		}
-	}
+	candidates = [];
 
 	document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
 	for (var x=0; x < 5; x++){
