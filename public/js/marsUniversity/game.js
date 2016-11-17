@@ -682,7 +682,7 @@ function actualSessionStart(isFromTut){
 	clearScreen();
 	console.log(isFromTut, tutHolder);
 
-	candidates = [];
+	candidates = []
 
 	document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
 	for (var x=0; x < 5; x++){
@@ -1619,6 +1619,7 @@ function pollResults(isTutorial)
 	else
 	{
 		pollCalc(pollChoices, sampleSize, bias, isTutorial);
+
 		document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	}
 
@@ -2765,7 +2766,8 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 
 				case "playTrust":
 					tableArrays[8].push(candidates[0].consMod);
-					var playConst = candidates[0].cosMod;
+					var playConst = candidates[0].consMod;
+					console.log(playConst);
 					if(playConst > 0.69){
 						graphData[i+3][0]++;
 					}
@@ -2859,7 +2861,7 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 				if(pollChoices[i] == "candFame" + candidates[k].name)
 				{
 					var calcHolder = fameCalc(candidates[k], sample[j]);
-					console.log(calcHolder);
+					
 					tableArrays[candCounter].push(calcHolder);				
 
 					if(calcHolder> 0.66){
@@ -2883,6 +2885,7 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 				{
 					
 					tableArrays[candCounter].push(candidates[k].consMod);
+			
 					
 					if(candidates[k].consMod> 0.66){
 						graphData[i+3][0]++;
@@ -3108,7 +3111,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var cell = row.insertCell(i);
 								if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.33)
 									{
-										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.33 && parseFloat(tableArray2[8][h]).toFixed(2)<0.66)
 									{
@@ -3116,7 +3119,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									}
 									else
 									{
-										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 					break;
 				}
@@ -3241,7 +3244,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var counter = canCounter;
 								if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
 								{
-									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 								{
@@ -3249,7 +3252,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								}
 								else
 								{
-									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}		
 					}
 					
@@ -3269,21 +3272,22 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		cell.innerHTML = tableArray2[6][h];
 	}
 	sorttable.makeSortable(document.getElementById('tab'));
-	document.getElementById("table").style.display = "block";
-	
+	document.getElementById("next").innerHTML += "<br><button value = 'true' id = 'rawDataButton' onclick = 'changeData()'>Look at Raw Data</button><br>";
 	var counter = 0;
-	
+	document.getElementById("gameInfo").innerHTML += "<div id = 'chartDiv' style = 'display:block'></div>"
 	//graph dat table
+
 	for (var i=0;i<graphQuestions.length;i++)
 	{
-	document.getElementById("gameInfo").innerHTML += "<div id = 'q"+i+"text'><br></div><div class = 'chart"+i+" chart'></div>";
+	document.getElementById("chartDiv").innerHTML += "<div id = 'q"+i+"text'><br></div><div class = 'chart"+i+" chart'></div>";
 		if(i==2){
-			document.getElementById("gameInfo").innerHTML += "<hr>";
+			document.getElementById("chartDiv").innerHTML += "<hr>";
 		}
 		else if( i == 5){
 
 		}
 	}
+	
 	////console.log(graphQuestions);
 	for(var u =0; u < graphQuestions.length; u++){		
 		document.getElementById("q"+u+"text").innerHTML = "";
@@ -3415,10 +3419,28 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
 		pollTime(sSize, pollChoices);
 	}
-
+		
 	if(isTutorial){
 		document.getElementById('event').innerHTML += "<button onclick = 'map(true)'>Back to Start</button>" 
 	}
+
+}
+
+function changeData(){
+
+	var isRawData = document.getElementById('rawDataButton').value;
+	if(isRawData == 'true'){
+		document.getElementById('rawDataButton').value = false;
+		document.getElementById('table').style.display = 'block'
+		document.getElementById('chartDiv').style.display = 'none'
+	}
+	else{
+		document.getElementById('rawDataButton').value = true;
+		document.getElementById('table').style.display = 'none'
+		document.getElementById('chartDiv').style.display = 'block'
+	}
+
+
 }
 
 //Subtracts time required to take a poll based on both sample size and the number of questions
