@@ -211,3 +211,10 @@
 2-candTrust-issFav-undefined-undefined-undefined-undefined
 2-issFav-candTrust-undefined-undefined-undefined-undefined
 2-candTrust-issOpp-undefined-undefined-undefined-undefined
+2-issFav-candOpp-undefined-undefined-undefined-undefined
+2-issOpp-playTrust-undefined-undefined-undefined-undefined
+2-candFav-playTrust-undefined-undefined-undefined-undefined
+2-playTrust-issFav-undefined-undefined-undefined-undefined
+2-playTrust-issOpp-undefined-undefined-undefined-undefined
+2-issOpp-candOpp-undefined-undefined-undefined-undefined
+2-candFav-issFav-undefined-undefined-undefined-undefined
