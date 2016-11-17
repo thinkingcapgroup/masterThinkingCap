@@ -682,15 +682,7 @@ function actualSessionStart(isFromTut){
 	clearScreen();
 	console.log(isFromTut, tutHolder);
 
-	if(isFromTut){
-		if(currentCandidateArrayHolder.length > 3){
-		candidates = currentCandidateArrayHolder;
-		}
-		else{
-			candidates = [];
-			console.log('hey')
-		}
-	}
+	candidates = []
 
 	document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
 	for (var x=0; x < 5; x++){
@@ -1952,7 +1944,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Medis":
+			case "Media":
 				candidate.fame[3]-=parseFloat(scoreInc);
 				if(candidate.fame[3] > 2)
 				{
@@ -2867,7 +2859,7 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 				if(pollChoices[i] == "candFame" + candidates[k].name)
 				{
 					var calcHolder = fameCalc(candidates[k], sample[j]);
-					console.log(calcHolder);
+					
 					tableArrays[candCounter].push(calcHolder);				
 
 					if(calcHolder> 0.66){
@@ -2891,15 +2883,16 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 				{
 					
 					tableArrays[candCounter].push(candidates[k].consMod);
+			
 					
 					if(candidates[k].consMod> 0.66){
-						graphData[i+3][2]++;
+						graphData[i+3][0]++;
 					}
 					else if(candidates[k].consMod > 0.33){
 						graphData[i+3][1]++;
 					}
 					else{
-						graphData[i+3][0]++;
+						graphData[i+3][2]++;
 					}
 				}
 				
@@ -3249,7 +3242,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var counter = canCounter;
 								if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
 								{
-									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 								{
@@ -3257,7 +3250,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								}
 								else
 								{
-									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}		
 					}
 					
