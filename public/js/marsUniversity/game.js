@@ -2885,13 +2885,13 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 					tableArrays[candCounter].push(candidates[k].consMod);
 					
 					if(candidates[k].consMod> 0.66){
-						graphData[i+3][2]++;
+						graphData[i+3][0]++;
 					}
 					else if(candidates[k].consMod > 0.33){
 						graphData[i+3][1]++;
 					}
 					else{
-						graphData[i+3][0]++;
+						graphData[i+3][2]++;
 					}
 				}
 				
@@ -3743,11 +3743,6 @@ function loadGame()
 	userAction();
 }
 /* Back Button Prevention code */
-function HandleBackFunctionality()
-{
-
-}
-
 
 function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 {
@@ -3875,7 +3870,7 @@ Object.defineProperty(console, "__commandLineAPI", n);
 
 var runningGame ={};
 
-/* Minigame COde*/
+/* Minigame Code*/
 runningGame.main = 
 {
 	player:
@@ -3888,12 +3883,9 @@ runningGame.main =
 	lanes:[],
 	enemies:[],
 	coins:[],
-	removeEns:[],
-	removeCoins:[],
-	mouse:{},
 	speed:50,
 	time: 60,
-	playTime: 60000,
+	playTime: time*1000,
 	scores:
 	{
 		score: 0,
@@ -3923,7 +3915,7 @@ runningGame.main =
 		runningGame.main.mouse={};
 		runningGame.main.speed=50;
 		runningGame.main.time= 60;
-		runningGame.main.playTime= 60000;
+		runningGame.main.playTime= time*1000;
 		runningGame.main.scores=
 		{
 			score: 0,
@@ -4035,15 +4027,7 @@ runningGame.main =
 				ctx.fillRect(runningGame.main.coins[i].x,runningGame.main.coins[i].y,runningGame.main.coins[i].width,runningGame.main.coins[i].height); 
 			}
 	},
-	getMouse: function (e)
-	{ 
-		var mouse = {} // make an object 
-		//console.log(e.target);
-		mouse.x = e.pageX - e.target.offsetLeft; 
-		mouse.y = e.pageY - e.target.offsetTop; 
-		
-		return mouse; 
-	},
+	
 	doMousedown: function(c, e)
 	{ 
 	//console.log(canvasMouse);
@@ -4210,16 +4194,6 @@ runningGame.main =
 			{
 				runningGame.main.removeCoins.push(runningGame.main.coins[i].id);
 			}
-		}
-		for(var i=0;i<runningGame.main.removeCoins.length;i++)
-		{
-			runningGame.main.coins.splice(runningGame.main.removeCoins[i].id, 1);
-			runningGame.main.removeCoins.splice(i, 1);
-		}
-		for(var i=0;i<runningGame.main.removeEns.length;i++)
-		{
-			runningGame.main.enemies.splice(runningGame.main.removeEns[i].id, 1);
-			runningGame.main.removeEns.splice(i, 1);
 		}
 	},
 	
