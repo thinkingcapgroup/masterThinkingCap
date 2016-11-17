@@ -33,6 +33,7 @@ var saveState;
 var c; 
 var ctx;
 var qPollHolder;
+var ranking;
 
 //sprite stuff
 var heads = new Image();
@@ -1249,15 +1250,14 @@ function gameCycleEnd()
 	votePercentage(1000,5);
 	var winner;
 	var winvotes = 0;
-	for(var i = 0; i<candidates.length;i++)
+	ranking = candidates.slice();
+	ranking.sort(function(a, b){return b.votes-a.votes})
+	document.getElementById("gameInfo").innerHTML = "<h1> Rankings: </h1>";
+	for(var i = 0; i<ranking.length;i++)
 	{
-		if(candidates[i].votes > winvotes)
-		{
-			winvotes= candidates[i].votes;
-			winner = candidates[i].name;
-		}
+		document.getElementById("gameInfo").innerHTML += "<h1>" + (i+1) + ". " + ranking[i].name + " Votes: " + ranking[i].votes + "</h1><br>";
 	}
-	document.getElementById("gameInfo").innerHTML += "<p> Winner: "+ winner +"</p> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
+	document.getElementById("gameInfo").innerHTML += "<h1> Winner: "+ ranking[0].name +"</h1> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
 };
 
 
@@ -3907,7 +3907,7 @@ runningGame.main =
 	coins:[],
 	speed:50,
 	time: 60,
-	playTime: time*1000,
+	playTime: this.time*1000,
 	scores:
 	{
 		score: 0,
@@ -3937,7 +3937,7 @@ runningGame.main =
 		runningGame.main.mouse={};
 		runningGame.main.speed=50;
 		runningGame.main.time= 60;
-		runningGame.main.playTime= time*1000;
+		runningGame.main.playTime= runningGame.main.time*1000;
 		runningGame.main.scores=
 		{
 			score: 0,
