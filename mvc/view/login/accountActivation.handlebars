@@ -1,0 +1,82 @@
+<main id='accountActivation'>
+
+  {{#if errorNotifications}}
+    <ul class='notifications error-notifications'>
+      {{#each errorNotifications}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
+  {{#if successNotifications}}
+    <ul class='notifications success-notifications'>
+      {{#each successNotifications}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
+  <article class='wrapper'>
+    <header class='thinking-cap-header'>
+      <h1 class='thinking-cap-title'>{{content.appTitle}}</h1>
+    </header>
+    <section>
+      <form class='form' action='/accountActivation' method='post'>
+        {{#if codeState}}
+          <legend>Activate Account</legend>
+          <p>
+            Please enter your activation code below.
+          </p>
+          <ul class='form-fields'>
+            <li>
+              <label id='activationCodeLabel' for='activationCode'>Activation Code:</label>
+              <input id='activationCode' class='input' type='text' name='activationCode'/>
+            </li>
+            <ul class='action-links'>
+              <li>
+                <button class='btn' type='submit' name='activateAccount' value='true'>Activate Account</button>
+              </li>
+              <li>
+                <button class='btn' type='submit' name='activationEmailState' value='true'>Resend Activation Email</button>
+              </li>
+            </ul>
+          </ul>
+          {{else}}
+          <legend>Resend Account Activation Email</legend>
+          <p>
+            So that we can send you the account activation email please type in your email below.
+            If an account was created with that email you should recieve an email shortly.
+            If your account was already activated there is no need to activate it again.
+          </p>
+          <ul class='form-fields'>
+            <li>
+              <label id='emailLabel' for='email'>Email:</label>
+              <input id='email' class='input' type='text' name='email'/>
+            </li>
+            <ul class='action-links'>
+              <li>
+                <button class='btn' type='submit' name='resendActivationEmail' value='true'>Resend Activation Email</button>
+              </li>
+              <li>
+                <button class='btn' type='submit' name='activateAccountState' value='true'>Activate Account</button>
+              </li>
+            </ul>
+          </ul>
+        {{/if}}
+      </form>
+    </section>
+    <footer id='footer'>
+      <ul id='reference-links'>
+        <li>
+          <a href='/help'>Help</a>
+        </li>
+        <li>
+          <a href='/terms'>Terms of Service</a>
+        </li>
+        <li>
+          <a href='/credits'>Credits</a>
+        </li>
+      </ul>
+    </footer>
+  </article>
+</main>
