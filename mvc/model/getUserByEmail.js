@@ -4,17 +4,18 @@ module.exports = function(req, email, next){
       getUserByEmail = 'SELECT * FROM `users` WHERE `email` = ?;',
       error = false;
 
-  db.query(getUserByEmail, [email],function(err, result) {
+  db.query(getUserByEmail, [email], function(err, result) {
+    resultRow = result[0];
+
   	if (err) {
       error = err.toString();
-  		next(err, result)
+  		next(error, result)
   	}
-    else if (!result[0]) {
+    else if (!resultRow) {
       error = 'No result';
-      next(error, result);
+      next(error, resultRow);
     }
     else {
-      resultRow = result[0];
       next(err, resultRow);
     }
   });

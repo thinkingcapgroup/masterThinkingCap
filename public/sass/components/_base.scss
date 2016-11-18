@@ -7,10 +7,13 @@ html * {
 	box-sizing: border-box;
 }
 
-body {
-	background-color: $background-color;
-	color: $foreground-color;
+html {
+	background: url('../media/img/login/thinkingcaploginbg.png') no-repeat center center fixed;
+	background-size: cover;
+}
 
+body {
+	color: $foreground-color;
   font-family: $primary-font;
 	font-weight: $font-weight;
 }
@@ -42,7 +45,6 @@ ul {
 }
 
 main {
-
 	padding: calc(#{$content-padding} * 2);
 
 	// Cover entire viewport
@@ -60,12 +62,8 @@ main {
 
 		// Hide overflow
 		overflow: hidden;
-
-		background: url('../media/img/login/thinkingcaploginbg.png');
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: cover;
 	}
+
 }
 
 // Wrapper for the view
@@ -75,8 +73,4 @@ main {
 	width: 90%;
 	max-width: $L;
 	height: 100%;
-}
-
-.remove, .hide {
-	display: none;
 }

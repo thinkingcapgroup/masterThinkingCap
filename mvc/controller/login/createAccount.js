@@ -1,6 +1,7 @@
-var validator = require('validator'),
-    recaptcha = require('express-recaptcha'),
+var crypto = require('crypto'),
+    validator = require('validator'),
     nodemailer = require('nodemailer'),
+    recaptcha = require('express-recaptcha'),
     successNotifications = [], errorNotifications = [];
 
 module.exports = function(app){
@@ -59,7 +60,7 @@ module.exports = function(app){
           displayName: rb.displayName,
           elligibleForTest: rb.elligibleForTest,
           research: 'opt-in',
-          role: 5,
+          role: 1,
         }
 
         require('../../model/insertUser')(req, userData, function(err, success) {
@@ -68,7 +69,8 @@ module.exports = function(app){
             res.redirect('/createaccount');
           }
           else {
-            sendMailToUser(req, res, userData);
+            userData.userId = success.insertId;
+            createAccountActivationCode(req, res, userData);
           }
         });
       }
@@ -130,28 +132,60 @@ module.exports = function(app){
     return valid;
   }
 
-  function sendMailToUser (req, res, userData) {
+  function createAccountActivationCode (req, res, userData) {
+    var accountActivationData = {
+      userId: userData.userId,
+      activationCode: ''
+    };
+
+    accountActivationData.activationCode = crypto.randomBytes(16).toString('hex');
+
+    require('../../model/insertAccountActivationCode')(req, accountActivationData, function(err, success) {
+
+      if (err) {
+        console.log(err);
+        // If duplicate
+        if (err.code === 'ER_DUP_ENTRY') {
+          createAccountActivationCode(req, res, userData);
+        }
+        else {
+          errorNotifications.push('Error creating your activation key. Please visit contact and administrator.');
+          res.redirect('/createaccount');
+        }
+      }
+      else {
+        sendMailToUser(req, res, userData, accountActivationData);
+      }
+    });
+  }
+
+  function sendMailToUser (req, res, userData, accountActivationData) {
     //
     var authConfig = require('../../../config/auth'),
         transporter = nodemailer.createTransport({
           service: 'Gmail',
           auth: authConfig.thinkingcapMail
         }),
-        text = '',
-        mailOptions= {};
-    console.log(authConfig.thinkingcapMail);
-    text = 'Welcome to Thinking Cap, \n\n' + userData.userName + '!';
-    mailOptions = {
-      from: authConfig.thinkingcapMail.user,
-      to: userData.email,
-      subject: 'Thinking Cap Activation Email',
-      html: ''
+        pageUrl = '',
+        mailOptions = {
+          from: authConfig.thinkingcapMail.user,
+          to: userData.email,
+          subject: 'Thinking Cap Activation Email',
+          html: ''
+        };
+
+    pageUrl = req.protocol + '://' + req.get('host') + '/accountActivation/' + accountActivationData.activationCode;
+    // pageUrl = req.protocol + '://' + req.get('host') + '/accountActivation/' + accountActivationData.activationCode;
+
+    if (userData.displayName && userData.displayName !== '') {
+      mailOptions.html = '<h1>Welcome to Thinking Cap, ' + userData.displayName + '!</h1>';
+    }
+    else {
+      mailOptions.html = '<h1>Welcome to Thinking Cap, ' + userData.userName + '!</h1>';
     }
 
-    mailOptions.html = '<h1>Welcome to Thinking Cap, ' + userData.displayName + '!</h1>';
-    mailOptions.html += '<p>This is a test email.</p>';
-
-
+    mailOptions.html += '<p>To activate you Thinking Cap account please access the following page: <a href="';
+    mailOptions.html += pageUrl + '" target="_blank">' + pageUrl + '</a> and enter the following code: <span style="background: #e4e4e4; padding: 5px;">' + accountActivationData.activationCode + '</span>.</p>';
 
     transporter.sendMail(mailOptions, function (err, success) {
       if (err) {

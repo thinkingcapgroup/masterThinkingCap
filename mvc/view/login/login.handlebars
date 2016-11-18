@@ -1,7 +1,14 @@
-<main class='full-page' id='login'>
+<main id='login'>
   {{#if errorNotifications}}
     <ul class='notifications error-notifications'>
       {{#each errorNotifications}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+  {{#if successNotifications}}
+    <ul class='notifications success-notifications'>
+      {{#each successNotifications}}
         <li>{{this}}</li>
       {{/each}}
     </ul>
@@ -14,14 +21,13 @@
       <form id='login-form' action='/login' method='post'>
         <input class='input' type='text' name='username' placeholder='Username' />
         <input class='input' type='password' name='password' placeholder='Password' />
-
         <ul id='login-actions'>
           <li class='login-action'>
             <button class='btn' type='submit' name='loginSubmit' value='loginSubmit'>Log in</button>
           </li>
         </ul>
       </form>
-      <div id='normal-curve-container'></div>
+      <!-- <div id='normal-curve-container'></div> -->
     </section>
     <footer id='footer'>
       <ul id='account-links'>
