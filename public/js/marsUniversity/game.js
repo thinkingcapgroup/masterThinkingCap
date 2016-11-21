@@ -1330,7 +1330,7 @@ function map(isTutorial){
 						document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));
 					}
 				}
-			document.getElementById("questionArea").innerHTML += "<br><br>";
+			
 		}
 	  }
 	}
