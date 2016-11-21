@@ -30,7 +30,7 @@
 			// Gets our routes
 			routes,
 			// Controllers are js files which contain routes
-			routeDir="./mvc/controller/",
+			routeDir="./mvc/controller",
 			sassMiddleware = require('node-sass-middleware'),
 			port = process.env.PORT || 3000,
 			cookieParser = require('cookie-parser'),
@@ -55,6 +55,9 @@
 
 	app.use(bodyParser.urlencoded());
 	app.use(bodyParser.json());
+
+	// process.env.PWD = process.cwd();
+	// app.use(express.static(process.env.PWD + '/public'));
 
 	app.use(express.static(__dirname + '/public'));
 
@@ -94,6 +97,8 @@
 	// Routes function
 	routes = function(dir, filelist) {
     var route,
+				basename,
+				marsUniversityPattern = /marsUniversity/,
 				routesPattern = /.js$/,
         fs = fs || require('fs'),
         files = fs.readdirSync(dir);
@@ -111,11 +116,16 @@
       else {
         // If it is a javascript file
         if (routesPattern.test(file)) {
-          // Get the route
-          route = dir + '/' + file;
+					basename = file.split('.')[0];
 
-          // Require file
-          require(route)(app);
+          // Get the route
+          route = dir + '/' + basename;
+
+					if (basename === 'index') {
+						basename = '';
+					}
+					
+					app.use('/' + basename.toLowerCase(), require(route));
         }
       }
     });
@@ -123,6 +133,8 @@
 
 	// Call routes
 	routes(routeDir);
+
+	//require('./mvc/controller')(app);
 
 	//port starting and listening
 	app.listen(app.get('port'), function(){
@@ -148,12 +160,4 @@
 		res.status(500);
 		res.render('errors/500');
 	});
-
-	// TEST
-	// db.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
-	// 	if (err) {
-	// 		throw err;
-	// 	}
-	// 	console.log('The solution is: ' + rows[0].solution);
-	// });
 }());

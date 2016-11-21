@@ -6,14 +6,14 @@
 
 {{! CSS Stylesheets }}
 <!-- <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'> -->
-<link rel='stylesheet' type='text/css' href='css/styles.css'>
-<link rel='stylesheet' type='text/css' href='css/game.css'>
+<link rel='stylesheet' type='text/css' href='{{__dirname}}/css/styles.css'>
+<link rel='stylesheet' type='text/css' href='{{__dirname}}/css/game.css'>
 
 {{! Javascritpt }}
 
 <script src = 'https://d3js.org/d3.v4.min.js'></script>
 <script type = "text/javascript"> var saveState = "{{saveState}}"</script>
 <script src ='https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-<script src = "js/marsUniversity/sorttable.js"></script>
-<script src = 'js/marsUniversity/game.js'></script>
-<script src = "js/marsUniversity/serverTalk.js"></script>
+<script src = "{{__dirname}}/js/marsUniversity/sorttable.js"></script>
+<script src = '{{__dirname}}/js/marsUniversity/game.js'></script>
+<script src = "{{__dirname}}/js/marsUniversity/serverTalk.js"></script>
