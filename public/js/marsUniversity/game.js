@@ -33,6 +33,7 @@ var saveState;
 var c; 
 var ctx;
 var qPollHolder;
+var ranking;
 
 //sprite stuff
 var heads = new Image();
@@ -96,7 +97,7 @@ var majorIssues =
 ];
 
 var oppChoice = [];
-var chosenIssueCands = [];
+var chosenCandRanks = [];
 var currentEvents = [];
 var sample = [];
 var events=[];
@@ -698,7 +699,7 @@ function gameCycleStart(f)
 	
 	population = 1000;
 	sample = [];
-	startHours = 200; 
+	startHours = 84; 
 	remainingHours = startHours;
 	turnCounter = 1
 	playerCandidate.focus = positions[f];
@@ -732,33 +733,33 @@ function gameCycleStart(f)
 	
 	//Create Issue Candidates
 	var issueCand1 = new CandidateCreate("Martian Dog");
-	issueCand1.fame = [1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8];
-	issueCand1.consMod = 0.25;
-	chooseIssue(issueCand1,chosenIssueCands,3,true);
+	issueCand1.focus = positions[0];
+	issueCand1.focusnum = 0;
+	chooseRank(issueCand1,chosenCandRanks,true);
 	candidates.push(issueCand1);
 	
 	var issueCand2  = new CandidateCreate("Clamps");
-	issueCand2.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
-	issueCand2.consMod = 0.5;
-	chooseIssue(issueCand2,chosenIssueCands,2,true);
+	issueCand2.focus = positions[1];
+	issueCand2.focusnum = 1;
+	chooseRank(issueCand2,chosenCandRanks,true);
 	candidates.push(issueCand2);
 	
 	var issueCand3  = new CandidateCreate("Zrap Bannigan");
-	issueCand3.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
-	issueCand3.consMod = 0.5;
-	chooseIssue(issueCand3,chosenIssueCands,2,true);
+	issueCand3.focus = positions[2];
+	issueCand3.focusnum = 2;
+	chooseRank(issueCand3,chosenCandRanks,true);
 	candidates.push(issueCand3);
 	
 	var issueCand4  = new CandidateCreate("Cowboy");
-	issueCand4.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
-	issueCand4.consMod = 0.75;
-	chooseIssue(issueCand4,chosenIssueCands,1,true);
+	issueCand4.focus = positions[3];
+	issueCand4.focusnum = 3;
+	chooseRank(issueCand4,chosenCandRanks,true);
 	candidates.push(issueCand4);
 	
 	var issueCand5  = new CandidateCreate("Martian Scientist");
-	issueCand5.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
-	issueCand5.consMod = 0.75
-	chooseIssue(issueCand5,chosenIssueCands,1,true);
+	issueCand5.focus = positions[4];
+	issueCand5.focusnum = 4;
+	chooseRank(issueCand5,chosenCandRanks,true);
 	candidates.push(issueCand5);
 	
 
@@ -849,7 +850,7 @@ function action()
 						posText += "Lower Economic Status";
 					break;
 					case "Low Mid":
-						posText += "Lower Middle Economic Status";
+						posText += "Low Middle Economic Status";
 					break;
 					case "Upper Mid":
 						posText += "Upper Middle Economic Status";
@@ -922,7 +923,7 @@ function action()
 						negText += "Lower Economic Status";
 					break;
 					case "Low Mid":
-						negText += "Lower Middle Economic Status";
+						negText += "Low Middle Economic Status";
 					break;
 					case "Upper Mid":
 						negText += "Upper Middle Economic Status";
@@ -1004,7 +1005,7 @@ function action()
 									posText += "Lower Economic Status";
 								break;
 								case "Low Mid":
-									posText += "Lower Middle Economic Status";
+									posText += "Low Middle Economic Status";
 								break;
 								case "Upper Mid":
 									posText += "Upper Middle Economic Status";
@@ -1077,7 +1078,7 @@ function action()
 									negText += "Lower Economic Status";
 								break;
 								case "Low Mid":
-									negText += "Lower Middle Economic Status";
+									negText += "Low Middle Economic Status";
 								break;
 								case "Upper Mid":
 									negText += "Upper Middle Economic Status";
@@ -1249,15 +1250,14 @@ function gameCycleEnd()
 	votePercentage(1000,5);
 	var winner;
 	var winvotes = 0;
-	for(var i = 0; i<candidates.length;i++)
+	ranking = candidates.slice();
+	ranking.sort(function(a, b){return b.votes-a.votes})
+	document.getElementById("gameInfo").innerHTML = "<h1> Rankings: </h1>";
+	for(var i = 0; i<ranking.length;i++)
 	{
-		if(candidates[i].votes > winvotes)
-		{
-			winvotes= candidates[i].votes;
-			winner = candidates[i].name;
-		}
+		document.getElementById("gameInfo").innerHTML += "<h1>" + (i+1) + ". " + ranking[i].name + " Votes: " + ranking[i].votes + "</h1><br>";
 	}
-	document.getElementById("gameInfo").innerHTML += "<p> Winner: "+ winner +"</p> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
+	document.getElementById("gameInfo").innerHTML += "<h1> Winner: "+ ranking[0].name +"</h1> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
 };
 
 
@@ -1277,7 +1277,7 @@ function map(isTutorial){
 	document.getElementById("event").innerHTML += "<h4>Select an area where you wish to poll.</h4>";
 	document.getElementById("event").innerHTML += "<div id = 'mapArea'></div><div id = 'questionArea'></div>";
 	document.getElementById("questionArea").innerHTML +="<h4>Population & Sample</h4><br>";
-	var buttonLabels = ["Coffee Shop", "Gym", "Lab", "Media Room", "Library", "Quad"];
+	var buttonLabels = ["Quad", "Coffee Shop", "Gym", "Lab", "Media Room", "Library"];
 	document.getElementById("questionArea").innerHTML += "<label>Location: </label><select id = 'location'></select><br>";
 	for(x =0; x< buttonLabels.length; x++){
 		document.getElementById("location").options.add(new Option(buttonLabels[x],x));
@@ -1686,7 +1686,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Medis":
+			case "Media":
 				candidate.fame[3]+=parseFloat(scoreInc);
 				if(candidate.fame[3] > 2)
 				{
@@ -1794,7 +1794,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Lower Mid":
+			case "Low Mid":
 				candidate.fame[12]+=parseFloat(scoreInc);
 				if(candidate.fame[12] > 2)
 				{
@@ -2053,7 +2053,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Lower Mid":
+			case "Low Mid":
 				candidate.fame[12]-=parseFloat(scoreInc);
 				if(candidate.fame[12] > 2)
 				{
@@ -2193,7 +2193,7 @@ function CandidateCreate(name){
 	this.name = name;
 	this.fame= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	this.issueScore= [0,0,0,0,0];
-	this.consMod= 1;
+	this.consMod= 0;
 	this.focus= "";
 	this.focusnum= 0;
 	this.winChance= 0;
@@ -2466,6 +2466,9 @@ function resetGame()
 	currentEvents = [];
 	sample = [];
 	candidates=[];
+	chosenCandRanks = [];
+	currentEvents = [];
+	candidates=[];
 	var playerCandidate = new CandidateCreate("ph");
 	var opponentCandidate = new CandidateCreate("Liz");
 }
@@ -2477,7 +2480,6 @@ function reportViewer(id)
 	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	document.getElementById("next").style.display = "block";
 	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],pastGraphData[id],pastGraphLabels[id], true, false);
-	////console.log(pastGraphData);
 }
 
 //Calculates the results of each poll question from each student in the sample and stores them in an array
@@ -2767,7 +2769,6 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 				case "playTrust":
 					tableArrays[8].push(candidates[0].consMod);
 					var playConst = candidates[0].consMod;
-					console.log(playConst);
 					if(playConst > 0.69){
 						graphData[i+3][0]++;
 					}
@@ -3678,8 +3679,19 @@ function loadGame()
 	for( var i= 0; i < candAtts.length; i++)
 	{
 		var cand = new CandidateCreate(candAtts[i][0]);
-		cand.fame = candAtts[i][1].split(",");
-		cand.issueScore = candAtts[i][2].split(",");
+		var tempfame = candAtts[i][1].split(",");
+		cand.fame =[];
+		for(var j =0; j< tempfame.length; j++)
+		{
+			cand.fame.push(parseFloat(tempfame[j]));
+		}
+		cand.issueScore = candAtts[i][2].split(",");		
+		var tempissue = candAtts[i][2].split(",");
+		cand.issueScore =[];
+		for(var j =0; j< tempissue.length; j++)
+		{
+			cand.issueScore.push(parseFloat(tempissue[j]));
+		}
 		cand.consMod = parseFloat(candAtts[i][3]);
 		cand.focus = candAtts[i][4];
 		cand.focusnum = parseInt(candAtts[i][5]);
@@ -3765,11 +3777,6 @@ function loadGame()
 	userAction();
 }
 /* Back Button Prevention code */
-function HandleBackFunctionality()
-{
-
-}
-
 
 function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 {
@@ -3783,7 +3790,7 @@ function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 	
 	
 	//Decides the opponents focus which cannot be the same as the player
-	var oppFocus = Math.floor(Math.random(0,(5-chosenIssues.length)));
+	var oppFocus = Math.floor(Math.random()*(5-chosenIssues.length));
 	candidate.focus = positions[oppChoice[oppFocus]];
 	candidate.focusnum = oppChoice[oppFocus];
 	switch(oppChoice[oppFocus])
@@ -3807,9 +3814,58 @@ function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 	
 	if(issueCand)
 	{
-		chosenIssueCands.push(oppChoice[oppFocus]);
+		chosenCandRanks.push(oppChoice[oppFocus]);
 	}
 }
+
+function chooseRank(candidate, chosenRanks, issueCand)
+{
+	var counter;
+	oppChoice=[0,1,2,3,4];
+	
+	for(var i =0; i <chosenRanks.length;i++)
+	{
+		oppChoice.splice(oppChoice.indexOf(chosenRanks[i]),1);
+	}
+	
+	
+	//Decides the opponents focus which cannot be the same as the player
+	var oppRank = Math.floor(Math.random()*(5-chosenRanks.length));
+	switch(oppChoice[oppRank])
+	{
+		case 0:
+			candidate.fame = [1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8];
+			candidate.consMod = 0.25;
+			candidate.issueScore[candidate.focusnum] = 3;
+		break;
+		case 1:
+			candidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
+			candidate.consMod = 0.5;
+			candidate.issueScore[candidate.focusnum] = 2;
+		break;
+		case 2:
+			candidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
+			candidate.consMod = 0.5;
+			candidate.issueScore[candidate.focusnum] = 1.5;
+		break;
+		case 3:
+			candidate.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+			candidate.consMod = 0.75;
+			candidate.issueScore[candidate.focusnum] = 1;
+		break;
+		case 4:
+			candidate.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+			candidate.consMod = 0.75;
+			candidate.issueScore[candidate.focusnum] = 0.5;
+		break;
+	}
+	
+	if(issueCand)
+	{
+		chosenRanks.push(oppChoice[oppRank]);
+	}
+}
+
 
 function getMousePos(canvas, evt) 
 {
@@ -3897,7 +3953,7 @@ Object.defineProperty(console, "__commandLineAPI", n);
 
 var runningGame ={};
 
-/* Minigame COde*/
+/* Minigame Code*/
 runningGame.main = 
 {
 	player:
@@ -3910,12 +3966,9 @@ runningGame.main =
 	lanes:[],
 	enemies:[],
 	coins:[],
-	removeEns:[],
-	removeCoins:[],
-	mouse:{},
 	speed:50,
 	time: 60,
-	playTime: 60000,
+	playTime: this.time*1000,
 	scores:
 	{
 		score: 0,
@@ -3945,7 +3998,7 @@ runningGame.main =
 		runningGame.main.mouse={};
 		runningGame.main.speed=50;
 		runningGame.main.time= 60;
-		runningGame.main.playTime= 60000;
+		runningGame.main.playTime= runningGame.main.time*1000;
 		runningGame.main.scores=
 		{
 			score: 0,
@@ -4057,15 +4110,7 @@ runningGame.main =
 				ctx.fillRect(runningGame.main.coins[i].x,runningGame.main.coins[i].y,runningGame.main.coins[i].width,runningGame.main.coins[i].height); 
 			}
 	},
-	getMouse: function (e)
-	{ 
-		var mouse = {} // make an object 
-		//console.log(e.target);
-		mouse.x = e.pageX - e.target.offsetLeft; 
-		mouse.y = e.pageY - e.target.offsetTop; 
-		
-		return mouse; 
-	},
+	
 	doMousedown: function(c, e)
 	{ 
 	//console.log(canvasMouse);
@@ -4232,16 +4277,6 @@ runningGame.main =
 			{
 				runningGame.main.removeCoins.push(runningGame.main.coins[i].id);
 			}
-		}
-		for(var i=0;i<runningGame.main.removeCoins.length;i++)
-		{
-			runningGame.main.coins.splice(runningGame.main.removeCoins[i].id, 1);
-			runningGame.main.removeCoins.splice(i, 1);
-		}
-		for(var i=0;i<runningGame.main.removeEns.length;i++)
-		{
-			runningGame.main.enemies.splice(runningGame.main.removeEns[i].id, 1);
-			runningGame.main.removeEns.splice(i, 1);
 		}
 	},
 	
