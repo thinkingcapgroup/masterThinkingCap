@@ -1,33 +1,9 @@
 module.exports = function(req, res, next){
   var userData = {},
-  errorMessage;
+      errorMessage;
 
-  // // If passport authenticated
-  // if (req.isAuthenticated()) {
-  //
-  //   userData.email = req.user.emails[0].value;
-  //
-  //   require('./authUserByEmail')(req, userData.email, function(err, result) {
-  //     if (err) {
-  //       errorMessage = 'Unable to authenticate you by your Google account.';
-  //       clearUserCookiesAndReturnToLogin(res, errorMessage);
-  //     }
-  //     else {
-  //       if (result.passportType === 'google') {
-  //         req.user = result;
-  //         return next();
-  //       }
-  //
-  //       // Redirect to login
-  //       else {
-  //         errorMessage = 'This account does not authenticate with a Google Account. Please log in using your username and password.';
-  //         clearUserCookiesAndReturnToLogin(res, errorMessage);
-  //       }
-  //     }
-  //   });
-  // }
-  // Else local authentication
-  if ((req.cookies.username && req.cookies.password) || (req.user.userName && req.user.password)) {
+  // Authenticate user
+  if ((req.cookies.username && req.cookies.password) || (req.user)) {
 
     if (req.cookies.username && req.cookies.password) {
       userData.username = req.cookies.username;

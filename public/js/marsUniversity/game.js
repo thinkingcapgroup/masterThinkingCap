@@ -30,7 +30,7 @@ var back = false;
 var num = 1;
 var textContents;
 var saveState;
-var c; 
+var c;
 var ctx;
 var qPollHolder;
 var ranking;
@@ -138,6 +138,8 @@ function startGame(){
 	//whatever other things we have to do when initializing the game here
 	var date = Date.now();
 
+
+	//console.log(saveState);
 	var Json;
 	var oReq = new XMLHttpRequest();
 	oReq.onload = function (e)
@@ -730,38 +732,38 @@ function gameCycleStart(f)
 	////console.log(oppFocus);
 	chooseIssue(opponentCandidate,[f],1,false);
 	candidates.push(opponentCandidate);
-	
+
 	//Create Issue Candidates
 	var issueCand1 = new CandidateCreate("Martian Dog");
 	issueCand1.focus = positions[0];
 	issueCand1.focusnum = 0;
 	chooseRank(issueCand1,chosenCandRanks,true);
 	candidates.push(issueCand1);
-	
+
 	var issueCand2  = new CandidateCreate("Clamps");
 	issueCand2.focus = positions[1];
 	issueCand2.focusnum = 1;
 	chooseRank(issueCand2,chosenCandRanks,true);
 	candidates.push(issueCand2);
-	
+
 	var issueCand3  = new CandidateCreate("Zrap Bannigan");
 	issueCand3.focus = positions[2];
 	issueCand3.focusnum = 2;
 	chooseRank(issueCand3,chosenCandRanks,true);
 	candidates.push(issueCand3);
-	
+
 	var issueCand4  = new CandidateCreate("Cowboy");
 	issueCand4.focus = positions[3];
 	issueCand4.focusnum = 3;
 	chooseRank(issueCand4,chosenCandRanks,true);
 	candidates.push(issueCand4);
-	
+
 	var issueCand5  = new CandidateCreate("Martian Scientist");
 	issueCand5.focus = positions[4];
 	issueCand5.focusnum = 4;
 	chooseRank(issueCand5,chosenCandRanks,true);
 	candidates.push(issueCand5);
-	
+
 
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
 	userAction();
@@ -796,7 +798,7 @@ function userAction()
 	document.getElementById("choices").innerHTML += "<br>";
 
 	currentEvents = [];
-	
+
 	//Adds events to button list randomly from those available and Prevents Duplicates and events with more time than is available
 	for(var i = 1;i<events.length;i++)
 	{
@@ -806,8 +808,8 @@ function userAction()
 		document.getElementById("choices").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
 	}
 	document.getElementById("choices").innerHTML += "<button onclick='action()'>Perform Action</button>";
-	document.getElementById("actionRadio1").checked = true; 
-	
+	document.getElementById("actionRadio1").checked = true;
+
 	//Show changes to screen
 	document.getElementById("choices").style.display = "block";
 };
@@ -817,18 +819,18 @@ function action()
 	//Clear previous screen
 	var choice = $('input[name="actionRadio"]:checked').val();
 	clearScreen();
-	
+
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 	chosenEvent = events[choice];
 	//console.log(chosenEvent);
 	back = false;
-	
+
 	//document.getElementById("choices").innerHTML += "<button type='button' onclick='userAction()' >View Poll "+ num +" Result </button>";
 	if(remainingHours >= chosenEvent.timeRequired)
 	{
 		chosenEvent = events[choice];
-	
+
 		if(chosenEvent.type=="smallEvent")
 		{
 			//Creates the screen for the event
@@ -845,7 +847,7 @@ function action()
 					case "Poor":
 						posText += "Poor Economic Status";
 					break;
-					
+
 					case "Low":
 						posText += "Lower Economic Status";
 					break;
@@ -858,11 +860,11 @@ function action()
 					case "High":
 						posText += "Upper Economic Status";
 					break;
-					
+
 					case "Fine Arts":
 						posText += "Fine Arts Major";
 					break;
-					
+
 					case "Bus":
 						posText += "Business Major";
 					break;
@@ -875,26 +877,26 @@ function action()
 					case "Tech":
 						posText += "Technology Major";
 					break;
-					
+
 					case "Media":
 						posText += "Media Lover Group";
 					break;
-					
+
 					case "Soc":
 						posText += "Socialite Group";
-					
+
 					break;
 					case "Read":
 						posText += "Reader Group";
-					
+
 					break;
 					case "Res":
 						posText += "Researcher Group";
-					
+
 					break;
 					case "Ath":
 						posText += "Athlete Group";
-					
+
 					break;
 				}
 				if(i != effects.length-1)
@@ -918,7 +920,7 @@ function action()
 					case "Poor":
 						negText += "Poor Economic Status";
 					break;
-					
+
 					case "Low":
 						negText += "Lower Economic Status";
 					break;
@@ -931,11 +933,11 @@ function action()
 					case "High":
 						negText += "Upper Economic Status";
 					break;
-					
+
 					case "Fine Arts":
 						negText += "Fine Arts Major";
 					break;
-					
+
 					case "Bus":
 						negText += "Business Major";
 					break;
@@ -948,26 +950,26 @@ function action()
 					case "Tech":
 						negText += "Technology Major";
 					break;
-					
+
 					case "Media":
 						negText += "Media Lover Group";
 					break;
-					
+
 					case "Soc":
 						negText += "Socialite Group";
-					
+
 					break;
 					case "Read":
 						negText += "Reader Group";
-					
+
 					break;
 					case "Res":
 						negText += "Researcher Group";
-					
+
 					break;
 					case "Ath":
 						negText += "Athlete Group";
-					
+
 					break;
 				}
 				if(i != negEffects.length-1)
@@ -980,8 +982,8 @@ function action()
 			}
 				document.getElementById("event").innerHTML += negText+ " </h4>";
 			}
-			
-	
+
+
 			for(var i =0; i<chosenEvent.options.length; i++)
 			{
 				var totalText = "";
@@ -1000,7 +1002,7 @@ function action()
 								case "Poor":
 									posText += "Poor Economic Status";
 								break;
-								
+
 								case "Low":
 									posText += "Lower Economic Status";
 								break;
@@ -1013,11 +1015,11 @@ function action()
 								case "High":
 									posText += "Upper Economic Status";
 								break;
-								
+
 								case "Fine Arts":
 									posText += "Fine Arts Major";
 								break;
-								
+
 								case "Bus":
 									posText += "Business Major";
 								break;
@@ -1030,26 +1032,26 @@ function action()
 								case "Tech":
 									posText += "Technology Major";
 								break;
-								
+
 								case "Media":
 									posText += "Media Lover Group";
 								break;
-								
+
 								case "Soc":
 									posText += "Socialite Group";
-								
+
 								break;
 								case "Read":
 									posText += "Reader Group";
-								
+
 								break;
 								case "Res":
 									posText += "Researcher Group";
-								
+
 								break;
 								case "Ath":
 									posText += "Athlete Group";
-								
+
 								break;
 							}
 							if(j != effects.length-1)
@@ -1073,7 +1075,7 @@ function action()
 								case "Poor":
 									negText += "Poor Economic Status";
 								break;
-								
+
 								case "Low":
 									negText += "Lower Economic Status";
 								break;
@@ -1086,11 +1088,11 @@ function action()
 								case "High":
 									negText += "Upper Economic Status";
 								break;
-								
+
 								case "Fine Arts":
 									negText += "Fine Arts Major";
 								break;
-								
+
 								case "Bus":
 									negText += "Business Major";
 								break;
@@ -1103,26 +1105,26 @@ function action()
 								case "Tech":
 									negText += "Technology Major";
 								break;
-								
+
 								case "Media":
 									negText += "Media Lover Group";
 								break;
-								
+
 								case "Soc":
 									negText += "Socialite Group";
-								
+
 								break;
 								case "Read":
 									negText += "Reader Group";
-								
+
 								break;
 								case "Res":
 									negText += "Researcher Group";
-								
+
 								break;
 								case "Ath":
 									negText += "Athlete Group";
-								
+
 								break;
 							}
 							if(j != negEffects.length-1)
@@ -1138,7 +1140,7 @@ function action()
 					document.getElementById("event").innerHTML += "<input type='radio' name = 'option' id = " + chosenEvent.options[i].optionID + ">" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours" +totalText+"<br>";
 				}
 			}
-			
+
 		}
 	document.getElementById("event").innerHTML += "<br> <button type='button' class='logEvent' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
 	}
@@ -1147,7 +1149,7 @@ function action()
 		document.getElementById("event").innerHTML += "<h4> You dont have the enough time left to do the selected action. \n Return to the User Action area to select another action or end the game.</h4>";
 	}
 
-	
+
 	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
 	//Show changes to screen
 	document.getElementById("event").style.display = "block";
@@ -1188,7 +1190,7 @@ function submitAction(id, eventHours)
 					var optionNegEffects = chosenEvent.options[j].negEffects.split(",");
 					for(var i =0;i<optionPosEffects.length;i++)
 					{totalPosEffects.push(optionPosEffects[i]);}
-					
+
 					for(var k =0;k<optionNegEffects.length;k++)
 					{totalNegEffects.push(optionNegEffects[k]);}
 				}
@@ -1217,8 +1219,7 @@ function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects
 {
 	console.log(remainingHours)
 	remainingHours-= eventHours;
-	console.log(remainingHours)
-	
+
 	candidates[1].lastMove = chosenEvent.name;
 
 	//Changes the player's score
@@ -1286,7 +1287,7 @@ function map(isTutorial){
 	back = false;
 	if(isTutorial || remainingHours> 3 )
 	{
-	
+
 		document.getElementById("sample").options.add(new Option("Sample 20 Students", 20));
 		if(remainingHours> 5 )
 			document.getElementById("sample").options.add(new Option("Sample 40 Students", 40));
@@ -1312,7 +1313,6 @@ function map(isTutorial){
 				document.getElementById("timeSpent").options.add(new Option("8 Hours", 80));
 
 
-			
 		document.getElementById("questions").innerHTML += "<h4> Poll Questions Every set of one or two questions you add will equal an hour. </h4> <br>";
 		//Populates the questions based on the JSON File
 		for(var i = 0; i<6 ;i++)
@@ -1323,6 +1323,8 @@ function map(isTutorial){
 			document.getElementById("poll"+i+"").options.add(new Option("None", none));
 				for(var j = 0; j<questions.length; j++)
 				{
+					if (j < 3 || j > 6){
+
 					if (j < 4 || j > 6){
 						
 						document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));
@@ -1335,7 +1337,7 @@ function map(isTutorial){
 	{
 		document.getElementById("event").innerHTML += "<h4> You do not have enough time remaining to take a poll.</h4>";
 	}
-	
+
 	document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph'>Total Time: "+ timeForPoll +" Hours</p><br>";
 	//Displays the screen for this event
 	document.getElementById("questionArea").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults("+ isTutorial +")'> Submit Poll </button><button id = 'moreQuestionButton'> Add More Questions </button>";
@@ -1382,12 +1384,12 @@ function minigamePlayer(id){
 	clearScreen();
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
-	
+
 	document.getElementById("event").innerHTML += "<canvas id='myCanvas' width='1000px' height = '500px'></canvas><br>";
 	var c=document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
-	
-	
+
+
 	c.addEventListener('mousemove', function(evt) {canvasMouse = getMousePos(c, evt);}, false);
 	switch(id)
 	{
@@ -1441,7 +1443,7 @@ function statementCalc(){
 		else if(currentStatement == 3){
 			candidates[0].eventNeg += 1;
 			}
-		
+
 	}
 	//calculate the candidate's constitution mod
 
@@ -1590,15 +1592,15 @@ function pollResults(isTutorial)
 			}
 		}
 	}
-	
+
 	var sample = document.getElementById("sample");
 	var sampleSize = parseFloat(sample.options[sample.selectedIndex].value);
-	
+
 	//Clear previous screen
 	clearScreen();
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
-	
+
 
 	if(pollChoices.length < 2)
 	{
@@ -2230,19 +2232,19 @@ function createSample(x, bias)
 }
 
 function getScores(x, bias){
-	
+
 	var groupRandom;
 
 	if(bias < 5){
 		var coinFlip = Math.floor(Math.random() * 3)
-		if(coinFlip == 1){			
+		if(coinFlip == 1){
 					groupRandom = bias;
-					
+
 				}
-	
+
 		else{
 					groupRandom = Math.floor(Math.random()* 5);
-					
+
 					while(groupRandom == bias){
 						groupRandom = Math.floor(Math.random()* 5);
 					}
@@ -2306,8 +2308,8 @@ function votePercentage(sampleSize, bias)
 			////console.log(candidates[j].name +" Fame: "+ fame);
 			if(j != 1)
 			{
-				var issues = parseFloat(sample[i].tuitionScore) * parseFloat(candidates[j].issueScore[0]) 
-				issues += parseFloat(sample[i].athleticScore) * parseFloat(candidates[j].issueScore[1]) 
+				var issues = parseFloat(sample[i].tuitionScore) * parseFloat(candidates[j].issueScore[0])
+				issues += parseFloat(sample[i].athleticScore) * parseFloat(candidates[j].issueScore[1])
 				issues += parseFloat(sample[i].researchScore)* parseFloat(candidates[j].issueScore[2])
 				issues += parseFloat(sample[i].eventScore)  * parseFloat(candidates[j].issueScore[3])
 				issues += parseFloat(sample[i].medicalScore) * parseFloat(candidates[j].issueScore[4]);
@@ -2315,8 +2317,8 @@ function votePercentage(sampleSize, bias)
 			}
 			else
 			{
-				var issues = Math.abs(parseFloat(sample[i].tuitionScore)) * parseFloat(candidates[j].issueScore[0]) 
-				issues += Math.abs(parseFloat(sample[i].athleticScore)) * parseFloat(candidates[j].issueScore[1]) 
+				var issues = Math.abs(parseFloat(sample[i].tuitionScore)) * parseFloat(candidates[j].issueScore[0])
+				issues += Math.abs(parseFloat(sample[i].athleticScore)) * parseFloat(candidates[j].issueScore[1])
 				issues += Math.abs(parseFloat(sample[i].researchScore))* parseFloat(candidates[j].issueScore[2])
 				issues += Math.abs(parseFloat(sample[i].eventScore))  * parseFloat(candidates[j].issueScore[3])
 				issues += Math.abs(parseFloat(sample[i].medicalScore)) * parseFloat(candidates[j].issueScore[4]);
@@ -2489,7 +2491,7 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 	graphData.push(questions[4].graph.split(','));
 	graphData.push(questions[5].graph.split(','));
 	graphData.push(questions[6].graph.split(','));
-	
+
 	var pollLabelArray = [];
 	pollLabelArray.push(questions[4].labels.split(','));
 	pollLabelArray.push(questions[5].labels.split(','));
@@ -2528,7 +2530,7 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 						graphData.push(questions[j].graph.split(','));
 						pollLabelArray.push(questions[j].labels.split(','));
 					}
-					else 
+					else
 					{
 						if(questions[j].value == "issue")
 						{
@@ -2567,7 +2569,7 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 				}
 			break;
 		}
-		
+
 	}
 	votePercentage(sampleSize, bias);
 	//Gets the results of each question
@@ -2607,10 +2609,10 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 		}
 		else if(ecoHolder == "high"){
 			graphData[1][4]++;
-		}		
+		}
 
 		tableArrays[6].push(sample[j].group);
-		
+
 		var groupHolder = sample[j].group;
 		if(groupHolder == "socialite"){
 			graphData[2][0]++;
@@ -2627,7 +2629,7 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 		else if(groupHolder == "reader"){
 			graphData[2][4]++;
 		}
-					
+
 		for(var i = 0; i < pollChoices.length ;i++)
 		{
 			switch(pollChoices[i])
@@ -2677,7 +2679,7 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 				else if(favName == "Medical"){
 					graphData[i+3][4]++;
 				}
-		
+
 				break;
 
 				case "issOpp":
@@ -2750,7 +2752,7 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 					}
 				break;
 
-				
+
 
 				case "fame":
 					var playFame = fameCalc(candidates[0],sample[j]).toFixed(2);
@@ -2824,7 +2826,7 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 							else{
 								graphData[i+3][2]++;
 							}
-							
+
 						break;
 
 						case "issueevents":
@@ -2874,20 +2876,19 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 					else{
 						graphData[i+3][0]++;
 					}
-					
+
 
 				}
-				
+
 				candCounter++;
 			}
 			for(var k = 1;k<candidates.length;k++)
 			{
 				if(pollChoices[i] == "candTrust" + candidates[k].name)
 				{
-					
+
 					tableArrays[candCounter].push(candidates[k].consMod);
-			
-					
+
 					if(candidates[k].consMod> 0.66){
 						graphData[i+3][0]++;
 					}
@@ -2898,9 +2899,9 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 						graphData[i+3][2]++;
 					}
 				}
-				
+
 				candCounter++;
-					
+
 			}
 
 		}
@@ -2917,8 +2918,8 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 //Builds a table by looping through the Array created by pollCalc and putting each value into a cell.
 function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, review, isTutorial)
 {
-	
-	////console.log(tableArray2);
+
+	//console.log(tableArray2);
 	var rowCounter = 0;
 	var cellCounter = 0;
 	var graphQuestions = [];
@@ -2927,7 +2928,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	var table = document.getElementById("pollTable");
 	var tableHead = document.getElementById("tableHead");
 	var headRow = tableHead.insertRow(0);
-	
+
 	//Makes the table headers based on the chose questions
 	for(var h = 0; h < pollChoices.length; h++)
 	{
@@ -2946,45 +2947,45 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 					cell.innerHTML = tableHeaders[0];
 					graphQuestions.push("issFav");
 				break;
-	
+
 				case "issOpp":
 						var cell = headRow.insertCell(h);
 						cell.innerHTML = tableHeaders[1];
 						graphQuestions.push("issOpp");
 				break;
-	
+
 				case "candFav":
 						var cell = headRow.insertCell(h);
 						cell.innerHTML = tableHeaders[2];
 						graphQuestions.push("candFav");
 				break;
-	
+
 				case "candOpp":
 						var cell = headRow.insertCell(h);
 						cell.innerHTML = tableHeaders[3];
 						graphQuestions.push("candOpp");
 				break;
-	
+
 				case "fame":
 						var cell = headRow.insertCell(h);
 						cell.innerHTML = tableHeaders[7];
 						graphQuestions.push("fame");
 				break;
-	
+
 				case "playTrust":
 						var cell = headRow.insertCell(h);
 						cell.innerHTML = tableHeaders[8];
 						graphQuestions.push("playTrust");
 				break;
 			}
-	
-	
+
+
 			for(var k = 0;k<positions.length;k++)
 			{
-			
+
 				if(pollChoices[h] == "issue" + positionsLower[k])
 				{
-				
+
 					switch(pollChoices[h])
 					{
 						case "issuetuition":
@@ -2992,30 +2993,30 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 							var posInfo = tableHeaders[9] + positions[0];
 							cell.innerHTML = posInfo;
 							graphQuestions.push("issuetuition");
-	
+
 						break;
-	
+
 						case "issueathletic":
 							var cell = headRow.insertCell(h);
 							var posInfo = tableHeaders[9] + positions[1];
 							cell.innerHTML = posInfo;
 							graphQuestions.push("issueathletic");
 						break;
-	
+
 						case "issueresearch":
 							var cell = headRow.insertCell(h);
 							var posInfo = tableHeaders[9] + positions[2];
 							cell.innerHTML = posInfo;
 							graphQuestions.push("issueresearch");
 						break;
-	
+
 						case "issueevents":
 							var cell = headRow.insertCell(h);
 							var posInfo = tableHeaders[9] + positions[3];
 							cell.innerHTML = posInfo;
 							graphQuestions.push("issueevents");
 						break;
-	
+
 						case "issuemedical":
 							var cell = headRow.insertCell(h);
 							var posInfo = tableHeaders[9] + positions[4];
@@ -3050,10 +3051,10 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 			{
 				var cell = headRow.insertCell(0);
 				cell.innerHTML = tableHeaders[4];
-				
+
 				var cell = headRow.insertCell(1);
 				cell.innerHTML = tableHeaders[5];
-				
+
 				var cell = headRow.insertCell(2);
 				cell.innerHTML = tableHeaders[6];
 			}
@@ -3064,7 +3065,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	{
 		row = table.insertRow(h);
 
-		
+
 		for(var i = 0; i < pollChoices.length+1;i++)
 		{
 			if(pollChoices[i] != null)
@@ -3075,22 +3076,22 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 							var cell = row.insertCell(i);
 							cell.innerHTML = tableArray2[0][h];
 					break;
-	
+
 					case "issOpp":
 								var cell = row.insertCell(i);
 								cell.innerHTML = tableArray2[1][h];
 					break;
-	
+
 					case "candFav":
 								var cell = row.insertCell(i);
 								cell.innerHTML = tableArray2[2][h];
 					break;
-	
+
 					case "candOpp":
 								var cell = row.insertCell(i);
 								cell.innerHTML = tableArray2[3][h];
 					break;
-	
+
 					case "fame":
 								var cell = row.insertCell(i);
 								cell.innerHTML = parseFloat(tableArray2[7][h]).toFixed(2);
@@ -3107,7 +3108,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 										cell.innerHTML = "Candidate Known: " + parseFloat(tableArray2[7][h]).toFixed(2);
 									}
 					break;
-	
+
 					case "playTrust":
 								var cell = row.insertCell(i);
 								if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.33)
@@ -3145,7 +3146,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 										cell.innerHTML = "Issue Liked Score: " + parseFloat(tableArray2[9][h]);
 									}
 							break;
-	
+
 							case "issueathletic":
 									var cell = row.insertCell(i);
 									if(tableArray2[10][h] <= -2)
@@ -3161,7 +3162,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 										cell.innerHTML = "Issue Liked Score: " + parseFloat(tableArray2[10][h]);
 									}
 							break;
-	
+
 							case "issueresearch":
 								cell = row.insertCell(i);
 								if(tableArray2[11][h] <= -2)
@@ -3177,7 +3178,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 										cell.innerHTML = "Issue Liked Score: " +parseFloat( tableArray2[11][h]);
 									}
 							break;
-	
+
 							case "issueevents":
 									var cell = row.insertCell(i);
 									if(tableArray2[12][h] <= -2)
@@ -3193,7 +3194,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 										cell.innerHTML = "Issue Liked Score: " + parseFloat(tableArray2[12][h]);
 									}
 							break;
-	
+
 							case "issuemedical":
 									var cell = row.insertCell(i);
 									if(tableArray2[13][h] <= -2)
@@ -3212,10 +3213,10 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 						}
 					}
 				}
-			
+
 
 				canCounter = 14;
-	
+
 				for(var k = 1;k<candidates.length;k++)
 				{
 					if(pollChoices[i] == "candFame" + candidates[k].name)
@@ -3256,13 +3257,13 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}		
 					}
-					
+
 					canCounter++;
-				
+
 				}
 			}
 		}
-		
+
 		var cell = row.insertCell(0);
 		cell.innerHTML = tableArray2[4][h];
 
@@ -3293,10 +3294,10 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	for(var u =0; u < graphQuestions.length; u++){		
 		document.getElementById("q"+u+"text").innerHTML = "";
 	}
-    
-   
+
+
 	for(var i = 0; i < graphQuestions.length; i++){
-	
+
 		var counter = 0;
 		var data = [];
 		var data2 = [];
@@ -3336,27 +3337,27 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 				name = 	"Lowering Tuition";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
-	
+
 			case "issueathletic":
 				name = 	"Increase Athletic Budget";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
-	
+
 			case "issueresearch":
 				name = 	"Increase Research Budget";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
-	
+
 			case "issueevents":
 				name = 	"More School Events";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
-	
+
 			case "issuemedical":
 				name = 	"Improve Medical Services";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
-			
+
 			default:
 			for(var k = 1;k<candidates.length;k++)
 			{
@@ -3366,7 +3367,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 					document.getElementById("q"+i+"text").innerHTML = questions[10].question + " " + name;
 				}
 			}
-			
+
 			for(var k = 1;k<candidates.length;k++)
 			{
 				if(graphQuestions[i] == "candTrust" + candidates[k].name)
@@ -3383,28 +3384,28 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 				////console.log(graphData[questionNum], " AT ", questions[qID].question)			
 				
 				data2[j]=graphData[i][j];
-					
+
 			}
-					
-    
+
+
 			var dataCounter = 0;
 			x = d3.scaleLinear()
 		    .domain([0, d3.max(data2)])
 		    .range([0, 420]);
-    
+
 			d3.select(".chart" + i)
 		  	.selectAll("div")
 		    .data(data2)
 		  	.enter().append("div")
 		    .style("width", function(d) { return x(d) + "px"; })
-		    .text(function(d) { 
+		    .text(function(d) {
 		    	var zid = graphLabels[i][dataCounter] + "-" + d;
 		  		////console.log(zid);
 		  		dataCounter++;
-		  	  		
+
 		    	return zid; })
 		    ;
-	
+
 	}
 	if (isTutorial){
 		review = true;
@@ -3519,7 +3520,7 @@ function saveGameState()
 			textContents+="_";
 	}
 	textContents+="~";
-	
+
 	// Save contents of pastPollSizes   into the text file
 	for(var i=0; i<pastPollSizes.length;i++)
 	{
@@ -3560,7 +3561,7 @@ function saveGameState()
 		textContents+=candidates[i].bodyTypeNum;
 			textContents+="*";
 		textContents+=candidates[i].headNum;
-			textContents+="*";	
+			textContents+="*";
 		textContents+=candidates[i].tuitPos;
 			textContents+="*";
 		textContents+=candidates[i].tuitNeg;
@@ -3585,7 +3586,7 @@ function saveGameState()
 				textContents+="_";
 	}
 	textContents+="~";
-	
+
 	//Save remainingHours
 	textContents+=remainingHours;
 	textContents+="~";
@@ -3603,7 +3604,7 @@ function saveGameState()
 		}
 	}
 	textContents+="~";
-	
+
 	//Save contents of pastGraphLabels into the text file
 	for(var i=0; i<pastGraphLabels.length;i++)
 	{
@@ -3619,7 +3620,7 @@ function saveGameState()
 	////console.log(pastGraphLabels);
 	textContents+="~";
 	//post all that information
-	$.post('/saver', {saveData: textContents});
+	$.post('/game/saver', {saveData: textContents});
 }
 
 function loadGame()
@@ -3637,7 +3638,7 @@ function loadGame()
 			pastPollChoices.push(ppcOuterArray[i].split("*"));
 		}
 	}
-	
+
 	// Past Poll Results Section
 	if(saveArray[1] != [])
 	{
@@ -3661,17 +3662,17 @@ function loadGame()
 			pastPollResults.push(pprResults);
 		}
 	}
-	
+
 	//Past Poll Sizes Section
 	if(saveArray[2] != [])
 	{
 		var ppsArray = saveArray[2].split("_");
 		pastPollSizes = ppsArray[0].split("*");
 	}
-		
+
 	//Candidates Section
 	var candArray = saveArray[3].split("_");
-	var candAtts=[]; 
+	var candAtts=[];
 	for( var i= 0; i < candArray.length; i++)
 	{
 		candAtts.push(candArray[i].split("*"));
@@ -3714,14 +3715,14 @@ function loadGame()
 		cand.medNeg = parseInt(candAtts[i][22]);
 		cand.eventPos = parseInt(candAtts[i][23]);
 		cand.eventNeg = parseInt(candAtts[i][24]);
-		
 
-		
+
+
 		candidates.push(cand);
 	}
 
-	////console.log(candAtts);
-	
+	//console.log(candAtts);
+
 	//Remaining Hours Section
 	remainingHours = parseInt(saveArray[4]);
 
@@ -3746,7 +3747,7 @@ function loadGame()
 	pastGraphData.push(graph);	
 	graph = [];
 	}
-	
+
 	// Past Graph Labels Section
 	if(saveArray[6] != [])
 	{
@@ -3771,7 +3772,7 @@ function loadGame()
 			////console.log(pglResults);
 		}
 	}
-	
+
 	back=true;
 	saveState = "";
 	userAction();
@@ -3782,13 +3783,13 @@ function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 {
 	var counter;
 	oppChoice=[0,1,2,3,4];
-	
+
 	for(var i =0; i <chosenIssues.length;i++)
 	{
 		oppChoice.splice(oppChoice.indexOf(chosenIssues[i]),1);
 	}
-	
-	
+
+
 	//Decides the opponents focus which cannot be the same as the player
 	var oppFocus = Math.floor(Math.random()*(5-chosenIssues.length));
 	candidate.focus = positions[oppChoice[oppFocus]];
@@ -3811,7 +3812,7 @@ function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 		candidate.issueScore[4]=issueVal;
 		break;
 	}
-	
+
 	if(issueCand)
 	{
 		chosenCandRanks.push(oppChoice[oppFocus]);
@@ -3876,7 +3877,7 @@ function getMousePos(canvas, evt)
 	};
 }
 
- 
+
 function gameResults(scores)
 {
 	clearScreen();
@@ -3903,12 +3904,12 @@ function gameResults(scores)
 		document.getElementById("event").innerHTML += "<h1>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame across all groups by "+1+"</h1>";
 		scoreChanger(candidates[0], 1,pos,[]);
 	}
-	
+
 	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	document.getElementById("next").style.display = "block";
 }
-	
- 
+
+
 window.onload = startGame();
 
 /* Console Disabling Code */
@@ -3978,7 +3979,7 @@ runningGame.main =
 		tier4: 20
 	},
 	stop: false,
-		
+
 	init: function (c,ctx)
 	{
 		ctx.restore;
@@ -4010,41 +4011,41 @@ runningGame.main =
 		
 		runningGame.main.lanes.push(
 		{
-			top : 0, 
+			top : 0,
 			bottom : 500,
 			left:0,
 			right:332
 		});
 		runningGame.main.lanes.push(
 		{
-			top : 0, 
+			top : 0,
 			bottom : 500,
 			left:334,
 			right:665
 		});
 		runningGame.main.lanes.push(
 		{
-			top : 0, 
+			top : 0,
 			bottom : 500,
 			left:667,
 			right:999
 		});
 		ctx.strokeRect(0, 0, 1000, 500);
-		
+
 		ctx.moveTo(333, 0)
 		ctx.lineTo(333,500);
 		ctx.stroke();
-	
+
 		ctx.moveTo(666, 0);
 		ctx.lineTo(666,500);
 		ctx.stroke();
-		
+
 		ctx.font = "20px Arial";
 		ctx.strokeText("Minutes Remaining: " +runningGame.main.time+"",790,20);
-		
+
 		ctx.font = "20px Arial";
 		ctx.strokeText("Score " +runningGame.main.scores.score+"",0,20);
-		
+
 		c.onmousedown = runningGame.main.doMousedown;
 		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/15)
 		{setTimeout(runningGame.main.enemyGenerator, i);}
@@ -4057,7 +4058,7 @@ runningGame.main =
 		setTimeout(runningGame.main.stopGame, runningGame.main.playTime);
 		runningGame.main.update(c,ctx);
 	},
-	
+
 	update: function (c,ctx)
 	{
 		if(!runningGame.main.stop)
@@ -4076,7 +4077,7 @@ runningGame.main =
 			}
 		}
 	},
-	
+
 	draw: function(c,ctx)
 	{
 		ctx.fillStyle = "#FFFFFF";
@@ -4098,16 +4099,16 @@ runningGame.main =
 		ctx.strokeText("Score " +runningGame.main.scores.score+"",0,20);
 			
 		ctx.fillStyle="#0000FF";
-		ctx.fillRect(runningGame.main.player.x,runningGame.main.player.y,runningGame.main.player.width,runningGame.main.player.height); 
+		ctx.fillRect(runningGame.main.player.x,runningGame.main.player.y,runningGame.main.player.width,runningGame.main.player.height);
 			for(var i=0;i<runningGame.main.enemies.length;i++)
 			{
 				ctx.fillStyle="#FF0000";
-				ctx.fillRect(runningGame.main.enemies[i].x,runningGame.main.enemies[i].y,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height); 
+				ctx.fillRect(runningGame.main.enemies[i].x,runningGame.main.enemies[i].y,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
 			}
 			for(var i=0;i<runningGame.main.coins.length;i++)
 			{
 				ctx.fillStyle="#00FF00";
-				ctx.fillRect(runningGame.main.coins[i].x,runningGame.main.coins[i].y,runningGame.main.coins[i].width,runningGame.main.coins[i].height); 
+				ctx.fillRect(runningGame.main.coins[i].x,runningGame.main.coins[i].y,runningGame.main.coins[i].width,runningGame.main.coins[i].height);
 			}
 	},
 	
@@ -4117,8 +4118,8 @@ runningGame.main =
 		var mouse = canvasMouse;
 		runningGame.main.laneChanger(mouse);
 	},
-	
-	laneChanger: function (mouse) 
+
+	laneChanger: function (mouse)
 	{
 		//console.log(runningGame.main.lanes);
 		//console.log(mouse);
@@ -4143,8 +4144,8 @@ runningGame.main =
 			}
 		}
 	},
-	
-	enemyGenerator: function () 
+
+	enemyGenerator: function ()
 	{
 		var add = true;
 		var lane = Math.floor(Math.random()* 3);
@@ -4183,8 +4184,8 @@ runningGame.main =
 
 		//console.log(runningGame.main.enemies);
 	},
-	
-	coinGenerator: function () 
+
+	coinGenerator: function ()
 	{
 		//var lane = Math.floor(Math.random()* 3);
 		//runningGame.main.coins.push(
@@ -4233,7 +4234,7 @@ runningGame.main =
 		}
 
 	},
-	
+
 	collisionDetector: function (rect1, rect2)
 	{
 		if (rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x && rect1.y < rect2.y + rect2.height && rect1.height + rect1.y > rect2.y) 
@@ -4241,7 +4242,7 @@ runningGame.main =
 		else
 			return false;
 	},
-	
+
 	collisionManager: function ()
 	{
 		for(var i=0;i<runningGame.main.enemies.length;i++)
@@ -4279,7 +4280,7 @@ runningGame.main =
 			}
 		}
 	},
-	
+
 	stopGame: function ()
 	{
 		runningGame.main.stop=true;
@@ -4289,10 +4290,10 @@ runningGame.main =
 	calculateDeltaTime: function()
 	{
 		var now,fps;
-		now = (+new Date); 
+		now = (+new Date);
 		fps = 1000 / (now - this.lastTime);
 		fps = Math.max(12, Math.min(60, fps));
-		this.lastTime = now; 
+		this.lastTime = now;
 		return 1/fps;
 	},
 
