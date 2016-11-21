@@ -1332,6 +1332,7 @@ function map(isTutorial){
 				}
 			document.getElementById("questionArea").innerHTML += "<br><br>";
 		}
+	  }
 	}
 	else
 	{
