@@ -19,20 +19,50 @@
 * Create the [newPageName].js in the appropriate folder inside mvc/controller with the following:
 
 ``` js
-var auth = require('../model/auth');
+// Require express
+var express = require('express'),
+    // Get the express Router
+    router = express.Router(),
+    // Require the Auth middleware
+    auth = require('../model/auth');
 
-module.exports = function(app){
+/**
+ * router - GET method for [NewPageName] route '/[NewPageName]'
+ * @param  {String} '/'    - local route string
+ * @param  {Function} auth - authentication middleware
+ * @param  {Object} req    - Express Request Object
+ * @param  {Object} res    - Express Response Object
+ */
+router.get('/', auth, function (req, res) {
+  render[NewPageName](req, res);
+});
 
-  app.get('/[newPageName]', auth, function(req,res){
-    render[NewPageName](req, res);
-  });
+/**
+ * router - POST method for [NewPageName] route '/[NewPageName]'
+ * @param  {String} '/'    - local route string
+ * @param  {Function} auth - authentication middleware
+ * @param  {Object} req    - Express Request Object
+ * @param  {Object} res    - Express Response Object
+ */
+router.post('/', auth, function (req, res) {
+  res.redirect('/[newPageName]');
+});
 
-  function render[NewPageName] (req, res) {
-   var model = require('./../model/global')(req, res);
+/**
+ * render[NewPageName] - renders the [NewPageName] view
+ * @param  {Object} req - Express Request Object
+ * @param  {Object} res - Express Response Object
+ */
+function render[NewPageName] (req, res) {
+  // Require the global app model
+  var model = require('./../model/global')(req, res);
 
-   res.render('[newPageName]', model);
-  }
-};
+  // Render /[newPageName] using the '[newPageName]' view and model
+  res.render('[newPageName]', model);
+}
+
+// Export [NewPageName] router
+module.exports = router;
 ```
 
 #### Creating a view
@@ -41,23 +71,17 @@ module.exports = function(app){
 
 ``` html
 <main id='[new-page-name]'>
-
   <article class='wrapper'>
-
     <header>
-
+      <h1>Mars University</h1>
     </header>
-
     <section>
-
+      <p>Lorem ipsum</p>
     </section>
-
     <footer id='footer'>
-
+      <p>Thinking Cap &copy; 2016</p>
     </footer>
-
   </article>
-
 </main>
 ```
 #### Creating a model

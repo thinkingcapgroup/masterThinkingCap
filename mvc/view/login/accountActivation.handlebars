@@ -22,26 +22,6 @@
     </header>
     <section>
       <form class='form' action='/accountActivation' method='post'>
-        {{#if codeState}}
-          <legend>Activate Account</legend>
-          <p>
-            Please enter your activation code below.
-          </p>
-          <ul class='form-fields'>
-            <li>
-              <label id='activationCodeLabel' for='activationCode'>Activation Code:</label>
-              <input id='activationCode' class='input' type='text' name='activationCode'/>
-            </li>
-            <ul class='action-links'>
-              <li>
-                <button class='btn' type='submit' name='activateAccount' value='true'>Activate Account</button>
-              </li>
-              <li>
-                <button class='btn' type='submit' name='activationEmailState' value='true'>Resend Activation Email</button>
-              </li>
-            </ul>
-          </ul>
-          {{else}}
           <legend>Resend Account Activation Email</legend>
           <p>
             So that we can send you the account activation email please type in your email below.
@@ -62,7 +42,6 @@
               </li>
             </ul>
           </ul>
-        {{/if}}
       </form>
     </section>
     <footer id='footer'>
