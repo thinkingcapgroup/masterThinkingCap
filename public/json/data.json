@@ -536,7 +536,7 @@
 					"optionName":"Minigame",
 					"optionID":"Minigame",
 					"type":"game",
-					"extraTime" : "3", 
+					"extraTime" : "1", 
 					"posEffects":"",
 					"negEffects":"",
 					"loader": "1"
