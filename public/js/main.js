@@ -2,7 +2,7 @@
   'use strict';
 
   var bugReportButton = document.getElementById('bug-report-button'),
-      bugReportForm = document.getElementById('bug-report-form'),
+      bugReportModal = document.getElementById('bug-report-modal'),
       bugReportCancelButton = document.getElementById('bug-report-cancel-button');
 
   // Event listeners
@@ -37,11 +37,11 @@
 
   // Shows the bug report modal
   function displayBugReportModal () {
-    bugReportForm.classList.remove('hide');
+    bugReportModal.classList.remove('hide');
   }
 
   // Hides the bug report modal
   function hideBugReportModal () {
-    bugReportForm.classList.add('hide');
+    bugReportModal.classList.add('hide');
   }
 }());

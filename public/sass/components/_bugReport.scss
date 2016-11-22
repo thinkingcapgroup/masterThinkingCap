@@ -22,13 +22,33 @@
   }
 }
 
+#bug-report-modal {
+
+  &:not(.hide) {
+    position: fixed;
+    top: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: rgba(31, 29, 32, 0.7);
+  }
+}
+
 #bug-report-form {
   background: $white;
   border-radius: 4px;
-  position: fixed;
-  border:solid;
-
+  position: absolute;
+  overflow: auto;
   @include center(xy);
+
+  width: 90%;
+  height: 90%;
+  max-width: $M;
+
+  @include MQ (M) {
+    height: auto;
+  }
 
   #bug-report-title {
     text-align: center;
@@ -43,19 +63,27 @@
     margin: 1em;
 
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
+
+    @include MQ (M) {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
   }
 
   .bug-report-field {
-    flex-basis: 50%;
+    flex-basis: 100%;
 
     display: flex;
     flex-direction: column;
     padding: $content-padding;
 
-    &:last-of-type {
-      flex-basis: 100%;
+    @include MQ (M) {
+      flex-basis: 50%;
+
+      &:last-of-type {
+        flex-basis: 100%;
+      }
     }
   }
 
@@ -64,6 +92,7 @@
     #bug-report-description {
     margin-top: 1em;
     padding: 1em;
+    border: 1px solid $foreground-color-accent;
   }
 
   #bug-report-categories {
@@ -77,8 +106,12 @@
   }
 
   .bug-report-action {
-    flex-basis: 50%;
+    flex-basis: 100%;
     margin-bottom: 0;
+
+    @include MQ (M) {
+      flex-basis: 50%;
+    }
 
     button {
       background: none;

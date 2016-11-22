@@ -1,41 +1,106 @@
-var errorNotifications = [];
+// Require express
+var express = require('express'),
+    // Get the express Router
+    router = express.Router(),
+    // Notifications
+    errorNotifications = [], successNotifications = [];
 
-module.exports = function(app){
-  app.get('/login', function(req,res){
-    renderLogin(req, res);
-  });
+/**
+ * router - GET method for login route '/login'
+ * @param  {String} '/' - local route string
+ * @param  {Object} req - Express Request Object
+ * @param  {Object} res - Express Response Object
+ */
+router.get('/', function (req,res) {
+  // Render login view
+  renderLogin(req, res);
+});
 
-  app.post('/login', function(req,res){
-    var encrypt = require('../../model/encrypt');
+/**
+ * router - POST method for login route '/login'
+ * @param  {String} '/' - local route string
+ * @param  {Object} req - Express Request Object
+ * @param  {Object} res - Express Response Object
+ */
+router.post('/', function (req,res) {
+  // Verify user login info
+  loginUser(req, res);
+});
 
-    console.log('post');
-    if (req.body.loginSubmit) {
-      req.user = {
-        userName: req.body.username,
-        password: encrypt(req.body.password)
-      };
-      
-      res.cookie('username', req.user.userName);
-      res.cookie('password', req.user.password);
+/**
+ * renderLogin - renders the login view
+ * @param  {Object} req - Express Request Object
+ * @param  {Object} res - Express Response Object
+ */
+function renderLogin (req, res) {
+  // Require the global app model
+  var model = require('../../model/global')(req, res);
 
-      res.redirect('/dashboard');
-    }
-    else {
-      res.redirect('/login');
-    }
-  });
+  // Reset Notifications
+  errorNotifications.length = successNotifications.length = 0;
 
-  function renderLogin (req, res) {
-    var model = require('../../model/global')(req, res);
+  // If there is a login error notifification
+  if (req.cookies.loginErrorMessage) {
+    // push to the array
+    errorNotifications.push(req.cookies.loginErrorMessage);
 
-    errorNotifications.length = 0;
-
-    if (req.cookies.loginErrorMessage) {
-      errorNotifications.push(req.cookies.loginErrorMessage);
-      model.errorNotifications = errorNotifications;
-    }
-
-    res.clearCookie('loginErrorMessage');
-    res.render('login/login', model);
+    // add to the model
+    model.errorNotifications = errorNotifications;
   }
-};
+
+  // If there is a login success notifification
+  if (req.cookies.loginSuccessMessage) {
+    // push to the array
+    successNotifications.push(req.cookies.loginErrorMessage);
+
+    // add to the model
+    model.successNotifications = successNotifications;
+  }
+
+  // Clear notifification cookies
+  res.clearCookie('loginSuccessMessage');
+  res.clearCookie('loginErrorMessage');
+
+  // Render /login using the 'login/login' view and model
+  res.render('login/login', model);
+}
+
+/**
+ * loginUser - verifies user credentials and logs them in
+ * if they are valid, otherwise redirects to /login
+ * @param  {Object} req - Express Request Object
+ * @param  {Object} res - Express Response Object
+ */
+function loginUser (req, res) {
+  // Require our encryption model
+  var encrypt = require('../../model/encrypt'),
+      // Request body
+      rb = req.body;
+
+  // If user pressed loginSubmit button
+  if (rb.loginSubmit) {
+    // Set request user
+    req.user = {
+      // userName as the typed username
+      userName: rb.username,
+      // password as the encrypted version of typed password
+      password: encrypt(rb.password)
+    };
+
+    // Set cookies for user credentials
+    res.cookie('username', req.user.userName);
+    res.cookie('password', req.user.password);
+
+    // Redirect to /dashboard where they will go through authentication
+    res.redirect('/dashboard');
+  }
+
+  // Otherwise
+  else {
+    // Redirect to /login
+    res.redirect('/login');
+  }
+}
+
+// Export login router
+module.exports = router;

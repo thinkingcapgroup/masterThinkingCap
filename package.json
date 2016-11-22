@@ -19,6 +19,7 @@
     "express-handlebars": "^3.0.0",
     "express-recaptcha": "^2.1.0",
     "express-session": "^1.14.1",
+    "lodash": "^4.17.2",
     "mysql": "^2.11.1",
     "node-sass-middleware": "^0.9.8",
     "nodemailer": "^2.6.4",

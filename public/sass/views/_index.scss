@@ -1,9 +1,8 @@
 #index {
 
   #index-section {
-    position: absolute;
+    margin-top: 2em;
     text-align: center;
-    @include center(xy);
     text-transform: uppercase;
   }
 
