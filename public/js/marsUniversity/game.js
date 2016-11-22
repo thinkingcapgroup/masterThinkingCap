@@ -6,6 +6,7 @@ var playerCandidate = new CandidateCreate("ph");
 var opponentCandidate = new CandidateCreate("Liz");
 var fakeCandidateHolder = []
 var currentCandidateArrayHolder = []
+var graphData = [];
 
 
 var fakeCandidateYou = new CandidateCreate('FakeCandidate1');
@@ -804,7 +805,7 @@ function userAction()
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='map(false)'> Take A Poll </button>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='statement()'> Make a Statement</button>";
-	document.getElementById("choices").innerHTML += "<button type='button' class='logEvent' onclick='gameCycleEnd()'> Skip to the End </button>";
+	document.getElementById("choices").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button>";
 	document.getElementById("choices").innerHTML += "<br>";
 	for(var i=0; i<pastPollResults.length;i++)
 	{
@@ -1342,12 +1343,12 @@ function map(isTutorial){
 			document.getElementById("poll"+i+"").options.add(new Option("None", none));
 				for(var j = 0; j<questions.length; j++)
 				{
-					if (j < 3 || j > 6){
+				
 
 					if (j < 4 || j > 6){
 						
 						document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));
-					}
+					
 				}
 			
 		}
@@ -2530,7 +2531,7 @@ function reportViewer(id)
 //Calculates the results of each poll question from each student in the sample and stores them in an array
 function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 {	
-	var graphData = [];
+	graphData = [];
 	graphData.push(questions[4].graph.split(','));
 	graphData.push(questions[5].graph.split(','));
 	graphData.push(questions[6].graph.split(','));
@@ -2954,6 +2955,8 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 	if(isTutorial){
 		reviewFlag = true;
 	}
+
+	console.log(graphData);
 	////console.log(tableArrays);
 	tableBuilder(pollChoices, tableArrays, sampleSize, graphData, pollLabelArray, reviewFlag, isTutorial);
 }
@@ -3422,12 +3425,10 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		}
 		////console.log("Question "+graphQuestions[i] + " has a length of: " + graphData[i].length);
 		////console.log(graphData[questionNum]);
-    
+    	console.log(graphData, graphData[i]);
 		for (var j = 0; j < graphData[i].length; j++){
-				////console.log(graphData[questionNum], " AT ", questions[qID].question)			
-				
+				////console.log(graphData[questionNum], " AT ", questions[qID].question)					
 				data2[j]=graphData[i][j];
-
 			}
 
 
@@ -3450,6 +3451,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		    ;
 
 	}
+	document.getElementById('table').style.display = 'none'
 	if (isTutorial){
 		review = true;
 

@@ -51,3 +51,120 @@
 2-issOpp-candFav-undefined-undefined-undefined-undefined
 2-Fun Run-1479740779405
 2-issFav-playTrust-undefined-undefined-undefined-undefined
+2-Fun Run-1479827066706
+2-Interview-1479827133562
+2-Community Service-1479827137151
+2-fame-candFav-undefined-undefined-undefined-undefined
+2-issFav-issOpp-undefined-undefined-undefined-undefined
+2-candFav-fame-undefined-undefined-undefined-undefined
+2-playTrust-issue-undefined-undefined-undefined-undefined
+2-fame-candFav-undefined-undefined-undefined-undefined
+2-fame-candFav-undefined-undefined-undefined-undefined
+2-candFav-playTrust-undefined-undefined-undefined-undefined
+2-issFav-issue-undefined-undefined-undefined-undefined
+2-candOpp-undefined-undefined-undefined-undefined-undefined
+2-candFav-candOpp-undefined-undefined-undefined-undefined
+2-candFav-candOpp-undefined-undefined-undefined-undefined
+2-candFav-candOpp-undefined-undefined-undefined-undefined
+2-candFav-candOpp-undefined-undefined-undefined-undefined
+2-candOpp-candFav-undefined-undefined-undefined-undefined
+2-issue-candTrust-undefined-undefined-undefined-undefined
+2-candOpp-candFav-undefined-undefined-undefined-undefined
+2-Party-1479830089997
+2-issFav-candFav-undefined-undefined-undefined-undefined
+2-issFav-playTrust-undefined-undefined-undefined-undefined
+2-candFav-playTrust-undefined-undefined-undefined-undefined
+2-Movie Night-1479830146765
+2-Fun Run-1479830151051
+2-Party-1479830225923
+2-Dance-1479830230356
+2-Attend Symposium-1479830233604
+2-Attend Clubs-1479830239061
+2-Meet and Greets-1479830244668
+2-Interview-1479830248932
+2-fame-candFav-undefined-undefined-undefined-undefined
+2-Fun Run-1479830292329
+2-issFav-issOpp-undefined-undefined-undefined-undefined
+2-Attend Symposium-1479830375702
+2-Reddit AMA-1479830382389
+2-Debate-1479830385260
+2-Food Giveaway-1479830394588
+2-Party-1479830406956
+2-Open Mic Night-1479830410796
+2-Posters-1479830447940
+2-Fun Run-1479830453101
+2-candFav-fame-issue-playTrust-undefined-undefined
+2-Fun Run-1479830557701
+2-Food Giveaway-1479830629163
+2-Interview-1479830632306
+2-candFav-issFav-issOpp-playTrust-undefined-undefined
+2-Fun Run-1479830772529
+2-candFame-issue-issOpp-playTrust-undefined-undefined
+2-Charity Event-1479833330299
+2-Movie Night-1479833333187
+2-Dance-1479833339467
+2-Study Session-1479833341988
+2-Fundraisers-1479833360525
+2-Interview-1479833364930
+2-Fun Run-1479833368666
+2-issFav-fame-issOpp-playTrust-undefined-undefined
+2-issFav-issue-issOpp-playTrust-undefined-undefined
+2-Matching Game-1479833472499
+2-Food Giveaway-1479833476258
+2-Study Session-1479833479939
+2-Reddit AMA-1479833484720
+2-Movie Night-1479833489091
+2-Matching Game-1479833492354
+2-Matching Game-1479833495114
+2-Party-1479833501115
+2-playTrust-issFav-undefined-undefined-undefined-undefined
+2-candOpp-candFav-undefined-undefined-undefined-undefined
+2-candOpp-candFav-undefined-undefined-undefined-undefined
+2-Debate-1479839020901
+2-Participate in Study-1479839029480
+2-candFame-candTrust-undefined-undefined-undefined-undefined
+2-candFav-issue-undefined-undefined-undefined-undefined
+2-candOpp-issue-undefined-undefined-undefined-undefined
+2-candFav-playTrust-undefined-undefined-undefined-undefined
+2-Food Giveaway-1479839216633
+2-issOpp-candTrust-undefined-undefined-undefined-undefined
+2-issFav-issOpp-undefined-undefined-undefined-undefined
+2-issue-issOpp-undefined-issFav-candOpp-undefined
+2-issue-issOpp-issFav-candOpp-undefined-undefined
+2-issOpp-candTrust-issFav-candOpp-undefined-undefined
+2-issue-candOpp-issFav-candOpp-undefined-undefined
+2-issOpp-issue-undefined-undefined-undefined-undefined
+2-candFav-fame-undefined-undefined-undefined-undefined
+2-candFav-fame-playTrust-candOpp-undefined-undefined
+2-fame-fame-playTrust-candOpp-undefined-issue
+2-candFav-fame-undefined-undefined-undefined-undefined
+2-issue-candTrust-issOpp-candOpp-undefined-undefined
+2-candOpp-candFame-issOpp-candOpp-undefined-candOpp
+2-candFav-candTrust-fame-candOpp-undefined-issOpp
+2-issue-candFav-fame-candOpp-undefined-issOpp
+2-candTrust--fame-candOpp-undefined-candFame
+2-Reddit AMA-1479840488291
+2-issFav-candOpp-fame-candOpp-undefined-candFame
+2---fame-candOpp-issFav-issOpp
+2-candFav-fame-undefined-undefined-undefined-undefined
+2-candFav-candFame-issFav-fame-candOpp-candTrust
+2-candFav-playTrust-issFav-candFame-undefined-undefined
+2-candFame-playTrust-issOpp-candFame-candFav-candOpp
+2-issOpp-issue-candTrust-issOpp-undefined-undefined
+2-candFame-candTrust-candFav-issFav-issOpp-candOpp
+2-fame-issue-candFav-issFav-issOpp-candOpp
+2-playTrust-issue-issOpp-candOpp-playTrust-candOpp
+2-issOpp-playTrust-issFav-candTrust-candTrust-candTrust
+2-candFav-candFame-issFav-issOpp-candOpp-candTrust
+2-issOpp-candFav-issue-undefined-candOpp-undefined
+2-playTrust-candFame-issue-issFav-candTrust-fame
+2-issOpp-playTrust-issue-candOpp-candTrust-fame
+2-fame-candFame-issue-candOpp-candTrust-fame
+2-End Game Winner - Liz-1479843051053
+2-End Game Winner - Liz-1479844117374
+2-End Game Winner - Liz-1479844146471
+2-End Game Winner - Liz-Player Rank:undefined=1479844186049
+2-End Game Winner - Liz-Player Rank:undefined=1479844241609
+2-End Game Winner - Liz-Player Rank:undefined=1479844500661
+2-End Game Winner - Liz-Player Rank:undefined-1479844554030
+2-End Game Winner - Liz-Player Rank:5-1479844588196
