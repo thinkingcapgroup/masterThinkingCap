@@ -2442,7 +2442,7 @@ function fameCalc(cand, student)
 		fame+= cand.fame[14];
 		break;
 	}
-	return fame/3;
+	return fame/6;
 }
 
 function clearScreen()
