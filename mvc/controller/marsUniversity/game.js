@@ -125,8 +125,6 @@ function renderMarsUniversityGame (req, res) {
   model.content.pageTitle = 'Thinking Cap - Mars University';
   model.content.gameTitle = 'Mars University';
 
-  console.log(req.user.id + " is the id when loading");
-
   // Get the loadSave model
   require('../../model/marsUniversity/loadSave.js')(req, auth, function (err, success) {
     // If there was an error
