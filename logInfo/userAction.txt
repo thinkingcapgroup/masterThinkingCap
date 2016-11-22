@@ -160,3 +160,11 @@
 2-playTrust-candFame-issue-issFav-candTrust-fame
 2-issOpp-playTrust-issue-candOpp-candTrust-fame
 2-fame-candFame-issue-candOpp-candTrust-fame
+2-End Game Winner - Liz-1479843051053
+2-End Game Winner - Liz-1479844117374
+2-End Game Winner - Liz-1479844146471
+2-End Game Winner - Liz-Player Rank:undefined=1479844186049
+2-End Game Winner - Liz-Player Rank:undefined=1479844241609
+2-End Game Winner - Liz-Player Rank:undefined=1479844500661
+2-End Game Winner - Liz-Player Rank:undefined-1479844554030
+2-End Game Winner - Liz-Player Rank:5-1479844588196

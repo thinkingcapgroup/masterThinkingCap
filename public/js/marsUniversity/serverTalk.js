@@ -17,6 +17,23 @@ $(document).on('click','.logEvent', function(req, res, next){
      } )
  });
 
+$(document).on('click','.logEventEnd', function(req, res, next){
+      //grab event ID
+      //userAction
+     setTimeout(function(){
+      var winning = 'End Game Winner - ' + ranking[0].name;
+      var playerRank = 0;
+      for(var q = 0; q < ranking.length; q++){
+        if(ranking[q].name == candidates[0].name){
+          playerRank = q+1;
+        }
+      }
+      console.log(playerRank);
+        $.post('/game/loggerEnd', {eventName: winning, rank: playerRank });
+      
+      }, 1000);
+ });
+
 $(document).on('change', '.totalTimeTracker', function(){
   var samp = document.getElementById('sample').value;
   var qLength = 0;
