@@ -168,3 +168,13 @@
 2-End Game Winner - Liz-Player Rank:undefined=1479844500661
 2-End Game Winner - Liz-Player Rank:undefined-1479844554030
 2-End Game Winner - Liz-Player Rank:5-1479844588196
+2-candFav-issue-undefined-undefined-undefined-undefined
+2-issOpp-playTrust-undefined-undefined-undefined-undefined
+2-issOpp-candFame-undefined-undefined-undefined-undefined
+2-issFav-candOpp-undefined-undefined-undefined-undefined
+2-issFav-issue-undefined-undefined-undefined-undefined
+2-issOpp-issue-undefined-undefined-undefined-undefined
+2-Attend Clubs-1479914860300
+2-End Game Winner - Liz-Player Rank:3-1479914866482
+2-issFav-candFame-undefined-undefined-undefined-undefined
+2-issOpp-fame-undefined-undefined-undefined-undefined

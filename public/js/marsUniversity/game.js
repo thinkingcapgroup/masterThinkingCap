@@ -3278,7 +3278,22 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		cell.innerHTML = tableArray2[6][h];
 	}
 	sorttable.makeSortable(document.getElementById('tab'));
+	document.getElementById("next").innerHTML += "<div id = 'filterArea'></div>"
 	document.getElementById("next").innerHTML += "<br><button value = 'true' id = 'rawDataButton' onclick = 'changeData()'>Look at Raw Data</button><br>";
+	for (var x = 0; x < groupList.length; x++){
+		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ groupList[x] +"'> "+ groupList[x] +" ";
+	}
+	document.getElementById('filterArea').innerHTML +='<br>'
+	for (var x = 0; x < groupList.length; x++){
+		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ stuEconomic[x] +"'> "+ stuEconomic[x] +" ";
+	}
+	document.getElementById('filterArea').innerHTML +='<br>'
+	for (var x = 0; x < groupList.length; x++){
+		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ majorList[x] +"'> "+ majorList[x] +" ";
+	}
+	document.getElementById('filterArea').innerHTML +='<br>'
+	document.getElementById('filterArea').style.display = "none";
+
 	var counter = 0;
 	document.getElementById("gameInfo").innerHTML += "<div id = 'chartDiv' style = 'display:block'></div>"
 	//graph dat table
@@ -3383,7 +3398,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		}
 		////console.log("Question "+graphQuestions[i] + " has a length of: " + graphData[i].length);
 		////console.log(graphData[questionNum]);
-    	console.log(graphData, graphData[i]);
+    
 		for (var j = 0; j < graphData[i].length; j++){
 				////console.log(graphData[questionNum], " AT ", questions[qID].question)					
 				data2[j]=graphData[i][j];
@@ -3437,11 +3452,13 @@ function changeData(){
 	if(isRawData == 'true'){
 		document.getElementById('rawDataButton').value = false;
 		document.getElementById('table').style.display = 'block'
+		document.getElementById('filterArea').style.display = 'block'
 		document.getElementById('chartDiv').style.display = 'none'
 	}
 	else{
 		document.getElementById('rawDataButton').value = true;
 		document.getElementById('table').style.display = 'none'
+		document.getElementById('filterArea').style.display = 'none'
 		document.getElementById('chartDiv').style.display = 'block'
 	}
 
