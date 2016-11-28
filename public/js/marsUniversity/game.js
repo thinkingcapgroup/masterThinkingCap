@@ -158,18 +158,18 @@ function startGame(){
 function splashScreen()
 {
 	clearScreen();
-	document.getElementById("gameInfo").innerHTML = "<div id = 'intro' style = 'text-align:center; font-size: 250%;'><br><h1>Welcome to Mars University! </h1><br><button onclick = 'startAnimatic()' style = 'font-size: 30px;'>New Game</button><br><br><button onclick = 'loadGame()' style = 'font-size: 30px;'>Continue</button><br><br><button onclick = 'startPractice()' style = 'font-size: 30px;'>Practice</button></div>";
+	document.getElementById("gameInfo").innerHTML = "<div id = 'intro' style = 'text-align:center; '><br><h1 style = ' font-size: 250%;'>Welcome to Mars University! </h1><br><a onclick = 'startAnimatic()' class = 'btn double remove' class = 'btn double remove'>New Game</a><br><br><a onclick = 'loadGame()' class = 'btn double remove'>Continue</a><br><br><a onclick = 'startPractice()' class = 'btn double remove'>Practice</a></div>";
 }
 function startAnimatic()
 {
-	document.getElementById("gameInfo").innerHTML = "<p>Welcome to Mars University! <br>Animatic will be going on here during this time. </p> </br> <button onclick = 'startCharacterSelect()'>Continue After Animatic Finish</button>";
+	document.getElementById("gameInfo").innerHTML = "<p>Welcome to Mars University! <br>Animatic will be going on here during this time. </p> </br> <a onclick = 'startCharacterSelect()' class = 'btn double remove'>Continue After Animatic Finish</a>";
 }
 
 function startPractice()
 {
 	clearScreen();
 	practice = true;
-	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; font-size: 250%;'><br><h1>Practice</h1><br><button onclick = 'map(true)' style = 'font-size: 30px;'>Polling Tutorial</button><br><br><button onclick = 'practiceGame(1)' style = 'font-size: 30px;'>Minigame 1</button></div> <br><br><button onclick = 'splashScreen()' style = 'font-size: 20px;'>Return to Start Menu</button>";
+	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 style = 'font-size: 250%;'>Practice</h1><br><a onclick = 'map(true)' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' class = 'btn double remove'>Minigame 1</a></div> <br><br><a onclick = 'splashScreen()' class = 'btn double remove'>Return to Start Menu</a>";
 }
 
 function startCharacterSelect(){
