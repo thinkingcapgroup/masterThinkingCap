@@ -6,6 +6,7 @@ var playerCandidate = new CandidateCreate("ph");
 var opponentCandidate = new CandidateCreate("Liz");
 var fakeCandidateHolder = []
 var currentCandidateArrayHolder = []
+var graphData = [];
 
 
 var fakeCandidateYou = new CandidateCreate('FakeCandidate1');
@@ -34,6 +35,7 @@ var c;
 var ctx;
 var qPollHolder;
 var ranking;
+var practice = false;
 
 //sprite stuff
 var heads = new Image();
@@ -153,6 +155,23 @@ function startGame(){
 }
 
 /*GAME INTRO FUNCTIONS8*/
+function splashScreen()
+{
+	clearScreen();
+	document.getElementById("gameInfo").innerHTML = "<div id = 'intro' style = 'text-align:center; '><br><h1 style = ' font-size: 250%;'>Welcome to Mars University! </h1><br><a onclick = 'startAnimatic()' class = 'btn double remove' class = 'btn double remove'>New Game</a><br><br><a onclick = 'loadGame()' class = 'btn double remove'>Continue</a><br><br><a onclick = 'startPractice()' class = 'btn double remove'>Practice</a></div>";
+}
+function startAnimatic()
+{
+	document.getElementById("gameInfo").innerHTML = "<p>Welcome to Mars University! <br>Animatic will be going on here during this time. </p> </br> <a onclick = 'startCharacterSelect()' class = 'btn double remove'>Continue After Animatic Finish</a>";
+}
+
+function startPractice()
+{
+	clearScreen();
+	practice = true;
+	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 style = 'font-size: 250%;'>Practice</h1><br><a onclick = 'map(true)' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' class = 'btn double remove'>Minigame 1</a></div> <br><br><a onclick = 'splashScreen()' class = 'btn double remove'>Return to Start Menu</a>";
+}
+
 function startCharacterSelect(){
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
@@ -786,7 +805,7 @@ function userAction()
 	document.getElementById("playerInfo").innerHTML += "<h3> Remaining Hours: " + remainingHours + "</h3>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='map(false)'> Take A Poll </button>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='statement()'> Make a Statement</button>";
-	document.getElementById("choices").innerHTML += "<button type='button' class='logEvent' onclick='gameCycleEnd()'> Skip to the End </button>";
+	document.getElementById("choices").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button>";
 	document.getElementById("choices").innerHTML += "<br>";
 	for(var i=0; i<pastPollResults.length;i++)
 	{
@@ -1232,6 +1251,7 @@ function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects
 	}
 	else
 	{
+		saveGameState();
 		userAction();
 	}
 };
@@ -1323,12 +1343,12 @@ function map(isTutorial){
 			document.getElementById("poll"+i+"").options.add(new Option("None", none));
 				for(var j = 0; j<questions.length; j++)
 				{
-					if (j < 3 || j > 6){
+				
 
 					if (j < 4 || j > 6){
 						
 						document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));
-					}
+					
 				}
 			
 		}
@@ -1386,6 +1406,29 @@ function minigamePlayer(id){
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 
+	document.getElementById("event").innerHTML += "<canvas id='myCanvas' width='1000px' height = '500px'></canvas><br>";
+	var c=document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+
+
+	c.addEventListener('mousemove', function(evt) {canvasMouse = getMousePos(c, evt);}, false);
+	switch(id)
+	{
+		case 1:
+		runningGame.main.init(c,ctx);
+		break;
+	}	
+}
+
+function practiceGame(id){
+		//Clear previous screen
+	clearScreen();
+	var nextArea = document.getElementById("next");
+	nextArea.innerHTML = "";
+	
+	currentCandidateArrayHolder = candidates;
+	candidates = fakeCandidateHolder;
+	document.getElementById("event").style = "display:block";
 	document.getElementById("event").innerHTML += "<canvas id='myCanvas' width='1000px' height = '500px'></canvas><br>";
 	var c=document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
@@ -2488,7 +2531,7 @@ function reportViewer(id)
 //Calculates the results of each poll question from each student in the sample and stores them in an array
 function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 {	
-	var graphData = [];
+	graphData = [];
 	graphData.push(questions[4].graph.split(','));
 	graphData.push(questions[5].graph.split(','));
 	graphData.push(questions[6].graph.split(','));
@@ -2912,6 +2955,8 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial)
 	if(isTutorial){
 		reviewFlag = true;
 	}
+
+	console.log(graphData);
 	////console.log(tableArrays);
 	tableBuilder(pollChoices, tableArrays, sampleSize, graphData, pollLabelArray, reviewFlag, isTutorial);
 }
@@ -3275,7 +3320,22 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		cell.innerHTML = tableArray2[6][h];
 	}
 	sorttable.makeSortable(document.getElementById('tab'));
+	document.getElementById("next").innerHTML += "<div id = 'filterArea'></div>"
 	document.getElementById("next").innerHTML += "<br><button value = 'true' id = 'rawDataButton' onclick = 'changeData()'>Look at Raw Data</button><br>";
+	for (var x = 0; x < groupList.length; x++){
+		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ groupList[x] +"'> "+ groupList[x] +" ";
+	}
+	document.getElementById('filterArea').innerHTML +='<br>'
+	for (var x = 0; x < groupList.length; x++){
+		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ stuEconomic[x] +"'> "+ stuEconomic[x] +" ";
+	}
+	document.getElementById('filterArea').innerHTML +='<br>'
+	for (var x = 0; x < groupList.length; x++){
+		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ majorList[x] +"'> "+ majorList[x] +" ";
+	}
+	document.getElementById('filterArea').innerHTML +='<br>'
+	document.getElementById('filterArea').style.display = "none";
+
 	var counter = 0;
 	document.getElementById("gameInfo").innerHTML += "<div id = 'chartDiv' style = 'display:block'></div>"
 	//graph dat table
@@ -3382,10 +3442,8 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		////console.log(graphData[questionNum]);
     
 		for (var j = 0; j < graphData[i].length; j++){
-				////console.log(graphData[questionNum], " AT ", questions[qID].question)			
-				
+				////console.log(graphData[questionNum], " AT ", questions[qID].question)					
 				data2[j]=graphData[i][j];
-
 			}
 
 
@@ -3408,6 +3466,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		    ;
 
 	}
+	document.getElementById('table').style.display = 'none'
 	if (isTutorial){
 		review = true;
 
@@ -3435,11 +3494,13 @@ function changeData(){
 	if(isRawData == 'true'){
 		document.getElementById('rawDataButton').value = false;
 		document.getElementById('table').style.display = 'block'
+		document.getElementById('filterArea').style.display = 'block'
 		document.getElementById('chartDiv').style.display = 'none'
 	}
 	else{
 		document.getElementById('rawDataButton').value = true;
 		document.getElementById('table').style.display = 'none'
+		document.getElementById('filterArea').style.display = 'none'
 		document.getElementById('chartDiv').style.display = 'block'
 	}
 
@@ -3879,34 +3940,118 @@ function getMousePos(canvas, evt)
 }
 
 
-function gameResults(scores)
+function gameResults(scores, tutorial)
 {
-	clearScreen();
-	remainingHours-=3;
-	var pos = ["Res","Read","Soc","Media","Ath","Fine Arts","Lib Arts","Eng","Bus","Tech","Poor","Low","Low Mid","Upper Mid","High"];
-
-	if(scores.score <= scores.tier1)
+	clearScreen();	
+	if(!tutorial)
 	{
-		document.getElementById("event").innerHTML += "<h1>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame across all groups by "+0.25+"</h1>";
-		scoreChanger(candidates[0], 0.25,pos,[]);
+		remainingHours-=3;
+		var pos = chosenEvent.groupPos.split(',');
+		var posText =  "<h4>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame with these groups: ";
+		for (var i =0; i< pos.length;i++)
+		{
+			switch(pos[i])
+			{
+				case "Poor":
+					posText += "Poor Economic Status";
+				break;
+		
+				case "Low":
+					posText += "Lower Economic Status";
+				break;
+				case "Low Mid":
+					posText += "Low Middle Economic Status";
+				break;
+				case "Upper Mid":
+					posText += "Upper Middle Economic Status";
+				break;
+				case "High":
+					posText += "Upper Economic Status";
+				break;
+		
+				case "Fine Arts":
+					posText += "Fine Arts Major";
+				break;
+		
+				case "Bus":
+					posText += "Business Major";
+				break;
+				case "Eng":
+					posText += "Engineering Major";
+				break;
+				case "Lib Arts":
+					posText += "Liberal Arts Major";
+				break;
+				case "Tech":
+					posText += "Technology Major";
+				break;
+		
+				case "Media":
+					posText += "Media Lover Group";
+				break;
+		
+				case "Soc":
+					posText += "Socialite Group";
+		
+				break;
+				case "Read":
+					posText += "Reader Group";
+		
+				break;
+				case "Res":
+					posText += "Researcher Group";
+		
+				break;
+				case "Ath":
+					posText += "Athlete Group";
+		
+				break;
+			}
+			if(i != pos.length-1)
+			{
+				posText += ", ";
+			}
+			else{
+				posText += " ";
+			}
+		}
+		if(scores.score <= scores.tier1)
+		{
+			posText += " " + "<br> By a score of "+0.1+"</h1>";
+			document.getElementById("event").innerHTML = posText;
+			scoreChanger(candidates[0], 0.1,pos,[]);
+		}
+		else if(scores.score <= scores.tier2 && scores.score >scores.tier1)
+		{
+			posText += " " + "<br> By a score of "+0.2+"</h1>";
+			document.getElementById("event").innerHTML = posText;
+			scoreChanger(candidates[0], 0.2,pos,[]);
+		}
+		else if(scores.score <= scores.tier3 && scores.score >scores.tier2)
+		{
+			posText += " " + "<br> By a score of "+0.3+"</h1>";
+			document.getElementById("event").innerHTML = posText;
+			scoreChanger(candidates[0], 0.3,pos,[]);
+		}
+		else if(scores.score > scores.tier3)
+		{
+			if( scores.score> scores.tier4)
+				scores.score = scores.tier4;
+			var x = .3 + (.01*(scores.score-scores.tier3));
+			posText += " " + "<br> By a score of "+x+"</h1>";
+			document.getElementById("event").innerHTML = posText;
+			scoreChanger(candidates[0], x,pos,[]);
+		}
+		
+			saveGameState();
+			document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	}
-	else if(scores.score <= scores.tier2 && scores.score >scores.tier1)
+	else
 	{
-		document.getElementById("event").innerHTML += "<h1>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame across all groups by "+0.5+"</h1>";
-		scoreChanger(candidates[0], 0.5,pos,[]);
+		var posText =  "<h4>You completed the minigame with a score of "+scores.score; 
+		document.getElementById("event").innerHTML = posText;
+		document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to the Practice Screen </button>";
 	}
-	else if(scores.score <= scores.tier3 && scores.score >scores.tier2)
-	{
-		document.getElementById("event").innerHTML += "<h1>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame across all groups by "+0.75+"</h1>";
-		scoreChanger(candidates[0], 0.75,pos,[]);
-	}
-	else if(scores.score > scores.tier3)
-	{
-		document.getElementById("event").innerHTML += "<h1>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame across all groups by "+1+"</h1>";
-		scoreChanger(candidates[0], 1,pos,[]);
-	}
-
-	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	document.getElementById("next").style.display = "block";
 }
 
@@ -4285,7 +4430,7 @@ runningGame.main =
 	stopGame: function ()
 	{
 		runningGame.main.stop=true;
-		gameResults(runningGame.main.scores);
+		gameResults(runningGame.main.scores, practice);
 	},
 
 	calculateDeltaTime: function()

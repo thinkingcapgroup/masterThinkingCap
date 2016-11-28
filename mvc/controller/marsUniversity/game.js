@@ -56,6 +56,25 @@ router.post('/logger', auth, function (req, res, next) {
   res.end();
 });
 
+router.post('/loggerEnd', auth, function (req, res, next) {
+  // Get the name of the event
+  var event = req.body.eventName,
+      // Get user id
+      id = req.user.userId,
+      rank = req.body.rank;
+      console.log(req.body);
+      // Concatenate information
+      stringTem = "\n" + id + "-" + event + "-" + "Player Rank:" + rank + "-" + Date.now();
+
+  // Append stringTem to file 'logInfo/useraction.txt'
+  fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
+    console.log('Student information logged');
+  });
+
+  // End the response
+  res.end();
+});
+
 /**
  * router - POST method for Mars University game route '/saver'
  * @param  {String} '/saver' - local route string
@@ -124,8 +143,6 @@ function renderMarsUniversityGame (req, res) {
 
   model.content.pageTitle = 'Thinking Cap - Mars University';
   model.content.gameTitle = 'Mars University';
-
-  console.log(req.user.id + " is the id when loading");
 
   // Get the loadSave model
   require('../../model/marsUniversity/loadSave.js')(req, auth, function (err, success) {

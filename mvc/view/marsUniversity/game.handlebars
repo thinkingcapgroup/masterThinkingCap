@@ -8,10 +8,19 @@
   <div id = "playerInfo">
   </div>
   <div id = "gameInfo">
-    <p>Welcome to Mars University! <br>Animatic will be going on here during this time.<br><br>
-    <button onclick = "startCharacterSelect()">Continue After Animatic Finish</button>
-	<button onclick = "loadGame()">Load Game</button>
-  
+	<div id = "intro" style = "text-align:center; ">
+		<br>
+		<h1 style = " font-size: 250%;">Welcome to Mars University! </h1>
+		<br>
+	
+		<a onclick = "startAnimatic()" class = 'btn double remove' ">New Game</a>
+		<br>
+		<br>
+		<a onclick = "loadGame()" class = 'btn double remove'">Continue</a>
+		<br>
+		<br>
+		<a onclick = "startPractice()" class = 'btn double remove'">Practice</a>
+	</div>
     
   </div>
   
@@ -41,7 +50,6 @@
       
       </thead>
       <tbody id="pollTable">
-  
       </tbody>
       </table>
     </div>
