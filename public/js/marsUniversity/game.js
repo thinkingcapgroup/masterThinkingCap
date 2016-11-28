@@ -746,7 +746,7 @@ function gameCycleStart(f)
 	candidates.push(playerCandidate);
 
 	//Decides the opponents focus which cannot be the same as the player
-	opponentCandidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
+	opponentCandidate.fame = [0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5];
 	opponentCandidate.consMod = 0;
 	////console.log(oppFocus);
 	chooseIssue(opponentCandidate,[f],1,false);
@@ -1451,7 +1451,7 @@ function statementCalc(){
 	var currentPosNeg = document.getElementById("posneg").value;
 	//if positive statement
 	if(currentPosNeg == 0){
-		candidates[0].issueScore[currentStatement] += 0.1;
+		candidates[0].issueScore[currentStatement] += 0.2;
 		if(currentStatement == 0){
 			candidates[0].tuitPos += 1;
 		}
@@ -1471,7 +1471,7 @@ function statementCalc(){
 	//if negative statement
 	else{
 	
-			candidates[0].issueScore[currentStatement] -= 0.1;
+			candidates[0].issueScore[currentStatement] -= 0.2;
 			if(currentStatement == 0){
 				candidates[0].tuitNeg += 1;
 			}
@@ -3897,7 +3897,7 @@ function chooseRank(candidate, chosenRanks, issueCand)
 	switch(oppChoice[oppRank])
 	{
 		case 0:
-			candidate.fame = [1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8];
+			candidate.fame = [1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6];
 			candidate.consMod = 0.25;
 			candidate.issueScore[candidate.focusnum] = 3;
 		break;
