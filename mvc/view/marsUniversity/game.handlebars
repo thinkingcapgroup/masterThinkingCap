@@ -8,10 +8,19 @@
   <div id = "playerInfo">
   </div>
   <div id = "gameInfo">
-    <p>Welcome to Mars University! <br>Animatic will be going on here during this time.<br><br>
-    <button onclick = "startCharacterSelect()">Continue After Animatic Finish</button>
-	<button onclick = "loadGame()">Load Game</button>
-  
+	<div id = "intro" style = "text-align:center; font-size: 250%;">
+		<br>
+		<h1>Welcome to Mars University! </h1>
+		<br>
+	
+		<button onclick = "startAnimatic()" style = "font-size: 30px;">New Game</button>
+		<br>
+		<br>
+		<button onclick = "loadGame()" style = "font-size: 30px;">Continue</button>
+		<br>
+		<br>
+		<button onclick = "startPractice()" style = "font-size: 30px;">Practice</button>
+	</div>
     
   </div>
   
@@ -41,7 +50,6 @@
       
       </thead>
       <tbody id="pollTable">
-  
       </tbody>
       </table>
     </div>
