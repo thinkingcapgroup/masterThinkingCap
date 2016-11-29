@@ -51,7 +51,7 @@ function renderLogin (req, res) {
   // If there is a login success notifification
   if (req.cookies.loginSuccessMessage) {
     // push to the array
-    successNotifications.push(req.cookies.loginErrorMessage);
+    successNotifications.push(req.cookies.loginSuccessMessage);
 
     // add to the model
     model.successNotifications = successNotifications;
