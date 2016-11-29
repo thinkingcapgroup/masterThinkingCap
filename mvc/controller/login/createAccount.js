@@ -21,6 +21,7 @@ var express = require('express'),
  * @param  {Object} res                         - Express Response Object
  */
 router.get('/', recaptcha.middleware.render, function (req,res) {
+  errorNotifications.length = successNotifications.length = 0;
   // Render createaccount view
   renderCreateAccount(req, res);
 });
@@ -34,7 +35,7 @@ router.get('/', recaptcha.middleware.render, function (req,res) {
  */
 router.post('/', recaptcha.middleware.verify, function(req, res) {
   // Reset error notifications
-  errorNotifications.length = 0;
+  errorNotifications.length = successNotifications.length = 0;
 
   // If there was an error with the recaptcha tool
   if (req.recaptcha.error) {
