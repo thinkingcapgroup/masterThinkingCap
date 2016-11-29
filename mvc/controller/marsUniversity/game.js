@@ -143,6 +143,7 @@ function renderMarsUniversityGame (req, res) {
 
   model.content.pageTitle = 'Thinking Cap - Mars University';
   model.content.gameTitle = 'Mars University';
+  model.layout = 'gamelayout';
 
   // Get the loadSave model
   require('../../model/marsUniversity/loadSave.js')(req, auth, function (err, success) {

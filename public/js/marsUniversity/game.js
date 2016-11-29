@@ -2361,11 +2361,11 @@ function votePercentage(sampleSize, bias)
 			}
 			else
 			{
-				var issues = Math.abs(parseFloat(sample[i].tuitionScore)) * parseFloat(candidates[j].issueScore[0])
-				issues += Math.abs(parseFloat(sample[i].athleticScore)) * parseFloat(candidates[j].issueScore[1])
-				issues += Math.abs(parseFloat(sample[i].researchScore))* parseFloat(candidates[j].issueScore[2])
-				issues += Math.abs(parseFloat(sample[i].eventScore))  * parseFloat(candidates[j].issueScore[3])
-				issues += Math.abs(parseFloat(sample[i].medicalScore)) * parseFloat(candidates[j].issueScore[4]);
+				var issues = parseFloat(sample[i].tuitionScore) * parseFloat(candidates[j].issueScore[0])
+				issues += parseFloat(sample[i].athleticScore) * parseFloat(candidates[j].issueScore[1])
+				issues += parseFloat(sample[i].researchScore)* parseFloat(candidates[j].issueScore[2])
+				issues += parseFloat(sample[i].eventScore)  * parseFloat(candidates[j].issueScore[3])
+				issues += parseFloat(sample[i].medicalScore) * parseFloat(candidates[j].issueScore[4]);
 				issues = issues/5;
 			}
 			////console.log(candidates[j].name +" Issue Score: "+ issues);
