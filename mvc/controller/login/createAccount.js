@@ -115,8 +115,10 @@ function createUserAccount (req, res) {
         // If there was an error
         if (err) {
           console.error(err);
+          errorNotifications.push(err);
           // Redirect to /createaccount
-          res.redirect('/createaccount');
+          //res.redirect('/createaccount');
+          renderCreateAccount(req, res);
         }
 
         // Otherwise account was created
@@ -226,7 +228,7 @@ function createAccountActivationCode (req, res, userData) {
         errorNotifications.push('Error creating your activation key. Please visit contact and administrator.');
 
         // Redirect to /createaccount
-        res.redirect('/createaccount');
+        renderCreateAccount(req, res);
       }
     }
 
@@ -270,7 +272,16 @@ function sendMailToUser (req, res, userData, accountActivationData) {
       };
 
   // Make the page url
-  pageUrl = req.protocol + '://' + req.get('host') + '/accountactivation/' + accountActivationData.activationCode;
+  // pageUrl = req.protocol + '://' + req.get('host') + '/accountactivation/' + accountActivationData.activationCode;
+  if (req.get('host') === 'localhost:3000') {
+    pageUrl = req.protocol + '://' + req.get('host');
+  }
+
+  else {
+    pageUrl = 'https://thinkingcapdevserver.herokuapp.com/';
+  }
+
+  pageUrl += '/accountactivation/' + accountActivationData.activationCode;
 
   // If user entered a display name
   if (userData.displayName && userData.displayName !== '') {
@@ -293,8 +304,10 @@ function sendMailToUser (req, res, userData, accountActivationData) {
     // If there was an error
     if (err) {
       console.error(err);
+      errorNotifications.push('err');
+      errorNotifications.push(pageUrl);
       // Redirect to /createaccount
-      res.redirect('createaccount');
+      renderCreateAccount(req, res);
     }
     // Otherwise
     else {
