@@ -278,7 +278,7 @@ function sendMailToUser (req, res, userData, accountActivationData) {
   }
 
   else {
-    pageUrl = 'https://thinkingcapdevserver.herokuapp.com/';
+    pageUrl = 'https://thinkingcapdevserver.herokuapp.com';
   }
 
   pageUrl += '/accountactivation/' + accountActivationData.activationCode;
@@ -303,8 +303,7 @@ function sendMailToUser (req, res, userData, accountActivationData) {
   transporter.sendMail(mailOptions, function (err, success) {
     // If there was an error
     if (err) {
-      console.error(err);
-      errorNotifications.push('err');
+      errorNotifications.push(err);
       errorNotifications.push(pageUrl);
       // Redirect to /createaccount
       renderCreateAccount(req, res);
