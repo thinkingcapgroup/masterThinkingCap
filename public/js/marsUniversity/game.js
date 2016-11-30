@@ -3321,7 +3321,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	}
 	sorttable.makeSortable(document.getElementById('tab'));
 	document.getElementById("next").innerHTML += "<div id = 'filterArea'></div>"
-	document.getElementById("next").innerHTML += "<br><button value = 'true' id = 'rawDataButton' onclick = 'changeData()'>Look at Raw Data</button><br>";
+	document.getElementById("next").innerHTML += "<br><button value = 'true' id = 'rawDataButton' onclick = 'changeData()'>Show Raw Data</button><br>";
 	for (var x = 0; x < groupList.length; x++){
 		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ groupList[x] +"'> "+ groupList[x] +" ";
 	}
@@ -3491,17 +3491,20 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 function changeData(){
 
 	var isRawData = document.getElementById('rawDataButton').value;
+
 	if(isRawData == 'true'){
 		document.getElementById('rawDataButton').value = false;
 		document.getElementById('table').style.display = 'block'
 		document.getElementById('filterArea').style.display = 'block'
 		document.getElementById('chartDiv').style.display = 'none'
+		document.getElementById('rawDataButton').innerHTML = 'Show Graphs'
 	}
 	else{
 		document.getElementById('rawDataButton').value = true;
 		document.getElementById('table').style.display = 'none'
 		document.getElementById('filterArea').style.display = 'none'
 		document.getElementById('chartDiv').style.display = 'block'
+		document.getElementById('rawDataButton').innerHTML = 'Show Raw Data'
 	}
 
 
@@ -4038,6 +4041,7 @@ function gameResults(scores, tutorial)
 			if( scores.score> scores.tier4)
 				scores.score = scores.tier4;
 			var x = .3 + (.01*(scores.score-scores.tier3));
+			x = x.toFixed(2);
 			posText += " " + "<br> By a score of "+x+"</h1>";
 			document.getElementById("event").innerHTML = posText;
 			scoreChanger(candidates[0], x,pos,[]);
