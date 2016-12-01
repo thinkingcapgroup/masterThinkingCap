@@ -169,7 +169,7 @@ function startPractice()
 {
 	clearScreen();
 	practice = true;
-	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 style = 'font-size: 250%;'>Practice</h1><br><a onclick = 'map(true)' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' class = 'btn double remove'>Minigame 1</a></div> <br><br><a onclick = 'splashScreen()' class = 'btn double remove'>Return to Start Menu</a>";
+	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 style = 'font-size: 250%;'>Practice</h1><br><a onclick = 'map(true, true)' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' class = 'btn double remove'>Minigame 1</a></div> <br><br><a onclick = 'splashScreen()' class = 'btn double remove'>Return to Start Menu</a>";
 }
 
 function startCharacterSelect(){
@@ -1284,8 +1284,9 @@ function gameCycleEnd()
 
 /*Special Action Pages*/
 
-function map(isTutorial){
+function map(isTutorial, isPractice = 'false'){
 	clearScreen();
+	console.log(isPractice);
 
 	if(isTutorial){
 		currentCandidateArrayHolder = candidates;
@@ -1363,8 +1364,11 @@ function map(isTutorial){
 	//Displays the screen for this event
 	document.getElementById("questionArea").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults("+ isTutorial +")'> Submit Poll </button><button id = 'moreQuestionButton'> Add More Questions </button>";
 	
-	if(isTutorial){
+	if(isTutorial && !isPractice){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='actualSessionStart(true)'> Start the Game </button>";
+	}
+	else if (isPractice){
+		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='startPractice()'> Back to Practice Area </button>";
 	}
 	else{
 		document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
@@ -3321,7 +3325,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	}
 	sorttable.makeSortable(document.getElementById('tab'));
 	document.getElementById("next").innerHTML += "<div id = 'filterArea'></div>"
-	document.getElementById("next").innerHTML += "<br><button value = 'true' id = 'rawDataButton' onclick = 'changeData()'>Look at Raw Data</button><br>";
+	document.getElementById("next").innerHTML += "<br><button value = 'true' id = 'rawDataButton' onclick = 'changeData()'>Show Raw Data</button><br>";
 	for (var x = 0; x < groupList.length; x++){
 		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ groupList[x] +"'> "+ groupList[x] +" ";
 	}
@@ -3491,17 +3495,20 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 function changeData(){
 
 	var isRawData = document.getElementById('rawDataButton').value;
+
 	if(isRawData == 'true'){
 		document.getElementById('rawDataButton').value = false;
 		document.getElementById('table').style.display = 'block'
 		document.getElementById('filterArea').style.display = 'block'
 		document.getElementById('chartDiv').style.display = 'none'
+		document.getElementById('rawDataButton').innerHTML = 'Show Graphs'
 	}
 	else{
 		document.getElementById('rawDataButton').value = true;
 		document.getElementById('table').style.display = 'none'
 		document.getElementById('filterArea').style.display = 'none'
 		document.getElementById('chartDiv').style.display = 'block'
+		document.getElementById('rawDataButton').innerHTML = 'Show Raw Data'
 	}
 
 
@@ -4038,6 +4045,7 @@ function gameResults(scores, tutorial)
 			if( scores.score> scores.tier4)
 				scores.score = scores.tier4;
 			var x = .3 + (.01*(scores.score-scores.tier3));
+			x = x.toFixed(2);
 			posText += " " + "<br> By a score of "+x+"</h1>";
 			document.getElementById("event").innerHTML = posText;
 			scoreChanger(candidates[0], x,pos,[]);
