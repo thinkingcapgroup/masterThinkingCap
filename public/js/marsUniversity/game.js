@@ -169,7 +169,7 @@ function startPractice()
 {
 	clearScreen();
 	practice = true;
-	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 style = 'font-size: 250%;'>Practice</h1><br><a onclick = 'map(true)' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' class = 'btn double remove'>Minigame 1</a></div> <br><br><a onclick = 'splashScreen()' class = 'btn double remove'>Return to Start Menu</a>";
+	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 style = 'font-size: 250%;'>Practice</h1><br><a onclick = 'map(true, true)' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' class = 'btn double remove'>Minigame 1</a></div> <br><br><a onclick = 'splashScreen()' class = 'btn double remove'>Return to Start Menu</a>";
 }
 
 function startCharacterSelect(){
@@ -1284,8 +1284,9 @@ function gameCycleEnd()
 
 /*Special Action Pages*/
 
-function map(isTutorial){
+function map(isTutorial, isPractice = 'false'){
 	clearScreen();
+	console.log(isPractice);
 
 	if(isTutorial){
 		currentCandidateArrayHolder = candidates;
@@ -1363,8 +1364,11 @@ function map(isTutorial){
 	//Displays the screen for this event
 	document.getElementById("questionArea").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults("+ isTutorial +")'> Submit Poll </button><button id = 'moreQuestionButton'> Add More Questions </button>";
 	
-	if(isTutorial){
+	if(isTutorial && !isPractice){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='actualSessionStart(true)'> Start the Game </button>";
+	}
+	else if (isPractice){
+		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='startPractice()'> Back to Practice Area </button>";
 	}
 	else{
 		document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
