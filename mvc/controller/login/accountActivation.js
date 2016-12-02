@@ -23,6 +23,8 @@ var express = require('express'),
  * @param  {Object} res - Express Response Object
  */
 router.get('/', auth, function (req, res) {
+  errorNotifications.length = successNotifications.length = 0;
+
   // Render user account activation view
   renderAccountActivation(req, res);
 });
@@ -40,7 +42,6 @@ router.post('/', auth, function(req,res) {
 });
 
 router.get(userAccountActivationRoute, function (req, res) {
-  console.log('Code is: ' + req.params.code);
   activateUserAccount(req, res);
 });
 
@@ -53,7 +54,8 @@ function renderAccountActivation (req, res) {
   // Require the global app model
   var model = require('../../model/global')(req, res);
 
-  model.content.pageTitle += ' Account Activation';
+  model.content.pageTitle = ' Account Activation';
+  model.globalNavigationMode = require('../../model/globalNavigationModeAuth')(req, res);
 
   // Display notifications if there are any
   model.errorNotifications = (errorNotifications)? errorNotifications : null;

@@ -1,24 +1,37 @@
-#bug-report-button {
-  background: $red;
+.bug-report-button {
+  // background: $red;
+  //
+  // position: fixed;
+  // bottom: $content-padding;
+  // right: $content-padding;
+  //
+  // padding: calc(#{$content-padding} / 1.5);
+  // border-radius: 50%;
+  // border: none;
+  // transition: transform $duration-transition;
 
-  position: fixed;
-  bottom: $content-padding;
-  right: $content-padding;
-
-  padding: calc(#{$content-padding} / 1.5);
-  border-radius: 50%;
-  border: none;
-  transition: transform $duration-transition;
-
-  &:hover {
-    background: darken($red, 5%);
-    cursor: pointer;
-    transform: rotate(-30deg);
+  .global-navigation & {
+    display: flex;
   }
 
-  #bug-report-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+
+  &:hover {
+    cursor: pointer;
+
+    .bug-report-icon {
+      transform: rotate(30deg);
+    }
+  }
+
+  .bug-report-icon {
     width: 32px;
     height: 32px;
+    transition: transform $duration-transition;
   }
 }
 
@@ -30,7 +43,7 @@
 
     width: 100vw;
     height: 100vh;
-
+    z-index: 9999;
     background: rgba(31, 29, 32, 0.7);
   }
 }

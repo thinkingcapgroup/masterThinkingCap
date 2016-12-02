@@ -16,7 +16,7 @@ var express = require('express'),
  * @param  {Object} req - Express Request Object
  * @param  {Object} res - Express Response Object
  */
-router.get('/marsuniversity', function (req, res) {
+router.get('/marsuniversity', auth, function (req, res) {
   // Render Mars University index
   renderMarsUniversity(req, res);
 });
@@ -32,6 +32,7 @@ function renderMarsUniversity (req, res) {
 
   model.content.pageTitle = 'Thinking Cap - Mars University';
   model.content.gameTitle = 'Mars University';
+  model.globalNavigationMode = require('../../model/globalNavigationModeAuth')(req, res);
 
   // Render /marsUniversity using the 'marsUniversity/index' view and model
   res.render('marsUniversity/index', model);

@@ -1,9 +1,9 @@
 .btn {
   background: none;
   color: $foreground-color;
-  padding: calc(#{$content-padding}/1.5) $content-padding;
+  padding: 0 $content-padding;
   border: 1px solid $foreground-color;
-  font-size: 1.5em;
+  font-size: 1.8rem;
   text-decoration: none;
 
   display: inline-block;
@@ -11,9 +11,14 @@
   white-space: nowrap;
   vertical-align: middle;
   touch-action: manipulation;
+  height: 60px;
+  margin: 1.5em 0 0;
   border-radius: 4px;
   margin-bottom: 0;
-
+  text-align: center;
+  line-height: 60px;
+  
+  @include font-smoothing;
   &.double {
     border: 5px double $foreground-color;
   }

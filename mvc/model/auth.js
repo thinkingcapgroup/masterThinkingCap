@@ -30,6 +30,7 @@ module.exports = function(req, res, next){
         res.cookie('username', result.userName);
         res.cookie('email', result.email);
         res.cookie('displayName', result.displayName);
+        res.cookie('userRole', result.role);
         req.user = result;
         return next();
       }
@@ -46,6 +47,8 @@ module.exports = function(req, res, next){
     res.clearCookie('username');
     res.clearCookie('password');
     res.clearCookie('email');
+    res.clearCookie('userRole');
+    res.clearCookie('displayName');
     res.redirect('/login');
   }
 }
