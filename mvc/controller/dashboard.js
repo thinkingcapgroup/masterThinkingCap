@@ -37,6 +37,21 @@ function renderDashboard (req, res) {
       username = req.user.userName,
       displayName = req.user.displayName;
 
+  model.content.pageTitle = 'Thinking Cap';
+  model.globalNavigationMode = require('../model/globalNavigationModeAuth')(req, res);
+
+
+  // // Set user to authenticated
+  // model.globalNavigationMode.authenticatedUser = true;
+  // model.globalNavigationMode.username = req.user.userName;
+  // model.globalNavigationMode.accountDisplay = (req.user.displayName !== '') ? req.user.displayName : 'My Account';
+  //
+  // // If user is an admin
+  // if (req.user.role === 5) {
+  //   // Allow user to view admin panel
+  //   model.globalNavigationMode.adminUser = true;
+  // }
+
   // Render /dashboard using the 'dashboard' view and model
   res.render('dashboard', model);
 }

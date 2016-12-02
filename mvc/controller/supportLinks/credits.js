@@ -24,6 +24,7 @@ function renderCredits (req, res) {
   var model = require('../../model/global')(req, res);
 
   model.content.pageTitle = 'Credits';
+  model.globalNavigationMode = require('../../model/globalNavigationMode')(req, res);
 
   // Render /credits using the 'credits' view and model
 	res.render('supportLinks/credits', model);

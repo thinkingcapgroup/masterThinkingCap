@@ -54,7 +54,9 @@ function renderBugReports(req, res) {
       bugReports,
       displayName = req.user.displayName;
 
-  model.content.appTitle = 'Bug Reports';
+  model.content.pageTitle = 'Bug Reports';
+  model.globalNavigationMode = require('../model/globalNavigationModeAuth')(req, res);
+
 
   // Get every bugReports
   require('../model/getAllBugReports')(req, function(err, b) {

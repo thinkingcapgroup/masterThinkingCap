@@ -81,10 +81,10 @@
   }
 
   // Navigation variables
-  var morphDropdownElement = document.querySelector('.morph-dropdown'),
-      mainNavigation = morphDropdownElement.querySelector('.main-nav'),
+  var globalNavigation = document.querySelector('.global-navigation'),
+      mainNavigation = globalNavigation.querySelector('.global-nav-bar'),
       mainNavigationItems = mainNavigation.querySelectorAll('.has-dropdown'),
-      navDropdownList = morphDropdownElement.querySelector('.nav-dropdown-list'),
+      navDropdownList = globalNavigation.querySelector('.nav-dropdown-list'),
       navDropdownListWrapper = navDropdownList.querySelector('.dropdown'),
       navDropdownListItems = navDropdownList.querySelectorAll('.nav-dropdown-content'),
       navDropdownListBackground = navDropdownList.querySelector('.bg-layer'),
@@ -101,14 +101,14 @@
   }
 
   navDropdownList.addEventListener('mouseleave', navDropdownListLeave, false);
-  morphDropdownElement.addEventListener('click', navMenuClick, false);
+  globalNavigation.addEventListener('click', navMenuClick, false);
   window.addEventListener('resize', switchNavigationTypes, false);
 
   resetDropdown();
 
   function navMenuClick (event) {
     if (event.target.nodeName !== 'FORM' && event.target.parentNode.nodeName !== 'FORM') {
-      morphDropdownElement.classList.toggle('nav-open');
+      globalNavigation.classList.toggle('nav-open');
     }
   }
 
@@ -118,12 +118,12 @@
    * @return {String}  Returns whether the we are in mobile or desktop
    */
   function checkMq () {
-    return window.getComputedStyle(morphDropdownElement, '::before').getPropertyValue('content').replace(/'/g, '').replace(/"/g, '').split(', ')[0];
+    return window.getComputedStyle(globalNavigation, '::before').getPropertyValue('content').replace(/'/g, '').replace(/"/g, '').split(', ')[0];
   }
 
   function navDropdownListLeave (event) {
     (mainNavigation.querySelectorAll('.has-dropdown:hover').length === 0 &&
-    morphDropdownElement.querySelectorAll('.nav-dropdown-list:hover').length === 0) &&
+    globalNavigation.querySelectorAll('.nav-dropdown-list:hover').length === 0) &&
     delay(hideDropdown());
   }
 
@@ -133,7 +133,7 @@
     var selectedId = '#' + event.target.data('content'),
         selectedDropdown = navDropdownList.querySelector(selectedId);
 
-    if (!morphDropdownElement.classList.contains('is-dropdown-visible') ||
+    if (!globalNavigation.classList.contains('is-dropdown-visible') ||
         !selectedDropdown.classList.contains('active')) {
       event.preventDefault();
       navDropdownListEnter(event);
@@ -160,7 +160,7 @@
       var item = {
             element: (event.target || this)
           },
-          actives = morphDropdownElement.querySelectorAll('.active');
+          actives = globalNavigation.querySelectorAll('.active');
 
       item.navDropdownList = navDropdownList.querySelector('#' + item.element.getAttribute('data-content'));
       item.navDropdownListHeight = getHeight(item.navDropdownList);
@@ -188,9 +188,9 @@
         item.navDropdownList.nextElementSibling.classList.add('move-right');
       }
 
-      if (!morphDropdownElement.classList.contains('is-dropdown-visible')) {
+      if (!globalNavigation.classList.contains('is-dropdown-visible')) {
         window.setTimeout(function () {
-          morphDropdownElement.classList.add('is-dropdown-visible');
+          globalNavigation.classList.add('is-dropdown-visible');
         }, 10);
       }
     }
@@ -211,11 +211,11 @@
       return;
     }
     else {
-      morphDropdownElement.classList.remove('is-dropdown-visible');
+      globalNavigation.classList.remove('is-dropdown-visible');
 
-      var actives = morphDropdownElement.querySelectorAll('.active'),
-          moveLefts = morphDropdownElement.querySelectorAll('.move-left'),
-          moveRights = morphDropdownElement.querySelectorAll('.move-right');
+      var actives = globalNavigation.querySelectorAll('.active'),
+          moveLefts = globalNavigation.querySelectorAll('.move-left'),
+          moveRights = globalNavigation.querySelectorAll('.move-right');
 
       for (var a = 0; a < actives.length; a++) {
         actives[a].classList.remove('active');

@@ -24,6 +24,7 @@ function renderAbout (req, res) {
   var model = require('../../model/global')(req, res);
 
   model.content.pageTitle = 'About';
+  model.globalNavigationMode = require('../../model/globalNavigationMode')(req, res);
 
   // Render /about using the 'about' view and model
 	res.render('supportLinks/about', model);

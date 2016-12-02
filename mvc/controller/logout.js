@@ -24,6 +24,7 @@ function logoutUser (req, res) {
   res.clearCookie('username');
   res.clearCookie('email');
   res.clearCookie('displayName');
+  res.clearCookie('userRole');
   res.clearCookie('password');
 
   // Set our user req to null

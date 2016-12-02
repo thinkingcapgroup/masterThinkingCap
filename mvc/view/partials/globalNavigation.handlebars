@@ -1,46 +1,85 @@
 <!-- Global Navigation -->
-<header class='morph-dropdown'>
+<header class='global-navigation'>
   {{! Open navigation button for mobile}}
   <a href='#0' class='nav-trigger'>Open Nav <span aria-hidden='true'></span></a>
 
   {{! Main nav }}
-  <nav class='main-nav'>
+  <nav class='global-nav-bar'>
     <ul>
       <li data-content='home'>
         <a href='/'>Home</a>
       </li>
-      <li data-content='navLoginForm'>
-        <form class='' action='/login' method='post'>
-          <input class='input' type='text' name='username' placeholder='Username' />
-          <input class='input' type='password' name='password' placeholder='Password' />
-          <button class='btn' type='submit' name='loginSubmit' value='loginSubmit'>Log in</button>
-        </form>
-      </li>
-      <li data-content='navSignupLink'>
-        <a href='/consentauthorization' class='btn'>Sign up</a>
-      </li>
-      <li class='has-dropdown links' data-content='games'>
-        <a href='/dashboard'>Games</a>
-      </li>
-      <li class='has-dropdown links' data-content='account'>
-        <a href='#0'>My Account</a>
-      </li>
-      <li class='has-dropdown links' data-content='admin'>
-        <a href='#0'>Admin Panel</a>
-      </li>
+
+      {{! Navigation for authenticated users }}
+      {{#if globalNavigationMode.authenticatedUser }}
+
+        {{! Navigation for inactive users }}
+        {{#if globalNavigationMode.inactiveUser}}
+          {{! Resend activation email }}
+          <li data-content='navActivationEmailForm'>
+            <form action='/accountactivation' method='post'>
+              <input id='email' class='input' type='text' name='email' placeholder='Email'/>
+              <button class='btn' type='submit' name='resendActivationEmail' value='true'>Resend Activation Email</button>
+            </form>
+          </li>
+
+          {{! Navigation for active users}}
+          {{else}}
+          {{! Game }}
+          <li class='has-dropdown links' data-content='games'>
+            <a href='/dashboard'>Games</a>
+          </li>
+        {{/if}}
+
+        {{! My Account }}
+        <li class='has-dropdown links' data-content='account'>
+          <a href='#0'>{{globalNavigationMode.accountDisplay}}</a>
+        </li>
+
+        {{! Navigation for Admin users }}
+        {{#if globalNavigationMode.adminUser }}
+          {{! Admin Panel }}
+          <li class='has-dropdown links' data-content='admin'>
+            <a href='#0'>Admin Panel</a>
+          </li>
+        {{/if}}
+
+        {{! Navigation for unauthenticated users }}
+        {{else}}
+        {{! Login }}
+        <li data-content='navLoginForm'>
+          <form action='/login' method='post'>
+            <input class='input' type='text' name='username' placeholder='Username' />
+            <input class='input' type='password' name='password' placeholder='Password' />
+            <button class='btn' type='submit' name='loginSubmit' value='loginSubmit'>Log in</button>
+          </form>
+        </li>
+        {{! Sign up }}
+        <li data-content='navSignupLink'>
+          <a href='/consentauthorization' class='btn'>Sign up</a>
+        </li>
+      {{/if}}
+      {{! End of Navigation specific for authenticated or unauthenticated users }}
+
+      {{! Bug Report }}
       <li data-content='bugreport'>
         <button class='btn bug-report-button'>
            <img class='bug-report-icon' src='media/img/bugs/bug-icon.svg' alt='Bug Report Icon' title='Report Bug'/>
         </button>
       </li>
-      <li data-content='logout'>
-        <a href='/logout' class='btn'>Log out</a>
-      </li>
+
+      {{! Navigation for authenticated users }}
+      {{#if globalNavigationMode.authenticatedUser}}
+        {{! Log out}}
+        <li data-content='logout'>
+          <a href='/logout' class='btn'>Log out</a>
+        </li>
+      {{/if}}
     </ul>
   </nav>
 
-  {{! morph-dropdown-wrapper}}
-  <div class='morph-dropdown-wrapper'>
+  {{! global-navigation-wrapper}}
+  <div class='global-navigation-wrapper'>
     <div class='nav-dropdown-list'>
       <ul>
         {{! Home }}
@@ -48,68 +87,88 @@
           <a href='/' class='label'>Home</a>
         </li>
 
-        <li id='navLoginForm' class='dropdown links'>
-          <form class='' action='/login' method='post'>
-            <a class='label'>Log in</a>
-            <input class='input' type='text' name='username' placeholder='Username' />
-            <input class='input' type='password' name='password' placeholder='Password' />
-            <button class='btn' type='submit' name='loginSubmit' value='loginSubmit'>Log in</button>
-          </form>
-        </li>
+        {{! Navigation for authenticated users }}
+        {{#if globalNavigationMode.authenticatedUser}}
 
-        {{! Sign up }}
-        <li id='navSignupLink' class='dropdown links'>
-          <a href='/consentauthorization' class='btn'>Sign up</a>
-        </li>
+          {{#if globalNavigationMode.inactiveUser}}
+            {{! Resend activation email }}
+            <li id='navActivationEmailForm' class='dropdown links'>
+              <form action='/accountactivation' method='post'>
+                <a class='label'>Resend email activation link</a>
+                <input id='email' class='input' type='text' name='email' placeholder='Email'/>
+                <button class='btn' type='submit' name='resendActivationEmail' value='true'>Resend Activation Email</button>
+              </form>
+            </li>
 
-        {{! Game Links }}
-        <li id='games' class='dropdown links'>
-          <a href='#0' class='label'>Games</a>
-          {{! switching content to nav-dropdown-content}}
-          <div class='nav-dropdown-content'>
-            <ul>
-              <li>
-                <h2>Games</h2>
-                {{! changing links-list to nav-links-list}}
-                <ul class='nav-links-list'>
-                  <li><a href='/marsuniversity'>Mars University</a></li>
-                  <li><a href='/'>***</a></li>
-                  <li><a href='/'>***</a></li>
-                  <li><a href='/'>***</a></li>
+            {{! Navigation for active users}}
+            {{else}}
+            {{! Game }}
+            <li id='games' class='dropdown links'>
+              <a href='#0' class='label'>Games</a>
+              <div class='nav-dropdown-content'>
+                <ul>
+                  <li>
+                    <h2>Games</h2>
+                    <ul class='nav-links-list'>
+                      <li><a href='/marsuniversity'>Mars University</a></li>
+                      <li><a href='/'>***</a></li>
+                      <li><a href='/'>***</a></li>
+                      <li><a href='/'>***</a></li>
+                    </ul>
+                  </li>
                 </ul>
-              </li>
-            </ul>
-          </div>
-        </li>
+              </div>
+            </li>
+          {{/if}}
 
-        {{! Account }}
-        <li id='account' class='dropdown button'>
-          <a href='#0' class='label'>My Account</a>
+          {{! My Account }}
+          <li id='account' class='dropdown button'>
+            <a href='#0' class='label'>{{globalNavigationMode.accountDisplay}}</a>
+            <div class='nav-dropdown-content'>
+              <h2>My Account</h2>
+              <ul class='nav-links-list'>
+                <li><a href='#0'>View @{{globalNavigationMode.username}}</a></li>
+                <li><a href='#0'>Edit Account</a></li>
+              </ul>
+              <a href='/logout' class='btn'>Log out</a>
+            </div>
+          </li>
 
-          <div class='nav-dropdown-content'>
-            <h2>My Account</h2>
-            <ul class='nav-links-list'>
-              <li><a href='#0'>View Profile</a></li>
-              <li><a href='#0'>Edit Account</a></li>
-            </ul>
-            <a href='/logout' class='btn'>Log out</a>
-          </div>
-        </li>
+          {{! Navigation for Admin users }}
+          {{#if globalNavigationMode.adminUser}}
+            {{! Admin Panel }}
+            <li id='admin' class='dropdown links'>
+              <a href='#0' class='label'>Admin Panel</a>
+              <div class='nav-dropdown-content'>
+                <h2>Admin Panel</h2>
+                <ul class='nav-links-list'>
+                  <li><a href='#0'>Create Account</a></li>
+                  <li><a href='#0'>Edit Account</a></li>
+                  <li><a href='#0'>Edit Permissions</a></li>
+                  <li><a href='/bugreports'>Bug Reports</a></li>
+                </ul>
+              </div>
+            </li>
+          {{/if}}
 
-        {{! Admin Panel }}
-        <li id='admin' class='dropdown links'>
-          <a href='#0' class='label'>Admin Panel</a>
+          {{! Navigation for unauthenticated users }}
+          {{else}}
+          {{! Log in}}
+          <li id='navLoginForm' class='dropdown links'>
+            <form class='' action='/login' method='post'>
+              <a class='label'>Log in</a>
+              <input class='input' type='text' name='username' placeholder='Username' />
+              <input class='input' type='password' name='password' placeholder='Password' />
+              <button class='btn' type='submit' name='loginSubmit' value='loginSubmit'>Log in</button>
+            </form>
+          </li>
 
-          <div class='nav-dropdown-content'>
-            <h2>Admin Panel</h2>
-            <ul class='nav-links-list'>
-              <li><a href='#0'>Create Account</a></li>
-              <li><a href='#0'>Edit Account</a></li>
-              <li><a href='#0'>Edit Permissions</a></li>
-              <li><a href='/bugreports'>Bug Reports</a></li>
-            </ul>
-          </div>
-        </li>
+          {{! Sign up }}
+          <li id='navSignupLink' class='dropdown links'>
+            <a href='/consentauthorization' class='btn'>Sign up</a>
+          </li>
+        {{/if}}
+        {{! End of Navigation specific for authenticated or unauthenticated users }}
 
         {{! Bug Report }}
         <li id='bugreport' class='dropdown links'>
@@ -118,11 +177,10 @@
              <img class='bug-report-icon' src='media/img/bugs/bug-icon.svg' alt='Bug Report Icon' title='Report Bug'/>
           </button>
         </li>
-
       </ul>
       {{! bg-layer }}
       <div class='bg-layer' aria-hidden='true'></div>
     </div> {{! end of .nav-dropdown-list }}
-  </div> {{! end of .morph-dropdown-wrapper }}
-</header> {{! end of .morph-dropdown }}
+  </div> {{! end of .global-navigation-wrapper }}
+</header> {{! end of .global-navigation }}
 <!-- -->
