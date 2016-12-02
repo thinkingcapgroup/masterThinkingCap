@@ -10,8 +10,17 @@ var express = require('express'),
  * @param  {Object} res - Express Response Object
  */
 router.get('/', function(req, res) {
-  // Call the renderIndex function to render index
-  renderIndex(req, res);
+
+  // If user is already logged in
+  if (req.cookies.username && req.cookies.password) {
+    // Redirect to dashboard
+    res.redirect('/dashboard');
+  }
+  // Otherwise
+  else {
+    // Call the renderIndex function to render index
+    renderIndex(req, res);
+  }
 });
 
 /**
@@ -22,6 +31,8 @@ router.get('/', function(req, res) {
 function renderIndex (req, res) {
   // Require the global app model
   var model = require('../model/global')(req, res);
+
+  model.content.pageTitle = 'Thinking Cap';
 
   // Render /index using our 'index' view and model
   if(req.cookies.username != null){

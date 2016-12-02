@@ -10,8 +10,14 @@ var express = require('express'),
  * @param  {Object} res - Express Response Object
  */
 router.get('/', function (req, res) {
-  // Render consentAuthorization view
-  renderConsentAuthorization(req, res);
+  if (req.cookies.username && req.cookies.password) {
+    // Redirect to dashboard
+    res.redirect('/dashboard');
+  }
+  else {
+    // Render consentAuthorization view
+    renderConsentAuthorization(req, res);
+  }
 });
 
 /**

@@ -24,6 +24,7 @@ function renderTerms (req, res) {
   var model = require('../../model/global')(req, res);
 
   model.content.pageTitle = 'Terms of Service';
+  model.globalNavigationMode = require('../../model/globalNavigationMode')(req, res);
 
   // Render /terms using the 'terms' view and model
 	res.render('supportLinks/terms', model);

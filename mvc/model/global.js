@@ -11,6 +11,9 @@ module.exports = function(req, res) {
     // Always static
     content: model.content,
 
+    // Global Navigation Mode
+    globalNavigationMode: {},
+
     // Recalculated each require
     currentYear: new Date().getFullYear()
   };

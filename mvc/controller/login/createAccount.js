@@ -22,8 +22,16 @@ var express = require('express'),
  */
 router.get('/', recaptcha.middleware.render, function (req,res) {
   errorNotifications.length = successNotifications.length = 0;
-  // Render createaccount view
-  renderCreateAccount(req, res);
+
+  if (req.cookies.username && req.cookies.password) {
+    // Redirect to dashboard
+    res.redirect('/dashboard');
+  }
+  else {
+    // Render createaccount view
+    renderCreateAccount(req, res);
+  }
+
 });
 
 /**
@@ -64,7 +72,7 @@ function renderCreateAccount (req, res) {
       // User object
       user;
 
-  model.content.pageTitle = 'Create Account';
+  model.content.pageTitle = 'Account Creation';
 
   // Give the model the recaptcha source
   model.captcha = req.recaptcha;

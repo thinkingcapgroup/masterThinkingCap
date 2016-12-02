@@ -144,6 +144,7 @@ function renderMarsUniversityGame (req, res) {
   model.content.pageTitle = 'Thinking Cap - Mars University';
   model.content.gameTitle = 'Mars University';
   model.layout = 'gamelayout';
+  model.globalNavigationMode = require('../../model/globalNavigationModeAuth')(req, res);
 
   // Get the loadSave model
   require('../../model/marsUniversity/loadSave.js')(req, auth, function (err, success) {
