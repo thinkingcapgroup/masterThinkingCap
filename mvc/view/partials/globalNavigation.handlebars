@@ -1,0 +1,128 @@
+<!-- Global Navigation -->
+<header class='morph-dropdown'>
+  {{! Open navigation button for mobile}}
+  <a href='#0' class='nav-trigger'>Open Nav <span aria-hidden='true'></span></a>
+
+  {{! Main nav }}
+  <nav class='main-nav'>
+    <ul>
+      <li data-content='home'>
+        <a href='/'>Home</a>
+      </li>
+      <li data-content='navLoginForm'>
+        <form class='' action='/login' method='post'>
+          <input class='input' type='text' name='username' placeholder='Username' />
+          <input class='input' type='password' name='password' placeholder='Password' />
+          <button class='btn' type='submit' name='loginSubmit' value='loginSubmit'>Log in</button>
+        </form>
+      </li>
+      <li data-content='navSignupLink'>
+        <a href='/consentauthorization' class='btn'>Sign up</a>
+      </li>
+      <li class='has-dropdown links' data-content='games'>
+        <a href='/dashboard'>Games</a>
+      </li>
+      <li class='has-dropdown links' data-content='account'>
+        <a href='#0'>My Account</a>
+      </li>
+      <li class='has-dropdown links' data-content='admin'>
+        <a href='#0'>Admin Panel</a>
+      </li>
+      <li data-content='bugreport'>
+        <button class='btn bug-report-button'>
+           <img class='bug-report-icon' src='media/img/bugs/bug-icon.svg' alt='Bug Report Icon' title='Report Bug'/>
+        </button>
+      </li>
+      <li data-content='logout'>
+        <a href='/logout' class='btn'>Log out</a>
+      </li>
+    </ul>
+  </nav>
+
+  {{! morph-dropdown-wrapper}}
+  <div class='morph-dropdown-wrapper'>
+    <div class='nav-dropdown-list'>
+      <ul>
+        {{! Home }}
+        <li id='home' class='dropdown links'>
+          <a href='/' class='label'>Home</a>
+        </li>
+
+        <li id='navLoginForm' class='dropdown links'>
+          <form class='' action='/login' method='post'>
+            <a class='label'>Log in</a>
+            <input class='input' type='text' name='username' placeholder='Username' />
+            <input class='input' type='password' name='password' placeholder='Password' />
+            <button class='btn' type='submit' name='loginSubmit' value='loginSubmit'>Log in</button>
+          </form>
+        </li>
+
+        {{! Sign up }}
+        <li id='navSignupLink' class='dropdown links'>
+          <a href='/consentauthorization' class='btn'>Sign up</a>
+        </li>
+
+        {{! Game Links }}
+        <li id='games' class='dropdown links'>
+          <a href='#0' class='label'>Games</a>
+          {{! switching content to nav-dropdown-content}}
+          <div class='nav-dropdown-content'>
+            <ul>
+              <li>
+                <h2>Games</h2>
+                {{! changing links-list to nav-links-list}}
+                <ul class='nav-links-list'>
+                  <li><a href='/marsuniversity'>Mars University</a></li>
+                  <li><a href='/'>***</a></li>
+                  <li><a href='/'>***</a></li>
+                  <li><a href='/'>***</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        {{! Account }}
+        <li id='account' class='dropdown button'>
+          <a href='#0' class='label'>My Account</a>
+
+          <div class='nav-dropdown-content'>
+            <h2>My Account</h2>
+            <ul class='nav-links-list'>
+              <li><a href='#0'>View Profile</a></li>
+              <li><a href='#0'>Edit Account</a></li>
+            </ul>
+            <a href='/logout' class='btn'>Log out</a>
+          </div>
+        </li>
+
+        {{! Admin Panel }}
+        <li id='admin' class='dropdown links'>
+          <a href='#0' class='label'>Admin Panel</a>
+
+          <div class='nav-dropdown-content'>
+            <h2>Admin Panel</h2>
+            <ul class='nav-links-list'>
+              <li><a href='#0'>Create Account</a></li>
+              <li><a href='#0'>Edit Account</a></li>
+              <li><a href='#0'>Edit Permissions</a></li>
+              <li><a href='/bugreports'>Bug Reports</a></li>
+            </ul>
+          </div>
+        </li>
+
+        {{! Bug Report }}
+        <li id='bugreport' class='dropdown links'>
+          <h2>Bug Report</h2>
+          <button class='btn bug-report-button'>
+             <img class='bug-report-icon' src='media/img/bugs/bug-icon.svg' alt='Bug Report Icon' title='Report Bug'/>
+          </button>
+        </li>
+
+      </ul>
+      {{! bg-layer }}
+      <div class='bg-layer' aria-hidden='true'></div>
+    </div> {{! end of .nav-dropdown-list }}
+  </div> {{! end of .morph-dropdown-wrapper }}
+</header> {{! end of .morph-dropdown }}
+<!-- -->
