@@ -15,7 +15,7 @@
   {{/if}}
   <article class='wrapper'>
     <header class='thinking-cap-header'>
-      <h1 class='thinking-cap-title'>{{content.appTitle}}</h1>
+      <h1 class='thinking-cap-title'>{{content.pageTitle}}</h1>
     </header>
 
     <section id='bug-reports-section'>
@@ -31,6 +31,12 @@
               Subject
             </th>
             <th class='table-column-title'>
+              Username
+            </th>
+            <th class='table-column-title'>
+              Date
+            </th>        
+            <th class='table-column-title'>
               Description
             </th>
             <th class='table-column-title'>
@@ -45,6 +51,13 @@
             <td class='table-cell'>
               {{subject}}
             </td>
+            <td class='table-cell'>
+              {{username}}
+            </td>
+            <td class='table-cell'>
+              {{date}}
+            </td>
+             
             <td class='table-cell'>
               {{description}}
             </td>

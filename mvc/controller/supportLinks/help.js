@@ -24,6 +24,7 @@ function renderHelp (req, res) {
   var model = require('../../model/global')(req, res);
 
   model.content.pageTitle = 'Help';
+  model.globalNavigationMode = require('../../model/globalNavigationMode')(req, res);
 
   // Render /help using the 'help' view and model
 	res.render('supportLinks/help', model);

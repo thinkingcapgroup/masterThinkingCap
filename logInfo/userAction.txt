@@ -178,3 +178,11 @@
 2-End Game Winner - Liz-Player Rank:3-1479914866482
 2-issFav-candFame-undefined-undefined-undefined-undefined
 2-issOpp-fame-undefined-undefined-undefined-undefined
+2-playTrust-fame-undefined-undefined-undefined-undefined
+2-playTrust-issue-undefined-undefined-undefined-undefined
+2-candFame-candTrust-playTrust-fame-undefined-undefined
+2-Fun Run-1480528315917
+2-issFav-fame-undefined-undefined-undefined-undefined
+73-Posters-1480689854720
+73-Matching Game-1480689858968
+2-undefined-undefined-undefined-undefined-undefined-undefined

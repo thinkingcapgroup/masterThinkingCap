@@ -12,8 +12,15 @@ var express = require('express'),
  * @param  {Object} res - Express Response Object
  */
 router.get('/', function (req,res) {
-  // Render login view
-  renderLogin(req, res);
+  // If user is already logged in
+  if (req.cookies.username && req.cookies.password) {
+    // Redirect to dashboard
+    res.redirect('/dashboard');
+  }
+  else {
+    // Render login view
+    renderLogin(req, res);
+  }
 });
 
 /**
@@ -36,6 +43,7 @@ function renderLogin (req, res) {
   // Require the global app model
   var model = require('../../model/global')(req, res);
 
+  model.content.pageTitle = 'Login';
   // Reset Notifications
   errorNotifications.length = successNotifications.length = 0;
 
@@ -51,7 +59,7 @@ function renderLogin (req, res) {
   // If there is a login success notifification
   if (req.cookies.loginSuccessMessage) {
     // push to the array
-    successNotifications.push(req.cookies.loginErrorMessage);
+    successNotifications.push(req.cookies.loginSuccessMessage);
 
     // add to the model
     model.successNotifications = successNotifications;

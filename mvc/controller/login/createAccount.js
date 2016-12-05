@@ -21,8 +21,17 @@ var express = require('express'),
  * @param  {Object} res                         - Express Response Object
  */
 router.get('/', recaptcha.middleware.render, function (req,res) {
-  // Render createaccount view
-  renderCreateAccount(req, res);
+  errorNotifications.length = successNotifications.length = 0;
+
+  if (req.cookies.username && req.cookies.password) {
+    // Redirect to dashboard
+    res.redirect('/dashboard');
+  }
+  else {
+    // Render createaccount view
+    renderCreateAccount(req, res);
+  }
+
 });
 
 /**
@@ -34,7 +43,7 @@ router.get('/', recaptcha.middleware.render, function (req,res) {
  */
 router.post('/', recaptcha.middleware.verify, function(req, res) {
   // Reset error notifications
-  errorNotifications.length = 0;
+  errorNotifications.length = successNotifications.length = 0;
 
   // If there was an error with the recaptcha tool
   if (req.recaptcha.error) {
@@ -63,7 +72,7 @@ function renderCreateAccount (req, res) {
       // User object
       user;
 
-  model.content.pageTitle = 'Create Account';
+  model.content.pageTitle = 'Account Creation';
 
   // Give the model the recaptcha source
   model.captcha = req.recaptcha;
@@ -115,8 +124,10 @@ function createUserAccount (req, res) {
         // If there was an error
         if (err) {
           console.error(err);
+          errorNotifications.push(err);
           // Redirect to /createaccount
-          res.redirect('/createaccount');
+          //res.redirect('/createaccount');
+          renderCreateAccount(req, res);
         }
 
         // Otherwise account was created
@@ -226,7 +237,7 @@ function createAccountActivationCode (req, res, userData) {
         errorNotifications.push('Error creating your activation key. Please visit contact and administrator.');
 
         // Redirect to /createaccount
-        res.redirect('/createaccount');
+        renderCreateAccount(req, res);
       }
     }
 
@@ -270,7 +281,16 @@ function sendMailToUser (req, res, userData, accountActivationData) {
       };
 
   // Make the page url
-  pageUrl = req.protocol + '://' + req.get('host') + '/accountactivation/' + accountActivationData.activationCode;
+  // pageUrl = req.protocol + '://' + req.get('host') + '/accountactivation/' + accountActivationData.activationCode;
+  if (req.get('host') === 'localhost:3000') {
+    pageUrl = req.protocol + '://' + req.get('host');
+  }
+
+  else {
+    pageUrl = 'https://thinkingcapdevserver.herokuapp.com';
+  }
+
+  pageUrl += '/accountactivation/' + accountActivationData.activationCode;
 
   // If user entered a display name
   if (userData.displayName && userData.displayName !== '') {
@@ -292,9 +312,10 @@ function sendMailToUser (req, res, userData, accountActivationData) {
   transporter.sendMail(mailOptions, function (err, success) {
     // If there was an error
     if (err) {
-      console.error(err);
+      errorNotifications.push(err);
+      errorNotifications.push(pageUrl);
       // Redirect to /createaccount
-      res.redirect('createaccount');
+      renderCreateAccount(req, res);
     }
     // Otherwise
     else {
