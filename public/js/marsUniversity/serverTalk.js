@@ -17,6 +17,23 @@ $(document).on('click','.logEvent', function(req, res, next){
      } )
  });
 
+$(document).on('click','.logEventEnd', function(req, res, next){
+      //grab event ID
+      //userAction
+     setTimeout(function(){
+      var winning = 'End Game Winner - ' + ranking[0].name;
+      var playerRank = 0;
+      for(var q = 0; q < ranking.length; q++){
+        if(ranking[q].name == candidates[0].name){
+          playerRank = q+1;
+        }
+      }
+    
+        $.post('/game/loggerEnd', {eventName: winning, rank: playerRank });
+      
+      }, 1000);
+ });
+
 $(document).on('change', '.totalTimeTracker', function(){
   var samp = document.getElementById('sample').value;
   var qLength = 0;
@@ -68,7 +85,7 @@ $(document).on('change', '.pollQ', function(){
       if(document.getElementById(pollThing).value == "candFame" || document.getElementById(pollThing).value == "candTrust" ){
 
          $('#' + subQuestion).empty();
-        for(var x = 1; x < 7; x++){
+        for(var x = 1; x < candidates.length; x++){               
             document.getElementById(subQuestion).options.add(new Option(candidates[x].name, candidates[x].name));
         }
       }
@@ -78,7 +95,7 @@ $(document).on('change', '.pollQ', function(){
   }
 })
 
-$(document).on('change','.pollQ', function(req, res, next){
+$(document).on('change','.pollQ', function(){
       var quest = $(this).val();
       var place = $(this).attr('id');
       var x = place.charAt(4);
@@ -86,10 +103,52 @@ $(document).on('change','.pollQ', function(req, res, next){
       console.log(theJSONEvents);
  });
 
-$(document).on('click','.logEventPoll', function(req, res, next){
+$(document).on('click','.logEventPoll', function(){
       //grab event ID
       //userAction
       $.post('/game/loggerPoll', {q1: theJSONEvents[0], q2: theJSONEvents[1], q3: theJSONEvents[2], q4: theJSONEvents[3], q5:theJSONEvents[4], q6:theJSONEvents[5]});
+
+
+ });
+
+$(document).on('change','.filterChecklist', function(){
+  var clearEverything = false;
+  var numberFlag = 0;
+
+  $('input[type=checkbox]:checked').each(function(){
+    numberFlag++;
+  })
+
+  if(numberFlag > 0){
+    clearEverything = true;
+  }
+
+  if(clearEverything){
+  var $lis = $('table tbody > tr').hide();
+
+    $('input[type=checkbox]:checked').each(function(){
+        var box = $(this);
+        var attrCheck = box.attr('rel');
+        var flag;
+
+         $('table > tbody > tr').each(function() {
+          flag = false;
+           $.each(this.cells, function(){         
+            var row = $(this).text();
+            if (row == attrCheck){
+             flag = true;
+           }
+          });
+           if(flag){
+           $(this).show();
+         }
+      });
+       
+    });
+  }
+  else{
+    var $lis = $('table tbody > tr').show();
+  }
 
 
  });

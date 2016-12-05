@@ -34,6 +34,8 @@ function submitBugReport (req, res) {
     report.subject = rb.bugSubject;
     report.category = rb.bugCategory;
     report.description = rb.bugDescription;
+    report.username = req.cookies.username;
+    report.date = new Date();
 
     // Call the model to insert bug
     require('../model/insertBugReport')(req, report, function (err, success) {

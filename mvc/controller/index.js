@@ -35,7 +35,12 @@ function renderIndex (req, res) {
   model.content.pageTitle = 'Thinking Cap';
 
   // Render /index using our 'index' view and model
-  res.render('index', model)
+  if(req.cookies.username != null){
+  	res.redirect('/dashboard');
+  }
+  else{
+  	res.render('index', model)
+  }
 }
 
 // Export index router

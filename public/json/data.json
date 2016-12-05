@@ -38,7 +38,7 @@
 			"id":"2",
 			"type":"smallEvent",
 			"text":"You plan to make posters and put them up around campus to draw attention to yourself.",
-			"timeRequired":"4",
+			"timeRequired":"2",
 			"groupPos":"Bus",
 			"groupNeg":"",
 			"results":"",
@@ -71,7 +71,7 @@
 			"id":"3",
 			"type":"smallEvent",
 			"text":"It's time for some 1 on 1 with the voters. Use their visual cues and anecdotes to choose the proper item to give them",
-			"timeRequired":"4",
+			"timeRequired":"2",
 			"groupPos":"Res",
 			"groupNeg":"",
 			"results":"The voters really responded to your charm and you did a great job of endorsing your platform.",
@@ -86,11 +86,11 @@
 			"id":"4",
 			"type":"smallEvent",
 			"text":"You decide to throw a party in order to make yourself more popular and aproachable. ",
-			"timeRequired":"8",
+			"timeRequired":"2",
 			"groupPos":"Soc",
 			"groupNeg":"Read",
 			"results":"",
-			"scoreInc":".6",
+			"scoreInc":".4",
 			"options":
 			[
 				{
@@ -119,11 +119,11 @@
 			"id":"5",
 			"type":"smallEvent",
 			"text":"In order to support a local charity, you've decide to host an event to raise money for it. ",
-			"timeRequired":"12",
+			"timeRequired":"2",
 			"groupPos":"Poor",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":"1",
+			"scoreInc":".4",
 			"options":
 			[
 				{
@@ -156,7 +156,7 @@
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":".2",
+			"scoreInc":".4",
 			"options":
 			[
 				{
@@ -184,11 +184,11 @@
 			"id":"7",
 			"type":"smallEvent",
 			"text":"The campaign could use a bit of extra funding. Give the voters a chance to be a part of this historic event in Martian Collegiate HIstory and hold an event to raise money.",
-			"timeRequired":"8",
+			"timeRequired":"2",
 			"groupPos":"Bus",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":".6",
+			"scoreInc":".4",
 			"options":
 			[
 				{
@@ -217,7 +217,7 @@
 			"id":"8",
 			"type":"smallEvent",
 			"text":"College students will do anything for free food. You can gain some voters by giving away food.",
-			"timeRequired":"4",
+			"timeRequired":"2",
 			"groupPos":"Low",
 			"groupNeg":"",
 			"results":"",
@@ -239,7 +239,7 @@
 			"id":"9",
 			"type":"smallEvent",
 			"text":"You know that certain voters have a soft spot for those who help out in their community, so you go out and perform some services to society. ",
-			"timeRequired":"4",
+			"timeRequired":"2",
 			"groupPos":"Low Mid",
 			"groupNeg":"",
 			"results":"",
@@ -262,7 +262,7 @@
 			"id":"10",
 			"type":"smallEvent",
 			"text":"Certain voters need some extra convincing that you have their interests at heart, so why don't you stop by a club to show that your interests align with theirs. ",
-			"timeRequired":"1",
+			"timeRequired":"2",
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
@@ -277,7 +277,7 @@
 			"id":"11",
 			"type":"smallEvent",
 			"text":"Movies are a great way to bring people together and fun events can draw in more votes. You have the brilliant idea of having a movie night on campus. ",
-			"timeRequired":"4",
+			"timeRequired":"2",
 			"groupPos":"Media",
 			"groupNeg":"",
 			"results":"",
@@ -308,7 +308,7 @@
 			"id":"12",
 			"type":"smallEvent",
 			"text":"Open Mic Nights give lots people a way to voice their thoughts and opinions, so you attend one to see if you can get in your voters heads.",
-			"timeRequired":"4",
+			"timeRequired":"2",
 			"groupPos":"Fine Arts",
 			"groupNeg":"",
 			"results":"",
@@ -336,7 +336,7 @@
 			"groupPos":"Res",
 			"groupNeg":"",
 			"results":"You managed to sway a lot of people to your side with your quick witted responses.",
-			"scoreInc":".2",
+			"scoreInc":".4",
 			"options":
 			[
 				{
@@ -355,11 +355,11 @@
 			"id":"14",
 			"type":"smallEvent",
 			"text":"Make a speech on the issue you have chosen to focus on. You  can always sway the crowd with a good old fashioned speech. ",
-			"timeRequired":"1",
+			"timeRequired":"2",
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":".1",
+			"scoreInc":".4",
 			"options":
 			[
 				{
@@ -378,7 +378,7 @@
 			"id":"15",
 			"type":"smallEvent",
 			"text":"Why not host a dance so that people ca see you cut loose and relax. People love a candidate they can relate to. ",
-			"timeRequired":"4",
+			"timeRequired":"2",
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
@@ -405,7 +405,7 @@
 			"groupPos":"Read",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":".2",
+			"scoreInc":".4",
 			"options": 
 			[
 			]
@@ -420,7 +420,7 @@
 			"groupPos":"Lib Arts",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":".2",
+			"scoreInc":".4",
 			"options": 
 			[
 				{
@@ -439,11 +439,11 @@
 			"id":"18",
 			"type":"smallEvent",
 			"text":"You get approached by the school newspaper to do an interview about your campaign. They say \"All Press is Good Press\", so you go ahead and agree to it.",
-			"timeRequired":"1",
+			"timeRequired":"2",
 			"groupPos":"Read",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":".1",
+			"scoreInc":".4",
 			"options":
 			[
 			]
@@ -454,11 +454,11 @@
 			"id":"19",
 			"type":"smallEvent",
 			"text":"You think your voters should get a chance to ask you anything that might be on their minds, but you can always make sure to get certain subjects talked about.",
-			"timeRequired":"1",
+			"timeRequired":"2",
 			"groupPos":"Tech",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":".1",
+			"scoreInc":".4",
 			"options":
 			[
 				{
@@ -487,7 +487,7 @@
 			"id":"20",
 			"type":"smallEvent",
 			"text":"You attend a school sporting event in order to show your spirit and draw in some votes from likeminded individuals. ",
-			"timeRequired":"4",
+			"timeRequired":"2",
 			"groupPos":"Ath",
 			"groupNeg":"",
 			"results":"",
@@ -514,7 +514,7 @@
 			"groupPos":"Eng",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":".2",
+			"scoreInc":".4",
 			"options":
 			[
 			]
@@ -525,18 +525,18 @@
 			"id":"22",
 			"type":"smallEvent",
 			"text":"Time for a quick burst of advertising. Take an hour and run accross campus high fiving as many voters as you can.",
-			"timeRequired":"1",
+			"timeRequired":"2",
 			"groupPos":"Ath",
 			"groupNeg":"",
 			"results":"",
-			"scoreInc":".1",
+			"scoreInc":".4",
 			"options":
 			[
 				{
 					"optionName":"Minigame",
 					"optionID":"Minigame",
 					"type":"game",
-					"extraTime" : "3", 
+					"extraTime" : "1", 
 					"posEffects":"",
 					"negEffects":"",
 					"loader": "1"
@@ -598,7 +598,7 @@
 		},
 		{
 			"question":"How much do you know me?", 
-			"labels":"Like, Neutral, Dislike",
+			"labels":"Well, Neutral, Not Well",
 			"graph":"0,0,0",
 			"id":"7",
 			"value":"fame"

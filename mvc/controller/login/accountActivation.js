@@ -181,6 +181,7 @@ function activateUserAccount (req, res) {
             else {
               // Add a success message
               res.cookie('loginSuccessMessage', 'Congratulations your account has been activated!');
+              successNotifications.push('Your account has been activated!');
 
               // Redirect to /login
               res.redirect('/login');
