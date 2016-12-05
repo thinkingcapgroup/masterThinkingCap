@@ -1362,7 +1362,7 @@ function map(isTutorial, isPractice = 'false'){
 
 	document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph'>Total Time: "+ timeForPoll +" Hours</p><br>";
 	//Displays the screen for this event
-	document.getElementById("questionArea").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults("+ isTutorial +")'> Submit Poll </button><button id = 'moreQuestionButton'> Add More Questions </button>";
+	document.getElementById("questionArea").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults("+ isTutorial +","+ isPractice+")'> Submit Poll </button><button id = 'moreQuestionButton'> Add More Questions </button>";
 	
 	if(isTutorial && !isPractice){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='actualSessionStart(true)'> Start the Game </button>";
@@ -1601,7 +1601,7 @@ function statementCalcOtherCandidate(x){
 }
 
 //Displays the result of a poll immediately after it end and then saves the report for later viewing
-function pollResults(isTutorial)
+function pollResults(isTutorial, isPractice)
 {
 	var bias = document.getElementById('location').value;
 	document.getElementById("event").style.display = "none";
@@ -1652,11 +1652,11 @@ function pollResults(isTutorial)
 
 	if(pollChoices.length < 2)
 	{
-		document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'map("+isTutorial+")'> Reselect Poll Questions </button>";
+		document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'map("+isTutorial+","+isPractice+")'> Reselect Poll Questions </button>";
 	}
 	else if(duplicate)
 	{
-		document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'map("+isTutorial+")'> Reselect Poll Questions </button>";
+		document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'map("+isTutorial+","+isPractice+")'> Reselect Poll Questions </button>";
 	}
 	else if(isTutorial){
 		pollCalc(pollChoices, sampleSize, bias, isTutorial);
@@ -1664,7 +1664,7 @@ function pollResults(isTutorial)
 	}
 	else if(!pollTimeCheck(sampleSize, pollChoices))
 	{
-		document.getElementById("gameInfo").innerHTML += "<p> You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.</p>  <button onclick = 'map("+isTutorial+")'> Reselect Poll Questions </button>";
+		document.getElementById("gameInfo").innerHTML += "<p> You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.</p>  <button onclick = 'map("+isTutorial+","+isPractice+")'> Reselect Poll Questions </button>";
 	}
 	else
 	{
