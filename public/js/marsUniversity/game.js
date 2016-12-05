@@ -52,6 +52,7 @@ var imgArrayBody = [thinBody, medBody, lgBody, chairBody];
 var imgArrayBodyWidth = [164,190,264,215];
 var imgArrayBodyHeight = [343,327,304,334];
 var imgArrayHeadHeight = [171,173,173];
+var imgTopBodySprites = [[41,30],[45,33]]
 
 //scores go Socialite/Athlete/MediaLover/Researcher/Reader
 //the score goes tuition, tuition var, athletic, athletic var, research, research var, events, events var, medical, issueScore[4]
@@ -1286,7 +1287,6 @@ function gameCycleEnd()
 
 function map(isTutorial, isPractice = 'false'){
 	clearScreen();
-	console.log(isPractice);
 
 	if(isTutorial){
 		currentCandidateArrayHolder = candidates;
@@ -1367,7 +1367,8 @@ function map(isTutorial, isPractice = 'false'){
 	if(isTutorial && !isPractice){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='actualSessionStart(true)'> Start the Game </button>";
 	}
-	else if (isPractice){
+	else if (isPractice == true){
+		console.log(isPractice);
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='startPractice()'> Back to Practice Area </button>";
 	}
 	else{
@@ -1410,7 +1411,7 @@ function minigamePlayer(id){
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 
-	document.getElementById("event").innerHTML += "<canvas id='myCanvas' width='1000px' height = '500px'></canvas><br>";
+	document.getElementById("event").innerHTML += "<canvas id='myCanvas' width='880px' height = '500px'></canvas><br>";
 	var c=document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
 
@@ -1433,7 +1434,7 @@ function practiceGame(id){
 	currentCandidateArrayHolder = candidates;
 	candidates = fakeCandidateHolder;
 	document.getElementById("event").style = "display:block";
-	document.getElementById("event").innerHTML += "<canvas id='myCanvas' width='1000px' height = '500px'></canvas><br>";
+	document.getElementById("event").innerHTML += "<canvas id='myCanvas' width='900px' height = '500px'></canvas><br>";
 	var c=document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
 
@@ -2500,6 +2501,7 @@ function clearScreen()
 	var prevEvent = document.getElementById("event");
 	var prevTable = document.getElementById("table");
 	document.getElementById('next').innerHTML = "";
+
 	gameOutput.innerHTML = "";
 	prevChoices.innerHTML = "";
 	prevEvent.innerHTML = "";
@@ -4133,11 +4135,23 @@ runningGame.main =
 		tier4: 20
 	},
 	stop: false,
+	
+
 
 	init: function (c,ctx)
 	{
 		ctx.restore;
 		ctx.save;
+		backgroundImage= new Image();
+		backgroundImage.src ="../img/cafebg.png";
+		playerAvatar = new Image();
+		playerAvatar.src = "../img/headspritesheettop.png";
+		enemyAvatar = new Image();
+		enemyAvatar.src = "../img/spriteFlip/flipheadtopsprite.png";
+		thinBodyCycle = new Image();
+		thinBodyCycle.src = "../img/thinwalkcyclesheet.png";
+		//lets add all the images
+
 		runningGame.main.player=
 		{
 			width : 50,
@@ -4234,36 +4248,39 @@ runningGame.main =
 
 	draw: function(c,ctx)
 	{
-		ctx.fillStyle = "#FFFFFF";
-		ctx.fillRect(0, 0, 1000, 500);
-		ctx.strokeRect(0, 0, 1000, 500);
+		ctx.drawImage(backgroundImage,-30,0,930,500);
 		
-		ctx.moveTo(333, 0)
-		ctx.lineTo(333,500);
-		ctx.stroke();
-		
-		ctx.moveTo(666, 0);
-		ctx.lineTo(666,500);
-		ctx.stroke();
 		
 		ctx.font = "20px Arial";
-		ctx.strokeText("Time Remaining: " +runningGame.main.time+"",790,20);
+		ctx.strokeText("Time Remaining: " +runningGame.main.time+"",700,20);
 		
 		ctx.font = "20px Arial";
 		ctx.strokeText("Score " +runningGame.main.scores.score+"",0,20);
-			
-		ctx.fillStyle="#0000FF";
-		ctx.fillRect(runningGame.main.player.x,runningGame.main.player.y,runningGame.main.player.width,runningGame.main.player.height);
+		
+		//player	
+		//body
+		ctx.drawImage(thinBodyCycle,0,0,171,122,runningGame.main.player.x-2,runningGame.main.player.y-5,runningGame.main.player.width,runningGame.main.player.height);
+		//head
+		ctx.drawImage(playerAvatar,0,0,150,160,runningGame.main.player.x,runningGame.main.player.y,runningGame.main.player.width,runningGame.main.player.height);
+		
+
+		//enemies
 			for(var i=0;i<runningGame.main.enemies.length;i++)
 			{
 				ctx.fillStyle="#FF0000";
 				ctx.fillRect(runningGame.main.enemies[i].x,runningGame.main.enemies[i].y,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
+
+				ctx.drawImage(enemyAvatar,0,0,150,160,runningGame.main.enemies[i].x,runningGame.main.enemies[i].y,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
+				
 			}
+		//coins
 			for(var i=0;i<runningGame.main.coins.length;i++)
 			{
 				ctx.fillStyle="#00FF00";
-				ctx.fillRect(runningGame.main.coins[i].x,runningGame.main.coins[i].y,runningGame.main.coins[i].width,runningGame.main.coins[i].height);
+				
+				ctx.drawImage(enemyAvatar,0,0,150,160,runningGame.main.coins[i].x,runningGame.main.coins[i].y,runningGame.main.coins[i].width,runningGame.main.coins[i].height);
 			}
+
 	},
 	
 	doMousedown: function(c, e)
@@ -4330,6 +4347,10 @@ runningGame.main =
 				width : 50,
 				height : 50,
 				y: 100,
+				race: Math.floor((Math.random() * 3)),
+				gender: Math.floor((Math.random() * 3)), 
+				face: Math.floor((Math.random() * 6)), 
+				body: Math.floor((Math.random() * 4)),  
 				x:((runningGame.main.lanes[lane].left+runningGame.main.lanes[lane].right)/2 - 25),
 				move: function(){this.y+=runningGame.main.speed*runningGame.main.calculateDeltaTime()},
 				id: runningGame.main.enemies.length
