@@ -10,12 +10,14 @@ html * {
 html {
 	background: url('../media/img/login/thinkingcaploginbg.png') no-repeat center center fixed;
 	background-size: cover;
+	font-size: 62.5%;
 }
 
 body {
 	color: $foreground-color;
   font-family: $primary-font;
 	font-weight: $font-weight;
+	font-size: 1.6rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -45,6 +47,10 @@ ul {
 }
 
 main {
+	@include MQ(L) {
+		margin-top: 60px;
+	}
+	
 	padding: calc(#{$content-padding} * 2);
 
 	// Cover entire viewport
@@ -63,7 +69,6 @@ main {
 		// Hide overflow
 		overflow: hidden;
 	}
-
 }
 
 // Wrapper for the view
@@ -73,4 +78,10 @@ main {
 	width: 90%;
 	max-width: $L;
 	height: 100%;
+}
+
+.desktop-unfrienly {
+	@include MQ(L) {
+		display: none;
+	}
 }

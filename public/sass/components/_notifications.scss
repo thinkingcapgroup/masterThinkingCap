@@ -23,4 +23,13 @@
       border-color: $error-notifications-background-accent;
     }
   }
+
+  &.success-notifications {
+    background: $success-notifications-background;
+    border-color: $success-notifications-background-accent;
+
+    li {
+      border-color: $success-notifications-background-accent;
+    }
+  }
 }

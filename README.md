@@ -57,6 +57,9 @@ function render[NewPageName] (req, res) {
   // Require the global app model
   var model = require('./../model/global')(req, res);
 
+  model.content.pageTitle = 'Thinking Cap';
+  model.globalNavigationMode = require('../model/globalNavigationModeAuth')(req, res);
+
   // Render /[newPageName] using the '[newPageName]' view and model
   res.render('[newPageName]', model);
 }
