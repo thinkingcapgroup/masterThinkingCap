@@ -1364,8 +1364,15 @@ function map(isTutorial, isFree, isPractice = false){
 	{
 		document.getElementById("event").innerHTML += "<h4> You do not have enough time remaining to take a poll.</h4>";
 	}
-
-	document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph'>Total Time: "+ timeForPoll +" Hours</p><br>";
+	if(!isFree)
+	{
+		document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph'>Total Time: "+ timeForPoll +" Hours</p><br>";
+	}
+	else
+	{
+		addMoreQuestions();
+		addMoreQuestions();
+	}
 	//Displays the screen for this event
 	document.getElementById("questionArea").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults("+isTutorial+","+isFree+"," +isPractice+")'> Submit Poll </button><button id = 'moreQuestionButton'> Add More Questions </button>";
 	
@@ -1377,8 +1384,10 @@ function map(isTutorial, isFree, isPractice = false){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='startPractice()'> Back to Practice Area </button>";
 	}
 	else{
-		console.log("Game");
-		document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
+		if(!isFree)
+			document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
+		else
+			document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='userAction()' > Choose Not to Take the Poll  </button>";
 	}
 
 	document.getElementById("questionArea").style.display = "block";
