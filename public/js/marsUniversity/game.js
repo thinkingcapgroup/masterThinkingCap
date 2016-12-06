@@ -697,7 +697,7 @@ function startOtherCandidates(heads,body){
 
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
 	document.getElementById("gameInfo").innerHTML += "<p>You're candidate, <b>"+ playerCandidate.name +"</b> is going up again Liz the Chameleon. They're going for Student Council President just like your playerCandidate. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
-	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial on how to read poll information?</p>"
+	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial?</p>"
 	document.getElementById("gameInfo").innerHTML += "<button onclick='tutorial()'>Yes</button><button onclick='actualSessionStart(false)'>No</button>";
 
 }
