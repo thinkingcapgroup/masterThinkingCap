@@ -36,6 +36,7 @@ var ctx;
 var qPollHolder;
 var ranking;
 var practice = false;
+var section = 1;
 
 //sprite stuff
 var heads = new Image();
@@ -696,8 +697,8 @@ function startOtherCandidates(heads,body){
 
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
 	document.getElementById("gameInfo").innerHTML += "<p>You're candidate, <b>"+ playerCandidate.name +"</b> is going up again Liz the Chameleon. They're going for Student Council President just like your playerCandidate. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
-	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial on how to read poll information?</p>"
-	document.getElementById("gameInfo").innerHTML += "<button onclick='map(true,true)'>Yes</button><button onclick='actualSessionStart(false)'>No</button>";
+	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial?</p>"
+	document.getElementById("gameInfo").innerHTML += "<button onclick='tutorial()'>Yes</button><button onclick='actualSessionStart(false)'>No</button>";
 
 }
 
@@ -723,7 +724,7 @@ function gameCycleStart(f)
 	
 	population = 1000;
 	sample = [];
-	startHours = 96; 
+	startHours = 120; 
 	remainingHoursTotal = startHours;
 	days = 1; 
 	remainingHoursDay = 12; 
@@ -817,7 +818,7 @@ function userAction()
 		var num = i+1;
 		document.getElementById("choices").innerHTML += "<button type='button' onclick='reportViewer("+i+")' >View Poll "+ num +" Result </button>";
 	}
-	document.getElementById("gameInfo").innerHTML += "<h3> Rival\'s Last Move: " + candidates[1].lastMove + "</h3>";
+	document.getElementById("gameInfo").innerHTML += "<h3 style = 'float: right'> Rival\'s Last Move: " + candidates[1].lastMove + "</h3>";
 	document.getElementById("choices").innerHTML += "<br>";
 
 	currentEvents = [];
@@ -1280,6 +1281,56 @@ function gameCycleEnd()
 
 
 /*Special Action Pages*/
+function tutorial ()
+{
+	document.getElementById("gameInfo").innerHTML ="";
+	var tutBUttonClicked = false; 
+	switch(section)
+	{
+		case 1:
+		document.getElementById("gameInfo").innerHTML += "<h3>Groups and Fame</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='nextSection();' style='float: right;'>Events and Minigames</button>";
+		break;
+		case 2:
+		document.getElementById("gameInfo").innerHTML += "<h3>Events and Minigames</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection();' style='float: left;'>Groups and Fame</button><button onclick='nextSection();' style='float: right;'>Statements</button>";
+		break;
+		case 3:
+		document.getElementById("gameInfo").innerHTML += "<h3>Statements</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection();' style='float: left;'>Events and Minigames</button><button onclick='nextSection();' style='float: right;'>Consistency</button>";
+		break;
+		case 4:
+		document.getElementById("gameInfo").innerHTML += "<h3>Consistency</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection();' style='float: left;'>Statements</button><button onclick='nextSection();' style='float: right;'>Polling</button>";
+		break;
+		case 5:
+		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection();' style='float: left;'>Consistency</button><button onclick='nextSection();' style='float: right;'>Days and Time</button>";
+		break;
+		case 6:
+		document.getElementById("gameInfo").innerHTML += "<h3>Days and Time</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection();' style='float: left;'>Polling</button><button onclick='map(true,false)' style='float: right;'>Try Polling</button>";
+		break;
+	}
+}
+
+function nextSection()
+{
+	section++; 
+	tutorial();
+}
+
+function lastSection()
+{
+	section--; 
+	tutorial();
+}
 
 function map(isTutorial, isFree, isPractice = false){
 	clearScreen();
@@ -1673,7 +1724,7 @@ function pollResults(isTutorial,isFree, isPractice)
 	}
 	else if(isTutorial){
 		pollCalc(pollChoices, sampleSize, bias, isTutorial, isFree);
-		document.getElementById("next").innerHTML += "<button onclick = 'map(true,true)'> Play Tutorial </button>";
+		document.getElementById("next").innerHTML += "<button onclick = 'map(true,false)'> Play Tutorial </button>";
 	}
 	else if(!pollTimeCheck(sampleSize, pollChoices) && !isFree)
 	{
@@ -2261,7 +2312,7 @@ function CandidateCreate(name){
 	this.focusnum= 0;
 	this.winChance= 0;
 	this.votes= 0;
-	this.lastMove= "None";
+	this.lastMove= "Unknown";
 	this.raceNum = 1;
 	this.genderNum = 1;
 	this.bodyTypeNum = 1;
@@ -3502,7 +3553,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	}
 		
 	if(isTutorial){
-		document.getElementById('event').innerHTML += "<button onclick = 'map(true,true)'>Back to Start</button>" 
+		document.getElementById('event').innerHTML += "<button onclick = 'map(true,false)'>Back to Start</button>" 
 	}
 
 }
@@ -4099,7 +4150,7 @@ function gameResults(scores, tutorial)
 function hourChecker()
 {
 	console.log("Here");
-	if (days < 8)
+	if (days < 10)
 	{
 	console.log("Here 1");
 		if(remainingHoursDay < 1)
@@ -4205,14 +4256,43 @@ runningGame.main =
 	{
 		ctx.restore;
 		ctx.save;
+		bodyPixelLocation = []
+
+		frameIndex = 0;
+		ticker = 0;
+		if(typeof playerCandidate !== 'undefined'){
+			headNumber = playerCandidate.headNum
+			raceNumber = playerCandidate.raceNum
+			genderNumber = playerCandidate.genderNum
+			bodyTypeNumber = playerCandidate.bodyTypeNum
+		}
+		else{
+			headNumber = 0;
+			raceNumber = 0;
+			genderNumber = 0
+			bodyTypeNumber = 0
+		}
+		console.log(playerCandidate.headNum);
+		bodyPixelArray = [[169,123], [185,137],[218,625],[180,194]]
 		backgroundImage= new Image();
-		backgroundImage.src ="../img/cafebg.png";
+		backgroundImage.src ="../img/minigame1/cafebg.png";
 		playerAvatar = new Image();
-		playerAvatar.src = "../img/headspritesheettop.png";
+		playerAvatar.src = "../img/minigame1/headspritesheettop.png";
 		enemyAvatar = new Image();
-		enemyAvatar.src = "../img/spriteFlip/flipheadtopsprite.png";
+		enemyAvatar.src = "../img/minigame1/spriteFlip/flipheadtopsprite.png";
 		thinBodyCycle = new Image();
-		thinBodyCycle.src = "../img/thinwalkcyclesheet.png";
+		thinBodyCycle.src = "../img/minigame1/thinwalkcyclesheet.png";
+		medBodyCycle = new Image();
+		medBodyCycle.src = "../img/minigame1/medwalkcycletop.png";
+		largeBodyCycle = new Image();
+		largeBodyCycle.src = "../img/minigame1/largewalkcycletop.png";
+		chairBodyCycle = new Image();
+		chairBodyCycle.src = "../img/minigame1/chairwalkcycletop.png";
+		enemythinBodyCycle = new Image();
+		enemythinBodyCycle.src = "../img/minigame1/spriteFlip/flipthinkwalkcyclesheet.png";
+		animationAssets = new Image();
+		animationAssets.src = "../img/minigame1/assetscafe.png";
+		walkCycleArray = [thinBodyCycle, medBodyCycle, largeBodyCycle, chairBodyCycle];
 		//lets add all the images
 
 		runningGame.main.player=
@@ -4220,7 +4300,7 @@ runningGame.main =
 			width : 50,
 			height : 50,
 			x : 475,
-			y:400
+			y:375
 		};
 		runningGame.main.lanes=[];
 		runningGame.main.enemies=[];
@@ -4297,6 +4377,7 @@ runningGame.main =
 			requestAnimationFrame(function(){runningGame.main.update(c,ctx)});
 			requestAnimationFrame(function(){runningGame.main.draw(c,ctx)});
 			
+			
 			runningGame.main.collisionManager();
 			for(var i=0;i<runningGame.main.enemies.length;i++)
 			{
@@ -4306,6 +4387,10 @@ runningGame.main =
 			{
 				runningGame.main.coins[i].move();
 			}
+			if(frameIndex >= 8){
+				frameIndex = 0;
+			}
+			ticker++;
 		}
 	},
 
@@ -4322,27 +4407,38 @@ runningGame.main =
 		
 		//player	
 		//body
-		ctx.drawImage(thinBodyCycle,0,0,171,122,runningGame.main.player.x-2,runningGame.main.player.y-5,runningGame.main.player.width,runningGame.main.player.height);
+		ctx.drawImage(walkCycleArray[bodyTypeNumber], (frameIndex * 169) ,(genderNumber * 123),169,123,runningGame.main.player.x-2,runningGame.main.player.y-5,runningGame.main.player.width,runningGame.main.player.height);
 		//head
-		ctx.drawImage(playerAvatar,0,0,150,160,runningGame.main.player.x,runningGame.main.player.y,runningGame.main.player.width,runningGame.main.player.height);
+		ctx.drawImage(playerAvatar, headNumber * 154, raceNumber*162 ,154,162,runningGame.main.player.x-1,runningGame.main.player.y,runningGame.main.player.width,runningGame.main.player.height);
 		
 
 		//enemies
 			for(var i=0;i<runningGame.main.enemies.length;i++)
 			{
-				ctx.fillStyle="#FF0000";
-				ctx.fillRect(runningGame.main.enemies[i].x,runningGame.main.enemies[i].y,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
-
-				ctx.drawImage(enemyAvatar,0,0,150,160,runningGame.main.enemies[i].x,runningGame.main.enemies[i].y,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
+				ctx.drawImage(enemythinBodyCycle, frameIndex * 169,0,169,122,runningGame.main.enemies[i].x,runningGame.main.enemies[i].y+5,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
+				ctx.drawImage(animationAssets,8,210,118,75,runningGame.main.enemies[i].x+5,runningGame.main.enemies[i].y+35,40,20)
+				ctx.drawImage(animationAssets,32,149,49,49,runningGame.main.enemies[i].x+15,runningGame.main.enemies[i].y+35,20,20)
+				ctx.drawImage(enemyAvatar,runningGame.main.enemies[i].face * 154,0,150,160,runningGame.main.enemies[i].x,runningGame.main.enemies[i].y,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
+				if(runningGame.main.collisionDetector(runningGame.main.player, runningGame.main.enemies[i])){
+					ctx.drawImage(animationAssets,248,169,241,157,runningGame.main.enemies[i].x-50,runningGame.main.enemies[i].y-20,157,107);
+				}
 				
 			}
 		//coins
 			for(var i=0;i<runningGame.main.coins.length;i++)
 			{
 				ctx.fillStyle="#00FF00";
-				
+				ctx.drawImage(enemythinBodyCycle,frameIndex * 169,0,169,122,runningGame.main.coins[i].x+2,runningGame.main.coins[i].y+5,runningGame.main.coins[i].width,runningGame.main.coins[i].height);
 				ctx.drawImage(enemyAvatar,0,0,150,160,runningGame.main.coins[i].x,runningGame.main.coins[i].y,runningGame.main.coins[i].width,runningGame.main.coins[i].height);
+				if(runningGame.main.collisionDetector(runningGame.main.player, runningGame.main.coins[i])){
+					ctx.drawImage(animationAssets,241,0,177,148,runningGame.main.coins[i].x-55,runningGame.main.coins[i].y-25,157,107);
+				}
 			}
+			if(ticker > 5){
+				frameIndex++;
+				ticker = 0;
+			}
+		
 
 	},
 	
@@ -4388,7 +4484,7 @@ runningGame.main =
 			touched:false,
 			width : 50,
 			height : 50,
-			y: 100,
+			y: 75,
 			x:((runningGame.main.lanes[lane].left+runningGame.main.lanes[lane].right)/2 - 25),
 			move: function(){this.y+=runningGame.main.speed*runningGame.main.calculateDeltaTime()},
 		};
@@ -4409,7 +4505,7 @@ runningGame.main =
 				touched:false,
 				width : 50,
 				height : 50,
-				y: 100,
+				y: 75,
 				race: Math.floor((Math.random() * 3)),
 				gender: Math.floor((Math.random() * 3)), 
 				face: Math.floor((Math.random() * 6)), 
@@ -4464,7 +4560,7 @@ runningGame.main =
 				touched:false,
 				width : 50,
 				height : 50,
-				y: 100,
+				y: 75,
 				x:((runningGame.main.lanes[lane].left+runningGame.main.lanes[lane].right)/2 - 25),
 				move: function(){this.y+=runningGame.main.speed*runningGame.main.calculateDeltaTime()},
 				id: runningGame.main.coins.length
@@ -4494,6 +4590,8 @@ runningGame.main =
 					if(runningGame.main.scores.score<0)
 							runningGame.main.scores.score=0;
 				}
+				//draw the collision
+
 			}
 			else if(runningGame.main.enemies[i].y >1000)
 			{
