@@ -161,7 +161,7 @@ function startGame(){
 function splashScreen()
 {
 	clearScreen();
-	document.getElementById("gameInfo").innerHTML = "<div id = 'intro' style = 'text-align:center; '><br><h1 style = ' font-size: 250%;'>Welcome to Mars University! </h1><br><a onclick = 'startAnimatic()' class = 'btn double remove' class = 'btn double remove'>New Game</a><br><br><a onclick = 'loadGame()' class = 'btn double remove'>Continue</a><br><br><a onclick = 'startPractice()' class = 'btn double remove'>Practice</a></div>";
+	document.getElementById("gameInfo").innerHTML = "<div id = 'intro' style = 'text-align:center; '><br><h1 >Welcome to Mars University! </h1><br><a onclick = 'startAnimatic()' id='index-link' class = 'btn double remove' >New Game</a><br><br><a onclick = 'loadGame()' id='index-link' class = 'btn double remove'>Continue</a><br><br><a onclick = 'startPractice()' id='index-link' class = 'btn double remove'>Practice</a></div>";
 }
 function startAnimatic()
 {
@@ -172,7 +172,7 @@ function startPractice()
 {
 	clearScreen();
 	practice = true;
-	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 style = 'font-size: 250%;'>Practice</h1><br><a onclick = 'map(true, true)' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' class = 'btn double remove'>Minigame 1</a></div> <br><br><a onclick = 'splashScreen()' class = 'btn double remove'>Return to Start Menu</a>";
+	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'map(true, true)' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
 }
 
 function startCharacterSelect(){
@@ -789,8 +789,7 @@ function gameCycleStart(f)
 	candidates.push(issueCand5);
 
 
-	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today : " + remainingHoursDay + "</h3>";
-	userAction();
+	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	userAction();
 };
 
 function userAction()
@@ -807,7 +806,7 @@ function userAction()
 	}
 
 	//Build User Action Area buttons
-	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today : " + remainingHoursDay + "</h3>";
+	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='map(false,true)'> Take A Poll </button>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='statement()'> Make a Statement</button>";
 	document.getElementById("choices").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button>";
@@ -817,8 +816,7 @@ function userAction()
 		var num = i+1;
 		document.getElementById("choices").innerHTML += "<button type='button' onclick='reportViewer("+i+")' >View Poll "+ num +" Result </button>";
 	}
-	document.getElementById("choices").innerHTML += "<br>";
-	document.getElementById("gameInfo").innerHTML += "<h4> Opponent\'s Last Move: " + candidates[1].lastMove + "</h4>";
+	document.getElementById("gameInfo").innerHTML += "<h3> Rival\'s Last Move: " + candidates[1].lastMove + "</h3>";
 	document.getElementById("choices").innerHTML += "<br>";
 
 	currentEvents = [];
@@ -1266,8 +1264,7 @@ function gameCycleEnd()
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
 
-	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today : " + remainingHoursDay + "</h3>";
-	votePercentage(1000,5);
+	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	votePercentage(1000,5);
 	var winner;
 	var winvotes = 0;
 	ranking = candidates.slice();
@@ -1283,14 +1280,17 @@ function gameCycleEnd()
 
 /*Special Action Pages*/
 
-function map(isTutorial, isFree, isPractice = 'false'){
+function map(isTutorial, isFree, isPractice = false){
 	clearScreen();
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
+	if(isPractice == false && isTutorial == false)
+		document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";
+	else
+		document.getElementById("playerInfo").innerHTML += "<h3> Day: 1 </br> Remaining Hours Today: 12 </h3><hr>";
 	
-	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today : " + remainingHoursDay + "</h3>";
-
 	console.log(isPractice);
+	console.log(isTutorial);
 
 	if(isTutorial){
 		currentCandidateArrayHolder = candidates;
@@ -3973,8 +3973,8 @@ function gameResults(scores, tutorial)
 	clearScreen();	
 	if(!tutorial)
 	{
-		remainingHoursTotal-=3;
-		remainingHoursDay-=3;
+		remainingHoursTotal-=1;
+		remainingHoursDay-=1;
 		var pos = chosenEvent.groupPos.split(',');
 		var posText =  "<h4>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame with these groups: ";
 		for (var i =0; i< pos.length;i++)
@@ -4074,7 +4074,7 @@ function gameResults(scores, tutorial)
 		}
 		
 			saveGameState();
-			document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
+			document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the User Action Area </button>";
 	}
 	else
 	{
@@ -4088,8 +4088,10 @@ function gameResults(scores, tutorial)
 
 function hourChecker()
 {
+	console.log("Here");
 	if (days < (startHours/12))
 	{
+	console.log("Here 1");
 		if(remainingHoursDay < 1)
 		{
 			days++;
@@ -4104,6 +4106,7 @@ function hourChecker()
 	}
 	else
 	{
+	console.log("Here 2");
 		if(remainingHoursTotal<1)
 		{
 			gameCycleEnd();
