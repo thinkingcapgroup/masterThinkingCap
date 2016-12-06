@@ -36,6 +36,7 @@ var ctx;
 var qPollHolder;
 var ranking;
 var practice = false;
+var section = 1;
 
 //sprite stuff
 var heads = new Image();
@@ -697,7 +698,7 @@ function startOtherCandidates(heads,body){
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
 	document.getElementById("gameInfo").innerHTML += "<p>You're candidate, <b>"+ playerCandidate.name +"</b> is going up again Liz the Chameleon. They're going for Student Council President just like your playerCandidate. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
 	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial on how to read poll information?</p>"
-	document.getElementById("gameInfo").innerHTML += "<button onclick='map(true,true)'>Yes</button><button onclick='actualSessionStart(false)'>No</button>";
+	document.getElementById("gameInfo").innerHTML += "<button onclick='tutorial()'>Yes</button><button onclick='actualSessionStart(false)'>No</button>";
 
 }
 
@@ -723,7 +724,7 @@ function gameCycleStart(f)
 	
 	population = 1000;
 	sample = [];
-	startHours = 96; 
+	startHours = 120; 
 	remainingHoursTotal = startHours;
 	days = 1; 
 	remainingHoursDay = 12; 
@@ -817,7 +818,7 @@ function userAction()
 		var num = i+1;
 		document.getElementById("choices").innerHTML += "<button type='button' onclick='reportViewer("+i+")' >View Poll "+ num +" Result </button>";
 	}
-	document.getElementById("gameInfo").innerHTML += "<h3> Rival\'s Last Move: " + candidates[1].lastMove + "</h3>";
+	document.getElementById("gameInfo").innerHTML += "<h3 style = 'float: right'> Rival\'s Last Move: " + candidates[1].lastMove + "</h3>";
 	document.getElementById("choices").innerHTML += "<br>";
 
 	currentEvents = [];
@@ -1280,6 +1281,56 @@ function gameCycleEnd()
 
 
 /*Special Action Pages*/
+function tutorial ()
+{
+	document.getElementById("gameInfo").innerHTML ="";
+	var tutBUttonClicked = false; 
+	switch(section)
+	{
+		case 1:
+		document.getElementById("gameInfo").innerHTML += "<h3>Groups and Fame</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='nextSection();' style='float: right;'>Events and Minigames</button>";
+		break;
+		case 2:
+		document.getElementById("gameInfo").innerHTML += "<h3>Events and Minigames</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection();' style='float: left;'>Groups and Fame</button><button onclick='nextSection();' style='float: right;'>Statements</button>";
+		break;
+		case 3:
+		document.getElementById("gameInfo").innerHTML += "<h3>Statements</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection();' style='float: left;'>Events and Minigames</button><button onclick='nextSection();' style='float: right;'>Consistency</button>";
+		break;
+		case 4:
+		document.getElementById("gameInfo").innerHTML += "<h3>Consistency</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection();' style='float: left;'>Statements</button><button onclick='nextSection();' style='float: right;'>Polling</button>";
+		break;
+		case 5:
+		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection();' style='float: left;'>Consistency</button><button onclick='nextSection();' style='float: right;'>Days and Time</button>";
+		break;
+		case 6:
+		document.getElementById("gameInfo").innerHTML += "<h3>Days and Time</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection();' style='float: left;'>Polling</button><button onclick='map(true,false)' style='float: right;'>Try Polling</button>";
+		break;
+	}
+}
+
+function nextSection()
+{
+	section++; 
+	tutorial();
+}
+
+function lastSection()
+{
+	section--; 
+	tutorial();
+}
 
 function map(isTutorial, isFree, isPractice = false){
 	clearScreen();
@@ -1673,7 +1724,7 @@ function pollResults(isTutorial,isFree, isPractice)
 	}
 	else if(isTutorial){
 		pollCalc(pollChoices, sampleSize, bias, isTutorial, isFree);
-		document.getElementById("next").innerHTML += "<button onclick = 'map(true,true)'> Play Tutorial </button>";
+		document.getElementById("next").innerHTML += "<button onclick = 'map(true,false)'> Play Tutorial </button>";
 	}
 	else if(!pollTimeCheck(sampleSize, pollChoices) && !isFree)
 	{
@@ -2261,7 +2312,7 @@ function CandidateCreate(name){
 	this.focusnum= 0;
 	this.winChance= 0;
 	this.votes= 0;
-	this.lastMove= "None";
+	this.lastMove= "Unknown";
 	this.raceNum = 1;
 	this.genderNum = 1;
 	this.bodyTypeNum = 1;
@@ -3502,7 +3553,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	}
 		
 	if(isTutorial){
-		document.getElementById('event').innerHTML += "<button onclick = 'map(true,true)'>Back to Start</button>" 
+		document.getElementById('event').innerHTML += "<button onclick = 'map(true,false)'>Back to Start</button>" 
 	}
 
 }
@@ -4099,7 +4150,7 @@ function gameResults(scores, tutorial)
 function hourChecker()
 {
 	console.log("Here");
-	if (days < 8)
+	if (days < 10)
 	{
 	console.log("Here 1");
 		if(remainingHoursDay < 1)
