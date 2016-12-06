@@ -1,6 +1,6 @@
 module.exports = function(req, next){
   var db = req.db,
-      getAllBugReports = 'SELECT * FROM `bugReports`;',
+      getAllBugReports = 'SELECT * FROM `bugReports` WHERE status = "incomplete";',
       error = false;
 
   db.query(getAllBugReports,function(err, result) {
