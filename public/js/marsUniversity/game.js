@@ -751,7 +751,7 @@ function gameCycleStart(f)
 	candidates.push(playerCandidate);
 
 	//Decides the opponents focus which cannot be the same as the player
-	opponentCandidate.fame = [0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5];
+	opponentCandidate.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 	opponentCandidate.consMod = 0;
 	////console.log(oppFocus);
 	chooseIssue(opponentCandidate,[f],1,false);
@@ -789,7 +789,8 @@ function gameCycleStart(f)
 	candidates.push(issueCand5);
 
 
-	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	userAction();
+	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
+	userAction();
 };
 
 function userAction()
@@ -807,7 +808,7 @@ function userAction()
 
 	//Build User Action Area buttons
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
-	document.getElementById("choices").innerHTML += "<button type='button' onclick='map(false,true)'> Take A Poll </button>";
+	document.getElementById("choices").innerHTML += "<button type='button' onclick='map(false,false)'> Take A Poll </button>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='statement()'> Make a Statement</button>";
 	document.getElementById("choices").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button>";
 	document.getElementById("choices").innerHTML += "<br>";
@@ -4089,7 +4090,7 @@ function gameResults(scores, tutorial)
 function hourChecker()
 {
 	console.log("Here");
-	if (days < (startHours/12))
+	if (days < 8)
 	{
 	console.log("Here 1");
 		if(remainingHoursDay < 1)
