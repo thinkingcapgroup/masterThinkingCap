@@ -2592,9 +2592,9 @@ function resetGame()
 function reportViewer(id)
 {
 	clearScreen();
-	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	document.getElementById("next").style.display = "block";
 	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],pastGraphData[id],pastGraphLabels[id], true, false, false);
+	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 }
 
 //Calculates the results of each poll question from each student in the sample and stores them in an array
@@ -3228,7 +3228,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var cell = row.insertCell(i);
 								if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.33)
 									{
-										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.33 && parseFloat(tableArray2[8][h]).toFixed(2)<0.66)
 									{
@@ -3236,7 +3236,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									}
 									else
 									{
-										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 					break;
 				}
@@ -3361,7 +3361,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var counter = canCounter;
 								if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
 								{
-									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 								{
@@ -3369,7 +3369,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								}
 								else
 								{
-									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}		
 					}
 
