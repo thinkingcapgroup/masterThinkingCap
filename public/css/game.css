@@ -50,3 +50,17 @@ table.sortable thead {
     font-weight: bold;
     cursor: default;
 }
+
+#centerCanvas{
+  text-align: center;
+   margin: auto;
+}
+
+canvas{
+   position: absolute;
+ 
+   
+    left: 0;
+    right: 0;
+    margin:auto;
+}

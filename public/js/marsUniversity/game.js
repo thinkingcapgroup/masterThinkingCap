@@ -1477,7 +1477,7 @@ function minigamePlayer(id){
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 
-	document.getElementById("event").innerHTML += "<canvas id='myCanvas' width='880px' height = '500px'></canvas><br>";
+	document.getElementById("event").innerHTML += "<div id = 'centerCanvas'><canvas id='myCanvas' width='880px' height = '500px' style = 'margin: 0 auto;'></canvas></div><br>";
 	var c=document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
 
