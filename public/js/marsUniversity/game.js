@@ -53,7 +53,7 @@ var imgArrayBody = [thinBody, medBody, lgBody, chairBody];
 var imgArrayBodyWidth = [164,190,264,215];
 var imgArrayBodyHeight = [343,327,304,334];
 var imgArrayHeadHeight = [171,173,173];
-var imgTopBodySprites = [[41,30],[45,33]]
+
 
 //scores go Socialite/Athlete/MediaLover/Researcher/Reader
 //the score goes tuition, tuition var, athletic, athletic var, research, research var, events, events var, medical, issueScore[4]
@@ -4273,7 +4273,7 @@ runningGame.main =
 			bodyTypeNumber = 0
 		}
 		console.log(playerCandidate.headNum);
-		bodyPixelArray = [[169,123], [185,137],[218,625],[180,194]]
+		bodyPixelArray = [[169,123], [185,137],[218,175],[180,194]]
 		backgroundImage= new Image();
 		backgroundImage.src ="../img/minigame1/cafebg.png";
 		playerAvatar = new Image();
@@ -4387,7 +4387,7 @@ runningGame.main =
 			{
 				runningGame.main.coins[i].move();
 			}
-			if(frameIndex >= 8){
+			if(frameIndex >= 8 && bodyTypeNumber != 3){
 				frameIndex = 0;
 			}
 			ticker++;
@@ -4407,7 +4407,7 @@ runningGame.main =
 		
 		//player	
 		//body
-		ctx.drawImage(walkCycleArray[bodyTypeNumber], (frameIndex * 169) ,(genderNumber * 123),169,123,runningGame.main.player.x-2,runningGame.main.player.y-5,runningGame.main.player.width,runningGame.main.player.height);
+		ctx.drawImage(walkCycleArray[bodyTypeNumber], (frameIndex * bodyPixelArray[bodyTypeNumber][0]) ,(genderNumber * bodyPixelArray[bodyTypeNumber][1]),bodyPixelArray[bodyTypeNumber][0],bodyPixelArray[bodyTypeNumber][1],runningGame.main.player.x-2,runningGame.main.player.y-5,runningGame.main.player.width,runningGame.main.player.height);
 		//head
 		ctx.drawImage(playerAvatar, headNumber * 154, raceNumber*162 ,154,162,runningGame.main.player.x-1,runningGame.main.player.y,runningGame.main.player.width,runningGame.main.player.height);
 		
@@ -4418,7 +4418,7 @@ runningGame.main =
 				ctx.drawImage(enemythinBodyCycle, frameIndex * 169,0,169,122,runningGame.main.enemies[i].x,runningGame.main.enemies[i].y+5,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
 				ctx.drawImage(animationAssets,8,210,118,75,runningGame.main.enemies[i].x+5,runningGame.main.enemies[i].y+35,40,20)
 				ctx.drawImage(animationAssets,32,149,49,49,runningGame.main.enemies[i].x+15,runningGame.main.enemies[i].y+35,20,20)
-				ctx.drawImage(enemyAvatar,runningGame.main.enemies[i].face * 154,0,150,160,runningGame.main.enemies[i].x,runningGame.main.enemies[i].y,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
+				ctx.drawImage(enemyAvatar,runningGame.main.enemies[i].face * 154, runningGame.main.enemies[i].race * 162 ,150,160,runningGame.main.enemies[i].x,runningGame.main.enemies[i].y,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
 				if(runningGame.main.collisionDetector(runningGame.main.player, runningGame.main.enemies[i])){
 					ctx.drawImage(animationAssets,248,169,241,157,runningGame.main.enemies[i].x-50,runningGame.main.enemies[i].y-20,157,107);
 				}
@@ -4429,7 +4429,7 @@ runningGame.main =
 			{
 				ctx.fillStyle="#00FF00";
 				ctx.drawImage(enemythinBodyCycle,frameIndex * 169,0,169,122,runningGame.main.coins[i].x+2,runningGame.main.coins[i].y+5,runningGame.main.coins[i].width,runningGame.main.coins[i].height);
-				ctx.drawImage(enemyAvatar,0,0,150,160,runningGame.main.coins[i].x,runningGame.main.coins[i].y,runningGame.main.coins[i].width,runningGame.main.coins[i].height);
+				ctx.drawImage(enemyAvatar,runningGame.main.coins[i].face * 154, runningGame.main.coins[i].race * 162 ,150,160,runningGame.main.coins[i].x,runningGame.main.coins[i].y,runningGame.main.coins[i].width,runningGame.main.coins[i].height);
 				if(runningGame.main.collisionDetector(runningGame.main.player, runningGame.main.coins[i])){
 					ctx.drawImage(animationAssets,241,0,177,148,runningGame.main.coins[i].x-55,runningGame.main.coins[i].y-25,157,107);
 				}
@@ -4561,6 +4561,10 @@ runningGame.main =
 				width : 50,
 				height : 50,
 				y: 75,
+				race: Math.floor((Math.random() * 3)),
+				gender: Math.floor((Math.random() * 3)), 
+				face: Math.floor((Math.random() * 6)), 
+				body: Math.floor((Math.random() * 4)),  
 				x:((runningGame.main.lanes[lane].left+runningGame.main.lanes[lane].right)/2 - 25),
 				move: function(){this.y+=runningGame.main.speed*runningGame.main.calculateDeltaTime()},
 				id: runningGame.main.coins.length
