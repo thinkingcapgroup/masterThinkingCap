@@ -173,7 +173,7 @@ function startPractice()
 {
 	clearScreen();
 	practice = true;
-	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'map(true, true)' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
+	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'map(true, true, true)' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
 }
 
 function startCharacterSelect(){
@@ -1336,13 +1336,10 @@ function map(isTutorial, isFree, isPractice = false){
 	clearScreen();
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
+	console.log(isPractice, isTutorial);
 	if(isPractice == false && isTutorial == false)
 		document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";
-	else
-		document.getElementById("playerInfo").innerHTML += "<h3> Day: 1 </br> Remaining Hours Today: 12 </h3><hr>";
 	
-	console.log(isPractice);
-	console.log(isTutorial);
 
 	if(isTutorial){
 		currentCandidateArrayHolder = candidates;
@@ -1415,7 +1412,7 @@ function map(isTutorial, isFree, isPractice = false){
 	{
 		document.getElementById("event").innerHTML += "<h4> You do not have enough time remaining to take a poll.</h4>";
 	}
-	if(!isFree)
+	if(!isFree || !isPractice)
 	{
 		document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph'>Total Time: "+ timeForPoll +" Hours</p><br>";
 	}
@@ -1427,12 +1424,12 @@ function map(isTutorial, isFree, isPractice = false){
 	//Displays the screen for this event
 	document.getElementById("questionArea").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults("+isTutorial+","+isFree+"," +isPractice+")'> Submit Poll </button><button id = 'moreQuestionButton'> Add More Questions </button>";
 	
-	if(isTutorial && !isPractice){
-		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='actualSessionStart(true)'> Start the Game </button>";
-	}
-	else if (isPractice == true){
-		console.log(isPractice);
+	console.log(isPractice, isTutorial);
+	if (isPractice == true){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='startPractice()'> Back to Practice Area </button>";
+	}
+	else if(isTutorial){
+		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='actualSessionStart(true)'> Start the Game </button>";
 	}
 	else{
 		if(!isFree)
@@ -1667,6 +1664,7 @@ function statementCalcOtherCandidate(x){
 //Displays the result of a poll immediately after it end and then saves the report for later viewing
 function pollResults(isTutorial,isFree, isPractice)
 {
+	console.log(isPractice);
 	var bias = document.getElementById('location').value;
 	document.getElementById("event").style.display = "none";
 	var duplicate = false;
@@ -1724,7 +1722,7 @@ function pollResults(isTutorial,isFree, isPractice)
 	}
 	else if(isTutorial){
 		pollCalc(pollChoices, sampleSize, bias, isTutorial, isFree);
-		document.getElementById("next").innerHTML += "<button onclick = 'map(true,false)'> Play Tutorial </button>";
+		document.getElementById("next").innerHTML += "<button onclick = 'map(true,false, "+isPractice+")'> Play Tutorial </button>";
 	}
 	else if(!pollTimeCheck(sampleSize, pollChoices) && !isFree)
 	{
