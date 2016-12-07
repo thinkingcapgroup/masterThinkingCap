@@ -53,7 +53,7 @@ var imgArrayBody = [thinBody, medBody, lgBody, chairBody];
 var imgArrayBodyWidth = [164,190,264,215];
 var imgArrayBodyHeight = [343,327,304,334];
 var imgArrayHeadHeight = [171,173,173];
-var imgTopBodySprites = [[41,30],[45,33]]
+
 
 //scores go Socialite/Athlete/MediaLover/Researcher/Reader
 //the score goes tuition, tuition var, athletic, athletic var, research, research var, events, events var, medical, issueScore[4]
@@ -1477,7 +1477,7 @@ function minigamePlayer(id){
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 
-	document.getElementById("event").innerHTML += "<canvas id='myCanvas' width='880px' height = '500px'></canvas><br>";
+	document.getElementById("event").innerHTML += "<div id = 'centerCanvas'><canvas id='myCanvas' width='880px' height = '500px' style = 'margin: 0 auto;'></canvas></div><br>";
 	var c=document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
 
@@ -2592,9 +2592,9 @@ function resetGame()
 function reportViewer(id)
 {
 	clearScreen();
-	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	document.getElementById("next").style.display = "block";
 	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],pastGraphData[id],pastGraphLabels[id], true, false, false);
+	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 }
 
 //Calculates the results of each poll question from each student in the sample and stores them in an array
@@ -3228,7 +3228,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var cell = row.insertCell(i);
 								if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.33)
 									{
-										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.33 && parseFloat(tableArray2[8][h]).toFixed(2)<0.66)
 									{
@@ -3236,7 +3236,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									}
 									else
 									{
-										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 					break;
 				}
@@ -3361,7 +3361,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var counter = canCounter;
 								if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
 								{
-									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 								{
@@ -3369,7 +3369,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								}
 								else
 								{
-									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}		
 					}
 
@@ -4273,7 +4273,7 @@ runningGame.main =
 			bodyTypeNumber = 0
 		}
 		console.log(playerCandidate.headNum);
-		bodyPixelArray = [[169,123], [185,137],[218,625],[180,194]]
+		bodyPixelArray = [[169,123], [185,137],[218,175],[180,194]]
 		backgroundImage= new Image();
 		backgroundImage.src ="../img/minigame1/cafebg.png";
 		playerAvatar = new Image();
@@ -4288,11 +4288,19 @@ runningGame.main =
 		largeBodyCycle.src = "../img/minigame1/largewalkcycletop.png";
 		chairBodyCycle = new Image();
 		chairBodyCycle.src = "../img/minigame1/chairwalkcycletop.png";
+		//enemies
 		enemythinBodyCycle = new Image();
 		enemythinBodyCycle.src = "../img/minigame1/spriteFlip/flipthinkwalkcyclesheet.png";
+		enemymedBodyCycle = new Image();
+		enemymedBodyCycle.src = "../img/minigame1/spriteFlip/flipmedwalkcyclesheet.png";
+		enemylargeBodyCycle = new Image();
+		enemylargeBodyCycle.src = "../img/minigame1/spriteFlip/fliplargewalkcyclesheet.png";
+		enemychairBodyCycle = new Image();
+		enemychairBodyCycle.src = "../img/minigame1/spriteFlip/flipchairwalkcyclesheet.png";
 		animationAssets = new Image();
 		animationAssets.src = "../img/minigame1/assetscafe.png";
 		walkCycleArray = [thinBodyCycle, medBodyCycle, largeBodyCycle, chairBodyCycle];
+		enemyWalkCycleArray = [enemythinBodyCycle, enemymedBodyCycle, enemylargeBodyCycle, enemychairBodyCycle];
 		//lets add all the images
 
 		runningGame.main.player=
@@ -4404,21 +4412,34 @@ runningGame.main =
 		
 		ctx.font = "20px Arial";
 		ctx.strokeText("Score " +runningGame.main.scores.score+"",0,20);
-		
+		var actualFrame;
 		//player	
 		//body
-		ctx.drawImage(walkCycleArray[bodyTypeNumber], (frameIndex * 169) ,(genderNumber * 123),169,123,runningGame.main.player.x-2,runningGame.main.player.y-5,runningGame.main.player.width,runningGame.main.player.height);
+		if(bodyTypeNumber ==3){
+			actualFrame =0;
+		}
+		else{
+			actualFrame = frameIndex
+		}
+		ctx.drawImage(walkCycleArray[bodyTypeNumber], (actualFrame * bodyPixelArray[bodyTypeNumber][0]) ,(genderNumber * bodyPixelArray[bodyTypeNumber][1]),bodyPixelArray[bodyTypeNumber][0],bodyPixelArray[bodyTypeNumber][1],runningGame.main.player.x-2,runningGame.main.player.y-5,runningGame.main.player.width,runningGame.main.player.height);
 		//head
 		ctx.drawImage(playerAvatar, headNumber * 154, raceNumber*162 ,154,162,runningGame.main.player.x-1,runningGame.main.player.y,runningGame.main.player.width,runningGame.main.player.height);
 		
 
+
 		//enemies
 			for(var i=0;i<runningGame.main.enemies.length;i++)
 			{
-				ctx.drawImage(enemythinBodyCycle, frameIndex * 169,0,169,122,runningGame.main.enemies[i].x,runningGame.main.enemies[i].y+5,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
+			if(runningGame.main.enemies[i].body ==3){
+					actualFrame =0;
+				}
+			else{
+				actualFrame = frameIndex
+			}
+				ctx.drawImage(enemyWalkCycleArray[runningGame.main.enemies[i].body], (actualFrame * bodyPixelArray[runningGame.main.enemies[i].body][0]) ,(runningGame.main.enemies[i].gender * bodyPixelArray[runningGame.main.enemies[i].body][1]),bodyPixelArray[runningGame.main.enemies[i].body][0],bodyPixelArray[runningGame.main.enemies[i].body][1],runningGame.main.enemies[i].x,runningGame.main.enemies[i].y+5,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
 				ctx.drawImage(animationAssets,8,210,118,75,runningGame.main.enemies[i].x+5,runningGame.main.enemies[i].y+35,40,20)
 				ctx.drawImage(animationAssets,32,149,49,49,runningGame.main.enemies[i].x+15,runningGame.main.enemies[i].y+35,20,20)
-				ctx.drawImage(enemyAvatar,runningGame.main.enemies[i].face * 154,0,150,160,runningGame.main.enemies[i].x,runningGame.main.enemies[i].y,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
+				ctx.drawImage(enemyAvatar,runningGame.main.enemies[i].face * 154, runningGame.main.enemies[i].race * 162 ,150,160,runningGame.main.enemies[i].x,runningGame.main.enemies[i].y,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
 				if(runningGame.main.collisionDetector(runningGame.main.player, runningGame.main.enemies[i])){
 					ctx.drawImage(animationAssets,248,169,241,157,runningGame.main.enemies[i].x-50,runningGame.main.enemies[i].y-20,157,107);
 				}
@@ -4427,9 +4448,14 @@ runningGame.main =
 		//coins
 			for(var i=0;i<runningGame.main.coins.length;i++)
 			{
-				ctx.fillStyle="#00FF00";
-				ctx.drawImage(enemythinBodyCycle,frameIndex * 169,0,169,122,runningGame.main.coins[i].x+2,runningGame.main.coins[i].y+5,runningGame.main.coins[i].width,runningGame.main.coins[i].height);
-				ctx.drawImage(enemyAvatar,0,0,150,160,runningGame.main.coins[i].x,runningGame.main.coins[i].y,runningGame.main.coins[i].width,runningGame.main.coins[i].height);
+				if(runningGame.main.coins[i].body ==3){
+					actualFrame =0;
+				}
+				else{
+					actualFrame = frameIndex
+				}
+				ctx.drawImage(enemyWalkCycleArray[runningGame.main.coins[i].body],(actualFrame * bodyPixelArray[runningGame.main.coins[i].body][0]) ,(runningGame.main.coins[i].gender * bodyPixelArray[runningGame.main.coins[i].body][1]),bodyPixelArray[runningGame.main.coins[i].body][0],bodyPixelArray[runningGame.main.coins[i].body][1] ,runningGame.main.coins[i].x+2,runningGame.main.coins[i].y+5,runningGame.main.coins[i].width,runningGame.main.coins[i].height); 
+       			ctx.drawImage(enemyAvatar,runningGame.main.coins[i].face * 154, runningGame.main.coins[i].race * 162 ,150,160,runningGame.main.coins[i].x,runningGame.main.coins[i].y,runningGame.main.coins[i].width,runningGame.main.coins[i].height);
 				if(runningGame.main.collisionDetector(runningGame.main.player, runningGame.main.coins[i])){
 					ctx.drawImage(animationAssets,241,0,177,148,runningGame.main.coins[i].x-55,runningGame.main.coins[i].y-25,157,107);
 				}
@@ -4561,6 +4587,10 @@ runningGame.main =
 				width : 50,
 				height : 50,
 				y: 75,
+				race: Math.floor((Math.random() * 3)),
+				gender: Math.floor((Math.random() * 3)), 
+				face: Math.floor((Math.random() * 6)), 
+				body: Math.floor((Math.random() * 4)),  
 				x:((runningGame.main.lanes[lane].left+runningGame.main.lanes[lane].right)/2 - 25),
 				move: function(){this.y+=runningGame.main.speed*runningGame.main.calculateDeltaTime()},
 				id: runningGame.main.coins.length
