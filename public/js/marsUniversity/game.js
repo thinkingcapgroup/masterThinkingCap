@@ -4288,11 +4288,19 @@ runningGame.main =
 		largeBodyCycle.src = "../img/minigame1/largewalkcycletop.png";
 		chairBodyCycle = new Image();
 		chairBodyCycle.src = "../img/minigame1/chairwalkcycletop.png";
+		//enemies
 		enemythinBodyCycle = new Image();
 		enemythinBodyCycle.src = "../img/minigame1/spriteFlip/flipthinkwalkcyclesheet.png";
+		enemymedBodyCycle = new Image();
+		enemymedBodyCycle.src = "../img/minigame1/spriteFlip/flipmedwalkcyclesheet.png";
+		enemylargeBodyCycle = new Image();
+		enemylargeBodyCycle.src = "../img/minigame1/spriteFlip/fliplargewalkcyclesheet.png";
+		enemychairBodyCycle = new Image();
+		enemychairBodyCycle.src = "../img/minigame1/spriteFlip/flipchairwalkcyclesheet.png";
 		animationAssets = new Image();
 		animationAssets.src = "../img/minigame1/assetscafe.png";
 		walkCycleArray = [thinBodyCycle, medBodyCycle, largeBodyCycle, chairBodyCycle];
+		enemyWalkCycleArray = [enemythinBodyCycle, enemymedBodyCycle, enemylargeBodyCycle, enemychairBodyCycle];
 		//lets add all the images
 
 		runningGame.main.player=
@@ -4387,7 +4395,7 @@ runningGame.main =
 			{
 				runningGame.main.coins[i].move();
 			}
-			if(frameIndex >= 8 && bodyTypeNumber != 3){
+			if(frameIndex >= 8){
 				frameIndex = 0;
 			}
 			ticker++;
@@ -4404,18 +4412,31 @@ runningGame.main =
 		
 		ctx.font = "20px Arial";
 		ctx.strokeText("Score " +runningGame.main.scores.score+"",0,20);
-		
+		var actualFrame;
 		//player	
 		//body
-		ctx.drawImage(walkCycleArray[bodyTypeNumber], (frameIndex * bodyPixelArray[bodyTypeNumber][0]) ,(genderNumber * bodyPixelArray[bodyTypeNumber][1]),bodyPixelArray[bodyTypeNumber][0],bodyPixelArray[bodyTypeNumber][1],runningGame.main.player.x-2,runningGame.main.player.y-5,runningGame.main.player.width,runningGame.main.player.height);
+		if(bodyTypeNumber ==3){
+			actualFrame =0;
+		}
+		else{
+			actualFrame = frameIndex
+		}
+		ctx.drawImage(walkCycleArray[bodyTypeNumber], (actualFrame * bodyPixelArray[bodyTypeNumber][0]) ,(genderNumber * bodyPixelArray[bodyTypeNumber][1]),bodyPixelArray[bodyTypeNumber][0],bodyPixelArray[bodyTypeNumber][1],runningGame.main.player.x-2,runningGame.main.player.y-5,runningGame.main.player.width,runningGame.main.player.height);
 		//head
 		ctx.drawImage(playerAvatar, headNumber * 154, raceNumber*162 ,154,162,runningGame.main.player.x-1,runningGame.main.player.y,runningGame.main.player.width,runningGame.main.player.height);
 		
 
+
 		//enemies
 			for(var i=0;i<runningGame.main.enemies.length;i++)
 			{
-				ctx.drawImage(enemythinBodyCycle, frameIndex * 169,0,169,122,runningGame.main.enemies[i].x,runningGame.main.enemies[i].y+5,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
+			if(runningGame.main.enemies[i].body ==3){
+					actualFrame =0;
+				}
+			else{
+				actualFrame = frameIndex
+			}
+				ctx.drawImage(enemyWalkCycleArray[runningGame.main.enemies[i].body], (actualFrame * bodyPixelArray[runningGame.main.enemies[i].body][0]) ,(runningGame.main.enemies[i].gender * bodyPixelArray[runningGame.main.enemies[i].body][1]),bodyPixelArray[runningGame.main.enemies[i].body][0],bodyPixelArray[runningGame.main.enemies[i].body][1],runningGame.main.enemies[i].x,runningGame.main.enemies[i].y+5,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
 				ctx.drawImage(animationAssets,8,210,118,75,runningGame.main.enemies[i].x+5,runningGame.main.enemies[i].y+35,40,20)
 				ctx.drawImage(animationAssets,32,149,49,49,runningGame.main.enemies[i].x+15,runningGame.main.enemies[i].y+35,20,20)
 				ctx.drawImage(enemyAvatar,runningGame.main.enemies[i].face * 154, runningGame.main.enemies[i].race * 162 ,150,160,runningGame.main.enemies[i].x,runningGame.main.enemies[i].y,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
@@ -4427,9 +4448,14 @@ runningGame.main =
 		//coins
 			for(var i=0;i<runningGame.main.coins.length;i++)
 			{
-				ctx.fillStyle="#00FF00";
-				ctx.drawImage(enemythinBodyCycle,frameIndex * 169,0,169,122,runningGame.main.coins[i].x+2,runningGame.main.coins[i].y+5,runningGame.main.coins[i].width,runningGame.main.coins[i].height);
-				ctx.drawImage(enemyAvatar,runningGame.main.coins[i].face * 154, runningGame.main.coins[i].race * 162 ,150,160,runningGame.main.coins[i].x,runningGame.main.coins[i].y,runningGame.main.coins[i].width,runningGame.main.coins[i].height);
+				if(runningGame.main.coins[i].body ==3){
+					actualFrame =0;
+				}
+				else{
+					actualFrame = frameIndex
+				}
+				ctx.drawImage(enemyWalkCycleArray[runningGame.main.coins[i].body],(actualFrame * bodyPixelArray[runningGame.main.coins[i].body][0]) ,(runningGame.main.coins[i].gender * bodyPixelArray[runningGame.main.coins[i].body][1]),bodyPixelArray[runningGame.main.coins[i].body][0],bodyPixelArray[runningGame.main.coins[i].body][1] ,runningGame.main.coins[i].x+2,runningGame.main.coins[i].y+5,runningGame.main.coins[i].width,runningGame.main.coins[i].height); 
+       			ctx.drawImage(enemyAvatar,runningGame.main.coins[i].face * 154, runningGame.main.coins[i].race * 162 ,150,160,runningGame.main.coins[i].x,runningGame.main.coins[i].y,runningGame.main.coins[i].width,runningGame.main.coins[i].height);
 				if(runningGame.main.collisionDetector(runningGame.main.player, runningGame.main.coins[i])){
 					ctx.drawImage(animationAssets,241,0,177,148,runningGame.main.coins[i].x-55,runningGame.main.coins[i].y-25,157,107);
 				}
