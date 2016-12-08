@@ -451,13 +451,6 @@
 	      passwordCheckRequirements = document.getElementById('passwordCheck-requirements').children,
 	      displayNameRequirements = document.getElementById('displayName-requirements').children;
 
-	  // console.log(userNameRequirements);
-	  // console.log(emailRequirements);
-	  // console.log(passwordRequirements);
-	  // console.log(passwordCheckRequirements);
-	  // console.log(displayNameRequirements);
-
-
 	  usernameInput.addEventListener('input', function () { validateUserName(usernameInput, userNameRequirements); });
 	  emailInput.addEventListener('input', function () { validateEmail(emailInput, emailRequirements); });
 	  displayNameInput.addEventListener('input', function () { validateDisplayName(displayNameInput, displayNameRequirements); });
@@ -636,6 +629,7 @@
 	          }
 	        }
 	  }
+
 	  /**
 	   * changeRequirementsValidation - Changes input and requirements to valid or invalid
 	   *
@@ -676,7 +670,6 @@
 	        // Add .invalid-input-requirement
 	        requirement.classList.add('invalid-input-requirement');
 	      }
-
 	    }
 	  }
 	}

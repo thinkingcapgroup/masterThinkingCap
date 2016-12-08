@@ -174,6 +174,10 @@ thinkingcap.[pageName]();
 else if (document.getElementById('[View/Element ID/]')) {
   thinkingcap.[pageName]();
 }
+
+ * Now remember to run ```npm run dev``` in your terminal after you change client side code!
+  * This runs both ```webpack``` and ```node-dev server.js``` so that it bundles our code and starts the server
+  * If you just want to bundle the code you can type ```webpack``` in your terminal
 ```
 
 ### Adding new styles
