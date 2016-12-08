@@ -1506,9 +1506,6 @@ function map(state, isFirst, isFree){
 	else if (state == 2){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='startPractice()'> Back to Practice Area </button>";
 	}
-	else if(isTutorial){
-		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='actualSessionStart(true)'> Start the Game </button>";
-	}
 	else{
 		if(!isFree)
 			document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
@@ -1744,7 +1741,6 @@ function statementCalcOtherCandidate(x){
 //Displays the result of a poll immediately after it end and then saves the report for later viewing
 function pollResults(state, isFirst, isFree)
 {
-	console.log(isPractice);
 	var bias = document.getElementById('location').value;
 	document.getElementById("event").style.display = "none";
 	var duplicate = false;
@@ -3453,7 +3449,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 								{
-									cell.innerHTML = "Sort Of TrustWorthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Sort Of Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else
 								{
