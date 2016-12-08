@@ -19,8 +19,10 @@
     </header>
     <section id='login-section'>
       <form id='login-form' action='/login' method='post'>
-        <input class='input' type='text' name='username' placeholder='Username' />
-        <input class='input' type='password' name='password' placeholder='Password' />
+        <label for='login-form-handle'>Enter your username or email.</label>
+        <input class='input' id='login-form-handle' type='text' name='handle' placeholder='Username or Email' />
+        <label for='login-form-password'>Enter your password</label>
+        <input class='input'id='login-form-password' type='password' name='password' placeholder='Password' />
         <ul id='login-actions'>
           <li class='login-action'>
             <button class='btn' type='submit' name='loginSubmit' value='loginSubmit'>Log in</button>

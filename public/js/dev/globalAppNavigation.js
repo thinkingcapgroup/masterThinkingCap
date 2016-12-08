@@ -1,57 +1,4 @@
-(function() {
-  'use strict';
-
-  var bugReportButtons = document.getElementsByClassName('bug-report-button'),
-      bugReportModal = document.getElementById('bug-report-modal'),
-      bugReportCancelButton = document.getElementById('bug-report-cancel-button');
-
-  // Event listeners
-  for (var i = 0; i < bugReportButtons.length; i++) {
-    var bugReportButton = bugReportButtons[i];
-    bugReportButton.addEventListener('click', displayBugReportModal);
-  }
-
-  bugReportCancelButton.addEventListener('click', hideBugReportModal);
-
-  // Index
-  if (document.getElementById('index')) {
-    // Hide button
-    document.getElementById('index-link').classList.add('hide');
-
-    // After 2.5 seconds call fadeTitle
-    setTimeout(swapTitleWithLink, 2000);
-
-    /**
-     * swapTitleWithLink - adds a class to the <h1> in index-section
-     * and removes a class in the <a> which displays it
-     * @return {type}  description
-     */
-    function swapTitleWithLink() {
-      // Get elements
-      var indexTitle = document.getElementById('index-title'),
-          indexLink = document.getElementById('index-link');
-
-      // Hide title element
-      indexTitle.classList.add('hide');
-
-      // Show link
-      indexLink.classList.remove('hide');
-    }
-  } // End Index
-
-  // Shows the bug report modal
-  function displayBugReportModal () {
-    bugReportModal.classList.remove('hide');
-  }
-
-  // Hides the bug report modal
-  function hideBugReportModal () {
-    bugReportModal.classList.add('hide');
-  }
-  ////////////////////////////////////////////////
-  // Dropdown morph
-  ////////////////////////////////////////////////
-
+function globalAppNavigation () {
   // Make sure we have requestAnimationFrame
   if (!window.requestAnimationFrame) {
     window.requestAnimationFrame = (function() {
@@ -105,6 +52,8 @@
   window.addEventListener('resize', switchNavigationTypes, false);
 
   resetDropdown();
+
+  //////////////
 
   function navMenuClick (event) {
     if (event.target.nodeName !== 'FORM' && event.target.parentNode.nodeName !== 'FORM') {
@@ -323,4 +272,6 @@
   ////////////////////////////////////////////////
   // Dropdown morph END
   ////////////////////////////////////////////////
-}());
+}
+
+module.exports = globalAppNavigation;

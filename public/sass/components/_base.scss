@@ -50,25 +50,25 @@ main {
 	@include MQ(L) {
 		margin-top: 60px;
 	}
-	
+
 	padding: calc(#{$content-padding} * 2);
 
-	// Cover entire viewport
-	&.full-page {
-		// Remove browser-default margins
-		margin: 0;
-
-		// Height and width fallback for older browsers
-		height: 100%;
-		width: 100%;
-
-		// Set height, width to match old browsers
-		height: 100vh;
-		width: 100vw;
-
-		// Hide overflow
-		overflow: hidden;
-	}
+	// // Cover entire viewport
+	//  &.full-page {
+	// 	// Remove browser-default margins
+	// 	margin: 0;
+	//
+	// 	// Height and width fallback for older browsers
+	// 	height: 100%;
+	// 	width: 100%;
+	//
+	// 	// Set height, width to match old browsers
+	// 	height: 100vh;
+	// 	width: 100vw;
+	//
+	// 	// Hide overflow
+	// 	overflow: hidden;
+	// }
 }
 
 // Wrapper for the view
