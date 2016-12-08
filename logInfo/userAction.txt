@@ -233,3 +233,10 @@
 2-undefined-undefined-undefined-undefined-undefined-undefined
 2-undefined-undefined-undefined-undefined-undefined-undefined
 2-undefined-undefined-undefined-undefined-undefined-undefined
+2-issue-undefined-undefined-undefined-undefined-undefined
+2-issFav-candOpp-undefined-undefined-undefined-undefined
+2-playTrust-playTrust-undefined-undefined-undefined-undefined
+2-issFav-issue-undefined-undefined-undefined-undefined
+2-Posters-1481221779652
+2-issFav-issue-undefined-undefined-undefined-undefined
+2-undefined-candFav-issOpp-undefined-candOpp-undefined

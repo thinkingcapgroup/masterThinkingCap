@@ -1418,6 +1418,7 @@ function map(isTutorial, isFree, isPractice = false){
 	}
 	else
 	{
+		document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph'></p><br>";
 		addMoreQuestions();
 		addMoreQuestions();
 	}
