@@ -240,3 +240,8 @@
 2-Posters-1481221779652
 2-issFav-issue-undefined-undefined-undefined-undefined
 2-undefined-candFav-issOpp-undefined-candOpp-undefined
+2-undefined-undefined-undefined-undefined-undefined-undefined
+2-undefined-undefined-undefined-undefined-undefined-undefined
+2-undefined-undefined-undefined-undefined-undefined-undefined
+2-candOpp-issue-undefined-issOpp-undefined-undefined
+2-issFav-candOpp-undefined-issOpp-undefined-undefined

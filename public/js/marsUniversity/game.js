@@ -1412,13 +1412,13 @@ function map(isTutorial, isFree, isPractice = false){
 	{
 		document.getElementById("event").innerHTML += "<h4> You do not have enough time remaining to take a poll.</h4>";
 	}
-	if(!isFree || !isPractice)
+	if(!isFree)
 	{
 		document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph'>Total Time: "+ timeForPoll +" Hours</p><br>";
 	}
 	else
 	{
-		document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph'></p><br>";
+		document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph' style = 'display:none'></p><br>";
 		addMoreQuestions();
 		addMoreQuestions();
 	}
