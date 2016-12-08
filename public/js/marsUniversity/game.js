@@ -1407,8 +1407,6 @@ function map(state, isFirst, isFree){
 	if(isFree == false && isFirst == false && state !=2)
 		document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";
 	
-	console.log(state == 2);
-	console.log(state == 1);
 
 	if(state == 1){
 		currentCandidateArrayHolder = candidates;
@@ -1507,6 +1505,9 @@ function map(state, isFirst, isFree){
 	}
 	else if (state == 2){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='startPractice()'> Back to Practice Area </button>";
+	}
+	else if(isTutorial){
+		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='actualSessionStart(true)'> Start the Game </button>";
 	}
 	else{
 		if(!isFree)
@@ -1743,6 +1744,7 @@ function statementCalcOtherCandidate(x){
 //Displays the result of a poll immediately after it end and then saves the report for later viewing
 function pollResults(state, isFirst, isFree)
 {
+	console.log(isPractice);
 	var bias = document.getElementById('location').value;
 	document.getElementById("event").style.display = "none";
 	var duplicate = false;
