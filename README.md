@@ -172,7 +172,7 @@ thinkingcap.[pageName]();
 
 ``` js
 else if (document.getElementById('[View/Element ID/]')) {
-thinkingcap.[pageName]();
+  thinkingcap.[pageName]();
 }
 ```
 
