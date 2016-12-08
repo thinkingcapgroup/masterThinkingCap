@@ -16,11 +16,8 @@
         {{! Navigation for inactive users }}
         {{#if globalNavigationMode.inactiveUser}}
           {{! Resend activation email }}
-          <li data-content='navActivationEmailForm'>
-            <form action='/accountactivation' method='post'>
-              <input id='email' class='input' type='text' name='email' placeholder='Email'/>
-              <button class='btn' type='submit' name='resendActivationEmail' value='true'>Resend Activation Email</button>
-            </form>
+          <li class='has-dropdown links' data-content='navActivationEmailForm'>
+            <a href='/accountactivation'>Account Activation</a>
           </li>
 
           {{! Navigation for active users}}
@@ -47,13 +44,10 @@
         {{! Navigation for unauthenticated users }}
         {{else}}
         {{! Login }}
-        <li data-content='navLoginForm'>
-          <form action='/login' method='post'>
-            <input class='input' type='text' name='username' placeholder='Username' />
-            <input class='input' type='password' name='password' placeholder='Password' />
-            <button class='btn' type='submit' name='loginSubmit' value='loginSubmit'>Log in</button>
-          </form>
+        <li class='has-dropdown links' data-content='navLoginForm'>
+          <a href='/login'>Login</a>
         </li>
+
         {{! Sign up }}
         <li data-content='navSignupLink'>
           <a href='/consentauthorization' class='btn'>Sign up</a>
@@ -93,11 +87,14 @@
           {{#if globalNavigationMode.inactiveUser}}
             {{! Resend activation email }}
             <li id='navActivationEmailForm' class='dropdown links'>
-              <form action='/accountactivation' method='post'>
-                <a class='label'>Resend email activation link</a>
-                <input id='email' class='input' type='text' name='email' placeholder='Email'/>
-                <button class='btn' type='submit' name='resendActivationEmail' value='true'>Resend Activation Email</button>
-              </form>
+              <a href='/accountactivation' class='label'>Account Activation</a>
+              <div class='nav-dropdown-content'>
+                <form action='/accountactivation' method='post'>
+                  <h2>Resend Activation Email</h2>
+                  <input id='email' class='input' type='text' name='email' placeholder='Email'/>
+                  <button class='btn' type='submit' name='resendActivationEmail' value='true'>Resend</button>
+                </form>
+              </div>
             </li>
 
             {{! Navigation for active users}}
@@ -155,16 +152,21 @@
           {{else}}
           {{! Log in}}
           <li id='navLoginForm' class='dropdown links'>
-            <form class='' action='/login' method='post'>
-              <a class='label'>Log in</a>
-              <input class='input' type='text' name='username' placeholder='Username' />
-              <input class='input' type='password' name='password' placeholder='Password' />
-              <button class='btn' type='submit' name='loginSubmit' value='loginSubmit'>Log in</button>
-            </form>
+            <a href='/login' class='label'>Login</a>
+            <div class='nav-dropdown-content'>
+              <form class='nav-login-form' action='/login' method='post'>
+                <h2>Enter your username or email, and your password to login</h2>
+                <input class='input' type='text' name='handle' placeholder='Username or Email' />
+                <input class='input' type='password' name='password' placeholder='Password' />
+                <button class='btn login-btn' type='submit' name='loginSubmit' value='loginSubmit'>Log in</button>
+                <a href='/forgotPassword' class='btn'>Forgot Password</a>
+              </form>
+            </div>
           </li>
 
           {{! Sign up }}
           <li id='navSignupLink' class='dropdown links'>
+            <h2>Create an account</h2>
             <a href='/consentauthorization' class='btn'>Sign up</a>
           </li>
         {{/if}}

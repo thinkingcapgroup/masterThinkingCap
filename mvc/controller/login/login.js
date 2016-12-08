@@ -2,6 +2,8 @@
 var express = require('express'),
     // Get the express Router
     router = express.Router(),
+    // Require validator
+    validator = require('validator'),
     // Notifications
     errorNotifications = [], successNotifications = [];
 
@@ -13,7 +15,7 @@ var express = require('express'),
  */
 router.get('/', function (req,res) {
   // If user is already logged in
-  if (req.cookies.username && req.cookies.password) {
+  if ((req.cookies.username && req.cookies.password) || (req.cookies.email && req.cookies.password)) {
     // Redirect to dashboard
     res.redirect('/dashboard');
   }
@@ -87,17 +89,32 @@ function loginUser (req, res) {
 
   // If user pressed loginSubmit button
   if (rb.loginSubmit) {
-    // Set request user
-    req.user = {
-      // userName as the typed username
-      userName: rb.username,
-      // password as the encrypted version of typed password
-      password: encrypt(rb.password)
-    };
 
-    // Set cookies for user credentials
-    res.cookie('username', req.user.userName);
-    res.cookie('password', req.user.password);
+    if (validator.isEmail(rb.handle)) {
+      req.user = {
+        // email as typed handle
+        email: rb.handle,
+        // password as the encrypted version of typed password
+        password: encrypt(rb.password)
+      };
+
+      // Set cookies for user credentials
+      res.cookie('email', req.user.email);
+      res.cookie('password', req.user.password);
+    }
+    else if (validator.isAlphanumeric(rb.handle)) {
+      // Set request user
+      req.user = {
+        // userName as the typed handle
+        userName: rb.handle,
+        // password as the encrypted version of typed password
+        password: encrypt(rb.password)
+      };
+
+      // Set cookies for user credentials
+      res.cookie('username', req.user.userName);
+      res.cookie('password', req.user.password);
+    }
 
     // Redirect to /dashboard where they will go through authentication
     res.redirect('/dashboard');
