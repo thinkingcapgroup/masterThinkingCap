@@ -3,17 +3,19 @@
 }
 
 .input {
+	width: 100%;
 	padding: calc(#{$content-padding} / 1.5) $content-padding;
 
 	border: 1px solid $foreground-color;
 	border-radius: 4px;
 
-	&:disabled {
-		background: $gray;
+	&.valid-input {
+		background: $green;
+		border-color: $success-notifications-background-accent;
 	}
 
-	&:required {
-		border-color: #e74c3c;
+	&:disabled {
+		background: $gray;
 	}
 
 	&:focus {
@@ -29,7 +31,7 @@
 
 .form-fields {
   width: 100%;
-  max-width: 480px;
+
   li {
     margin: $content-padding;
     padding: $content-padding;
@@ -43,6 +45,25 @@
       border-top: 1px solid $foreground-color;
     }
   }
+
+	.input {
+		max-width: $S;
+	}
+
+	dl {
+		width: 100%;
+	}
+
+	dt {
+		display: block;
+		margin-bottom: 1em;
+	}
+
+	dd {
+		@include MQ (M) {
+			margin-left: 1em;
+		}
+	}
 
   ul li {
     margin-top: 0;
@@ -59,6 +80,51 @@
       margin-left: $content-padding;
     }
   }
+}
+
+
+.input-requirements {
+	display: flex;
+	flex-direction: column;
+
+	@include MQ (M) {
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	li {
+		margin-left: 0;
+		padding-left: 0;
+		line-height: 1.6;
+
+		&.valid-input-requirement {
+			color: $success-notifications-background;
+
+			&:before {
+				content: '';
+				display: block;
+				background: url('../media/img/icons/done.svg') no-repeat;
+				width: 24px;
+				height: 24px;
+				float: left;
+				margin: 0 6px 0 0;
+			}
+		}
+
+		&.invalid-input-requirement {
+			color: $warning-notifications-background;
+
+			&:before {
+				content: '';
+				display: block;
+				background: url('../media/img/icons/warning.svg') no-repeat;
+				width: 20px;
+				height: 20px;
+				float: left;
+				margin: 0 6px 0 0;
+			}
+		}
+	}
 }
 
 .action-links {

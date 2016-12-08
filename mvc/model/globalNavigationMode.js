@@ -4,7 +4,7 @@ module.exports = function (req, res) {
       authenticatedUser: true,
       username: req.cookies.username,
       accountDisplay: (req.cookies.displayName !== '') ? req.cookies.displayName : 'My Account',
-      inactiveUser: (parseInt(req.cookies.userRole) === 1) ? true : false
+      inactiveUser: (parseInt(req.cookies.userRole) === 1) ? true : false,
       adminUser: (parseInt(req.cookies.userRole) === 5) ? true : false
     };
   }

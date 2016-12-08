@@ -12,7 +12,7 @@ var express = require('express'),
 router.get('/', function(req, res) {
 
   // If user is already logged in
-  if (req.cookies.username && req.cookies.password) {
+  if ((req.cookies.username && req.cookies.password) || (req.cookies.email && req.cookies.password)) {
     // Redirect to dashboard
     res.redirect('/dashboard');
   }
