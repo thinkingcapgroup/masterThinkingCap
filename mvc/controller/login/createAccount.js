@@ -23,7 +23,7 @@ var express = require('express'),
 router.get('/', recaptcha.middleware.render, function (req,res) {
   errorNotifications.length = successNotifications.length = 0;
 
-  if (req.cookies.username && req.cookies.password) {
+  if ((req.cookies.username && req.cookies.password) || (req.cookies.email && req.cookies.password)) {
     // Redirect to dashboard
     res.redirect('/dashboard');
   }
@@ -164,7 +164,7 @@ function validateUserInput (req) {
   var valid = true,
       pattern = {
         bool: /no|yes/,
-        password: /./
+        password: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/
       },
       rb = req.body;
 
@@ -189,6 +189,12 @@ function validateUserInput (req) {
   // Verify email is an email
   if (!validator.isEmail(rb.email)) {
     errorNotifications.push('Please enter a vaid email.');
+    valid = false;
+  }
+
+  // Verify user entered a displayName
+  if (validator.isEmpty(rb.displayName)) {
+    errorNotifications.push('Please enter a display name');
     valid = false;
   }
 
@@ -261,8 +267,12 @@ function sendMailToUser (req, res, userData, accountActivationData) {
   var authConfig = require('../../../config/auth'),
       // Create a nodemailer transporter
       transporter = nodemailer.createTransport({
-        // Email will be sent with Gmail
-        service: 'Gmail',
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+           ciphers:'SSLv3'
+        },
         // auth will be our Developer email
         auth: authConfig.thinkingcapMail
       }),

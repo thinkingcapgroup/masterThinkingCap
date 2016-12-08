@@ -1,0 +1,14 @@
+<svg width="20" height="18" viewBox="0 0 20 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:figma="http://www.figma.com/figma/ns">
+<title>warning</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(259 -117)" figma:type="canvas">
+<g id="warning" style="mix-blend-mode:normal;" figma:type="frame">
+<g id="Vector" style="mix-blend-mode:normal;" figma:type="vector">
+<use xlink:href="#path0_fill" transform="translate(-259 117)" fill="#E7C251" style="mix-blend-mode:normal;"/>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_fill" d="M 0 17.2727L 20 17.2727L 10 0L 0 17.2727ZM 10.9091 14.5455L 9.09091 14.5455L 9.09091 12.7273L 10.9091 12.7273L 10.9091 14.5455ZM 10.9091 10.9091L 9.09091 10.9091L 9.09091 7.27273L 10.9091 7.27273L 10.9091 10.9091Z"/>
+</defs>
+</svg>
