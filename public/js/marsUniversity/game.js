@@ -2677,7 +2677,9 @@ function reportViewer(id)
 {
 	clearScreen();
 	document.getElementById("next").style.display = "block";
-	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],pastGraphData[id],pastGraphLabels[id], 0, false, false);
+
+	//pollChoices, tableArray2, sSize, graphData, graphLabels, review, state, isFree, isFirst
+	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],pastGraphData[id],pastGraphLabels[id], 1, 0, false, false);
 	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 }
 
