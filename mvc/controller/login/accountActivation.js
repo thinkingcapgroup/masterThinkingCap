@@ -204,8 +204,12 @@ function resendActivationEmail (req, res, data) {
   var authConfig = require('../../../config/auth'),
       // Create a nodemailer transporter
       transporter = nodemailer.createTransport({
-        // Email will be sent with Gmail
-        service: 'Gmail',
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+           ciphers:'SSLv3'
+        },
         // auth will be our Developer email
         auth: authConfig.thinkingcapMail
       }),

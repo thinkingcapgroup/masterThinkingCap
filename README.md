@@ -140,14 +140,44 @@ module.exports = function(req, data, next) {
 };
 ```
 ### Creating client-side code not game specific
-* Go into ```public/js/main.js```
- * If creating something for a specific page follow the model below
+* Go into ```public/js/dev/```
+ * Create a new js file there following the following format:
 
 ``` js
-else if (document.getElementById('[View/Element ID]')) {
-// your code here
+function [pageName] () {
+  // add your code here
+}
+
+module.exports = [pageName];
+```
+
+* Then go into ```public/js/dev/thinkingcap.js```
+ * Add your new file under the appropriate comment
+  * Global is for global components in the app such as the navigation and bug Reports
+  * Views are for specific pages like ```/login``` or ```dashboard```
+  * Components are for widgets that are not seen on every page such as notifications ect.
+ * Follow this format:
+
+``` js
+[pageName]: require('./[pageName]')
+```
+* Finally in ```public/js/dev/main.js```
+ * If your file was under global you should simply do the following below the other globals:
+
+``` js
+// [pageName]
+thinkingcap.[pageName]();
+```
+ * Otherwise the following:
+
+``` js
+else if (document.getElementById('[View/Element ID/]')) {
+  thinkingcap.[pageName]();
 }
 ```
+  * Now remember to run ```npm run dev``` in your terminal after you change client side code!
+   * This runs both ```webpack``` and ```node-dev server.js``` so that it bundles our code and starts the server
+   * If you just want to bundle the code you can type ```webpack``` in your terminal
 
 ### Adding new styles
 * If creating a new component (button, form, input, image, header, etc. something 'universal')
