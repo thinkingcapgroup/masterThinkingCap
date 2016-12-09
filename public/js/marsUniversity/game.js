@@ -81,6 +81,7 @@ var groupIssues = [
 	[-1,1,-1,1,2,2,3,1,0,4],
 	[0,3,-2,2,0,2,1,3,3,1]
 ];
+
 //goes Poverty/Low/MediumLow/MediumHigh/High
 var classIssues =
 [
@@ -90,6 +91,7 @@ var classIssues =
 	[-2,1,2,1,-1,3,1,2,2,1],
 	[-1,1,-2,3,2,-1,3,1,0,4]
 ];
+
 //goes Business/Engineering/Technology/FineArts/LiberalArts
 var majorIssues =
 [
@@ -138,6 +140,7 @@ var remainingHoursDay;
 
 var population = 1000;
 var canvasMouse;
+
 //starts the game
 function startGame(){
 
@@ -164,6 +167,7 @@ function splashScreen()
 	clearScreen();
 	document.getElementById("gameInfo").innerHTML = "<div id = 'intro' style = 'text-align:center; '><br><h1 >Welcome to Mars University! </h1><br><a onclick = 'startAnimatic()' id='index-link' class = 'btn double remove' >New Game</a><br><br><a onclick = 'loadGame()' id='index-link' class = 'btn double remove'>Continue</a><br><br><a onclick = 'startPractice()' id='index-link' class = 'btn double remove'>Practice</a></div>";
 }
+
 function startAnimatic()
 {
 	document.getElementById("gameInfo").innerHTML = "<p>Welcome to Mars University! <br>Animatic will be going on here during this time. </p> </br> <a onclick = 'startCharacterSelect()' class = 'btn double remove'>Continue After Animatic Finish</a>";
@@ -173,7 +177,7 @@ function startPractice()
 {
 	clearScreen();
 	practice = true;
-	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'map(true, true, true)' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
+	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
 }
 
 function startCharacterSelect(){
@@ -241,6 +245,7 @@ function drawHeads(heads,body){
 	var x = fixHeadCord(heads,body);
 	heads.render(x[0],x[1]);
 }
+
 function drawBody(body){
 	body.renderBody(150,200);
 }
@@ -584,18 +589,22 @@ function fixHeadCord(heads, body){
 	var ret = [xCord, yCord];
 	return ret;
 }
+
 //changes gender
 function clothingChange(bodySheet){
 	bodySheet.updateClothing();
 }
+
 //changes head
 function right(heads){
 	heads.update();
 }
+
 //changes race
 function race(heads){
 	heads.raceUpdate();
 }
+
 //changes the body type
 function bodyChange(headsheet, body){
 	body.bodyArrayHolder++;
@@ -708,19 +717,7 @@ function actualSessionStart(isFromTut){
 	clearScreen();
 	console.log(isFromTut, tutHolder);
 
-	candidates = []
-
-	document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
-	for (var x=0; x < 5; x++){
-
-	document.getElementById("gameInfo").innerHTML += "<button onclick = 'gameCycleStart("+x+")'>"+ positions[x]+"</button>"
-	}
-}
-
-
-/*GAME CYCLE FUNCTIONS8*/
-function gameCycleStart(f)
-{
+	candidates = [];
 	
 	population = 1000;
 	sample = [];
@@ -728,36 +725,14 @@ function gameCycleStart(f)
 	remainingHoursTotal = startHours;
 	days = 1; 
 	remainingHoursDay = 12; 
-	turnCounter = 1
-	playerCandidate.focus = positions[f];
-	playerCandidate.focusnum = f;
-	switch(f)
-	{
-		case 0:
-		playerCandidate.issueScore[0]++;
-		break;
-		case 1:
-		playerCandidate.issueScore[1]++;
-		break;
-		case 2:
-		playerCandidate.issueScore[2]++;
-		break;
-		case 3:
-		playerCandidate.issueScore[3]++;
-		break;
-		case 4:
-		playerCandidate.issueScore[4]++;
-		break;
-	}
-	candidates.push(playerCandidate);
-
+	
 	//Decides the opponents focus which cannot be the same as the player
 	opponentCandidate.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 	opponentCandidate.consMod = 0;
 	////console.log(oppFocus);
-	chooseIssue(opponentCandidate,[f],1,false);
+	chooseIssue(opponentCandidate,[],1,false);
 	candidates.push(opponentCandidate);
-
+	
 	//Create Issue Candidates
 	var issueCand1 = new CandidateCreate("Martian Dog");
 	issueCand1.focus = positions[0];
@@ -788,7 +763,99 @@ function gameCycleStart(f)
 	issueCand5.focusnum = 4;
 	chooseRank(issueCand5,chosenCandRanks,true);
 	candidates.push(issueCand5);
+	
+	map(0,true,true);
+}
 
+function practicePoll()
+{
+	
+
+	candidates = [];
+	
+	population = 1000;
+	sample = [];
+	startHours = 120; 
+	remainingHoursTotal = startHours;
+	days = 1; 
+	remainingHoursDay = 12; 
+	
+	//Decides the opponents focus which cannot be the same as the player
+	opponentCandidate.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+	opponentCandidate.consMod = 0;
+	////console.log(oppFocus);
+	chooseIssue(opponentCandidate,[],1,false);
+	candidates.push(opponentCandidate);
+	
+	//Create Issue Candidates
+	var issueCand1 = new CandidateCreate("Martian Dog");
+	issueCand1.focus = positions[0];
+	issueCand1.focusnum = 0;
+	chooseRank(issueCand1,chosenCandRanks,true);
+	candidates.push(issueCand1);
+
+	var issueCand2  = new CandidateCreate("Clamps");
+	issueCand2.focus = positions[1];
+	issueCand2.focusnum = 1;
+	chooseRank(issueCand2,chosenCandRanks,true);
+	candidates.push(issueCand2);
+
+	var issueCand3  = new CandidateCreate("Zrap Bannigan");
+	issueCand3.focus = positions[2];
+	issueCand3.focusnum = 2;
+	chooseRank(issueCand3,chosenCandRanks,true);
+	candidates.push(issueCand3);
+
+	var issueCand4  = new CandidateCreate("Cowboy");
+	issueCand4.focus = positions[3];
+	issueCand4.focusnum = 3;
+	chooseRank(issueCand4,chosenCandRanks,true);
+	candidates.push(issueCand4);
+
+	var issueCand5  = new CandidateCreate("Martian Scientist");
+	issueCand5.focus = positions[4];
+	issueCand5.focusnum = 4;
+	chooseRank(issueCand5,chosenCandRanks,true);
+	candidates.push(issueCand5);
+	
+	map(2,false,false);
+}
+
+function firstStatement()
+{
+	clearScreen();
+	document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
+	for (var x=0; x < 5; x++){
+
+	document.getElementById("gameInfo").innerHTML += "<button onclick = 'gameCycleStart("+x+")'>"+ positions[x]+"</button>"
+	}
+}
+
+/*GAME CYCLE FUNCTIONS8*/
+function gameCycleStart(f)
+{
+	turnCounter = 1
+	playerCandidate.focus = positions[f];
+	playerCandidate.focusnum = f;
+	switch(f)
+	{
+		case 0:
+		playerCandidate.issueScore[0]++;
+		break;
+		case 1:
+		playerCandidate.issueScore[1]++;
+		break;
+		case 2:
+		playerCandidate.issueScore[2]++;
+		break;
+		case 3:
+		playerCandidate.issueScore[3]++;
+		break;
+		case 4:
+		playerCandidate.issueScore[4]++;
+		break;
+	}
+	candidates.splice(0,0,playerCandidate);
 
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
 	userAction();
@@ -809,7 +876,7 @@ function userAction()
 
 	//Build User Action Area buttons
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
-	document.getElementById("choices").innerHTML += "<button type='button' onclick='map(false,false)'> Take A Poll </button>";
+	document.getElementById("choices").innerHTML += "<button type='button' onclick='map("+0+",false,false)'> Take A Poll </button>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='statement()'> Make a Statement</button>";
 	document.getElementById("choices").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button>";
 	document.getElementById("choices").innerHTML += "<br>";
@@ -1315,7 +1382,7 @@ function tutorial ()
 		case 6:
 		document.getElementById("gameInfo").innerHTML += "<h3>Days and Time</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection();' style='float: left;'>Polling</button><button onclick='map(true,false)' style='float: right;'>Try Polling</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection();' style='float: left;'>Polling</button><button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button>";
 		break;
 	}
 }
@@ -1332,16 +1399,16 @@ function lastSection()
 	tutorial();
 }
 
-function map(isTutorial, isFree, isPractice = false){
+function map(state, isFirst, isFree){
 	clearScreen();
+	console.log(state);
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
-	console.log(isPractice, isTutorial);
-	if(isPractice == false && isTutorial == false)
+	if(isFree == false && isFirst == false && state !=2)
 		document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";
 	
 
-	if(isTutorial){
+	if(state == 1){
 		currentCandidateArrayHolder = candidates;
 		candidates = fakeCandidateHolder
 	}
@@ -1359,7 +1426,7 @@ function map(isTutorial, isFree, isPractice = false){
 	}
 	document.getElementById("questionArea").innerHTML += "<label>Sample Size: </label><select id = 'sample' class = 'sampleOptions totalTimeTracker'><br></select><br><label>Rooms: </label><select id = 'rooms' class = 'sampleOptions'></select><br><label>Time Spent: </label><select id = 'timeSpent' class = 'sampleOptions'></select><hr>";
 	back = false;
-	if(isTutorial || remainingHoursDay> 3 )
+	if(state != 0 || remainingHoursDay> 3 )
 	{
 
 		document.getElementById("sample").options.add(new Option("Sample 20 Students", 20));
@@ -1395,47 +1462,57 @@ function map(isTutorial, isFree, isPractice = false){
 			document.getElementById("questionArea").innerHTML += " <select class = 'pollQ totalTimeTracker' id =\"poll"+i+ "\"> </select> ";
 			document.getElementById("questionArea").innerHTML += " <select class = 'subPollQ' style = 'display:none' id =\"subpoll"+i+ "\"> </select> ";
 			document.getElementById("poll"+i+"").options.add(new Option("None", none));
-				for(var j = 0; j<questions.length; j++)
+			for(var j = 0; j<questions.length; j++)
+			{
+				if(!isFirst || state ==2)
 				{
-				
-
-					if (j < 4 || j > 6){
-						
+					if (j < 4 || j > 6)
+					{
 						document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));
 					
+					}
 				}
-			
+				else
+				{
+					if (j < 4 || j > 9)
+					{
+						document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));
+					
+					}
+				}
+			}
 		}
-	  }
 	}
 	else
 	{
 		document.getElementById("event").innerHTML += "<h4> You do not have enough time remaining to take a poll.</h4>";
 	}
-	if(!isFree || !isPractice)
+	if(!isFree)
 	{
 		document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph'>Total Time: "+ timeForPoll +" Hours</p><br>";
 	}
 	else
 	{
+		document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph' style = 'display:none'></p><br>";
 		addMoreQuestions();
 		addMoreQuestions();
 	}
 	//Displays the screen for this event
-	document.getElementById("questionArea").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults("+isTutorial+","+isFree+"," +isPractice+")'> Submit Poll </button><button id = 'moreQuestionButton'> Add More Questions </button>";
+	document.getElementById("questionArea").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults("+state+"," +isFirst+", " +isFree+")'> Submit Poll </button><button id = 'moreQuestionButton'> Add More Questions </button>";
 	
-	console.log(isPractice, isTutorial);
-	if (isPractice == true){
-		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='startPractice()'> Back to Practice Area </button>";
-	}
-	else if(isTutorial){
+	if(state == 1){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='actualSessionStart(true)'> Start the Game </button>";
+	}
+	else if (state == 2){
+		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='startPractice()'> Back to Practice Area </button>";
 	}
 	else{
 		if(!isFree)
 			document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
-		else
-			document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='userAction()' > Choose Not to Take the Poll  </button>";
+		else if(state != 1)
+			{
+				document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='userAction()' > Choose Not to Take the Poll  </button>";
+			}
 	}
 
 	document.getElementById("questionArea").style.display = "block";
@@ -1662,9 +1739,8 @@ function statementCalcOtherCandidate(x){
 }
 
 //Displays the result of a poll immediately after it end and then saves the report for later viewing
-function pollResults(isTutorial,isFree, isPractice)
+function pollResults(state, isFirst, isFree)
 {
-	console.log(isPractice);
 	var bias = document.getElementById('location').value;
 	document.getElementById("event").style.display = "none";
 	var duplicate = false;
@@ -1711,28 +1787,36 @@ function pollResults(isTutorial,isFree, isPractice)
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 
-
+	console.log(state);
 	if(pollChoices.length < 2)
 	{
-		document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'map("+isTutorial+","+isFree+"," +isPractice+")'> Reselect Poll Questions </button>";
+		document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'map("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
 	}
 	else if(duplicate)
 	{
-		document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'map("+isTutorial+","+isFree+"," +isPractice+")'> Reselect Poll Questions </button>";
+		document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'map("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
 	}
-	else if(isTutorial){
-		pollCalc(pollChoices, sampleSize, bias, isTutorial, isFree);
-		document.getElementById("next").innerHTML += "<button onclick = 'map(true,false, "+isPractice+")'> Play Tutorial </button>";
-	}
-	else if(!pollTimeCheck(sampleSize, pollChoices) && !isFree)
+	else if(!pollTimeCheck(sampleSize, pollChoices) && state == 0)
 	{
-		document.getElementById("gameInfo").innerHTML += "<p> You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.</p>  <button onclick = 'map("+isTutorial+","+isFree+"," +isPractice+")'> Reselect Poll Questions </button>";
+		document.getElementById("gameInfo").innerHTML += "<p> You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.</p>  <button onclick = 'map("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
 	}
-	else
+	else if(state == 1){
+		pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
+		document.getElementById("next").innerHTML += "<button onclick = 'map("+1+",false,false)'> Return to Tutorial Poll</button>";
+	}
+	else if(state == 2)
 	{
-		pollCalc(pollChoices, sampleSize, bias, isTutorial, isFree);
+		pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
+		document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to Practice Area</button>";
+	}
+	else 
+	{
+		pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
+		if(!isFirst)
+			document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
+		else
+			document.getElementById("next").innerHTML += "<button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
 
-		document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 	}
 
 };
@@ -2278,6 +2362,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 	////console.log(candidates[0].issueScore);
 	}
 }
+
 //sample person
 function Student(group, ecoClass, major, tuitionScore, athleticScore, researchScore, eventScore, medicalScore)
 {
@@ -2435,7 +2520,8 @@ function votePercentage(sampleSize, bias)
 				issues = issues/5;
 			}
 			////console.log(candidates[j].name +" Issue Score: "+ issues);
-			if(j != 1)
+			
+			if(candidates[j].name == "Liz")
 			{
 				var candWinPer = 10*Math.pow(fame*issues,2) - candidates[j].consMod;
 			}
@@ -2591,12 +2677,12 @@ function reportViewer(id)
 {
 	clearScreen();
 	document.getElementById("next").style.display = "block";
-	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],pastGraphData[id],pastGraphLabels[id], true, false, false);
+	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],pastGraphData[id],pastGraphLabels[id], 0, false, false);
 	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 }
 
 //Calculates the results of each poll question from each student in the sample and stores them in an array
-function pollCalc(pollChoices, sampleSize, bias, isTutorial, isFree)
+function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 {	
 	graphData = [];
 	graphData.push(questions[4].graph.split(','));
@@ -3019,17 +3105,17 @@ function pollCalc(pollChoices, sampleSize, bias, isTutorial, isFree)
 	}
 
 	var reviewFlag = false;
-	if(isTutorial){
+	if(state == 1){
 		reviewFlag = true;
 	}
 
 	console.log(graphData);
 	////console.log(tableArrays);
-	tableBuilder(pollChoices, tableArrays, sampleSize, graphData, pollLabelArray, reviewFlag, isTutorial, isFree);
+	tableBuilder(pollChoices, tableArrays, sampleSize, graphData, pollLabelArray, reviewFlag, state, isFree, isFirst);
 }
 
 //Builds a table by looping through the Array created by pollCalc and putting each value into a cell.
-function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, review, isTutorial, isFree)
+function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, review, state, isFree, isFirst)
 {
 
 	//console.log(tableArray2);
@@ -3363,7 +3449,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 								{
-									cell.innerHTML = "Sort Of TrustWorthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Sort Of Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else
 								{
@@ -3534,7 +3620,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 
 	}
 	document.getElementById('table').style.display = 'none'
-	if (isTutorial){
+	if (state == 1){
 		review = true;
 
 	}
@@ -3550,8 +3636,8 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 			pollTime(sSize, pollChoices);
 	}
 		
-	if(isTutorial){
-		document.getElementById('event').innerHTML += "<button onclick = 'map(true,false)'>Back to Start</button>" 
+	if(state == 1){
+		document.getElementById('event').innerHTML += "<button onclick = 'map("+1+",false,false)'>Back to Start</button>" 
 	}
 
 }
@@ -4155,7 +4241,7 @@ function hourChecker()
 		{
 			days++;
 			remainingHoursDay = 12;
-			map(false, true);
+			map(0, false, true);
 		}
 		else
 		{

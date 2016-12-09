@@ -37,6 +37,10 @@ function submitBugReport (req, res) {
     report.username = req.cookies.username;
     report.date = new Date();
 
+    if(req.cookies.username == "" || req.cookies.username == null){
+      report.username = 'Guest';
+    }
+
     // Call the model to insert bug
     require('../model/insertBugReport')(req, report, function (err, success) {
       // If there was an error submiting the bug report
