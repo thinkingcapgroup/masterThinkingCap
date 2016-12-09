@@ -261,3 +261,13 @@
 2-issFav-undefined-candFav-undefined-issOpp-undefined
 2-candOpp-candFame-issOpp-issFav-candFame-fame
 2-Matching Game-1481302229664
+2-End Game Winner - Cowboy-Player Rank:6-1481313025461
+2-End Game Winner - Clamps-Player Rank:6-1481313043214
+2-Posters-1481313069119
+2-Party-1481313474987
+2-Fundraisers-1481313477353
+2-Reddit AMA-1481313481172
+2-Charity Event-1481313486460
+2-Attend Symposium-1481313497866
+2-End Game Winner - Zrap Bannigan-Player Rank:6-1481313500772
+2-End Game Winner - Cowboy-Player Rank:6-1481313789792
