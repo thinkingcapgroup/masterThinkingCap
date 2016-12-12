@@ -271,3 +271,9 @@
 2-Attend Symposium-1481313497866
 2-End Game Winner - Zrap Bannigan-Player Rank:6-1481313500772
 2-End Game Winner - Cowboy-Player Rank:6-1481313789792
+2-issOpp-undefined-candOpp-undefined-undefined-undefined
+2-Open Mic Night-1481317317212
+2-Charity Event-1481317319885
+2-Fun Run-1481561970449
+2-issOpp-playTrust-undefined-undefined-undefined-undefined
+2-playTrust-candTrust-undefined-undefined-undefined-undefined
