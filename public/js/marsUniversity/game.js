@@ -1332,6 +1332,7 @@ function gameCycleEnd()
 	var nextArea = document.getElementById("next");
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
+	candidates.push(playerCandidate);
 
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	votePercentage(1000,5);
 	var winner;
@@ -1401,7 +1402,7 @@ function lastSection()
 
 function map(state, isFirst, isFree){
 	clearScreen();
-	console.log(state);
+
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
 	if(isFree == false && isFirst == false && state !=2)
@@ -1787,7 +1788,6 @@ function pollResults(state, isFirst, isFree)
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 
-	console.log(state);
 	if(pollChoices.length < 2)
 	{
 		document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'map("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
@@ -2549,10 +2549,7 @@ function votePercentage(sampleSize, bias)
 			}
 
 		}
-		////console.log("Student #" +i);
-		////console.log("Winner: " + winner + " Vote Percentage: "+ winPercentage);
-		////console.log("Loser: " + loser + " Vote Percentage: "+ lowPercentage);
-		////console.log("");
+		
 		sample[i].results.winPer = winPercentage;
 		sample[i].results.losPer = lowPercentage;
 		sample[i].results.win = winner;
@@ -2677,7 +2674,9 @@ function reportViewer(id)
 {
 	clearScreen();
 	document.getElementById("next").style.display = "block";
-	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],pastGraphData[id],pastGraphLabels[id], 0, false, false);
+
+	//pollChoices, tableArray2, sSize, graphData, graphLabels, review, state, isFree, isFirst
+	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],pastGraphData[id],pastGraphLabels[id], 1, 0, false, false);
 	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 }
 
@@ -3312,7 +3311,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var cell = row.insertCell(i);
 								if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.33)
 									{
-										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.33 && parseFloat(tableArray2[8][h]).toFixed(2)<0.66)
 									{
@@ -3320,7 +3319,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									}
 									else
 									{
-										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 					break;
 				}
@@ -3445,7 +3444,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var counter = canCounter;
 								if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
 								{
-									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 								{
@@ -3453,7 +3452,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								}
 								else
 								{
-									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}		
 					}
 
