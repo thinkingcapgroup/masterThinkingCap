@@ -834,6 +834,7 @@ function firstStatement()
 /*GAME CYCLE FUNCTIONS8*/
 function gameCycleStart(f)
 {
+	console.log('SUP')
 	turnCounter = 1
 	playerCandidate.focus = positions[f];
 	playerCandidate.focusnum = f;
@@ -856,6 +857,7 @@ function gameCycleStart(f)
 		break;
 	}
 	candidates.splice(0,0,playerCandidate);
+	console.log(candidates);
 
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
 	userAction();
@@ -1332,7 +1334,7 @@ function gameCycleEnd()
 	var nextArea = document.getElementById("next");
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
-	candidates.push(playerCandidate);
+
 
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	votePercentage(1000,5);
 	var winner;
@@ -1812,6 +1814,7 @@ function pollResults(state, isFirst, isFree)
 	else 
 	{
 		pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
+		console.log(isFirst);
 		if(!isFirst)
 			document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 		else
@@ -2549,7 +2552,10 @@ function votePercentage(sampleSize, bias)
 			}
 
 		}
-		
+		////console.log("Student #" +i);
+		////console.log("Winner: " + winner + " Vote Percentage: "+ winPercentage);
+		////console.log("Loser: " + loser + " Vote Percentage: "+ lowPercentage);
+		////console.log("");
 		sample[i].results.winPer = winPercentage;
 		sample[i].results.losPer = lowPercentage;
 		sample[i].results.win = winner;
@@ -2683,6 +2689,7 @@ function reportViewer(id)
 //Calculates the results of each poll question from each student in the sample and stores them in an array
 function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 {	
+	console.log(isFree);
 	graphData = [];
 	graphData.push(questions[4].graph.split(','));
 	graphData.push(questions[5].graph.split(','));
@@ -3108,7 +3115,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 		reviewFlag = true;
 	}
 
-	console.log(graphData);
+	console.log(reviewFlag, state, isFree, isFirst);
 	////console.log(tableArrays);
 	tableBuilder(pollChoices, tableArrays, sampleSize, graphData, pollLabelArray, reviewFlag, state, isFree, isFirst);
 }
@@ -3311,7 +3318,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var cell = row.insertCell(i);
 								if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.33)
 									{
-										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.33 && parseFloat(tableArray2[8][h]).toFixed(2)<0.66)
 									{
@@ -3319,7 +3326,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									}
 									else
 									{
-										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 					break;
 				}
@@ -3444,7 +3451,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var counter = canCounter;
 								if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
 								{
-									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 								{
@@ -3452,7 +3459,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								}
 								else
 								{
-									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}		
 					}
 
