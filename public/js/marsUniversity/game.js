@@ -1375,36 +1375,46 @@ function tutorial (help)
 	{
 		case 1:
 		document.getElementById("gameInfo").innerHTML += "<h3>Groups and Fame</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='nextSection("+help+");' style='float: right;'>Events and Minigames</button> <button float = 'left' onclick= 'userAction()'>Return to User Action Area</button>";
+		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";		
+		document.getElementById("gameInfo").innerHTML += "<button onclick='nextSection("+help+");' style='float: right;'>Events and Minigames</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<button float = 'left' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 2:
 		document.getElementById("gameInfo").innerHTML += "<h3>Events and Minigames</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Groups and Fame</button> <button onclick='nextSection("+help+");' style='float: right;'>Statements</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Groups and Fame</button> <button onclick='nextSection("+help+");' style='float: right;'>Statements</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 3:
 		document.getElementById("gameInfo").innerHTML += "<h3>Statements</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Events and Minigames</button> <button onclick='nextSection("+help+");' style='float: right;'>Consistency</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Events and Minigames</button> <button onclick='nextSection("+help+");' style='float: right;'>Consistency</button>";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 4:
 		document.getElementById("gameInfo").innerHTML += "<h3>Consistency</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling</button>";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 5:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 6:
 		document.getElementById("gameInfo").innerHTML += "<h3>Days and Time</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
 		if(!help)
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button> ";
 		else
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+3+", false, false)' style='float: right;'>Try Polling</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+3+", false, false)' style='float: right;'>Try Polling</button> ";
 			
 		break;
 	}
