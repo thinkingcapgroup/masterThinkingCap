@@ -2579,7 +2579,7 @@ function votePercentage(sampleSize, bias)
 			}
 			////console.log(candidates[j].name +" Issue Score: "+ issues);
 			
-			if(candidates[j].name == "Liz")
+			if(candidates[j].name != "Liz")
 			{
 				var candWinPer = 10*Math.pow(fame*issues,2) - candidates[j].consMod;
 			}
