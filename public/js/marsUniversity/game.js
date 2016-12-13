@@ -180,6 +180,20 @@ function startPractice()
 	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
 }
 
+function helpScreen()
+{
+	clearScreen();
+	document.getElementById("playerInfo").style.display = "none";
+	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <button onclick= 'openGlossary()'>Glossary Page</button> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <button onclick= 'userAction()'>Return to User Action Area</button>"
+}
+
+function openGlossary()
+{
+	clearScreen();
+	document.getElementById("playerInfo").style.display = "none";
+	document.getElementById("gameInfo").innerHTML = "<h1> Glossary</h1> <hr> <ul style='list-style-type:none'><li>Data: Specific Information about a group of people or objects.</li> <li>Population: The Data for ALL people or objects. </li> <li>Sample: The Data that is measured, counted, or designated as a category for SELECTED people or objects.</li>  </ul> <button onclick= 'userAction()'>Return to User Action Area</button>"
+}
+
 function startCharacterSelect(){
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
@@ -707,7 +721,7 @@ function startOtherCandidates(heads,body){
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
 	document.getElementById("gameInfo").innerHTML += "<p>You're candidate, <b>"+ playerCandidate.name +"</b> is going up again Liz the Chameleon. They're going for Student Council President just like your playerCandidate. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
 	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial?</p>"
-	document.getElementById("gameInfo").innerHTML += "<button onclick='tutorial()'>Yes</button><button onclick='actualSessionStart(false)'>No</button>";
+	document.getElementById("gameInfo").innerHTML += "<button onclick='tutorial("+false+")'>Yes</button><button onclick='actualSessionStart(false)'>No</button>";
 
 }
 
@@ -834,6 +848,7 @@ function firstStatement()
 /*GAME CYCLE FUNCTIONS8*/
 function gameCycleStart(f)
 {
+	console.log('SUP')
 	turnCounter = 1
 	playerCandidate.focus = positions[f];
 	playerCandidate.focusnum = f;
@@ -856,6 +871,7 @@ function gameCycleStart(f)
 		break;
 	}
 	candidates.splice(0,0,playerCandidate);
+	console.log(candidates);
 
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
 	userAction();
@@ -865,6 +881,7 @@ function userAction()
 {
 	//Clear previous screen
 	clearScreen();
+	document.getElementById("playerInfo").style.display = "block";
 	var prevHours = document.getElementById("playerInfo");
 	var nextArea = document.getElementById("next");
 	prevHours.innerHTML = "";
@@ -878,6 +895,7 @@ function userAction()
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='map("+0+",false,false)'> Take A Poll </button>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='statement()'> Make a Statement</button>";
+	document.getElementById("choices").innerHTML += "<button type='button' onclick='helpScreen()'> Help Screen</button>";
 	document.getElementById("choices").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button>";
 	document.getElementById("choices").innerHTML += "<br>";
 	for(var i=0; i<pastPollResults.length;i++)
@@ -1332,7 +1350,7 @@ function gameCycleEnd()
 	var nextArea = document.getElementById("next");
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
-	candidates.push(playerCandidate);
+
 
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	votePercentage(1000,5);
 	var winner;
@@ -1349,7 +1367,7 @@ function gameCycleEnd()
 
 
 /*Special Action Pages*/
-function tutorial ()
+function tutorial (help)
 {
 	document.getElementById("gameInfo").innerHTML ="";
 	var tutBUttonClicked = false; 
@@ -1358,46 +1376,50 @@ function tutorial ()
 		case 1:
 		document.getElementById("gameInfo").innerHTML += "<h3>Groups and Fame</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='nextSection();' style='float: right;'>Events and Minigames</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='nextSection("+help+");' style='float: right;'>Events and Minigames</button> <button float = 'left' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 2:
 		document.getElementById("gameInfo").innerHTML += "<h3>Events and Minigames</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection();' style='float: left;'>Groups and Fame</button><button onclick='nextSection();' style='float: right;'>Statements</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Groups and Fame</button> <button onclick='nextSection("+help+");' style='float: right;'>Statements</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 3:
 		document.getElementById("gameInfo").innerHTML += "<h3>Statements</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection();' style='float: left;'>Events and Minigames</button><button onclick='nextSection();' style='float: right;'>Consistency</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Events and Minigames</button> <button onclick='nextSection("+help+");' style='float: right;'>Consistency</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 4:
 		document.getElementById("gameInfo").innerHTML += "<h3>Consistency</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection();' style='float: left;'>Statements</button><button onclick='nextSection();' style='float: right;'>Polling</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 5:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection();' style='float: left;'>Consistency</button><button onclick='nextSection();' style='float: right;'>Days and Time</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 6:
 		document.getElementById("gameInfo").innerHTML += "<h3>Days and Time</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection();' style='float: left;'>Polling</button><button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button>";
+		if(!help)
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		else
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+3+", false, false)' style='float: right;'>Try Polling</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			
 		break;
 	}
 }
 
-function nextSection()
+function nextSection(help)
 {
 	section++; 
-	tutorial();
+	tutorial(help);
 }
 
-function lastSection()
+function lastSection(help)
 {
 	section--; 
-	tutorial();
+	tutorial(help);
 }
 
 function map(state, isFirst, isFree){
@@ -1467,7 +1489,7 @@ function map(state, isFirst, isFree){
 			{
 				if(!isFirst || state ==2)
 				{
-					if (j < 4 || j > 6)
+					if (j < 4 || j > 8)
 					{
 						document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));
 					
@@ -1507,11 +1529,19 @@ function map(state, isFirst, isFree){
 	else if (state == 2){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='startPractice()'> Back to Practice Area </button>";
 	}
+	else if(state = 3)
+	{
+		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='userAction()'> Return to Game </button>";
+	}
+	else if(isFirst == true){
+		document.getElementById("questionArea").innerHTML += "<button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
+	}
 	else{
 		if(!isFree)
 			document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
 		else if(state != 1)
 			{
+				console.log(state,isFirst, isFree);
 				document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='userAction()' > Choose Not to Take the Poll  </button>";
 			}
 	}
@@ -1742,6 +1772,8 @@ function statementCalcOtherCandidate(x){
 //Displays the result of a poll immediately after it end and then saves the report for later viewing
 function pollResults(state, isFirst, isFree)
 {
+
+
 	var bias = document.getElementById('location').value;
 	document.getElementById("event").style.display = "none";
 	var duplicate = false;
@@ -1752,6 +1784,8 @@ function pollResults(state, isFirst, isFree)
 		if(selectedQuestion.options[selectedQuestion.selectedIndex].value != "")
 		{
 			var pollVal = selectedQuestion.options[selectedQuestion.selectedIndex].value;
+
+
 			if(pollVal == 'issue'||pollVal == 'candFame'||pollVal == 'candTrust'){
 				//grab the sub question
 				var selectedSubQuestion = document.getElementById('subpoll' + i + '');
@@ -1759,6 +1793,17 @@ function pollResults(state, isFirst, isFree)
 				pollVal = pollVal + subValue;
 			}
 			pollChoices.push(pollVal);	
+		}
+	}
+	console.log(pollChoices);
+
+	for (var i=0; i< pollChoices.length;i++)
+	{
+		if(pollChoices[i] == "candFamePlayer"){
+			pollChoices[i] = "fame";
+		}
+		else if (pollChoices[i] == "candTrustPlayer"){
+			pollChoices[i] = "playTrust";
 		}
 	}
 
@@ -1779,6 +1824,7 @@ function pollResults(state, isFirst, isFree)
 			}
 		}
 	}
+
 
 	var sample = document.getElementById("sample");
 	var sampleSize = parseFloat(sample.options[sample.selectedIndex].value);
@@ -1803,6 +1849,7 @@ function pollResults(state, isFirst, isFree)
 	else if(state == 1){
 		pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
 		document.getElementById("next").innerHTML += "<button onclick = 'map("+1+",false,false)'> Return to Tutorial Poll</button>";
+		
 	}
 	else if(state == 2)
 	{
@@ -1812,6 +1859,7 @@ function pollResults(state, isFirst, isFree)
 	else 
 	{
 		pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
+		console.log(isFirst);
 		if(!isFirst)
 			document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 		else
@@ -2549,7 +2597,10 @@ function votePercentage(sampleSize, bias)
 			}
 
 		}
-		
+		////console.log("Student #" +i);
+		////console.log("Winner: " + winner + " Vote Percentage: "+ winPercentage);
+		////console.log("Loser: " + loser + " Vote Percentage: "+ lowPercentage);
+		////console.log("");
 		sample[i].results.winPer = winPercentage;
 		sample[i].results.losPer = lowPercentage;
 		sample[i].results.win = winner;
@@ -2683,6 +2734,7 @@ function reportViewer(id)
 //Calculates the results of each poll question from each student in the sample and stores them in an array
 function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 {	
+
 	graphData = [];
 	graphData.push(questions[4].graph.split(','));
 	graphData.push(questions[5].graph.split(','));
@@ -3076,6 +3128,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 
 				}
 
+
 				candCounter++;
 			}
 			for(var k = 1;k<candidates.length;k++)
@@ -3108,7 +3161,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 		reviewFlag = true;
 	}
 
-	console.log(graphData);
+	console.log(reviewFlag, state, isFree, isFirst);
 	////console.log(tableArrays);
 	tableBuilder(pollChoices, tableArrays, sampleSize, graphData, pollLabelArray, reviewFlag, state, isFree, isFirst);
 }
@@ -3311,7 +3364,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var cell = row.insertCell(i);
 								if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.33)
 									{
-										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.33 && parseFloat(tableArray2[8][h]).toFixed(2)<0.66)
 									{
@@ -3319,7 +3372,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									}
 									else
 									{
-										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 					break;
 				}
@@ -3444,7 +3497,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var counter = canCounter;
 								if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
 								{
-									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 								{
@@ -3452,7 +3505,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								}
 								else
 								{
-									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}		
 					}
 

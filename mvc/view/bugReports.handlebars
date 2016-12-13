@@ -1,3 +1,12 @@
+<script>
+	function updateStatus()
+	{
+		var subject = document.getElementById("subject").innerHTML.trim();
+		//post all that information
+		$.post('/bugReports/setComplete', {subjectText: subject});
+		
+	}
+</script>
 <main id='bug-reports'>
   {{#if errorNotifications}}
     <ul class='notifications error-notifications'>
@@ -47,8 +56,8 @@
             </th>
           </tr>
           {{#each bugReports}}
-          <tr class='table-row'>
-            <td class='table-cell'>
+          <tr class='table-row' id = {{id}}>
+            <td class='table-cell' id = 'subject'>
               {{subject}}
             </td>
             <td class='table-cell'>
@@ -65,7 +74,10 @@
               {{category}}
             </td>
             <td class='table-cell'>
-              {{status}}
+			<select id = 'status' onchange = 'updateStatus()'>        
+				<option value="incomplete">Incomplete</option>
+				<option value="complete">Complete</option>
+			</select>
             </td>
           </tr>
           {{/each}}
