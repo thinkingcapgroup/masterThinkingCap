@@ -1529,12 +1529,12 @@ function map(state, isFirst, isFree){
 	else if (state == 2){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='startPractice()'> Back to Practice Area </button>";
 	}
-	else if(state = 3)
+	else if(state == 3)
 	{
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='userAction()'> Return to Game </button>";
 	}
 	else if(isFirst == true){
-		document.getElementById("questionArea").innerHTML += "<button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
+		document.getElementById("questionArea").innerHTML += "<br> <hr><button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
 	}
 	else{
 		if(!isFree)
@@ -2622,66 +2622,81 @@ function fameCalc(cand, student)
 	switch(student.group)
 	{
 		case groupList[0]:
+		console.log("here group");
 		fame+= cand.fame[0];
 		break;
-
+    
 		case groupList[1]:
+		console.log("here group");
 		fame+= cand.fame[1];
 		break;
-
+    
 		case groupList[2]:
+		console.log("here group");
 		fame+= cand.fame[2];
 		break;
-
+    
 		case groupList[3]:
+		console.log("here group");
 		fame+= cand.fame[3];
 		break;
-
+    
 		case groupList[4]:
+		console.log("here group");
 		fame+= cand.fame[4];
-		break;
-	}
-	switch(student.ecoClass)
-	{
-		case majorList[0]:
-		fame+= cand.fame[5];
-		break;
-
-		case majorList[1]:
-		fame+= cand.fame[6];
-		break;
-
-		case majorList[2]:
-		fame+= cand.fame[7];
-		break;
-
-		case majorList[3]:
-		fame+= cand.fame[8];
-		break;
-
-		case majorList[4]:
-		fame+= cand.fame[9];
 		break;
 	}
 	switch(student.major)
 	{
+		case majorList[0]:
+		console.log("here econ");
+		fame+= cand.fame[5];
+		break;
+
+		case majorList[1]:
+		console.log("here econ");
+		fame+= cand.fame[6];
+		break;
+
+		case majorList[2]:
+		console.log("here econ");
+		fame+= cand.fame[7];
+		break;
+
+		case majorList[3]:
+		console.log("here econ");
+		fame+= cand.fame[8];
+		break;
+
+		case majorList[4]:
+		console.log("here econ");
+		fame+= cand.fame[9];
+		break;
+	}
+	switch(student.ecoClass)
+	{
 		case stuEconomic[0]:
+		console.log("here major");
 		fame+= cand.fame[10];
 		break;
 
 		case stuEconomic[1]:
+		console.log("here major");
 		fame+= cand.fame[11];
 		break;
 
 		case stuEconomic[2]:
+		console.log("here major");
 		fame+= cand.fame[12];
 		break;
 
 		case stuEconomic[3]:
+		console.log("here major");
 		fame+= cand.fame[13];
 		break;
 
 		case stuEconomic[4]:
+		console.log("here major");
 		fame+= cand.fame[14];
 		break;
 	}
@@ -3003,7 +3018,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 
 
 				case "fame":
-					var playFame = fameCalc(candidates[0],sample[j]).toFixed(2);
+					var playFame = fameCalc(candidates[0],sample[j]).toFixed(3);
 					tableArrays[7].push(playFame);
 					if(playFame > 0.69){
 						graphData[i+3][0]++;
@@ -3116,13 +3131,13 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 					tableArrays[candCounter].push(calcHolder);				
 
 					if(calcHolder> 0.66){
-						graphData[i+3][2]++;
+						graphData[i+3][0]++;
 					}
 					else if(calcHolder > 0.33){
 						graphData[i+3][1]++;
 					}
 					else{
-						graphData[i+3][0]++;
+						graphData[i+3][2]++;
 					}
 
 
@@ -3139,13 +3154,13 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 					tableArrays[candCounter].push(candidates[k].consMod);
 
 					if(candidates[k].consMod> 0.66){
-						graphData[i+3][0]++;
+						graphData[i+3][2]++;
 					}
 					else if(candidates[k].consMod > 0.33){
 						graphData[i+3][1]++;
 					}
 					else{
-						graphData[i+3][2]++;
+						graphData[i+3][0]++;
 					}
 				}
 
