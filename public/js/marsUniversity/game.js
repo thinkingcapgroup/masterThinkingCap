@@ -1414,7 +1414,7 @@ function tutorial (help)
 		if(!help)
 			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button> ";
 		else
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+3+", false, false)' style='float: right;'>Try Polling</button> ";
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+3+", false, false)' style='float: right;'>Try Polling</button> <br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 			
 		break;
 	}
