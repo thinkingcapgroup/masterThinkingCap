@@ -596,6 +596,7 @@
 			"id":"6",
 			"value":"group"
 		},
+		
 		{
 			"question":"How much do you know me?", 
 			"labels":"Well, Neutral, Not Well",
@@ -610,6 +611,7 @@
 			"id":"8",
 			"value":"playTrust"
 		},
+
 		{
 			"question":"How do you feel about this issue?", 
 			"labels":"Like, Neutral, Dislike",

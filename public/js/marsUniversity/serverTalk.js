@@ -84,9 +84,14 @@ $(document).on('change', '.pollQ', function(){
       }
       if(document.getElementById(pollThing).value == "candFame" || document.getElementById(pollThing).value == "candTrust" ){
 
-         $('#' + subQuestion).empty();
-        for(var x = 1; x < candidates.length; x++){               
-            document.getElementById(subQuestion).options.add(new Option(candidates[x].name, candidates[x].name));
+        $('#' + subQuestion).empty();
+        console.log(candidates);
+        for(var x = 0; x < candidates.length; x++){
+            if(x == 0){
+              document.getElementById(subQuestion).options.add(new Option(candidates[x].name, "Player"));
+            }               
+            else{document.getElementById(subQuestion).options.add(new Option(candidates[x].name, candidates[x].name));
+            }
         }
       }
   }

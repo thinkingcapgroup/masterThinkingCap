@@ -1489,7 +1489,7 @@ function map(state, isFirst, isFree){
 			{
 				if(!isFirst || state ==2)
 				{
-					if (j < 4 || j > 6)
+					if (j < 4 || j > 8)
 					{
 						document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));
 					
@@ -1533,11 +1533,15 @@ function map(state, isFirst, isFree){
 	{
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='userAction()'> Return to Game </button>";
 	}
+	else if(isFirst == true){
+		document.getElementById("questionArea").innerHTML += "<button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
+	}
 	else{
 		if(!isFree)
 			document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
 		else if(state != 1)
 			{
+				console.log(state,isFirst, isFree);
 				document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='userAction()' > Choose Not to Take the Poll  </button>";
 			}
 	}
@@ -1768,6 +1772,8 @@ function statementCalcOtherCandidate(x){
 //Displays the result of a poll immediately after it end and then saves the report for later viewing
 function pollResults(state, isFirst, isFree)
 {
+
+
 	var bias = document.getElementById('location').value;
 	document.getElementById("event").style.display = "none";
 	var duplicate = false;
@@ -1778,6 +1784,8 @@ function pollResults(state, isFirst, isFree)
 		if(selectedQuestion.options[selectedQuestion.selectedIndex].value != "")
 		{
 			var pollVal = selectedQuestion.options[selectedQuestion.selectedIndex].value;
+
+
 			if(pollVal == 'issue'||pollVal == 'candFame'||pollVal == 'candTrust'){
 				//grab the sub question
 				var selectedSubQuestion = document.getElementById('subpoll' + i + '');
@@ -1785,6 +1793,17 @@ function pollResults(state, isFirst, isFree)
 				pollVal = pollVal + subValue;
 			}
 			pollChoices.push(pollVal);	
+		}
+	}
+	console.log(pollChoices);
+
+	for (var i=0; i< pollChoices.length;i++)
+	{
+		if(pollChoices[i] == "candFamePlayer"){
+			pollChoices[i] = "fame";
+		}
+		else if (pollChoices[i] == "candTrustPlayer"){
+			pollChoices[i] = "playTrust";
 		}
 	}
 
@@ -1805,6 +1824,7 @@ function pollResults(state, isFirst, isFree)
 			}
 		}
 	}
+
 
 	var sample = document.getElementById("sample");
 	var sampleSize = parseFloat(sample.options[sample.selectedIndex].value);
@@ -2714,7 +2734,7 @@ function reportViewer(id)
 //Calculates the results of each poll question from each student in the sample and stores them in an array
 function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 {	
-	console.log(isFree);
+
 	graphData = [];
 	graphData.push(questions[4].graph.split(','));
 	graphData.push(questions[5].graph.split(','));
@@ -3107,6 +3127,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 
 
 				}
+
 
 				candCounter++;
 			}
