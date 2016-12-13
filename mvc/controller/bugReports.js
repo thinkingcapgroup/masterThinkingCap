@@ -20,6 +20,33 @@ router.get('/', auth, function(req, res){
 });
 
 /**
+ * router - POST method for Mars University game route '/setComplete'
+ * @param  {String} '/setComplete' - local route string
+ * @param  {Object} req - Express Request Object
+ * @param  {Object} res - Express Response Object
+ */
+router.post('/setComplete', auth, function (req, res) {
+  // TextFile Saving
+  var stringTem = req.body.subjectText;
+
+  //fs.writeFile('saveFile/userSave.txt', stringTem, function (err)
+  //{});
+
+  //Database Saving
+  require('../model/updateBugReports.js')(req, [stringTem], function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+    }
+  });
+
+  // End response
+  res.end();
+});
+/**
  * verifyUserIsADev - verifies if user is a developer
  * and redirects them to appropriate page
  * @param  {Object} req - Express Request Object
