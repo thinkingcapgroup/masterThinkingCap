@@ -343,3 +343,18 @@
 2-candTrust-candTrust-candFav-candOpp-undefined-undefined
 2-candFame-candTrust-candFav-candOpp-undefined-undefined
 2-candTrust-candFame-undefined-undefined-undefined-undefined
+35-undefined-undefined-undefined-undefined-undefined-undefined
+35-undefined-issFav-undefined-undefined-candOpp-undefined
+35-undefined-undefined-issOpp-undefined-candTrust-undefined
+35-candFav-candTrust-candTrust-candTrust-candTrust-candTrust
+35-candFame-candFame-candFame-candFame-candFame-candOpp
+35-Posters-1481662306728
+35-candFame-candFame-candFame-candFame-candFame-candFame
+35-Posters-1481662439698
+35-candFame-candFame-candFame-candFame-candFame-candFame
+35-Open Mic Night-1481662818128
+35-candTrust-candFame-undefined-undefined-undefined-undefined
+35-candTrust-candFame-candTrust-candFame-undefined-undefined
+35-candTrust-candFame-undefined-undefined-undefined-undefined
+35-candTrust-candTrust-undefined-undefined-undefined-undefined
+35-candFame-candTrust-undefined-undefined-undefined-undefined

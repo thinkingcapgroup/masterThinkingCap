@@ -1375,36 +1375,46 @@ function tutorial (help)
 	{
 		case 1:
 		document.getElementById("gameInfo").innerHTML += "<h3>Groups and Fame</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='nextSection("+help+");' style='float: right;'>Events and Minigames</button> <button float = 'left' onclick= 'userAction()'>Return to User Action Area</button>";
+		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";		
+		document.getElementById("gameInfo").innerHTML += "<button onclick='nextSection("+help+");' style='float: right;'>Events and Minigames</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<button float = 'left' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 2:
 		document.getElementById("gameInfo").innerHTML += "<h3>Events and Minigames</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Groups and Fame</button> <button onclick='nextSection("+help+");' style='float: right;'>Statements</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Groups and Fame</button> <button onclick='nextSection("+help+");' style='float: right;'>Statements</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 3:
 		document.getElementById("gameInfo").innerHTML += "<h3>Statements</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Events and Minigames</button> <button onclick='nextSection("+help+");' style='float: right;'>Consistency</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Events and Minigames</button> <button onclick='nextSection("+help+");' style='float: right;'>Consistency</button>";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 4:
 		document.getElementById("gameInfo").innerHTML += "<h3>Consistency</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling</button>";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 5:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 6:
 		document.getElementById("gameInfo").innerHTML += "<h3>Days and Time</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
 		if(!help)
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button> ";
 		else
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+3+", false, false)' style='float: right;'>Try Polling</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+3+", false, false)' style='float: right;'>Try Polling</button> <br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 			
 		break;
 	}
@@ -1529,12 +1539,12 @@ function map(state, isFirst, isFree){
 	else if (state == 2){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='startPractice()'> Back to Practice Area </button>";
 	}
-	else if(state = 3)
+	else if(state == 3)
 	{
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='userAction()'> Return to Game </button>";
 	}
 	else if(isFirst == true){
-		document.getElementById("questionArea").innerHTML += "<button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
+		document.getElementById("questionArea").innerHTML += "<br> <hr><button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
 	}
 	else{
 		if(!isFree)
@@ -2569,7 +2579,7 @@ function votePercentage(sampleSize, bias)
 			}
 			////console.log(candidates[j].name +" Issue Score: "+ issues);
 			
-			if(candidates[j].name == "Liz")
+			if(candidates[j].name != "Liz")
 			{
 				var candWinPer = 10*Math.pow(fame*issues,2) - candidates[j].consMod;
 			}
@@ -2622,66 +2632,81 @@ function fameCalc(cand, student)
 	switch(student.group)
 	{
 		case groupList[0]:
+		console.log("here group");
 		fame+= cand.fame[0];
 		break;
-
+    
 		case groupList[1]:
+		console.log("here group");
 		fame+= cand.fame[1];
 		break;
-
+    
 		case groupList[2]:
+		console.log("here group");
 		fame+= cand.fame[2];
 		break;
-
+    
 		case groupList[3]:
+		console.log("here group");
 		fame+= cand.fame[3];
 		break;
-
+    
 		case groupList[4]:
+		console.log("here group");
 		fame+= cand.fame[4];
-		break;
-	}
-	switch(student.ecoClass)
-	{
-		case majorList[0]:
-		fame+= cand.fame[5];
-		break;
-
-		case majorList[1]:
-		fame+= cand.fame[6];
-		break;
-
-		case majorList[2]:
-		fame+= cand.fame[7];
-		break;
-
-		case majorList[3]:
-		fame+= cand.fame[8];
-		break;
-
-		case majorList[4]:
-		fame+= cand.fame[9];
 		break;
 	}
 	switch(student.major)
 	{
+		case majorList[0]:
+		console.log("here econ");
+		fame+= cand.fame[5];
+		break;
+
+		case majorList[1]:
+		console.log("here econ");
+		fame+= cand.fame[6];
+		break;
+
+		case majorList[2]:
+		console.log("here econ");
+		fame+= cand.fame[7];
+		break;
+
+		case majorList[3]:
+		console.log("here econ");
+		fame+= cand.fame[8];
+		break;
+
+		case majorList[4]:
+		console.log("here econ");
+		fame+= cand.fame[9];
+		break;
+	}
+	switch(student.ecoClass)
+	{
 		case stuEconomic[0]:
+		console.log("here major");
 		fame+= cand.fame[10];
 		break;
 
 		case stuEconomic[1]:
+		console.log("here major");
 		fame+= cand.fame[11];
 		break;
 
 		case stuEconomic[2]:
+		console.log("here major");
 		fame+= cand.fame[12];
 		break;
 
 		case stuEconomic[3]:
+		console.log("here major");
 		fame+= cand.fame[13];
 		break;
 
 		case stuEconomic[4]:
+		console.log("here major");
 		fame+= cand.fame[14];
 		break;
 	}
@@ -3003,7 +3028,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 
 
 				case "fame":
-					var playFame = fameCalc(candidates[0],sample[j]).toFixed(2);
+					var playFame = fameCalc(candidates[0],sample[j]).toFixed(3);
 					tableArrays[7].push(playFame);
 					if(playFame > 0.69){
 						graphData[i+3][0]++;
@@ -3116,13 +3141,13 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 					tableArrays[candCounter].push(calcHolder);				
 
 					if(calcHolder> 0.66){
-						graphData[i+3][2]++;
+						graphData[i+3][0]++;
 					}
 					else if(calcHolder > 0.33){
 						graphData[i+3][1]++;
 					}
 					else{
-						graphData[i+3][0]++;
+						graphData[i+3][2]++;
 					}
 
 
@@ -3139,13 +3164,13 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 					tableArrays[candCounter].push(candidates[k].consMod);
 
 					if(candidates[k].consMod> 0.66){
-						graphData[i+3][0]++;
+						graphData[i+3][2]++;
 					}
 					else if(candidates[k].consMod > 0.33){
 						graphData[i+3][1]++;
 					}
 					else{
-						graphData[i+3][2]++;
+						graphData[i+3][0]++;
 					}
 				}
 
