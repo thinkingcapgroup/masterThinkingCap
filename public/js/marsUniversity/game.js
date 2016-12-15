@@ -729,7 +729,7 @@ function startOtherCandidates(heads,body){
 function actualSessionStart(isFromTut){
 	var tutHolder = isFromTut
 	clearScreen();
-	console.log(isFromTut, tutHolder);
+	
 
 	candidates = [];
 	
@@ -848,7 +848,7 @@ function firstStatement()
 /*GAME CYCLE FUNCTIONS8*/
 function gameCycleStart(f)
 {
-	console.log('SUP')
+
 	turnCounter = 1
 	playerCandidate.focus = positions[f];
 	playerCandidate.focusnum = f;
@@ -871,7 +871,7 @@ function gameCycleStart(f)
 		break;
 	}
 	candidates.splice(0,0,playerCandidate);
-	console.log(candidates);
+	
 
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
 	userAction();
@@ -894,7 +894,7 @@ function userAction()
 	//Build User Action Area buttons
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='map("+0+",false,false)'> Take A Poll </button>";
-	document.getElementById("choices").innerHTML += "<button type='button' onclick='statement()'> Make a Statement</button>";
+	document.getElementById("choices").innerHTML += "<button type='button' onclick='statement()'> Make a Statement - 1 Hour</button>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='helpScreen()'> Help Screen</button>";
 	document.getElementById("choices").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button>";
 	document.getElementById("choices").innerHTML += "<br>";
@@ -1286,7 +1286,7 @@ function submitAction(id, eventHours)
 				if(radio[i].checked == true)
 					check = radio[i].id;
 		}
-		console.log(check);
+
 		for(var j =0; j<chosenEvent.options.length; j++)
 		{
 			if( check == chosenEvent.options[j].optionID)
@@ -1437,13 +1437,18 @@ function map(state, isFirst, isFree){
 
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
-	if(isFree == false && isFirst == false && state !=2)
+	if( isFree == false && isFirst == false && state ==1){
+
+	}
+	else if(isFree == false && isFirst == false && state !=2 ){
 		document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";
 	
+	}
+	
 
-	if(state == 1){
+	if(state == 1||state == 2){
 		currentCandidateArrayHolder = candidates;
-		candidates = fakeCandidateHolder
+		candidates = fakeCandidateHolder;
 	}
 
 	var timeForPoll = returnTotalPollTime(20,0);
@@ -1805,7 +1810,7 @@ function pollResults(state, isFirst, isFree)
 			pollChoices.push(pollVal);	
 		}
 	}
-	console.log(pollChoices);
+
 
 	for (var i=0; i< pollChoices.length;i++)
 	{
@@ -1869,7 +1874,7 @@ function pollResults(state, isFirst, isFree)
 	else 
 	{
 		pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
-		console.log(isFirst);
+	
 		if(!isFirst)
 			document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 		else
@@ -2632,81 +2637,81 @@ function fameCalc(cand, student)
 	switch(student.group)
 	{
 		case groupList[0]:
-		console.log("here group");
+
 		fame+= cand.fame[0];
 		break;
     
 		case groupList[1]:
-		console.log("here group");
+		
 		fame+= cand.fame[1];
 		break;
     
 		case groupList[2]:
-		console.log("here group");
+	
 		fame+= cand.fame[2];
 		break;
     
 		case groupList[3]:
-		console.log("here group");
+	
 		fame+= cand.fame[3];
 		break;
     
 		case groupList[4]:
-		console.log("here group");
+	
 		fame+= cand.fame[4];
 		break;
 	}
 	switch(student.major)
 	{
 		case majorList[0]:
-		console.log("here econ");
+
 		fame+= cand.fame[5];
 		break;
 
 		case majorList[1]:
-		console.log("here econ");
+	
 		fame+= cand.fame[6];
 		break;
 
 		case majorList[2]:
-		console.log("here econ");
+
 		fame+= cand.fame[7];
 		break;
 
 		case majorList[3]:
-		console.log("here econ");
+
 		fame+= cand.fame[8];
 		break;
 
 		case majorList[4]:
-		console.log("here econ");
+
 		fame+= cand.fame[9];
 		break;
 	}
 	switch(student.ecoClass)
 	{
 		case stuEconomic[0]:
-		console.log("here major");
+
 		fame+= cand.fame[10];
 		break;
 
 		case stuEconomic[1]:
-		console.log("here major");
+
 		fame+= cand.fame[11];
 		break;
 
 		case stuEconomic[2]:
-		console.log("here major");
+		
 		fame+= cand.fame[12];
 		break;
 
 		case stuEconomic[3]:
-		console.log("here major");
+
 		fame+= cand.fame[13];
 		break;
 
 		case stuEconomic[4]:
-		console.log("here major");
+	
 		fame+= cand.fame[14];
 		break;
 	}
@@ -3186,7 +3191,6 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 		reviewFlag = true;
 	}
 
-	console.log(reviewFlag, state, isFree, isFirst);
 	////console.log(tableArrays);
 	tableBuilder(pollChoices, tableArrays, sampleSize, graphData, pollLabelArray, reviewFlag, state, isFree, isFirst);
 }
@@ -4310,10 +4314,10 @@ function gameResults(scores, tutorial)
 
 function hourChecker()
 {
-	console.log("Here");
+
 	if (days < 10)
 	{
-	console.log("Here 1");
+
 		if(remainingHoursDay < 1)
 		{
 			days++;
@@ -4328,7 +4332,7 @@ function hourChecker()
 	}
 	else
 	{
-	console.log("Here 2");
+
 		if(remainingHoursTotal<1)
 		{
 			gameCycleEnd();

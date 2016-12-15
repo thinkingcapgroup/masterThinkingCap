@@ -358,3 +358,27 @@
 35-candTrust-candFame-undefined-undefined-undefined-undefined
 35-candTrust-candTrust-undefined-undefined-undefined-undefined
 35-candFame-candTrust-undefined-undefined-undefined-undefined
+2-issOpp-candFame-undefined-undefined-undefined-undefined
+2-issFav-candOpp-undefined-undefined-undefined-undefined
+2-Food Giveaway-1481738769974
+2-issFav-issue-undefined-undefined-undefined-undefined
+2-candOpp-candTrust-undefined-undefined-undefined-undefined
+2-candFame-candTrust-undefined-undefined-undefined-undefined
+2-issOpp-undefined-undefined-undefined-undefined-issOpp
+2-issFav-undefined-candFav-undefined-undefined-issOpp
+2-candTrust-candTrust-candFav-undefined-undefined-issOpp
+2-candFame-candTrust-candFav-undefined-undefined-issOpp
+2-candFame-candTrust-undefined-undefined-undefined-undefined
+2-candFame-issue-undefined-undefined-undefined-undefined
+2-Reddit AMA-1481742197279
+2-issue-issOpp-undefined-undefined-undefined-undefined
+2-candTrust-candFame-undefined-undefined-undefined-undefined
+2-Posters-1481814766443
+2-Booth-1481814769769
+2-Party-1481814773800
+2-Charity Event-1481814777665
+2-candFame-candTrust-undefined-undefined-undefined-undefined
+2-issFav-issOpp-undefined-undefined-undefined-undefined
+2-issFav-undefined-undefined-undefined-undefined-undefined
+2-issOpp-candFame-undefined-undefined-undefined-undefined
+2-Posters-1481822459698
