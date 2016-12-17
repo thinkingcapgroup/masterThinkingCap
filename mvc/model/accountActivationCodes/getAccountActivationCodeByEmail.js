@@ -1,4 +1,4 @@
-module.exports = function(req, email, next){
+function getAccountActivationCode (req, email, next){
   var db = req.db,
       getAccountActivationCodeByEmail = 'SELECT * FROM `accountActivationCodes` LEFT JOIN `users` on (accountActivationCodes.userId = users.userId) WHERE `email` = ?;',
       resultRow = null,
@@ -23,3 +23,5 @@ module.exports = function(req, email, next){
     }
   });
 }
+
+module.exports = getAccountActivationCode;

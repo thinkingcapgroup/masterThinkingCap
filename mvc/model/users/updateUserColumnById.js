@@ -6,7 +6,7 @@ module.exports = function(req, data, next){
   db.query(updateUser, [data.column, data.value, data.userId], function(err, result) {
   	if (err) {
       error = err.toString();
-  		next(err, result)
+  		next(error, result)
   	}
     else {
       next(err, result);

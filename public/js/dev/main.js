@@ -16,7 +16,7 @@
   } // End Index
 
   // Create account
-  else if (document.getElementById('create-account')) {
-    thinkingcap.createAccountInputValidation();
+  if (document.getElementsByClassName('form-fields-validation')[0]) {
+    thinkingcap.formFieldsValidation();
   }
 }());

@@ -21,13 +21,14 @@
     "express-recaptcha": "^2.1.0",
     "express-session": "^1.14.1",
     "lodash": "^4.17.2",
+    "moment": "^2.17.1",
     "mysql": "^2.11.1",
     "node-sass-middleware": "^0.9.8",
     "nodemailer": "^2.6.4",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",
-    "validator": "^6.1.0",
+    "validator": "^6.2.0",
     "webpack": "^1.14.0"
   }
 }

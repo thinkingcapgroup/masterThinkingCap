@@ -1,20 +1,22 @@
 module.exports = function(req, data, next){
   var db = req.db,
-      activateUserAccount = 'SELECT * FROM accountActivationCodes WHERE activationCode = ?;',
       resultRow,
+      getUserByPassword = 'SELECT * FROM `users` WHERE `email` = ? AND `password` = ?;',
       error = false;
 
-  db.query(activateUserAccount, [data.activationCode], function(err, result) {
+  db.query(getUserByPassword, [data.email, data.password],function(err, result) {
     resultRow = result[0];
 
     if (err) {
       error = err.toString();
   		next(error, result)
   	}
+
     else if (!resultRow) {
-      error = 'Not found';
-      next(error, resultRow);
+      error = 'No user with that email and password combination was found.';
+      next(error, result);
     }
+
     else {
       next(err, resultRow);
     }

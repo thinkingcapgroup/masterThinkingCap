@@ -3,7 +3,7 @@ var express = require('express'),
     // Get the express Router
     router = express.Router(),
     // Require the Auth middleware
-    auth = require('../model/auth'),
+    auth = require('../model/auth/auth'),
     // errorNotifications
     errorNotifications = [],
     // successNotifications
@@ -33,7 +33,7 @@ router.post('/setComplete', auth, function (req, res) {
   //{});
 
   //Database Saving
-  require('../model/updateBugReports.js')(req, [stringTem], function(err, success) {
+  require('../model/bugReports/updateBugReports.js')(req, [stringTem], function(err, success) {
     // If there was an error
     if (err) {
       console.error(err);
@@ -76,17 +76,17 @@ function verifyUserIsADev (req, res) {
  */
 function renderBugReports(req, res) {
   // Require the global app model
-  var model = require('../model/global')(req, res),
+  var model = require('../model/global/global')(req, res),
       username = req.user.userName,
       bugReports,
       displayName = req.user.displayName;
 
   model.content.pageTitle = 'Bug Reports';
-  model.globalNavigationMode = require('../model/globalNavigationModeAuth')(req, res);
+  model.globalNavigationMode = require('../model/global/globalNavigationModeAuth')(req, res);
 
 
   // Get every bugReports
-  require('../model/getAllBugReports')(req, function(err, b) {
+  require('../model/bugReports/getAllBugReports')(req, function(err, b) {
     // If there is a database error
     if (err) {
 

@@ -68,7 +68,7 @@ router.post('/', recaptcha.middleware.verify, function(req, res) {
  */
 function renderCreateAccount (req, res) {
   // Require the global app model
-  var model = require('../../model/global')(req, res),
+  var model = require('../../model/global/global')(req, res),
       // User object
       user;
 
@@ -99,7 +99,7 @@ function createUserAccount (req, res) {
       // validUserData bool
       validUserData,
       // Require encryption model
-      encrypt = require('../../model/encrypt');
+      encrypt = require('../../model/global/encrypt');
 
   // If user submits information
   if (req.body.userInfoSubmit) {
@@ -120,7 +120,7 @@ function createUserAccount (req, res) {
       }
 
       // Call the insertUser model and pass in userData object
-      require('../../model/insertUser')(req, userData, function(err, success) {
+      require('../../model/users/insertUser')(req, userData, function(err, success) {
         // If there was an error
         if (err) {
           console.error(err);
@@ -188,7 +188,7 @@ function validateUserInput (req) {
 
   // Verify email is an email
   if (!validator.isEmail(rb.email)) {
-    errorNotifications.push('Please enter a vaid email.');
+    errorNotifications.push('Please enter a valid email.');
     valid = false;
   }
 
@@ -229,7 +229,7 @@ function createAccountActivationCode (req, res, userData) {
   accountActivationData.activationCode = crypto.randomBytes(16).toString('hex');
 
   // Call insertAccountActivationCode model and pass in the accountActivationData
-  require('../../model/insertAccountActivationCode')(req, accountActivationData, function (err, success) {
+  require('../../model/accountActivationCodes/insertAccountActivationCode')(req, accountActivationData, function (err, success) {
     // If there was an error
     if (err) {
       // If error was that there was a duplicate entry
@@ -256,7 +256,7 @@ function createAccountActivationCode (req, res, userData) {
 }
 
 /**
- * sendMailToUser - renders the user dashboard view
+ * sendMailToUser - sends an email to the user
  * @param  {Object} req                   - Express Request Object
  * @param  {Object} res                   - Express Response Object
  * @param  {Object} userData              - User data object
@@ -267,7 +267,7 @@ function sendMailToUser (req, res, userData, accountActivationData) {
   var authConfig = require('../../../config/auth'),
       // Create a nodemailer transporter
       transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com", // hostname
+        host: 'smtp-mail.outlook.com', // hostname
         secureConnection: false, // TLS requires secureConnection to be false
         port: 587, // port for secure SMTP
         tls: {
