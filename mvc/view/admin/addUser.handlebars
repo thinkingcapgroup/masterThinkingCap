@@ -1,7 +1,14 @@
-<main class='main-page-layout' id='create-account'>
+<main class='main-page-layout' id='add-user'>
   {{#if errorNotifications}}
     <ul class='notifications error-notifications'>
       {{#each errorNotifications}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+  {{#if successNotifications}}
+    <ul class='notifications success-notifications'>
+      {{#each successNotifications}}
         <li>{{this}}</li>
       {{/each}}
     </ul>
@@ -11,12 +18,12 @@
       <h1 id='main-page-title'>{{content.pageTitle}}</h1>
     </header>
     <section id='main-page-section'>
-      <form method='post' action='/createaccount' class='form'>
+      <form method='post' action='/adduser' class='form'>
         <legend>
-          New User
+          Add a new user
         </legend>
           <p>
-            Please fill out the fields below with your information.
+            Please fill out the fields below with the new user's information.
           </p>
           <ul class='form-fields form-fields-validation'>
             <li>
@@ -27,7 +34,7 @@
                 <dd>
                   <input id='username' class='input' type='text' name='username' value='{{user.name}}' required/>
                   <ul class='input-requirements' id='username-requirements'>
-                    <li class='invalid-input-requirement'>Your username will act as your unique identifier for login. Must not be empty, can be a combination of letters and numbers.</li>
+                    <li class='invalid-input-requirement'>Must not be empty, can be a combination of letters and numbers.</li>
                     <li class='invalid-input-requirement'>No spaces.</li>
                   </ul>
                 </dd>
@@ -105,7 +112,7 @@
                 <dd>
                   <input id='displayName' class='input' type='text' name='displayName' value='{{user.displayName}}' required />
                   <ul class='input-requirements' id='displayName-requirements'>
-                    <li class='invalid-input-requirement'>Name by which Thinking Cap will refer to you as. Can be your name or any name and does not have to be unique.</li>
+                    <li class='invalid-input-requirement'>Name by which Thinking Cap will refer to the new user.</li>
                   </ul>
                 </dd>
               </dl>
@@ -113,7 +120,7 @@
             <li>
               <dl>
                 <dt>
-                  <label>Are you deaf or hard of hearing?</label>
+                  <label>Is the user deaf or hard of hearing?</label>
                 </dt>
                 <dd>
                   <ul>
@@ -132,16 +139,20 @@
             <li>
               <dl>
                 <dt>
-                  <label>Verify your humanity:</label>
+                  <label>Choose a role for the new user:</label>
                 </dt>
                 <dd>
-                  {{{captcha}}}
+                  <select class='input' name='userRole'>
+                    {{#each userRoles}}
+                      <option value='{{this.roleId}}'>{{this.roleName}} - {{this.roleAccess}}</option>
+                    {{/each}}
+                  </select>
                 </dd>
               </dl>
             </li>
             <ul class='action-links'>
               <li>
-                <button class='btn' type='submit' name='userInfoSubmit' value='true'>Create Account</button>
+                <button class='btn' type='submit' name='userInfoSubmit' value='true'>Create New User</button>
               </li>
               <li>
                 <button class='btn' type='reset'>Clear</button>

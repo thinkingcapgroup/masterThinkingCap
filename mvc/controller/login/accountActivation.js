@@ -3,7 +3,7 @@ var express = require('express'),
     // Get the express Router
     router = express.Router(),
     // Require the Auth middleware
-    auth = require('../../model/auth'),
+    auth = require('../../model/auth/auth'),
     // Require nodemailer module
     nodemailer = require('nodemailer'),
     // Notifications
@@ -52,10 +52,10 @@ router.get(userAccountActivationRoute, function (req, res) {
 */
 function renderAccountActivation (req, res) {
   // Require the global app model
-  var model = require('../../model/global')(req, res);
+  var model = require('../../model/global/global')(req, res);
 
   model.content.pageTitle = ' Account Activation';
-  model.globalNavigationMode = require('../../model/globalNavigationModeAuth')(req, res);
+  model.globalNavigationMode = require('../../model/global/globalNavigationModeAuth')(req, res);
 
   // Display notifications if there are any
   model.errorNotifications = (errorNotifications)? errorNotifications : null;
@@ -85,7 +85,7 @@ function accountActivationPost (req, res) {
       var email = rb.email;
 
       // Get the account activation code by the emal entered
-      require('../../model/getAccountActivationCodeByEmail')(req, email, function (err, userData) {
+      require('../../model/accountActivationCodes/getAccountActivationCodeByEmail')(req, email, function (err, userData) {
         // If there was an error getting the code
         if (err) {
           console.error(err);
@@ -132,7 +132,7 @@ function activateUserAccount (req, res) {
   };
 
   // Call activateUserAccount and send in the data
-  require('../../model/activateUserAccount')(req, data, function (err, accountData) {
+  require('../../model/accountActivationCodes/activateUserAccount')(req, data, function (err, accountData) {
     // If there was an error
     if (err) {
       console.error(err);
@@ -159,7 +159,7 @@ function activateUserAccount (req, res) {
       };
 
       // Call updateUserColumnById and send in newUserData
-      require('../../model/updateUserColumnById')(req, newUserData, function (errr, success) {
+      require('../../model/users/updateUserColumnById')(req, newUserData, function (errr, success) {
         // If there was an error
         if (errr) {
           console.error(err);
@@ -172,7 +172,7 @@ function activateUserAccount (req, res) {
 
         // Otherwise update was successful
         else {
-          require('../../model/deleteAccountActivationCode')(req, data, function (errrr, deleted) {
+          require('../../model/accountActivationCodes/deleteAccountActivationCode')(req, data, function (errrr, deleted) {
             if (errrr) {
               console.error(errrr);
               errorNotifications.push(errrr);

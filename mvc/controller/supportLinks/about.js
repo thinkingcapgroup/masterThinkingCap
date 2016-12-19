@@ -21,10 +21,10 @@ router.get('/', function (req, res) {
  */
 function renderAbout (req, res) {
   // Require the global app model
-  var model = require('../../model/global')(req, res);
+  var model = require('../../model/global/global')(req, res);
 
   model.content.pageTitle = 'About';
-  model.globalNavigationMode = require('../../model/globalNavigationMode')(req, res);
+  model.globalNavigationMode = require('../../model/global/globalNavigationMode')(req, res);
 
   // Render /about using the 'about' view and model
 	res.render('supportLinks/about', model);

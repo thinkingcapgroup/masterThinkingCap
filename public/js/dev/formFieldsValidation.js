@@ -1,22 +1,36 @@
-function createAccountInputValidation () {
+function formFieldsValidation () {
   var validator = require('validator'),
-      formFields = document.getElementsByClassName('form-fields')[0],
-      usernameInput = document.getElementById('username'),
-      emailInput = document.getElementById('email'),
-      passwordInput = document.getElementById('password'),
-      passwordCheckInput = document.getElementById('passwordCheck'),
-      displayNameInput = document.getElementById('displayName'),
-      userNameRequirements = document.getElementById('username-requirements').children,
-      emailRequirements = document.getElementById('email-requirements').children,
-      passwordRequirements = document.getElementById('password-requirements').children,
-      passwordCheckRequirements = document.getElementById('passwordCheck-requirements').children,
-      displayNameRequirements = document.getElementById('displayName-requirements').children;
+      formFields = (document.getElementsByClassName('form-fields')[0]) ? document.getElementsByClassName('form-fields')[0] : null,
+      usernameInput = (document.getElementById('username')) ? document.getElementById('username') : null,
+      emailInput = (document.getElementById('email')) ? document.getElementById('email') : null,
+      passwordInput = (document.getElementById('password')) ? document.getElementById('password'): null,
+      passwordCheckInput = (document.getElementById('passwordCheck')) ? document.getElementById('passwordCheck') : null,
+      displayNameInput = (document.getElementById('displayName')) ? document.getElementById('displayName') : null,
+      userNameRequirements = (document.getElementById('username-requirements')) ? document.getElementById('username-requirements').children : null,
+      emailRequirements = (document.getElementById('email-requirements')) ? document.getElementById('email-requirements').children : null,
+      passwordRequirements = (document.getElementById('password-requirements')) ? document.getElementById('password-requirements').children : null,
+      passwordCheckRequirements = (document.getElementById('passwordCheck-requirements')) ? document.getElementById('passwordCheck-requirements').children : null,
+      displayNameRequirements = (document.getElementById('displayName-requirements')) ? document.getElementById('displayName-requirements').children : null;
 
-  usernameInput.addEventListener('input', function () { validateUserName(usernameInput, userNameRequirements); });
-  emailInput.addEventListener('input', function () { validateEmail(emailInput, emailRequirements); });
-  displayNameInput.addEventListener('input', function () { validateDisplayName(displayNameInput, displayNameRequirements); });
-  passwordInput.addEventListener('input', function () { validatePasswords(passwordInput, passwordRequirements); });
-  passwordCheckInput.addEventListener('input', function () { validatePasswords(passwordCheckInput, passwordCheckRequirements); });
+  if (usernameInput) {
+    usernameInput.addEventListener('input', function () { validateUserName(usernameInput, userNameRequirements); });
+  }
+
+  if (emailInput) {
+    emailInput.addEventListener('input', function () { validateEmail(emailInput, emailRequirements); });
+  }
+
+  if (displayNameInput) {
+    displayNameInput.addEventListener('input', function () { validateDisplayName(displayNameInput, displayNameRequirements); });
+  }
+
+  if (passwordInput) {
+    passwordInput.addEventListener('input', function () { validatePasswords(passwordInput, passwordRequirements); });
+  }
+
+  if (passwordCheckInput) {
+    passwordCheckInput.addEventListener('input', function () { validatePasswords(passwordCheckInput, passwordCheckRequirements); });
+  }
 
   /**
    * validateUserName - Verifies whether the username input is invalid or valid
@@ -235,4 +249,4 @@ function createAccountInputValidation () {
   }
 }
 
-module.exports = createAccountInputValidation;
+module.exports = formFieldsValidation;

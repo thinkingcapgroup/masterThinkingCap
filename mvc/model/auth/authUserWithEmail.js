@@ -1,4 +1,4 @@
-module.exports = function(req, data, next){
+function authenticateUserByEmail (req, data, next) {
   var db = req.db,
       resultRow,
       getUserByPassword = 'SELECT * FROM `users` WHERE `email` = ? AND `password` = ?;',
@@ -9,8 +9,7 @@ module.exports = function(req, data, next){
 
     if (err) {
       error = err.toString();
-      console.error(error);
-  		next(err, result)
+  		next(error, result)
   	}
 
     else if (!resultRow) {
@@ -23,3 +22,5 @@ module.exports = function(req, data, next){
     }
   });
 }
+
+module.exports = authenticateUserByEmail;

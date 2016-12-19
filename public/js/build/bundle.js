@@ -62,8 +62,8 @@
 	  } // End Index
 
 	  // Create account
-	  else if (document.getElementById('create-account')) {
-	    thinkingcap.createAccountInputValidation();
+	  if (document.getElementsByClassName('form-fields-validation')[0]) {
+	    thinkingcap.formFieldsValidation();
 	  }
 	}());
 
@@ -79,7 +79,7 @@
 
 	  // Views
 	  welcomePageTitleSwitch: __webpack_require__(4),
-	  createAccountInputValidation: __webpack_require__(5)
+	  formFieldsValidation: __webpack_require__(5)
 
 	  // Components
 	};
@@ -437,25 +437,39 @@
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	function createAccountInputValidation () {
+	function formFieldsValidation () {
 	  var validator = __webpack_require__(6),
-	      formFields = document.getElementsByClassName('form-fields')[0],
-	      usernameInput = document.getElementById('username'),
-	      emailInput = document.getElementById('email'),
-	      passwordInput = document.getElementById('password'),
-	      passwordCheckInput = document.getElementById('passwordCheck'),
-	      displayNameInput = document.getElementById('displayName'),
-	      userNameRequirements = document.getElementById('username-requirements').children,
-	      emailRequirements = document.getElementById('email-requirements').children,
-	      passwordRequirements = document.getElementById('password-requirements').children,
-	      passwordCheckRequirements = document.getElementById('passwordCheck-requirements').children,
-	      displayNameRequirements = document.getElementById('displayName-requirements').children;
+	      formFields = (document.getElementsByClassName('form-fields')[0]) ? document.getElementsByClassName('form-fields')[0] : null,
+	      usernameInput = (document.getElementById('username')) ? document.getElementById('username') : null,
+	      emailInput = (document.getElementById('email')) ? document.getElementById('email') : null,
+	      passwordInput = (document.getElementById('password')) ? document.getElementById('password'): null,
+	      passwordCheckInput = (document.getElementById('passwordCheck')) ? document.getElementById('passwordCheck') : null,
+	      displayNameInput = (document.getElementById('displayName')) ? document.getElementById('displayName') : null,
+	      userNameRequirements = (document.getElementById('username-requirements')) ? document.getElementById('username-requirements').children : null,
+	      emailRequirements = (document.getElementById('email-requirements')) ? document.getElementById('email-requirements').children : null,
+	      passwordRequirements = (document.getElementById('password-requirements')) ? document.getElementById('password-requirements').children : null,
+	      passwordCheckRequirements = (document.getElementById('passwordCheck-requirements')) ? document.getElementById('passwordCheck-requirements').children : null,
+	      displayNameRequirements = (document.getElementById('displayName-requirements')) ? document.getElementById('displayName-requirements').children : null;
 
-	  usernameInput.addEventListener('input', function () { validateUserName(usernameInput, userNameRequirements); });
-	  emailInput.addEventListener('input', function () { validateEmail(emailInput, emailRequirements); });
-	  displayNameInput.addEventListener('input', function () { validateDisplayName(displayNameInput, displayNameRequirements); });
-	  passwordInput.addEventListener('input', function () { validatePasswords(passwordInput, passwordRequirements); });
-	  passwordCheckInput.addEventListener('input', function () { validatePasswords(passwordCheckInput, passwordCheckRequirements); });
+	  if (usernameInput) {
+	    usernameInput.addEventListener('input', function () { validateUserName(usernameInput, userNameRequirements); });
+	  }
+
+	  if (emailInput) {
+	    emailInput.addEventListener('input', function () { validateEmail(emailInput, emailRequirements); });
+	  }
+
+	  if (displayNameInput) {
+	    displayNameInput.addEventListener('input', function () { validateDisplayName(displayNameInput, displayNameRequirements); });
+	  }
+
+	  if (passwordInput) {
+	    passwordInput.addEventListener('input', function () { validatePasswords(passwordInput, passwordRequirements); });
+	  }
+
+	  if (passwordCheckInput) {
+	    passwordCheckInput.addEventListener('input', function () { validatePasswords(passwordCheckInput, passwordCheckRequirements); });
+	  }
 
 	  /**
 	   * validateUserName - Verifies whether the username input is invalid or valid
@@ -674,7 +688,7 @@
 	  }
 	}
 
-	module.exports = createAccountInputValidation;
+	module.exports = formFieldsValidation;
 
 
 /***/ },
@@ -933,37 +947,68 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var version = '6.1.0';
+	var version = '6.2.0';
 
 	var validator = {
 	  version: version,
 	  toDate: _toDate2.default,
-	  toFloat: _toFloat2.default, toInt: _toInt2.default,
+	  toFloat: _toFloat2.default,
+	  toInt: _toInt2.default,
 	  toBoolean: _toBoolean2.default,
-	  equals: _equals2.default, contains: _contains2.default, matches: _matches2.default,
-	  isEmail: _isEmail2.default, isURL: _isURL2.default, isMACAddress: _isMACAddress2.default, isIP: _isIP2.default, isFQDN: _isFQDN2.default,
+	  equals: _equals2.default,
+	  contains: _contains2.default,
+	  matches: _matches2.default,
+	  isEmail: _isEmail2.default,
+	  isURL: _isURL2.default,
+	  isMACAddress: _isMACAddress2.default,
+	  isIP: _isIP2.default,
+	  isFQDN: _isFQDN2.default,
 	  isBoolean: _isBoolean2.default,
-	  isAlpha: _isAlpha2.default, isAlphanumeric: _isAlphanumeric2.default, isNumeric: _isNumeric2.default, isLowercase: _isLowercase2.default, isUppercase: _isUppercase2.default,
-	  isAscii: _isAscii2.default, isFullWidth: _isFullWidth2.default, isHalfWidth: _isHalfWidth2.default, isVariableWidth: _isVariableWidth2.default,
-	  isMultibyte: _isMultibyte2.default, isSurrogatePair: _isSurrogatePair2.default,
-	  isInt: _isInt2.default, isFloat: _isFloat2.default, isDecimal: _isDecimal2.default, isHexadecimal: _isHexadecimal2.default, isDivisibleBy: _isDivisibleBy2.default,
+	  isAlpha: _isAlpha2.default,
+	  isAlphanumeric: _isAlphanumeric2.default,
+	  isNumeric: _isNumeric2.default,
+	  isLowercase: _isLowercase2.default,
+	  isUppercase: _isUppercase2.default,
+	  isAscii: _isAscii2.default,
+	  isFullWidth: _isFullWidth2.default,
+	  isHalfWidth: _isHalfWidth2.default,
+	  isVariableWidth: _isVariableWidth2.default,
+	  isMultibyte: _isMultibyte2.default,
+	  isSurrogatePair: _isSurrogatePair2.default,
+	  isInt: _isInt2.default,
+	  isFloat: _isFloat2.default,
+	  isDecimal: _isDecimal2.default,
+	  isHexadecimal: _isHexadecimal2.default,
+	  isDivisibleBy: _isDivisibleBy2.default,
 	  isHexColor: _isHexColor2.default,
 	  isMD5: _isMD2.default,
 	  isJSON: _isJSON2.default,
 	  isEmpty: _isEmpty2.default,
-	  isLength: _isLength2.default, isByteLength: _isByteLength2.default,
-	  isUUID: _isUUID2.default, isMongoId: _isMongoId2.default,
-	  isDate: _isDate2.default, isAfter: _isAfter2.default, isBefore: _isBefore2.default,
+	  isLength: _isLength2.default,
+	  isByteLength: _isByteLength2.default,
+	  isUUID: _isUUID2.default,
+	  isMongoId: _isMongoId2.default,
+	  isDate: _isDate2.default,
+	  isAfter: _isAfter2.default,
+	  isBefore: _isBefore2.default,
 	  isIn: _isIn2.default,
 	  isCreditCard: _isCreditCard2.default,
-	  isISIN: _isISIN2.default, isISBN: _isISBN2.default, isISSN: _isISSN2.default,
+	  isISIN: _isISIN2.default,
+	  isISBN: _isISBN2.default,
+	  isISSN: _isISSN2.default,
 	  isMobilePhone: _isMobilePhone2.default,
 	  isCurrency: _isCurrency2.default,
 	  isISO8601: _isISO2.default,
-	  isBase64: _isBase2.default, isDataURI: _isDataURI2.default,
-	  ltrim: _ltrim2.default, rtrim: _rtrim2.default, trim: _trim2.default,
-	  escape: _escape2.default, unescape: _unescape2.default, stripLow: _stripLow2.default,
-	  whitelist: _whitelist2.default, blacklist: _blacklist2.default,
+	  isBase64: _isBase2.default,
+	  isDataURI: _isDataURI2.default,
+	  ltrim: _ltrim2.default,
+	  rtrim: _rtrim2.default,
+	  trim: _trim2.default,
+	  escape: _escape2.default,
+	  unescape: _unescape2.default,
+	  stripLow: _stripLow2.default,
+	  whitelist: _whitelist2.default,
+	  blacklist: _blacklist2.default,
 	  isWhitelisted: _isWhitelisted2.default,
 	  normalizeEmail: _normalizeEmail2.default,
 	  toString: _toString2.default
@@ -1219,6 +1264,7 @@
 
 	var default_email_options = {
 	  allow_display_name: false,
+	  require_display_name: false,
 	  allow_utf8_local_part: true,
 	  require_tld: true
 	};
@@ -1237,10 +1283,12 @@
 	  (0, _assertString2.default)(str);
 	  options = (0, _merge2.default)(options, default_email_options);
 
-	  if (options.allow_display_name) {
+	  if (options.require_display_name || options.allow_display_name) {
 	    var display_email = str.match(displayName);
 	    if (display_email) {
 	      str = display_email[1];
+	    } else if (options.require_display_name) {
+	      return false;
 	    }
 	  }
 
@@ -1725,6 +1773,7 @@
 	var alpha = exports.alpha = {
 	  'en-US': /^[A-Z]+$/i,
 	  'cs-CZ': /^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]+$/i,
+	  'da-DK': /^[A-ZÆØÅ]+$/i,
 	  'de-DE': /^[A-ZÄÖÜß]+$/i,
 	  'es-ES': /^[A-ZÁÉÍÑÓÚÜ]+$/i,
 	  'fr-FR': /^[A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ]+$/i,
@@ -1743,6 +1792,7 @@
 	var alphanumeric = exports.alphanumeric = {
 	  'en-US': /^[0-9A-Z]+$/i,
 	  'cs-CZ': /^[0-9A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]+$/i,
+	  'da-DK': /^[0-9A-ZÆØÅ]$/i,
 	  'de-DE': /^[0-9A-ZÄÖÜß]+$/i,
 	  'es-ES': /^[0-9A-ZÁÉÍÑÓÚÜ]+$/i,
 	  'fr-FR': /^[0-9A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ]+$/i,
@@ -2063,11 +2113,13 @@
 	  // leading zeroes are allowed or not.
 	  var regex = options.hasOwnProperty('allow_leading_zeroes') && !options.allow_leading_zeroes ? int : intLeadingZeroes;
 
-	  // Check min/max
+	  // Check min/max/lt/gt
 	  var minCheckPassed = !options.hasOwnProperty('min') || str >= options.min;
 	  var maxCheckPassed = !options.hasOwnProperty('max') || str <= options.max;
+	  var ltCheckPassed = !options.hasOwnProperty('lt') || str < options.lt;
+	  var gtCheckPassed = !options.hasOwnProperty('gt') || str > options.gt;
 
-	  return regex.test(str) && minCheckPassed && maxCheckPassed;
+	  return regex.test(str) && minCheckPassed && maxCheckPassed && ltCheckPassed && gtCheckPassed;
 	}
 	module.exports = exports['default'];
 
@@ -3424,11 +3476,9 @@
 	    if (options.all_lowercase || options.yahoo_lowercase) {
 	      parts[0] = parts[0].toLowerCase();
 	    }
-	  } else {
+	  } else if (options.all_lowercase) {
 	    // Any other address
-	    if (options.all_lowercase) {
-	      parts[0] = parts[0].toLowerCase();
-	    }
+	    parts[0] = parts[0].toLowerCase();
 	  }
 	  return parts.join('@');
 	}

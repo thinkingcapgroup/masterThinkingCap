@@ -292,7 +292,7 @@
     .global-navigation-wrapper {
       // dropdown wrapper
       display: block;
-      top: calc(#{$global-nav-bar-height-L} - 8px);
+      top: calc(#{$global-nav-bar-height-L} - 10px);
 
       // overwrite mobile style
       width: auto;
