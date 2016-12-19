@@ -1,4 +1,4 @@
-module.exports = function(req, data, next){
+function updateUserByColumn (req, data, next){
   var db = req.db,
       updateUser = 'UPDATE users SET ?? = ? WHERE userId = ?',
       error = false;
@@ -13,3 +13,5 @@ module.exports = function(req, data, next){
     }
   });
 }
+
+module.exports = updateUserByColumn;

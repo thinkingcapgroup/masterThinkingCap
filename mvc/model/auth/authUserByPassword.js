@@ -1,4 +1,4 @@
-module.exports = function(req, data, next){
+function authententicateUserByUserName (req, data, next) {
   var db = req.db,
       resultRow,
       getUserByPassword = 'SELECT * FROM `users` WHERE `userName` = ? AND `password` = ?;',
@@ -23,3 +23,5 @@ module.exports = function(req, data, next){
     }
   });
 }
+
+module.exports = authententicateUserByUserName;

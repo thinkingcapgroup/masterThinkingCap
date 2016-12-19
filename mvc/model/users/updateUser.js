@@ -1,15 +1,15 @@
 function updateUser (req, data, next) {
   var db = req.db,
-      updateUserQuery = 'UPDATE users SET userName = ? AND email = ? AND password = ? AND displayName = ? AND research = ? AND role = ? WHERE userId = ?;',
+      updateUserQuery = 'UPDATE users SET userName = ?, email = ?, password = ?, displayName = ?, research = ?, role = ? WHERE userId = ?',
       error = false;
 
-  db.query(updateUserQuery, [data.userName, data.email, data.password, data.displayName, data.research, data.role, data.userId], function (err, success) {
+  db.query(updateUserQuery, [data.userName, data.email, data.password, data.displayName, data.research, data.role, data.userId], function (err, result) {
     if (err) {
       error = err.toString();
-      next(error, success);
+      next(error, result);
     }
     else {
-      next(error, success);
+      next(error, result);
     }
   })
 }

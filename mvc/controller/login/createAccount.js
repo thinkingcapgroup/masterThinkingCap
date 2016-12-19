@@ -102,7 +102,7 @@ function createUserAccount (req, res) {
       encrypt = require('../../model/global/encrypt');
 
   // If user submits information
-  if (req.body.userInfoSubmit) {
+  if (rb.userInfoSubmit) {
     // Validate the user's data
     validUserData = validateUserInput(req);
 
@@ -125,8 +125,6 @@ function createUserAccount (req, res) {
         if (err) {
           console.error(err);
           errorNotifications.push(err);
-          // Redirect to /createaccount
-          //res.redirect('/createaccount');
           renderCreateAccount(req, res);
         }
 

@@ -46,6 +46,7 @@ router.post('/setComplete', auth, function (req, res) {
   // End response
   res.end();
 });
+
 /**
  * verifyUserIsADev - verifies if user is a developer
  * and redirects them to appropriate page
@@ -57,7 +58,7 @@ function verifyUserIsADev (req, res) {
   errorNotifications.length = successNotifications.length = 0;
 
   // If user is not a dev
-  if (req.user.role !== 5) {
+  if (req.user.role <= 5) {
     // Redirect them to dashboard
     res.redirect('/dashboard');
   }

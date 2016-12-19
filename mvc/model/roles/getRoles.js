@@ -1,16 +1,16 @@
-function getAllUsers (req, next){
+function getRoles (req, next){
   var db = req.db,
-      getAllUsersQuery = 'SELECT * FROM `users`;',
+      getRolesQuery = 'SELECT * FROM `roles`;',
       error = false;
 
-  db.query(getAllUsersQuery,function(err, result) {
+  db.query(getRolesQuery, function(err, result) {
   	if (err) {
       error = err.toString();
   		next(error, result)
   	}
 
     else if (!result[0]) {
-      error = 'No result';
+      error = 'No roles found';
       next(error, result);
     }
 
@@ -20,4 +20,4 @@ function getAllUsers (req, next){
   });
 }
 
-module.exports = getAllUsers;
+module.exports = getRoles;

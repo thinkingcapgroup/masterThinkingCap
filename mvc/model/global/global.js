@@ -6,7 +6,7 @@ var model = {
   }
 };
 
-module.exports = function(req, res) {
+function global (req, res) {
   return {
     // Always static
     content: model.content,
@@ -18,3 +18,5 @@ module.exports = function(req, res) {
     currentYear: new Date().getFullYear()
   };
 };
+
+module.exports = global;

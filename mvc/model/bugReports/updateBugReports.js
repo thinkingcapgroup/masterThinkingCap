@@ -1,9 +1,9 @@
-module.exports = function(req, data, next){
+function updateBugReport (req, data, next) {
   var db = req.db,
-      updateUser = 'UPDATE `bugReports` SET `status` = "complete" WHERE `subject` = ?;',
+      updateBugReportQuery = 'UPDATE `bugReports` SET `status` = "complete" WHERE `subject` = ?;',
       error = false;
 
-	db.query(updateUser, [data], function(err, result) {
+	db.query(updateBugReportQuery, [data], function(err, result) {
   	if (err) {
       error = err.toString();
   		next(err, result)
@@ -13,3 +13,5 @@ module.exports = function(req, data, next){
     }
   });
 }
+
+module.exports = updateBugReport;

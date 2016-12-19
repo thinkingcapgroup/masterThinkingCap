@@ -1,11 +1,11 @@
-module.exports = function(req, data, next){
+function insertBugReport (req, data, next) {
   var db = req.db,
-      insertBugReport = 'INSERT INTO bugReports (subject, category, description, status, date, username) VALUES (?, ?, ?, ?, ?, ?);'
+      insertBugReportQuery = 'INSERT INTO bugReports (subject, category, description, status, date, username) VALUES (?, ?, ?, ?, ?, ?);'
       error = false;
-  
+
   data.status = 'incomplete';
 
-  db.query(insertBugReport, [data.subject, data.category, data.description, data.status, data.date, data.username],function(err, result) {
+  db.query(insertBugReportQuery, [data.subject, data.category, data.description, data.status, data.date, data.username],function(err, result) {
   	if (err) {
       error = err.toString();
   		next(err, result)
@@ -15,3 +15,5 @@ module.exports = function(req, data, next){
     }
   });
 }
+
+module.exports = insertBugReport;

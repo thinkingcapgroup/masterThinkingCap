@@ -58,7 +58,7 @@
       {{! Bug Report }}
       <li data-content='bugreport'>
         <button class='btn bug-report-button'>
-           <img class='bug-report-icon' src='media/img/bugs/bug-icon.svg' alt='Bug Report Icon' title='Report Bug'/>
+           <img class='bug-report-icon' src='{{__dirname}}/media/img/bugs/bug-icon.svg' alt='Bug Report Icon' title='Report Bug'/>
         </button>
       </li>
 
@@ -125,7 +125,7 @@
               <h2>My Account</h2>
               <ul class='nav-links-list'>
                 <li><a href='#0'>View @{{globalNavigationMode.username}}</a></li>
-                <li><a href='#0'>Edit Account</a></li>
+                <li><a href='/editaccount'>Edit My Account</a></li>
               </ul>
               <a href='/logout' class='btn'>Log out</a>
             </div>
@@ -139,8 +139,8 @@
               <div class='nav-dropdown-content'>
                 <h2>Admin Panel</h2>
                 <ul class='nav-links-list'>
-                  <li><a href='#0'>Create Account</a></li>
-                  <li><a href='#0'>Edit Account</a></li>
+                  <li><a href='/adduser'>Create New User</a></li>
+                  <li><a href='/edituser'>Edit User Account</a></li>
                   <li><a href='#0'>Edit Permissions</a></li>
                   <li><a href='/bugreports'>Bug Reports</a></li>
                 </ul>
@@ -176,7 +176,7 @@
         <li id='bugreport' class='dropdown links'>
           <h2>Bug Report</h2>
           <button class='btn bug-report-button'>
-             <img class='bug-report-icon' src='media/img/bugs/bug-icon.svg' alt='Bug Report Icon' title='Report Bug'/>
+             <img class='bug-report-icon' src='{{__dirname}}/media/img/bugs/bug-icon.svg' alt='Bug Report Icon' title='Report Bug'/>
           </button>
         </li>
       </ul>

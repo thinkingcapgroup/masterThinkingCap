@@ -1,4 +1,4 @@
-module.exports = function (string) {
+function encrypt (string) {
   var crypto = require('crypto'),
       cipher = crypto.createCipher('aes-256-cbc', 'd6F3Efeq'),
       crypted = cipher.update(string, 'utf-8', 'hex');
@@ -7,3 +7,5 @@ module.exports = function (string) {
 
   return crypted;
 };
+
+module.exports = encrypt;
