@@ -27,7 +27,7 @@ router.get('/', function (req, res) {
  */
 function renderConsentAuthorization (req, res) {
   // Require the global app model
-  var model = require('../../model/global')(req, res);
+  var model = require('../../model/global/global')(req, res);
 
   model.content.pageTitle = 'Consent Authorization';
 

@@ -1,0 +1,178 @@
+<main class='main-page-layout' id='add-user'>
+  {{#if errorNotifications}}
+    <ul class='notifications error-notifications'>
+      {{#each errorNotifications}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+  {{#if successNotifications}}
+    <ul class='notifications success-notifications'>
+      {{#each successNotifications}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+  <article class='wrapper'>
+    <header id='main-page-header'>
+      <h1 id='main-page-title'>{{content.pageTitle}}</h1>
+    </header>
+    <section id='main-page-section'>
+      <form method='post' action='/adduser' class='form'>
+        <legend>
+          Add a new user
+        </legend>
+          <p>
+            Please fill out the fields below with the new user's information.
+          </p>
+          <ul class='form-fields form-fields-validation'>
+            <li>
+              <dl>
+                <dt>
+                  <label id='usernameLabel' for='username'>Username: <span class='required-asterisk'>*</span></label>
+                </dt>
+                <dd>
+                  <input id='username' class='input' type='text' name='username' value='{{user.name}}' required/>
+                  <ul class='input-requirements' id='username-requirements'>
+                    <li class='invalid-input-requirement'>Must not be empty, can be a combination of letters and numbers.</li>
+                    <li class='invalid-input-requirement'>No spaces.</li>
+                  </ul>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt>
+                  <label id='emailLabel' for='email'>Email: <span class='required-asterisk'>*</span></label>
+                </dt>
+                <dd>
+                  <input id='email' class='input' type='text' name='email' value='{{user.email}}' required/>
+                  <ul class='input-requirements' id='email-requirements'>
+                    <li class='invalid-input-requirement'>Must be a real email address that isn't already in use.</li>
+                  </ul>
+                </dd>
+              </dl>
+            </li>
+            <li id='password-section'>
+              <dl>
+                <dt>
+                  <label id='passwordLabel' for='password'>Password <span class='required-asterisk'>*</span></label>
+                </dt>
+                <dd>
+                  <input class='input' id='password' type='password' name='password' placeholder='Password' pattern='(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$' title='Passwords must be at least 8 characters long, contain an uppercase and lowercase letter, and have either a number or a special character.' required/>
+                  <ul class='input-requirements' id='password-requirements'>
+                    <li class='invalid-input-requirement'>
+                      Contains lowercase letter.
+                    </li>
+                    <li class='invalid-input-requirement'>
+                      Contains uppercase letter.
+                    </li>
+                    <li class='invalid-input-requirement'>
+                      Contains a number.
+                    </li>
+                    <li class='invalid-input-requirement'>
+                      At least 8 characters long.
+                    </li>
+                  </ul>
+                </dd>
+              </dl>
+            </li>
+            <li id='retype-password-section'>
+              <dl>
+                <dt>
+                  <label id='passwordCheckLabel' for='passwordCheck'>Retype Password <span class='required-asterisk'>*</span></label>
+                </dt>
+                <dd>
+                  <input class='input' id='passwordCheck' type='password' name='passwordCheck' placeholder='Password' pattern='(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$' title='Passwords must be at least 8 characters long, contain an uppercase and lowercase letter, and have either a number or a special character.' required/>
+                  <ul class='input-requirements' id='passwordCheck-requirements'>
+                    <li class='invalid-input-requirement'>
+                      Contains lowercase letter.
+                    </li>
+                    <li class='invalid-input-requirement'>
+                      Contains uppercase letter.
+                    </li>
+                    <li class='invalid-input-requirement'>
+                      Contains a number.
+                    </li>
+                    <li class='invalid-input-requirement'>
+                      At least 8 characters long.
+                    </li>
+                    <li class='invalid-input-requirement'>
+                      Passwords match.
+                    </li>
+                  </ul>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt>
+                  <label id='displayNameLabel' for='displayName'>Display Name:</label>
+                </dt>
+                <dd>
+                  <input id='displayName' class='input' type='text' name='displayName' value='{{user.displayName}}' required />
+                  <ul class='input-requirements' id='displayName-requirements'>
+                    <li class='invalid-input-requirement'>Name by which Thinking Cap will refer to the new user.</li>
+                  </ul>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt>
+                  <label>Is the user deaf or hard of hearing?</label>
+                </dt>
+                <dd>
+                  <ul>
+                    <li>
+                      <input id='yeselligibleForTest' type='radio' name='elligibleForTest' value='yes'>
+                      <label id='yeselligibleForTestLabel' for='yeselligibleForTest'>Yes</label>
+                    </li>
+                    <li>
+                      <input id='noelligibleForTest' type='radio' name='elligibleForTest' value='no' checked>
+                      <label id='noelligibleForTestLabel' for='noelligibleForTest'>No</label>
+                    </li>
+                  </ul>
+                </dd>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dt>
+                  <label>Choose a role for the new user:</label>
+                </dt>
+                <dd>
+                  <select class='input' name='userRole'>
+                    {{#each userRoles}}
+                      <option value='{{this.roleId}}'>{{this.roleName}} - {{this.roleAccess}}</option>
+                    {{/each}}
+                  </select>
+                </dd>
+              </dl>
+            </li>
+            <ul class='action-links'>
+              <li>
+                <button class='btn' type='submit' name='userInfoSubmit' value='true'>Create New User</button>
+              </li>
+              <li>
+                <button class='btn' type='reset'>Clear</button>
+              </li>
+            </ul>
+          </ul>
+      </form>
+    </section>
+    <footer id='footer'>
+      <ul id='reference-links'>
+        <li>
+          <a href='/help'>Help</a>
+        </li>
+        <li>
+          <a href='/terms'>Terms of Service</a>
+        </li>
+        <li>
+          <a href='/credits'>Credits</a>
+        </li>
+      </ul>
+    </footer>
+  </article>
+</main>

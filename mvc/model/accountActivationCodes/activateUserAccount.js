@@ -1,10 +1,10 @@
-module.exports = function(req, data, next){
+function activateUserAccount (req, data, next){
   var db = req.db,
-      activateUserAccount = 'SELECT * FROM accountActivationCodes WHERE activationCode = ?;',
+      activateUserAccountQuery = 'SELECT * FROM accountActivationCodes WHERE activationCode = ?;',
       resultRow,
       error = false;
 
-  db.query(activateUserAccount, [data.activationCode], function(err, result) {
+  db.query(activateUserAccountQuery, [data.activationCode], function(err, result) {
     resultRow = result[0];
 
     if (err) {
@@ -20,3 +20,5 @@ module.exports = function(req, data, next){
     }
   });
 }
+
+module.exports = activateUserAccount;

@@ -1,9 +1,9 @@
-module.exports = function(req, next){
+function getAllUsers (req, next){
   var db = req.db,
-      getAllUsers = 'SELECT * FROM `users`;',
+      getAllUsersQuery = 'SELECT * FROM `users`;',
       error = false;
 
-  db.query(getAllUsers,function(err, result) {
+  db.query(getAllUsersQuery,function(err, result) {
   	if (err) {
       error = err.toString();
   		next(error, result)
@@ -19,3 +19,5 @@ module.exports = function(req, next){
     }
   });
 }
+
+module.exports = getAllUsers;

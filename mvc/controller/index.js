@@ -30,7 +30,7 @@ router.get('/', function(req, res) {
  */
 function renderIndex (req, res) {
   // Require the global app model
-  var model = require('../model/global')(req, res);
+  var model = require('../model/global/global')(req, res);
 
   model.content.pageTitle = 'Thinking Cap';
 

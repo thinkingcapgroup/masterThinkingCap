@@ -124,7 +124,8 @@
 					if (basename === 'index') {
 						basename = '';
 					}
-					
+					// Check our routes: 
+					// console.log('/' + basename.toLowerCase());
 					app.use('/' + basename.toLowerCase(), require(route));
         }
       }

@@ -1,4 +1,4 @@
-module.exports = function(req, res, next){
+function authenticateUser (req, res, next) {
   var userData = {},
       errorMessage;
 
@@ -80,3 +80,5 @@ module.exports = function(req, res, next){
     res.redirect('/login');
   }
 }
+
+module.exports = authenticateUser;

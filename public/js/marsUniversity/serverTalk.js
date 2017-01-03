@@ -85,7 +85,7 @@ $(document).on('change', '.pollQ', function(){
       if(document.getElementById(pollThing).value == "candFame" || document.getElementById(pollThing).value == "candTrust" ){
 
         $('#' + subQuestion).empty();
-        console.log(candidates);
+    
         for(var x = 0; x < candidates.length; x++){
             if(x == 0){
               document.getElementById(subQuestion).options.add(new Option(candidates[x].name, "Player"));
@@ -105,7 +105,6 @@ $(document).on('change','.pollQ', function(){
       var place = $(this).attr('id');
       var x = place.charAt(4);
       theJSONEvents[x] = quest;
-      console.log(theJSONEvents);
  });
 
 $(document).on('click','.logEventPoll', function(){
