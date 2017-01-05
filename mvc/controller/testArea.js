@@ -31,6 +31,7 @@ function renderTestArea(req, res) {
       displayName = req.user.displayName;
 
   model.content.pageTitle = 'Test Area';
+  model.layout = 'test';
   model.globalNavigationMode = require('../model/global/globalNavigationModeAuth')(req, res);
 
   res.render('testArea', model)
