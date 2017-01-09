@@ -5067,6 +5067,12 @@ runningGame2.main =
    						runningGame2.main.studentCircles.push(studentCircleHolder)
    					
 				});
+				//spawn special events
+				var isSpecial = Math.floor(Math.random * 100)
+				if(isSpecial < 5){
+					var special = {color:"#000000"}
+					runningGame2.main.studentCircles.push(special)
+				}
 				runningGame2.main.inArea = true;
 				}
 				
@@ -5221,6 +5227,10 @@ runningGame2.main =
 					if (element.color == "#00FF00"){						
 						runningGame2.main.takenDemograph1++;
 						runningGame2.main.scores.score++;				
+					}
+					if (element.color == "#000000"){					
+						
+						runningGame2.main.scores.score = runningGame2.main.scores.score + 3;				
 					}
 					
 				});
