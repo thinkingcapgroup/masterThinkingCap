@@ -177,7 +177,7 @@ function startPractice()
 {
 	clearScreen();
 	practice = true;
-	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
+	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a><br><br><br><br><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Minigame 2</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
 }
 
 function helpScreen()
@@ -1747,6 +1747,9 @@ function minigamePlayer(id){
 		case 1:
 		runningGame.main.init(c,ctx);
 		break;
+		case 2:
+		runningGame2.main.init(c,ctx);
+		break;
 	}	
 }
 
@@ -1769,6 +1772,9 @@ function practiceGame(id){
 	{
 		case 1:
 		runningGame.main.init(c,ctx);
+		break;
+		case 2:
+		runningGame2.main.init(c,ctx);
 		break;
 	}	
 }
@@ -4230,7 +4236,8 @@ function loadGame()
 	
 	back=true;
 	saveState = "";
-	userAction();
+	hourChecker();
+
 }
 /* Back Button Prevention code */
 
@@ -4341,6 +4348,7 @@ function gameResults(scores, tutorial)
 		remainingHoursTotal-=1;
 		remainingHoursDay-=1;
 		var pos = chosenEvent.groupPos.split(',');
+		console.log(pos);
 		var posText =  "<h4>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame with these groups: ";
 		for (var i =0; i< pos.length;i++)
 		{
@@ -4437,13 +4445,17 @@ function gameResults(scores, tutorial)
 			document.getElementById("event").innerHTML = posText;
 			scoreChanger(candidates[0], x,pos,[]);
 		}
+		else{
+			document.getElementById("event").innerHTML = posText;
+			scoreChanger(candidates[0], (scores * .1),pos,[]);
+		}
 		
 			saveGameState();
 			document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the User Action Area </button>";
 	}
 	else
 	{
-		var posText =  "<h4>You completed the minigame with a score of "+scores.score; 
+		var posText =  "<h4>You completed the minigame with a score of "+ (scores.score); 
 		document.getElementById("event").innerHTML = posText;
 		document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to the Practice Screen </button>";
 	}
@@ -4527,6 +4539,7 @@ Object.defineProperty(console, "_commandLineAPI", n);
 Object.defineProperty(console, "__commandLineAPI", n);
 
 var runningGame ={};
+var runningGame2 = {};
 
 /* Minigame Code*/
 runningGame.main = 
@@ -4560,8 +4573,7 @@ runningGame.main =
 	{
 		ctx.restore;
 		ctx.save;
-		bodyPixelLocation = []
-
+		bodyPixelLocation = [];
 		frameIndex = 0;
 		ticker = 0;
 		if(typeof playerCandidate !== 'undefined'){
@@ -4576,7 +4588,7 @@ runningGame.main =
 			genderNumber = 0
 			bodyTypeNumber = 0
 		}
-		console.log(playerCandidate.headNum);
+
 		bodyPixelArray = [[169,123], [185,137],[218,175],[180,194]]
 		backgroundImage= new Image();
 		backgroundImage.src ="../img/minigame1/cafebg.png";
@@ -4976,4 +4988,262 @@ runningGame.main =
 	{
 		runningGame.main.time--;
 	}
+}
+
+/*Photo Game*/
+runningGame2.main = 
+{
+	player:
+	{
+		picturenum:0,
+		pictures:[],
+
+	},
+	studentCircles: [],
+	requiredDemograph1: 0,
+	requiredDemograph2: 0,
+	takenDemograph1:0,
+	takenDemograph2:0,
+	demograph1num:0,
+	demograph2num:0,
+	areaNumber: 0,
+	specialExist: false,
+	picturetaken: false,
+	inArea:false,
+	
+	scores: {
+		score:0,
+	}
+	,
+
+	//area numbers (0-Map, 1-6 map locations clockwise, 7 victory screen?)
+
+	
+	stop: false,
+
+	init: function(c,ctx){
+		ctx.restore;
+		ctx.save;
+		runningGame2.main.gameStop = false;
+		runningGame2.main.player.picturenum = 0;
+		runningGame2.main.scores.score = 0;	
+		runningGame2.main.areaNumber = 0;	
+		c.onmousedown = runningGame2.main.doMousedown;
+		ctx.font="14px Georgia";
+		runningGame2.main.requiredDemograph1 = Math.floor(Math.random() * 6) + 2;
+		runningGame2.main.requiredDemograph1 = Math.floor(Math.random() * 3) + 2;
+		runningGame2.main.demograph1num = Math.floor(Math.random() * 5);
+		runningGame2.main.demograph2num = Math.floor(Math.random() * 5);
+		runningGame2.main.takenDemograph1=0;
+		runningGame2.main.takenDemograph2=0;
+	
+		runningGame2.main.draw(c,ctx);
+	},
+
+	update: function (c,ctx)
+	{
+		if(!runningGame.main.stop)
+		{
+			//double check player photos = the amount they need
+				//end game
+			if(runningGame2.main.player.picturenum > 2){
+				console.log('hi', runningGame2.main.scores.score, practice);
+				gameResults(runningGame2.main.scores, practice);
+			}
+
+			else{
+			//generate information for the map area
+			if(runningGame2.main.areaNumber > 0 && !(runningGame2.main.picturetaken)){
+			 	
+			 	if(!runningGame2.main.inArea){
+			 	createSample((Math.floor(Math.random() * 3) + 5), runningGame2.main.areaNumber)
+				runningGame2.main.studentCircles = [];
+				sample.forEach(function(element) {
+					var studentCircleHolder = {color:"#FF0000"}
+   					if(majorList.indexOf(element.major) == runningGame2.main.demograph1num){
+   						studentCircleHolder.color = "#00FF00";
+   					}
+   					
+   						runningGame2.main.studentCircles.push(studentCircleHolder)
+   					
+				});
+				//spawn special events
+				var isSpecial = Math.floor(Math.random() * 100)
+				console.log(isSpecial)
+				if(isSpecial < 5){
+					var special = {color:"#000000"}
+					runningGame2.main.studentCircles.push(special)
+				}
+				runningGame2.main.inArea = true;
+				}
+				
+			}
+			else if(runningGame2.main.picturetaken){
+			
+				runningGame2.main.picturetaken = false;
+				runningGame2.main.inArea = false;
+				runningGame2.main.areaNumber = 0;
+			}
+
+			//draw the next screen
+			runningGame2.main.draw(c,ctx);
+			}
+
+			
+		}
+	},
+
+	draw: function(c,ctx)
+	{
+		//draw the background for the area
+		ctx.fillStyle="#FFFFFF";
+		ctx.fillRect(0,0,c.width,c.height);
+		//draw anything specific ontop of the background layer depending on what area you are
+		if(runningGame2.main.areaNumber == 0){
+			//quad
+			ctx.fillStyle = '#AAAAAA'
+			ctx.fillRect(400,250,100,100);
+			ctx.fillStyle = '#000000'
+			ctx.fillText("Quad",440,305);
+			//gym
+			ctx.fillStyle = '#FF0000'
+			ctx.fillRect(100,50,100,100);
+			ctx.fillStyle = '#000000'
+			ctx.fillText("Gym",140,105);
+			//media
+			ctx.fillStyle = '#00FF00'
+			ctx.fillRect(400,50,100,100);
+			ctx.fillStyle = '#000000'
+			ctx.fillText("Media Room",400,105);
+			//res
+			ctx.fillStyle = '#0000FF'
+			ctx.fillRect(700,50,100,100);
+			ctx.fillStyle = '#FFFFFF'
+			ctx.fillText("Labs",700,105);
+
+			ctx.fillStyle = '#FFFF00'
+			ctx.fillRect(225,350,100,100);
+			ctx.fillStyle = '#000000'
+			ctx.fillText("Coffe Shop",225,350);
+
+			ctx.fillStyle = '#00FFFF'
+			ctx.fillRect(575,350,100,100);
+			ctx.fillStyle = '#000000'
+			ctx.fillText("Gym",575,350);
+		}
+		if(runningGame2.main.areaNumber >0){
+			
+			//draw the students
+	
+				runningGame2.main.studentCircles.forEach(function(element) {
+    		
+	    			ctx.fillStyle = element.color;
+	    			var xpos = Math.floor(Math.random() * 600) + 50;
+	    			var ypos = Math.floor(Math.random() * 400) +25;
+	    			ctx.beginPath();
+	    			ctx.arc(xpos,ypos,40,0,2*Math.PI);
+	    			ctx.fill();
+	    			ctx.stroke();
+				});
+			
+			
+
+			//draw the ux/ui of the game
+			ctx.fillStyle = '#EEEEEE'
+			ctx.fillRect(0,440,c.width,100);
+			ctx.fillStyle = '#AAAAAA'
+			ctx.fillRect(0,440,100,50);
+			ctx.fillStyle = '#000000'
+			ctx.fillText("Back",0,460);
+
+			ctx.fillStyle = '#000000'
+			ctx.fillRect(400,440,100,50);
+			ctx.fillStyle = '#FFFFFF'
+			ctx.fillText("Take Picture",410,460);
+
+			
+
+		}
+
+			//draw the score
+			ctx.fillStyle = '#000000'
+			var scoreText = runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " " + majorList[runningGame2.main.demograph1num] + " Students";
+			var photosLeftText = runningGame2.main.player.picturenum + '/3 Photos Left'
+			ctx.fillText(scoreText, 700,10);
+			ctx.fillText(photosLeftText, 100,10);
+		
+	},
+
+	doMousedown: function(c, e)
+	{ 
+		//console.log(canvasMouse);
+		var mouse = canvasMouse;
+		var update = false
+
+		//check if the area is clickable
+		if(runningGame2.main.areaNumber == 0){
+			//quad
+			if((mouse.x >= 400 && mouse.x <= 500)&&(mouse.y >= 250 && mouse.y <= 350)){
+				runningGame2.main.areaNumber = 1;
+				update = true;
+			}
+			//gym
+			if((mouse.x >= 100 && mouse.x <= 200)&&(mouse.y >= 50 && mouse.y <= 150)){
+				runningGame2.main.areaNumber = 2;
+				update = true;
+			}
+			//media
+			if((mouse.x >= 400 && mouse.x <= 500)&&(mouse.y >= 50 && mouse.y <= 150)){
+				runningGame2.main.areaNumber = 3;
+				update = true;
+			}
+			//labs
+			if((mouse.x >= 700 && mouse.x <= 800)&&(mouse.y >= 50 && mouse.y <= 150)){
+				runningGame2.main.areaNumber = 4;
+				update = true;
+			}
+			//coffee shop
+			if((mouse.x >= 250 && mouse.x <= 350)&&(mouse.y >= 350 && mouse.y <= 450)){
+				runningGame2.main.areaNumber = 5;
+				update = true;
+			}
+			//library
+			if((mouse.x >= 575 && mouse.x <= 675)&&(mouse.y >= 350 && mouse.y <= 450)){
+				runningGame2.main.areaNumber = 6;
+				update = true;
+			}
+		}
+		if(runningGame2.main.areaNumber > 0){
+			if((mouse.x >= 0 && mouse.x <= 100)&&(mouse.y >= 440 && mouse.y <= 490)){
+				runningGame2.main.areaNumber = 0;
+				runningGame2.main.inArea = false;
+				update = true;
+			}
+			if((mouse.x >= 400 && mouse.x <= 500)&&(mouse.y >= 440 && mouse.y <= 490)){
+				runningGame2.main.picturetaken = true;
+				update = true;
+				runningGame2.main.player.picturenum++;
+				runningGame2.main.studentCircles.forEach(function(element) {
+		
+					if (element.color == "#00FF00"){						
+						runningGame2.main.takenDemograph1++;
+						runningGame2.main.scores.score++;				
+					}
+					if (element.color == "#000000"){					
+						
+						runningGame2.main.scores.score = runningGame2.main.scores.score + 3;				
+					}
+					
+				});
+			}
+		}
+
+		if(update){
+			runningGame2.main.update(this, this.getContext("2d"))
+		}
+		
+		//if not a clickable area do nothing
+	},
+
+	
 }
