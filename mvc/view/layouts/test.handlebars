@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    {{>testHead}}
+  </head>
+  <body>
+    <!-- The HTML for each view goes here -->
+    <div id='app'>
+      {{>globalNavigation}}
+      {{{body}}}
+      {{>bugReportSection}}
+    </div>
+    <script src ='{{__dirname}}/js/build/bundle.js'></script>
+  </body>
+</html>
