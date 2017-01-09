@@ -5068,7 +5068,8 @@ runningGame2.main =
    					
 				});
 				//spawn special events
-				var isSpecial = Math.floor(Math.random * 100)
+				var isSpecial = Math.floor(Math.random() * 100)
+				console.log(isSpecial)
 				if(isSpecial < 5){
 					var special = {color:"#000000"}
 					runningGame2.main.studentCircles.push(special)
