@@ -177,7 +177,7 @@ function startPractice()
 {
 	clearScreen();
 	practice = true;
-	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
+	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a><br><br><br><br><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Minigame 2</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
 }
 
 function helpScreen()
@@ -729,7 +729,7 @@ function startOtherCandidates(heads,body){
 function actualSessionStart(isFromTut){
 	var tutHolder = isFromTut
 	clearScreen();
-	console.log(isFromTut, tutHolder);
+	
 
 	candidates = [];
 	
@@ -755,14 +755,14 @@ function actualSessionStart(isFromTut){
 	candidates.push(issueCand1);
 
 	var issueCand2  = new CandidateCreate("Clamps");
-	issueCand2.focus = positions[1];
-	issueCand2.focusnum = 1;
+	issueCand2.focus = positions[4];
+	issueCand2.focusnum = 4;
 	chooseRank(issueCand2,chosenCandRanks,true);
 	candidates.push(issueCand2);
 
 	var issueCand3  = new CandidateCreate("Zrap Bannigan");
-	issueCand3.focus = positions[2];
-	issueCand3.focusnum = 2;
+	issueCand3.focus = positions[1];
+	issueCand3.focusnum = 1;
 	chooseRank(issueCand3,chosenCandRanks,true);
 	candidates.push(issueCand3);
 
@@ -773,8 +773,8 @@ function actualSessionStart(isFromTut){
 	candidates.push(issueCand4);
 
 	var issueCand5  = new CandidateCreate("Martian Scientist");
-	issueCand5.focus = positions[4];
-	issueCand5.focusnum = 4;
+	issueCand5.focus = positions[2];
+	issueCand5.focusnum = 2;
 	chooseRank(issueCand5,chosenCandRanks,true);
 	candidates.push(issueCand5);
 	
@@ -848,7 +848,7 @@ function firstStatement()
 /*GAME CYCLE FUNCTIONS8*/
 function gameCycleStart(f)
 {
-	console.log('SUP')
+
 	turnCounter = 1
 	playerCandidate.focus = positions[f];
 	playerCandidate.focusnum = f;
@@ -871,7 +871,7 @@ function gameCycleStart(f)
 		break;
 	}
 	candidates.splice(0,0,playerCandidate);
-	console.log(candidates);
+	
 
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
 	userAction();
@@ -894,7 +894,7 @@ function userAction()
 	//Build User Action Area buttons
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='map("+0+",false,false)'> Take A Poll </button>";
-	document.getElementById("choices").innerHTML += "<button type='button' onclick='statement()'> Make a Statement</button>";
+	document.getElementById("choices").innerHTML += "<button type='button' onclick='statement()'> Make a Statement - 1 Hour</button>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='helpScreen()'> Help Screen</button>";
 	document.getElementById("choices").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button>";
 	document.getElementById("choices").innerHTML += "<br>";
@@ -1286,7 +1286,7 @@ function submitAction(id, eventHours)
 				if(radio[i].checked == true)
 					check = radio[i].id;
 		}
-		console.log(check);
+
 		for(var j =0; j<chosenEvent.options.length; j++)
 		{
 			if( check == chosenEvent.options[j].optionID)
@@ -1374,37 +1374,178 @@ function tutorial (help)
 	switch(section)
 	{
 		case 1:
+		
 		document.getElementById("gameInfo").innerHTML += "<h3>Groups and Fame</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='nextSection("+help+");' style='float: right;'>Events and Minigames</button> <button float = 'left' onclick= 'userAction()'>Return to User Action Area</button>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px;'>Hi, my name is Gui'De, I will help you find your way around MarsU.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
+		document.getElementById("gameInfo").innerHTML += "<br><button onclick='nextSection("+help+");' style='float: right;'>Events and Minigames</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<button float = 'left' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 2:
 		document.getElementById("gameInfo").innerHTML += "<h3>Events and Minigames</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Groups and Fame</button> <button onclick='nextSection("+help+");' style='float: right;'>Statements</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'> Though you may be new to the university, MarsU needs you. There is a student government election and all of the candidates are horrible. You need to find a better candidate and help them to win the election.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Groups and Fame</button> <button onclick='nextSection("+help+");' style='float: right; text-decoration: underline;'>Statements</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 3:
+		var term = 1;
 		document.getElementById("gameInfo").innerHTML += "<h3>Statements</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Events and Minigames</button> <button onclick='nextSection("+help+");' style='float: right;'>Consistency</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'> First, you need to know about the students. We have a diverse <span onclick = 'explainTerm("+term+","+help+")' >population</span> here at MarsU including three species: humans, martians, and androids.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Events and Minigames</button> <button onclick='nextSection("+help+");' style='float: right;'>Consistency</button>";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 4:
 		document.getElementById("gameInfo").innerHTML += "<h3>Consistency</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Here they are, aren't they cute?</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling</button>";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 5:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden'; height:500px></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Unsurprising, they come in different shapes and sizes, and have a wide variety of interests.They may each have a variety of interests, but we can describe them based on their primary interest, their major, and how much money they or their parents have.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 6:
+		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden'; height:500px></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>We don't have a lot of prejudice here at MarsU, but knowing what people like can help you to learn more about them and help them come to know and like your candidate.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		break;
+		case 7:
+		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Here are the groups by category. Click an icon for more information. (Show icons with headers).</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		break;
+		case 8:
+		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>To win the election, your candidate will need to gain enough fame with some of the groups, particularly the ones that share your the opinions of your platform.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		break;
+		case 9:
+		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Your candidate should spend as much time as possible with students, but you have only a few days left, so use your time wisely.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		break;
+		case 10:
+		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'> You control your candidate's calendar, so you can have your candidate take actions to increase fame and encourage others to agree with your platform.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		break;
+		case 11:
+		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>One of the actions you can take is worth taking some time to explain in detail. You can take a poll to see how the students feel about issues and candidates at the moment. This can, and hopefully will, change over time, but previous polls will remain available to you and can help you determine which actions to take next.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		break;
+		case 12:
+		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>When you take a poll you will need to identify which population of students you would like to poll, what questions you wish to ask, and how many students you would like to survey.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		break;
+		case 13:
+		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>The results will give you the opinions of your sample.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		break;
+		case 14:
+		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Don't worry, the students here at MarsU always tell the truth on polls, but your sample may not be a perfect representation of the population.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		break;
+		case 15:
+		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'> Finally, your candidate must make an initial statement showing your platform position. You may have your candidate make additional statements, which can change opinions on an issue.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		break;
+		case 16:
+		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Positive statements will increase student opinion on an issue. Negative statements will decrease student opinion. It is a small change, but can make a big difference.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		break;
+		case 17:
+		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Realize, students are paying attention to your statements and if you more than a little inconsistent they will stop trusting you.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		break;
+		case 18:
+		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>I said polls were important, so I've created a practice polling area where you can create polls and look at polling results.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+		break;
+		case 19:
 		document.getElementById("gameInfo").innerHTML += "<h3>Days and Time</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<p>Explanation Goes Here</p>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Try it out, but remember, the data is not real and does not represent the actual students. For that you will need to take a real poll. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		if(!help)
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button> ";
 		else
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+3+", false, false)' style='float: right;'>Try Polling</button> <br><br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+3+", false, false)' style='float: right;'>Try Polling</button> <br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
 			
 		break;
 	}
@@ -1422,18 +1563,31 @@ function lastSection(help)
 	tutorial(help);
 }
 
+function explainTerm(term, help){
+	document.getElementById("gameInfo").innerHTML ="";
+	document.getElementById("gameInfo").innerHTML += "<h3>Term ID: "+term+"</h3><hr>";
+	document.getElementById("gameInfo").innerHTML += "<p>Term explination here....</p>"
+	document.getElementById("gameInfo").innerHTML += "<button onclick = 'tutorial("+help+")'>Back</button>"
+
+}
+
 function map(state, isFirst, isFree){
 	clearScreen();
 
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
-	if(isFree == false && isFirst == false && state !=2)
+	if( isFree == false && isFirst == false && state ==1){
+
+	}
+	else if(isFree == false && isFirst == false && state !=2 ){
 		document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";
 	
+	}
+	
 
-	if(state == 1){
+	if(state == 1||state == 2){
 		currentCandidateArrayHolder = candidates;
-		candidates = fakeCandidateHolder
+		candidates = fakeCandidateHolder;
 	}
 
 	var timeForPoll = returnTotalPollTime(20,0);
@@ -1529,12 +1683,12 @@ function map(state, isFirst, isFree){
 	else if (state == 2){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='startPractice()'> Back to Practice Area </button>";
 	}
-	else if(state = 3)
+	else if(state == 3)
 	{
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='userAction()'> Return to Game </button>";
 	}
 	else if(isFirst == true){
-		document.getElementById("questionArea").innerHTML += "<button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
+		document.getElementById("questionArea").innerHTML += "<br> <hr><button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
 	}
 	else{
 		if(!isFree)
@@ -1593,6 +1747,9 @@ function minigamePlayer(id){
 		case 1:
 		runningGame.main.init(c,ctx);
 		break;
+		case 2:
+		runningGame2.main.init(c,ctx);
+		break;
 	}	
 }
 
@@ -1615,6 +1772,9 @@ function practiceGame(id){
 	{
 		case 1:
 		runningGame.main.init(c,ctx);
+		break;
+		case 2:
+		runningGame2.main.init(c,ctx);
 		break;
 	}	
 }
@@ -1795,7 +1955,7 @@ function pollResults(state, isFirst, isFree)
 			pollChoices.push(pollVal);	
 		}
 	}
-	console.log(pollChoices);
+
 
 	for (var i=0; i< pollChoices.length;i++)
 	{
@@ -1859,7 +2019,7 @@ function pollResults(state, isFirst, isFree)
 	else 
 	{
 		pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
-		console.log(isFirst);
+	
 		if(!isFirst)
 			document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 		else
@@ -2569,7 +2729,7 @@ function votePercentage(sampleSize, bias)
 			}
 			////console.log(candidates[j].name +" Issue Score: "+ issues);
 			
-			if(candidates[j].name == "Liz")
+			if(candidates[j].name != "Liz")
 			{
 				var candWinPer = 10*Math.pow(fame*issues,2) - candidates[j].consMod;
 			}
@@ -2622,66 +2782,81 @@ function fameCalc(cand, student)
 	switch(student.group)
 	{
 		case groupList[0]:
+
 		fame+= cand.fame[0];
 		break;
-
+    
 		case groupList[1]:
+		
 		fame+= cand.fame[1];
 		break;
-
+    
 		case groupList[2]:
+	
 		fame+= cand.fame[2];
 		break;
-
+    
 		case groupList[3]:
+	
 		fame+= cand.fame[3];
 		break;
-
+    
 		case groupList[4]:
+	
 		fame+= cand.fame[4];
-		break;
-	}
-	switch(student.ecoClass)
-	{
-		case majorList[0]:
-		fame+= cand.fame[5];
-		break;
-
-		case majorList[1]:
-		fame+= cand.fame[6];
-		break;
-
-		case majorList[2]:
-		fame+= cand.fame[7];
-		break;
-
-		case majorList[3]:
-		fame+= cand.fame[8];
-		break;
-
-		case majorList[4]:
-		fame+= cand.fame[9];
 		break;
 	}
 	switch(student.major)
 	{
+		case majorList[0]:
+
+		fame+= cand.fame[5];
+		break;
+
+		case majorList[1]:
+	
+		fame+= cand.fame[6];
+		break;
+
+		case majorList[2]:
+
+		fame+= cand.fame[7];
+		break;
+
+		case majorList[3]:
+
+		fame+= cand.fame[8];
+		break;
+
+		case majorList[4]:
+
+		fame+= cand.fame[9];
+		break;
+	}
+	switch(student.ecoClass)
+	{
 		case stuEconomic[0]:
+
 		fame+= cand.fame[10];
 		break;
 
 		case stuEconomic[1]:
+
 		fame+= cand.fame[11];
 		break;
 
 		case stuEconomic[2]:
+		
 		fame+= cand.fame[12];
 		break;
 
 		case stuEconomic[3]:
+
 		fame+= cand.fame[13];
 		break;
 
 		case stuEconomic[4]:
+	
 		fame+= cand.fame[14];
 		break;
 	}
@@ -3003,7 +3178,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 
 
 				case "fame":
-					var playFame = fameCalc(candidates[0],sample[j]).toFixed(2);
+					var playFame = fameCalc(candidates[0],sample[j]).toFixed(3);
 					tableArrays[7].push(playFame);
 					if(playFame > 0.69){
 						graphData[i+3][0]++;
@@ -3116,13 +3291,13 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 					tableArrays[candCounter].push(calcHolder);				
 
 					if(calcHolder> 0.66){
-						graphData[i+3][2]++;
+						graphData[i+3][0]++;
 					}
 					else if(calcHolder > 0.33){
 						graphData[i+3][1]++;
 					}
 					else{
-						graphData[i+3][0]++;
+						graphData[i+3][2]++;
 					}
 
 
@@ -3139,13 +3314,13 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 					tableArrays[candCounter].push(candidates[k].consMod);
 
 					if(candidates[k].consMod> 0.66){
-						graphData[i+3][0]++;
+						graphData[i+3][2]++;
 					}
 					else if(candidates[k].consMod > 0.33){
 						graphData[i+3][1]++;
 					}
 					else{
-						graphData[i+3][2]++;
+						graphData[i+3][0]++;
 					}
 				}
 
@@ -3161,7 +3336,6 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 		reviewFlag = true;
 	}
 
-	console.log(reviewFlag, state, isFree, isFirst);
 	////console.log(tableArrays);
 	tableBuilder(pollChoices, tableArrays, sampleSize, graphData, pollLabelArray, reviewFlag, state, isFree, isFirst);
 }
@@ -4062,7 +4236,8 @@ function loadGame()
 	
 	back=true;
 	saveState = "";
-	userAction();
+	hourChecker();
+
 }
 /* Back Button Prevention code */
 
@@ -4173,6 +4348,7 @@ function gameResults(scores, tutorial)
 		remainingHoursTotal-=1;
 		remainingHoursDay-=1;
 		var pos = chosenEvent.groupPos.split(',');
+		console.log(pos);
 		var posText =  "<h4>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame with these groups: ";
 		for (var i =0; i< pos.length;i++)
 		{
@@ -4269,13 +4445,17 @@ function gameResults(scores, tutorial)
 			document.getElementById("event").innerHTML = posText;
 			scoreChanger(candidates[0], x,pos,[]);
 		}
+		else{
+			document.getElementById("event").innerHTML = posText;
+			scoreChanger(candidates[0], (scores * .1),pos,[]);
+		}
 		
 			saveGameState();
 			document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the User Action Area </button>";
 	}
 	else
 	{
-		var posText =  "<h4>You completed the minigame with a score of "+scores.score; 
+		var posText =  "<h4>You completed the minigame with a score of "+ (scores.score); 
 		document.getElementById("event").innerHTML = posText;
 		document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to the Practice Screen </button>";
 	}
@@ -4285,10 +4465,10 @@ function gameResults(scores, tutorial)
 
 function hourChecker()
 {
-	console.log("Here");
+
 	if (days < 10)
 	{
-	console.log("Here 1");
+
 		if(remainingHoursDay < 1)
 		{
 			days++;
@@ -4303,7 +4483,7 @@ function hourChecker()
 	}
 	else
 	{
-	console.log("Here 2");
+
 		if(remainingHoursTotal<1)
 		{
 			gameCycleEnd();
@@ -4359,6 +4539,7 @@ Object.defineProperty(console, "_commandLineAPI", n);
 Object.defineProperty(console, "__commandLineAPI", n);
 
 var runningGame ={};
+var runningGame2 = {};
 
 /* Minigame Code*/
 runningGame.main = 
@@ -4392,8 +4573,7 @@ runningGame.main =
 	{
 		ctx.restore;
 		ctx.save;
-		bodyPixelLocation = []
-
+		bodyPixelLocation = [];
 		frameIndex = 0;
 		ticker = 0;
 		if(typeof playerCandidate !== 'undefined'){
@@ -4408,7 +4588,7 @@ runningGame.main =
 			genderNumber = 0
 			bodyTypeNumber = 0
 		}
-		console.log(playerCandidate.headNum);
+
 		bodyPixelArray = [[169,123], [185,137],[218,175],[180,194]]
 		backgroundImage= new Image();
 		backgroundImage.src ="../img/minigame1/cafebg.png";
@@ -4808,4 +4988,262 @@ runningGame.main =
 	{
 		runningGame.main.time--;
 	}
+}
+
+/*Photo Game*/
+runningGame2.main = 
+{
+	player:
+	{
+		picturenum:0,
+		pictures:[],
+
+	},
+	studentCircles: [],
+	requiredDemograph1: 0,
+	requiredDemograph2: 0,
+	takenDemograph1:0,
+	takenDemograph2:0,
+	demograph1num:0,
+	demograph2num:0,
+	areaNumber: 0,
+	specialExist: false,
+	picturetaken: false,
+	inArea:false,
+	
+	scores: {
+		score:0,
+	}
+	,
+
+	//area numbers (0-Map, 1-6 map locations clockwise, 7 victory screen?)
+
+	
+	stop: false,
+
+	init: function(c,ctx){
+		ctx.restore;
+		ctx.save;
+		runningGame2.main.gameStop = false;
+		runningGame2.main.player.picturenum = 0;
+		runningGame2.main.scores.score = 0;	
+		runningGame2.main.areaNumber = 0;	
+		c.onmousedown = runningGame2.main.doMousedown;
+		ctx.font="14px Georgia";
+		runningGame2.main.requiredDemograph1 = Math.floor(Math.random() * 6) + 2;
+		runningGame2.main.requiredDemograph1 = Math.floor(Math.random() * 3) + 2;
+		runningGame2.main.demograph1num = Math.floor(Math.random() * 5);
+		runningGame2.main.demograph2num = Math.floor(Math.random() * 5);
+		runningGame2.main.takenDemograph1=0;
+		runningGame2.main.takenDemograph2=0;
+	
+		runningGame2.main.draw(c,ctx);
+	},
+
+	update: function (c,ctx)
+	{
+		if(!runningGame.main.stop)
+		{
+			//double check player photos = the amount they need
+				//end game
+			if(runningGame2.main.player.picturenum > 2){
+				console.log('hi', runningGame2.main.scores.score, practice);
+				gameResults(runningGame2.main.scores, practice);
+			}
+
+			else{
+			//generate information for the map area
+			if(runningGame2.main.areaNumber > 0 && !(runningGame2.main.picturetaken)){
+			 	
+			 	if(!runningGame2.main.inArea){
+			 	createSample((Math.floor(Math.random() * 3) + 5), runningGame2.main.areaNumber)
+				runningGame2.main.studentCircles = [];
+				sample.forEach(function(element) {
+					var studentCircleHolder = {color:"#FF0000"}
+   					if(majorList.indexOf(element.major) == runningGame2.main.demograph1num){
+   						studentCircleHolder.color = "#00FF00";
+   					}
+   					
+   						runningGame2.main.studentCircles.push(studentCircleHolder)
+   					
+				});
+				//spawn special events
+				var isSpecial = Math.floor(Math.random() * 100)
+				console.log(isSpecial)
+				if(isSpecial < 5){
+					var special = {color:"#000000"}
+					runningGame2.main.studentCircles.push(special)
+				}
+				runningGame2.main.inArea = true;
+				}
+				
+			}
+			else if(runningGame2.main.picturetaken){
+			
+				runningGame2.main.picturetaken = false;
+				runningGame2.main.inArea = false;
+				runningGame2.main.areaNumber = 0;
+			}
+
+			//draw the next screen
+			runningGame2.main.draw(c,ctx);
+			}
+
+			
+		}
+	},
+
+	draw: function(c,ctx)
+	{
+		//draw the background for the area
+		ctx.fillStyle="#FFFFFF";
+		ctx.fillRect(0,0,c.width,c.height);
+		//draw anything specific ontop of the background layer depending on what area you are
+		if(runningGame2.main.areaNumber == 0){
+			//quad
+			ctx.fillStyle = '#AAAAAA'
+			ctx.fillRect(400,250,100,100);
+			ctx.fillStyle = '#000000'
+			ctx.fillText("Quad",440,305);
+			//gym
+			ctx.fillStyle = '#FF0000'
+			ctx.fillRect(100,50,100,100);
+			ctx.fillStyle = '#000000'
+			ctx.fillText("Gym",140,105);
+			//media
+			ctx.fillStyle = '#00FF00'
+			ctx.fillRect(400,50,100,100);
+			ctx.fillStyle = '#000000'
+			ctx.fillText("Media Room",400,105);
+			//res
+			ctx.fillStyle = '#0000FF'
+			ctx.fillRect(700,50,100,100);
+			ctx.fillStyle = '#FFFFFF'
+			ctx.fillText("Labs",700,105);
+
+			ctx.fillStyle = '#FFFF00'
+			ctx.fillRect(225,350,100,100);
+			ctx.fillStyle = '#000000'
+			ctx.fillText("Coffe Shop",225,350);
+
+			ctx.fillStyle = '#00FFFF'
+			ctx.fillRect(575,350,100,100);
+			ctx.fillStyle = '#000000'
+			ctx.fillText("Gym",575,350);
+		}
+		if(runningGame2.main.areaNumber >0){
+			
+			//draw the students
+	
+				runningGame2.main.studentCircles.forEach(function(element) {
+    		
+	    			ctx.fillStyle = element.color;
+	    			var xpos = Math.floor(Math.random() * 600) + 50;
+	    			var ypos = Math.floor(Math.random() * 400) +25;
+	    			ctx.beginPath();
+	    			ctx.arc(xpos,ypos,40,0,2*Math.PI);
+	    			ctx.fill();
+	    			ctx.stroke();
+				});
+			
+			
+
+			//draw the ux/ui of the game
+			ctx.fillStyle = '#EEEEEE'
+			ctx.fillRect(0,440,c.width,100);
+			ctx.fillStyle = '#AAAAAA'
+			ctx.fillRect(0,440,100,50);
+			ctx.fillStyle = '#000000'
+			ctx.fillText("Back",0,460);
+
+			ctx.fillStyle = '#000000'
+			ctx.fillRect(400,440,100,50);
+			ctx.fillStyle = '#FFFFFF'
+			ctx.fillText("Take Picture",410,460);
+
+			
+
+		}
+
+			//draw the score
+			ctx.fillStyle = '#000000'
+			var scoreText = runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " " + majorList[runningGame2.main.demograph1num] + " Students";
+			var photosLeftText = runningGame2.main.player.picturenum + '/3 Photos Left'
+			ctx.fillText(scoreText, 700,10);
+			ctx.fillText(photosLeftText, 100,10);
+		
+	},
+
+	doMousedown: function(c, e)
+	{ 
+		//console.log(canvasMouse);
+		var mouse = canvasMouse;
+		var update = false
+
+		//check if the area is clickable
+		if(runningGame2.main.areaNumber == 0){
+			//quad
+			if((mouse.x >= 400 && mouse.x <= 500)&&(mouse.y >= 250 && mouse.y <= 350)){
+				runningGame2.main.areaNumber = 1;
+				update = true;
+			}
+			//gym
+			if((mouse.x >= 100 && mouse.x <= 200)&&(mouse.y >= 50 && mouse.y <= 150)){
+				runningGame2.main.areaNumber = 2;
+				update = true;
+			}
+			//media
+			if((mouse.x >= 400 && mouse.x <= 500)&&(mouse.y >= 50 && mouse.y <= 150)){
+				runningGame2.main.areaNumber = 3;
+				update = true;
+			}
+			//labs
+			if((mouse.x >= 700 && mouse.x <= 800)&&(mouse.y >= 50 && mouse.y <= 150)){
+				runningGame2.main.areaNumber = 4;
+				update = true;
+			}
+			//coffee shop
+			if((mouse.x >= 250 && mouse.x <= 350)&&(mouse.y >= 350 && mouse.y <= 450)){
+				runningGame2.main.areaNumber = 5;
+				update = true;
+			}
+			//library
+			if((mouse.x >= 575 && mouse.x <= 675)&&(mouse.y >= 350 && mouse.y <= 450)){
+				runningGame2.main.areaNumber = 6;
+				update = true;
+			}
+		}
+		if(runningGame2.main.areaNumber > 0){
+			if((mouse.x >= 0 && mouse.x <= 100)&&(mouse.y >= 440 && mouse.y <= 490)){
+				runningGame2.main.areaNumber = 0;
+				runningGame2.main.inArea = false;
+				update = true;
+			}
+			if((mouse.x >= 400 && mouse.x <= 500)&&(mouse.y >= 440 && mouse.y <= 490)){
+				runningGame2.main.picturetaken = true;
+				update = true;
+				runningGame2.main.player.picturenum++;
+				runningGame2.main.studentCircles.forEach(function(element) {
+		
+					if (element.color == "#00FF00"){						
+						runningGame2.main.takenDemograph1++;
+						runningGame2.main.scores.score++;				
+					}
+					if (element.color == "#000000"){					
+						
+						runningGame2.main.scores.score = runningGame2.main.scores.score + 3;				
+					}
+					
+				});
+			}
+		}
+
+		if(update){
+			runningGame2.main.update(this, this.getContext("2d"))
+		}
+		
+		//if not a clickable area do nothing
+	},
+
+	
 }

@@ -5,7 +5,7 @@ var thinkingcap = {
 
   // Views
   welcomePageTitleSwitch: require('./welcomePageTitleSwitch'),
-  createAccountInputValidation: require('./createAccountInputValidation')
+  formFieldsValidation: require('./formFieldsValidation')
 
   // Components
 };

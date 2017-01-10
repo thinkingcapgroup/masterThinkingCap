@@ -3,7 +3,7 @@ var express = require('express'),
    // Get the express Router
    router = express.Router(),
    // Require the Auth middleware
-   auth = require('../../model/auth'),
+   auth = require('../../model/auth/auth'),
    // Require body-parser module
    bodyParser = require('body-parser'),
    // Require fs module
@@ -139,12 +139,12 @@ router.post('/loggerPoll', auth, function (req, res, next) {
  */
 function renderMarsUniversityGame (req, res) {
   // Require the global app model
-  var model = require('../../model/global')(req, res);
+  var model = require('../../model/global/global')(req, res);
 
   model.content.pageTitle = 'Thinking Cap - Mars University';
   model.content.gameTitle = 'Mars University';
   model.layout = 'gamelayout';
-  model.globalNavigationMode = require('../../model/globalNavigationModeAuth')(req, res);
+  model.globalNavigationMode = require('../../model/global/globalNavigationModeAuth')(req, res);
 
   // Get the loadSave model
   require('../../model/marsUniversity/loadSave.js')(req, auth, function (err, success) {

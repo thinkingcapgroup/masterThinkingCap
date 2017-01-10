@@ -67,7 +67,7 @@
 		},
 		
 		{
-			"name":"Matching Game",
+			"name":"Booth",
 			"id":"3",
 			"type":"smallEvent",
 			"text":"It's time for some 1 on 1 with the voters. Use their visual cues and anecdotes to choose the proper item to give them",
@@ -540,6 +540,30 @@
 					"posEffects":"",
 					"negEffects":"",
 					"loader": "1"
+				}
+			]
+		},
+
+		{
+			"name":"Photobomb",
+			"id":"23",
+			"type":"smallEvent",
+			"text":"Lets take pictures",
+			"timeRequired":"2",
+			"groupPos":"Soc",
+			"groupNeg":"",
+			"results":"",
+			"scoreInc":".4",
+			"options":
+			[
+				{
+					"optionName":"Minigame",
+					"optionID":"Minigame",
+					"type":"game",
+					"extraTime" : "1", 
+					"posEffects":"",
+					"negEffects":"",
+					"loader": "2"
 				}
 			]
 		}

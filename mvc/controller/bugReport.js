@@ -42,7 +42,7 @@ function submitBugReport (req, res) {
     }
 
     // Call the model to insert bug
-    require('../model/insertBugReport')(req, report, function (err, success) {
+    require('../model/bugReports/insertBugReport')(req, report, function (err, success) {
       // If there was an error submiting the bug report
       if (err) {
         console.error(err);

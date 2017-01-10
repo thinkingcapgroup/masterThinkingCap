@@ -21,10 +21,10 @@ router.get('/', function (req, res) {
  */
 function renderCredits (req, res) {
   // Require the global app model
-  var model = require('../../model/global')(req, res);
+  var model = require('../../model/global/global')(req, res);
 
   model.content.pageTitle = 'Credits';
-  model.globalNavigationMode = require('../../model/globalNavigationMode')(req, res);
+  model.globalNavigationMode = require('../../model/global/globalNavigationMode')(req, res);
 
   // Render /credits using the 'credits' view and model
 	res.render('supportLinks/credits', model);

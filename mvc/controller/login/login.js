@@ -43,7 +43,7 @@ router.post('/', function (req,res) {
  */
 function renderLogin (req, res) {
   // Require the global app model
-  var model = require('../../model/global')(req, res);
+  var model = require('../../model/global/global')(req, res);
 
   model.content.pageTitle = 'Login';
   // Reset Notifications
@@ -83,7 +83,7 @@ function renderLogin (req, res) {
  */
 function loginUser (req, res) {
   // Require our encryption model
-  var encrypt = require('../../model/encrypt'),
+  var encrypt = require('../../model/global/encrypt'),
       // Request body
       rb = req.body;
 

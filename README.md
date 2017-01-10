@@ -12,6 +12,13 @@
 * To add a new package
  * Type npm install [packageName] -save
 
+### Events error?
+```js
+events.js:160
+throw er; // Unhandled 'error' event
+```
+
+Type in terminal/ command line: ```sudo pkill node```
 ### Adding new pages:
 
 #### Creating a controller
