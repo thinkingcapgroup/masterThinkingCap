@@ -566,7 +566,33 @@
 					"loader": "2"
 				}
 			]
+		}, 
+
+		{
+			"name":"Mean Moves",
+			"id":"24",
+			"type":"smallEvent",
+			"text":"Lets take pictures",
+			"timeRequired":"2",
+			"groupPos":"Soc",
+			"groupNeg":"",
+			"results":"",
+			"scoreInc":".4",
+			"options":
+			[
+				{
+					"optionName":"Minigame",
+					"optionID":"Minigame",
+					"type":"game",
+					"extraTime" : "1", 
+					"posEffects":"",
+					"negEffects":"",
+					"loader": "4"
+				}
+			]
 		}
+
+
 	],
 
 	"questions":

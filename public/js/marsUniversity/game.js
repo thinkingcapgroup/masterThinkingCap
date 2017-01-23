@@ -177,7 +177,7 @@ function startPractice()
 {
 	clearScreen();
 	practice = true;
-	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a><br><br><br><br><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Minigame 2</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
+	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a><br><br><br><br><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Minigame 2</a><br><br><a onclick = 'practiceGame(4)' id='index-link' class = 'btn double remove'>Minigame 4</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
 }
 
 function helpScreen()
@@ -1749,6 +1749,8 @@ function minigamePlayer(id){
 		break;
 		case 2:
 		runningGame2.main.init(c,ctx);
+		case 4:
+		runningGame4.main.init(c,ctx);
 		break;
 	}	
 }
@@ -1775,6 +1777,9 @@ function practiceGame(id){
 		break;
 		case 2:
 		runningGame2.main.init(c,ctx);
+		break;
+		case 4:
+		runningGame4.main.init(c,ctx);
 		break;
 	}	
 }
@@ -4540,6 +4545,7 @@ Object.defineProperty(console, "__commandLineAPI", n);
 
 var runningGame ={};
 var runningGame2 = {};
+var runningGame4 = {};
 
 /* Minigame Code*/
 runningGame.main = 
@@ -5009,16 +5015,12 @@ runningGame2.main =
 	areaNumber: 0,
 	specialExist: false,
 	picturetaken: false,
-	inArea:false,
-	
+	inArea:false,	
 	scores: {
 		score:0,
-	}
-	,
+	},
 
-	//area numbers (0-Map, 1-6 map locations clockwise, 7 victory screen?)
-
-	
+	//area numbers (0-Map, 1-6 map locations clockwise, 7 victory screen?)	
 	stop: false,
 
 	init: function(c,ctx){
@@ -5246,4 +5248,400 @@ runningGame2.main =
 	},
 
 	
+}
+
+
+
+//
+//
+//
+//running game 4 - Mean Moves
+runningGame4.main = {
+
+	player:
+	{
+		headnum: 0,
+		gendernum:0,
+		bodynum:0,
+		racenum:0,
+
+	},	
+	scores: {
+		score:0,
+	},
+	colors: ['darkred','red','#004c00', '#00cc00','#00004c', 'blue','darkorange', 'yellow'],
+	clickColor:[0,0,0,0],
+	rngOrder: [0,0,0],
+	round:0,
+	moveTurn:0,
+	groups: [0,0,0,0,0],
+	gameGroups: [0,0,0],
+	whichStatGroup: 0,
+	inDanceMode: false,
+	danceOrder: [],
+	prompt: 0,
+	clickpause: false,
+	lastClick: 0,
+	pauseCounter: 0,
+	ticker: 0,
+	groupPrompt: ["Choose the Smallest Group", "Choose the Medium Sized Group", "Choose the Largest Group"],
+
+
+	init: function(c,ctx){
+		ctx.restore;
+		ctx.save;
+		c.onmousedown = runningGame4.main.doMousedown;
+		runningGame4.main.round = 0;
+		//make the first round of students
+		runningGame4.main.update(c,ctx);
+		createSample(20,0);
+		prompt = Math.floor(Math.random() * 3)
+		//focus on a target on one of the 3 statistics (major, economic group, main interest)
+		whichStatGroup = Math.floor(Math.random() * 3);
+		runningGame4.main.setUpGroup();
+		runningGame4.main.update(c,ctx);
+	
+	},
+
+	update: function(c,ctx)
+	{
+		//requestionAnimation
+		requestAnimationFrame(function(){runningGame4.main.update(c,ctx)});
+		requestAnimationFrame(function(){runningGame4.main.draw(c,ctx)});
+
+		//if we're selecting a group to follow set up simon says
+
+		//if we're doing simon says
+
+			//if correct
+
+			//if incorrect
+
+		//if they finish simon says
+		runningGame4.main.endOfRound();
+		
+
+	},
+
+	draw: function(c,ctx)
+	{
+		//draw background
+
+		ctx.fillStyle = '#FFFFFF';
+		ctx.fillRect(0,0,c.width,c.height)
+		ctx.fillStyle = '#000000';
+
+		//if not in dance mode
+		if(!runningGame4.main.inDanceMode){
+
+		ctx.font = "20px Serif";
+		ctx.fillText(runningGame4.main.groupPrompt[prompt], 550, 50);
+		
+
+		//draw groups
+		for(var x = 0; x < 3; x++){
+			for(var z = 0; z < runningGame4.main.groups[runningGame4.main.gameGroups[x]]; z++){
+				var correctX = (x*1) * 100;
+				var correctY = (z*1) * 25;
+				var xCord = 550 + correctX;
+				var yCord = 100 + correctY;
+
+				ctx.fillStyle = "#009900";
+	    	ctx.fillRect(xCord, yCord, 20,20);
+				ctx.strokeStyle = "#0000ff";
+				ctx.lineWidth  = 5;
+				ctx.strokeRect(xCord, yCord, 20,20);
+			}
+		}
+
+		//		
+
+		//draw the player
+
+		//draw the ui
+		
+	for(var x = 0; x < 3; x++){
+			var correctX = (x*1) * 100;
+	
+			var xCord = 525 + correctX;
+
+
+		ctx.fillStyle = "#00FF00";
+	  ctx.fillRect(xCord,375, 80,50);
+		}
+	}
+		else if(runningGame4.main.inDanceMode){		
+			
+			//background
+			ctx.fillStyle = '#FFFFFF';
+			ctx.fillRect(0,0,c.width,c.height)
+
+			//draw students
+
+			if(runningGame4.main.clickpause){
+					//doing tutorial of light up
+				
+					
+					if(runningGame4.main.ticker == 100){
+						runningGame4.main.clickColor = [0,0,0,0]
+						runningGame4.main.ticker = 0;
+						runningGame4.main.pauseCounter++;
+					}
+					else{
+						runningGame4.main.ticker++; 
+						runningGame4.main.clickColor[runningGame4.main.danceOrder[runningGame4.main.pauseCounter]] = 1;
+					}
+
+					if(runningGame4.main.pauseCounter > 3){
+						runningGame4.main.clickpause = false;
+						runningGame4.main.pauseCounter = 0;
+					}
+				
+			}
+			else{
+				//are actually in gamemode
+					//see if button is still lit up
+					if(runningGame4.main.ticker == 20){
+						runningGame4.main.clickColor = [0,0,0,0]
+						runningGame4.main.ticker = 0;
+					}
+					else{
+						runningGame4.main.ticker++; 
+					}
+			}
+
+			
+
+			//draw the buttons
+			ctx.fillStyle = runningGame4.main.colors[0 + runningGame4.main.clickColor[0]];
+			ctx.fillRect(625,300,80,50);
+			ctx.strokeStyle = '#000000'
+			ctx.strokeRect(625,300,80,50);
+
+			ctx.fillStyle = runningGame4.main.colors[2 + runningGame4.main.clickColor[1]];
+			ctx.fillRect(625,400,80,50);
+			ctx.strokeStyle = '#000000'
+			ctx.strokeRect(625,400,80,50);
+
+			ctx.fillStyle = runningGame4.main.colors[4 + runningGame4.main.clickColor[2]];
+			ctx.fillRect(525,350,80,50);
+			ctx.strokeStyle = '#000000'
+			ctx.strokeRect(525,350,80,50);
+
+				ctx.fillStyle = runningGame4.main.colors[6 + runningGame4.main.clickColor[3]];
+			ctx.fillRect(725,350,80,50);
+			ctx.strokeStyle = '#000000'
+			ctx.strokeRect(725,350,80,50);
+		}
+	},
+
+
+	doMousedown: function(c, e)
+	{ 
+		var mouse = canvasMouse;
+		runningGame4.main.clickPicker(mouse);
+	},
+
+	danceGen: function(){
+		runningGame4.main.danceOrder[0] = Math.floor(Math.random() * 4);
+		runningGame4.main.danceOrder[1] = Math.floor(Math.random() * 4);
+		runningGame4.main.danceOrder[2] = Math.floor(Math.random() * 4);
+		runningGame4.main.danceOrder[3] = Math.floor(Math.random() * 4);
+		console.log(runningGame4.main.danceOrder);
+	},
+
+	danceMoveCheck: function(clicked){
+		if(runningGame4.main.danceOrder[runningGame4.main.moveTurn] == clicked){
+			//you did it
+			console.log('yea')
+		}
+		else{
+			//miss
+				console.log('no')
+		}
+		runningGame4.main.moveTurn++;
+
+	},
+
+	setUpGroup: function()
+	{
+		switch(whichStatGroup){
+			case 0:
+				//groups
+				for(var x = 0; x < sample.length; x++){
+					for(var y = 0; y < groupList.length; y++){
+						if(sample[x].group == groupList[y]){
+							runningGame4.main.groups[y]++
+						}
+					}
+				}
+				break;
+			case 1:
+				//majors
+				for(var x = 0; x < sample.length; x++){
+					for(var y = 0; y < groupList.length; y++){
+						if(sample[x].major == majorList[y]){
+							runningGame4.main.groups[y]++
+						}
+					}
+				}
+				break;
+			case 2:
+				//economic status
+				for(var x = 0; x < sample.length; x++){
+					for(var y = 0; y < groupList.length; y++){
+						if(sample[x].ecoClass == stuEconomic[y]){
+							runningGame4.main.groups[y]++
+						}
+					}
+				}
+				break;
+		}
+
+		//find out which are the biggest WITHOUT sorting
+	
+		var holderGroup = [];
+
+		for(var z = 0; z < runningGame4.main.groups.length; z++){
+			holderGroup.push(runningGame4.main.groups[z])
+		
+		}
+
+		holderGroup.sort();
+		rngOrder = [holderGroup[4],holderGroup[3],holderGroup[2]]
+		rngOrder.sort(function(a,b){return 0.5 - Math.random()});
+
+
+
+		//find 3 - 5 index
+		for(var x =0; x < 3; x++)
+			{runningGame4.main.gameGroups[x]= runningGame4.main.groups.indexOf(rngOrder[x]);}
+
+		//if they match change the prompt
+		if(rngOrder[0]==rngOrder[1] || rngOrder[0]==rngOrder[2] || rngOrder[2]==rngOrder[1])
+		{
+			prompt = 0;
+		}
+	//you now have the # of students in main.groups & the groupID num in gameGroups
+	},
+
+	endOfRound: function(){
+		//if we've gone through 3 rounds
+			if(runningGame4.main.moveTurn > 3 && runningGame4.main.round<2){
+			runningGame4.main.round++;
+			//reset round
+			runningGame4.main.moveTurn = 0;
+			runningGame4.main.danceGen();
+			runningGame4.main.clickpause = true;
+		}
+		//if we've gone through 3 moves
+		if(runningGame4.main.round > 2){
+			//end teh game
+		}
+	},
+
+	clickPicker: function(mouse){
+
+		//if not in dance mode
+		if(!runningGame4.main.inDanceMode)
+		{
+			if(mouse.y >= 375 && mouse.y <=425){
+					if(mouse.x >= 525 && mouse.x <= 605){		
+						runningGame4.main.promptChecker(prompt,0)
+					}
+					if(mouse.x >= 625 && mouse.x <= 705){
+						runningGame4.main.promptChecker(prompt,1)
+					}
+					if(mouse.x >= 725 && mouse.x <= 805){			
+						runningGame4.main.promptChecker(prompt,2)
+					}
+
+					runningGame4.main.clickpause = true;
+					runningGame4.main.danceGen();
+			
+				}
+			}
+
+	
+		//if in dance mode
+
+		/*
+			colors: ['darkred','red','darkgreen', 'green','darkblue', 'blue','darkorange', 'yellow'],
+	*/
+		if(runningGame4.main.inDanceMode && !runningGame4.main.clickpause){
+			
+			runningGame4.main.ticker = 0;
+			runningGame4.main.clickColor = [0,0,0,0];
+			//check the x
+			if(mouse.x>= 625 && mouse.x <=705){
+				if(mouse.y >=300 && mouse.y <= 350){
+			
+					runningGame4.main.clickColor[0] = 1
+					runningGame4.main.lastClick = 0;
+					runningGame4.main.danceMoveCheck(0);
+				}
+				if(mouse.y >=400 && mouse.y <= 450){
+				
+					runningGame4.main.clickColor[1] = 1
+						runningGame4.main.lastClick = 1;
+							runningGame4.main.danceMoveCheck(1);
+				}
+			}
+
+			if(mouse.y >=350 && mouse.y <= 400){
+				if(mouse.x >=525 && mouse.x <= 605){
+	
+					runningGame4.main.clickColor[2] = 1
+						runningGame4.main.lastClick = 2;
+						runningGame4.main.danceMoveCheck(2);	
+				}
+				if(mouse.x >=725 && mouse.x <= 805){
+
+					runningGame4.main.clickColor[3] = 1
+						runningGame4.main.lastClick = 3;
+						runningGame4.main.danceMoveCheck(3);
+				}
+			}
+
+		}
+	},
+
+	promptChecker: function(prompt,x){
+		var groupPop = runningGame4.main.groups[runningGame4.main.gameGroups[x]]
+		switch(prompt){
+			case 0:			
+				var minArray = Math.min.apply(groupPop, rngOrder);		
+				if(groupPop == minArray){
+			
+					runningGame4.main.inDanceMode = true;
+				}
+				else{
+			
+				}
+			break;
+			case 1:
+				var minArray = Math.min.apply(groupPop, rngOrder);
+				var maxArray = Math.max.apply(groupPop, rngOrder);			
+				if(groupPop != minArray && groupPop != maxArray){
+		
+						runningGame4.main.inDanceMode = true;
+				}
+				else{
+			
+				}
+			break;
+			case 2:
+				var maxArray = Math.max.apply(groupPop, rngOrder);		
+				if(groupPop == maxArray){
+			
+						runningGame4.main.inDanceMode = true;
+				}
+				else{
+		
+				}
+			break;
+		}
+
+	},
+
 }
