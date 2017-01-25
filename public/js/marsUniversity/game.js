@@ -5282,8 +5282,11 @@ runningGame4.main = {
 	prompt: 0,
 	clickpause: false,
 	lastClick: 0,
-	pauseCounter: 0,
+	colorCounter: 0,
+	delayCounter: 0,
+	areWeDelay: true,
 	ticker: 0,
+	endGame: false,
 	groupPrompt: ["Choose the Smallest Group", "Choose the Medium Sized Group", "Choose the Largest Group"],
 
 
@@ -5299,6 +5302,7 @@ runningGame4.main = {
 		//focus on a target on one of the 3 statistics (major, economic group, main interest)
 		whichStatGroup = Math.floor(Math.random() * 3);
 		runningGame4.main.setUpGroup();
+		runningGame4.main.endGame = false;
 		runningGame4.main.update(c,ctx);
 	
 	},
@@ -5306,20 +5310,26 @@ runningGame4.main = {
 	update: function(c,ctx)
 	{
 		//requestionAnimation
-		requestAnimationFrame(function(){runningGame4.main.update(c,ctx)});
-		requestAnimationFrame(function(){runningGame4.main.draw(c,ctx)});
-
-		//if we're selecting a group to follow set up simon says
-
-		//if we're doing simon says
-
-			//if correct
-
-			//if incorrect
-
-		//if they finish simon says
-		runningGame4.main.endOfRound();
-		
+		if(runningGame4.main.endGame ==  false){
+			requestAnimationFrame(function(){runningGame4.main.update(c,ctx)});
+			requestAnimationFrame(function(){runningGame4.main.draw(c,ctx)});
+	
+			//if we're selecting a group to follow set up simon says
+	
+			//if we're doing simon says
+	
+				//if correct
+	
+				//if incorrect
+	
+			//if they finish simon says
+			console.log('UPDATING')
+			runningGame4.main.endOfRound();
+		}
+		else{
+			console.log('END GAME')
+			gameResults(0, practice)
+		}
 
 	},
 
@@ -5379,23 +5389,36 @@ runningGame4.main = {
 			//draw students
 
 			if(runningGame4.main.clickpause){
-					//doing tutorial of light up
-				
 					
+					//delay
+					if(runningGame4.main.areWeDelay){
+						if(runningGame4.main.delayCounter == 40){
+							runningGame4.main.areWeDelay = false;
+							runningGame4.main.delayCounter = 0;
+						}
+						else{
+							runningGame4.main.delayCounter++;
+						}
+					}
+					else{
+
+					//doing tutorial of light up
 					if(runningGame4.main.ticker == 100){
 						runningGame4.main.clickColor = [0,0,0,0]
 						runningGame4.main.ticker = 0;
-						runningGame4.main.pauseCounter++;
+						runningGame4.main.colorCounter++;
+						runningGame4.main.areWeDelay = true;
 					}
 					else{
 						runningGame4.main.ticker++; 
-						runningGame4.main.clickColor[runningGame4.main.danceOrder[runningGame4.main.pauseCounter]] = 1;
+						runningGame4.main.clickColor[runningGame4.main.danceOrder[runningGame4.main.colorCounter]] = 1;
 					}
 
-					if(runningGame4.main.pauseCounter > 3){
+					if(runningGame4.main.colorCounter > 3){
 						runningGame4.main.clickpause = false;
-						runningGame4.main.pauseCounter = 0;
+						runningGame4.main.colorCounter = 0;
 					}
+				}
 				
 			}
 			else{
@@ -5460,6 +5483,9 @@ runningGame4.main = {
 				console.log('no')
 		}
 		runningGame4.main.moveTurn++;
+		if(runningGame4.main.moveTurn == 3){
+
+		}
 
 	},
 
@@ -5527,16 +5553,21 @@ runningGame4.main = {
 
 	endOfRound: function(){
 		//if we've gone through 3 rounds
-			if(runningGame4.main.moveTurn > 3 && runningGame4.main.round<2){
+			if(runningGame4.main.moveTurn > 3 && runningGame4.main.round <= 2){
 			runningGame4.main.round++;
+				
 			//reset round
 			runningGame4.main.moveTurn = 0;
 			runningGame4.main.danceGen();
 			runningGame4.main.clickpause = true;
+			runningGame4.main.lastClick = 0;
+			runningGame4.main.clickColor = [0,0,0,0];
+			runningGame4.main.areWeDelay = true;
 		}
 		//if we've gone through 3 moves
 		if(runningGame4.main.round > 2){
 			//end teh game
+			runningGame4.main.endGame = true;
 		}
 	},
 
@@ -5560,6 +5591,7 @@ runningGame4.main = {
 					runningGame4.main.danceGen();
 			
 				}
+
 			}
 
 	
@@ -5571,7 +5603,6 @@ runningGame4.main = {
 		if(runningGame4.main.inDanceMode && !runningGame4.main.clickpause){
 			
 			runningGame4.main.ticker = 0;
-			runningGame4.main.clickColor = [0,0,0,0];
 			//check the x
 			if(mouse.x>= 625 && mouse.x <=705){
 				if(mouse.y >=300 && mouse.y <= 350){
@@ -5611,8 +5642,7 @@ runningGame4.main = {
 		switch(prompt){
 			case 0:			
 				var minArray = Math.min.apply(groupPop, rngOrder);		
-				if(groupPop == minArray){
-			
+				if(groupPop == minArray){			
 					runningGame4.main.inDanceMode = true;
 				}
 				else{
