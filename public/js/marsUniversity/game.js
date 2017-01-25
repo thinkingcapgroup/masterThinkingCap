@@ -5285,6 +5285,7 @@ runningGame4.main = {
 	colorCounter: 0,
 	delayCounter: 0,
 	areWeDelay: true,
+	finalBlink:false,
 	ticker: 0,
 	endGame: false,
 	groupPrompt: ["Choose the Smallest Group", "Choose the Medium Sized Group", "Choose the Largest Group"],
@@ -5293,16 +5294,23 @@ runningGame4.main = {
 	init: function(c,ctx){
 		ctx.restore;
 		ctx.save;
+		runningGame4.main.endGame = false;
 		c.onmousedown = runningGame4.main.doMousedown;
 		runningGame4.main.round = 0;
+		runningGame4.main.groups= [0,0,0,0,0];
+		runningGame4.main.gameGroups= [0,0,0];
+		runningGame4.main.clickColor=[0,0,0,0];
+		runningGame4.main.rngOrder= [0,0,0];
+		runningGame4.main.inDanceMode = false;
 		//make the first round of students
-		runningGame4.main.update(c,ctx);
+		sample = 0;
+
 		createSample(20,0);
 		prompt = Math.floor(Math.random() * 3)
 		//focus on a target on one of the 3 statistics (major, economic group, main interest)
 		whichStatGroup = Math.floor(Math.random() * 3);
 		runningGame4.main.setUpGroup();
-		runningGame4.main.endGame = false;
+
 		runningGame4.main.update(c,ctx);
 	
 	},
@@ -5311,8 +5319,9 @@ runningGame4.main = {
 	{
 		//requestionAnimation
 		if(runningGame4.main.endGame ==  false){
-			requestAnimationFrame(function(){runningGame4.main.update(c,ctx)});
 			requestAnimationFrame(function(){runningGame4.main.draw(c,ctx)});
+			requestAnimationFrame(function(){runningGame4.main.update(c,ctx)});
+			
 	
 			//if we're selecting a group to follow set up simon says
 	
@@ -5323,7 +5332,7 @@ runningGame4.main = {
 				//if incorrect
 	
 			//if they finish simon says
-			console.log('UPDATING')
+
 			runningGame4.main.endOfRound();
 		}
 		else{
@@ -5388,11 +5397,12 @@ runningGame4.main = {
 
 			//draw students
 
+			//we are stopping clicking
 			if(runningGame4.main.clickpause){
 					
-					//delay
+					//pause between colors
 					if(runningGame4.main.areWeDelay){
-						if(runningGame4.main.delayCounter == 40){
+						if(runningGame4.main.delayCounter == 10){
 							runningGame4.main.areWeDelay = false;
 							runningGame4.main.delayCounter = 0;
 						}
@@ -5402,8 +5412,8 @@ runningGame4.main = {
 					}
 					else{
 
-					//doing tutorial of light up
-					if(runningGame4.main.ticker == 100){
+					//doing Simon Says part
+					if(runningGame4.main.ticker == 80){
 						runningGame4.main.clickColor = [0,0,0,0]
 						runningGame4.main.ticker = 0;
 						runningGame4.main.colorCounter++;
@@ -5421,19 +5431,27 @@ runningGame4.main = {
 				}
 				
 			}
+			//are actually in gamemode
 			else{
-				//are actually in gamemode
+				
 					//see if button is still lit up
-					if(runningGame4.main.ticker == 20){
+					if(runningGame4.main.ticker == 10){
+						if(!runningGame4.main.finalBlink){
 						runningGame4.main.clickColor = [0,0,0,0]
+					}
 						runningGame4.main.ticker = 0;
+						if(runningGame4.main.moveTurn == 4){
+							runningGame4.main.finalBlink = true;
+							console.log(runningGame4.main.finalBlink);
+
+						}
 					}
 					else{
 						runningGame4.main.ticker++; 
+		
 					}
 			}
 
-			
 
 			//draw the buttons
 			ctx.fillStyle = runningGame4.main.colors[0 + runningGame4.main.clickColor[0]];
@@ -5451,10 +5469,13 @@ runningGame4.main = {
 			ctx.strokeStyle = '#000000'
 			ctx.strokeRect(525,350,80,50);
 
-				ctx.fillStyle = runningGame4.main.colors[6 + runningGame4.main.clickColor[3]];
+			ctx.fillStyle = runningGame4.main.colors[6 + runningGame4.main.clickColor[3]];
 			ctx.fillRect(725,350,80,50);
 			ctx.strokeStyle = '#000000'
 			ctx.strokeRect(725,350,80,50);
+
+			ctx.fillStyle = '#e2cf63';
+			ctx.fillRect(100,400, 200,70);
 		}
 	},
 
@@ -5476,11 +5497,11 @@ runningGame4.main = {
 	danceMoveCheck: function(clicked){
 		if(runningGame4.main.danceOrder[runningGame4.main.moveTurn] == clicked){
 			//you did it
-			console.log('yea')
+	
 		}
 		else{
 			//miss
-				console.log('no')
+		
 		}
 		runningGame4.main.moveTurn++;
 		if(runningGame4.main.moveTurn == 3){
@@ -5553,16 +5574,16 @@ runningGame4.main = {
 
 	endOfRound: function(){
 		//if we've gone through 3 rounds
-			if(runningGame4.main.moveTurn > 3 && runningGame4.main.round <= 2){
+			if(runningGame4.main.moveTurn > 3 && runningGame4.main.round <= 2 && runningGame4.main.finalBlink){
 			runningGame4.main.round++;
-				
 			//reset round
 			runningGame4.main.moveTurn = 0;
 			runningGame4.main.danceGen();
 			runningGame4.main.clickpause = true;
 			runningGame4.main.lastClick = 0;
 			runningGame4.main.clickColor = [0,0,0,0];
-			runningGame4.main.areWeDelay = true;
+			runningGame4.main.finalBlink = false;
+
 		}
 		//if we've gone through 3 moves
 		if(runningGame4.main.round > 2){
@@ -5587,8 +5608,11 @@ runningGame4.main = {
 						runningGame4.main.promptChecker(prompt,2)
 					}
 
-					runningGame4.main.clickpause = true;
-					runningGame4.main.danceGen();
+					if(runningGame4.main.inDanceMode)
+					{
+						runningGame4.main.clickpause = true;
+						runningGame4.main.danceGen();
+					}
 			
 				}
 
@@ -5646,7 +5670,7 @@ runningGame4.main = {
 					runningGame4.main.inDanceMode = true;
 				}
 				else{
-			
+					runningGame4.main.inDanceMode = false
 				}
 			break;
 			case 1:
@@ -5657,7 +5681,7 @@ runningGame4.main = {
 						runningGame4.main.inDanceMode = true;
 				}
 				else{
-			
+						runningGame4.main.inDanceMode = false
 				}
 			break;
 			case 2:
@@ -5667,10 +5691,11 @@ runningGame4.main = {
 						runningGame4.main.inDanceMode = true;
 				}
 				else{
-		
+					runningGame4.main.inDanceMode = false
 				}
 			break;
 		}
+
 
 	},
 
