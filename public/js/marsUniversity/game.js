@@ -5284,9 +5284,12 @@ runningGame4.main = {
 	lastClick: 0,
 	colorCounter: 0,
 	delayCounter: 0,
+	moveCounter: 0,
 	areWeDelay: true,
-	finalBlink:false,
+	finalBlink: false,
 	ticker: 0,
+	showMeYourMove: false,
+	incorrectDance: false,
 	endGame: false,
 	groupPrompt: ["Choose the Smallest Group", "Choose the Medium Sized Group", "Choose the Largest Group"],
 
@@ -5302,15 +5305,14 @@ runningGame4.main = {
 		runningGame4.main.clickColor=[0,0,0,0];
 		runningGame4.main.rngOrder= [0,0,0];
 		runningGame4.main.inDanceMode = false;
+		runningGame4.main.showMeYourMove = false;
 		//make the first round of students
 		sample = 0;
-
 		createSample(20,0);
 		prompt = Math.floor(Math.random() * 3)
 		//focus on a target on one of the 3 statistics (major, economic group, main interest)
 		whichStatGroup = Math.floor(Math.random() * 3);
 		runningGame4.main.setUpGroup();
-
 		runningGame4.main.update(c,ctx);
 	
 	},
@@ -5320,26 +5322,13 @@ runningGame4.main = {
 		//requestionAnimation
 		if(runningGame4.main.endGame ==  false){
 			requestAnimationFrame(function(){runningGame4.main.draw(c,ctx)});
-			requestAnimationFrame(function(){runningGame4.main.update(c,ctx)});
-			
-	
-			//if we're selecting a group to follow set up simon says
-	
-			//if we're doing simon says
-	
-				//if correct
-	
-				//if incorrect
-	
-			//if they finish simon says
-
+			requestAnimationFrame(function(){runningGame4.main.update(c,ctx)});				
 			runningGame4.main.endOfRound();
 		}
 		else{
 			console.log('END GAME')
-			gameResults(0, practice)
+			gameResults(10, practice)
 		}
-
 	},
 
 	draw: function(c,ctx)
@@ -5380,13 +5369,11 @@ runningGame4.main = {
 		//draw the ui
 		
 	for(var x = 0; x < 3; x++){
-			var correctX = (x*1) * 100;
-	
-			var xCord = 525 + correctX;
-
-
+		var correctX = (x*1) * 100;	
+		var xCord = 525 + correctX;
 		ctx.fillStyle = "#00FF00";
 	  ctx.fillRect(xCord,375, 80,50);
+
 		}
 	}
 		else if(runningGame4.main.inDanceMode){		
@@ -5398,7 +5385,18 @@ runningGame4.main = {
 			//draw students
 
 			//we are stopping clicking
-			if(runningGame4.main.clickpause){
+			if(runningGame4.main.clickpause && runningGame4.main.showMeYourMove){
+				if(runningGame4.main.moveCounter == 200){
+					runningGame4.main.showMeYourMove = false;
+					runningGame4.main.incorrectDance = false;
+					runningGame4.main.moveCounter = 0;
+				}
+				else{
+					runningGame4.main.moveCounter++;
+					console.log('dancing')
+				}
+			}
+			else if(runningGame4.main.clickpause && !runningGame4.main.showMeYourMove){
 					
 					//pause between colors
 					if(runningGame4.main.areWeDelay){
@@ -5428,8 +5426,7 @@ runningGame4.main = {
 						runningGame4.main.clickpause = false;
 						runningGame4.main.colorCounter = 0;
 					}
-				}
-				
+				}				
 			}
 			//are actually in gamemode
 			else{
@@ -5442,16 +5439,15 @@ runningGame4.main = {
 						runningGame4.main.ticker = 0;
 						if(runningGame4.main.moveTurn == 4){
 							runningGame4.main.finalBlink = true;
-							console.log(runningGame4.main.finalBlink);
+							runningGame4.main.showMeYourMove = true;
 
 						}
 					}
 					else{
-						runningGame4.main.ticker++; 
-		
+						runningGame4.main.ticker++; 	
+						runningGame4.main.showMeYourMove = false;	
 					}
 			}
-
 
 			//draw the buttons
 			ctx.fillStyle = runningGame4.main.colors[0 + runningGame4.main.clickColor[0]];
@@ -5474,8 +5470,19 @@ runningGame4.main = {
 			ctx.strokeStyle = '#000000'
 			ctx.strokeRect(725,350,80,50);
 
-			ctx.fillStyle = '#e2cf63';
-			ctx.fillRect(100,400, 200,70);
+			//the move
+			if(runningGame4.main.showMeYourMove)
+			{
+				ctx.fillStyle = '#e2cf63';
+				ctx.fillRect(100,400, 200,70);
+				ctx.fillStyle = '#000000'
+				if(runningGame4.main.incorrectDance){
+					ctx.fillText('WRONG', 120, 420);
+				}
+				else{
+					ctx.fillText('Correct', 120, 420);
+				}
+			}
 		}
 	},
 
@@ -5496,18 +5503,17 @@ runningGame4.main = {
 
 	danceMoveCheck: function(clicked){
 		if(runningGame4.main.danceOrder[runningGame4.main.moveTurn] == clicked){
-			//you did it
-	
+			//increase the score
+				runningGame4.main.scores.score++;
+			//continue on
 		}
 		else{
-			//miss
+			//do not increase score
+			runningGame4.main.incorrectDance = true;
+			//
 		
 		}
 		runningGame4.main.moveTurn++;
-		if(runningGame4.main.moveTurn == 3){
-
-		}
-
 	},
 
 	setUpGroup: function()
@@ -5586,14 +5592,13 @@ runningGame4.main = {
 
 		}
 		//if we've gone through 3 moves
-		if(runningGame4.main.round > 2){
+		if(runningGame4.main.round > 2 && !runningGame4.main.showMeYourMove){
 			//end teh game
 			runningGame4.main.endGame = true;
 		}
 	},
 
 	clickPicker: function(mouse){
-
 		//if not in dance mode
 		if(!runningGame4.main.inDanceMode)
 		{
@@ -5612,13 +5617,9 @@ runningGame4.main = {
 					{
 						runningGame4.main.clickpause = true;
 						runningGame4.main.danceGen();
-					}
-			
+					}			
 				}
-
 			}
-
-	
 		//if in dance mode
 
 		/*
@@ -5671,6 +5672,7 @@ runningGame4.main = {
 				}
 				else{
 					runningGame4.main.inDanceMode = false
+				
 				}
 			break;
 			case 1:
@@ -5681,7 +5683,8 @@ runningGame4.main = {
 						runningGame4.main.inDanceMode = true;
 				}
 				else{
-						runningGame4.main.inDanceMode = false
+						runningGame4.main.inDanceMode = false;
+						
 				}
 			break;
 			case 2:
