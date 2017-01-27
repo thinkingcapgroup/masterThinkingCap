@@ -5265,11 +5265,8 @@ runningGame2.main =
     
         },
         requiredDemograph1: 0,
-        requiredDemograph2: 0,
         takenDemograph1:0,
-        takenDemograph2:0,
         demograph1num:0,
-        demograph2num:0,
         areaNumber: 9,
         inArea:false,
         postersLeft: 5,
@@ -5341,10 +5338,6 @@ runningGame2.main =
         ],
     
         //area numbers (0-Map, 1-6 map locations clockwise, 7 victory screen?)
-    
-        
-        stop: false,
-    
         init: function(c,ctx){
             ctx.restore;
             ctx.save;
@@ -5358,9 +5351,7 @@ runningGame2.main =
             secretSticker.main.requiredDemograph1 = Math.floor(Math.random() * 6) + 2;
             secretSticker.main.requiredDemograph1 = Math.floor(Math.random() * 3) + 2;
             secretSticker.main.demograph1num = Math.floor(Math.random() * 5);
-            secretSticker.main.demograph2num = Math.floor(Math.random() * 5);
             secretSticker.main.takenDemograph1=0;
-            secretSticker.main.takenDemograph2=0;
             secretSticker.main.postersLeft=5;
             secretSticker.main.update(c,ctx);
         },
@@ -5481,7 +5472,7 @@ runningGame2.main =
                 ctx.fillText("<",10,265);
                 
                 ctx.fillStyle = '#AAAAAA'
-                ctx.fillRect(875,250,25,25);
+                ctx.fillRect(855,250,25,25);
                 ctx.fillStyle = '#000000'
                 ctx.fillText(">",885,265);
                 
@@ -5659,7 +5650,7 @@ runningGame2.main =
                     else
                     secretSticker.main.areaNumber = 5;
                 }
-                if((mouse.x >= 875&& mouse.x <= 900)&&(mouse.y >= 250 && mouse.y <= 275 ))
+                if((mouse.x >= 855&& mouse.x <= 880)&&(mouse.y >= 250 && mouse.y <= 275 ))
                 {
                     if(secretSticker.main.areaNumber <5)
                     secretSticker.main.areaNumber++;
