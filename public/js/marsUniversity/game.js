@@ -177,7 +177,7 @@ function startPractice()
 {
 	clearScreen();
 	practice = true;
-	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a><br><br><br><br><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Minigame 2</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
+	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a><br><br><br><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Minigame 2</a><br><br><a onclick = 'practiceGame(3)' id='index-link' class = 'btn double remove'>Minigame 3</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
 }
 
 function helpScreen()
@@ -1778,6 +1778,9 @@ function practiceGame(id){
 		break;
 		case 2:
 		runningGame2.main.init(c,ctx);
+		break;
+		case 3:
+		secretSticker.main.init(c,ctx);
 		break;
 	}	
 }
@@ -5057,7 +5060,7 @@ runningGame2.main =
 
 			else{
 			//generate information for the map area
-			if(runningGame2.main.areaNumber > 0 && !(runningGame2.main.picturetaken)){
+			if(runningGame2.main.areaNumber > 0 && runningGame2.main.areaNumber < 9 && !(runningGame2.main.picturetaken)){
 			 	
 			 	if(!runningGame2.main.inArea){
 			 	createSample((Math.floor(Math.random() * 3) + 5), runningGame2.main.areaNumber)
@@ -5217,7 +5220,7 @@ runningGame2.main =
 				update = true;
 			}
 		}
-		if(runningGame2.main.areaNumber > 0){
+		if(runningGame2.main.areaNumber > 0 && runningGame2.main.areaNumber < 9 ){
 			if((mouse.x >= 0 && mouse.x <= 100)&&(mouse.y >= 440 && mouse.y <= 490)){
 				runningGame2.main.areaNumber = 0;
 				runningGame2.main.inArea = false;
@@ -5265,7 +5268,7 @@ runningGame2.main =
         takenDemograph2:0,
         demograph1num:0,
         demograph2num:0,
-        areaNumber: 0,
+        areaNumber: 9,
         inArea:false,
         postersLeft: 5,
         drag: false,
@@ -5346,7 +5349,7 @@ runningGame2.main =
             secretSticker.main.gameStop = false;
             secretSticker.main.player.picturenum = 0;
             secretSticker.main.scores.score = 0;	
-            secretSticker.main.areaNumber = 0;	
+            secretSticker.main.areaNumber = 9;	
             c.onmousedown = secretSticker.main.doMousedown;
             c.onmouseup = secretSticker.main.doMouseUp
             ctx.font="14px Georgia";
@@ -5419,7 +5422,7 @@ runningGame2.main =
                 ctx.fillText("Gym",575,350);
             }
             
-            if(secretSticker.main.areaNumber >0){
+            if(secretSticker.main.areaNumber >0 && secretSticker.main.areaNumber <9  ){
                 
                 if(secretSticker.main.placeStudents)
                 {
@@ -5441,11 +5444,22 @@ runningGame2.main =
                 //draw the students
                 for(var i =0; i<secretSticker.main.areas[secretSticker.main.areaNumber].students.length;i++)
                 {
+                    var x = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].x;
+                    var y = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].y;
                     ctx.fillStyle = secretSticker.main.areas[secretSticker.main.areaNumber].students[i].color;
                     ctx.beginPath();
-                    ctx.arc(secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].x,secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].y,30,0,2*Math.PI);
+                    ctx.arc(x,y,30,0,2*Math.PI);
                     ctx.fill();
                     ctx.stroke();
+                    
+                    if(secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].stickered)
+                    {
+                        ctx.fillStyle = '#0000ff';
+                        ctx.beginPath();
+                        ctx.arc(x,y,20,0,2*Math.PI);
+                        ctx.fill();
+                        ctx.stroke();
+                    }
                 };
                
                 
@@ -5458,6 +5472,16 @@ runningGame2.main =
                 ctx.fillRect(0,440,100,50);
                 ctx.fillStyle = '#000000'
                 ctx.fillText("Back",0,460);
+                
+                ctx.fillStyle = '#AAAAAA'
+                ctx.fillRect(0,250,25,25);
+                ctx.fillStyle = '#000000'
+                ctx.fillText("<",10,265);
+                
+                ctx.fillStyle = '#AAAAAA'
+                ctx.fillRect(875,250,25,25);
+                ctx.fillStyle = '#000000'
+                ctx.fillText(">",885,265);
                 
                 ctx.fillStyle = '#0000FF';
                 ctx.beginPath();
@@ -5509,6 +5533,22 @@ runningGame2.main =
                 }
             }
     
+            if(secretSticker.main.areaNumber == 9)
+            {
+                
+                ctx.fillStyle = '#000000'
+                ctx.fillText("Your goal is to attract the demographic shown in the top right and place a sticker on them.",100,80);
+                ctx.fillText("You have 5 posters and you have to target the correct sample of the population.",100,100);
+                ctx.fillText("Place posters in an area to attract people to them.",100,120);
+                ctx.fillText("The more posters you place the more people you attract.",100,140);
+                ctx.fillText("Once they're around drag a sticker onto them to score.",100,160);
+                ctx.fillText("If you return to the quad with no posters, you pack it in for the day. ",100,180);
+                ctx.fillStyle = '#AAAAAA'
+                ctx.fillRect(400,400,100,50);
+                ctx.fillStyle = '#000000'
+                ctx.fillText("Start",440,430);
+            }
+                
                 //draw the score
                 ctx.fillStyle = '#000000'
                 var scoreText = secretSticker.main.takenDemograph1 + '/'+ secretSticker.main.requiredDemograph1 + " " + majorList[secretSticker.main.demograph1num] + " Students";
@@ -5556,7 +5596,7 @@ runningGame2.main =
                     secretSticker.main.placeStudents = true;
                 }
             }
-            if(secretSticker.main.areaNumber > 0)
+            if(secretSticker.main.areaNumber > 0 && secretSticker.main.areaNumber < 9 )
             {
                 if((mouse.x >= 0 && mouse.x <= 100)&&(mouse.y >= 440 && mouse.y <= 490))
                 {
@@ -5608,29 +5648,56 @@ runningGame2.main =
                     secretSticker.main.drag = true;
                     console.log("click")
                 }
+                
+                
+                if((mouse.x >= 0&& mouse.x <= 25)&&(mouse.y >= 250 && mouse.y <= 275))
+                {
+                    if(secretSticker.main.areaNumber >1)
+                    secretSticker.main.areaNumber--;
+                    else
+                    secretSticker.main.areaNumber = 5;
+                }
+                if((mouse.x >= 875&& mouse.x <= 900)&&(mouse.y >= 250 && mouse.y <= 275 ))
+                {
+                    if(secretSticker.main.areaNumber <5)
+                    secretSticker.main.areaNumber++;
+                    else
+                    secretSticker.main.areaNumber = 1;
+                }
             }
-    
+               if(secretSticker.main.areaNumber == 9)
+            {
+                if((mouse.x >= 400 && mouse.x <= 500)&&(mouse.y >= 400 && mouse.y <= 450))
+                {
+                    secretSticker.main.areaNumber = 0;
+                }
+            }
         },
         
         doMouseUp: function()
         {
-            secretSticker.main.drag = false;
-            
-            for(var i =0; i<secretSticker.main.areas[secretSticker.main.areaNumber].students.length;i++)
+            var mouse = canvasMouse;
+            if(secretSticker.main.areaNumber != 0)
+            {
+                secretSticker.main.drag = false;
+                
+                for(var i =0; i<secretSticker.main.areas[secretSticker.main.areaNumber].students.length; i++)
                 {
-                    var distance = Math.sqrt(((secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].x - mouse.x) * (secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].x – mouse.x)) + ((secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].y - mouse.y) * (secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].y – mouse.y)));
-                    if (distance < 30 + 20)
+                    var distance = Math.sqrt(((secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].x - mouse.x) * (secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].x - mouse.x)) + ((secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].y - mouse.y) * (secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].y - mouse.y)));
+                    if (distance < 50)
                     {
-                        if(!secretSticker.main.areas[secretSticker.main.areaNumber]studentPostions[i].stickered)
+                        if(!secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions.stickered)
                         {
-                            if (secretSticker.main.areas[secretSticker.main.areaNumber]students[i].color == "#00FF00"){						
+                            if (secretSticker.main.areas[secretSticker.main.areaNumber].students[i].color == '#00FF00')
+                            {						
                                 secretSticker.main.takenDemograph1++;
                                 secretSticker.main.scores.score++;				
                             }
-                            secretSticker.main.areas[secretSticker.main.areaNumber]studentPostions[i].stickered = true;
+                            secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].stickered = true;
                         }
                     }
                 };
+            }
         },
         
         populateArea: function(posterNum)
