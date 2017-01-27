@@ -5274,7 +5274,7 @@ runningGame4.main = {
 	rngOrder: [0,0,0],
 	round:0,
 	moveTurn:0,
-	groups: [0,0,0,0,0],
+	groups: [0,0,0],
 	gameGroups: [0,0,0],
 	whichStatGroup: 0,
 	inDanceMode: false,
@@ -5300,7 +5300,7 @@ runningGame4.main = {
 		runningGame4.main.endGame = false;
 		c.onmousedown = runningGame4.main.doMousedown;
 		runningGame4.main.round = 0;
-		runningGame4.main.groups= [0,0,0,0,0];
+		runningGame4.main.groups= [0,0,0];
 		runningGame4.main.gameGroups= [0,0,0];
 		runningGame4.main.clickColor=[0,0,0,0];
 		runningGame4.main.rngOrder= [0,0,0];
@@ -5348,7 +5348,8 @@ runningGame4.main = {
 
 		//draw groups
 		for(var x = 0; x < 3; x++){
-			for(var z = 0; z < runningGame4.main.groups[runningGame4.main.gameGroups[x]]; z++){
+			for(var z = 0; z < runningGame4.main.groups[x]; z++){
+				
 				var correctX = (x*1) * 100;
 				var correctY = (z*1) * 25;
 				var xCord = 550 + correctX;
@@ -5359,6 +5360,7 @@ runningGame4.main = {
 				ctx.strokeStyle = "#0000ff";
 				ctx.lineWidth  = 5;
 				ctx.strokeRect(xCord, yCord, 20,20);
+
 			}
 		}
 
@@ -5373,6 +5375,23 @@ runningGame4.main = {
 		var xCord = 525 + correctX;
 		ctx.fillStyle = "#00FF00";
 	  ctx.fillRect(xCord,375, 80,50);
+	  ctx.fillStyle = '#000000';
+
+	  switch(whichStatGroup){
+					//interest
+					case 0:
+						ctx.fillText(groupList[runningGame4.main.gameGroups[x]], xCord+5, 400);
+					break;
+					//major
+					case 1:
+						ctx.fillText(majorList[runningGame4.main.gameGroups[x]], xCord+5, 400);
+					break;
+					//economic
+					case 2:
+						ctx.fillText(stuEconomic[runningGame4.main.gameGroups[x]], xCord+5, 400);
+					break;
+
+				}
 
 		}
 	}
@@ -5518,38 +5537,16 @@ runningGame4.main = {
 
 	setUpGroup: function()
 	{
-		switch(whichStatGroup){
-			case 0:
-				//groups
-				for(var x = 0; x < sample.length; x++){
-					for(var y = 0; y < groupList.length; y++){
-						if(sample[x].group == groupList[y]){
-							runningGame4.main.groups[y]++
-						}
-					}
-				}
-				break;
-			case 1:
-				//majors
-				for(var x = 0; x < sample.length; x++){
-					for(var y = 0; y < groupList.length; y++){
-						if(sample[x].major == majorList[y]){
-							runningGame4.main.groups[y]++
-						}
-					}
-				}
-				break;
-			case 2:
-				//economic status
-				for(var x = 0; x < sample.length; x++){
-					for(var y = 0; y < groupList.length; y++){
-						if(sample[x].ecoClass == stuEconomic[y]){
-							runningGame4.main.groups[y]++
-						}
-					}
-				}
-				break;
+		var match = true;
+		
+
+		//make the labels
+		for(var x =0; x < 3; x++){
+			runningGame4.main.groups[x] = Math.floor(Math.random() * 10) + 1;
+			runningGame4.main.gameGroups[x] = Math.floor(Math.random() * 5);
 		}
+		console.log(runningGame4.main.groups, runningGame4.main.gameGroups)
+
 
 		//find out which are the biggest WITHOUT sorting
 	
@@ -5559,6 +5556,7 @@ runningGame4.main = {
 			holderGroup.push(runningGame4.main.groups[z])
 		
 		}
+		console.log(runningGame4.main.groups);
 
 		holderGroup.sort();
 		rngOrder = [holderGroup[4],holderGroup[3],holderGroup[2]]
@@ -5566,9 +5564,6 @@ runningGame4.main = {
 
 
 
-		//find 3 - 5 index
-		for(var x =0; x < 3; x++)
-			{runningGame4.main.gameGroups[x]= runningGame4.main.groups.indexOf(rngOrder[x]);}
 
 		//if they match change the prompt
 		if(rngOrder[0]==rngOrder[1] || rngOrder[0]==rngOrder[2] || rngOrder[2]==rngOrder[1])
@@ -5602,14 +5597,18 @@ runningGame4.main = {
 		//if not in dance mode
 		if(!runningGame4.main.inDanceMode)
 		{
+
 			if(mouse.y >= 375 && mouse.y <=425){
-					if(mouse.x >= 525 && mouse.x <= 605){		
+					if(mouse.x >= 525 && mouse.x <= 605){
+						
 						runningGame4.main.promptChecker(prompt,0)
 					}
 					if(mouse.x >= 625 && mouse.x <= 705){
+					
 						runningGame4.main.promptChecker(prompt,1)
 					}
-					if(mouse.x >= 725 && mouse.x <= 805){			
+					if(mouse.x >= 725 && mouse.x <= 805){
+			
 						runningGame4.main.promptChecker(prompt,2)
 					}
 
@@ -5663,10 +5662,11 @@ runningGame4.main = {
 	},
 
 	promptChecker: function(prompt,x){
-		var groupPop = runningGame4.main.groups[runningGame4.main.gameGroups[x]]
+		var groupPop = runningGame4.main.groups[x]
+		console.log(groupPop)
 		switch(prompt){
 			case 0:			
-				var minArray = Math.min.apply(groupPop, rngOrder);		
+				var minArray = Math.min.apply(groupPop, runningGame4.main.groups);		
 				if(groupPop == minArray){			
 					runningGame4.main.inDanceMode = true;
 				}
@@ -5676,8 +5676,8 @@ runningGame4.main = {
 				}
 			break;
 			case 1:
-				var minArray = Math.min.apply(groupPop, rngOrder);
-				var maxArray = Math.max.apply(groupPop, rngOrder);			
+				var minArray = Math.min.apply(groupPop, runningGame4.main.groups);
+				var maxArray = Math.max.apply(groupPop, runningGame4.main.groups);			
 				if(groupPop != minArray && groupPop != maxArray){
 		
 						runningGame4.main.inDanceMode = true;
@@ -5688,7 +5688,7 @@ runningGame4.main = {
 				}
 			break;
 			case 2:
-				var maxArray = Math.max.apply(groupPop, rngOrder);		
+				var maxArray = Math.max.apply(groupPop, runningGame4.main.groups);		
 				if(groupPop == maxArray){
 			
 						runningGame4.main.inDanceMode = true;
