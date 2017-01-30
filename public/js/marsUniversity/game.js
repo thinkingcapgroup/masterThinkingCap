@@ -5650,7 +5650,7 @@ runningGame2.main =
                     else
                     secretSticker.main.areaNumber = 5;
                 }
-                if((mouse.x >= 855&& mouse.x <= 880)&&(mouse.y >= 250 && mouse.y <= 275 ))
+                if((mouse.x >= 875&& mouse.x <= 900)&&(mouse.y >= 250 && mouse.y <= 275 ))
                 {
                     if(secretSticker.main.areaNumber <5)
                     secretSticker.main.areaNumber++;
