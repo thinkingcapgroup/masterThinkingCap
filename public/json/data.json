@@ -568,9 +568,35 @@
 			]
 		}, 
 
+	
+        
 		{
-			"name":"Mean Moves",
+			"name":"Secret Sticker",
 			"id":"24",
+			"type":"smallEvent",
+			"text":"Attract People to your side, by giving them a sticker.",
+			"timeRequired":"2",
+			"groupPos":"Soc",
+			"groupNeg":"",
+			"results":"",
+			"scoreInc":".4",
+			"options":
+			[
+				{
+					"optionName":"Minigame",
+					"optionID":"Minigame",
+					"type":"game",
+					"extraTime" : "1", 
+					"posEffects":"",
+					"negEffects":"",
+					"loader": "3"
+				}
+			]
+		},
+
+			{
+			"name":"Mean Moves",
+			"id":"25",
 			"type":"smallEvent",
 			"text":"Lets take pictures",
 			"timeRequired":"2",
