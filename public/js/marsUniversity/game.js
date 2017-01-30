@@ -5033,6 +5033,54 @@ runningGame2.main =
 	init: function(c,ctx){
 		ctx.restore;
 		ctx.save;
+
+		//map icons
+		libraryIcon = new Image();
+		libraryIcon.src = '../img/map/libraryicon.png';
+		quadIcon = new Image();
+		quadIcon.src = '../img/map/icon.png';
+		gymIcon = new Image();
+		gymIcon.src = '../img/map/gymicon.png';
+		cafeIcon = new Image();
+		cafeIcon.src = '../img/map/cafeicon.png';
+		labIcon = new Image();
+		labIcon.src = '../img/map/labicon.png';
+		mediaIcon = new Image();
+		mediaIcon.src =  '../img/map/mediaicon.png';
+
+		//get people assets
+		hoverPeace1 = new Image();
+		hoverPeace1.src = "../img/minigame2/hover1peace.png";
+		hoverPeace2 = new Image();
+		hoverPeace2.src = '../img/minigame2/hover2peace.png';
+		hoverStrong = new Image();
+		hoverStrong.src = '../img/minigame2/hoverstrong.png';
+		thinPeace1 = new Image();
+		thinPeace1.src = '../img/minigame2/thinpeace1.png'
+		thinPeace2 = new Image();
+		thinPeace2.src = '../img/minigame2/thinpeace2.png'
+		thinStrong = new Image();
+		thinStrong.src = '../img/minigame2/thinstrong.png'
+		medPeace1 = new Image();
+		medPeace1.src = '../img/minigame2/medpeace.png';
+		medPeace2 = new Image();
+		medPeace2.src = '../img/minigame2/medpeace2.png';
+		medStrong = new Image();
+		medStrong.src = '../img/minigame2/medstrong.png';
+		plusPeace1 = new Image();
+		plusPeace1.src = '../img/minigame2/pluspeace1.png';
+		plusPeace2 = new Image();
+		plusPeace2.src = '../img/minigame2/pluspeace2.png';
+		plusStrong = new Image();
+		plusStrong.src = '../img/minigame2/plusstrong.png';
+
+		mapbackground = new Image();
+		mapbackground.src = '../img/map/map.png';
+
+
+
+
+		//now init
 		runningGame2.main.gameStop = false;
 		runningGame2.main.player.picturenum = 0;
 		runningGame2.main.scores.score = 0;	
@@ -5046,11 +5094,16 @@ runningGame2.main =
 		runningGame2.main.takenDemograph1=0;
 		runningGame2.main.takenDemograph2=0;
 	
-		runningGame2.main.draw(c,ctx);
+		mapbackground.onload = function(){
+			runningGame2.main.draw(c,ctx);
+		}
 	},
+
 
 	update: function (c,ctx)
 	{
+
+	
 		if(!runningGame.main.stop)
 		{
 			//double check player photos = the amount they need
@@ -5096,6 +5149,7 @@ runningGame2.main =
 
 			//draw the next screen
 			runningGame2.main.draw(c,ctx);
+			runningGame2.main.draw(c,ctx);
 			}
 
 			
@@ -5107,38 +5161,54 @@ runningGame2.main =
 		//draw the background for the area
 		ctx.fillStyle="#FFFFFF";
 		ctx.fillRect(0,0,c.width,c.height);
+		ctx.drawImage(mapbackground, 0,0,900,500);
 		//draw anything specific ontop of the background layer depending on what area you are
 		if(runningGame2.main.areaNumber == 0){
 			//quad
+			ctx.strokeStyle = '#00FFFF';
 			ctx.fillStyle = '#AAAAAA'
-			ctx.fillRect(400,250,100,100);
-			ctx.fillStyle = '#000000'
-			ctx.fillText("Quad",440,305);
-			//gym
-			ctx.fillStyle = '#FF0000'
-			ctx.fillRect(100,50,100,100);
-			ctx.fillStyle = '#000000'
-			ctx.fillText("Gym",140,105);
+			ctx.lineWidth = 3;
+	
+			//stroke areas for gym
+			ctx.beginPath();
+			ctx.moveTo(530,20);
+			ctx.lineTo(530,150);
+			ctx.lineTo(725,150);
+			ctx.lineTo(725,300);
+			ctx.lineTo(880,300);
+			ctx.lineTo(880,20);
+			ctx.closePath();
+			ctx.stroke();
+			//stroke labs
+			ctx.beginPath();
+			ctx.moveTo(225,20);
+			ctx.lineTo(225,170);
+			ctx.lineTo(275,170);
+			ctx.lineTo(275,200);
+			ctx.lineTo(340,200);
+			ctx.lineTo(340,170);
+			ctx.lineTo(383,170);
+			ctx.lineTo(383,20);
+			ctx.closePath();
+			ctx.stroke();
+
+			//quad
+			ctx.strokeRect(208,235,243,60);
+			//library
+			ctx.strokeRect(600,330,280,155);
+			//cafe
+			ctx.strokeRect(13,43,165,260);
 			//media
-			ctx.fillStyle = '#00FF00'
-			ctx.fillRect(400,50,100,100);
-			ctx.fillStyle = '#000000'
-			ctx.fillText("Media Room",400,105);
-			//res
-			ctx.fillStyle = '#0000FF'
-			ctx.fillRect(700,50,100,100);
-			ctx.fillStyle = '#FFFFFF'
-			ctx.fillText("Labs",700,105);
+			ctx.strokeRect(135,333,175,145);
+			//labs
 
-			ctx.fillStyle = '#FFFF00'
-			ctx.fillRect(225,350,100,100);
-			ctx.fillStyle = '#000000'
-			ctx.fillText("Coffe Shop",225,350);
-
-			ctx.fillStyle = '#00FFFF'
-			ctx.fillRect(575,350,100,100);
-			ctx.fillStyle = '#000000'
-			ctx.fillText("Gym",575,350);
+			//draw icon
+			ctx.drawImage(quadIcon, 255,190,150,100)
+			ctx.drawImage(libraryIcon, 665,325,150,100)
+			ctx.drawImage(gymIcon, 725,50,150,100)
+			ctx.drawImage(cafeIcon, 20,110,150,100)
+			ctx.drawImage(mediaIcon, 150,335,150,100)
+			ctx.drawImage(labIcon, 230,25,150,100)
 		}
 		if(runningGame2.main.areaNumber >0){
 			
@@ -5191,33 +5261,47 @@ runningGame2.main =
 
 		//check if the area is clickable
 		if(runningGame2.main.areaNumber == 0){
-			//quad
-			if((mouse.x >= 400 && mouse.x <= 500)&&(mouse.y >= 250 && mouse.y <= 350)){
+			//quad 		ctx.strokeRect(208,235,243,60);
+			if((mouse.x >= 208 && mouse.x <= 451)&&(mouse.y >= 235 && mouse.y <= 295)){
 				runningGame2.main.areaNumber = 1;
 				update = true;
 			}
-			//gym
-			if((mouse.x >= 100 && mouse.x <= 200)&&(mouse.y >= 50 && mouse.y <= 150)){
+			
+			//gym1
+			if((mouse.x >= 530 && mouse.x <= 880)&&(mouse.y >= 20 && mouse.y <= 150)){
 				runningGame2.main.areaNumber = 2;
 				update = true;
 			}
-			//media
-			if((mouse.x >= 400 && mouse.x <= 500)&&(mouse.y >= 50 && mouse.y <= 150)){
+			//gym2
+			if((mouse.x >= 725 && mouse.x <= 880)&&(mouse.y >= 20 && mouse.y <= 300)){
+				runningGame2.main.areaNumber = 2;
+				update = true;
+			}
+			//media 		ctx.strokeRect(135,333,175,145);
+			if((mouse.x >= 135 && mouse.x <= 310)&&(mouse.y >= 333 && mouse.y <= 475)){
 				runningGame2.main.areaNumber = 3;
 				update = true;
 			}
-			//labs
-			if((mouse.x >= 700 && mouse.x <= 800)&&(mouse.y >= 50 && mouse.y <= 150)){
+		
+			//labs1
+			if((mouse.x >= 225 && mouse.x <= 383)&&(mouse.y >= 20 && mouse.y <= 170)){
 				runningGame2.main.areaNumber = 4;
 				update = true;
 			}
-			//coffee shop
-			if((mouse.x >= 250 && mouse.x <= 350)&&(mouse.y >= 350 && mouse.y <= 450)){
+			//labs2
+			else if((mouse.x >= 275 && mouse.x <= 340)&&(mouse.y >= 170 && mouse.y <= 200)){
+				runningGame2.main.areaNumber = 4;
+				update = true;
+			}
+		
+
+			//coffee shop 
+			if((mouse.x >= 13 && mouse.x <= 178)&&(mouse.y >= 43 && mouse.y <= 303)){
 				runningGame2.main.areaNumber = 5;
 				update = true;
 			}
-			//library
-			if((mouse.x >= 575 && mouse.x <= 675)&&(mouse.y >= 350 && mouse.y <= 450)){
+			//library 	ctx.strokeRect(600,330,280,155);
+			if((mouse.x >= 600 && mouse.x <= 880)&&(mouse.y >= 330 && mouse.y <= 495)){
 				runningGame2.main.areaNumber = 6;
 				update = true;
 			}
