@@ -5472,7 +5472,7 @@ runningGame2.main =
                 ctx.fillText("<",10,265);
                 
                 ctx.fillStyle = '#AAAAAA'
-                ctx.fillRect(855,250,25,25);
+                ctx.fillRect(875,250,25,25);
                 ctx.fillStyle = '#000000'
                 ctx.fillText(">",885,265);
                 
