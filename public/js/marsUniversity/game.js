@@ -37,7 +37,7 @@ var qPollHolder;
 var ranking;
 var practice = false;
 var section = 1;
-
+var graphType = "Pie";
 //sprite stuff
 var heads = new Image();
 heads.src = "../img/spritehead.png";
@@ -3711,7 +3711,9 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	}
 	sorttable.makeSortable(document.getElementById('tab'));
 	document.getElementById("next").innerHTML += "<div id = 'filterArea'></div>"
-	document.getElementById("next").innerHTML += "<br><button value = 'true' id = 'rawDataButton' onclick = 'changeData()'>Show Raw Data</button><br>";
+	document.getElementById("gameInfo").innerHTML += "<div id = 'barChartDiv' style = 'display:block'></div>";
+	document.getElementById("gameInfo").innerHTML += "<div id = 'pieChartDiv' style = 'display:none'></div>";
+	document.getElementById("next").innerHTML += "<br><button value = 'Pie' id = 'rawDataButton' onclick = 'changeData()'>Show Pie Graphs</button><br>";
 	for (var x = 0; x < groupList.length; x++){
 		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ groupList[x] +"'> "+ groupList[x] +" ";
 	}
@@ -3727,19 +3729,20 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	document.getElementById('filterArea').style.display = "none";
 
 	var counter = 0;
-	document.getElementById("gameInfo").innerHTML += "<div id = 'chartDiv' style = 'display:block'></div>"
 	//graph dat table
 
 	for (var i=0;i<graphQuestions.length;i++)
 	{
-	document.getElementById("chartDiv").innerHTML += "<div id = 'q"+i+"text'><br></div><div class = 'chart"+i+" chart'></div>";
+	document.getElementById("barChartDiv").innerHTML += "<div id = 'q"+i+"text'><br></div><div class = 'barChart"+i+" chart'></div>";
+    document.getElementById("pieChartDiv").innerHTML += "<div id = 'bq"+i+"text'><br></div><div class = 'pieChart"+i+" chart'></div>";
 		if(i==2){
-			document.getElementById("chartDiv").innerHTML += "<hr>";
+			document.getElementById("barChartDiv").innerHTML += "<hr>";
+			document.getElementById("pieChartDiv").innerHTML += "<hr>";
 		}
 		else if( i == 5){
 
 		}
-	}
+    }
 	
 	////console.log(graphQuestions);
 	for(var u =0; u < graphQuestions.length; u++){		
@@ -3759,54 +3762,68 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		{
 			case "issFav":
 				document.getElementById("q"+i+"text").innerHTML = questions[0].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[0].question;
 			break;
 			case "issOpp":
 				document.getElementById("q"+i+"text").innerHTML = questions[1].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[1].question;
 			break;
 			case "candFav":
 				document.getElementById("q"+i+"text").innerHTML = questions[2].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[2].question;
 			break;
 			case "candOpp":
 				document.getElementById("q"+i+"text").innerHTML = questions[3].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[3].question;
 			break;
 			case "major":
 				document.getElementById("q"+i+"text").innerHTML = questions[4].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[4].question;
 			break;
 			case "class":
 				document.getElementById("q"+i+"text").innerHTML = questions[5].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[5].question;
 			break;
 			case "group":
 				document.getElementById("q"+i+"text").innerHTML = questions[6].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[6].question;
 			break;
 			case "fame":
 				document.getElementById("q"+i+"text").innerHTML = questions[7].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[7].question;
 			break;
 			case "playTrust":
 				document.getElementById("q"+i+"text").innerHTML = questions[8].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[8].question;
 			break;
 			case "issuetuition":
 				name = 	"Lowering Tuition";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
+				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
 
 			case "issueathletic":
 				name = 	"Increase Athletic Budget";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
+				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
 
 			case "issueresearch":
 				name = 	"Increase Research Budget";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
+				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
 
 			case "issueevents":
 				name = 	"More School Events";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
+				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
 
 			case "issuemedical":
 				name = 	"Improve Medical Services";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
+				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
 
 			default:
@@ -3816,6 +3833,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 				{
 					name = candidates[k].name;
 					document.getElementById("q"+i+"text").innerHTML = questions[10].question + " " + name;
+					document.getElementById("bq"+i+"text").innerHTML = questions[10].question + " " + name;
 				}
 			}
 
@@ -3825,38 +3843,103 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 				{
 					name = candidates[k].name;
 					document.getElementById("q"+i+"text").innerHTML = questions[11].question + " " + name;
+					document.getElementById("bq"+i+"text").innerHTML = questions[11].question + " " + name;
 				}
 			}
 		}
 		////console.log("Question "+graphQuestions[i] + " has a length of: " + graphData[i].length);
 		////console.log(graphData[questionNum]);
-    
-		for (var j = 0; j < graphData[i].length; j++){
-				////console.log(graphData[questionNum], " AT ", questions[qID].question)					
-				data2[j]=graphData[i][j];
-			}
+        
+        for (var j = 0; j < graphData[i].length; j++)
+        {
+			////console.log(graphData[questionNum], " AT ", questions[qID].question)					
+			data2[j]=graphData[i][j];
+		}
+		var dataCounter = 0;
+		x = d3.scaleLinear()
+		.domain([0, d3.max(data2)])
+		.range([0, 420]);
 
+		d3.select(".barChart" + i)
+		.selectAll("div")
+		.data(data2)
+		.enter().append("div")
+		.style("width", function(d) { return x(d) + "px"; })
+		.text(function(d) 
+        {
+			var zid = graphLabels[i][dataCounter] + "-" + d;
+			////console.log(zid);
+			dataCounter++;
 
-			var dataCounter = 0;
-			x = d3.scaleLinear()
-		    .domain([0, d3.max(data2)])
-		    .range([0, 420]);
-
-			d3.select(".chart" + i)
-		  	.selectAll("div")
-		    .data(data2)
-		  	.enter().append("div")
-		    .style("width", function(d) { return x(d) + "px"; })
-		    .text(function(d) {
-		    	var zid = graphLabels[i][dataCounter] + "-" + d;
-		  		////console.log(zid);
-		  		dataCounter++;
-
-		    	return zid; })
-		    ;
-
+			return zid; 
+        });
+        
+        var dataset = 
+        [
+        ];
+        for (var k = 0; k < graphData[i].length; k++)
+        {			
+            dataset.push ({label: graphLabels[i][k], count: graphData[i][k]})
+		}
+        
+        var width = 270;
+        var height = 270;
+        var radius = Math.min(width, height) / 2;
+        var color = d3.scaleOrdinal(d3.schemeCategory20b);
+        
+        var svg = d3.select(".pieChart" + i)
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('g')
+        .attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
+        
+        var vis = d3.select(".pieChart" + i)
+        .append("svg:svg") 
+        .data([dataset])
+        .attr("width", width + 100) 
+        .attr("height", height + 100) 
+        .append("svg:g") 
+        .attr("transform", "translate(" + 1.5*radius + "," + 1.5*radius + ")") 
+        
+        var arc = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius);
+        
+        var pie = d3.pie()
+        .value(function(d) { return d.count; })
+        .sort(null);
+        
+        var arcs = vis.selectAll("g.slice")
+        .data(pie)
+        .enter()
+        .append("svg:g")
+        .attr("class", "slice");
+        
+        arcs.append("svg:path")
+        .attr("fill", function(d, i) { return color(i); } )
+        .attr("d", arc);
+        
+        arcs.append("svg:text")
+        
+        arcs.filter(function(d) { return d.endAngle - d.startAngle > .2; }).append("svg:text")
+        .attr("dy", ".35em")
+        .attr("text-anchor", "middle")
+        .attr("transform", function(d) { 
+            d.outerRadius = radius; 
+            d.innerRadius = radius/2; 
+            return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
+        })
+        .style("fill", "White")
+        .style("font", "bold 12px Arial")
+        .text(function(d) { return d.data.label + "-" +d.data.count; });
+        
+        function angle(d) {
+        var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
+        return a > 90 ? a - 180 : a;
+        } 
 	}
-	document.getElementById('table').style.display = 'none'
+	document.getElementById('table').style.display = 'none';
 	if (state == 1){
 		review = true;
 
@@ -3874,31 +3957,42 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	}
 		
 	if(state == 1){
-		document.getElementById('event').innerHTML += "<button onclick = 'map("+1+",false,false)'>Back to Start</button>" 
+		document.getElementById('event').innerHTML += "<button onclick = 'map("+1+",false,false)'>Back to Start</button>" ;
 	}
 
 }
 
 function changeData(){
-
-	var isRawData = document.getElementById('rawDataButton').value;
-
-	if(isRawData == 'true'){
-		document.getElementById('rawDataButton').value = false;
-		document.getElementById('table').style.display = 'block'
-		document.getElementById('filterArea').style.display = 'block'
-		document.getElementById('chartDiv').style.display = 'none'
-		document.getElementById('rawDataButton').innerHTML = 'Show Graphs'
+    console.log("hi")
+	var page = document.getElementById('rawDataButton').value;
+    console.log(document.getElementById('rawDataButton').value)
+	if(page == 'Table'){
+		document.getElementById('rawDataButton').value = "Bar";
+		document.getElementById('table').style.display = 'block';
+		document.getElementById('filterArea').style.display = 'block';
+		document.getElementById('pieChartDiv').style.display = 'none';
+		document.getElementById('barChartDiv').style.display = 'none';
+		document.getElementById('rawDataButton').innerHTML = 'Show Bar Graphs';
 	}
-	else{
-		document.getElementById('rawDataButton').value = true;
-		document.getElementById('table').style.display = 'none'
-		document.getElementById('filterArea').style.display = 'none'
-		document.getElementById('chartDiv').style.display = 'block'
-		document.getElementById('rawDataButton').innerHTML = 'Show Raw Data'
+	else if (page == 'Bar')
+    {
+        console.log("dammit")
+		document.getElementById('rawDataButton').value = "Pie";
+		document.getElementById('table').style.display = 'none';
+		document.getElementById('filterArea').style.display = 'none';
+		document.getElementById('pieChartDiv').style.display = 'none';
+		document.getElementById('barChartDiv').style.display = 'block';
+		document.getElementById('rawDataButton').innerHTML = 'Show Pie Graphs';
 	}
-
-
+	else if (page == 'Pie')
+    {
+		document.getElementById('rawDataButton').value = "Table";
+		document.getElementById('table').style.display = 'none';
+		document.getElementById('filterArea').style.display = 'none';
+		document.getElementById('pieChartDiv').style.display = 'block';
+		document.getElementById('barChartDiv').style.display = 'none';
+		document.getElementById('rawDataButton').innerHTML = 'Show Raw Data';
+	}
 }
 
 //Subtracts time required to take a poll based on both sample size and the number of questions
