@@ -693,3 +693,16 @@
 35-issFav-issOpp-undefined-undefined-undefined-undefined
 35-issOpp-issue-undefined-undefined-undefined-undefined
 35-issFav-candFame-undefined-undefined-undefined-undefined
+35-issFav-candFav-undefined-undefined-undefined-undefined
+35-End Game Winner - Clamps-Player Rank:7-1485959426861
+35-candOpp-undefined-undefined-undefined-undefined-undefined
+35-candOpp-candFav-undefined-undefined-undefined-undefined
+35-issFav-issOpp-undefined-undefined-undefined-undefined
+35-issFav-issOpp-undefined-issue-undefined-undefined
+35-Posters-1486046111766
+35-issue-issue-undefined-undefined-undefined-undefined
+35-candFame-candTrust-undefined-undefined-undefined-undefined
+35-candFame-candTrust-undefined-undefined-undefined-undefined
+35-issue-issue-undefined-undefined-undefined-undefined
+35-Posters-1486047814095
+35-issFav-issOpp-undefined-undefined-undefined-undefined

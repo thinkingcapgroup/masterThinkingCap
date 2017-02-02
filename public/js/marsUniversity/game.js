@@ -187,6 +187,29 @@ function helpScreen()
 	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <button onclick= 'openGlossary()'>Glossary Page</button> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <button onclick= 'userAction()'>Return to User Action Area</button>"
 }
 
+function trendReportMenu()
+{
+	clearScreen();
+	document.getElementById("playerInfo").style.display = "none";
+	document.getElementById("gameInfo").innerHTML = "<div id= 'reportButtons' > <h1> Trend Reports</h1> <hr><br><div><h2> General</h2><button onclick= 'trendReporter(`issFav`)'>Favored Issue Report</button><button onclick= 'trendReporter(`issOpp`)'>Opposed Issue Report</button><button onclick= 'trendReporter(`candFav`)'>Favored Candidate Report</button><button onclick= 'trendReporter(`candOpp`)'>Opposed Candidate Report</button></div><br><div><h2> Support For Issues</h2><button onclick= 'trendReporter(`issuetuition`)'>Lowering Tuition Report</button><button onclick= 'trendReporter(`issueathletic`)'>Increse Athletic Budget Report</button><button onclick= 'trendReporter(`issueresearch`)'>Increase Research Budget Report</button><button onclick= 'trendReporter(`issueevents`)'>More School Events Report</button><button onclick= 'trendReporter(`issuemedical`)'>Improve Medical Services</button></div><br><div id = 'candReportsFame'><h2>Candidate Stats - Fame</h2></div><br><div id = 'candReportsTrust'><h2>Candidate Stats - Trust</h2></div>"
+    document.getElementById("candReportsFame").innerHTML += "<button onclick= 'trendReporter(`fame`)'>Fame - " + candidates[0].name +"</button>"
+    for(var k = 1;k<candidates.length;k++)
+	{
+        var method = "candFame" + candidates[k].name;
+		document.getElementById("candReportsFame").innerHTML += "<button onclick= 'trendReporter(`"+method+"`)'>Fame - " + candidates[k].name +"</button>";
+	}
+    document.getElementById("candReportsTrust").innerHTML += "<button onclick= 'trendReporter(`playTrust`)'>Trust - " + candidates[0].name +"</button>"
+	for(var k = 1;k<candidates.length;k++)
+	{
+        var method = "candTrust" + candidates[k].name;
+        document.getElementById("candReportsTrust").innerHTML += "<button onclick= 'trendReporter(`"+method+"`)'>Trust - " + candidates[k].name +"</button>";
+	}
+     document.getElementById("gameInfo").innerHTML += "</div><br> <div id = 'trendArea' style = 'display:none'> <svg id='visualisation' width='1000' height='500'><path id='segments-line' /><path id='gap-line' /></svg> </div>";
+     
+     document.getElementById("gameInfo").innerHTML += "<button id ='buttonViewer'>Choose Another Trend Report</button>";
+     document.getElementById("gameInfo").innerHTML += "<br><br><button onclick= 'userAction()'>Return to User Action Area</button>";
+}
+
 function openGlossary()
 {
 	clearScreen();
@@ -896,6 +919,7 @@ function userAction()
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='map("+0+",false,false)'> Take A Poll </button>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='statement()'> Make a Statement - 1 Hour</button>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='helpScreen()'> Help Screen</button>";
+	document.getElementById("choices").innerHTML += "<button type='button' onclick='trendReportMenu()'> View Trend Reports</button>";
 	document.getElementById("choices").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button>";
 	document.getElementById("choices").innerHTML += "<br>";
 	for(var i=0; i<pastPollResults.length;i++)
@@ -3713,7 +3737,9 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	document.getElementById("next").innerHTML += "<div id = 'filterArea'></div>"
 	document.getElementById("gameInfo").innerHTML += "<div id = 'barChartDiv' style = 'display:block'></div>";
 	document.getElementById("gameInfo").innerHTML += "<div id = 'pieChartDiv' style = 'display:none'></div>";
-	document.getElementById("next").innerHTML += "<br><button value = 'Pie' id = 'rawDataButton' onclick = 'changeData()'>Show Pie Graphs</button><br>";
+	document.getElementById("next").innerHTML += "<button id = 'dataButton' onclick = 'changeData(1)'>Show Data Table</button>";
+	document.getElementById("next").innerHTML += "<button id = 'barButton' onclick = 'changeData(2)' style = 'display:none'>Show Bar Graphs</button>";
+	document.getElementById("next").innerHTML += "<button id = 'pieButton' onclick = 'changeData(3)'>Show Pie Graphs</button><br>";
 	for (var x = 0; x < groupList.length; x++){
 		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ groupList[x] +"'> "+ groupList[x] +" ";
 	}
@@ -3962,36 +3988,36 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 
 }
 
-function changeData(){
-    console.log("hi")
-	var page = document.getElementById('rawDataButton').value;
-    console.log(document.getElementById('rawDataButton').value)
-	if(page == 'Table'){
-		document.getElementById('rawDataButton').value = "Bar";
+function changeData(dataButton)
+{
+	if(dataButton == 1){
 		document.getElementById('table').style.display = 'block';
 		document.getElementById('filterArea').style.display = 'block';
 		document.getElementById('pieChartDiv').style.display = 'none';
 		document.getElementById('barChartDiv').style.display = 'none';
-		document.getElementById('rawDataButton').innerHTML = 'Show Bar Graphs';
+		document.getElementById('pieButton').style.display = 'inline';
+		document.getElementById('barButton').style.display = 'inline';
+		document.getElementById('dataButton').style.display = 'none';
 	}
-	else if (page == 'Bar')
+	else if (dataButton == 2)
     {
-        console.log("dammit")
-		document.getElementById('rawDataButton').value = "Pie";
 		document.getElementById('table').style.display = 'none';
 		document.getElementById('filterArea').style.display = 'none';
 		document.getElementById('pieChartDiv').style.display = 'none';
 		document.getElementById('barChartDiv').style.display = 'block';
-		document.getElementById('rawDataButton').innerHTML = 'Show Pie Graphs';
+		document.getElementById('pieButton').style.display = 'inline';
+		document.getElementById('barButton').style.display = 'none';
+		document.getElementById('dataButton').style.display = 'inline';
 	}
-	else if (page == 'Pie')
+	else if (dataButton == 3)
     {
-		document.getElementById('rawDataButton').value = "Table";
 		document.getElementById('table').style.display = 'none';
 		document.getElementById('filterArea').style.display = 'none';
 		document.getElementById('pieChartDiv').style.display = 'block';
 		document.getElementById('barChartDiv').style.display = 'none';
-		document.getElementById('rawDataButton').innerHTML = 'Show Raw Data';
+		document.getElementById('pieButton').style.display = 'none';
+		document.getElementById('barButton').style.display = 'inline';
+		document.getElementById('dataButton').style.display = 'inline';
 	}
 }
 
@@ -4567,6 +4593,235 @@ function gameResults(scores, tutorial)
 	document.getElementById("next").style.display = "block";
 }
 
+function trendReporter(category)
+{
+    
+    document.getElementById('buttonViewer').style = 'display:block';
+    document.getElementById('visualisation').innerHTML = "";
+    
+    var data0 = 
+    [
+    ];
+    var data1 = 
+    [
+        
+    ];
+    var data2 = 
+    [
+        
+    ];
+    var data3 = 
+    [
+        
+    ];
+    var data4 = 
+    [
+        
+    ];
+    var data5 = 
+    [
+        
+    ];
+    var data6 = 
+    [
+        
+    ];
+    
+    //for(var i =0; i< pastPollChoices.length;i++)
+    //{
+    //        data0.push(
+    //        {
+    //            count: null,
+    //            poll: i
+    //        });
+    //}
+    for(var i =0; i< pastPollChoices.length;i++)
+    {
+        for(var j =0; j< pastPollChoices[i].length; j++)
+        {
+            if(category == pastPollChoices[i][j])
+            {
+                for (var k =0; k< pastGraphData[i][j].length; k++)
+                {
+                    switch(k)
+                    {
+                        case 0:
+                        data0.splice(i,1,
+                        {
+                            count: pastGraphData[i][j][k],
+                            poll: i
+                        });
+                        break;
+                        case 1:
+                        data1.push(
+                        {
+                            count: pastGraphData[i][j][k],
+                            poll: i
+                        });
+                        break;
+                        case 2:
+                        data2.push(
+                        {
+                            count: pastGraphData[i][j][k],
+                            poll: i
+                        });
+                        break;
+                        case 3:
+                        data3.push(
+                        {
+                            count: pastGraphData[i][j][k],
+                            poll: i
+                        });
+                        break;
+                        case 4:
+                        data4.push(
+                        {
+                            count: pastGraphData[i][j][k],
+                            poll: i
+                        });
+                        break;
+                        case 5:
+                        data5.push(
+                        {
+                            count: pastGraphData[i][j][k],
+                            poll: i
+                        });
+                        break;
+                        case 6:
+                        data6.push(
+                        {
+                            count: pastGraphData[i][j][k],
+                            poll: i
+                        });
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    var vis = d3.select("#visualisation"),
+    WIDTH = 1000,
+    HEIGHT = 500,
+    MARGINS = {
+        top: 20,
+        right: 20,
+        bottom: 20,
+        left: 50
+    },
+    xScale = d3.scaleLinear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([0, 15]),
+    yScale = d3.scaleLinear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, 100]),
+    
+    xAxis = d3.axisBottom()
+    .scale(xScale),
+    yAxis = d3.axisLeft()
+    .scale(yScale)
+                    
+    vis.append("svg:g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
+        .call(xAxis);
+    vis.append("svg:g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(" + (MARGINS.left) + ",0)")
+        .call(yAxis);
+        
+    var lineGen = d3.line()
+        .x(function(d) {
+            return xScale(d.poll);
+        })
+        .y(function(d) {
+            return yScale(d.count);
+        })
+        .defined(function (d) { return d[1] !== null; });
+        //.defined(function (d) { return d.count == null; });
+        
+    var line = d3.line()
+        .x(function(d) {
+            return xScale(d.poll);
+        })
+        .y(function(d) {
+            return yScale(d.count);
+        })
+        //.defined(function (d) { return d[1] !== null; });
+        .defined(function (d) { return d.count == null; });
+        
+        if(data0 !=[])
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data0))
+                .attr('stroke', 'green')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+                
+            //var filteredData0 = data0.filter(lineGen.defined());
+            //vis.append('svg:path')
+            //    .attr('d', line(filteredData0))
+            //    .attr('stroke', 'black')
+            //    .style("stroke-dasharray", ("3, 3"))
+            //    .attr('stroke-width', 2)
+            //    .attr('fill', 'none');
+        }
+        if(data1 != [])
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data1))
+                .attr('stroke', 'violet')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+        }
+        if(data2 != [])
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data2))
+                .attr('stroke', 'blue')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+        }
+        if(data3 != [])
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data3))
+                .attr('stroke', 'red')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+        }
+        if(data4 != [])
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data4))
+                .attr('stroke', 'orange')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+        }
+        if(data5 != [])
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data5))
+                .attr('stroke', 'purple')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+        }
+        if(data6 != [])
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data6))
+                .attr('stroke', 'yellow')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+        }
+        
+    
+    document.getElementById('buttonViewer').onclick = function() 
+    {
+        document.getElementById('buttonViewer').style = 'display:none';
+        document.getElementById('reportButtons').style = 'display:block';
+        document.getElementById('trendArea').style = 'display:none';
+    };
+    document.getElementById('trendArea').style = 'display:block';
+    document.getElementById('reportButtons').style = 'display:none';
+}
 
 function hourChecker()
 {
