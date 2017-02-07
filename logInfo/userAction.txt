@@ -706,3 +706,8 @@
 35-issue-issue-undefined-undefined-undefined-undefined
 35-Posters-1486047814095
 35-issFav-issOpp-undefined-undefined-undefined-undefined
+35-candFav-candOpp-undefined-undefined-undefined-undefined
+35-candFav-candOpp-undefined-undefined-undefined-undefined
+35-candFame-candFame-undefined-undefined-undefined-undefined
+35-Posters-1486498475850
+35-candTrust-candFame-candTrust-candTrust-candTrust-candTrust

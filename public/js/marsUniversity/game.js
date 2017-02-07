@@ -204,10 +204,10 @@ function trendReportMenu()
         var method = "candTrust" + candidates[k].name;
         document.getElementById("candReportsTrust").innerHTML += "<button onclick= 'trendReporter(`"+method+"`)'>Trust - " + candidates[k].name +"</button>";
 	}
-     document.getElementById("gameInfo").innerHTML += "</div><br> <div id = 'trendArea' style = 'display:none'> <svg id='visualisation' width='1000' height='500'><path id='segments-line' /><path id='gap-line' /></svg> </div>";
+     document.getElementById("gameInfo").innerHTML += "</div><br> <div id = 'trendArea' style = 'display:none'> <svg id='visualisation' width='800' height='450'><path id='segments-line' /><path id='gap-line' /><text font-family='sans-serif' font-size='20px'>Blah</text></svg> </div>";
      
      document.getElementById("gameInfo").innerHTML += "<button id ='buttonViewer'>Choose Another Trend Report</button>";
-     document.getElementById("gameInfo").innerHTML += "<br><br><button onclick= 'userAction()'>Return to User Action Area</button>";
+     document.getElementById("gameInfo").innerHTML += "<button onclick= 'userAction()'>Return to User Action Area</button>";
 }
 
 function openGlossary()
@@ -3571,7 +3571,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 
 					case "playTrust":
 								var cell = row.insertCell(i);
-								if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.33)
+								if(parseFloat(tableArray2[8][h]).toFixed(2) >= 0.66)
 									{
 										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
@@ -3704,7 +3704,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 					{
 								var cell = row.insertCell(i);
 								var counter = canCounter;
-								if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
+								if(parseFloat(tableArray2[counter][h]).toFixed(2) >= 0.66)
 								{
 									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
@@ -4599,33 +4599,15 @@ function trendReporter(category)
     document.getElementById('buttonViewer').style = 'display:block';
     document.getElementById('visualisation').innerHTML = "";
     
-    var data0 = 
-    [
-    ];
-    var data1 = 
-    [
-        
-    ];
-    var data2 = 
-    [
-        
-    ];
-    var data3 = 
-    [
-        
-    ];
-    var data4 = 
-    [
-        
-    ];
-    var data5 = 
-    [
-        
-    ];
-    var data6 = 
-    [
-        
-    ];
+    var data0 = [];
+    var data1 = [];
+    var data2 = [];
+    var data3 = [];
+    var data4 = [];
+    var data5 = [];
+    var data6 = [];
+    var answers = [];
+    var tempGraphData = [];
     
     //for(var i =0; i< pastPollChoices.length;i++)
     //{
@@ -4637,73 +4619,118 @@ function trendReporter(category)
     //}
     for(var i =0; i< pastPollChoices.length;i++)
     {
+        tempGraphData = [];
+        pastGraphData[i].forEach(function(e)
+        {
+            tempGraphData.push(e);
+        });
+        console.log(tempGraphData);
+        tempGraphData.splice(0,3);
         for(var j =0; j< pastPollChoices[i].length; j++)
         {
             if(category == pastPollChoices[i][j])
             {
-                for (var k =0; k< pastGraphData[i][j].length; k++)
+                questions.forEach( function(element)
+                {
+                    if(element.value == category)
+                    {
+                        answers = element.labels.split(", ")
+                        if(element.value == "candFav" ||element.value == "candOpp")
+                        {
+                            answers = [];
+                            candidates.forEach(function(element2)
+                            {
+                            answers.push(element2.name);
+                            });
+                        }
+                    }
+                    else if(element.value == category.substring(0,5))
+                    {
+                        answers = element.labels.split(", ")
+                    }
+                });
+                
+                console.log(tempGraphData);
+                for (var k =0; k< tempGraphData[j].length; k++)
                 {
                     switch(k)
                     {
                         case 0:
-                        data0.splice(i,1,
+                        data0.push(
                         {
-                            count: pastGraphData[i][j][k],
-                            poll: i
+                            count: tempGraphData[j][k],
+                            poll: i,
+                            key: answers[k]
                         });
+                        //data0.splice(i,1,
+                        //{
+                        //    count: pastGraphData[i][j][k],
+                        //    poll: i
+                        //});
                         break;
                         case 1:
                         data1.push(
                         {
                             count: pastGraphData[i][j][k],
-                            poll: i
+                            poll: i,
+                            key: answers[k]
                         });
                         break;
                         case 2:
                         data2.push(
                         {
                             count: pastGraphData[i][j][k],
-                            poll: i
+                            poll: i,
+                            key: answers[k]
                         });
                         break;
                         case 3:
                         data3.push(
                         {
                             count: pastGraphData[i][j][k],
-                            poll: i
+                            poll: i,
+                            key: answers[k]
                         });
                         break;
                         case 4:
                         data4.push(
                         {
                             count: pastGraphData[i][j][k],
-                            poll: i
+                            poll: i,
+                            key: answers[k]
                         });
                         break;
                         case 5:
                         data5.push(
                         {
                             count: pastGraphData[i][j][k],
-                            poll: i
+                            poll: i,
+                            key: answers[k]
                         });
                         break;
                         case 6:
                         data6.push(
                         {
                             count: pastGraphData[i][j][k],
-                            poll: i
+                            poll: i,
+                            key: answers[k]
                         });
                         break;
                     }
                 }
             }
+        
         }
     }
+    var margin = {top: 30, right: 20, bottom: 70, left: 50},
+    width2 = 800 - margin.left - margin.right,
+    height2 = 450 - margin.top - margin.bottom;
     
+    var legendSpace = width2/7;
     
     var vis = d3.select("#visualisation"),
-    WIDTH = 1000,
-    HEIGHT = 500,
+    WIDTH = 800,
+    HEIGHT = 350,
     MARGINS = {
         top: 20,
         right: 20,
@@ -4711,7 +4738,7 @@ function trendReporter(category)
         left: 50
     },
     xScale = d3.scaleLinear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([0, 15]),
-    yScale = d3.scaleLinear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, 100]),
+    yScale = d3.scaleLinear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, 50]),
     
     xAxis = d3.axisBottom()
     .scale(xScale),
@@ -4755,6 +4782,14 @@ function trendReporter(category)
                 .attr('stroke-width', 2)
                 .attr('fill', 'none');
                 
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 30) // spacing
+            .attr("y", height2 + 30)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'green')
+            .text(data0[0].key);
+            
             //var filteredData0 = data0.filter(lineGen.defined());
             //vis.append('svg:path')
             //    .attr('d', line(filteredData0))
@@ -4770,6 +4805,14 @@ function trendReporter(category)
                 .attr('stroke', 'violet')
                 .attr('stroke-width', 2)
                 .attr('fill', 'none');
+                
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 30) // spacing
+            .attr("y", height2 + 60)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'violet')
+            .text(data1[0].key);
         }
         if(data2 != [])
         {
@@ -4778,6 +4821,13 @@ function trendReporter(category)
                 .attr('stroke', 'blue')
                 .attr('stroke-width', 2)
                 .attr('fill', 'none');
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 30) // spacing
+            .attr("y", height2 + 90)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'blue')
+            .text(data2[0].key);
         }
         if(data3 != [])
         {
@@ -4786,6 +4836,13 @@ function trendReporter(category)
                 .attr('stroke', 'red')
                 .attr('stroke-width', 2)
                 .attr('fill', 'none');
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 180) // spacing
+            .attr("y", height2 + 30)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'red')
+            .text(data3[0].key);
         }
         if(data4 != [])
         {
@@ -4794,22 +4851,44 @@ function trendReporter(category)
                 .attr('stroke', 'orange')
                 .attr('stroke-width', 2)
                 .attr('fill', 'none');
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 180) // spacing
+            .attr("y", height2 + 60)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'orange')
+            .text(data4[0].key);
         }
-        if(data5 != [])
+        console.log(data5)
+        if(data5.length != 0)
         {
             vis.append('svg:path')
                 .attr('d', lineGen(data5))
                 .attr('stroke', 'purple')
                 .attr('stroke-width', 2)
                 .attr('fill', 'none');
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 180) // spacing
+            .attr("y", height2 + 90)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'purple')
+            .text(data5[0].key);
         }
-        if(data6 != [])
+        if(data6.length != 0)
         {
             vis.append('svg:path')
                 .attr('d', lineGen(data6))
                 .attr('stroke', 'yellow')
                 .attr('stroke-width', 2)
                 .attr('fill', 'none');
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 330) // spacing
+            .attr("y", height2 + 30)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'yellow')
+            .text(data6[0].key);
         }
         
     
