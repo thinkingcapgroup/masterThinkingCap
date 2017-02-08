@@ -37,6 +37,7 @@ var qPollHolder;
 var ranking;
 var practice = false;
 var section = 1;
+var lastMinigame = 0;
 
 //sprite stuff
 var heads = new Image();
@@ -177,7 +178,7 @@ function startPractice()
 {
 	clearScreen();
 	practice = true;
-	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a><br><br><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Minigame 2</a><br><br><a onclick = 'practiceGame(3)' id='index-link' class = 'btn double remove'>Minigame 3</a><br><br><a onclick = 'practiceGame(4)' id='index-link' class = 'btn double remove'>Minigame 4</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
+	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a><br><br><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Minigame 2</a><br><br><a onclick = 'practiceGame(3)' id='index-link' class = 'btn double remove'>Minigame 3</a><br><br><a onclick = 'practiceGame(4)' id='index-link' class = 'btn double remove'>Minigame 4</a><br><br><a onclick = 'practiceGame(5)' id='index-link' class = 'btn double remove'>Minigame 5</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
 }
 
 function helpScreen()
@@ -1732,6 +1733,7 @@ function statement(){
 //Minigame
 function minigamePlayer(id){
 		//Clear previous screen
+	lastMinigame = id;
 	clearScreen();
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
@@ -1756,6 +1758,9 @@ function minigamePlayer(id){
 		break;
 		case 4:
 		runningGame4.main.init(c,ctx);
+		break;
+		case 5:
+		tshirtCannon.main.init(c,ctx);
 		break;
 	}	
 }
@@ -1788,6 +1793,9 @@ function practiceGame(id){
 		break;
 		case 4:
 		runningGame4.main.init(c,ctx);
+		break;
+		case 5:
+		tshirtCannon.main.init(c,ctx);
 		break;
 	}	
 }
@@ -4355,7 +4363,9 @@ function getMousePos(canvas, evt)
 
 function gameResults(scores, tutorial)
 {
-	clearScreen();	
+	clearScreen();
+	var scoreToLog = scores.score;
+
 	if(!tutorial)
 	{
 		remainingHoursTotal-=1;
@@ -4464,6 +4474,7 @@ function gameResults(scores, tutorial)
 		}
 		
 			saveGameState();
+     	$.post('/game/loggerMinigame', {minigameID: lastMinigame, score: scoreToLog});
 			document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the User Action Area </button>";
 	}
 	else
@@ -4555,6 +4566,7 @@ var runningGame ={};
 var runningGame2 = {};
 var secretSticker = {};
 var runningGame4 = {};
+var tshirtCannon = {};
 
 /* Minigame Code*/
 runningGame.main = 
@@ -5128,13 +5140,13 @@ runningGame2.main =
 		if(!runningGame2.main.stop)
 		{
 			requestAnimationFrame(function(){runningGame2.main.update(c,ctx)});
-     	requestAnimationFrame(function(){runningGame2.main.draw(c,ctx)});
+     		requestAnimationFrame(function(){runningGame2.main.draw(c,ctx)});
 	
 			//double check player photos = the amount they need
 				//end game
 			if(runningGame2.main.player.picturenum > 2){
 				//console.log('hi', runningGame2.main.scores.score, practice);
-				runningGame2.main.stop = true;
+				runningGame2.main.stopGame();
 			}
 
 			else{
@@ -5173,14 +5185,15 @@ runningGame2.main =
 				runningGame2.main.inArea = false;
 				runningGame2.main.areaNumber = 0;
 			}
+		}			
 		}
+		
+	},
 
-			
-		}
-		else{
-			gameResults(runningGame2.main.scores, practice);
-
-		}
+	stopGame: function ()
+	{
+		runningGame2.main.stop=true;
+		gameResults(runningGame.main.scores, practice);
 	},
 
 	draw: function(c,ctx)
@@ -5395,9 +5408,7 @@ runningGame2.main =
 			runningGame2.main.areaNumber++;
 		}
 
-		if(update){
-			runningGame2.main.update(this, this.getContext("2d"))
-		}
+	
 		
 		//if not a clickable area do nothing
 	},
@@ -6349,6 +6360,203 @@ runningGame4.main = {
 		}
 
 
+	},
+
+}
+
+tshirtCannon.main = {
+
+	currentAmmo: 0,
+	gameStop: false,
+	areaNum: 0,
+	students: [],
+	time: 60,
+	playTime: this.time*1000,
+
+
+	init: function(c,ctx){
+		ctx.restore;
+		ctx.save;	
+
+		tshirtCannon.main.areaNum = 0;
+		tshirtCannon.main.currentAmmo = 0;
+		tshirtCannon.main.gameStop = false;
+		tshirtCannon.main.playTime= tshirtCannon.main.time*1000;
+
+		c.onmousedown = tshirtCannon.main.doMousedown;
+		tshirtCannon.main.update(c,ctx);
+
+		for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/20){
+			setTimeout(tshirtCannon.main.peopleGenerator, i);
+		}
+	},
+
+	update: function(c,ctx)
+	{
+
+		if(!tshirtCannon.gameStop){
+		//check if game finished
+			requestAnimationFrame(function(){tshirtCannon.main.draw(c,ctx)});
+			requestAnimationFrame(function(){tshirtCannon.main.update(c,ctx)});		
+			//update
+			
+			//update the student movement
+
+			//update student facial expression
+
+			//update timer
+
+			//update score
+
+		}
+	},
+
+	draw: function(c,ctx){
+		//clear
+		ctx.fillStyle = "#FFFFFF";
+		ctx.fillRect(0,0,c.width, c.height);
+		//draw bg
+
+		//draw students moving
+		ctx.fillStyle = '#00FFFF'
+		for(var i=0;i<tshirtCannon.main.students.length;i++){
+			if(tshirtCannon.main.students[i].active){
+				ctx.fillRect(tshirtCannon.main.students[i].x,tshirtCannon.main.students[i].y, tshirtCannon.main.students[i].width, tshirtCannon.main.students[i].height)
+				tshirtCannon.main.students[i].move();
+			}
+		}
+
+		//draw tshirts
+		var strokeArray = [[80,400],[380,400],[680,400]]
+
+		ctx.fillStyle = "#AAAAAA";
+		ctx.fillRect(0,390,c.width,c.height);
+		ctx.fillStyle = "#FF0000";
+		ctx.fillRect(80,400,160,80);
+		ctx.fillStyle = "#00FF00";
+		ctx.fillRect(380,400,160,80);
+		ctx.fillStyle = "#0000FF";
+		ctx.fillRect(680,400,160,80);
+
+		//stroke
+		ctx.strokeStyle = "#000000";
+		ctx.lineWidth = 5;
+		ctx.strokeRect(strokeArray[tshirtCannon.main.currentAmmo][0],strokeArray[tshirtCannon.main.currentAmmo][1], 160, 80)
+
+	},
+
+	doMousedown: function(c, e)
+	{ 
+		var mouse = canvasMouse;
+		tshirtCannon.main.clickPicker(mouse);
+	},
+
+	collisionDetector: function (rect1, rect2)
+	{
+		if (rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x && rect1.y < rect2.y + rect2.height && rect1.height + rect1.y > rect2.y) 
+			return true;
+		else
+			return false;
+	},
+
+	peopleGenerator: function ()
+	{
+		var add = true;
+		var mod;
+		var directionMod =  Math.floor(Math.random() * 2);
+		var startx;
+		var starty =  Math.floor(Math.random() * 300) + 50;
+		if(directionMod == 1){
+			startx = -99;
+			mod = 1
+		}
+		else{
+			startx = 999;
+			mod = -1
+		}
+
+		var tempRect = 
+		{
+			touched:false,
+			width : 50,
+			height : 50,
+			y: starty,
+			x: startx,
+		};
+
+		for(var i =0; i< tshirtCannon.main.students.length;i++)
+		{
+			if(tshirtCannon.main.collisionDetector(tshirtCannon.main.students[i],tempRect))
+				add = false;
+		}	
+		if(add)
+		{
+			tshirtCannon.main.students.push(
+			{
+				touched:false,
+				active: true,
+				width : 50,
+				height : 50,
+				y: starty,
+				tshirt: Math.floor(Math.random() * 3),
+				race: Math.floor((Math.random() * 3)),
+				gender: Math.floor((Math.random() * 3)), 
+				face: Math.floor((Math.random() * 6)), 
+				body: Math.floor((Math.random() * 4)),  
+				x: startx,
+				move: function(){this.x+= (100 * mod) * tshirtCannon.main.calculateDeltaTime()},
+			});		
+		}
+	},
+
+	peopleManager: function(){
+		for(var i=0;i<tshirtCannon.main.students.length;i++)
+		{
+			if(tshirtCannon.main.students[i].x >1000 || tshirtCannon.main.students[i].x <-100)
+			{
+				tshirtCannon.main.students[i].active = false;
+			}
+		}
+	},
+
+	clickPicker: function(mouse){
+
+		for(var x =0; x < tshirtCannon.main.students.length; x++){
+			if(mouse.x >= tshirtCannon.main.students[x].x && mouse.x <= (tshirtCannon.main.students[x].x+tshirtCannon.main.students[x].width)){
+				if(mouse.y >= tshirtCannon.main.students[x].y && mouse.y <= (tshirtCannon.main.students[x].y+tshirtCannon.main.students[x].height)){			
+					if(tshirtCannon.main.students[x].tshirt == tshirtCannon.main.currentAmmo){
+						console.log('correct');
+					}
+					else{
+						console.log('no');
+					}
+				}
+			}
+		}
+
+		//if tshirt cannon
+		if(mouse.y>= 400 && mouse.y <=480){
+			if(mouse.x >=80 && mouse.x <=240){
+				tshirtCannon.main.currentAmmo = 0;
+			}
+			else if(mouse.x >=380 && mouse.x <=540){
+				tshirtCannon.main.currentAmmo = 1;
+			}
+			else if(mouse.x >=680 && mouse.x <=840){
+				tshirtCannon.main.currentAmmo = 2;
+			}
+		}
+	},
+
+
+	calculateDeltaTime: function()
+	{
+		var now,fps;
+		now = (+new Date);
+		fps = 1000 / (now - this.lastTime);
+		fps = Math.max(12, Math.min(60, fps));
+		this.lastTime = now;
+		return 1/fps;
 	},
 
 }

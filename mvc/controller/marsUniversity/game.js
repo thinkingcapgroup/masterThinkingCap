@@ -136,6 +136,26 @@ router.post('/loggerPoll', auth, function (req, res, next) {
   res.end();
 });
 
+
+router.post('/loggerMinigame', auth, function (req, res, next) {
+  // Get user id
+  console.log('HEY')
+  var id = req.user.userId,
+      // Get the 6 questions asked
+      mininumber = req.body.minigameID,
+      score = req.body.score,
+      // Concatenate information
+      stringThing = '\n' + id + '-'+ mininumber+ "-" + score + "-" + Date.now();
+
+  // Append information to 'logInfo/useraction.txt'
+  fs.appendFile('logInfo/useraction.txt', stringThing, function (err) {
+    console.log('Student information logged with id: ' + id);
+  });
+
+  // End response
+  res.end();
+});
+
 /**
  * renderMarsUniversityGame - renders the Mars University game view
  * @param  {Object} req - Express Request Object

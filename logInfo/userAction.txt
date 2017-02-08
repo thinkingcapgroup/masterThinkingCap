@@ -4,3 +4,30 @@
 2-poll-issOpp-issue-undefined-undefined-undefined-undefined
 2-End Game Winner - Cowboy-Player Rank:2-1486406732782
 2-poll-issFav-candFav-undefined-undefined-undefined-undefined
+2-userAction-Photobomb-1486415382132
+2-userAction-Photobomb-1486415388587
+2-userAction-Secret Sticker-1486415444111
+2-userAction-Secret Sticker-1486415489604
+2-userAction-Secret Sticker-1486415493975
+2-userAction-Fun Run-1486415559869
+2-userAction-Photobomb-1486415647269
+2-userAction-Secret Sticker-1486415687662
+2-userAction-Secret Sticker-1486415722360
+2-userAction-Photobomb-1486416291158
+2-userAction-Photobomb-1486416398387
+2-userAction-Photobomb-1486416415288
+2-userAction-Photobomb-1486416556690
+2-userAction-Photobomb-1486416598367
+2-userAction-Photobomb-1486481367075
+2-userAction-Photobomb-1486481444667
+2-userAction-Photobomb-1486481513991
+2-userAction-Photobomb-1486481541637
+2-userAction-Photobomb-1486481705982
+2-userAction-Photobomb-1486482018600
+2-userAction-Photobomb-1486482042801
+2-userAction-Photobomb-1486482691345
+2-undefined-0-1486482695627
+2-userAction-Photobomb-1486483006884
+2--0-1486483010031
+2-userAction-Photobomb-1486483047288
+2-2-0-1486483050581
