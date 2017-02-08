@@ -145,6 +145,7 @@
 	//looking for page
 	app.use(function(req,res,next){
 		console.log("Looking for "+ req.url);
+		console.log(res)
 		next();
 	});
 

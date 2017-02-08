@@ -1,13 +1,16 @@
 // Require express
 var express = require('express'),
+    fs = require('fs');
     // Get the express Router
     router = express.Router(),
     // Require the Auth middleware
     auth = require('../model/auth/auth'),
     // errorNotifications
     errorNotifications = [],
+    lineArray = [],
     // successNotifications
     successNotifications = [];
+
 
 /**
  * router - GET method for our bugReports route '/bugreports'
@@ -44,6 +47,9 @@ function verifyUserIsResearchDev (req, res) {
 
   // If user is a dev
   else {
+    //grab information
+    readLines();
+    console.log(lineArray)
     // render view
     renderResearchArea(req, res);
   }
@@ -61,11 +67,16 @@ function renderResearchArea(req, res) {
       displayName = req.user.displayName;
 
   model.content.pageTitle = 'Research Area';
+  model.content.researchData = lineArray
   model.globalNavigationMode = require('../model/global/globalNavigationModeAuth')(req, res);
 
   res.render('researchArea', model)
   // Get every bugReports
 
+}
+
+function readLines(){
+  lineArray = fs.readFileSync('logInfo/userAction.txt').toString().split('\n');
 }
 
 // Export bugreports router
