@@ -6,6 +6,7 @@ var express = require('express'),
     // Require the Auth middleware
     auth = require('../model/auth/auth');
     lineArray = [];
+    holderArray = [];
 
 /**
  * router - GET method for dashboard route '/dashboard'
@@ -16,6 +17,7 @@ var express = require('express'),
  */
 router.get('/', auth, function (req, res) {
   // If user account is activated
+    holderArray = [];
   if (req.user.role > 5) {
     // Render dashboard view
     readLines();
@@ -31,6 +33,8 @@ router.get('/', auth, function (req, res) {
 
 
 function readLines(){
+
+  lineArray = [];
   holderArray = [];
   holderArray = fs.readFileSync('logInfo/userAction.txt').toString().split('\n');
 
@@ -80,7 +84,6 @@ function renderResearch (req, res) {
       displayName = req.user.displayName;
 
   console.log(req.user)      
-
 
   model.content.pageTitle = 'Thinking Cap';
   model.researchArray = lineArray;
