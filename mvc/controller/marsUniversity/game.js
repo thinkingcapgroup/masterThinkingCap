@@ -67,7 +67,7 @@ router.post('/loggerEnd', auth, function (req, res, next) {
   
 
       // Concatenate information
-      stringTem = "\n" + id + "-" + event + "-" + "Player Rank:" + rank + "-" + Date.now();
+      stringTem = "\n" + id + "-" + type + "-" + event + "-" + "Player Rank:" + rank + "-" + Date.now();
 
   // Append stringTem to file 'logInfo/useraction.txt'
   fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
@@ -145,7 +145,7 @@ router.post('/loggerMinigame', auth, function (req, res, next) {
       mininumber = req.body.minigameID,
       score = req.body.score,
       // Concatenate information
-      stringThing = '\n' + id + '-'+ mininumber+ "-" + score + "-" + Date.now();
+      stringThing = '\n' + "MinigameScore" + id + '-'+ mininumber+ "-" + score + "-" + Date.now();
 
   // Append information to 'logInfo/useraction.txt'
   fs.appendFile('logInfo/useraction.txt', stringThing, function (err) {
