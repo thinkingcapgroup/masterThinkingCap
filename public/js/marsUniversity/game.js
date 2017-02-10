@@ -109,7 +109,9 @@ var sample = [];
 var events=[];
 var questions=[];
 var candidates=[];
-
+var gameSession = 0; 
+var gameOver = false; 
+var endReset = false;
 //playerIssues
 
 //sprites
@@ -220,6 +222,8 @@ function openGlossary()
 function startCharacterSelect(){
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
+    if(!endReset)
+        getSession()
 	resetGame();
 	//character creator here
 	//for right now we'll do a drop down option
@@ -1386,6 +1390,8 @@ function gameCycleEnd()
 	{
 		document.getElementById("gameInfo").innerHTML += "<h1>" + (i+1) + ". " + ranking[i].name + " Votes: " + ranking[i].votes + "</h1><br>";
 	}
+    endReset = true; 
+    gameOver = true;
 	document.getElementById("gameInfo").innerHTML += "<h1> Winner: "+ ranking[0].name +"</h1> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
 };
 
@@ -1597,9 +1603,15 @@ function explainTerm(term, help){
 
 function map(state, isFirst, isFree){
 	clearScreen();
-
+    
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
+    
+    document.getElementById("event").innerHTML += "<div id = 'centerCanvas'><canvas id='myCanvas' width='880px' height = '500px' style = 'margin: 0 auto;'></canvas></div><br>";
+	var c=document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+    
+    
 	if( isFree == false && isFirst == false && state ==1){
 
 	}
@@ -2937,6 +2949,12 @@ function resetGame()
 	candidates=[];
 	var playerCandidate = new CandidateCreate("ph");
 	var opponentCandidate = new CandidateCreate("Liz");
+    if(gameOver)
+    {
+        gameSession++; 
+        gameOver = false;
+    }
+    
 }
 
 //Allows you to view previous polls at any time.
@@ -4213,6 +4231,14 @@ function saveGameState()
 	//Save days
 	textContents+=days;
 	textContents+="~";
+    
+	//Save GameSession
+	textContents+=gameSession;
+	textContents+="~";
+    
+	//Save GameOver
+	textContents+=gameOver.toString();
+	textContents+="~";
 	
 	//post all that information
 	$.post('/game/saver', {saveData: textContents});
@@ -4373,11 +4399,61 @@ function loadGame()
 	
 	//Current Day Section
 	days = parseInt(saveArray[8]);
+    
+	//Game Session Number
+	gameSession = parseInt(saveArray[9]);
+    
+	//Game Over Boolean
+	if(saveArray[10] == "true")
+    {
+        gameOver = true;
+    }
+    else
+    {
+        gameOver = false;
+    }
 	
 	back=true;
 	saveState = "";
 	hourChecker();
 
+}
+
+function getSession()
+{
+	//Takes the Whole data and splits it into sections
+	var saveArray = saveState.split("~");
+    if(saveArray[9] !=[])
+    {
+        //Game Over Boolean
+        if(saveArray[10] == "true")
+        {
+            gameOver = true;
+        }
+        else
+        {
+            gameOver = false;
+        }
+        
+        
+        if(gameOver)
+        {
+            gameSession = parseInt(saveArray[9]) + 1;
+        }
+        else
+        {
+            gameSession = parseInt(saveArray[9]);
+        }
+        gameOver = false;
+        endReset = false;
+    }
+    else
+    {
+        gameSession = 0;
+        gameOver = false;
+        endReset = false;
+    }
+    
 }
 /* Back Button Prevention code */
 
