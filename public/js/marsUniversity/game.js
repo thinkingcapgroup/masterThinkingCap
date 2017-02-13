@@ -1607,10 +1607,34 @@ function map(state, isFirst, isFree){
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
     
-    document.getElementById("event").innerHTML += "<div id = 'centerCanvas'><canvas id='myCanvas' width='880px' height = '500px' style = 'margin: 0 auto;'></canvas></div><br>";
-	var c=document.getElementById("myCanvas");
-	var ctx = c.getContext("2d");
-    
+	//map icons
+	var libraryIcon = new Image();
+	libraryIcon.src = '../img/map/libraryicon.png';
+	var quadIcon = new Image();
+	quadIcon.src = '../img/map/icon.png';
+	var gymIcon = new Image();
+	gymIcon.src = '../img/map/gymicon.png';
+	var cafeIcon = new Image();
+	cafeIcon.src = '../img/map/cafeicon.png';
+	var labIcon = new Image();
+	labIcon.src = '../img/map/labicon.png';
+	var mediaIcon = new Image();
+	mediaIcon.src =  '../img/map/mediaicon.png';
+
+	//peopleicons
+	var tuitionIcon = new Image();
+	tuitionIcon.src = '../img/icons/tuitionsquare.png';
+	var sportsIcon = new Image();
+	sportsIcon.src = '../img/icons/sportscircle.png';
+	var researchIcon = new Image();
+	researchIcon.src = '../img/icons/researchsquare.png';
+	var socialIcon = new Image();
+	socialIcon.src = '../img/icons/socialsquare.png';
+	var medicalIcon = new Image();
+	medicalIcon.src = '../img/icons/medicalsquare.png';
+
+	var mapbackground = new Image();
+	mapbackground.src = '../../img/map/map.png';
     
 	if( isFree == false && isFirst == false && state ==1){
 
@@ -1619,8 +1643,6 @@ function map(state, isFirst, isFree){
 		document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";
 	
 	}
-	
-
 	if(state == 1||state == 2){
 		currentCandidateArrayHolder = candidates;
 		candidates = fakeCandidateHolder;
@@ -1630,7 +1652,66 @@ function map(state, isFirst, isFree){
 	qPollHolder = 2;
 	document.getElementById("event").style = "display:block";
 	document.getElementById("event").innerHTML += "<h4>Select an area where you wish to poll.</h4>";
-	document.getElementById("event").innerHTML += "<div id = 'mapArea'></div><div id = 'questionArea'></div>";
+	document.getElementById("event").innerHTML += "<div id = 'mapArea'><canvas id='myCanvas' width='440px' height = '250px' style = 'position: relative;'></canvas></div><div id = 'questionArea'></div>";
+	var c=document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+	c.addEventListener('mousemove', function(evt) {canvasMouse = getMousePos(c, evt);}, false);
+	c.onmousedown = doMousedown;
+	c.onmousemove = doMouseOver;
+    
+    ctx.drawImage(mapbackground, 0,0,450,250);
+	//quad
+	ctx.strokeStyle = '#00FFFF';
+	ctx.fillStyle = 'rgba(0,255,255,0.5)';
+	ctx.lineWidth = 3;
+	
+	//stroke areas for gym
+	ctx.beginPath();
+	ctx.moveTo(265,10);
+	ctx.lineTo(265,75);
+	ctx.lineTo(362,75);
+	ctx.lineTo(362,150);
+	ctx.lineTo(440,150);
+	ctx.lineTo(440,10);
+	ctx.closePath();
+	ctx.stroke();
+    
+	//stroke labs
+	ctx.beginPath();
+	ctx.moveTo(112,10);
+	ctx.lineTo(112,85);
+	ctx.lineTo(137,85);
+	ctx.lineTo(137,100);
+	ctx.lineTo(170,100);
+	ctx.lineTo(170,85);
+	ctx.lineTo(192,85);
+	ctx.lineTo(192,10);
+	ctx.closePath();
+	ctx.stroke();
+    
+	
+	//quad
+	ctx.strokeRect(104,117,122,30);
+    
+	//library
+	ctx.strokeRect(300,165,140,77);
+    
+	//cafe
+	ctx.strokeRect(6,21,82,130);
+    
+	//media
+	ctx.strokeRect(67,166,87,72);
+    
+	//labs
+	
+	//draw icon
+	ctx.drawImage(quadIcon, 127,95,75,50)
+	ctx.drawImage(libraryIcon, 332,162,75,50)
+	ctx.drawImage(gymIcon, 362,25,75,50)
+	ctx.drawImage(cafeIcon, 10,55,75,50)
+	ctx.drawImage(mediaIcon, 75,167,75,50)
+	ctx.drawImage(labIcon, 115,12,75,50)
+
 	document.getElementById("questionArea").innerHTML +="<h4>Population & Sample</h4><br>";
 	var buttonLabels = ["Quad", "Coffee Shop", "Gym", "Lab", "Media Room", "Library"];
 	document.getElementById("questionArea").innerHTML += "<label>Location: </label><select id = 'location'></select><br>";
@@ -1743,7 +1824,220 @@ function map(state, isFirst, isFree){
 			addMoreQuestions();
 	});
 }
+ function doMousedown(c, e)
+	{
+		var mouse = canvasMouse;
+		//check if the area is clickable
+			//quad 		ctx.strokeRect(208,235,243,60);
+			if((mouse.x >= 104 && mouse.x <= 225)&&(mouse.y >= 117 && mouse.y <= 147)){
+                document.getElementById("location").value = 0;
+			}
+			
+			//gym1
+			if((mouse.x >= 265 && mouse.x <= 440)&&(mouse.y >= 10 && mouse.y <= 75)){
+                document.getElementById("location").value = 2;
+			}
+			//gym2
+			if((mouse.x >= 362 && mouse.x <= 440)&&(mouse.y >= 10 && mouse.y <= 150)){
+                document.getElementById("location").value = 2;
+			}
+			//media 		ctx.strokeRect(135,333,175,145);
+			if((mouse.x >= 66 && mouse.x <= 155)&&(mouse.y >= 166 && mouse.y <= 237)){
+                document.getElementById("location").value = 4;
+			}
+		
+			//labs1
+			if((mouse.x >= 112 && mouse.x <= 191)&&(mouse.y >= 10 && mouse.y <= 85)){
+                document.getElementById("location").value = 3;
+			}
+			//labs2
+			else if((mouse.x >= 137 && mouse.x <= 170)&&(mouse.y >= 85 && mouse.y <= 100)){
+                document.getElementById("location").value = 3;
+			}
 
+			//coffee shop 
+			if((mouse.x >= 6 && mouse.x <= 89)&&(mouse.y >= 22 && mouse.y <= 151)){
+                document.getElementById("location").value = 1;
+			}
+			//library 	ctx.strokeRect(600,330,280,155);
+			if((mouse.x >= 300 && mouse.x <= 440)&&(mouse.y >= 165 && mouse.y <= 247)){
+                document.getElementById("location").value = 5;
+			}
+    }
+
+	function doMouseOver(c, e){
+	var c=document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+		var mouse = canvasMouse;
+		ctx.fillStyle = 'rgba(0,255,255,0.5)';
+        var mapbackground = new Image();
+        mapbackground.src = '../../img/map/map.png';
+        ctx.drawImage(mapbackground, 0,0,450,250);
+		//check if the area is clickable
+			//quad 		ctx.strokeRect(208,235,243,60);
+			if((mouse.x >= 104 && mouse.x <= 225)&&(mouse.y >= 117 && mouse.y <= 147)){
+                strokeAreas();
+                ctx.fillRect(104,117,122,30);
+			}
+			
+			//gym1
+			else if((mouse.x >= 265 && mouse.x <= 440)&&(mouse.y >= 10 && mouse.y <= 75)){
+                
+                strokeAreas();
+                ctx.beginPath();
+                ctx.moveTo(265,10);
+                ctx.lineTo(265,75);
+                ctx.lineTo(362,75);
+                ctx.lineTo(362,150);
+                ctx.lineTo(440,150);
+                ctx.lineTo(440,10);
+				ctx.closePath();
+                ctx.fill();
+			}
+			//gym2
+			else if((mouse.x >= 362 && mouse.x <= 440)&&(mouse.y >= 10 && mouse.y <= 150)){
+                strokeAreas();
+                ctx.beginPath();
+                ctx.moveTo(265,10);
+                ctx.lineTo(265,75);
+                ctx.lineTo(362,75);
+                ctx.lineTo(362,150);
+                ctx.lineTo(440,150);
+                ctx.lineTo(440,10);
+				ctx.closePath();
+                ctx.fill();
+			}
+			//media 		ctx.strokeRect(135,333,175,145);
+			else if((mouse.x >= 66 && mouse.x <= 155)&&(mouse.y >= 166 && mouse.y <= 237)){
+                
+               strokeAreas();
+                ctx.fillRect(67,166,87,72);
+			}
+		
+			//labs1
+			else if((mouse.x >= 112 && mouse.x <= 191)&&(mouse.y >= 10 && mouse.y <= 85)){
+                
+                strokeAreas();
+					ctx.beginPath();
+                    ctx.moveTo(112,10);
+                    ctx.lineTo(112,85);
+                    ctx.lineTo(137,85);
+                    ctx.lineTo(137,100);
+                    ctx.lineTo(170,100);
+                    ctx.lineTo(170,85);
+                    ctx.lineTo(192,85);
+                    ctx.lineTo(192,10);
+					ctx.closePath();
+                    ctx.fill();
+			}
+			//labs2
+			else if((mouse.x >= 137 && mouse.x <= 170)&&(mouse.y >= 85 && mouse.y <= 100)){
+                
+                strokeAreas();   
+					ctx.beginPath();
+                    ctx.moveTo(112,10);
+                    ctx.lineTo(112,85);
+                    ctx.lineTo(137,85);
+                    ctx.lineTo(137,100);
+                    ctx.lineTo(170,100);
+                    ctx.lineTo(170,85);
+                    ctx.lineTo(192,85);
+                    ctx.lineTo(192,10);
+					ctx.closePath();
+                    ctx.fill();
+			}
+
+			//coffee shop 
+			else if((mouse.x >= 6 && mouse.x <= 89)&&(mouse.y >= 22 && mouse.y <= 151)){
+                
+                strokeAreas();
+                
+                ctx.fillRect(6,21,82,130);
+			}
+			//library 	ctx.strokeRect(600,330,280,155);
+			else if((mouse.x >= 300 && mouse.x <= 440)&&(mouse.y >= 165 && mouse.y <= 247)){
+                
+               strokeAreas();
+                
+                ctx.fillRect(300,165,140,77);
+			}
+            else
+            {
+                strokeAreas();
+            }
+    
+            //map icons
+            var libraryIcon = new Image();
+            libraryIcon.src = '../img/map/libraryicon.png';
+            var quadIcon = new Image();
+            quadIcon.src = '../img/map/icon.png';
+            var gymIcon = new Image();
+            gymIcon.src = '../img/map/gymicon.png';
+            var cafeIcon = new Image();
+            cafeIcon.src = '../img/map/cafeicon.png';
+            var labIcon = new Image();
+            labIcon.src = '../img/map/labicon.png';
+            var mediaIcon = new Image();
+            mediaIcon.src =  '../img/map/mediaicon.png';
+            
+            //draw icon
+            ctx.drawImage(quadIcon, 127,95,75,50)
+            ctx.drawImage(libraryIcon, 332,162,75,50)
+            ctx.drawImage(gymIcon, 362,25,75,50)
+            ctx.drawImage(cafeIcon, 10,55,75,50)
+            ctx.drawImage(mediaIcon, 75,167,75,50)
+            ctx.drawImage(labIcon, 115,12,75,50)
+	}
+    function strokeAreas()
+    {
+        
+        var c=document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+		var mouse = canvasMouse;
+		ctx.fillStyle = 'rgba(0,255,255,0.5)';
+        ctx.strokeStyle = '#00FFFF';
+        ctx.lineWidth = 3;
+        var mapbackground = new Image();
+        mapbackground.src = '../../img/map/map.png';
+        ctx.drawImage(mapbackground, 0,0,450,250);
+        
+        //stroke areas for gym
+        ctx.beginPath();
+        ctx.moveTo(265,10);
+        ctx.lineTo(265,75);
+        ctx.lineTo(362,75);
+        ctx.lineTo(362,150);
+        ctx.lineTo(440,150);
+        ctx.lineTo(440,10);
+        ctx.closePath();
+        ctx.stroke();
+        
+        //stroke labs
+        ctx.beginPath();
+        ctx.moveTo(112,10);
+        ctx.lineTo(112,85);
+        ctx.lineTo(137,85);
+        ctx.lineTo(137,100);
+        ctx.lineTo(170,100);
+        ctx.lineTo(170,85);
+        ctx.lineTo(192,85);
+        ctx.lineTo(192,10);
+        ctx.closePath();
+        ctx.stroke();
+        
+        
+        //quad
+        ctx.strokeRect(104,117,122,30);
+        
+        //library
+        ctx.strokeRect(300,165,140,77);
+        
+        //cafe
+        ctx.strokeRect(6,21,82,130);
+        
+        //media
+        ctx.strokeRect(67,166,87,72);
+    }
 //makes the statement screen
 function statement(){
 	back = false;

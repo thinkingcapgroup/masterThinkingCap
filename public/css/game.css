@@ -64,6 +64,11 @@ canvas{
     right: 0;
     margin:auto;
 }
+
+#mapCanvas{
+  position: relative;
+  margin: auto;
+}
 .axis path {
     fill: none;
     stroke: #777;
