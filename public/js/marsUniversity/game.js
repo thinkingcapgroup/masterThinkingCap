@@ -179,7 +179,7 @@ function startPractice()
 {
 	clearScreen();
 	practice = true;
-	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a><br><br><br><br><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Minigame 2</a><br><br><a onclick = 'practiceGame(3)' id='index-link' class = 'btn double remove'>Minigame 3</a><br><br><a onclick = 'practiceGame(4)' id='index-link' class = 'btn double remove'>Minigame 4</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
+	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Minigame 2</a><br><a onclick = 'practiceGame(3)' id='index-link' class = 'btn double remove'>Minigame 3</a><a onclick = 'practiceGame(4)' id='index-link' class = 'btn double remove'>Minigame 4</a></div> <br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
 }
 
 function helpScreen()
@@ -4239,7 +4239,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
         .attr('width', width)
         .attr('height', height)
         .append('g')
-        .attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
+        //.attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
         
         var vis = d3.select(".pieChart" + i)
         .append("svg:svg") 

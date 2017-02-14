@@ -33,7 +33,15 @@ th, td {
 #poll5{
   display:none;
 }
-
+#holo 
+{
+    z-index: -1; 
+    position: absolute;
+}
+#gameContents
+{
+     margin: 70px 150px 100px 80px;
+}
 /*chart stuff*/
 .chart div {
   font: 10px sans-serif;
