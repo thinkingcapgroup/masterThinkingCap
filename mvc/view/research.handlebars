@@ -1,22 +1,38 @@
-<main id='research-report'>
+<main id='research'>
  
   <article class='wrapper'>
     <header class='thinking-cap-header'>
       <h1 class='thinking-cap-title'>{{content.pageTitle}}</h1>
     </header>
 
-  <div id = ''
-    <section id='minigame-report'>
+    <div id = 'tabArea'>
+   
+
+    <section id = 'tabs'>
+      <ul>
+        <li><a href = '#tabcontent' class = 'tablinks' onclick = 'tabChange(event, 0)'>Minigame 1 Data</a></li>
+        <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 1)'>Pre & Post Test</a></li>
+        <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 2)'>Search</a></li>
+      </ul>
+
+    </section>
+
       {{#if emptyState}}
       <section class='empty-state-section'>
         <h2 class='empty-state-header'>No bugs found 😃</h2>
       </section>
 
       {{else}}
+      <section id='report0' class = 'tabcontent active'>
+      <br>
+      <h2>Minigame 1</h1>    
         <table class='table'>
           <tr class='table-row-heading'>
             <th class='table-column-title'>
               User ID
+            </th>
+            <th class='table-column-title'>
+              Username
             </th>
             <th class='table-column-title'>
               Action
@@ -34,22 +50,110 @@
               {{id}}
             </td>
             <td class='table-cell'>
-              {{type}}
-            </td>
-         
-             
+              {{username}}
+            </td>   
             <td class='table-cell'>
-              {{action}}
+              {{type}}
+            </td>        
+            <td class='table-cell'>
+              {{#if isPoll}}
+                {{#each questions}}    
+                 <b>Q: </b> {{this}}
+                {{/each}}
+              {{else}}
+                {{action}}
+              {{/if}}
             </td>
             <td class='table-cell'>
               {{timeStamp}}
-            
+              </td>            
           </tr>
           {{/each}}
         </table>
       {{/if}}
     </section>
-    <br><br>
+
+    {{#if emptyState}}
+      <section class='empty-state-section'>
+        <h2 class='empty-state-header'>No bugs found 😃</h2>
+      </section>
+
+      {{else}}
+      <section id='report1' class = 'tabcontent active'>
+      <br>
+      <h2>Test Results</h2>    
+        <table class='table'>
+          <tr class='table-row-heading'>
+            <th class='table-column-title'>
+              User ID
+            </th>
+            <th class='table-column-title'>
+              Username
+            </th>        
+            <th class='table-column-title'>
+              Type of Test
+            </th>
+            <th class='table-column-title'>
+              Score
+            </th>
+            <th class='table-column-title'>
+              Date
+            </th>
+          </tr>
+          {{#each researchArray}}          
+          <tr class='table-row' id = {{id}}>
+            <td class='table-cell' id = 'subject'>
+       
+            </td>
+            <td class='table-cell'>
+        
+            </td>        
+             
+            <td class='table-cell'>
+      
+            </td>
+            <td class='table-cell'>
+      
+            </td>
+            <td class='table-cell'>
+              {{timeStamp}}
+            </td>
+          </tr>
+          {{/each}}
+        </table>
+      {{/if}}
+    </section>
+
+     {{#if emptyState}}
+      <section class='empty-state-section'>
+        <h2 class='empty-state-header'>No bugs found 😃</h2>
+      </section>
+
+      {{else}}
+      <section id='report2' class = 'tabcontent active'>
+      <br>
+      <h2>Search Results</h2>    
+        <div id = 'searchArea'>
+        <p>Search <input type = 'text' id = 'researchInput'></input>  
+          <select id = 'searchType'>
+            <option value="userName">Username</option>
+            <option value="userId">User ID</option>
+            <option value="moduleNum">Module</option>
+            <option value="gameSessionNum">Game Session</option>
+            <option value="preTestScores">Pre Test Scores</option>
+            <option value="postTestScores">Post Test Scores</option>
+          </select>  <button id = 'searchResearch' onclick = 'researchQuery()'>Submit</button>
+          </p>
+          <div id = 'searchResults'>
+            
+          </div>
+        </div>
+      {{/if}}
+    </section>
+
+
+    </div>
+    <br>
 
     <footer id='footer'>
       <ul id='account-links'>
