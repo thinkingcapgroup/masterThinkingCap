@@ -37,8 +37,7 @@ var qPollHolder;
 var ranking;
 var practice = false;
 var section = 1;
-var lastMinigame = 0;
-
+var graphType = "Pie";
 //sprite stuff
 var heads = new Image();
 heads.src = "../img/spritehead.png";
@@ -110,7 +109,9 @@ var sample = [];
 var events=[];
 var questions=[];
 var candidates=[];
-
+var gameSession = 0; 
+var gameOver = false; 
+var endReset = false;
 //playerIssues
 
 //sprites
@@ -178,7 +179,7 @@ function startPractice()
 {
 	clearScreen();
 	practice = true;
-	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a><br><br><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Minigame 2</a><br><br><a onclick = 'practiceGame(3)' id='index-link' class = 'btn double remove'>Minigame 3</a><br><br><a onclick = 'practiceGame(4)' id='index-link' class = 'btn double remove'>Minigame 4</a><br><br><a onclick = 'practiceGame(5)' id='index-link' class = 'btn double remove'>Minigame 5</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
+	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a><br><br><br><br><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Minigame 2</a><br><br><a onclick = 'practiceGame(3)' id='index-link' class = 'btn double remove'>Minigame 3</a><br><br><a onclick = 'practiceGame(4)' id='index-link' class = 'btn double remove'>Minigame 4</a></div> <br><br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>";
 }
 
 function helpScreen()
@@ -186,6 +187,29 @@ function helpScreen()
 	clearScreen();
 	document.getElementById("playerInfo").style.display = "none";
 	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <button onclick= 'openGlossary()'>Glossary Page</button> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <button onclick= 'userAction()'>Return to User Action Area</button>"
+}
+
+function trendReportMenu()
+{
+	clearScreen();
+	document.getElementById("playerInfo").style.display = "none";
+	document.getElementById("gameInfo").innerHTML = "<div id= 'reportButtons' > <h1> Trend Reports</h1> <hr><br><div><h2> General</h2><button onclick= 'trendReporter(`issFav`)'>Favored Issue Report</button><button onclick= 'trendReporter(`issOpp`)'>Opposed Issue Report</button><button onclick= 'trendReporter(`candFav`)'>Favored Candidate Report</button><button onclick= 'trendReporter(`candOpp`)'>Opposed Candidate Report</button></div><br><div><h2> Support For Issues</h2><button onclick= 'trendReporter(`issuetuition`)'>Lowering Tuition Report</button><button onclick= 'trendReporter(`issueathletic`)'>Increse Athletic Budget Report</button><button onclick= 'trendReporter(`issueresearch`)'>Increase Research Budget Report</button><button onclick= 'trendReporter(`issueevents`)'>More School Events Report</button><button onclick= 'trendReporter(`issuemedical`)'>Improve Medical Services</button></div><br><div id = 'candReportsFame'><h2>Candidate Stats - Fame</h2></div><br><div id = 'candReportsTrust'><h2>Candidate Stats - Trust</h2></div>"
+    document.getElementById("candReportsFame").innerHTML += "<button onclick= 'trendReporter(`fame`)'>Fame - " + candidates[0].name +"</button>"
+    for(var k = 1;k<candidates.length;k++)
+	{
+        var method = "candFame" + candidates[k].name;
+		document.getElementById("candReportsFame").innerHTML += "<button onclick= 'trendReporter(`"+method+"`)'>Fame - " + candidates[k].name +"</button>";
+	}
+    document.getElementById("candReportsTrust").innerHTML += "<button onclick= 'trendReporter(`playTrust`)'>Trust - " + candidates[0].name +"</button>"
+	for(var k = 1;k<candidates.length;k++)
+	{
+        var method = "candTrust" + candidates[k].name;
+        document.getElementById("candReportsTrust").innerHTML += "<button onclick= 'trendReporter(`"+method+"`)'>Trust - " + candidates[k].name +"</button>";
+	}
+     document.getElementById("gameInfo").innerHTML += "</div><br> <div id = 'trendArea' style = 'display:none'> <svg id='visualisation' width='800' height='450'><path id='segments-line' /><path id='gap-line' /><text font-family='sans-serif' font-size='20px'>Blah</text></svg> </div>";
+     
+     document.getElementById("gameInfo").innerHTML += "<button id ='buttonViewer'>Choose Another Trend Report</button>";
+     document.getElementById("gameInfo").innerHTML += "<button onclick= 'userAction()'>Return to User Action Area</button>";
 }
 
 function openGlossary()
@@ -198,6 +222,8 @@ function openGlossary()
 function startCharacterSelect(){
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
+    if(!endReset)
+        getSession()
 	resetGame();
 	//character creator here
 	//for right now we'll do a drop down option
@@ -897,6 +923,7 @@ function userAction()
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='map("+0+",false,false)'> Take A Poll </button>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='statement()'> Make a Statement - 1 Hour</button>";
 	document.getElementById("choices").innerHTML += "<button type='button' onclick='helpScreen()'> Help Screen</button>";
+	document.getElementById("choices").innerHTML += "<button type='button' onclick='trendReportMenu()'> View Trend Reports</button>";
 	document.getElementById("choices").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button>";
 	document.getElementById("choices").innerHTML += "<br>";
 	for(var i=0; i<pastPollResults.length;i++)
@@ -1363,6 +1390,8 @@ function gameCycleEnd()
 	{
 		document.getElementById("gameInfo").innerHTML += "<h1>" + (i+1) + ". " + ranking[i].name + " Votes: " + ranking[i].votes + "</h1><br>";
 	}
+    endReset = true; 
+    gameOver = true;
 	document.getElementById("gameInfo").innerHTML += "<h1> Winner: "+ ranking[0].name +"</h1> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
 };
 
@@ -1574,9 +1603,39 @@ function explainTerm(term, help){
 
 function map(state, isFirst, isFree){
 	clearScreen();
-
+    
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
+    
+	//map icons
+	var libraryIcon = new Image();
+	libraryIcon.src = '../img/map/libraryicon.png';
+	var quadIcon = new Image();
+	quadIcon.src = '../img/map/icon.png';
+	var gymIcon = new Image();
+	gymIcon.src = '../img/map/gymicon.png';
+	var cafeIcon = new Image();
+	cafeIcon.src = '../img/map/cafeicon.png';
+	var labIcon = new Image();
+	labIcon.src = '../img/map/labicon.png';
+	var mediaIcon = new Image();
+	mediaIcon.src =  '../img/map/mediaicon.png';
+
+	//peopleicons
+	var tuitionIcon = new Image();
+	tuitionIcon.src = '../img/icons/tuitionsquare.png';
+	var sportsIcon = new Image();
+	sportsIcon.src = '../img/icons/sportscircle.png';
+	var researchIcon = new Image();
+	researchIcon.src = '../img/icons/researchsquare.png';
+	var socialIcon = new Image();
+	socialIcon.src = '../img/icons/socialsquare.png';
+	var medicalIcon = new Image();
+	medicalIcon.src = '../img/icons/medicalsquare.png';
+
+	var mapbackground = new Image();
+	mapbackground.src = '../../img/map/map.png';
+    
 	if( isFree == false && isFirst == false && state ==1){
 
 	}
@@ -1584,8 +1643,6 @@ function map(state, isFirst, isFree){
 		document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";
 	
 	}
-	
-
 	if(state == 1||state == 2){
 		currentCandidateArrayHolder = candidates;
 		candidates = fakeCandidateHolder;
@@ -1595,7 +1652,66 @@ function map(state, isFirst, isFree){
 	qPollHolder = 2;
 	document.getElementById("event").style = "display:block";
 	document.getElementById("event").innerHTML += "<h4>Select an area where you wish to poll.</h4>";
-	document.getElementById("event").innerHTML += "<div id = 'mapArea'></div><div id = 'questionArea'></div>";
+	document.getElementById("event").innerHTML += "<div id = 'mapArea'><canvas id='myCanvas' width='440px' height = '250px' style = 'position: relative;'></canvas></div><div id = 'questionArea'></div>";
+	var c=document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+	c.addEventListener('mousemove', function(evt) {canvasMouse = getMousePos(c, evt);}, false);
+	c.onmousedown = doMousedown;
+	c.onmousemove = doMouseOver;
+    
+    ctx.drawImage(mapbackground, 0,0,450,250);
+	//quad
+	ctx.strokeStyle = '#00FFFF';
+	ctx.fillStyle = 'rgba(0,255,255,0.5)';
+	ctx.lineWidth = 3;
+	
+	//stroke areas for gym
+	ctx.beginPath();
+	ctx.moveTo(265,10);
+	ctx.lineTo(265,75);
+	ctx.lineTo(362,75);
+	ctx.lineTo(362,150);
+	ctx.lineTo(440,150);
+	ctx.lineTo(440,10);
+	ctx.closePath();
+	ctx.stroke();
+    
+	//stroke labs
+	ctx.beginPath();
+	ctx.moveTo(112,10);
+	ctx.lineTo(112,85);
+	ctx.lineTo(137,85);
+	ctx.lineTo(137,100);
+	ctx.lineTo(170,100);
+	ctx.lineTo(170,85);
+	ctx.lineTo(192,85);
+	ctx.lineTo(192,10);
+	ctx.closePath();
+	ctx.stroke();
+    
+	
+	//quad
+	ctx.strokeRect(104,117,122,30);
+    
+	//library
+	ctx.strokeRect(300,165,140,77);
+    
+	//cafe
+	ctx.strokeRect(6,21,82,130);
+    
+	//media
+	ctx.strokeRect(67,166,87,72);
+    
+	//labs
+	
+	//draw icon
+	ctx.drawImage(quadIcon, 127,95,75,50)
+	ctx.drawImage(libraryIcon, 332,162,75,50)
+	ctx.drawImage(gymIcon, 362,25,75,50)
+	ctx.drawImage(cafeIcon, 10,55,75,50)
+	ctx.drawImage(mediaIcon, 75,167,75,50)
+	ctx.drawImage(labIcon, 115,12,75,50)
+
 	document.getElementById("questionArea").innerHTML +="<h4>Population & Sample</h4><br>";
 	var buttonLabels = ["Quad", "Coffee Shop", "Gym", "Lab", "Media Room", "Library"];
 	document.getElementById("questionArea").innerHTML += "<label>Location: </label><select id = 'location'></select><br>";
@@ -1708,7 +1824,220 @@ function map(state, isFirst, isFree){
 			addMoreQuestions();
 	});
 }
+ function doMousedown(c, e)
+	{
+		var mouse = canvasMouse;
+		//check if the area is clickable
+			//quad 		ctx.strokeRect(208,235,243,60);
+			if((mouse.x >= 104 && mouse.x <= 225)&&(mouse.y >= 117 && mouse.y <= 147)){
+                document.getElementById("location").value = 0;
+			}
+			
+			//gym1
+			if((mouse.x >= 265 && mouse.x <= 440)&&(mouse.y >= 10 && mouse.y <= 75)){
+                document.getElementById("location").value = 2;
+			}
+			//gym2
+			if((mouse.x >= 362 && mouse.x <= 440)&&(mouse.y >= 10 && mouse.y <= 150)){
+                document.getElementById("location").value = 2;
+			}
+			//media 		ctx.strokeRect(135,333,175,145);
+			if((mouse.x >= 66 && mouse.x <= 155)&&(mouse.y >= 166 && mouse.y <= 237)){
+                document.getElementById("location").value = 4;
+			}
+		
+			//labs1
+			if((mouse.x >= 112 && mouse.x <= 191)&&(mouse.y >= 10 && mouse.y <= 85)){
+                document.getElementById("location").value = 3;
+			}
+			//labs2
+			else if((mouse.x >= 137 && mouse.x <= 170)&&(mouse.y >= 85 && mouse.y <= 100)){
+                document.getElementById("location").value = 3;
+			}
 
+			//coffee shop 
+			if((mouse.x >= 6 && mouse.x <= 89)&&(mouse.y >= 22 && mouse.y <= 151)){
+                document.getElementById("location").value = 1;
+			}
+			//library 	ctx.strokeRect(600,330,280,155);
+			if((mouse.x >= 300 && mouse.x <= 440)&&(mouse.y >= 165 && mouse.y <= 247)){
+                document.getElementById("location").value = 5;
+			}
+    }
+
+	function doMouseOver(c, e){
+	var c=document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+		var mouse = canvasMouse;
+		ctx.fillStyle = 'rgba(0,255,255,0.5)';
+        var mapbackground = new Image();
+        mapbackground.src = '../../img/map/map.png';
+        ctx.drawImage(mapbackground, 0,0,450,250);
+		//check if the area is clickable
+			//quad 		ctx.strokeRect(208,235,243,60);
+			if((mouse.x >= 104 && mouse.x <= 225)&&(mouse.y >= 117 && mouse.y <= 147)){
+                strokeAreas();
+                ctx.fillRect(104,117,122,30);
+			}
+			
+			//gym1
+			else if((mouse.x >= 265 && mouse.x <= 440)&&(mouse.y >= 10 && mouse.y <= 75)){
+                
+                strokeAreas();
+                ctx.beginPath();
+                ctx.moveTo(265,10);
+                ctx.lineTo(265,75);
+                ctx.lineTo(362,75);
+                ctx.lineTo(362,150);
+                ctx.lineTo(440,150);
+                ctx.lineTo(440,10);
+				ctx.closePath();
+                ctx.fill();
+			}
+			//gym2
+			else if((mouse.x >= 362 && mouse.x <= 440)&&(mouse.y >= 10 && mouse.y <= 150)){
+                strokeAreas();
+                ctx.beginPath();
+                ctx.moveTo(265,10);
+                ctx.lineTo(265,75);
+                ctx.lineTo(362,75);
+                ctx.lineTo(362,150);
+                ctx.lineTo(440,150);
+                ctx.lineTo(440,10);
+				ctx.closePath();
+                ctx.fill();
+			}
+			//media 		ctx.strokeRect(135,333,175,145);
+			else if((mouse.x >= 66 && mouse.x <= 155)&&(mouse.y >= 166 && mouse.y <= 237)){
+                
+               strokeAreas();
+                ctx.fillRect(67,166,87,72);
+			}
+		
+			//labs1
+			else if((mouse.x >= 112 && mouse.x <= 191)&&(mouse.y >= 10 && mouse.y <= 85)){
+                
+                strokeAreas();
+					ctx.beginPath();
+                    ctx.moveTo(112,10);
+                    ctx.lineTo(112,85);
+                    ctx.lineTo(137,85);
+                    ctx.lineTo(137,100);
+                    ctx.lineTo(170,100);
+                    ctx.lineTo(170,85);
+                    ctx.lineTo(192,85);
+                    ctx.lineTo(192,10);
+					ctx.closePath();
+                    ctx.fill();
+			}
+			//labs2
+			else if((mouse.x >= 137 && mouse.x <= 170)&&(mouse.y >= 85 && mouse.y <= 100)){
+                
+                strokeAreas();   
+					ctx.beginPath();
+                    ctx.moveTo(112,10);
+                    ctx.lineTo(112,85);
+                    ctx.lineTo(137,85);
+                    ctx.lineTo(137,100);
+                    ctx.lineTo(170,100);
+                    ctx.lineTo(170,85);
+                    ctx.lineTo(192,85);
+                    ctx.lineTo(192,10);
+					ctx.closePath();
+                    ctx.fill();
+			}
+
+			//coffee shop 
+			else if((mouse.x >= 6 && mouse.x <= 89)&&(mouse.y >= 22 && mouse.y <= 151)){
+                
+                strokeAreas();
+                
+                ctx.fillRect(6,21,82,130);
+			}
+			//library 	ctx.strokeRect(600,330,280,155);
+			else if((mouse.x >= 300 && mouse.x <= 440)&&(mouse.y >= 165 && mouse.y <= 247)){
+                
+               strokeAreas();
+                
+                ctx.fillRect(300,165,140,77);
+			}
+            else
+            {
+                strokeAreas();
+            }
+    
+            //map icons
+            var libraryIcon = new Image();
+            libraryIcon.src = '../img/map/libraryicon.png';
+            var quadIcon = new Image();
+            quadIcon.src = '../img/map/icon.png';
+            var gymIcon = new Image();
+            gymIcon.src = '../img/map/gymicon.png';
+            var cafeIcon = new Image();
+            cafeIcon.src = '../img/map/cafeicon.png';
+            var labIcon = new Image();
+            labIcon.src = '../img/map/labicon.png';
+            var mediaIcon = new Image();
+            mediaIcon.src =  '../img/map/mediaicon.png';
+            
+            //draw icon
+            ctx.drawImage(quadIcon, 127,95,75,50)
+            ctx.drawImage(libraryIcon, 332,162,75,50)
+            ctx.drawImage(gymIcon, 362,25,75,50)
+            ctx.drawImage(cafeIcon, 10,55,75,50)
+            ctx.drawImage(mediaIcon, 75,167,75,50)
+            ctx.drawImage(labIcon, 115,12,75,50)
+	}
+    function strokeAreas()
+    {
+        
+        var c=document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+		var mouse = canvasMouse;
+		ctx.fillStyle = 'rgba(0,255,255,0.5)';
+        ctx.strokeStyle = '#00FFFF';
+        ctx.lineWidth = 3;
+        var mapbackground = new Image();
+        mapbackground.src = '../../img/map/map.png';
+        ctx.drawImage(mapbackground, 0,0,450,250);
+        
+        //stroke areas for gym
+        ctx.beginPath();
+        ctx.moveTo(265,10);
+        ctx.lineTo(265,75);
+        ctx.lineTo(362,75);
+        ctx.lineTo(362,150);
+        ctx.lineTo(440,150);
+        ctx.lineTo(440,10);
+        ctx.closePath();
+        ctx.stroke();
+        
+        //stroke labs
+        ctx.beginPath();
+        ctx.moveTo(112,10);
+        ctx.lineTo(112,85);
+        ctx.lineTo(137,85);
+        ctx.lineTo(137,100);
+        ctx.lineTo(170,100);
+        ctx.lineTo(170,85);
+        ctx.lineTo(192,85);
+        ctx.lineTo(192,10);
+        ctx.closePath();
+        ctx.stroke();
+        
+        
+        //quad
+        ctx.strokeRect(104,117,122,30);
+        
+        //library
+        ctx.strokeRect(300,165,140,77);
+        
+        //cafe
+        ctx.strokeRect(6,21,82,130);
+        
+        //media
+        ctx.strokeRect(67,166,87,72);
+    }
 //makes the statement screen
 function statement(){
 	back = false;
@@ -2914,6 +3243,12 @@ function resetGame()
 	candidates=[];
 	var playerCandidate = new CandidateCreate("ph");
 	var opponentCandidate = new CandidateCreate("Liz");
+    if(gameOver)
+    {
+        gameSession++; 
+        gameOver = false;
+    }
+    
 }
 
 //Allows you to view previous polls at any time.
@@ -3557,7 +3892,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 
 					case "playTrust":
 								var cell = row.insertCell(i);
-								if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.33)
+								if(parseFloat(tableArray2[8][h]).toFixed(2) >= 0.66)
 									{
 										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
@@ -3690,7 +4025,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 					{
 								var cell = row.insertCell(i);
 								var counter = canCounter;
-								if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
+								if(parseFloat(tableArray2[counter][h]).toFixed(2) >= 0.66)
 								{
 									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
@@ -3721,7 +4056,11 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	}
 	sorttable.makeSortable(document.getElementById('tab'));
 	document.getElementById("next").innerHTML += "<div id = 'filterArea'></div>"
-	document.getElementById("next").innerHTML += "<br><button value = 'true' id = 'rawDataButton' onclick = 'changeData()'>Show Raw Data</button><br>";
+	document.getElementById("gameInfo").innerHTML += "<div id = 'barChartDiv' style = 'display:block'></div>";
+	document.getElementById("gameInfo").innerHTML += "<div id = 'pieChartDiv' style = 'display:none'></div>";
+	document.getElementById("next").innerHTML += "<button id = 'dataButton' onclick = 'changeData(1)'>Show Data Table</button>";
+	document.getElementById("next").innerHTML += "<button id = 'barButton' onclick = 'changeData(2)' style = 'display:none'>Show Bar Graphs</button>";
+	document.getElementById("next").innerHTML += "<button id = 'pieButton' onclick = 'changeData(3)'>Show Pie Graphs</button><br>";
 	for (var x = 0; x < groupList.length; x++){
 		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ groupList[x] +"'> "+ groupList[x] +" ";
 	}
@@ -3737,19 +4076,20 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	document.getElementById('filterArea').style.display = "none";
 
 	var counter = 0;
-	document.getElementById("gameInfo").innerHTML += "<div id = 'chartDiv' style = 'display:block'></div>"
 	//graph dat table
 
 	for (var i=0;i<graphQuestions.length;i++)
 	{
-	document.getElementById("chartDiv").innerHTML += "<div id = 'q"+i+"text'><br></div><div class = 'chart"+i+" chart'></div>";
+	document.getElementById("barChartDiv").innerHTML += "<div id = 'q"+i+"text'><br></div><div class = 'barChart"+i+" chart'></div>";
+    document.getElementById("pieChartDiv").innerHTML += "<div id = 'bq"+i+"text'><br></div><div class = 'pieChart"+i+" chart'></div>";
 		if(i==2){
-			document.getElementById("chartDiv").innerHTML += "<hr>";
+			document.getElementById("barChartDiv").innerHTML += "<hr>";
+			document.getElementById("pieChartDiv").innerHTML += "<hr>";
 		}
 		else if( i == 5){
 
 		}
-	}
+    }
 	
 	////console.log(graphQuestions);
 	for(var u =0; u < graphQuestions.length; u++){		
@@ -3769,54 +4109,68 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		{
 			case "issFav":
 				document.getElementById("q"+i+"text").innerHTML = questions[0].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[0].question;
 			break;
 			case "issOpp":
 				document.getElementById("q"+i+"text").innerHTML = questions[1].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[1].question;
 			break;
 			case "candFav":
 				document.getElementById("q"+i+"text").innerHTML = questions[2].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[2].question;
 			break;
 			case "candOpp":
 				document.getElementById("q"+i+"text").innerHTML = questions[3].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[3].question;
 			break;
 			case "major":
 				document.getElementById("q"+i+"text").innerHTML = questions[4].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[4].question;
 			break;
 			case "class":
 				document.getElementById("q"+i+"text").innerHTML = questions[5].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[5].question;
 			break;
 			case "group":
 				document.getElementById("q"+i+"text").innerHTML = questions[6].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[6].question;
 			break;
 			case "fame":
 				document.getElementById("q"+i+"text").innerHTML = questions[7].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[7].question;
 			break;
 			case "playTrust":
 				document.getElementById("q"+i+"text").innerHTML = questions[8].question;
+				document.getElementById("bq"+i+"text").innerHTML = questions[8].question;
 			break;
 			case "issuetuition":
 				name = 	"Lowering Tuition";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
+				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
 
 			case "issueathletic":
 				name = 	"Increase Athletic Budget";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
+				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
 
 			case "issueresearch":
 				name = 	"Increase Research Budget";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
+				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
 
 			case "issueevents":
 				name = 	"More School Events";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
+				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
 
 			case "issuemedical":
 				name = 	"Improve Medical Services";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
+				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
 
 			default:
@@ -3826,6 +4180,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 				{
 					name = candidates[k].name;
 					document.getElementById("q"+i+"text").innerHTML = questions[10].question + " " + name;
+					document.getElementById("bq"+i+"text").innerHTML = questions[10].question + " " + name;
 				}
 			}
 
@@ -3835,38 +4190,103 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 				{
 					name = candidates[k].name;
 					document.getElementById("q"+i+"text").innerHTML = questions[11].question + " " + name;
+					document.getElementById("bq"+i+"text").innerHTML = questions[11].question + " " + name;
 				}
 			}
 		}
 		////console.log("Question "+graphQuestions[i] + " has a length of: " + graphData[i].length);
 		////console.log(graphData[questionNum]);
-    
-		for (var j = 0; j < graphData[i].length; j++){
-				////console.log(graphData[questionNum], " AT ", questions[qID].question)					
-				data2[j]=graphData[i][j];
-			}
+        
+        for (var j = 0; j < graphData[i].length; j++)
+        {
+			////console.log(graphData[questionNum], " AT ", questions[qID].question)					
+			data2[j]=graphData[i][j];
+		}
+		var dataCounter = 0;
+		x = d3.scaleLinear()
+		.domain([0, d3.max(data2)])
+		.range([0, 420]);
 
+		d3.select(".barChart" + i)
+		.selectAll("div")
+		.data(data2)
+		.enter().append("div")
+		.style("width", function(d) { return x(d) + "px"; })
+		.text(function(d) 
+        {
+			var zid = graphLabels[i][dataCounter] + "-" + d;
+			////console.log(zid);
+			dataCounter++;
 
-			var dataCounter = 0;
-			x = d3.scaleLinear()
-		    .domain([0, d3.max(data2)])
-		    .range([0, 420]);
-
-			d3.select(".chart" + i)
-		  	.selectAll("div")
-		    .data(data2)
-		  	.enter().append("div")
-		    .style("width", function(d) { return x(d) + "px"; })
-		    .text(function(d) {
-		    	var zid = graphLabels[i][dataCounter] + "-" + d;
-		  		////console.log(zid);
-		  		dataCounter++;
-
-		    	return zid; })
-		    ;
-
+			return zid; 
+        });
+        
+        var dataset = 
+        [
+        ];
+        for (var k = 0; k < graphData[i].length; k++)
+        {			
+            dataset.push ({label: graphLabels[i][k], count: graphData[i][k]})
+		}
+        
+        var width = 270;
+        var height = 270;
+        var radius = Math.min(width, height) / 2;
+        var color = d3.scaleOrdinal(d3.schemeCategory20b);
+        
+        var svg = d3.select(".pieChart" + i)
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('g')
+        .attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
+        
+        var vis = d3.select(".pieChart" + i)
+        .append("svg:svg") 
+        .data([dataset])
+        .attr("width", width + 100) 
+        .attr("height", height + 100) 
+        .append("svg:g") 
+        .attr("transform", "translate(" + 1.5*radius + "," + 1.5*radius + ")") 
+        
+        var arc = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius);
+        
+        var pie = d3.pie()
+        .value(function(d) { return d.count; })
+        .sort(null);
+        
+        var arcs = vis.selectAll("g.slice")
+        .data(pie)
+        .enter()
+        .append("svg:g")
+        .attr("class", "slice");
+        
+        arcs.append("svg:path")
+        .attr("fill", function(d, i) { return color(i); } )
+        .attr("d", arc);
+        
+        arcs.append("svg:text")
+        
+        arcs.filter(function(d) { return d.endAngle - d.startAngle > .2; }).append("svg:text")
+        .attr("dy", ".35em")
+        .attr("text-anchor", "middle")
+        .attr("transform", function(d) { 
+            d.outerRadius = radius; 
+            d.innerRadius = radius/2; 
+            return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
+        })
+        .style("fill", "White")
+        .style("font", "bold 12px Arial")
+        .text(function(d) { return d.data.label + "-" +d.data.count; });
+        
+        function angle(d) {
+        var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
+        return a > 90 ? a - 180 : a;
+        } 
 	}
-	document.getElementById('table').style.display = 'none'
+	document.getElementById('table').style.display = 'none';
 	if (state == 1){
 		review = true;
 
@@ -3884,31 +4304,42 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	}
 		
 	if(state == 1){
-		document.getElementById('event').innerHTML += "<button onclick = 'map("+1+",false,false)'>Back to Start</button>" 
+		document.getElementById('event').innerHTML += "<button onclick = 'map("+1+",false,false)'>Back to Start</button>" ;
 	}
 
 }
 
-function changeData(){
-
-	var isRawData = document.getElementById('rawDataButton').value;
-
-	if(isRawData == 'true'){
-		document.getElementById('rawDataButton').value = false;
-		document.getElementById('table').style.display = 'block'
-		document.getElementById('filterArea').style.display = 'block'
-		document.getElementById('chartDiv').style.display = 'none'
-		document.getElementById('rawDataButton').innerHTML = 'Show Graphs'
+function changeData(dataButton)
+{
+	if(dataButton == 1){
+		document.getElementById('table').style.display = 'block';
+		document.getElementById('filterArea').style.display = 'block';
+		document.getElementById('pieChartDiv').style.display = 'none';
+		document.getElementById('barChartDiv').style.display = 'none';
+		document.getElementById('pieButton').style.display = 'inline';
+		document.getElementById('barButton').style.display = 'inline';
+		document.getElementById('dataButton').style.display = 'none';
 	}
-	else{
-		document.getElementById('rawDataButton').value = true;
-		document.getElementById('table').style.display = 'none'
-		document.getElementById('filterArea').style.display = 'none'
-		document.getElementById('chartDiv').style.display = 'block'
-		document.getElementById('rawDataButton').innerHTML = 'Show Raw Data'
+	else if (dataButton == 2)
+    {
+		document.getElementById('table').style.display = 'none';
+		document.getElementById('filterArea').style.display = 'none';
+		document.getElementById('pieChartDiv').style.display = 'none';
+		document.getElementById('barChartDiv').style.display = 'block';
+		document.getElementById('pieButton').style.display = 'inline';
+		document.getElementById('barButton').style.display = 'none';
+		document.getElementById('dataButton').style.display = 'inline';
 	}
-
-
+	else if (dataButton == 3)
+    {
+		document.getElementById('table').style.display = 'none';
+		document.getElementById('filterArea').style.display = 'none';
+		document.getElementById('pieChartDiv').style.display = 'block';
+		document.getElementById('barChartDiv').style.display = 'none';
+		document.getElementById('pieButton').style.display = 'none';
+		document.getElementById('barButton').style.display = 'inline';
+		document.getElementById('dataButton').style.display = 'inline';
+	}
 }
 
 //Subtracts time required to take a poll based on both sample size and the number of questions
@@ -4094,6 +4525,14 @@ function saveGameState()
 	//Save days
 	textContents+=days;
 	textContents+="~";
+    
+	//Save GameSession
+	textContents+=gameSession;
+	textContents+="~";
+    
+	//Save GameOver
+	textContents+=gameOver.toString();
+	textContents+="~";
 	
 	//post all that information
 	$.post('/game/saver', {saveData: textContents});
@@ -4254,11 +4693,61 @@ function loadGame()
 	
 	//Current Day Section
 	days = parseInt(saveArray[8]);
+    
+	//Game Session Number
+	gameSession = parseInt(saveArray[9]);
+    
+	//Game Over Boolean
+	if(saveArray[10] == "true")
+    {
+        gameOver = true;
+    }
+    else
+    {
+        gameOver = false;
+    }
 	
 	back=true;
 	saveState = "";
 	hourChecker();
 
+}
+
+function getSession()
+{
+	//Takes the Whole data and splits it into sections
+	var saveArray = saveState.split("~");
+    if(saveArray[9] !=[])
+    {
+        //Game Over Boolean
+        if(saveArray[10] == "true")
+        {
+            gameOver = true;
+        }
+        else
+        {
+            gameOver = false;
+        }
+        
+        
+        if(gameOver)
+        {
+            gameSession = parseInt(saveArray[9]) + 1;
+        }
+        else
+        {
+            gameSession = parseInt(saveArray[9]);
+        }
+        gameOver = false;
+        endReset = false;
+    }
+    else
+    {
+        gameSession = 0;
+        gameOver = false;
+        endReset = false;
+    }
+    
 }
 /* Back Button Prevention code */
 
@@ -4486,6 +4975,314 @@ function gameResults(scores, tutorial)
 	document.getElementById("next").style.display = "block";
 }
 
+function trendReporter(category)
+{
+    
+    document.getElementById('buttonViewer').style = 'display:block';
+    document.getElementById('visualisation').innerHTML = "";
+    
+    var data0 = [];
+    var data1 = [];
+    var data2 = [];
+    var data3 = [];
+    var data4 = [];
+    var data5 = [];
+    var data6 = [];
+    var answers = [];
+    var tempGraphData = [];
+    
+    //for(var i =0; i< pastPollChoices.length;i++)
+    //{
+    //        data0.push(
+    //        {
+    //            count: null,
+    //            poll: i
+    //        });
+    //}
+    for(var i =0; i< pastPollChoices.length;i++)
+    {
+        tempGraphData = [];
+        pastGraphData[i].forEach(function(e)
+        {
+            tempGraphData.push(e);
+        });
+        console.log(tempGraphData);
+        tempGraphData.splice(0,3);
+        for(var j =0; j< pastPollChoices[i].length; j++)
+        {
+            if(category == pastPollChoices[i][j])
+            {
+                questions.forEach( function(element)
+                {
+                    if(element.value == category)
+                    {
+                        answers = element.labels.split(", ")
+                        if(element.value == "candFav" ||element.value == "candOpp")
+                        {
+                            answers = [];
+                            candidates.forEach(function(element2)
+                            {
+                            answers.push(element2.name);
+                            });
+                        }
+                    }
+                    else if(element.value == category.substring(0,5))
+                    {
+                        answers = element.labels.split(", ")
+                    }
+                });
+                
+                console.log(tempGraphData);
+                for (var k =0; k< tempGraphData[j].length; k++)
+                {
+                    switch(k)
+                    {
+                        case 0:
+                        data0.push(
+                        {
+                            count: tempGraphData[j][k],
+                            poll: i,
+                            key: answers[k]
+                        });
+                        //data0.splice(i,1,
+                        //{
+                        //    count: pastGraphData[i][j][k],
+                        //    poll: i
+                        //});
+                        break;
+                        case 1:
+                        data1.push(
+                        {
+                            count: pastGraphData[i][j][k],
+                            poll: i,
+                            key: answers[k]
+                        });
+                        break;
+                        case 2:
+                        data2.push(
+                        {
+                            count: pastGraphData[i][j][k],
+                            poll: i,
+                            key: answers[k]
+                        });
+                        break;
+                        case 3:
+                        data3.push(
+                        {
+                            count: pastGraphData[i][j][k],
+                            poll: i,
+                            key: answers[k]
+                        });
+                        break;
+                        case 4:
+                        data4.push(
+                        {
+                            count: pastGraphData[i][j][k],
+                            poll: i,
+                            key: answers[k]
+                        });
+                        break;
+                        case 5:
+                        data5.push(
+                        {
+                            count: pastGraphData[i][j][k],
+                            poll: i,
+                            key: answers[k]
+                        });
+                        break;
+                        case 6:
+                        data6.push(
+                        {
+                            count: pastGraphData[i][j][k],
+                            poll: i,
+                            key: answers[k]
+                        });
+                        break;
+                    }
+                }
+            }
+        
+        }
+    }
+    var margin = {top: 30, right: 20, bottom: 70, left: 50},
+    width2 = 800 - margin.left - margin.right,
+    height2 = 450 - margin.top - margin.bottom;
+    
+    var legendSpace = width2/7;
+    
+    var vis = d3.select("#visualisation"),
+    WIDTH = 800,
+    HEIGHT = 350,
+    MARGINS = {
+        top: 20,
+        right: 20,
+        bottom: 20,
+        left: 50
+    },
+    xScale = d3.scaleLinear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([0, 15]),
+    yScale = d3.scaleLinear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, 50]),
+    
+    xAxis = d3.axisBottom()
+    .scale(xScale),
+    yAxis = d3.axisLeft()
+    .scale(yScale)
+                    
+    vis.append("svg:g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
+        .call(xAxis);
+    vis.append("svg:g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(" + (MARGINS.left) + ",0)")
+        .call(yAxis);
+        
+    var lineGen = d3.line()
+        .x(function(d) {
+            return xScale(d.poll);
+        })
+        .y(function(d) {
+            return yScale(d.count);
+        })
+        .defined(function (d) { return d[1] !== null; });
+        //.defined(function (d) { return d.count == null; });
+        
+    var line = d3.line()
+        .x(function(d) {
+            return xScale(d.poll);
+        })
+        .y(function(d) {
+            return yScale(d.count);
+        })
+        //.defined(function (d) { return d[1] !== null; });
+        .defined(function (d) { return d.count == null; });
+        
+        if(data0 !=[])
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data0))
+                .attr('stroke', 'green')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+                
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 30) // spacing
+            .attr("y", height2 + 30)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'green')
+            .text(data0[0].key);
+            
+            //var filteredData0 = data0.filter(lineGen.defined());
+            //vis.append('svg:path')
+            //    .attr('d', line(filteredData0))
+            //    .attr('stroke', 'black')
+            //    .style("stroke-dasharray", ("3, 3"))
+            //    .attr('stroke-width', 2)
+            //    .attr('fill', 'none');
+        }
+        if(data1 != [])
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data1))
+                .attr('stroke', 'violet')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+                
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 30) // spacing
+            .attr("y", height2 + 60)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'violet')
+            .text(data1[0].key);
+        }
+        if(data2 != [])
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data2))
+                .attr('stroke', 'blue')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 30) // spacing
+            .attr("y", height2 + 90)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'blue')
+            .text(data2[0].key);
+        }
+        if(data3 != [])
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data3))
+                .attr('stroke', 'red')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 180) // spacing
+            .attr("y", height2 + 30)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'red')
+            .text(data3[0].key);
+        }
+        if(data4 != [])
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data4))
+                .attr('stroke', 'orange')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 180) // spacing
+            .attr("y", height2 + 60)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'orange')
+            .text(data4[0].key);
+        }
+        console.log(data5)
+        if(data5.length != 0)
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data5))
+                .attr('stroke', 'purple')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 180) // spacing
+            .attr("y", height2 + 90)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'purple')
+            .text(data5[0].key);
+        }
+        if(data6.length != 0)
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data6))
+                .attr('stroke', 'yellow')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 330) // spacing
+            .attr("y", height2 + 30)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'yellow')
+            .text(data6[0].key);
+        }
+        
+    
+    document.getElementById('buttonViewer').onclick = function() 
+    {
+        document.getElementById('buttonViewer').style = 'display:none';
+        document.getElementById('reportButtons').style = 'display:block';
+        document.getElementById('trendArea').style = 'display:none';
+    };
+    document.getElementById('trendArea').style = 'display:block';
+    document.getElementById('reportButtons').style = 'display:none';
+}
 
 function hourChecker()
 {
