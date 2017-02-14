@@ -21,7 +21,7 @@ $(document).on('click','.logEventEnd', function(req, res, next){
       //grab event ID
       //userAction
      setTimeout(function(){
-      var winning = 'End Game Winner - ' + ranking[0].name;
+      var winning = 'Winner: ' + ranking[0].name;
       var playerRank = 0;
       for(var q = 0; q < ranking.length; q++){
         if(ranking[q].name == candidates[0].name){
