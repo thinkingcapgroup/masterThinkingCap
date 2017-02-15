@@ -211,7 +211,7 @@ function trendReportMenu()
 	}
      document.getElementById("gameInfo").innerHTML += "</div><br> <div id = 'trendArea' style = 'display:none'> <svg id='visualisation' width='800' height='450'><path id='segments-line' /><path id='gap-line' /><text font-family='sans-serif' font-size='20px'>Blah</text></svg> </div>";
      
-     document.getElementById("gameInfo").innerHTML += "<button id ='buttonViewer'>Choose Another Trend Report</button>";
+     document.getElementById("gameInfo").innerHTML += "<button id ='buttonViewer' style = 'display:none'>Choose Another Trend Report</button>";
      document.getElementById("gameInfo").innerHTML += "<button onclick= 'userAction()'>Return to User Action Area</button>";
 }
 
@@ -1609,32 +1609,7 @@ function map(state, isFirst, isFree){
     
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
-    
-	//map icons
-	var libraryIcon = new Image();
-	libraryIcon.src = '../img/map/libraryicon.png';
-	var quadIcon = new Image();
-	quadIcon.src = '../img/map/icon.png';
-	var gymIcon = new Image();
-	gymIcon.src = '../img/map/gymicon.png';
-	var cafeIcon = new Image();
-	cafeIcon.src = '../img/map/cafeicon.png';
-	var labIcon = new Image();
-	labIcon.src = '../img/map/labicon.png';
-	var mediaIcon = new Image();
-	mediaIcon.src =  '../img/map/mediaicon.png';
-
-	//peopleicons
-	var tuitionIcon = new Image();
-	tuitionIcon.src = '../img/icons/tuitionsquare.png';
-	var sportsIcon = new Image();
-	sportsIcon.src = '../img/icons/sportscircle.png';
-	var researchIcon = new Image();
-	researchIcon.src = '../img/icons/researchsquare.png';
-	var socialIcon = new Image();
-	socialIcon.src = '../img/icons/socialsquare.png';
-	var medicalIcon = new Image();
-	medicalIcon.src = '../img/icons/medicalsquare.png';
+   
 
 	var mapbackground = new Image();
 	mapbackground.src = '../../img/map/map.png';
@@ -1663,57 +1638,7 @@ function map(state, isFirst, isFree){
 	c.onmousemove = doMouseOver;
     
     ctx.drawImage(mapbackground, 0,0,450,250);
-	//quad
-	ctx.strokeStyle = '#00FFFF';
-	ctx.fillStyle = 'rgba(0,255,255,0.5)';
-	ctx.lineWidth = 3;
-	
-	//stroke areas for gym
-	ctx.beginPath();
-	ctx.moveTo(265,10);
-	ctx.lineTo(265,75);
-	ctx.lineTo(362,75);
-	ctx.lineTo(362,150);
-	ctx.lineTo(440,150);
-	ctx.lineTo(440,10);
-	ctx.closePath();
-	ctx.stroke();
-    
-	//stroke labs
-	ctx.beginPath();
-	ctx.moveTo(112,10);
-	ctx.lineTo(112,85);
-	ctx.lineTo(137,85);
-	ctx.lineTo(137,100);
-	ctx.lineTo(170,100);
-	ctx.lineTo(170,85);
-	ctx.lineTo(192,85);
-	ctx.lineTo(192,10);
-	ctx.closePath();
-	ctx.stroke();
-    
-	
-	//quad
-	ctx.strokeRect(104,117,122,30);
-    
-	//library
-	ctx.strokeRect(300,165,140,77);
-    
-	//cafe
-	ctx.strokeRect(6,21,82,130);
-    
-	//media
-	ctx.strokeRect(67,166,87,72);
-    
-	//labs
-	
-	//draw icon
-	ctx.drawImage(quadIcon, 127,95,75,50)
-	ctx.drawImage(libraryIcon, 332,162,75,50)
-	ctx.drawImage(gymIcon, 362,25,75,50)
-	ctx.drawImage(cafeIcon, 10,55,75,50)
-	ctx.drawImage(mediaIcon, 75,167,75,50)
-	ctx.drawImage(labIcon, 115,12,75,50)
+	mapbackground.onload = drawMap();
 
 	document.getElementById("questionArea").innerHTML +="<h4>Population & Sample</h4><br>";
 	var buttonLabels = ["Quad", "Coffee Shop", "Gym", "Lab", "Media Room", "Library"];
@@ -1826,6 +1751,89 @@ function map(state, isFirst, isFree){
 	document.getElementById("moreQuestionButton").addEventListener("click", function(){
 			addMoreQuestions();
 	});
+}
+function drawMap()
+{
+	//map icons
+	var libraryIcon = new Image();
+	libraryIcon.src = '../img/map/libraryicon.png';
+	var quadIcon = new Image();
+	quadIcon.src = '../img/map/icon.png';
+	var gymIcon = new Image();
+	gymIcon.src = '../img/map/gymicon.png';
+	var cafeIcon = new Image();
+	cafeIcon.src = '../img/map/cafeicon.png';
+	var labIcon = new Image();
+	labIcon.src = '../img/map/labicon.png';
+	var mediaIcon = new Image();
+	mediaIcon.src =  '../img/map/mediaicon.png';
+
+	//peopleicons
+	var tuitionIcon = new Image();
+	tuitionIcon.src = '../img/icons/tuitionsquare.png';
+	var sportsIcon = new Image();
+	sportsIcon.src = '../img/icons/sportscircle.png';
+	var researchIcon = new Image();
+	researchIcon.src = '../img/icons/researchsquare.png';
+	var socialIcon = new Image();
+	socialIcon.src = '../img/icons/socialsquare.png';
+	var medicalIcon = new Image();
+	medicalIcon.src = '../img/icons/medicalsquare.png';
+    
+    var c=document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+    
+    //quad
+	ctx.strokeStyle = '#00FFFF';
+	ctx.fillStyle = 'rgba(0,255,255,0.5)';
+	ctx.lineWidth = 3;
+	
+	//stroke areas for gym
+	ctx.beginPath();
+	ctx.moveTo(265,10);
+	ctx.lineTo(265,75);
+	ctx.lineTo(362,75);
+	ctx.lineTo(362,150);
+	ctx.lineTo(440,150);
+	ctx.lineTo(440,10);
+	ctx.closePath();
+	ctx.stroke();
+    
+	//stroke labs
+	ctx.beginPath();
+	ctx.moveTo(112,10);
+	ctx.lineTo(112,85);
+	ctx.lineTo(137,85);
+	ctx.lineTo(137,100);
+	ctx.lineTo(170,100);
+	ctx.lineTo(170,85);
+	ctx.lineTo(192,85);
+	ctx.lineTo(192,10);
+	ctx.closePath();
+	ctx.stroke();
+    
+	
+	//quad
+	ctx.strokeRect(104,117,122,30);
+    
+	//library
+	ctx.strokeRect(300,165,140,77);
+    
+	//cafe
+	ctx.strokeRect(6,21,82,130);
+    
+	//media
+	ctx.strokeRect(67,166,87,72);
+    
+	//labs
+	
+	//draw icon
+	ctx.drawImage(quadIcon, 127,95,75,50)
+	ctx.drawImage(libraryIcon, 332,162,75,50)
+	ctx.drawImage(gymIcon, 362,25,75,50)
+	ctx.drawImage(cafeIcon, 10,55,75,50)
+	ctx.drawImage(mediaIcon, 75,167,75,50)
+	ctx.drawImage(labIcon, 115,12,75,50)
 }
  function doMousedown(c, e)
 	{
@@ -4232,25 +4240,18 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
             dataset.push ({label: graphLabels[i][k], count: graphData[i][k]})
 		}
         
-        var width = 270;
-        var height = 270;
+        var width = 90;
+        var height = 90;
         var radius = Math.min(width, height) / 2;
         var color = d3.scaleOrdinal(d3.schemeCategory20b);
-        
-        var svg = d3.select(".pieChart" + i)
-        .append('svg')
-        .attr('width', width)
-        .attr('height', height)
-        .append('g')
-        //.attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
         
         var vis = d3.select(".pieChart" + i)
         .append("svg:svg") 
         .data([dataset])
-        .attr("width", width + 100) 
-        .attr("height", height + 100) 
+        .attr("width", width + 200) 
+        .attr("height", height) 
         .append("svg:g") 
-        .attr("transform", "translate(" + 1.5*radius + "," + 1.5*radius + ")") 
+        .attr("transform", "translate(" + radius + "," + radius + ")") 
         
         var arc = d3.arc()
         .innerRadius(0)
@@ -4273,14 +4274,22 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
         arcs.append("svg:text")
         
         arcs.filter(function(d) { return d.endAngle - d.startAngle > .2; }).append("svg:text")
-        .attr("dy", ".35em")
-        .attr("text-anchor", "middle")
-        .attr("transform", function(d) { 
-            d.outerRadius = radius; 
-            d.innerRadius = radius/2; 
-            return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
+        .attr("dy", ".25em")
+        //.attr("text-anchor", "middle")
+        .attr("x", function(d, i) 
+        {
+            if(i < 5)
+            {
+                return width/2;
+            }
+            else
+            {
+                return width/2 + 30;
+            }
+            return -30 + i*15; 
         })
-        .style("fill", "White")
+        .attr("y", function(d, i) { return -30 + i*15; } )
+        .style("fill", function(d, i) { return color(i); } )
         .style("font", "bold 12px Arial")
         .text(function(d) { return d.data.label + "-" +d.data.count; });
         

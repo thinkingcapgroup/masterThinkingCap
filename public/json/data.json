@@ -616,6 +616,30 @@
 					"loader": "4"
 				}
 			]
+		},
+
+			{
+			"name":"T-Shirt Canon",
+			"id":"25",
+			"type":"smallEvent",
+			"text":"Lets take pictures",
+			"timeRequired":"2",
+			"groupPos":"Soc",
+			"groupNeg":"",
+			"results":"",
+			"scoreInc":".4",
+			"options":
+			[
+				{
+					"optionName":"Minigame",
+					"optionID":"Minigame",
+					"type":"game",
+					"extraTime" : "1", 
+					"posEffects":"",
+					"negEffects":"",
+					"loader": "5"
+				}
+			]
 		}
 
 
