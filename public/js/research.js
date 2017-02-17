@@ -15,7 +15,6 @@ function tabChange(evt, tabID){
     }
 
     var elementID = "report"+tabID;
-    console.log(elementID)
     // Show the current tab, and add an "active" class to the link that opened the tab
     document.getElementById(elementID).style.display = "block";
     evt.currentTarget.className += " active";
@@ -26,6 +25,22 @@ function researchQuery(){
   var searchType = document.getElementById('searchType').value;
   var cleanElement = searchElement.replace(/[`~!@#$%^&*()_|+\=?;:'",.<>\{\}\[\]\\\/]/gi, '');
 
-  $.post('/research/search');
+
+  $.get('/research/search', {search: cleanElement, type: searchType} , function(data){
+  if(data.length == 0){
+      document.getElementById('searchResults').innerHTML = '<h2>No Results Found<h2>'
+    }
+  else{
+     document.getElementById('searchResults').innerHTML = '<h2>Results Found<h2>'
+     document.getElementById('searchResults').innerHTML +='<table id = "tableSearchResults"></table>'
+     document.getElementById('tableSearchResults').innerHTML +='<thead><tr><th>Username</th><th>User ID</th><th>Role</th></tr></thead>'
+    for(var x =0; x < data.length; x++){
+        document.getElementById('tableSearchResults').innerHTML += '<tr><td>'+data[x].username+'</td><td>'+data[x].id+'</td><td>'+data[x].role+'</td></tr>'
+    }
+  }
+
+  });
+
 
 }
+

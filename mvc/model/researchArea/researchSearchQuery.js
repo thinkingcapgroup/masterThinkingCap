@@ -7,7 +7,7 @@ function researchSearchQuery(req, data, next) {
       err = false;
       resultArray = [];
 
-  if(data.type = 'userName'){
+  if(data.type == 'userName'){
     for(var x =0; x < holdArray.length; x++){
       var line = [];
       line = holderArray[x].split("-");
@@ -16,7 +16,7 @@ function researchSearchQuery(req, data, next) {
       }
     }
   }
-  else if (data.type = 'userId'){
+  else if (data.type == 'userId'){
     for(var x =0; x < holdArray.length; x++){
       var line = [];
       line = holderArray[x].split("-");
@@ -25,14 +25,15 @@ function researchSearchQuery(req, data, next) {
       }
     }
   }
-  else if (data.type = 'gameSessionNum'){
-    
+  else if (data.type == 'gameSessionNum'){
+
   }
   else{
     err = "Not executable";
-    next(err,result);
+  
   }
-next(err,'yes');
+
+  next(err,resultArray);
    
 }
 
