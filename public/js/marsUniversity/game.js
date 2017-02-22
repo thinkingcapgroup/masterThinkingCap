@@ -6990,13 +6990,17 @@ runningGame4.main = {
 		bodynum:0,
 		racenum:0,
 
-	},	
+	},
+	//all the images
+
+
 	scores: {
 		score:0,
 	},
 	colors: ['darkred','red','#004c00', '#00cc00','#00004c', 'blue','darkorange', 'yellow'],
 	clickColor:[0,0,0,0],
 	rngOrder: [0,0,0],
+	instruction: true,
 	round:0,
 	moveTurn:0,
 	groups: [0,0,0],
@@ -7020,8 +7024,75 @@ runningGame4.main = {
 
 
 	init: function(c,ctx){
+		//images
+		backgroundDanceFloor = new Image();
+		backgroundDanceFloor.src = '../img/minigame4/dancebg.png';
+		stageRed = new Image();
+		stageRed.src = '../img/minigame4/stagelightbeamred.png'
+		stageBlue = new Image();
+		stageBlue.src = '../img/minigame4/stagelightbeamblue.png'
+		stageGreen = new Image();
+		stageGreen.src = '../img/minigame4/stagelightbeamgreen.png'
+		stageLampRed = new Image();
+		stageLampRed.src = '../img/minigame4/stagelightred.png';
+		stageLampBlue = new Image();
+		stageLampBlue.src = '../img/minigame4/stagelightblue.png';
+		stageLampGreen = new Image();
+		stageLampGreen.src = '../img/minigame4/stagelightgreen.png';
+
+		//arrows
+		rightArrow = new Image();
+		rightArrow.src = '../img/minigame4/rightarrowgreyed.png';
+		rightArrowGlow = new Image();
+		rightArrowGlow.src = '../img/minigame4/rightArrowGREEN.png';
+		leftArrow = new Image();
+		leftArrow.src = '../img/minigame4/leftarrowgreyed.png';
+		leftArrowGlow = new Image();
+		leftArrowGlow.src = '../img/minigame4/leftarrowGREEN.png';
+		upArrow = new Image();
+		upArrow.src = '../img/minigame4/uparrowgreyed.png';
+		upArrowGlow = new Image();
+		upArrowGlow.src = '../img/minigame4/uparrowGREEN.png';
+		downArrow = new Image();
+		downArrow.src = '../img/minigame4/downarrowgreyed.png';
+		downArrowGlow = new Image();
+		downArrowGlow = '../img/minigame4/downarrowGREEN.png';
+
+		//people
+		headSheet = new Image();
+		headSheet.src = '../img/spritehead.png';
+		//thin sheets
+		thinFemale = new Image();
+		thinFemale.src = '../img/minigame4/thinfemaledancesheet.png';
+		thinMale = new Image();
+		thinMale.src = '../img/minigame4/thinmaledancesheet.png';
+		thinNB = new Image();
+		thinNB.src = '../img/minigame4/thinnbdancesheet.png'
+		//med sheets
+		medFemale = new Image();
+		medFemale.src = '../img/minigame4/medfemaledance.png';
+		medMale = new Image();
+		medMale.src = '../img/minigame4/medmaledance.png';
+		medNB = new Image();
+		mewNB.src = '../img/minigame4/mednbdance.png';
+		//plus sheet
+		plusFemale = new Image();
+		plusFemale.src = '../img/minigame4/plusfemaledance.png';
+		plusMale = new Image();
+		plusMale.src = '../img/minigame4/plusmaledance.png';
+		plusNB = new Image();
+		plusNB.src = '../img/minigame4/plusnbdance.png';
+		//chair
+		chairFemale = new Image();
+		chairFemale.src = '../img/minigame4/chairfemaledance.png';
+		chairMale = new Image();
+		chairMale.src = '../img/minigame4/chairmaledance.png';
+		chairNB = new Image();
+		chairNB.src = '../img/minigame4/chairnbdance.png';
+
 		ctx.restore;
 		ctx.save;
+		runningGame4.main.instruction = true;
 		runningGame4.main.endGame = false;
 		c.onmousedown = runningGame4.main.doMousedown;
 		runningGame4.main.round = 0;
@@ -7066,14 +7137,19 @@ runningGame4.main = {
 		ctx.fillStyle = '#000000';
 
 		//if not in dance mode
+		
 		if(!runningGame4.main.inDanceMode){
-
-		ctx.font = "20px Serif";
-		ctx.fillText(runningGame4.main.groupPrompt[prompt], 550, 50);
+			if(runningGame4.main.instruction){
+					ctx.fillStyle = '#FF0000';
+					ctx.fillRect(300,300,100,50)
+			}
+			else{
+			ctx.font = "20px Serif";
+			ctx.fillText(runningGame4.main.groupPrompt[prompt], 550, 50);
 		
 
 		//draw groups
-		for(var x = 0; x < 3; x++){
+			for(var x = 0; x < 3; x++){
 			for(var z = 0; z < runningGame4.main.groups[x]; z++){
 				
 				var correctX = (x*1) * 100;
@@ -7088,7 +7164,7 @@ runningGame4.main = {
 				ctx.strokeRect(xCord, yCord, 20,20);
 
 			}
-		}
+			}
 
 		//		
 
@@ -7096,7 +7172,7 @@ runningGame4.main = {
 
 		//draw the ui
 		
-	for(var x = 0; x < 3; x++){
+			for(var x = 0; x < 3; x++){
 		var correctX = (x*1) * 100;	
 		var xCord = 525 + correctX;
 		ctx.fillStyle = "#00FF00";
@@ -7120,8 +7196,9 @@ runningGame4.main = {
 				}
 
 		}
-	}
-		else if(runningGame4.main.inDanceMode){		
+			}
+		}
+	else if(runningGame4.main.inDanceMode){		
 			
 			//background
 			ctx.fillStyle = '#FFFFFF';
@@ -7321,7 +7398,7 @@ runningGame4.main = {
 
 	clickPicker: function(mouse){
 		//if not in dance mode
-		if(!runningGame4.main.inDanceMode)
+		if(!runningGame4.main.inDanceMode && !runningGame4.main.instruction)
 		{
 
 			if(mouse.y >= 375 && mouse.y <=425){
@@ -7343,8 +7420,19 @@ runningGame4.main = {
 						runningGame4.main.clickpause = true;
 						runningGame4.main.danceGen();
 					}			
-				}
 			}
+		}
+
+		if(!runningGame4.main.inDanceMode && runningGame4.main.instruction){
+			if(mouse.y >= 300 && mouse.y <=350){
+					if(mouse.x >= 300 && mouse.x <= 380){
+						
+						runningGame4.main.instruction = false;
+					}
+				}
+		}
+
+
 		//if in dance mode
 
 		/*

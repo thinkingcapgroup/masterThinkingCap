@@ -31,26 +31,36 @@ router.get('/', auth, function (req, res) {
   }
 });
 
-router.post('/search', auth, function (req, res) {
+router.get('/search', auth, function (req, res) {
   // TextFile Saving
   stringTem = 'Hi'
-
-  //fs.writeFile('saveFile/userSave.txt', stringTem, function (err)
-  //{});
+  var objectPasser = {search: req.query.search, type: req.query.type}
 
   //Database Saving
-  require('../model/researchArea/researchSearchQuery.js')(req, [stringTem], function(err, success) {
+ 
+  require('../model/researchArea/researchDatabase.js')(req, objectPasser, function(err, success) {
     // If there was an error
     if (err) {
       console.error(err);
+      res.end();
     }
     // Otherwise
     else {
+      var holder = [];
+      for(var x =0; x < success.length; x++){
+        var placeHolder = {};
+        placeHolder.id = success[x].userId;
+        placeHolder.username = success[x].userName;
+        placeHolder.role = success[x].role;
+        holder.push(placeHolder);
+      }
+
+      res.json(holder);
     }
   });
 
   // End response
-  res.end();
+
 });
 
 
