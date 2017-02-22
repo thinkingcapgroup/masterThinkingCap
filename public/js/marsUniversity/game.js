@@ -7074,7 +7074,7 @@ runningGame4.main = {
 		medMale = new Image();
 		medMale.src = '../img/minigame4/medmaledance.png';
 		medNB = new Image();
-		mewNB.src = '../img/minigame4/mednbdance.png';
+		medNB.src = '../img/minigame4/mednbdance.png';
 		//plus sheet
 		plusFemale = new Image();
 		plusFemale.src = '../img/minigame4/plusfemaledance.png';
