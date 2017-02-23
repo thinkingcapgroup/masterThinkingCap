@@ -231,7 +231,7 @@ function startCharacterSelect(){
 	//character creator here
 	//for right now we'll do a drop down option
 	document.getElementById("gameInfo").innerHTML = "<h1>Character Creation</h1>";
-	document.getElementById("gameInfo").innerHTML += "<canvas id='myCanvas' width='500px' height = '600px'></canvas><br>";
+	document.getElementById("gameInfo").innerHTML += "<canvas id='myCanvas' width='500px' height = '555px'></canvas><br>";
 	document.getElementById("gameInfo").innerHTML += "<button class = 'live'id ='headbutton'>Heads</button>";
 	document.getElementById("gameInfo").innerHTML += "<button class = 'live'id ='racebutton'>Race</button>";
 	document.getElementById("gameInfo").innerHTML += "<button id ='clothingbutton'>Gender</button>";
@@ -275,8 +275,6 @@ function drawOnCanvas(headsheet,bodysheet){
 	ctx = c.getContext("2d")
 	//clears everything
 	ctx.clearRect(0,0,c.width,c.height);
-	//makes the background black
-	ctx.fillRect(0,0,c.width, c.height);
 	//draw the body
 	drawBody(bodysheet);
 	//draws the head
@@ -960,7 +958,12 @@ function userAction()
 	mapbackground.onload = drawMap();
     
 	currentEvents = [];
-
+    document.getElementById("QuadChoice").innerHTML += "<h2>Quad</h2>";
+    document.getElementById("CafeChoice").innerHTML += "<h2>Cafe</h2>";
+    document.getElementById("LabChoice").innerHTML += "<h2>Labs</h2>";
+    document.getElementById("GymChoice").innerHTML += "<h2>Gym</h2>";
+    document.getElementById("LibraryChoice").innerHTML += "<h2>Library</h2>";
+    document.getElementById("MediaChoice").innerHTML += "<h2>Media Room</h2>";
 	////Adds events to button list randomly from those available and Prevents Duplicates and events with more time than is available
 	for(var i = 1;i<events.length;i++)
 	{
@@ -3356,7 +3359,7 @@ function clearScreen()
 	document.getElementById('next').innerHTML = "";
 
 	gameOutput.innerHTML = "";
-	prevChoices.innerHTML = "<div id = 'Buttons' style = 'display:block;'></div><div id = 'QuadChoice' style = 'display:block;'></div><div id = 'LabChoice' style = 'display:none;'></div><div id = 'GymChoice' style = 'display:none;'></div><div id = 'MediaChoice' style = 'display:none;'></div><div id = 'CafeChoice' style = 'display:none;'> </div><div id = 'LibraryChoice' style = 'display:none;'></div><div id = 'map' style = 'display:block;'></div><div id = 'eventInput' style = 'display:block;'></div>";
+	prevChoices.innerHTML = "<div id = 'Buttons' style = 'display:block;'><div id = 'Header' style = 'display:block;'> </div></div><div id = 'QuadChoice' style = 'display:block;'></div><div id = 'LabChoice' style = 'display:none;'></div><div id = 'GymChoice' style = 'display:none;'></div><div id = 'MediaChoice' style = 'display:none;'></div><div id = 'CafeChoice' style = 'display:none;'> </div><div id = 'LibraryChoice' style = 'display:none;'></div><div id = 'map' style = 'display:block;'></div><div id = 'eventInput' style = 'display:block;'></div>";
 	prevEvent.innerHTML = "";
 	prevTable.innerHTML = "<table id = 'tab' class='sortable'><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
 }
@@ -6543,6 +6546,10 @@ secretSticker.main =
         draw: function(c,ctx)
         {
             var mouse = canvasMouse;
+            var poster = new Image();
+            poster.src = '../../img/minigame3/VotePosterProp.png';
+            var sticker = new Image();
+            sticker.src = '../../img/minigame3/Stickerasset.png';
             //draw the background for the area
             ctx.fillStyle="#FFFFFF";
             ctx.fillRect(0,0,c.width,c.height);
@@ -6658,11 +6665,12 @@ secretSticker.main =
                    
                    if(secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].stickered)
                    {
-                       ctx.fillStyle = '#0000ff';
-                       ctx.beginPath();
-                       ctx.arc(x,y,20,0,2*Math.PI);
-                       ctx.fill();
-                       ctx.stroke();
+                       //ctx.fillStyle = '#0000ff';
+                       //ctx.beginPath();
+                       //ctx.arc(x,y,20,0,2*Math.PI);
+                       //ctx.fill();
+                       //ctx.stroke();
+                        ctx.drawImage(sticker,x-25, y-25,50,50);
                    }
                };
               
@@ -6687,19 +6695,22 @@ secretSticker.main =
                ctx.fillStyle = '#000000'
                ctx.fillText(">",885,265);
                
-               ctx.fillStyle = '#0000FF';
-               ctx.beginPath();
-               ctx.arc(c.width/2,c.height-30,20,0,2*Math.PI);
-               ctx.fill();
-               ctx.stroke();
+               //ctx.fillStyle = '#0000FF';
+               //ctx.beginPath();
+               //ctx.arc(c.width/2,c.height-30,20,0,2*Math.PI);
+               //ctx.fill();
+               //ctx.stroke();
                
+               
+               ctx.drawImage(sticker,c.width/2-30,c.height-50,50,50);
                if(secretSticker.main.drag)
                {
-                   ctx.fillStyle = '#0000FF';
-                   ctx.beginPath();
-                   ctx.arc(mouse.x, mouse.y,20,0,2*Math.PI);
-                   ctx.fill();
-                   ctx.stroke();
+                   //ctx.fillStyle = '#0000FF';
+                   //ctx.beginPath();
+                   //ctx.arc(mouse.x, mouse.y,20,0,2*Math.PI);
+                   //ctx.fill();
+                   //ctx.stroke();
+                   ctx.drawImage(sticker,mouse.x-25, mouse.y-25,50,50);
                }
     
     
@@ -6711,7 +6722,7 @@ secretSticker.main =
                else
                {
                    ctx.fillStyle = '#00ff00'
-                   ctx.fillRect(200,30,50,70);
+                   ctx.drawImage(poster,200,30,75,125);
                }
                
                if (!secretSticker.main.areas[secretSticker.main.areaNumber].position2)
@@ -6722,7 +6733,7 @@ secretSticker.main =
                else
                {
                    ctx.fillStyle = '#00ff00'
-                   ctx.fillRect(440,30,50,70);
+                   ctx.drawImage(poster,440,30,75,125);
                }
                
                if (!secretSticker.main.areas[secretSticker.main.areaNumber].position3)
@@ -6733,7 +6744,7 @@ secretSticker.main =
                else
                {
                    ctx.fillStyle = '#00ff00'
-                   ctx.fillRect(680,30,50,70);
+                   ctx.drawImage(poster,680,30,75,125);
                }
            }
     
@@ -6861,7 +6872,7 @@ secretSticker.main =
                 var dx = mouse.x - 440;
                 var dy = mouse.y - 470;
                 var dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 20) 
+                if (dist < 30) 
                 {
                     secretSticker.main.drag = true;
                     console.log("click")
