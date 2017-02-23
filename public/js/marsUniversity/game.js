@@ -933,7 +933,14 @@ function userAction()
     
     
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
-	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='map("+0+",false,false)'> Take A Poll </button>";
+    if(remainingHoursDay >=3)
+    {
+        document.getElementById("Buttons").innerHTML += "<button type='button' onclick='map("+0+",false,false)'> Take A Poll </button>";
+    }
+    else
+    {
+        document.getElementById("Buttons").innerHTML += "<button type='button' > Cannot Take a Poll </button>";
+    }
 	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='statement()'> Make a Statement - 1 Hour</button>";
 	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='helpScreen()'> Help Screen</button>";
 	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='trendReportMenu()'> View Trend Reports</button>";
@@ -1675,17 +1682,16 @@ function map(state, isFirst, isFree){
 	var timeForPoll = returnTotalPollTime(20,0);
 	qPollHolder = 2;
 	document.getElementById("event").style = "display:block";
-	document.getElementById("event").innerHTML += "<h4>Select an area where you wish to poll.</h4>";
-	document.getElementById("event").innerHTML += "<div id = 'mapArea'><canvas id='myCanvas' width='600px' height = '415px' style = 'position: relative;'></canvas></div><div id = 'questionArea'></div>";
-	var c=document.getElementById("myCanvas");
-	var ctx = c.getContext("2d");
-	c.addEventListener('mousemove', function(evt) {canvasMouse = getMousePos(c, evt);}, false);
-	c.onmousedown = doMousedown;
-	c.onmousemove = doMouseOver;
+    document.getElementById("event").innerHTML += "<h4>Select an area where you wish to poll.</h4>";
+    document.getElementById("event").innerHTML += "<div id = 'mapArea'><canvas id='myCanvas' width='600px' height = '415px' style = 'position: relative;'></canvas></div><div id = 'questionArea'></div>";
+    var c=document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    c.addEventListener('mousemove', function(evt) {canvasMouse = getMousePos(c, evt);}, false);
+    c.onmousedown = doMousedown;
+    c.onmousemove = doMouseOver;
     
     ctx.drawImage(mapbackground, 0,0,600,414);
-	mapbackground.onload = drawMap();
-
+    mapbackground.onload = drawMap();
 	document.getElementById("questionArea").innerHTML +="<h4>Population & Sample</h4><br>";
 	var buttonLabels = ["Quad", "Coffee Shop", "Gym", "Lab", "Media Room", "Library"];
 	document.getElementById("questionArea").innerHTML += "<label>Location: </label><select id = 'location'></select><br>";
@@ -1694,7 +1700,7 @@ function map(state, isFirst, isFree){
 	}
 	document.getElementById("questionArea").innerHTML += "<label>Sample Size: </label><select id = 'sample' class = 'sampleOptions totalTimeTracker'><br></select><br><label>Rooms: </label><select id = 'rooms' class = 'sampleOptions'></select><br><label>Time Spent: </label><select id = 'timeSpent' class = 'sampleOptions'></select><hr>";
 	back = false;
-	if(state != 0 || remainingHoursDay> 3 )
+	if(state != 0 || remainingHoursDay>= 3 )
 	{
 
 		document.getElementById("sample").options.add(new Option("Sample 20 Students", 20));
@@ -4365,8 +4371,8 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
             dataset.push ({label: graphLabels[i][k], count: graphData[i][k]})
 		}
         
-        var width = 90;
-        var height = 90;
+        var width = 120;
+        var height = 120;
         var radius = Math.min(width, height) / 2;
         var color = d3.scaleOrdinal(d3.schemeCategory20b);
         
@@ -4413,7 +4419,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
             }
             return -30 + i*15; 
         })
-        .attr("y", function(d, i) { return -30 + i*15; } )
+        .attr("y", function(d, i) { return -50 + i*15; } )
         .style("fill", function(d, i) { return color(i); } )
         .style("font", "bold 12px Arial")
         .text(function(d) { return d.data.label + "-" +d.data.count; });
@@ -6884,11 +6890,11 @@ secretSticker.main =
                     if(secretSticker.main.areaNumber >1)
                     secretSticker.main.areaNumber--;
                     else
-                    secretSticker.main.areaNumber = 5;
+                    secretSticker.main.areaNumber = 6;
                 }
                 if((mouse.x >= 875&& mouse.x <= 900)&&(mouse.y >= 250 && mouse.y <= 275 ))
                 {
-                    if(secretSticker.main.areaNumber <5)
+                    if(secretSticker.main.areaNumber <6)
                     secretSticker.main.areaNumber++;
                     else
                     secretSticker.main.areaNumber = 1;
@@ -7537,6 +7543,14 @@ tshirtCannon.main = {
 	students: [],
 	time: 60,
 	playTime: this.time*1000,
+	scores:
+	{
+		score: 0,
+		tier1: 5,
+		tier2: 10,
+		tier3: 15,
+		tier4: 20
+	},
 
 
 	init: function(c,ctx){
@@ -7546,20 +7560,29 @@ tshirtCannon.main = {
 		tshirtCannon.main.areaNum = 0;
 		tshirtCannon.main.currentAmmo = 0;
 		tshirtCannon.main.gameStop = false;
+		tshirtCannon.main.time = 60;
 		tshirtCannon.main.playTime= tshirtCannon.main.time*1000;
-
-		c.onmousedown = tshirtCannon.main.doMousedown;
-		tshirtCannon.main.update(c,ctx);
 
 		for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/20){
 			setTimeout(tshirtCannon.main.peopleGenerator, i);
 		}
-	},
+		setTimeout(tshirtCannon.main.stop, tshirtCannon.main.playTime);
+        
+		for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/tshirtCannon.main.time)
+		{setTimeout(tshirtCannon.main.timer, i);}
+        
+		c.onmousedown = tshirtCannon.main.doMousedown;
+		tshirtCannon.main.update(c,ctx);
 
+	},
+    stop: function() 
+    {
+        tshirtCannon.main.gameStop=true;
+        gameResults(tshirtCannon.main.scores, practice);
+    },
 	update: function(c,ctx)
 	{
-
-		if(!tshirtCannon.gameStop){
+		if(!tshirtCannon.main.gameStop){
 		//check if game finished
 			requestAnimationFrame(function(){tshirtCannon.main.draw(c,ctx)});
 			requestAnimationFrame(function(){tshirtCannon.main.update(c,ctx)});		
@@ -7582,6 +7605,13 @@ tshirtCannon.main = {
 		ctx.fillRect(0,0,c.width, c.height);
 		//draw bg
 
+		ctx.fillStyle = "#000000";
+		ctx.font = "15px Arial";
+		ctx.fillText("Time Remaining: " +tshirtCannon.main.time+"",700,20);
+		
+		ctx.font = "15px Arial";
+		ctx.fillText("Score " +tshirtCannon.main.scores.score+"",0,20);
+        
 		//draw students moving
 		ctx.fillStyle = '#00FFFF'
 		for(var i=0;i<tshirtCannon.main.students.length;i++){
@@ -7689,8 +7719,10 @@ tshirtCannon.main = {
 		for(var x =0; x < tshirtCannon.main.students.length; x++){
 			if(mouse.x >= tshirtCannon.main.students[x].x && mouse.x <= (tshirtCannon.main.students[x].x+tshirtCannon.main.students[x].width)){
 				if(mouse.y >= tshirtCannon.main.students[x].y && mouse.y <= (tshirtCannon.main.students[x].y+tshirtCannon.main.students[x].height)){			
-					if(tshirtCannon.main.students[x].tshirt == tshirtCannon.main.currentAmmo){
+					if(tshirtCannon.main.students[x].tshirt == tshirtCannon.main.currentAmmo && tshirtCannon.main.students[x].touched == false){
 						console.log('correct');
+                        tshirtCannon.main.scores.score++;
+                        tshirtCannon.main.students[x].touched = true; 
 					}
 					else{
 						console.log('no');
@@ -7723,5 +7755,9 @@ tshirtCannon.main = {
 		this.lastTime = now;
 		return 1/fps;
 	},
+	timer: function()
+	{
+		tshirtCannon.main.time--;
+	}
 
 }
