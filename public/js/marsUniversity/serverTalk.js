@@ -13,7 +13,7 @@ $(document).on('click','.logEvent', function(req, res, next){
 
      }).then( function(){
 
-     	    $.post('/game/logger', {eventName: name});
+     	    $.post('/game/logger', {eventName: name, eventType: 'userAction'});
      } )
  });
 
@@ -21,7 +21,7 @@ $(document).on('click','.logEventEnd', function(req, res, next){
       //grab event ID
       //userAction
      setTimeout(function(){
-      var winning = 'End Game Winner - ' + ranking[0].name;
+      var winning = 'Winner: ' + ranking[0].name;
       var playerRank = 0;
       for(var q = 0; q < ranking.length; q++){
         if(ranking[q].name == candidates[0].name){
@@ -29,7 +29,7 @@ $(document).on('click','.logEventEnd', function(req, res, next){
         }
       }
     
-        $.post('/game/loggerEnd', {eventName: winning, rank: playerRank });
+        $.post('/game/loggerEnd', {eventName: winning, rank: playerRank, eventType: 'endGame' });
       
       }, 1000);
  });
@@ -110,7 +110,7 @@ $(document).on('change','.pollQ', function(){
 $(document).on('click','.logEventPoll', function(){
       //grab event ID
       //userAction
-      $.post('/game/loggerPoll', {q1: theJSONEvents[0], q2: theJSONEvents[1], q3: theJSONEvents[2], q4: theJSONEvents[3], q5:theJSONEvents[4], q6:theJSONEvents[5]});
+      $.post('/game/loggerPoll', {q1: theJSONEvents[0], q2: theJSONEvents[1], q3: theJSONEvents[2], q4: theJSONEvents[3], q5:theJSONEvents[4], q6:theJSONEvents[5], eventType: 'poll'});
 
 
  });

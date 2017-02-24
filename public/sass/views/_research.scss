@@ -1,0 +1,49 @@
+#research {
+
+  #tabs{  
+    ul{
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #333333;
+      color: #AAAAAA;
+    }
+    li{
+      display: inline;
+       float: left;
+    }
+
+    a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+    }
+    
+    a:hover {
+    background-color: #111111;
+    }
+
+    a:active{
+     background-color: #333333;
+    }
+  }
+
+  #report1{
+    display: none;
+  }
+
+  #report2{
+    display: none;
+  }
+
+  #searchArea{
+    background-color: #c0cdd1;
+    width: 100%;
+    height:400px;
+    padding:10px;
+  }
+
+
+}
