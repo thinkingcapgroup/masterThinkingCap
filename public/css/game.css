@@ -15,7 +15,7 @@ th, td {
 
 #questionArea{
   float:right;
-  width:50%;
+  width:35%;
 }
 
 #poll2{
@@ -33,7 +33,50 @@ th, td {
 #poll5{
   display:none;
 }
-
+#holo 
+{
+    z-index: -1; 
+    position: absolute;
+}
+#gameContents
+{
+     margin: 70px 150px 100px 80px;
+}
+#QuadChoice
+{
+    float: right;
+    width:35%;
+}
+#CafeChoice
+{
+    float: right;
+    width:35%;
+}
+#LabChoice
+{
+    float: right;
+    width:35%;
+}
+#LibraryChoice
+{
+    float: right;
+    width:35%;
+}
+#GymChoice
+{
+    float: right;
+    width:35%;
+}
+#MediaChoice
+{
+    float: right;
+    width:35%;
+}
+#eventSelect
+{
+    float: right;
+    width:35%;
+}
 /*chart stuff*/
 .chart div {
   font: 10px sans-serif;
@@ -63,4 +106,18 @@ canvas{
     left: 0;
     right: 0;
     margin:auto;
+}
+
+#mapCanvas{
+  position: relative;
+  margin: auto;
+}
+.axis path {
+    fill: none;
+    stroke: #777;
+    shape-rendering: crispEdges;
+}
+.axis text {
+    font-family: Lato;
+    font-size: 13px;
 }

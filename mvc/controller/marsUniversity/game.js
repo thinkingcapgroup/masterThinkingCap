@@ -44,8 +44,10 @@ router.post('/logger', auth, function (req, res, next) {
   var event = req.body.eventName,
       // Get user id
       id = req.user.userId,
+      username = req.user.userName,
+      type = req.body.eventType
       // Concatenate information
-      stringTem = "\n" + id + "-" + event + "-" + Date.now();
+      stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + Date.now() + "-" +username;
 
   // Append stringTem to file 'logInfo/useraction.txt'
   fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
@@ -61,10 +63,13 @@ router.post('/loggerEnd', auth, function (req, res, next) {
   var event = req.body.eventName,
       // Get user id
       id = req.user.userId,
+      username = req.user.userName,
+      type = req.body.eventType,
       rank = req.body.rank;
-      console.log(req.body);
+  
+
       // Concatenate information
-      stringTem = "\n" + id + "-" + event + "-" + "Player Rank:" + rank + "-" + Date.now();
+      stringTem = "\n" + id + "-" + type + "-" + event + "-" + "Player Rank:" + rank + "-" + Date.now() + "-" +username;
 
   // Append stringTem to file 'logInfo/useraction.txt'
   fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
@@ -113,6 +118,7 @@ router.post('/saver', auth, function (req, res) {
 router.post('/loggerPoll', auth, function (req, res, next) {
   // Get user id
   var id = req.user.userId,
+       username = req.user.userName,
       // Get the 6 questions asked
       q1 = req.body.q1,
       q2 = req.body.q2,
@@ -120,8 +126,30 @@ router.post('/loggerPoll', auth, function (req, res, next) {
       q4 = req.body.q4,
       q5 = req.body.q5,
       q6 = req.body.q6,
+      type = req.body.eventType
       // Concatenate information
-      stringThing = '\n' + id + '-' + q1 + '-' + q2 + '-' +q3 + '-' + q4 + '-' + q5 + '-' + q6;
+      stringThing = '\n' + id + '-' + type + '-'+ q1 + '*' + q2 + '*' +q3 + '*' + q4 + '*' + q5 + '*' + q6 + "-" + Date.now() + "-" +username;
+
+  // Append information to 'logInfo/useraction.txt'
+  fs.appendFile('logInfo/useraction.txt', stringThing, function (err) {
+    console.log('Student information logged with id: ' + id);
+  });
+
+  // End response
+  res.end();
+});
+
+
+router.post('/loggerMinigame', auth, function (req, res, next) {
+  // Get user id
+  console.log('HEY')
+  var id = req.user.userId,
+      username = req.user.userName,
+      // Get the 6 questions asked
+      mininumber = req.body.minigameID,
+      score = req.body.score,
+      // Concatenate information
+      stringThing = '\n' + "MinigameScore" + id + '-'+ mininumber+ "-" + score + "-" + Date.now() + "-" +username;
 
   // Append information to 'logInfo/useraction.txt'
   fs.appendFile('logInfo/useraction.txt', stringThing, function (err) {
