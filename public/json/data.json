@@ -42,6 +42,7 @@
 			"groupPos":"Bus",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Quad",
 			"scoreInc":".4",
 			"options":
 			[
@@ -75,6 +76,7 @@
 			"groupPos":"Res",
 			"groupNeg":"",
 			"results":"The voters really responded to your charm and you did a great job of endorsing your platform.",
+			"loc":"Quad",
 			"scoreInc":".4",
 			"options":
 			[
@@ -90,6 +92,7 @@
 			"groupPos":"Soc",
 			"groupNeg":"Read",
 			"results":"",
+			"loc":"Quad",
 			"scoreInc":".4",
 			"options":
 			[
@@ -123,6 +126,7 @@
 			"groupPos":"Poor",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Quad",
 			"scoreInc":".4",
 			"options":
 			[
@@ -156,6 +160,7 @@
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Cafe",
 			"scoreInc":".4",
 			"options":
 			[
@@ -188,6 +193,7 @@
 			"groupPos":"Bus",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Cafe",
 			"scoreInc":".4",
 			"options":
 			[
@@ -221,6 +227,7 @@
 			"groupPos":"Low",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Labs",
 			"scoreInc":".4",
 			"options":
 			[
@@ -243,6 +250,7 @@
 			"groupPos":"Low Mid",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Library",
 			"scoreInc":".4",
 			"options":
 			[
@@ -266,6 +274,7 @@
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Gym",
 			"scoreInc":".4",
 			"options":
 			[
@@ -281,6 +290,7 @@
 			"groupPos":"Media",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Media Room",
 			"scoreInc":".4",
 			"options":
 			[
@@ -312,6 +322,7 @@
 			"groupPos":"Fine Arts",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Cafe",
 			"scoreInc":".4",
 			"options":
 			[
@@ -336,6 +347,7 @@
 			"groupPos":"Res",
 			"groupNeg":"",
 			"results":"You managed to sway a lot of people to your side with your quick witted responses.",
+			"loc":"Media Room",
 			"scoreInc":".4",
 			"options":
 			[
@@ -359,6 +371,7 @@
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Media Room",
 			"scoreInc":".4",
 			"options":
 			[
@@ -382,6 +395,7 @@
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Gym",
 			"scoreInc":".4",
 			"options":
 			[
@@ -405,6 +419,7 @@
 			"groupPos":"Read",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Library",
 			"scoreInc":".4",
 			"options": 
 			[
@@ -420,6 +435,7 @@
 			"groupPos":"Lib Arts",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Labs",
 			"scoreInc":".4",
 			"options": 
 			[
@@ -443,6 +459,7 @@
 			"groupPos":"Read",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Library",
 			"scoreInc":".4",
 			"options":
 			[
@@ -458,6 +475,7 @@
 			"groupPos":"Tech",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Media Room",
 			"scoreInc":".4",
 			"options":
 			[
@@ -491,6 +509,7 @@
 			"groupPos":"Ath",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Gym",
 			"scoreInc":".4",
 			"options":
 			[
@@ -514,6 +533,7 @@
 			"groupPos":"Eng",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Labs",
 			"scoreInc":".4",
 			"options":
 			[
@@ -529,6 +549,7 @@
 			"groupPos":"Ath",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Gym",
 			"scoreInc":".4",
 			"options":
 			[
@@ -553,6 +574,7 @@
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Quad",
 			"scoreInc":".4",
 			"options":
 			[
@@ -579,6 +601,7 @@
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Quad",
 			"scoreInc":".4",
 			"options":
 			[
@@ -603,6 +626,7 @@
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
+			"loc":"Media Room",
 			"scoreInc":".4",
 			"options":
 			[
@@ -614,6 +638,31 @@
 					"posEffects":"",
 					"negEffects":"",
 					"loader": "4"
+				}
+			]
+		},
+
+			{
+			"name":"T-Shirt Canon",
+			"id":"25",
+			"type":"smallEvent",
+			"text":"Lets take pictures",
+			"timeRequired":"2",
+			"groupPos":"Soc",
+			"groupNeg":"",
+			"results":"",
+			"loc":"Gym",
+			"scoreInc":".4",
+			"options":
+			[
+				{
+					"optionName":"Minigame",
+					"optionID":"Minigame",
+					"type":"game",
+					"extraTime" : "1", 
+					"posEffects":"",
+					"negEffects":"",
+					"loader": "5"
 				}
 			]
 		}
