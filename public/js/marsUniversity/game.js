@@ -4223,7 +4223,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	for (var i=0;i<graphQuestions.length;i++)
 	{
 	document.getElementById("barChartDiv").innerHTML += "<div id = 'q"+i+"text'><br></div><div class = 'barChart"+i+" chart'></div>";
-    document.getElementById("pieChartDiv").innerHTML += "<div id = 'bq"+i+"text'><br></div><div class = 'pieChart"+i+" chart'></div>";
+    document.getElementById("pieChartDiv").innerHTML += "<div id = 'bq"+i+"text'><br></div><div class = 'pieChart"+i+"'></div>";
 		if(i==2){
 			document.getElementById("barChartDiv").innerHTML += "<hr>";
 			document.getElementById("pieChartDiv").innerHTML += "<hr>";
@@ -4370,7 +4370,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
         {			
             dataset.push ({label: graphLabels[i][k], count: graphData[i][k]})
 		}
-        
+        console.log(dataset)
         var width = 120;
         var height = 120;
         var radius = Math.min(width, height) / 2;
@@ -4390,7 +4390,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
         
         var pie = d3.pie()
         .value(function(d) { return d.count; })
-        .sort(null);
+        //.sort(null);
         
         var arcs = vis.selectAll("g.slice")
         .data(pie)
@@ -4399,28 +4399,18 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
         .attr("class", "slice");
         
         arcs.append("svg:path")
-        .attr("fill", function(d, i) { return color(i); } )
+        .attr("fill", function(d, i) { console.log("Arc - " + color(i)); return color(i); } )
         .attr("d", arc);
         
         arcs.append("svg:text")
         
-        arcs.filter(function(d) { return d.endAngle - d.startAngle > .2; }).append("svg:text")
+        arcs.append("svg:text")
         .attr("dy", ".25em")
         //.attr("text-anchor", "middle")
         .attr("x", function(d, i) 
-        {
-            if(i < 5)
-            {
-                return width/2;
-            }
-            else
-            {
-                return width/2 + 30;
-            }
-            return -30 + i*15; 
-        })
+        {return width/2 + 30;})
         .attr("y", function(d, i) { return -50 + i*15; } )
-        .style("fill", function(d, i) { return color(i); } )
+        .style("fill", function(d, i) {  console.log(d);console.log("Text - " + color(i)); return color(i); } )
         .style("font", "bold 12px Arial")
         .text(function(d) { return d.data.label + "-" +d.data.count; });
         
@@ -5003,7 +4993,7 @@ function gameResults(scores, tutorial)
 		remainingHoursTotal-=1;
 		remainingHoursDay-=1;
 		var pos = chosenEvent.groupPos.split(',');
-		console.log(pos);
+		//console.log(pos);
 		var posText =  "<h4>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame with these groups: ";
 		for (var i =0; i< pos.length;i++)
 		{
@@ -5149,7 +5139,7 @@ function trendReporter(category)
         {
             tempGraphData.push(e);
         });
-        console.log(tempGraphData);
+        //console.log(tempGraphData);
         tempGraphData.splice(0,3);
         for(var j =0; j< pastPollChoices[i].length; j++)
         {
@@ -5175,7 +5165,7 @@ function trendReporter(category)
                     }
                 });
                 
-                console.log(tempGraphData);
+                //console.log(tempGraphData);
                 for (var k =0; k< tempGraphData[j].length; k++)
                 {
                     switch(k)
@@ -5384,7 +5374,7 @@ function trendReporter(category)
             .style("fill", 'orange')
             .text(data4[0].key);
         }
-        console.log(data5)
+        //console.log(data5)
         if(data5.length != 0)
         {
             vis.append('svg:path')
@@ -6523,7 +6513,67 @@ secretSticker.main =
             secretSticker.main.demograph1num = Math.floor(Math.random() * 5);
             secretSticker.main.takenDemograph1=0;
             secretSticker.main.postersLeft=5;
-            
+            secretSticker.main.areas =
+            [ 
+                {
+                    
+                },
+                
+                //quad
+                {
+                    students: [],
+                    studentPositions: [],
+                    posterHung: 0,
+                    position1: false, 
+                    position2: false, 
+                    position3: false 
+                },
+                //gym
+                {
+                    students: [],
+                    studentPositions: [],
+                    posterHung: 0,
+                    position1: false, 
+                    position2: false, 
+                    position3: false 
+                },
+                //media
+                {
+                    students: [],
+                    studentPositions: [],
+                    posterHung: 0,
+                    position1: false, 
+                    position2: false, 
+                    position3: false 
+                },
+                //labs
+                {
+                    students: [],
+                    studentPositions: [],
+                    posterHung: 0,
+                    position1: false, 
+                    position2: false, 
+                    position3: false 
+                },
+                //coffee shop
+                {
+                    students: [],
+                    studentPositions: [],
+                    posterHung: 0,
+                    position1: false, 
+                    position2: false, 
+                    position3: false 
+                },
+                //library
+                {
+                    students: [],
+                    studentPositions: [],
+                    posterHung: 0,
+                    position1: false, 
+                    position2: false, 
+                    position3: false 
+                }
+            ];
             mapbackground.onload = function()
             {
                 secretSticker.main.update(c,ctx);
