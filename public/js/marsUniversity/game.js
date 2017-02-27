@@ -928,7 +928,7 @@ function userAction()
     var c=document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
     ctx.fillStyle = '#FFFFFF'
-    console.log(c,ctx)
+    console.log(gameSession)
     
     
     
@@ -4829,6 +4829,7 @@ function loadGame()
     
 	//Game Session Number
 	gameSession = parseInt(saveArray[9]);
+    console.log(saveArray)
     
 	//Game Over Boolean
 	if(saveArray[10] == "true")
@@ -4850,7 +4851,8 @@ function getSession()
 {
 	//Takes the Whole data and splits it into sections
 	var saveArray = saveState.split("~");
-    if(saveArray[9] !=[])
+    console.log(saveArray[9] == "NaN")
+    if(saveArray[9] !=[] && saveArray[9] != "NaN")
     {
         //Game Over Boolean
         if(saveArray[10] == "true")
@@ -4995,8 +4997,7 @@ function gameResults(scores, tutorial)
 		var pos = chosenEvent.groupPos.split(',');
 		//console.log(pos);
 		var posText =  "<h4>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame with these groups: ";
-		for (var i =0; i< pos.length;i++)
-		{
+		for (var i =0; i< pos.length;i++){
 			switch(pos[i])
 			{
 				case "Poor":
@@ -5969,6 +5970,10 @@ runningGame2.main =
 	inArea:false,	
 	scores: {
 		score:0,
+		tier1: 2,
+		tier2: 4,
+		tier3: 6,
+		tier4: 8
 	},
 	buildingHover: [false,false,false,false,false,false],
 
@@ -6123,7 +6128,7 @@ runningGame2.main =
 	stopGame: function ()
 	{
 		runningGame2.main.stop=true;
-		gameResults(runningGame.main.scores, practice);
+		gameResults(runningGame2.main.scores, practice);
 	},
 
 	draw: function(c,ctx)
@@ -7059,10 +7064,12 @@ runningGame4.main = {
 
 	},
 	//all the images
-
-
 	scores: {
 		score:0,
+		tier1: 3,
+		tier2: 7,
+		tier3: 10,
+		tier4: 15,
 	},
 	colors: ['darkred','red','#004c00', '#00cc00','#00004c', 'blue','darkorange', 'yellow'],
 	clickColor:[0,0,0,0],
@@ -7416,13 +7423,13 @@ runningGame4.main = {
 		//requestionAnimation
 		if(runningGame4.main.endGame ==  false){
 			requestAnimationFrame(function(){runningGame4.main.draw(c,ctx)});
-			requestAnimationFrame(function(){runningGame4.main.update(c,ctx)});				
+			requestAnimationFrame(function(){runningGame4.main.update(c,ctx)});		
 			runningGame4.main.endOfRound();
 		}
 		else{
 			console.log('END GAME')
-			console.log(practice);
-			gameResults(10, practice)
+			
+			gameResults(runningGame4.main.scores, practice)
 		}
 	},
 
@@ -7496,7 +7503,6 @@ runningGame4.main = {
 			stu1 = [[[118,208],[114,208],[112,210]],[[114,208],[112,220],[110,220]],[[119,207],[120,213],[126,213]],[[118,207],[113,220],[107,215]]]
 			stu2 = [[[714,209],[712,209],[708,207]],[[719,208],[714,214],[712,214]],[[718,208],[714,214],[736,214]],[[722,207],[714,214],[703,214]]]
 
-			console.log(stu2[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][0])
 			ctx.drawImage(headSheet,154.6 * 0,0,154.6,172,stu1[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][0],stu1[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][1],59.6,62)
 			ctx.drawImage(headSheet,154.6 * 0,0,154.6,172,stu2[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][0],stu2[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][1],59.6,62)
 
@@ -7670,6 +7676,7 @@ runningGame4.main = {
 						runningGame4.main.resultText = 'Wrong'
 					}
 					else{
+						
 						runningGame4.main.resultText = 'Correct'
 					}
 				}
@@ -7792,6 +7799,10 @@ runningGame4.main = {
 					{
 						runningGame4.main.clickpause = true;
 						runningGame4.main.showMeYourMove = true;
+						if(!runningGame4.main.incorrectDance){
+							runningGame4.main.scores.score++;
+						}
+
 						runningGame4.main.danceGen();
 					}			
 			
