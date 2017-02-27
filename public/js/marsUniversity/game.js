@@ -4829,6 +4829,7 @@ function loadGame()
     
 	//Game Session Number
 	gameSession = parseInt(saveArray[9]);
+    console.log(saveArray)
     
 	//Game Over Boolean
 	if(saveArray[10] == "true")
@@ -4850,7 +4851,8 @@ function getSession()
 {
 	//Takes the Whole data and splits it into sections
 	var saveArray = saveState.split("~");
-    if(saveArray[9] !=[])
+    console.log(saveArray[9] == "NaN")
+    if(saveArray[9] !=[] && saveArray[9] != "NaN")
     {
         //Game Over Boolean
         if(saveArray[10] == "true")
