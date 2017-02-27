@@ -225,7 +225,7 @@ function openGlossary()
 function startCharacterSelect(){
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
-  getSession()
+ 	getSession(gameOver);
 	resetGame();
 	//character creator here
 	//for right now we'll do a drop down option
@@ -3384,7 +3384,7 @@ function resetGame()
 	candidates=[];
 	var playerCandidate = new CandidateCreate("ph");
 	var opponentCandidate = new CandidateCreate("Liz");
-  if(gameOver)
+  	if(gameOver)
     {
         gameSession++; 
         gameOver = false;
@@ -4846,23 +4846,25 @@ function loadGame()
 
 }
 
-function getSession()
+function getSession(gameOver)
 {
 	//Takes the Whole data and splits it into sections
 	var saveArray = saveState.split("~");
-    console.log(saveArray[9] == "NaN")
-    if(saveArray[9] !=[] && saveArray[9] != "NaN")
-    {
-        gameSession = parseInt(saveArray[9]) + 1;
-        gameOver = false;
-        endReset = false;
-    }
-    else
-    {
-        gameSession = 0;
-        gameOver = false;
-        endReset = false;
-    }
+	if(!gameOver){
+    	console.log(saveArray[9] == "NaN")
+    	if(saveArray[9] !=[] && saveArray[9] != "NaN")
+    	{
+        	gameSession = parseInt(saveArray[9]) + 1;
+        	gameOver = false;
+        	endReset = false;
+    	}
+    	else
+    	{
+        	gameSession = 0;
+        	gameOver = false;
+        	endReset = false;
+    	}
+	}
     
 }
 /* Back Button Prevention code */

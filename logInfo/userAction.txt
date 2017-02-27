@@ -28,3 +28,28 @@ MinigameScore2-4-undefined-1488216629070-aaronjmill32
 2-userAction-Mean Moves-1488216796662-aaronjmill32
 MinigameScore2-4-9-1488216833615-aaronjmill32
 2-userAction-Posters-1488218948350-aaronjmill32
+2-userAction-Attend Clubs-1488223154168-aaronjmill32
+2-userAction-Booth-1488223575492-aaronjmill32-2_1_1
+2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1488223769999-aaronjmill32-2_1_1
+2-endGame-Winner: Cowboy-Player Rank:7-1488224066134-aaronjmill32-2_1_1
+2-userAction-Secret Sticker-1488224088392-aaronjmill32-2_1_1
+MinigameScore2-3-4-1488224111552-aaronjmill32-2_1_1
+2-endGame-Winner: Martian Dog-Player Rank:7-1488224228462-aaronjmill32-2_1_NaN
+2-endGame-Winner: Martian Dog-Player Rank:7-1488224293512-aaronjmill32-2_1_NaN
+2-userAction-Attend Clubs-1488224338714-aaronjmill32-2_1_NaN
+2-userAction-Party-1488224351642-aaronjmill32-2_1_0
+2-endGame-Winner: Cowboy-Player Rank:7-1488224355294-aaronjmill32-2_1_0
+2-userAction-Secret Sticker-1488224368420-aaronjmill32-2_1_0
+2-endGame-Winner: Martian Scientist-Player Rank:7-1488224383060-aaronjmill32-2_1_0
+2-userAction-Dance-1488224527346-aaronjmill32-2_1_0
+2-endGame-Winner: Martian Scientist-Player Rank:7-1488224533662-aaronjmill32-2_1_0
+2-endGame-Winner: Martian Dog-Player Rank:7-1488224682795-aaronjmill32-2_1_0
+2-endGame-Winner: Martian Dog-Player Rank:7-1488224777899-aaronjmill32-2_1_0
+2-userAction-Community Service-1488224849617-aaronjmill32-2_1_0
+2-endGame-Winner: Martian Dog-Player Rank:7-1488224851727-aaronjmill32-2_1_0
+2-endGame-Winner: Zrap Bannigan-Player Rank:7-1488224913610-aaronjmill32-2_1_NaN
+2-endGame-Winner: Zrap Bannigan-Player Rank:7-1488224978186-aaronjmill32-2_1_NaN
+2-endGame-Winner: Zrap Bannigan-Player Rank:7-1488225097462-aaronjmill32-2_1_0
+2-endGame-Winner: Zrap Bannigan-Player Rank:7-1488225254888-aaronjmill32-2_1_0
+2-userAction-Posters-1488225608561-aaronjmill32-2_1_1
+2-poll-issFav*candOpp*undefined*undefined*undefined*undefined-1488225614735-aaronjmill32-2_1_1

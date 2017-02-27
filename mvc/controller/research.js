@@ -79,7 +79,8 @@ function readLines(){
       objectHolder.type = newHolderArray[1];
       objectHolder.action = newHolderArray[2];
       objectHolder.username = newHolderArray[4];
-      objectHolder.timeStamp =  new Date(newHolderArray[3] * 1).toLocaleString()
+      objectHolder.timeStamp =  new Date(newHolderArray[3] * 1).toLocaleString();
+      objectHolder.gameSession = newHolderArray[5];
     }
     else if(newHolderArray[1] == 'endGame'){
       objectHolder.id = newHolderArray[0];
@@ -87,6 +88,8 @@ function readLines(){
       objectHolder.action = newHolderArray[2] + " " + newHolderArray[3];
       objectHolder.username = newHolderArray[5];
       objectHolder.timeStamp =  new Date(newHolderArray[4] * 1).toLocaleString()
+      objectHolder.gameSession = newHolderArray[6];
+         console.log(objectHolder.gameSession)
     }
     else if(newHolderArray[1] == 'poll'){
       objectHolder.id = newHolderArray[0];
@@ -94,6 +97,8 @@ function readLines(){
       objectHolder.action = newHolderArray[2];
       objectHolder.timeStamp =  new Date(newHolderArray[3] * 1).toLocaleString();
       objectHolder.username = newHolderArray[4];
+      objectHolder.gameSession = newHolderArray[5];
+         console.log(objectHolder.gameSession)
       objectHolder.isPoll = true;
       //do the questions
 
@@ -119,7 +124,10 @@ function readLines(){
       objectHolder.action = "Score: " + newHolderArray[2];
       objectHolder.timeStamp =  new Date(newHolderArray[3] * 1).toLocaleString()
       objectHolder.username = newHolderArray[4];
+      objectHolder.gameSession = newHolderArray[5];
+         console.log(objectHolder.gameSession)
     }
+
 
     if(objectHolder.length >=0){
       lineArray.push(objectHolder);
