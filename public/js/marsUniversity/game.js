@@ -180,7 +180,7 @@ function startPractice()
 {
 	clearScreen();
 	practice = true;
-	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Minigame 1</a><br><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Minigame 2</a><a onclick = 'practiceGame(3)' id='index-link' class = 'btn double remove'>Minigame 3</a><br><a onclick = 'practiceGame(4)' id='index-link' class = 'btn double remove'>Minigame 4</a><a onclick = 'practiceGame(5)' id='index-link' class = 'btn double remove'>Minigame 5</a></div> <br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>"; 
+	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Fun Run</a><br><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Photobomb</a><a onclick = 'practiceGame(3)' id='index-link' class = 'btn double remove'>Secret Sticker</a><br><a onclick = 'practiceGame(4)' id='index-link' class = 'btn double remove'>Mean Moves</a><a onclick = 'practiceGame(5)' id='index-link' class = 'btn double remove'>T-Shirt Canon</a></div> <br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>"; 
 
 
 }
@@ -6407,6 +6407,10 @@ secretSticker.main =
         placeStudents: false,
         scores: {
             score:0,
+            tier1: 1,
+            tier2: 3,
+            tier3: 5,
+            tier4: 7
         },
         areas:
         [ 
@@ -6600,6 +6604,8 @@ secretSticker.main =
             }
             else
             {
+                if(secretSticker.main.takenDemograph1 >= secretSticker.main.demograph1num)
+                    secretSticker.main.score++;
                 gameResults(secretSticker.main.scores, practice);
             }
         },
