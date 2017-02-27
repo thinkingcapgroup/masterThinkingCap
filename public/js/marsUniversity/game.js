@@ -7997,9 +7997,13 @@ tshirtCannon.main = {
 	},
 
 	draw: function(c,ctx){
+        
+        //BackGrounds
+        var GymBG = new Image();
+        GymBG.src = '../../img/minigame5/GymTshirtCanonBG.png';
+        
 		//clear
-		ctx.fillStyle = "#FFFFFF";
-		ctx.fillRect(0,0,c.width, c.height);
+		ctx.drawImage(GymBG, 0,0,900,500);
 		//draw bg
 
 		ctx.fillStyle = "#000000";
