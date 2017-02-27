@@ -6,6 +6,7 @@ $(document).on('click','.logEvent', function(req, res, next){
       //userAction
      var name;
      var time;
+           console.log(gameSession);
      var eventID = $(this).get(0).id;
      $.getJSON("json/data.json", function(data){
      	name = data.events[eventID].name;
@@ -20,6 +21,7 @@ $(document).on('click','.logEvent', function(req, res, next){
 $(document).on('click','.logEventEnd', function(req, res, next){
       //grab event ID
       //userAction
+
      setTimeout(function(){
       var winning = 'Winner: ' + ranking[0].name;
       var playerRank = 0;
