@@ -906,6 +906,7 @@ function gameCycleStart(f)
 
 function userAction()
 {
+    document.getElementById("holo").src = "../../img/openscreenlarge.png";
 	//Clear previous screen
 	clearScreen();
 	document.getElementById("playerInfo").style.display = "block";
@@ -1657,6 +1658,7 @@ function explainTerm(term, help){
 }
 
 function map(state, isFirst, isFree){
+    
 	clearScreen();
     
 	var prevHours = document.getElementById("playerInfo");
@@ -1705,26 +1707,26 @@ function map(state, isFirst, isFree){
 		document.getElementById("sample").options.add(new Option("Sample 20 Students", 20));
 		if(remainingHoursDay> 5 )
 			document.getElementById("sample").options.add(new Option("Sample 40 Students", 40));
-		if(remainingHoursDay> 7 )
-			document.getElementById("sample").options.add(new Option("Sample 60 Students", 60));
-		if(remainingHoursDay> 9 )
-			document.getElementById("sample").options.add(new Option("Sample 80 Students", 80));
+		//if(remainingHoursDay> 7 )
+		//	document.getElementById("sample").options.add(new Option("Sample 60 Students", 60));
+		//if(remainingHoursDay> 9 )
+		//	document.getElementById("sample").options.add(new Option("Sample 80 Students", 80));
 
 			document.getElementById("rooms").options.add(new Option("1 Room", 20));
 		if(remainingHoursDay> 5 )
 			document.getElementById("rooms").options.add(new Option("2 Rooms", 40));
-		if(remainingHoursDay> 7 )
-			document.getElementById("rooms").options.add(new Option("3 Rooms", 60));
-		if(remainingHoursDay> 9 )
-			document.getElementById("rooms").options.add(new Option("4 Rooms", 80));
+		//if(remainingHoursDay> 7 )
+		//	document.getElementById("rooms").options.add(new Option("3 Rooms", 60));
+		//if(remainingHoursDay> 9 )
+		//	document.getElementById("rooms").options.add(new Option("4 Rooms", 80));
 
 			document.getElementById("timeSpent").options.add(new Option("1 Hour", 20));
 		if(remainingHoursDay> 5 )
 				document.getElementById("timeSpent").options.add(new Option("2 Hours", 40));
-		if(remainingHoursDay> 7 )
-				document.getElementById("timeSpent").options.add(new Option("4 Hours", 60));
-		if(remainingHoursDay> 9 )
-				document.getElementById("timeSpent").options.add(new Option("8 Hours", 80));
+		//if(remainingHoursDay> 7 )
+		//		document.getElementById("timeSpent").options.add(new Option("4 Hours", 60));
+		//if(remainingHoursDay> 9 )
+		//		document.getElementById("timeSpent").options.add(new Option("8 Hours", 80));
 
 
 		document.getElementById("questions").innerHTML += "<h4> Poll Questions Every set of one or two questions you add will equal an hour. </h4> <br>";
@@ -2423,7 +2425,6 @@ function statementCalcOtherCandidate(x){
 //Displays the result of a poll immediately after it end and then saves the report for later viewing
 function pollResults(state, isFirst, isFree)
 {
-
 
 	var bias = document.getElementById('location').value;
 	document.getElementById("event").style.display = "none";
@@ -3840,7 +3841,16 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 //Builds a table by looping through the Array created by pollCalc and putting each value into a cell.
 function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, review, state, isFree, isFirst)
 {
-
+    if(pollChoices.length < 3)
+    {
+        document.getElementById("holo").src = "../../img/holopadSize1.png";
+    }
+    else if(pollChoices.length >= 3 && pollChoices.length< 5)
+    {
+        document.getElementById("holo").src = "../../img/holopadSize2.png";
+    }
+    else{document.getElementById("holo").src = "../../img/holopadSize3.png";}
+    
 	//console.log(tableArray2);
 	var rowCounter = 0;
 	var cellCounter = 0;
