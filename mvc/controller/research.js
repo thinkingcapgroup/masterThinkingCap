@@ -125,7 +125,7 @@ function readLines(){
       objectHolder.timeStamp =  new Date(newHolderArray[3] * 1).toLocaleString()
       objectHolder.username = newHolderArray[4];
       objectHolder.gameSession = newHolderArray[5];
-         console.log(objectHolder.gameSession)
+     
     }
 
 
