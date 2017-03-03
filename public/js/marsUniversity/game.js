@@ -6636,6 +6636,16 @@ secretSticker.main =
             poster.src = '../../img/minigame3/VotePosterProp.png';
             var sticker = new Image();
             sticker.src = '../../img/minigame3/Stickerasset.png';
+            //BackGrounds
+            var LibWall = new Image();
+            LibWall.src = '../../img/minigame3/Librarywallbg.png';
+            var QuadWall = new Image();
+            QuadWall.src = '../../img/minigame3/posterwallbg.png';
+            var GymWall = new Image();
+            GymWall.src = '../../img/minigame3/WallforGymBG.png';
+            var MediaWall = new Image();
+            MediaWall.src = '../../img/minigame3/WallforMediaRoomBG.png';
+            
             //draw the background for the area
             ctx.fillStyle="#FFFFFF";
             ctx.fillRect(0,0,c.width,c.height);
@@ -6647,8 +6657,35 @@ secretSticker.main =
                 ctx.drawImage(mapbackground, 0,0,900,500);
             }
             else{
+                switch(secretSticker.main.areaNumber)
+                {
+                    case 1:
+                    ctx.drawImage(QuadWall, 0,0,900,500);
+                    break;
+                    case 2:
+                    ctx.drawImage(GymWall, 0,0,900,500);
+                    break;
+                    case 3:
+                    ctx.drawImage(MediaWall, 0,0,900,500);
+                    break;
+                    case 4:
                     ctx.fillStyle = '#FFFFFF';
                     ctx.fillRect(0,0,900, 500)
+                    //ctx.drawImage(mapbackground, 0,0,900,500);
+                    break;
+                    case 5:
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.fillRect(0,0,900, 500)
+                    //ctx.drawImage(mapbackground, 0,0,900,500);
+                    break;
+                    case 6:
+                    ctx.drawImage(LibWall, 0,0,900,500);
+                    break;
+                    default:
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.fillRect(0,0,900, 500)
+                    break;
+                }
                 
             }
             //draw anything specific ontop of the background layer depending on what area you are
@@ -7998,9 +8035,13 @@ tshirtCannon.main = {
 	},
 
 	draw: function(c,ctx){
+        
+        //BackGrounds
+        var GymBG = new Image();
+        GymBG.src = '../../img/minigame5/GymTshirtCanonBG.png';
+        
 		//clear
-		ctx.fillStyle = "#FFFFFF";
-		ctx.fillRect(0,0,c.width, c.height);
+		ctx.drawImage(GymBG, 0,0,900,500);
 		//draw bg
 
 		ctx.fillStyle = "#000000";
