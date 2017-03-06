@@ -954,7 +954,7 @@ function userAction()
     mapbackground.src = '../../img/map/mapMU600pxW.png';
     
     var c=document.getElementById("myCanvas");
-	var ctx = c.getContext("2d");
+		var ctx = c.getContext("2d");
     ctx.fillStyle = '#FFFFFF'
     
     
@@ -971,7 +971,7 @@ function userAction()
 	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='statement()'> Make a Statement - 1 Hour</button>";
 	document.getElementById("Buttons").innerHTML += "<button type='button' class = 'logHelp' onclick='helpScreen()'> Help Screen</button>";
 	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='trendReportMenu()'> View Trend Reports</button>";
-	document.getElementById("Buttons").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button>";
+	document.getElementById("Buttons").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
 	for(var i=0; i<pastPollResults.length;i++)
 	{
 		var num = i+1;
@@ -1848,6 +1848,9 @@ function drawMap()
 	var mediaIcon = new Image();
 	mediaIcon.src =  '../img/map/mediaicon.png';
 
+        var mapbackground = new Image();
+        mapbackground.src = '../../img/map/mapMU600pxW.png';
+
 	//peopleicons
 	var tuitionIcon = new Image();
 	tuitionIcon.src = '../img/icons/tuitionsquare.png';
@@ -1863,11 +1866,11 @@ function drawMap()
     var c=document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
     
-    
+  ctx.draw
 	ctx.strokeStyle = '#00FFFF';
 	ctx.fillStyle = 'rgba(0,255,255,0.5)';
 	ctx.lineWidth = 3;
-	
+	  ctx.drawImage(mapbackground, 0,0,600,414);
 	//stroke areas for gym
 	ctx.beginPath();
         ctx.moveTo(360,15);
@@ -5531,6 +5534,7 @@ runningGame.main =
 	lanes:[],
 	enemies:[],
 	coins:[],
+	instruction: true,
 	speed:50,
 	time: 60,
 	playTime: this.time*1000,
@@ -5550,6 +5554,7 @@ runningGame.main =
 	{
 		ctx.restore;
 		ctx.save;
+		runningGame.main.instruction = true;
 		bodyPixelLocation = [];
 		frameIndex = 0;
 		ticker = 0;
@@ -5659,27 +5664,19 @@ runningGame.main =
 		ctx.strokeText("Score " +runningGame.main.scores.score+"",0,20);
 
 		c.onmousedown = runningGame.main.doMousedown;
-		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/15)
-		{setTimeout(runningGame.main.enemyGenerator, i);}
-		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/20)
-		{setTimeout(runningGame.main.coinGenerator, i);}
-		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/6)
-		{setTimeout(runningGame.main.increaseSpeed, i);}
-		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/runningGame.main.time)
-		{setTimeout(runningGame.main.timer, i);}
-		setTimeout(runningGame.main.stopGame, runningGame.main.playTime);
+		
 		runningGame.main.update(c,ctx);
 	},
 
 	update: function (c,ctx)
 	{
 		if(!runningGame.main.stop)
-		{
-			requestAnimationFrame(function(){runningGame.main.update(c,ctx)});
+		{			
 			requestAnimationFrame(function(){runningGame.main.draw(c,ctx)});
 			
-			
-			runningGame.main.collisionManager();
+			if(runningGame.main.instruction == false){
+				requestAnimationFrame(function(){runningGame.main.update(c,ctx)});
+				runningGame.main.collisionManager();
 			for(var i=0;i<runningGame.main.enemies.length;i++)
 			{
 				runningGame.main.enemies[i].move();
@@ -5691,12 +5688,15 @@ runningGame.main =
 			if(frameIndex >= 8){
 				frameIndex = 0;
 			}
-			ticker++;
+				ticker++;
+			}
 		}
 	},
 
 	draw: function(c,ctx)
 	{
+		console.log(runningGame.main.instruction)
+		if(runningGame.main.instruction == false){
 		ctx.drawImage(backgroundImage,-30,0,930,500);
 		
 		
@@ -5757,6 +5757,21 @@ runningGame.main =
 				frameIndex++;
 				ticker = 0;
 			}
+		}
+		else{
+			ctx.fillStyle = "#FFFFFF";
+			ctx.fillRect(0,0,c.width, c.height);
+			ctx.fillStyle = '#000000';
+			ctx.font="30px Arial";
+			ctx.fillText("Fun Run",390,70)
+			ctx.font = '16px Arial';
+			ctx.fillText('You have places to be and things to do.',300,125);
+			ctx.fillText('On the way be sure to greet your (hopefully) adoring public.',250,175);
+			ctx.fillText('High Five as many as you can before time runs out.',275,225);
+			ctx.fillText('Be careful not to run into the ones carrying things.', 275, 275)
+				ctx.fillText('Click to start!', 400, 320)
+
+		}
 		
 
 	},
@@ -5765,14 +5780,14 @@ runningGame.main =
 	{ 
 	//console.log(canvasMouse);
 		var mouse = canvasMouse;
-		runningGame.main.laneChanger(mouse);
+		runningGame.main.laneChanger(mouse, c, ctx );
 	},
 
-	laneChanger: function (mouse)
+	laneChanger: function (mouse,c,ctx)
 	{
 		//console.log(runningGame.main.lanes);
-		//console.log(mouse);
-		
+		console.log(mouse, runningGame.main.instruction);
+		if(!runningGame.main.instruction){
 		for(var i=0; i < runningGame.main.lanes.length; i++)
 		{
 			if(mouse.x >= runningGame.main.lanes[i].left && mouse.x <= runningGame.main.lanes[i].right && mouse.y >= runningGame.main.lanes[i].top && mouse.y <= runningGame.main.lanes[i].top + runningGame.main.lanes[i].bottom )
@@ -5791,6 +5806,24 @@ runningGame.main =
 					//console.log("3");
 				}
 			}
+		}
+	}
+	else{
+		runningGame.main.instruction = false;
+			var c=document.getElementById("myCanvas");
+			var ctx = c.getContext("2d");
+
+			for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/15)
+		{setTimeout(runningGame.main.enemyGenerator, i);}
+		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/20)
+		{setTimeout(runningGame.main.coinGenerator, i);}
+		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/6)
+		{setTimeout(runningGame.main.increaseSpeed, i);}
+		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/runningGame.main.time)
+		{setTimeout(runningGame.main.timer, i);}
+		setTimeout(runningGame.main.stopGame, runningGame.main.playTime);
+
+			runningGame.main.update(c,ctx);
 		}
 	},
 
@@ -5977,6 +6010,7 @@ runningGame2.main =
 
 	},
 	studentCircles: [],
+	activeStudent: "",
 	requiredDemograph1: 0,
 	requiredDemograph2: 0,
 	takenDemograph1:0,
@@ -5987,6 +6021,7 @@ runningGame2.main =
 	specialExist: false,
 	picturetaken: false,
 	inArea:false,	
+	hover: false,
 	scores: {
 		score:0,
 		tier1: 2,
@@ -6004,6 +6039,10 @@ runningGame2.main =
 		ctx.restore;
 		ctx.save;
 		runningGame2.main.stop = false;
+		runningGame2.main.hover = false;
+
+		headIcons = new Image();
+		headIcons.src = '../img/spriteheadlong.png';
 
 		//map icons
 		libraryIcon = new Image();
@@ -6023,7 +6062,7 @@ runningGame2.main =
 		tuitionIcon = new Image();
 		tuitionIcon.src = '../img/icons/tuitionsquare.png';
 		sportsIcon = new Image();
-		sportsIcon.src = '../img/icons/sportscircle.png';
+		sportsIcon.src = '../img/icons/sportssquare.png';
 		researchIcon = new Image();
 		researchIcon.src = '../img/icons/researchsquare.png';
 		socialIcon = new Image();
@@ -6031,7 +6070,8 @@ runningGame2.main =
 		medicalIcon = new Image();
 		medicalIcon.src = '../img/icons/medicalsquare.png';
 
-
+		studentID = new Image();
+		studentID.src = '../img/minigame2/studentid.png';
 
 
 		//get people assets
@@ -6061,7 +6101,7 @@ runningGame2.main =
 		plusStrong.src = '../img/minigame2/plusstrong.png';
 
 		imgBArray = [[thinPeace1, thinPeace2, thinStrong], [medPeace1, medPeace2, medStrong], [plusPeace1, plusPeace2, plusStrong], [hoverPeace1, hoverPeace2, hoverStrong]]
-
+		iconArray = [tuitionIcon, sportsIcon, researchIcon, socialIcon, medicalIcon];
 		mapbackground = new Image();
 		mapbackground.src = '../img/map/map.png';
 
@@ -6095,6 +6135,7 @@ runningGame2.main =
 		{
 			requestAnimationFrame(function(){runningGame2.main.update(c,ctx)});
      		requestAnimationFrame(function(){runningGame2.main.draw(c,ctx)});
+     	
 	
 			//double check player photos = the amount they need
 				//end game
@@ -6110,7 +6151,8 @@ runningGame2.main =
 			 	if(!runningGame2.main.inArea){
 			 	createSample((Math.floor(Math.random() * 3) + 5), runningGame2.main.areaNumber)
 				runningGame2.main.studentCircles = [];
-	
+				widthArray = [ [[60,150],[70,160],[70,120]], [[80,140],[80,140],[80,140]],[[100,140],[100,140],[100,140]],[[80,140],[80,140],[80,140]]]		
+				headArray = [[[17,9,0],[5,14,7],[12,10,2]] , [[1,8,4],[1,9,17],[7,3,8]] , [[16,8,0],[0,16,6],[14,4,7]] , [[0,11,14],[12,8,5],[4,7,16]] ]
 				sample.forEach(function(element) {
 					var studentCircleHolder = {
 						isDemographic: false,
@@ -6119,8 +6161,14 @@ runningGame2.main =
 						posenum: Math.floor(Math.random() * 3),
 						headnum: Math.floor(Math.random() * 3),
 						x:  Math.floor(Math.random() * 99) + (110 * hold),
-   					y:  Math.floor(Math.random() * 250) + 50
+   					y:  Math.floor(Math.random() * 250) + 50,
+   					headID: 0,
+   					width: 10,
+   					height: 10,
 					}
+					studentCircleHolder.width = widthArray[studentCircleHolder.typenum][studentCircleHolder.posenum][0]
+					studentCircleHolder.height= widthArray[studentCircleHolder.typenum][studentCircleHolder.posenum][1]
+					studentCircleHolder.headID = headArray[studentCircleHolder.typenum][studentCircleHolder.posenum][studentCircleHolder.headnum]
 					hold++;
    				if(studentCircleHolder.interest == runningGame2.main.demograph1num){
    						studentCircleHolder.isDemographic = true;   					
@@ -6247,19 +6295,36 @@ runningGame2.main =
 					ctx.fillRect(400,440,100,50);
 					ctx.fillStyle = '#FFFFFF'
 					ctx.fillText("Take Picture",410,460);
+
+					//student ID card
+					if(runningGame2.main.hover){
+						ctx.drawImage(studentID,670,345,230,155)
+						//draw head
+						ctx.drawImage(headIcons,154 * runningGame2.main.activeStudent.headID,0,154,172,693,370,60,60)
+						//draw icon
+						ctx.drawImage(iconArray[runningGame2.main.activeStudent.interest],803,413,40,40)
+					}
 				}
 		
 					//draw the score
+					ctx.fillStyle = '#CCCCCC';
+					ctx.fillRect(0,0,c.width,32);
+
 					ctx.fillStyle = '#000000'
-					var scoreText = runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " " + positions[runningGame2.main.demograph1num];
+					var scoreText = runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " ";
 					var photosLeftText = runningGame2.main.player.picturenum + '/3 Photos Left'
-					ctx.fillText(scoreText, 700,10);
+					ctx.fillText(scoreText, 725,20);
+					ctx.drawImage(iconArray[runningGame2.main.demograph1num], 750,1,30,30);
 					ctx.fillText(photosLeftText, 100,10);
 		}
 		else if (runningGame2.main.areaNumber == -1){
 			ctx.fillStyle = '#000000'
-			ctx.fillText('INSTRUCTION PAGE', 100,100)
-			ctx.fillRect(400,440,100,100);
+			ctx.fillText('Photobomb', 400,100)
+			ctx.fillText('Travel around the school to snap photos for your campaign’s social media.', 200,150)
+			ctx.fillText('You’ll be given a target demographic for this set of photos in the top right.', 200,200)
+			ctx.fillText('Find who is in the group by hovering your mouse over a student.', 250,250)
+			ctx.fillText('When you run out of photos the game is over.', 300,300)
+			ctx.fillText('Click to Start',400,400);
 		}
 	},
 
@@ -6272,13 +6337,12 @@ runningGame2.main =
 		widthArray = [ [[60,150],[70,160],[70,120]], [[80,140],[80,140],[80,140]],[[100,140],[100,140],[100,140]],[[80,140],[80,140],[80,140]]]		
 		
 		//icons
-		iconArray = [tuitionIcon, sportsIcon, researchIcon, socialIcon, medicalIcon];
 
 		students.forEach(function(e){
 			//draw student	
 			ctx.drawImage(imgBArray[e.typenum][e.posenum], sizeArray[e.typenum][e.posenum][0] * e.headnum, 0,sizeArray[e.typenum][e.posenum][0],sizeArray[e.typenum][e.posenum][1],e.x,e.y,widthArray[e.typenum][e.posenum][0],widthArray[e.typenum][e.posenum][1]);
 			//draw head
-			ctx.drawImage(iconArray[e.interest], e.x + 25, e.y-30, 40,40)
+		
 		})
 	
 
@@ -6369,6 +6433,7 @@ runningGame2.main =
 
 	doMouseOver: function(c, e){
 		var mouse = canvasMouse;
+			widthArray = [ [[60,150],[70,160],[70,120]], [[80,140],[80,140],[80,140]],[[100,140],[100,140],[100,140]],[[80,140],[80,140],[80,140]]]		
 				//check if the area is clickable
 		if(runningGame2.main.areaNumber == 0){
 			runningGame2.main.buildingHover = [false,false,false,false,false,false];
@@ -6403,6 +6468,22 @@ runningGame2.main =
 			if((mouse.x >= 600 && mouse.x <= 880)&&(mouse.y >= 330 && mouse.y <= 495)){
 				runningGame2.main.buildingHover[5] = true;
 			}
+		}
+		else if (runningGame2.main.areaNumber > 0){
+			var showStudentID = false;
+			runningGame2.main.hover = false;
+			for(var z =0; z < runningGame2.main.studentCircles.length; z++){
+				if(mouse.x >= runningGame2.main.studentCircles[z].x && mouse.x <= (runningGame2.main.studentCircles[z].x+ runningGame2.main.studentCircles[z].width)){
+					if(mouse.y >= runningGame2.main.studentCircles[z].y && mouse.y <= (runningGame2.main.studentCircles[z].y+ runningGame2.main.studentCircles[z].height)){
+						showStudentID = true;	
+						runningGame2.main.activeStudent = runningGame2.main.studentCircles[z];
+					}
+				}
+			}
+			if(showStudentID == true){
+				runningGame2.main.hover = true;
+			}
+			
 		}
 	},
 }
@@ -7983,6 +8064,7 @@ tshirtCannon.main = {
 	areaNum: 0,
 	students: [],
 	time: 60,
+	instruction: true,
 	playTime: this.time*1000,
 	scores:
 	{
@@ -7996,21 +8078,45 @@ tshirtCannon.main = {
 
 	init: function(c,ctx){
 		ctx.restore;
-		ctx.save;	
+		ctx.save;
+
+		tshirtCannon.main.students = [];
+		tshirtCannon.main.scores.score = 0;
+		//images
+		gymBG = new Image();
+		gymBG.src = '../img/minigame5/background.png'
+		thinwalk = new Image();
+		thinwalk.src = '../img/minigame5/thinwalkcyclesheet.png'
+		medwalk = new Image();
+		medwalk.src = '../img/minigame5/medwalkcycletop.png'
+		pluswalk = new Image();
+		pluswalk.src = '../img/minigame5/largewalkcycletop.png'
+		chairwalk = new Image();
+		chairwalk.src = '../img/minigame5/chairwalkcycletop.png'
+
+		happy = new Image();
+		happy.src = '../img/minigame5/happyreaction.png'
+		neutral = new Image();
+		neutral.src = '../img/minigame5/neutralreaction.png'
+		angry = new Image();
+		angry.src = '../img/minigame5/angryreaction.png'
+
+		tshirt1 = new Image();
+		tshirt1.src = '../img/minigame5/tshirt1.png'
+		tshirt2 = new Image();
+		tshirt2.src = '../img/minigame5/tshirt2.png'
+		tshirt3 = new Image();
+		tshirt3.src = '../img/minigame5/tshirt3.png'
+
+		walkingArray = [thinwalk,medwalk,pluswalk,chairwalk];
+		reactionArray = [happy,neutral,angry];
+
+		tshirtCannon.main.instruction = true;
 
 		tshirtCannon.main.areaNum = 0;
 		tshirtCannon.main.currentAmmo = 0;
 		tshirtCannon.main.gameStop = false;
-		tshirtCannon.main.time = 60;
-		tshirtCannon.main.playTime= tshirtCannon.main.time*1000;
-
-		for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/20){
-			setTimeout(tshirtCannon.main.peopleGenerator, i);
-		}
-		setTimeout(tshirtCannon.main.stop, tshirtCannon.main.playTime);
-        
-		for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/tshirtCannon.main.time)
-		{setTimeout(tshirtCannon.main.timer, i);}
+	
         
 		c.onmousedown = tshirtCannon.main.doMousedown;
 		tshirtCannon.main.update(c,ctx);
@@ -8025,25 +8131,25 @@ tshirtCannon.main = {
 	{
 		if(!tshirtCannon.main.gameStop){
 		//check if game finished
+				requestAnimationFrame(function(){tshirtCannon.main.draw(c,ctx)});
+			
+			if(tshirtCannon.main.instruction == false){		
 
-			requestAnimationFrame(function(){tshirtCannon.main.draw(c,ctx)});
-			requestAnimationFrame(function(){tshirtCannon.main.update(c,ctx)});		
+				requestAnimationFrame(function(){tshirtCannon.main.update(c,ctx)});		
+			}
 			
 			//update score
 
 		}
 	},
 
-	draw: function(c,ctx){
-        
-        //BackGrounds
-        var GymBG = new Image();
-        GymBG.src = '../../img/minigame5/GymTshirtCanonBG.png';
-        
-		//clear
-		ctx.drawImage(GymBG, 0,0,900,500);
-		//draw bg
+	draw: function(c,ctx){    
+		ctx.fillStyle = '#FFFFFF';
+		ctx.fillRect(0,0,c.width, c.height);
 
+    if(tshirtCannon.main.instruction == false) {
+    ctx.drawImage(gymBG,0,0,c.width, c.height);
+	
 		ctx.fillStyle = "#000000";
 		ctx.font = "15px Arial";
 		ctx.fillText("Time Remaining: " +tshirtCannon.main.time+"",700,20);
@@ -8055,27 +8161,54 @@ tshirtCannon.main = {
 		ctx.fillStyle = '#00FFFF'
 		for(var i=0;i<tshirtCannon.main.students.length;i++){
 			if(tshirtCannon.main.students[i].active){
-				ctx.fillRect(tshirtCannon.main.students[i].x,tshirtCannon.main.students[i].y, tshirtCannon.main.students[i].width, tshirtCannon.main.students[i].height)
+				var studentFeeling = 1;
+				if(tshirtCannon.main.students[i].likedtshirt == tshirtCannon.main.currentAmmo){
+					studentFeeling = 0;
+				}
+				else if(tshirtCannon.main.students[i].neutraltshirt == tshirtCannon.main.currentAmmo){
+					studentFeeling = 1;
+				}
+				else if(tshirtCannon.main.students[i].disliketshirt == tshirtCannon.main.currentAmmo){
+					studentFeeling = 2;
+				}
+				ctx.save();
+				if(tshirtCannon.main.students[i].direction == -1){
+					ctx.drawImage(reactionArray[studentFeeling],(tshirtCannon.main.students[i].x*-1) -41,(tshirtCannon.main.students[i].y*-1)-85,35,35)
+					ctx.rotate(Math.PI)
+
+				}
+				else{
+					ctx.drawImage(reactionArray[studentFeeling],tshirtCannon.main.students[i].x+7,tshirtCannon.main.students[i].y-38,35,35)
+				}
+
+				ctx.drawImage(walkingArray[tshirtCannon.main.students[i].body],tshirtCannon.main.students[i].picwidth* tshirtCannon.main.students[i].gender,tshirtCannon.main.students[i].picheight* tshirtCannon.main.students[i].frame,tshirtCannon.main.students[i].picwidth,tshirtCannon.main.students[i].picheight,tshirtCannon.main.students[i].x,tshirtCannon.main.students[i].y,50,50)
+			//draw icon
+				ctx.restore();
 				tshirtCannon.main.students[i].move();
 			}
 		}
 
 		//draw tshirts
 		var strokeArray = [[80,400],[380,400],[680,400]]
+		
+		ctx.fillStyle = "#990000";
+		ctx.fillRect(80,400,160,90);
+		ctx.fillStyle = "#009900";
+		ctx.fillRect(380,400,160,90);
+		ctx.fillStyle = "#000099";
+		ctx.fillRect(680,400,160,90);
 
-		ctx.fillStyle = "#AAAAAA";
-		ctx.fillRect(0,390,c.width,c.height);
-		ctx.fillStyle = "#FF0000";
-		ctx.fillRect(80,400,160,80);
-		ctx.fillStyle = "#00FF00";
-		ctx.fillRect(380,400,160,80);
-		ctx.fillStyle = "#0000FF";
-		ctx.fillRect(680,400,160,80);
+		//draw the shirts
+		ctx.drawImage(tshirt1,125,405,65,74);
+		ctx.drawImage(tshirt2,425,405,65,74);
+		ctx.drawImage(tshirt3,725,405,65,74);
 
 		//stroke
 		ctx.strokeStyle = "#000000";
 		ctx.lineWidth = 5;
-		ctx.strokeRect(strokeArray[tshirtCannon.main.currentAmmo][0],strokeArray[tshirtCannon.main.currentAmmo][1], 160, 80)
+		ctx.strokeRect(strokeArray[tshirtCannon.main.currentAmmo][0],strokeArray[tshirtCannon.main.currentAmmo][1], 160, 90)
+		}
+
 
 	},
 
@@ -8099,14 +8232,20 @@ tshirtCannon.main = {
 		var mod;
 		var directionMod =  Math.floor(Math.random() * 2);
 		var startx;
-		var starty =  Math.floor(Math.random() * 300) + 50;
+		var starty =  Math.floor(Math.random() * 240) +105;
+		var gen = Math.floor((Math.random() * 3));
+		var bodynum =  Math.floor((Math.random() * 4));
+
+		widthArray = [[123,169],[137,185],[175,218],[194,180]]
+
 		if(directionMod == 1){
 			startx = -99;
 			mod = 1
 		}
 		else{
-			startx = 999;
-			mod = -1
+			startx = -900;
+			starty = -1 * starty;
+			mod = -1;
 		}
 
 		var tempRect = 
@@ -8125,20 +8264,28 @@ tshirtCannon.main = {
 		}	
 		if(add)
 		{
+			var tshirtArray = [0,1,2]
+			tshirtArray.sort(function(a, b){return 0.5 - Math.random()});
+
 			tshirtCannon.main.students.push(
 			{
 				touched:false,
 				active: true,
+				direction: mod,
 				width : 50,
+				frame: 0,
 				height : 50,
 				y: starty,
-				tshirt: Math.floor(Math.random() * 3),
-				race: Math.floor((Math.random() * 3)),
-				gender: Math.floor((Math.random() * 3)), 
-				face: Math.floor((Math.random() * 6)), 
-				body: Math.floor((Math.random() * 4)),  
+				picwidth: widthArray[bodynum][0],
+				picheight: widthArray[bodynum][1],
+				likedtshirt: tshirtArray[0],
+				neutraltshirt: tshirtArray[1],
+				disliketshirt: tshirtArray[2],
+				gender: gen, 
+				ticker: 0,
+				body: bodynum,  
 				x: startx,
-				move: function(){this.x+= (100 * mod) * tshirtCannon.main.calculateDeltaTime()},
+				move: function(){this.x+= (100) * tshirtCannon.main.calculateDeltaTime(); this.ticker++; if(this.ticker ==5){if(this.body <3){this.frame++}this.ticker = 0} ; if(this.frame >=8){this.frame = 0;}},
 			});		
 		}
 	},
@@ -8146,8 +8293,7 @@ tshirtCannon.main = {
 	peopleManager: function(){
 		for(var i=0;i<tshirtCannon.main.students.length;i++)
 		{
-			if(tshirtCannon.main.students[i].x >1000 || tshirtCannon.main.students[i].x <-100)
-			{
+			if(tshirtCannon.main.students[i].x >1000 || tshirtCannon.main.students[i].x <-100){
 				tshirtCannon.main.students[i].active = false;
 			}
 		}
@@ -8155,11 +8301,19 @@ tshirtCannon.main = {
 
 	clickPicker: function(mouse){
 
+		if(tshirtCannon.main.instruction == false){
 		for(var x =0; x < tshirtCannon.main.students.length; x++){
-			if(mouse.x >= tshirtCannon.main.students[x].x && mouse.x <= (tshirtCannon.main.students[x].x+tshirtCannon.main.students[x].width)){
-				if(mouse.y >= tshirtCannon.main.students[x].y && mouse.y <= (tshirtCannon.main.students[x].y+tshirtCannon.main.students[x].height)){			
-					if(tshirtCannon.main.students[x].tshirt == tshirtCannon.main.currentAmmo && tshirtCannon.main.students[x].touched == false){
-						console.log('correct');
+			xcord = tshirtCannon.main.students[x].x
+			ycord = tshirtCannon.main.students[x].y
+
+			if(tshirtCannon.main.students[x].direction == -1){			
+				xcord = (tshirtCannon.main.students[x].x * -1) -tshirtCannon.main.students[x].width
+				ycord = (tshirtCannon.main.students[x].y * -1) -tshirtCannon.main.students[x].height
+			}
+			if(mouse.x >= xcord && mouse.x <= (xcord+tshirtCannon.main.students[x].width)){
+				if(mouse.y >= ycord && mouse.y <= (ycord+tshirtCannon.main.students[x].height)){					
+					if(tshirtCannon.main.students[x].likedtshirt == tshirtCannon.main.currentAmmo && tshirtCannon.main.students[x].touched == false){
+		
                         tshirtCannon.main.scores.score++;
                         tshirtCannon.main.students[x].touched = true; 
 					}
@@ -8182,6 +8336,26 @@ tshirtCannon.main = {
 				tshirtCannon.main.currentAmmo = 2;
 			}
 		}
+	}
+	else{
+			tshirtCannon.main.instruction = false;
+			tshirtCannon.main.time = 60;
+			tshirtCannon.main.playTime= tshirtCannon.main.time*1000;
+
+		for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/20){
+			setTimeout(tshirtCannon.main.peopleGenerator, i);
+		}
+		setTimeout(tshirtCannon.main.stop, tshirtCannon.main.playTime);
+        
+		for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/tshirtCannon.main.time){
+			setTimeout(tshirtCannon.main.timer, i);
+		}
+
+
+		 	c = document.getElementById("myCanvas");
+			ctx = c.getContext("2d")
+			tshirtCannon.main.update(c,ctx)
+	}
 	},
 
 
