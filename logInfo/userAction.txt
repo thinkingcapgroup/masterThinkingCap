@@ -122,3 +122,18 @@ MinigameScore2-3-4-1488224111552-aaronjmill32-2_1_1
 2-Help Area-Leave Help-1488311333482-aaronjmill32-2_1_9
 2-poll-issOpp*issOpp*undefined*undefined*undefined*undefined-1488834169920-aaronjmill32-2_1_9
 2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1488834194474-aaronjmill32-2_1_9
+2-Help Area-Enter Help-1488912478296-aaronjmill32-2_1_9
+2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1488912525157-aaronjmill32-2_1_9
+2-Help Area-Enter Help-1488912728983-aaronjmill32-2_1_9
+2-Help Area-Leave Help at section 3-1488912916105-aaronjmill32-2_1_9
+2-Help Area-Enter Help-1488913380208-aaronjmill32-2_1_9
+2-Help Area-Enter Help-1488915264000-aaronjmill32-2_1_9
+2-Help Area-Enter Help-1488915274840-aaronjmill32-2_1_9
+2-Help Area-Enter Help-1488915285079-aaronjmill32-2_1_9
+2-Help Area-Leave Help at section 2-1488915289587-aaronjmill32-2_1_9
+2-Help Area-Enter Help-1488915290615-aaronjmill32-2_1_9
+2-Help Area-Leave Help at section 1-1488916024274-aaronjmill32-2_1_9
+2-Help Area-Enter Help-1488916238215-aaronjmill32-2_1_9
+2-Help Area-Enter Help-1488916633423-aaronjmill32-2_1_9
+2-Help Area-Enter Help-1488917095319-aaronjmill32-2_1_9
+2-Help Area-Enter Help-1488917210783-aaronjmill32-2_1_9
