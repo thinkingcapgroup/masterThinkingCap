@@ -972,8 +972,8 @@ function userAction()
     }
 	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='statement()'> Make a Statement - 1 Hour</button>";
 	document.getElementById("Buttons").innerHTML += "<button type='button' class = 'logHelp' onclick='helpScreen()'> Help Screen</button>";
-	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='trendReportMenu()'> View Trend Reports</button>";
-	document.getElementById("Buttons").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
+	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='trendReportMenu()'> View Trend Reports</button></br>";
+	//document.getElementById("Buttons").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
 	for(var i=0; i<pastPollResults.length;i++)
 	{
 		var num = i+1;
@@ -6566,6 +6566,8 @@ secretSticker.main =
         gymWall.src = '../img/minigame3/WallforGymBG.png';
         mediaWall = new Image();
         mediaWall.src = '../img/minigame3/WallforMediaRoomBG.png';
+        cafeWall = new Image();
+        cafeWall.src = '../img/minigame3/WallforCafeBG.png';
 
         //icons
         tuitionIcon = new Image();
@@ -6729,8 +6731,7 @@ secretSticker.main =
                 break;
                 case 5:
                 ctx.fillStyle = '#FFFFFF';
-                 ctx.fillRect(0,0,900, 500)
-                //ctx.drawImage(mapbackground, 0,0,900,500);
+                ctx.drawImage(cafeWall, 0,0,900,500);
                 break;
                 case 6:
                 ctx.drawImage(libWall, 0,0,900,500);
