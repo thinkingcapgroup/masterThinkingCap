@@ -6937,17 +6937,19 @@ secretSticker.main =
        if(secretSticker.main.areaNumber == 9)
        {
            
-           ctx.fillStyle = '#000000'
-           ctx.fillText("Your goal is to attract the demographic shown in the top right and place a sticker on them.",100,80);
-           ctx.fillText("You have 5 posters and you have to target the correct sample of the population.",100,100);
-           ctx.fillText("Place posters in an area to attract people to them.",100,120);
-           ctx.fillText("The more posters you place the more people you attract.",100,140);
-           ctx.fillText("Once they're around drag a sticker onto them to score.",100,160);
-           ctx.fillText("If you return to the quad with no posters, you pack it in for the day. ",100,180);
-           ctx.fillStyle = '#AAAAAA'
-           ctx.fillRect(400,400,100,50);
-           ctx.fillStyle = '#000000'
-           ctx.fillText("Start",440,430);
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillRect(0,0,c.width, c.height);
+            ctx.fillStyle = '#000000';
+            ctx.font="30px Arial";
+            ctx.fillText("Secret Sticker",390,70)
+			ctx.font = '16px Arial';
+            ctx.fillText("Your goal is to attract the demographic shown in the top right and place a sticker on them.",160,110);
+            ctx.fillText("You have 5 posters and you have to target the correct sample of the population.",200,150);
+            ctx.fillText("Place posters in an area to attract people to them.",280,190);
+            ctx.fillText("The more posters you place the more people you attract.",270,230);
+            ctx.fillText("Once they're around drag a sticker onto them to score.",280,270);
+            ctx.fillText("If you return to the quad with no posters, you pack it in for the day. ",230,310);
+			ctx.fillText('Click to start!', 400, 350)
        }
             
             //draw the score
@@ -7085,7 +7087,7 @@ secretSticker.main =
         }
            if(secretSticker.main.areaNumber == 9)
         {
-            if((mouse.x >= 400 && mouse.x <= 500)&&(mouse.y >= 400 && mouse.y <= 450))
+            if((mouse.x >= 0 && mouse.x <= 880)&&(mouse.y >= 0 && mouse.y <= 500))
             {
                 secretSticker.main.areaNumber = 0;
             }
