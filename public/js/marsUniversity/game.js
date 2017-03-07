@@ -189,28 +189,57 @@ function helpScreen()
 {
 	clearScreen();
 	document.getElementById("playerInfo").style.display = "none";
-	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <button onclick= 'openGlossary()'>Glossary Page</button> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><br><button onclick= 'userAction()'>Return to User Action Area</button>"
+	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <button onclick= 'openGlossary()'>Glossary Page</button> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><br><button class = 'logHelpEnd' onclick= 'userAction()'>Return to User Action Area</button>"
 }
 
 function trendReportMenu()
 {
 	clearScreen();
+	var currentTrendReports = [];
 	document.getElementById("playerInfo").style.display = "none";
-	document.getElementById("gameInfo").innerHTML = "<div id= 'reportButtons' > <h1> Trend Reports</h1> <hr><br><div><h2> General</h2><button onclick= 'trendReporter(`issFav`)'>Favored Issue Report</button><button onclick= 'trendReporter(`issOpp`)'>Opposed Issue Report</button><button onclick= 'trendReporter(`candFav`)'>Favored Candidate Report</button><button onclick= 'trendReporter(`candOpp`)'>Opposed Candidate Report</button></div><br><div><h2> Support For Issues</h2><button onclick= 'trendReporter(`issuetuition`)'>Lowering Tuition Report</button><button onclick= 'trendReporter(`issueathletic`)'>Increse Athletic Budget Report</button><button onclick= 'trendReporter(`issueresearch`)'>Increase Research Budget Report</button><button onclick= 'trendReporter(`issueevents`)'>More School Events Report</button><button onclick= 'trendReporter(`issuemedical`)'>Improve Medical Services</button></div><br><div id = 'candReportsFame'><h2>Candidate Stats - Fame</h2></div><br><div id = 'candReportsTrust'><h2>Candidate Stats - Trust</h2></div>"
-    document.getElementById("candReportsFame").innerHTML += "<button onclick= 'trendReporter(`fame`)'>Fame - " + candidates[0].name +"</button>"
+	document.getElementById("gameInfo").innerHTML = "<div id= 'reportButtons' > <h1> Trend Reports</h1> <hr><br><div><h2> General</h2><button onclick= 'trendReporter(`issFav`)' class = 'trendButton' id = 'issFav' disabled>Favored Issue Report</button><button onclick= 'trendReporter(`issOpp`)' class = 'trendButton' id = 'issOpp' disabled>Opposed Issue Report</button><button onclick= 'trendReporter(`candFav`)' class = 'trendButton' id = 'candFav' disabled>Favored Candidate Report</button><button onclick= 'trendReporter(`candOpp`)' class = 'trendButton' id = 'candOpp' disabled>Opposed Candidate Report</button></div><br><div><h2> Support For Issues</h2><button onclick= 'trendReporter(`issuetuition`)' class = 'trendButton' id = 'issuetuition' disabled>Lowering Tuition Report</button><button onclick= 'trendReporter(`issueathletic`)' class = 'trendButton' id = 'issueathletic' disabled>Increse Athletic Budget Report</button><button onclick= 'trendReporter(`issueresearch`)' class = 'trendButton' id = 'issueresearch' disabled>Increase Research Budget Report</button><button onclick= 'trendReporter(`issueevents`)' class = 'trendButton' id = 'issueevents' disabled>More School Events Report</button><button onclick= 'trendReporter(`issuemedical`)' class = 'trendButton' id = 'issuemedical'  disabled>Improve Medical Services</button></div><br><div id = 'candReportsFame'><h2>Candidate Stats - Fame</h2></div><br><div id = 'candReportsTrust'><h2>Candidate Stats - Trust</h2></div>"
+    document.getElementById("candReportsFame").innerHTML += "<button onclick= 'trendReporter(`fame`)' class = 'trendButton' id = 'fame' disabled>Fame - " + candidates[0].name +"</button>"
     for(var k = 1;k<candidates.length;k++)
 	{
         var method = "candFame" + candidates[k].name;
-		document.getElementById("candReportsFame").innerHTML += "<button onclick= 'trendReporter(`"+method+"`)'>Fame - " + candidates[k].name +"</button>";
+		document.getElementById("candReportsFame").innerHTML += "<button onclick= 'trendReporter(`"+method+"`)' class = 'trendButton' id = '"+method+"' disabled>Fame - " + candidates[k].name +"</button>";
 	}
-    document.getElementById("candReportsTrust").innerHTML += "<button onclick= 'trendReporter(`playTrust`)'>Trust - " + candidates[0].name +"</button>"
+    document.getElementById("candReportsTrust").innerHTML += "<button onclick= 'trendReporter(`playTrust`)' class = 'trendButton' id = 'playTrust' disabled>Trust - " + candidates[0].name +"</button>"
 	for(var k = 1;k<candidates.length;k++)
 	{
         var method = "candTrust" + candidates[k].name;
-        document.getElementById("candReportsTrust").innerHTML += "<button onclick= 'trendReporter(`"+method+"`)'>Trust - " + candidates[k].name +"</button>";
+        document.getElementById("candReportsTrust").innerHTML += "<button onclick= 'trendReporter(`"+method+"`)' class = 'trendButton' id = '"+method+"' disabled>Trust - " + candidates[k].name +"</button>";
 	}
+
+
      document.getElementById("gameInfo").innerHTML += "</div><br> <div id = 'trendArea' style = 'display:none'> <svg id='visualisation' width='800' height='450'><path id='segments-line' /><path id='gap-line' /><text font-family='sans-serif' font-size='20px'>Blah</text></svg> </div>";
-     
+      document.getElementById("gameInfo").innerHTML += "<hr>"
+      for(var x =0; x < pastPollChoices.length; x++){
+      	for(var y = 0; y < pastPollChoices[x].length; y++){
+      		if(currentTrendReports.includes(pastPollChoices[x][y])){
+
+      		}
+      		else{
+      			currentTrendReports.push(pastPollChoices[x][y])
+      		}
+      	}
+      }
+    var thing;
+    var buttonHolder = document.getElementsByClassName('trendButton')
+    console.log(currentTrendReports) 	
+    for(var x = 0; x < buttonHolder.length; x++){
+    	var idName = buttonHolder[x].getAttribute('id');   
+    
+    	for(var y =0; y < currentTrendReports.length; y++){
+    		console.log(currentTrendReports[y], idName)
+    		if(currentTrendReports[y] == idName){    	
+    			document.getElementById(idName).disabled = false;
+    		}
+    	}
+    }
+
+   	 document.getElementById("gameInfo").innerHTML += "<hr>"
+
      document.getElementById("gameInfo").innerHTML += "<button id ='buttonViewer' style = 'display:none'>Choose Another Trend Report</button>";
      document.getElementById("gameInfo").innerHTML += "<button onclick= 'userAction()'>Return to User Action Area</button>";
 }
@@ -926,9 +955,8 @@ function userAction()
     mapbackground.src = '../../img/map/mapMU600pxW.png';
     
     var c=document.getElementById("myCanvas");
-	var ctx = c.getContext("2d");
+		var ctx = c.getContext("2d");
     ctx.fillStyle = '#FFFFFF'
-    console.log(gameSession)
     
     
     
@@ -942,9 +970,9 @@ function userAction()
         document.getElementById("Buttons").innerHTML += "<button type='button' > Cannot Take a Poll </button>";
     }
 	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='statement()'> Make a Statement - 1 Hour</button>";
-	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='helpScreen()'> Help Screen</button>";
+	document.getElementById("Buttons").innerHTML += "<button type='button' class = 'logHelp' onclick='helpScreen()'> Help Screen</button>";
 	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='trendReportMenu()'> View Trend Reports</button>";
-	document.getElementById("Buttons").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button>";
+	document.getElementById("Buttons").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
 	for(var i=0; i<pastPollResults.length;i++)
 	{
 		var num = i+1;
@@ -1457,6 +1485,7 @@ function tutorial (help)
 {
 	document.getElementById("gameInfo").innerHTML ="";
 	var tutBUttonClicked = false; 
+	console.log(section +' tutorial')
 	switch(section)
 	{
 		case 1:
@@ -1467,7 +1496,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
 		document.getElementById("gameInfo").innerHTML += "<br><button onclick='nextSection("+help+");' style='float: right;'>Events and Minigames</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<button float = 'left' onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<button float = 'left' class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 2:
 		document.getElementById("gameInfo").innerHTML += "<h3>Events and Minigames</h3><hr>";
@@ -1476,7 +1505,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Groups and Fame</button> <button onclick='nextSection("+help+");' style='float: right; text-decoration: underline;'>Statements</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 3:
 		var term = 1;
@@ -1486,7 +1515,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Events and Minigames</button> <button onclick='nextSection("+help+");' style='float: right;'>Consistency</button>";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 4:
 		document.getElementById("gameInfo").innerHTML += "<h3>Consistency</h3><hr>";
@@ -1495,7 +1524,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling</button>";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 5:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
@@ -1504,7 +1533,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 6:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
@@ -1513,7 +1542,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 7:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
@@ -1522,7 +1551,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 8:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
@@ -1531,7 +1560,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 9:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
@@ -1540,7 +1569,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 10:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
@@ -1549,7 +1578,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 11:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
@@ -1558,7 +1587,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 12:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
@@ -1567,7 +1596,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 13:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
@@ -1576,7 +1605,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 14:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
@@ -1585,7 +1614,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial'  onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 15:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
@@ -1594,7 +1623,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 16:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
@@ -1603,7 +1632,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 17:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
@@ -1612,7 +1641,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelp' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 18:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
@@ -1621,7 +1650,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 19:
 		document.getElementById("gameInfo").innerHTML += "<h3>Days and Time</h3><hr>";
@@ -1631,7 +1660,7 @@ function tutorial (help)
 		if(!help)
 			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button> ";
 		else
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+3+", false, false)' style='float: right;'>Try Polling</button> <br> <br> <button onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+3+", false, false)' style='float: right;'>Try Polling</button> <br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 			
 		break;
 	}
@@ -1821,6 +1850,9 @@ function drawMap()
 	var mediaIcon = new Image();
 	mediaIcon.src =  '../img/map/mediaicon.png';
 
+        var mapbackground = new Image();
+        mapbackground.src = '../../img/map/mapMU600pxW.png';
+
 	//peopleicons
 	var tuitionIcon = new Image();
 	tuitionIcon.src = '../img/icons/tuitionsquare.png';
@@ -1836,11 +1868,11 @@ function drawMap()
     var c=document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
     
-    
+  ctx.draw
 	ctx.strokeStyle = '#00FFFF';
 	ctx.fillStyle = 'rgba(0,255,255,0.5)';
 	ctx.lineWidth = 3;
-	
+	  ctx.drawImage(mapbackground, 0,0,600,414);
 	//stroke areas for gym
 	ctx.beginPath();
         ctx.moveTo(360,15);
@@ -5149,7 +5181,8 @@ function trendReporter(category)
                             answers = [];
                             candidates.forEach(function(element2)
                             {
-                            answers.push(element2.name);
+                            	answers.push(element2.name);
+                            	console.log(answers);
                             });
                         }
                     }
@@ -5170,6 +5203,7 @@ function trendReporter(category)
                             count: tempGraphData[j][k],
                             poll: i,
                             key: answers[k]
+
                         });
                         //data0.splice(i,1,
                         //{
@@ -5184,6 +5218,7 @@ function trendReporter(category)
                             poll: i,
                             key: answers[k]
                         });
+                     
                         break;
                         case 2:
                         data2.push(
@@ -5192,6 +5227,7 @@ function trendReporter(category)
                             poll: i,
                             key: answers[k]
                         });
+                       
                         break;
                         case 3:
                         data3.push(
@@ -5200,6 +5236,7 @@ function trendReporter(category)
                             poll: i,
                             key: answers[k]
                         });
+                     
                         break;
                         case 4:
                         data4.push(
@@ -5307,7 +5344,7 @@ function trendReporter(category)
             //    .attr('stroke-width', 2)
             //    .attr('fill', 'none');
         }
-        if(data1 != [])
+        if(data1.length > 0)
         {
             vis.append('svg:path')
                 .attr('d', lineGen(data1))
@@ -5323,7 +5360,7 @@ function trendReporter(category)
             .style("fill", 'violet')
             .text(data1[0].key);
         }
-        if(data2 != [])
+        if(data2.length > 0)
         {
             vis.append('svg:path')
                 .attr('d', lineGen(data2))
@@ -5338,7 +5375,7 @@ function trendReporter(category)
             .style("fill", 'blue')
             .text(data2[0].key);
         }
-        if(data3 != [])
+        if(data3.length > 0)
         {
             vis.append('svg:path')
                 .attr('d', lineGen(data3))
@@ -5353,8 +5390,9 @@ function trendReporter(category)
             .style("fill", 'red')
             .text(data3[0].key);
         }
-        if(data4 != [])
+        if(data4.length > 0)
         {
+    
             vis.append('svg:path')
                 .attr('d', lineGen(data4))
                 .attr('stroke', 'orange')
@@ -5369,8 +5407,9 @@ function trendReporter(category)
             .text(data4[0].key);
         }
         //console.log(data5)
-        if(data5.length != 0)
+        if(data5.length > 0)
         {
+        	
             vis.append('svg:path')
                 .attr('d', lineGen(data5))
                 .attr('stroke', 'purple')
@@ -5384,7 +5423,7 @@ function trendReporter(category)
             .style("fill", 'purple')
             .text(data5[0].key);
         }
-        if(data6.length != 0)
+        if(data6.length > 0)
         {
             vis.append('svg:path')
                 .attr('d', lineGen(data6))
@@ -5505,6 +5544,7 @@ runningGame.main =
 	lanes:[],
 	enemies:[],
 	coins:[],
+	instruction: true,
 	speed:50,
 	time: 60,
 	playTime: this.time*1000,
@@ -5524,6 +5564,7 @@ runningGame.main =
 	{
 		ctx.restore;
 		ctx.save;
+		runningGame.main.instruction = true;
 		bodyPixelLocation = [];
 		frameIndex = 0;
 		ticker = 0;
@@ -5633,27 +5674,19 @@ runningGame.main =
 		ctx.strokeText("Score " +runningGame.main.scores.score+"",0,20);
 
 		c.onmousedown = runningGame.main.doMousedown;
-		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/15)
-		{setTimeout(runningGame.main.enemyGenerator, i);}
-		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/20)
-		{setTimeout(runningGame.main.coinGenerator, i);}
-		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/6)
-		{setTimeout(runningGame.main.increaseSpeed, i);}
-		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/runningGame.main.time)
-		{setTimeout(runningGame.main.timer, i);}
-		setTimeout(runningGame.main.stopGame, runningGame.main.playTime);
+		
 		runningGame.main.update(c,ctx);
 	},
 
 	update: function (c,ctx)
 	{
 		if(!runningGame.main.stop)
-		{
-			requestAnimationFrame(function(){runningGame.main.update(c,ctx)});
+		{			
 			requestAnimationFrame(function(){runningGame.main.draw(c,ctx)});
 			
-			
-			runningGame.main.collisionManager();
+			if(runningGame.main.instruction == false){
+				requestAnimationFrame(function(){runningGame.main.update(c,ctx)});
+				runningGame.main.collisionManager();
 			for(var i=0;i<runningGame.main.enemies.length;i++)
 			{
 				runningGame.main.enemies[i].move();
@@ -5665,12 +5698,15 @@ runningGame.main =
 			if(frameIndex >= 8){
 				frameIndex = 0;
 			}
-			ticker++;
+				ticker++;
+			}
 		}
 	},
 
 	draw: function(c,ctx)
 	{
+		console.log(runningGame.main.instruction)
+		if(runningGame.main.instruction == false){
 		ctx.drawImage(backgroundImage,-30,0,930,500);
 		
 		
@@ -5731,6 +5767,21 @@ runningGame.main =
 				frameIndex++;
 				ticker = 0;
 			}
+		}
+		else{
+			ctx.fillStyle = "#FFFFFF";
+			ctx.fillRect(0,0,c.width, c.height);
+			ctx.fillStyle = '#000000';
+			ctx.font="30px Arial";
+			ctx.fillText("Fun Run",390,70)
+			ctx.font = '16px Arial';
+			ctx.fillText('You have places to be and things to do.',300,125);
+			ctx.fillText('On the way be sure to greet your (hopefully) adoring public.',250,175);
+			ctx.fillText('High Five as many as you can before time runs out.',275,225);
+			ctx.fillText('Be careful not to run into the ones carrying things.', 275, 275)
+				ctx.fillText('Click to start!', 400, 320)
+
+		}
 		
 
 	},
@@ -5739,14 +5790,14 @@ runningGame.main =
 	{ 
 	//console.log(canvasMouse);
 		var mouse = canvasMouse;
-		runningGame.main.laneChanger(mouse);
+		runningGame.main.laneChanger(mouse, c, ctx );
 	},
 
-	laneChanger: function (mouse)
+	laneChanger: function (mouse,c,ctx)
 	{
 		//console.log(runningGame.main.lanes);
-		//console.log(mouse);
-		
+		console.log(mouse, runningGame.main.instruction);
+		if(!runningGame.main.instruction){
 		for(var i=0; i < runningGame.main.lanes.length; i++)
 		{
 			if(mouse.x >= runningGame.main.lanes[i].left && mouse.x <= runningGame.main.lanes[i].right && mouse.y >= runningGame.main.lanes[i].top && mouse.y <= runningGame.main.lanes[i].top + runningGame.main.lanes[i].bottom )
@@ -5765,6 +5816,24 @@ runningGame.main =
 					//console.log("3");
 				}
 			}
+		}
+	}
+	else{
+		runningGame.main.instruction = false;
+			var c=document.getElementById("myCanvas");
+			var ctx = c.getContext("2d");
+
+			for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/15)
+		{setTimeout(runningGame.main.enemyGenerator, i);}
+		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/20)
+		{setTimeout(runningGame.main.coinGenerator, i);}
+		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/6)
+		{setTimeout(runningGame.main.increaseSpeed, i);}
+		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/runningGame.main.time)
+		{setTimeout(runningGame.main.timer, i);}
+		setTimeout(runningGame.main.stopGame, runningGame.main.playTime);
+
+			runningGame.main.update(c,ctx);
 		}
 	},
 
@@ -5951,6 +6020,7 @@ runningGame2.main =
 
 	},
 	studentCircles: [],
+	activeStudent: "",
 	requiredDemograph1: 0,
 	requiredDemograph2: 0,
 	takenDemograph1:0,
@@ -5961,6 +6031,7 @@ runningGame2.main =
 	specialExist: false,
 	picturetaken: false,
 	inArea:false,	
+	hover: false,
 	scores: {
 		score:0,
 		tier1: 2,
@@ -5978,6 +6049,10 @@ runningGame2.main =
 		ctx.restore;
 		ctx.save;
 		runningGame2.main.stop = false;
+		runningGame2.main.hover = false;
+
+		headIcons = new Image();
+		headIcons.src = '../img/spriteheadlong.png';
 
 		//map icons
 		libraryIcon = new Image();
@@ -5997,7 +6072,7 @@ runningGame2.main =
 		tuitionIcon = new Image();
 		tuitionIcon.src = '../img/icons/tuitionsquare.png';
 		sportsIcon = new Image();
-		sportsIcon.src = '../img/icons/sportscircle.png';
+		sportsIcon.src = '../img/icons/sportssquare.png';
 		researchIcon = new Image();
 		researchIcon.src = '../img/icons/researchsquare.png';
 		socialIcon = new Image();
@@ -6005,7 +6080,8 @@ runningGame2.main =
 		medicalIcon = new Image();
 		medicalIcon.src = '../img/icons/medicalsquare.png';
 
-
+		studentID = new Image();
+		studentID.src = '../img/minigame2/studentid.png';
 
 
 		//get people assets
@@ -6035,7 +6111,7 @@ runningGame2.main =
 		plusStrong.src = '../img/minigame2/plusstrong.png';
 
 		imgBArray = [[thinPeace1, thinPeace2, thinStrong], [medPeace1, medPeace2, medStrong], [plusPeace1, plusPeace2, plusStrong], [hoverPeace1, hoverPeace2, hoverStrong]]
-
+		iconArray = [tuitionIcon, sportsIcon, researchIcon, socialIcon, medicalIcon];
 		mapbackground = new Image();
 		mapbackground.src = '../img/map/map.png';
 
@@ -6069,6 +6145,7 @@ runningGame2.main =
 		{
 			requestAnimationFrame(function(){runningGame2.main.update(c,ctx)});
      		requestAnimationFrame(function(){runningGame2.main.draw(c,ctx)});
+     	
 	
 			//double check player photos = the amount they need
 				//end game
@@ -6084,7 +6161,8 @@ runningGame2.main =
 			 	if(!runningGame2.main.inArea){
 			 	createSample((Math.floor(Math.random() * 3) + 5), runningGame2.main.areaNumber)
 				runningGame2.main.studentCircles = [];
-	
+				widthArray = [ [[60,150],[70,160],[70,120]], [[80,140],[80,140],[80,140]],[[100,140],[100,140],[100,140]],[[80,140],[80,140],[80,140]]]		
+				headArray = [[[17,9,0],[5,14,7],[12,10,2]] , [[1,8,4],[1,9,17],[7,3,8]] , [[16,8,0],[0,16,6],[14,4,7]] , [[0,11,14],[12,8,5],[4,7,16]] ]
 				sample.forEach(function(element) {
 					var studentCircleHolder = {
 						isDemographic: false,
@@ -6093,8 +6171,14 @@ runningGame2.main =
 						posenum: Math.floor(Math.random() * 3),
 						headnum: Math.floor(Math.random() * 3),
 						x:  Math.floor(Math.random() * 99) + (110 * hold),
-   					y:  Math.floor(Math.random() * 250) + 50
+   					y:  Math.floor(Math.random() * 250) + 50,
+   					headID: 0,
+   					width: 10,
+   					height: 10,
 					}
+					studentCircleHolder.width = widthArray[studentCircleHolder.typenum][studentCircleHolder.posenum][0]
+					studentCircleHolder.height= widthArray[studentCircleHolder.typenum][studentCircleHolder.posenum][1]
+					studentCircleHolder.headID = headArray[studentCircleHolder.typenum][studentCircleHolder.posenum][studentCircleHolder.headnum]
 					hold++;
    				if(studentCircleHolder.interest == runningGame2.main.demograph1num){
    						studentCircleHolder.isDemographic = true;   					
@@ -6221,38 +6305,54 @@ runningGame2.main =
 					ctx.fillRect(400,440,100,50);
 					ctx.fillStyle = '#FFFFFF'
 					ctx.fillText("Take Picture",410,460);
+
+					//student ID card
+					if(runningGame2.main.hover){
+						ctx.drawImage(studentID,670,345,230,155)
+						//draw head
+						ctx.drawImage(headIcons,154 * runningGame2.main.activeStudent.headID,0,154,172,693,370,60,60)
+						//draw icon
+						ctx.drawImage(iconArray[runningGame2.main.activeStudent.interest],803,413,40,40)
+					}
 				}
 		
 					//draw the score
+					ctx.fillStyle = '#CCCCCC';
+					ctx.fillRect(0,0,c.width,32);
+
 					ctx.fillStyle = '#000000'
-					var scoreText = runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " " + positions[runningGame2.main.demograph1num];
+					var scoreText = runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " ";
 					var photosLeftText = runningGame2.main.player.picturenum + '/3 Photos Left'
-					ctx.fillText(scoreText, 700,10);
+					ctx.fillText(scoreText, 725,20);
+					ctx.drawImage(iconArray[runningGame2.main.demograph1num], 750,1,30,30);
 					ctx.fillText(photosLeftText, 100,10);
 		}
 		else if (runningGame2.main.areaNumber == -1){
 			ctx.fillStyle = '#000000'
-			ctx.fillText('INSTRUCTION PAGE', 100,100)
-			ctx.fillRect(400,440,100,100);
+			ctx.fillText('Photobomb', 400,100)
+			ctx.fillText('Travel around the school to snap photos for your campaign’s social media.', 200,150)
+			ctx.fillText('You’ll be given a target demographic for this set of photos in the top right.', 200,200)
+			ctx.fillText('Find who is in the group by hovering your mouse over a student.', 250,250)
+			ctx.fillText('When you run out of photos the game is over.', 300,300)
+			ctx.fillText('Click to Start',400,400);
 		}
 	},
 
 	drawStudents: function(c,ctx, students){
-		hoverArray = [[224,477],[287,467],[257,466]];
-		thinArray = [[184,518], [217,531], [259,469]];
-		medArray = [[266,493], [224,495], [285, 492]]
-		plusArray = [[277,463], [311,475], [322,463]]
+        hoverArray = [[224,477],[287,467],[257,466]];
+        thinArray = [[184,518], [217,531], [259,469]];
+        medArray = [[266,493], [224,495], [285, 492]]
+        plusArray = [[277,463], [311,475], [322,463]]
 		sizeArray = [thinArray, medArray, plusArray, hoverArray]
 		widthArray = [ [[60,150],[70,160],[70,120]], [[80,140],[80,140],[80,140]],[[100,140],[100,140],[100,140]],[[80,140],[80,140],[80,140]]]		
 		
 		//icons
-		iconArray = [tuitionIcon, sportsIcon, researchIcon, socialIcon, medicalIcon];
 
 		students.forEach(function(e){
 			//draw student	
 			ctx.drawImage(imgBArray[e.typenum][e.posenum], sizeArray[e.typenum][e.posenum][0] * e.headnum, 0,sizeArray[e.typenum][e.posenum][0],sizeArray[e.typenum][e.posenum][1],e.x,e.y,widthArray[e.typenum][e.posenum][0],widthArray[e.typenum][e.posenum][1]);
 			//draw head
-			ctx.drawImage(iconArray[e.interest], e.x + 25, e.y-30, 40,40)
+		
 		})
 	
 
@@ -6343,6 +6443,7 @@ runningGame2.main =
 
 	doMouseOver: function(c, e){
 		var mouse = canvasMouse;
+			widthArray = [ [[60,150],[70,160],[70,120]], [[80,140],[80,140],[80,140]],[[100,140],[100,140],[100,140]],[[80,140],[80,140],[80,140]]]		
 				//check if the area is clickable
 		if(runningGame2.main.areaNumber == 0){
 			runningGame2.main.buildingHover = [false,false,false,false,false,false];
@@ -6378,34 +6479,207 @@ runningGame2.main =
 				runningGame2.main.buildingHover[5] = true;
 			}
 		}
+		else if (runningGame2.main.areaNumber > 0){
+			var showStudentID = false;
+			runningGame2.main.hover = false;
+			for(var z =0; z < runningGame2.main.studentCircles.length; z++){
+				if(mouse.x >= runningGame2.main.studentCircles[z].x && mouse.x <= (runningGame2.main.studentCircles[z].x+ runningGame2.main.studentCircles[z].width)){
+					if(mouse.y >= runningGame2.main.studentCircles[z].y && mouse.y <= (runningGame2.main.studentCircles[z].y+ runningGame2.main.studentCircles[z].height)){
+						showStudentID = true;	
+						runningGame2.main.activeStudent = runningGame2.main.studentCircles[z];
+					}
+				}
+			}
+			if(showStudentID == true){
+				runningGame2.main.hover = true;
+			}
+			
+		}
 	},
 }
 
 	/*Secret Sticker*/
 secretSticker.main = 
+{
+    player:
     {
-        player:
+        picturenum:0,
+        pictures:[],
+
+    },
+    activeHover: false,
+    activeID: 0,
+    activeStudent: 0,
+    requiredDemograph1: 0,
+    takenDemograph1:0,
+    demograph1num:0,
+    areaNumber: 9,
+    inArea:false,
+    postersLeft: 5,
+    drag: false,
+    placeStudents: false,
+    scores: {
+        score:0,
+        tier1: 1,
+        tier2: 3,
+        tier3: 5,
+        tier4: 7
+    },
+    areas:
+    [ 
         {
-            picturenum:0,
-            pictures:[],
-    
+            
         },
-        requiredDemograph1: 0,
-        takenDemograph1:0,
-        demograph1num:0,
-        areaNumber: 9,
-        inArea:false,
-        postersLeft: 5,
-        drag: false,
-        placeStudents: false,
-        scores: {
-            score:0,
-            tier1: 1,
-            tier2: 3,
-            tier3: 5,
-            tier4: 7
+        
+        //quad
+        {
+            students: [],
+            studentPositions: [],
+            posterHung: 0,
+            position1: false, 
+            position2: false, 
+            position3: false 
         },
-        areas:
+        //gym
+        {
+            students: [],
+            studentPositions: [],
+            posterHung: 0,
+            position1: false, 
+            position2: false, 
+            position3: false 
+        },
+        //media
+        {
+            students: [],
+            studentPositions: [],
+            posterHung: 0,
+            position1: false, 
+            position2: false, 
+            position3: false 
+        },
+        //labs
+        {
+            students: [],
+            studentPositions: [],
+            posterHung: 0,
+            position1: false, 
+            position2: false, 
+            position3: false 
+        },
+        //coffee shop
+        {
+            students: [],
+            studentPositions: [],
+            posterHung: 0,
+            position1: false, 
+            position2: false, 
+            position3: false 
+        },
+        //library
+        {
+            students: [],
+            studentPositions: [],
+            posterHung: 0,
+            position1: false, 
+            position2: false, 
+            position3: false 
+        }
+    ],
+    buildingHover: [false,false,false,false,false,false],
+    //area numbers (0-Map, 1-6 map locations clockwise, 7 victory screen?)
+    init: function(c,ctx)
+    {
+        ctx.restore;
+        ctx.save;
+        secretSticker.main.gameStop = false;
+        secretSticker.main.activeHover = false;
+        
+        //map icons
+        libraryIcon = new Image();
+        libraryIcon.src = '../img/map/libraryicon.png';
+        quadIcon = new Image();
+        quadIcon.src = '../img/map/icon.png';
+        gymIcon = new Image();
+        gymIcon.src = '../img/map/gymicon.png';
+        cafeIcon = new Image();
+        cafeIcon.src = '../img/map/cafeicon.png';
+        labIcon = new Image();
+        labIcon.src = '../img/map/labicon.png';
+        mediaIcon = new Image();
+        mediaIcon.src =  '../img/map/mediaicon.png';
+
+        //peopleicons
+        tuitionIcon = new Image();
+        tuitionIcon.src = '../img/icons/tuitionsquare.png';
+        sportsIcon = new Image();
+        sportsIcon.src = '../img/icons/sportscircle.png';
+        researchIcon = new Image();
+        researchIcon.src = '../img/icons/researchsquare.png';
+        socialIcon = new Image();
+        socialIcon.src = '../img/icons/socialsquare.png';
+        medicalIcon = new Image();
+        medicalIcon.src = '../img/icons/medicalsquare.png';
+        
+        mapbackground = new Image();
+        mapbackground.src = '../img/map/map.png';
+
+        poster = new Image();
+        poster.src = '../img/minigame3/VotePosterProp.png';
+        sticker = new Image();
+        sticker.src = '../img/minigame3/Stickerasset.png';
+        libWall = new Image();
+        libWall.src = '../img/minigame3/Librarywallbg.png';
+        labWall = new Image();
+        labWall.src = '../img/minigame3/labwall.png'
+        quadWall = new Image();
+        quadWall.src = '../img/minigame3/posterwallbg.png';
+        gymWall = new Image();
+        gymWall.src = '../img/minigame3/WallforGymBG.png';
+        mediaWall = new Image();
+        mediaWall.src = '../img/minigame3/WallforMediaRoomBG.png';
+
+        //icons
+        tuitionIcon = new Image();
+        tuitionIcon.src = '../img/icons/tuitionsquare.png'
+        athleticIcon = new Image();
+        athleticIcon.src = '../img/icons/sportssquare.png';
+        researchIcon = new Image()
+        researchIcon.src = '../img/icons/researchsquare.png';
+        eventsIcon = new Image();
+        eventsIcon.src = '../img/icons/socialsquare.png'
+        medicalIcon = new Image();
+        medicalIcon.src = '../img/icons/medicalsquare.png';
+
+        interestArray = [tuitionIcon, athleticIcon, researchIcon, eventsIcon, medicalIcon];
+
+        
+        
+        //get people assets
+        hoverBack = new Image();
+        hoverBack.src = "../img/minigame3/chairback.png";
+        thinBack = new Image();
+        thinBack.src = "../img/minigame3/thinback.png";
+        medBack = new Image();
+        medBack.src = "../img/minigame3/medback.png";
+        plusBack = new Image();
+        plusBack.src = "../img/minigame3/plusback.png";
+      
+      	imgBArray = [thinBack,medBack,plusBack,hoverBack]
+        
+        secretSticker.main.player.picturenum = 0;
+        secretSticker.main.scores.score = 0;	
+        secretSticker.main.areaNumber = 9;	
+        c.onmousedown = secretSticker.main.doMousedown;
+        c.onmousemove = secretSticker.main.doMouseOver;
+        c.onmouseup = secretSticker.main.doMouseUp
+        ctx.font="14px Georgia";
+        secretSticker.main.requiredDemograph1 = Math.floor(Math.random() * 6) + 2;
+        secretSticker.main.requiredDemograph1 = Math.floor(Math.random() * 3) + 2;
+        secretSticker.main.demograph1num = Math.floor(Math.random() * 5);
+        secretSticker.main.takenDemograph1=0;
+        secretSticker.main.postersLeft=5;
+        secretSticker.main.areas =
         [ 
             {
                 
@@ -6465,623 +6739,544 @@ secretSticker.main =
                 position2: false, 
                 position3: false 
             }
-        ],
-        buildingHover: [false,false,false,false,false,false],
-        //area numbers (0-Map, 1-6 map locations clockwise, 7 victory screen?)
-        init: function(c,ctx)
+        ];
+        mapbackground.onload = function()
         {
-            ctx.restore;
-            ctx.save;
-            secretSticker.main.gameStop = false;
-            
-            //map icons
-            libraryIcon = new Image();
-            libraryIcon.src = '../img/map/libraryicon.png';
-            quadIcon = new Image();
-            quadIcon.src = '../img/map/icon.png';
-            gymIcon = new Image();
-            gymIcon.src = '../img/map/gymicon.png';
-            cafeIcon = new Image();
-            cafeIcon.src = '../img/map/cafeicon.png';
-            labIcon = new Image();
-            labIcon.src = '../img/map/labicon.png';
-            mediaIcon = new Image();
-            mediaIcon.src =  '../img/map/mediaicon.png';
-    
-            //peopleicons
-            tuitionIcon = new Image();
-            tuitionIcon.src = '../img/icons/tuitionsquare.png';
-            sportsIcon = new Image();
-            sportsIcon.src = '../img/icons/sportscircle.png';
-            researchIcon = new Image();
-            researchIcon.src = '../img/icons/researchsquare.png';
-            socialIcon = new Image();
-            socialIcon.src = '../img/icons/socialsquare.png';
-            medicalIcon = new Image();
-            medicalIcon.src = '../img/icons/medicalsquare.png';
-            
-            mapbackground = new Image();
-            mapbackground.src = '../img/map/map.png';
-            
-            secretSticker.main.player.picturenum = 0;
-            secretSticker.main.scores.score = 0;	
-            secretSticker.main.areaNumber = 9;	
-            c.onmousedown = secretSticker.main.doMousedown;
-            c.onmousemove = secretSticker.main.doMouseOver;
-            c.onmouseup = secretSticker.main.doMouseUp
-            ctx.font="14px Georgia";
-            secretSticker.main.requiredDemograph1 = Math.floor(Math.random() * 6) + 2;
-            secretSticker.main.requiredDemograph1 = Math.floor(Math.random() * 3) + 2;
-            secretSticker.main.demograph1num = Math.floor(Math.random() * 5);
-            secretSticker.main.takenDemograph1=0;
-            secretSticker.main.postersLeft=5;
-            secretSticker.main.areas =
-            [ 
-                {
-                    
-                },
-                
-                //quad
-                {
-                    students: [],
-                    studentPositions: [],
-                    posterHung: 0,
-                    position1: false, 
-                    position2: false, 
-                    position3: false 
-                },
-                //gym
-                {
-                    students: [],
-                    studentPositions: [],
-                    posterHung: 0,
-                    position1: false, 
-                    position2: false, 
-                    position3: false 
-                },
-                //media
-                {
-                    students: [],
-                    studentPositions: [],
-                    posterHung: 0,
-                    position1: false, 
-                    position2: false, 
-                    position3: false 
-                },
-                //labs
-                {
-                    students: [],
-                    studentPositions: [],
-                    posterHung: 0,
-                    position1: false, 
-                    position2: false, 
-                    position3: false 
-                },
-                //coffee shop
-                {
-                    students: [],
-                    studentPositions: [],
-                    posterHung: 0,
-                    position1: false, 
-                    position2: false, 
-                    position3: false 
-                },
-                //library
-                {
-                    students: [],
-                    studentPositions: [],
-                    posterHung: 0,
-                    position1: false, 
-                    position2: false, 
-                    position3: false 
-                }
-            ];
-            mapbackground.onload = function()
-            {
-                secretSticker.main.update(c,ctx);
-            }
-        },
-    
-        update: function (c,ctx)
-        {
-            
-            if(secretSticker.main.postersLeft > 0)
-            {
-                requestAnimationFrame(function(){secretSticker.main.update(c,ctx)});
-                requestAnimationFrame(function(){secretSticker.main.draw(c,ctx)});
-            }
-            else if(secretSticker.main.areaNumber != 0)
-            {
-                requestAnimationFrame(function(){secretSticker.main.update(c,ctx)});
-                requestAnimationFrame(function(){secretSticker.main.draw(c,ctx)});
-            }
-            else
-            {
-                if(secretSticker.main.takenDemograph1 >= secretSticker.main.demograph1num)
-                    secretSticker.main.score++;
-                gameResults(secretSticker.main.scores, practice);
-            }
-        },
+            secretSticker.main.update(c,ctx);
+        }
+    },
 
-        draw: function(c,ctx)
+    update: function (c,ctx)
+    {
+        
+        if(secretSticker.main.postersLeft > 0)
         {
-            var mouse = canvasMouse;
-            var poster = new Image();
-            poster.src = '../../img/minigame3/VotePosterProp.png';
-            var sticker = new Image();
-            sticker.src = '../../img/minigame3/Stickerasset.png';
-            //BackGrounds
-            var LibWall = new Image();
-            LibWall.src = '../../img/minigame3/Librarywallbg.png';
-            var QuadWall = new Image();
-            QuadWall.src = '../../img/minigame3/posterwallbg.png';
-            var GymWall = new Image();
-            GymWall.src = '../../img/minigame3/WallforGymBG.png';
-            var MediaWall = new Image();
-            MediaWall.src = '../../img/minigame3/WallforMediaRoomBG.png';
-            
-            //draw the background for the area
-            ctx.fillStyle="#FFFFFF";
-            ctx.fillRect(0,0,c.width,c.height);
-            //draw anything specific ontop of the background layer depending on what area you are
-            //draw the background for the area
+            requestAnimationFrame(function(){secretSticker.main.update(c,ctx)});
+            requestAnimationFrame(function(){secretSticker.main.draw(c,ctx)});
+        }
+        else if(secretSticker.main.areaNumber != 0)
+        {
+            requestAnimationFrame(function(){secretSticker.main.update(c,ctx)});
+            requestAnimationFrame(function(){secretSticker.main.draw(c,ctx)});
+        }
+        else
+        {
+            if(secretSticker.main.takenDemograph1 >= secretSticker.main.demograph1num)
+                secretSticker.main.score++;
+            gameResults(secretSticker.main.scores, practice);
+        }
+    },
 
-            if(!secretSticker.main.inArea && secretSticker.main.areaNumber>=0 &&secretSticker.main.areaNumber<9)
+    draw: function(c,ctx)
+    {
+        var mouse = canvasMouse;
+
+    
+    
+        //draw the background for the area
+        ctx.fillStyle="#FFFFFF";
+        ctx.fillRect(0,0,c.width,c.height);
+        //draw anything specific ontop of the background layer depending on what area you are
+        //draw the background for the area
+
+        if(!secretSticker.main.inArea && secretSticker.main.areaNumber>=0 &&secretSticker.main.areaNumber<9)
+        {
+            ctx.drawImage(mapbackground, 0,0,900,500);
+        }
+        else{
+            switch(secretSticker.main.areaNumber)
             {
-                ctx.drawImage(mapbackground, 0,0,900,500);
+                case 1:
+                ctx.drawImage(quadWall, 0,0,900,500);
+                break;
+                case 2:
+                ctx.drawImage(gymWall, 0,0,900,500);
+                break;
+                case 3:
+                ctx.drawImage(mediaWall, 0,0,900,500);
+                break;
+                case 4:
+                ctx.fillStyle = '#FFFFFF';
+                ctx.drawImage(labWall, 0,0,900,500);            
+                //ctx.drawImage(mapbackground, 0,0,900,500);
+                break;
+                case 5:
+                ctx.fillStyle = '#FFFFFF';
+                 ctx.fillRect(0,0,900, 500)
+                //ctx.drawImage(mapbackground, 0,0,900,500);
+                break;
+                case 6:
+                ctx.drawImage(libWall, 0,0,900,500);
+                break;
+                default:
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(0,0,900, 500)
+                break;
             }
-            else{
-                switch(secretSticker.main.areaNumber)
-                {
-                    case 1:
-                    ctx.drawImage(QuadWall, 0,0,900,500);
-                    break;
-                    case 2:
-                    ctx.drawImage(GymWall, 0,0,900,500);
-                    break;
-                    case 3:
-                    ctx.drawImage(MediaWall, 0,0,900,500);
-                    break;
-                    case 4:
-                    ctx.fillStyle = '#FFFFFF';
-                    ctx.fillRect(0,0,900, 500)
-                    //ctx.drawImage(mapbackground, 0,0,900,500);
-                    break;
-                    case 5:
-                    ctx.fillStyle = '#FFFFFF';
-                    ctx.fillRect(0,0,900, 500)
-                    //ctx.drawImage(mapbackground, 0,0,900,500);
-                    break;
-                    case 6:
-                    ctx.drawImage(LibWall, 0,0,900,500);
-                    break;
-                    default:
-                    ctx.fillStyle = '#FFFFFF';
-                    ctx.fillRect(0,0,900, 500)
-                    break;
-                }
-                
+            
+        }
+        //draw anything specific ontop of the background layer depending on what area you are
+        if(secretSticker.main.areaNumber == 0)
+        {
+            //quad
+            ctx.strokeStyle = '#00FFFF';
+            ctx.fillStyle = 'rgba(0,255,255,0.5)';
+            ctx.lineWidth = 3;
+        
+            //stroke areas for gym
+            ctx.beginPath();
+            ctx.moveTo(530,20);
+            ctx.lineTo(530,150);
+            ctx.lineTo(725,150);
+            ctx.lineTo(725,300);
+            ctx.lineTo(880,300);
+            ctx.lineTo(880,20);
+            ctx.closePath();
+            ctx.stroke();
+            if(secretSticker.main.buildingHover[1]){
+                ctx.fill();
             }
-            //draw anything specific ontop of the background layer depending on what area you are
-            if(secretSticker.main.areaNumber == 0)
-            {
-                //quad
-                ctx.strokeStyle = '#00FFFF';
-                ctx.fillStyle = 'rgba(0,255,255,0.5)';
-                ctx.lineWidth = 3;
-            
-                //stroke areas for gym
-                ctx.beginPath();
-                ctx.moveTo(530,20);
-                ctx.lineTo(530,150);
-                ctx.lineTo(725,150);
-                ctx.lineTo(725,300);
-                ctx.lineTo(880,300);
-                ctx.lineTo(880,20);
-                ctx.closePath();
-                ctx.stroke();
-                if(secretSticker.main.buildingHover[1]){
-                    ctx.fill();
-                }
-                //stroke labs
-                ctx.beginPath();
-                ctx.moveTo(225,20);
-                ctx.lineTo(225,170);
-                ctx.lineTo(275,170);
-                ctx.lineTo(275,200);
-                ctx.lineTo(340,200);
-                ctx.lineTo(340,170);
-                ctx.lineTo(383,170);
-                ctx.lineTo(383,20);
-                ctx.closePath();
-                ctx.stroke();
-                if(secretSticker.main.buildingHover[3]){
-                    ctx.fill();
-                }
-            
-                //quad
-                ctx.strokeRect(208,235,243,60);
-                if(secretSticker.main.buildingHover[0]){
-                    ctx.fillRect(208,235,243,60);
-                }
-                //library
-                ctx.strokeRect(600,330,280,155);
-                if(secretSticker.main.buildingHover[5]){
-                    ctx.fillRect(600,330,280,155);
-                }
-                //cafe
-                ctx.strokeRect(13,43,165,260);
-                if(secretSticker.main.buildingHover[4]){
-                    ctx.fillRect(13,43,165,260);
-                }
-                //media
-                ctx.strokeRect(135,333,175,145);
-                if(secretSticker.main.buildingHover[2]){
-                    ctx.fillRect(135,333,175,145);
-                }
-                //labs
-            
-                //draw icon
-                ctx.drawImage(quadIcon, 255,190,150,100)
-                ctx.drawImage(libraryIcon, 665,325,150,100)
-                ctx.drawImage(gymIcon, 725,50,150,100)
-                ctx.drawImage(cafeIcon, 20,110,150,100)
-                ctx.drawImage(mediaIcon, 150,335,150,100)
-                ctx.drawImage(labIcon, 230,25,150,100)
-		}
+            //stroke labs
+            ctx.beginPath();
+            ctx.moveTo(225,20);
+            ctx.lineTo(225,170);
+            ctx.lineTo(275,170);
+            ctx.lineTo(275,200);
+            ctx.lineTo(340,200);
+            ctx.lineTo(340,170);
+            ctx.lineTo(383,170);
+            ctx.lineTo(383,20);
+            ctx.closePath();
+            ctx.stroke();
+            if(secretSticker.main.buildingHover[3]){
+                ctx.fill();
+            }
+        
+            //quad
+            ctx.strokeRect(208,235,243,60);
+            if(secretSticker.main.buildingHover[0]){
+                ctx.fillRect(208,235,243,60);
+            }
+            //library
+            ctx.strokeRect(600,330,280,155);
+            if(secretSticker.main.buildingHover[5]){
+                ctx.fillRect(600,330,280,155);
+            }
+            //cafe
+            ctx.strokeRect(13,43,165,260);
+            if(secretSticker.main.buildingHover[4]){
+                ctx.fillRect(13,43,165,260);
+            }
+            //media
+            ctx.strokeRect(135,333,175,145);
+            if(secretSticker.main.buildingHover[2]){
+                ctx.fillRect(135,333,175,145);
+            }
+            //labs
+        
+            //draw icon
+            ctx.drawImage(quadIcon, 255,190,150,100)
+            ctx.drawImage(libraryIcon, 665,325,150,100)
+            ctx.drawImage(gymIcon, 725,50,150,100)
+            ctx.drawImage(cafeIcon, 20,110,150,100)
+            ctx.drawImage(mediaIcon, 150,335,150,100)
+            ctx.drawImage(labIcon, 230,25,150,100)
+	}
+       
+       if(secretSticker.main.areaNumber >0 && secretSticker.main.areaNumber <9  ){
            
-           if(secretSticker.main.areaNumber >0 && secretSticker.main.areaNumber <9  ){
-               
-               if(secretSticker.main.placeStudents)
+           if(secretSticker.main.placeStudents)
+           {
+              secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions =[]; 
+               secretSticker.main.areas[secretSticker.main.areaNumber].students.forEach(function(element, i) 
                {
-                  secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions =[]; 
-                   secretSticker.main.areas[secretSticker.main.areaNumber].students.forEach(function(element) 
-                   {
-                       secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions.push
-                       (
-                           {
-                               x: Math.floor(Math.random() * 600) + 100,
-                               y: Math.floor(Math.random() * 250) +150,
-                               stickered: false
-                           }
-                       );
-                   });
-                  secretSticker.main.placeStudents = false;
-               }
-               
-               //draw the students
-               for(var i =0; i<secretSticker.main.areas[secretSticker.main.areaNumber].students.length;i++)
-               {
-                   var x = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].x;
-                   var y = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].y;
-                   ctx.fillStyle = secretSticker.main.areas[secretSticker.main.areaNumber].students[i].color;
-                   ctx.beginPath();
-                   ctx.arc(x,y,30,0,2*Math.PI);
-                   ctx.fill();
-                   ctx.stroke();
-                   
-                   if(secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].stickered)
-                   {
-                       //ctx.fillStyle = '#0000ff';
-                       //ctx.beginPath();
-                       //ctx.arc(x,y,20,0,2*Math.PI);
-                       //ctx.fill();
-                       //ctx.stroke();
-                        ctx.drawImage(sticker,x-25, y-25,50,50);
-                   }
-               };
-              
-               
-               
-    
-               //draw the ux/ui of the game
-               ctx.fillStyle = '#EEEEEE'
-               ctx.fillRect(0,440,c.width,100);
-               ctx.fillStyle = '#AAAAAA'
-               ctx.fillRect(0,440,100,50);
-               ctx.fillStyle = '#000000'
-               ctx.fillText("Back",0,460);
-               
-               ctx.fillStyle = '#AAAAAA'
-               ctx.fillRect(0,250,25,25);
-               ctx.fillStyle = '#000000'
-               ctx.fillText("<",10,265);
-               
-               ctx.fillStyle = '#AAAAAA'
-               ctx.fillRect(875,250,25,25);
-               ctx.fillStyle = '#000000'
-               ctx.fillText(">",885,265);
-               
-               //ctx.fillStyle = '#0000FF';
+                   secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions.push
+                   (
+                       {
+                           y: 300,
+                           x: i * 125 + 55,
+                           stickered: false
+                       }
+                   );
+               });
+              secretSticker.main.placeStudents = false;
+           }
+           
+           hoverArray = [213,334];
+           thinArray = [162,343];
+           medArray = [191,327]
+           plusArray = [266,400]
+           sizeArray = [thinArray, medArray, plusArray, hoverArray]
+    		
+    			
+           //draw the students
+           for(var i =0; i<secretSticker.main.areas[secretSticker.main.areaNumber].students.length;i++)
+           {
+               var x = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].x;
+               var y = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].y;
+               ctx.fillStyle = secretSticker.main.areas[secretSticker.main.areaNumber].students[i].color;
                //ctx.beginPath();
-               //ctx.arc(c.width/2,c.height-30,20,0,2*Math.PI);
+               //ctx.arc(x,y,30,0,2*Math.PI);
                //ctx.fill();
-               //ctx.stroke();
-               
-               
-               ctx.drawImage(sticker,c.width/2-30,c.height-50,50,50);
-               if(secretSticker.main.drag)
+               //ctx.stroke();//draw student
+             	ctx.drawImage(imgBArray[secretSticker.main.areas[secretSticker.main.areaNumber].students[i].typenum],sizeArray[secretSticker.main.areas[secretSticker.main.areaNumber].students[i].typenum][0] * secretSticker.main.areas[secretSticker.main.areaNumber].students[i].headnum,0,sizeArray[secretSticker.main.areas[secretSticker.main.areaNumber].students[i].typenum][0],sizeArray[secretSticker.main.areas[secretSticker.main.areaNumber].students[i].typenum][1],x,y,100,150)
+               if(secretSticker.main.activeHover && secretSticker.main.activeStudent == i){
+               	 ctx.drawImage(interestArray[secretSticker.main.activeID],x+35, y-25,40,40);
+               }
+               if(secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].stickered)
                {
-                   //ctx.fillStyle = '#0000FF';
+                   //ctx.fillStyle = '#0000ff';
                    //ctx.beginPath();
-                   //ctx.arc(mouse.x, mouse.y,20,0,2*Math.PI);
+                   //ctx.arc(x,y,20,0,2*Math.PI);
                    //ctx.fill();
                    //ctx.stroke();
-                   ctx.drawImage(sticker,mouse.x-25, mouse.y-25,50,50);
+                    ctx.drawImage(sticker,x+35, y+70,40,40);
                }
-    
-    
-               if (!secretSticker.main.areas[secretSticker.main.areaNumber].position1)
-               {
-                   ctx.fillStyle = '#000000 '
-                   ctx.fillRect(200,30,50,70);
-               }
-               else
-               {
-                   ctx.fillStyle = '#00ff00'
-                   ctx.drawImage(poster,200,30,75,125);
-               }
-               
-               if (!secretSticker.main.areas[secretSticker.main.areaNumber].position2)
-               {
-                   ctx.fillStyle = '#000000 '
-                   ctx.fillRect(440,30,50,70);
-               }
-               else
-               {
-                   ctx.fillStyle = '#00ff00'
-                   ctx.drawImage(poster,440,30,75,125);
-               }
-               
-               if (!secretSticker.main.areas[secretSticker.main.areaNumber].position3)
-               {
-                   ctx.fillStyle = '#000000 '
-                   ctx.fillRect(680,30,50,70);
-               }
-               else
-               {
-                   ctx.fillStyle = '#00ff00'
-                   ctx.drawImage(poster,680,30,75,125);
-               }
-           }
-    
-           if(secretSticker.main.areaNumber == 9)
+           };
+          
+           
+           
+
+           //draw the ux/ui of the game
+           ctx.fillStyle = '#EEEEEE'
+           ctx.fillRect(0,440,c.width,100);
+           ctx.fillStyle = '#AAAAAA'
+           ctx.fillRect(0,440,100,50);
+           ctx.fillStyle = '#000000'
+           ctx.fillText("Back",0,460);
+           
+           ctx.fillStyle = '#AAAAAA'
+           ctx.fillRect(0,250,25,25);
+           ctx.fillStyle = '#000000'
+           ctx.fillText("<",10,265);
+           
+           ctx.fillStyle = '#AAAAAA'
+           ctx.fillRect(875,250,25,25);
+           ctx.fillStyle = '#000000'
+           ctx.fillText(">",885,265);
+           
+           //ctx.fillStyle = '#0000FF';
+           //ctx.beginPath();
+           //ctx.arc(c.width/2,c.height-30,20,0,2*Math.PI);
+           //ctx.fill();
+           //ctx.stroke();
+           
+           
+           ctx.drawImage(sticker,c.width/2-30,c.height-50,50,50);
+           if(secretSticker.main.drag)
            {
-               
-               ctx.fillStyle = '#000000'
-               ctx.fillText("Your goal is to attract the demographic shown in the top right and place a sticker on them.",100,80);
-               ctx.fillText("You have 5 posters and you have to target the correct sample of the population.",100,100);
-               ctx.fillText("Place posters in an area to attract people to them.",100,120);
-               ctx.fillText("The more posters you place the more people you attract.",100,140);
-               ctx.fillText("Once they're around drag a sticker onto them to score.",100,160);
-               ctx.fillText("If you return to the quad with no posters, you pack it in for the day. ",100,180);
-               ctx.fillStyle = '#AAAAAA'
-               ctx.fillRect(400,400,100,50);
-               ctx.fillStyle = '#000000'
-               ctx.fillText("Start",440,430);
+               //ctx.fillStyle = '#0000FF';
+               //ctx.beginPath();
+               //ctx.arc(mouse.x, mouse.y,20,0,2*Math.PI);
+               //ctx.fill();
+               //ctx.stroke();
+               ctx.drawImage(sticker,mouse.x-25, mouse.y-25,50,50);
            }
-                
-                //draw the score
-                ctx.fillStyle = '#000000'
-                var scoreText = secretSticker.main.takenDemograph1 + '/'+ secretSticker.main.requiredDemograph1 + " " + majorList[secretSticker.main.demograph1num] + " Students";
-                var photosLeftText = secretSticker.main.postersLeft + '/5 Posters Left'
-                ctx.fillText(scoreText, 700,10);
-                ctx.fillText(photosLeftText, 100,10);
-            
-        },
-    
-        doMousedown: function(c, e)
-        { 
-            //console.log(canvasMouse);
-            var mouse = canvasMouse;
-    
-            //check if the area is clickable
-		if(secretSticker.main.areaNumber == 0){
-			//quad 		ctx.strokeRect(208,235,243,60);
-			if((mouse.x >= 208 && mouse.x <= 451)&&(mouse.y >= 235 && mouse.y <= 295)){
-				secretSticker.main.areaNumber = 1;
-                secretSticker.main.inArea = true;
-			}
-			
-			//gym1
-			if((mouse.x >= 530 && mouse.x <= 880)&&(mouse.y >= 20 && mouse.y <= 150)){
-				secretSticker.main.areaNumber = 2;
-                secretSticker.main.inArea = true;
-			}
-			//gym2
-			if((mouse.x >= 725 && mouse.x <= 880)&&(mouse.y >= 20 && mouse.y <= 300)){
-				secretSticker.main.areaNumber = 2;
-                secretSticker.main.inArea = true;
-			}
-			//media 		ctx.strokeRect(135,333,175,145);
-			if((mouse.x >= 135 && mouse.x <= 310)&&(mouse.y >= 333 && mouse.y <= 475)){
-				secretSticker.main.areaNumber = 3;
-                secretSticker.main.inArea = true;
-			}
-		
-			//labs1
-			if((mouse.x >= 225 && mouse.x <= 383)&&(mouse.y >= 20 && mouse.y <= 170)){
-				secretSticker.main.areaNumber = 4;
-                secretSticker.main.inArea = true;
-			}
-			//labs2
-			else if((mouse.x >= 275 && mouse.x <= 340)&&(mouse.y >= 170 && mouse.y <= 200)){
-				secretSticker.main.areaNumber = 4;
-                secretSticker.main.inArea = true;
-			}
-		
 
-			//coffee shop 
-			if((mouse.x >= 13 && mouse.x <= 178)&&(mouse.y >= 43 && mouse.y <= 303)){
-				secretSticker.main.areaNumber = 5;
-				secretSticker.main.inArea = true;
-			}
-			//library 	ctx.strokeRect(600,330,280,155);
-			if((mouse.x >= 600 && mouse.x <= 880)&&(mouse.y >= 330 && mouse.y <= 495)){
-				secretSticker.main.areaNumber = 6;
-				secretSticker.main.inArea = true;
-			}
+
+           if (!secretSticker.main.areas[secretSticker.main.areaNumber].position1)
+           {
+               ctx.fillStyle = '#000000 '
+               ctx.fillRect(200,30,50,70);
+           }
+           else
+           {
+               ctx.fillStyle = '#00ff00'
+               ctx.drawImage(poster,200,30,75,125);
+           }
+           
+           if (!secretSticker.main.areas[secretSticker.main.areaNumber].position2)
+           {
+               ctx.fillStyle = '#000000 '
+               ctx.fillRect(440,30,50,70);
+           }
+           else
+           {
+               ctx.fillStyle = '#00ff00'
+               ctx.drawImage(poster,440,30,75,125);
+           }
+           
+           if (!secretSticker.main.areas[secretSticker.main.areaNumber].position3)
+           {
+               ctx.fillStyle = '#000000 '
+               ctx.fillRect(680,30,50,70);
+           }
+           else
+           {
+               ctx.fillStyle = '#00ff00'
+               ctx.drawImage(poster,680,30,75,125);
+           }
+       }
+
+       if(secretSticker.main.areaNumber == 9)
+       {
+           
+           ctx.fillStyle = '#000000'
+           ctx.fillText("Your goal is to attract the demographic shown in the top right and place a sticker on them.",100,80);
+           ctx.fillText("You have 5 posters and you have to target the correct sample of the population.",100,100);
+           ctx.fillText("Place posters in an area to attract people to them.",100,120);
+           ctx.fillText("The more posters you place the more people you attract.",100,140);
+           ctx.fillText("Once they're around drag a sticker onto them to score.",100,160);
+           ctx.fillText("If you return to the quad with no posters, you pack it in for the day. ",100,180);
+           ctx.fillStyle = '#AAAAAA'
+           ctx.fillRect(400,400,100,50);
+           ctx.fillStyle = '#000000'
+           ctx.fillText("Start",440,430);
+       }
+            
+            //draw the score
+            ctx.fillStyle = '#000000'
+            var scoreText = secretSticker.main.takenDemograph1 + '/'+ secretSticker.main.requiredDemograph1 + " " + positions[secretSticker.main.demograph1num] + " Students";
+            var photosLeftText = secretSticker.main.postersLeft + '/5 Posters Left'
+            ctx.fillText(scoreText, 700,10);
+            ctx.fillText(photosLeftText, 100,10);
+        
+    },
+
+    doMousedown: function(c, e)
+    { 
+        //console.log(canvasMouse);
+        var mouse = canvasMouse;
+
+        //check if the area is clickable
+	if(secretSticker.main.areaNumber == 0){
+		//quad 		ctx.strokeRect(208,235,243,60);
+		if((mouse.x >= 208 && mouse.x <= 451)&&(mouse.y >= 235 && mouse.y <= 295)){
+			secretSticker.main.areaNumber = 1;
+            secretSticker.main.inArea = true;
 		}
-            if(secretSticker.main.areaNumber > 0 && secretSticker.main.areaNumber < 9 )
-            {
-                if((mouse.x >= 0 && mouse.x <= 100)&&(mouse.y >= 440 && mouse.y <= 490))
-                {
-                    secretSticker.main.areaNumber = 0;
-                    secretSticker.main.inArea = false;
-                }
-                
-                if(!secretSticker.main.areas[secretSticker.main.areaNumber].position1 && secretSticker.main.postersLeft>0)
-                {
-                    if((mouse.x >= 200 && mouse.x <= 250)&&(mouse.y >= 30 && mouse.y <= 100))
-                    {
-                        secretSticker.main.areas[secretSticker.main.areaNumber].position1 = true;
-                        secretSticker.main.postersLeft--;
-                        secretSticker.main.areas[secretSticker.main.areaNumber].posterHung++;
-                        secretSticker.main.populateArea(secretSticker.main.areas[secretSticker.main.areaNumber].posterHung);
-                        secretSticker.main.placeStudents = true;
+		
+		//gym1
+		if((mouse.x >= 530 && mouse.x <= 880)&&(mouse.y >= 20 && mouse.y <= 150)){
+			secretSticker.main.areaNumber = 2;
+            secretSticker.main.inArea = true;
+		}
+		//gym2
+		if((mouse.x >= 725 && mouse.x <= 880)&&(mouse.y >= 20 && mouse.y <= 300)){
+			secretSticker.main.areaNumber = 2;
+            secretSticker.main.inArea = true;
+		}
+		//media 		ctx.strokeRect(135,333,175,145);
+		if((mouse.x >= 135 && mouse.x <= 310)&&(mouse.y >= 333 && mouse.y <= 475)){
+			secretSticker.main.areaNumber = 3;
+            secretSticker.main.inArea = true;
+		}
+	
+		//labs1
+		if((mouse.x >= 225 && mouse.x <= 383)&&(mouse.y >= 20 && mouse.y <= 170)){
+			secretSticker.main.areaNumber = 4;
+            secretSticker.main.inArea = true;
+		}
+		//labs2
+		else if((mouse.x >= 275 && mouse.x <= 340)&&(mouse.y >= 170 && mouse.y <= 200)){
+			secretSticker.main.areaNumber = 4;
+            secretSticker.main.inArea = true;
+		}
+	
 
-                    }
-                }
-                if(!secretSticker.main.areas[secretSticker.main.areaNumber].position2 && secretSticker.main.postersLeft>0)
-                {
-                    if((mouse.x >= 440 && mouse.x <= 490)&&(mouse.y >= 30 && mouse.y <= 100))
-                    {
-                        secretSticker.main.areas[secretSticker.main.areaNumber].position2 = true;
-                        secretSticker.main.postersLeft--;
-                        secretSticker.main.areas[secretSticker.main.areaNumber].posterHung++;
-                        secretSticker.main.populateArea(secretSticker.main.areas[secretSticker.main.areaNumber].posterHung);
-                        secretSticker.main.placeStudents = true;
-
-                    }
-                }
-                if(!secretSticker.main.areas[secretSticker.main.areaNumber].position3 && secretSticker.main.postersLeft>0)
-                {
-                    if((mouse.x >= 680 && mouse.x <= 730)&&(mouse.y >= 30 && mouse.y <= 100))
-                    {
-                        secretSticker.main.areas[secretSticker.main.areaNumber].position3 = true;
-                        secretSticker.main.postersLeft--;
-                        secretSticker.main.areas[secretSticker.main.areaNumber].posterHung++;
-                        secretSticker.main.populateArea(secretSticker.main.areas[secretSticker.main.areaNumber].posterHung);
-                        secretSticker.main.placeStudents = true;
-
-                    }
-                }
-                var dx = mouse.x - 440;
-                var dy = mouse.y - 470;
-                var dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 30) 
-                {
-                    secretSticker.main.drag = true;
-                    console.log("click")
-                }
-                
-                
-                if((mouse.x >= 0&& mouse.x <= 25)&&(mouse.y >= 250 && mouse.y <= 275))
-                {
-                    if(secretSticker.main.areaNumber >1)
-                    secretSticker.main.areaNumber--;
-                    else
-                    secretSticker.main.areaNumber = 6;
-                }
-                if((mouse.x >= 875&& mouse.x <= 900)&&(mouse.y >= 250 && mouse.y <= 275 ))
-                {
-                    if(secretSticker.main.areaNumber <6)
-                    secretSticker.main.areaNumber++;
-                    else
-                    secretSticker.main.areaNumber = 1;
-                }
-            }
-               if(secretSticker.main.areaNumber == 9)
-            {
-                if((mouse.x >= 400 && mouse.x <= 500)&&(mouse.y >= 400 && mouse.y <= 450))
-                {
-                    secretSticker.main.areaNumber = 0;
-                }
-            }
-        },
-        
-        doMouseOver: function(c, e)
+		//coffee shop 
+		if((mouse.x >= 13 && mouse.x <= 178)&&(mouse.y >= 43 && mouse.y <= 303)){
+			secretSticker.main.areaNumber = 5;
+			secretSticker.main.inArea = true;
+		}
+		//library 	ctx.strokeRect(600,330,280,155);
+		if((mouse.x >= 600 && mouse.x <= 880)&&(mouse.y >= 330 && mouse.y <= 495)){
+			secretSticker.main.areaNumber = 6;
+			secretSticker.main.inArea = true;
+		}
+	}
+        if(secretSticker.main.areaNumber > 0 && secretSticker.main.areaNumber < 9 )
         {
-            var mouse = canvasMouse;
-			//check if the area is clickable
-            if(secretSticker.main.areaNumber == 0){
-                secretSticker.main.buildingHover = [false,false,false,false,false,false];
-                if((mouse.x >= 208 && mouse.x <= 451)&&(mouse.y >= 235 && mouse.y <= 295)){
-                    secretSticker.main.buildingHover[0] = true;
-                }
-                if((mouse.x >= 530 && mouse.x <= 880)&&(mouse.y >= 20 && mouse.y <= 150)){
-                    secretSticker.main.buildingHover[1] = true;
-                }
-                //gym2
-                else if((mouse.x >= 725 && mouse.x <= 880)&&(mouse.y >= 20 && mouse.y <= 300)){
-                    secretSticker.main.buildingHover[1] = true;
-                }
-                //media 		ctx.strokeRect(135,333,175,145);
-                if((mouse.x >= 135 && mouse.x <= 310)&&(mouse.y >= 333 && mouse.y <= 475)){
-                    secretSticker.main.buildingHover[2] = true;
-                }
+            if((mouse.x >= 0 && mouse.x <= 100)&&(mouse.y >= 440 && mouse.y <= 490))
+            {
+                secretSticker.main.areaNumber = 0;
+                secretSticker.main.inArea = false;
+            }
             
-                //labs1
-                if((mouse.x >= 225 && mouse.x <= 383)&&(mouse.y >= 20 && mouse.y <= 170)){
-                    secretSticker.main.buildingHover[3] = true;
-                }
-                //labs2
-                else if((mouse.x >= 275 && mouse.x <= 340)&&(mouse.y >= 170 && mouse.y <= 200)){
-                    secretSticker.main.buildingHover[3] = true;
-                }
-                //coffee shop 
-                if((mouse.x >= 13 && mouse.x <= 178)&&(mouse.y >= 43 && mouse.y <= 303)){
-                    secretSticker.main.buildingHover[4] = true;
-                }
-                //library 	ctx.strokeRect(600,330,280,155);
-                if((mouse.x >= 600 && mouse.x <= 880)&&(mouse.y >= 330 && mouse.y <= 495)){
-                    secretSticker.main.buildingHover[5] = true;
-                }
-            }
-        },
-        doMouseUp: function()
-        {
-            var mouse = canvasMouse;
-            if(secretSticker.main.areaNumber != 0)
+            if(!secretSticker.main.areas[secretSticker.main.areaNumber].position1 && secretSticker.main.postersLeft>0)
             {
-                secretSticker.main.drag = false;
-                
-                for(var i =0; i<secretSticker.main.areas[secretSticker.main.areaNumber].students.length; i++)
+                if((mouse.x >= 200 && mouse.x <= 250)&&(mouse.y >= 30 && mouse.y <= 100))
                 {
-                    var distance = Math.sqrt(((secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].x - mouse.x) * (secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].x - mouse.x)) + ((secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].y - mouse.y) * (secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].y - mouse.y)));
-                    if (distance < 50)
-                    {
-                        if(!secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions.stickered)
-                        {
-                            if (secretSticker.main.areas[secretSticker.main.areaNumber].students[i].color == '#00FF00')
-                            {						
-                                secretSticker.main.takenDemograph1++;
-                                secretSticker.main.scores.score++;				
-                            }
-                            secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].stickered = true;
-                        }
-                    }
-                };
+                    secretSticker.main.areas[secretSticker.main.areaNumber].position1 = true;
+                    secretSticker.main.postersLeft--;
+                    secretSticker.main.areas[secretSticker.main.areaNumber].posterHung++;
+                    secretSticker.main.populateArea(secretSticker.main.areas[secretSticker.main.areaNumber].posterHung,secretSticker.main.areaNumber);
+                    secretSticker.main.placeStudents = true;
+
+                }
             }
-        },
-        
-        populateArea: function(posterNum)
-        {
-            console.log(posterNum)
-            var posterCount = posterNum*3;
-            console.log(posterCount)
-             createSample(posterCount, secretSticker.main.areaNumber);
-                    secretSticker.main.areas[secretSticker.main.areaNumber].students = [];
-                    sample.forEach(function(element) {
-                        var studentCircleHolder = {color:"#FF0000"}
-                        if(majorList.indexOf(element.major) == secretSticker.main.demograph1num){
-                            studentCircleHolder.color = "#00FF00";
-                        }
-                            secretSticker.main.areas[secretSticker.main.areaNumber].students.push(studentCircleHolder)
-                    });
+            if(!secretSticker.main.areas[secretSticker.main.areaNumber].position2 && secretSticker.main.postersLeft>0)
+            {
+                if((mouse.x >= 440 && mouse.x <= 490)&&(mouse.y >= 30 && mouse.y <= 100))
+                {
+                    secretSticker.main.areas[secretSticker.main.areaNumber].position2 = true;
+                    secretSticker.main.postersLeft--;
+                    secretSticker.main.areas[secretSticker.main.areaNumber].posterHung++;
+                        secretSticker.main.populateArea(secretSticker.main.areas[secretSticker.main.areaNumber].posterHung,secretSticker.main.areaNumber);
+                    secretSticker.main.placeStudents = true;
+
+                }
+            }
+            if(!secretSticker.main.areas[secretSticker.main.areaNumber].position3 && secretSticker.main.postersLeft>0)
+            {
+                if((mouse.x >= 680 && mouse.x <= 730)&&(mouse.y >= 30 && mouse.y <= 100))
+                {
+                    secretSticker.main.areas[secretSticker.main.areaNumber].position3 = true;
+                    secretSticker.main.postersLeft--;
+                    secretSticker.main.areas[secretSticker.main.areaNumber].posterHung++;
+                        secretSticker.main.populateArea(secretSticker.main.areas[secretSticker.main.areaNumber].posterHung,secretSticker.main.areaNumber);
+                    secretSticker.main.placeStudents = true;
+
+                }
+            }
+            var dx = mouse.x - 440;
+            var dy = mouse.y - 470;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 30) 
+            {
+                secretSticker.main.drag = true;
+                console.log("click")
+            }
+            
+            
+            if((mouse.x >= 0&& mouse.x <= 25)&&(mouse.y >= 250 && mouse.y <= 275))
+            {
+                if(secretSticker.main.areaNumber >1)
+                secretSticker.main.areaNumber--;
+                else
+                secretSticker.main.areaNumber = 6;
+            }
+            if((mouse.x >= 875&& mouse.x <= 900)&&(mouse.y >= 250 && mouse.y <= 275 ))
+            {
+                if(secretSticker.main.areaNumber <6)
+                secretSticker.main.areaNumber++;
+                else
+                secretSticker.main.areaNumber = 1;
+            }
         }
+           if(secretSticker.main.areaNumber == 9)
+        {
+            if((mouse.x >= 400 && mouse.x <= 500)&&(mouse.y >= 400 && mouse.y <= 450))
+            {
+                secretSticker.main.areaNumber = 0;
+            }
+        }
+    },
+    
+    doMouseOver: function(c, e)
+    {
+        var mouse = canvasMouse;
+		//check if the area is clickable
+        if(secretSticker.main.areaNumber == 0){
+            secretSticker.main.buildingHover = [false,false,false,false,false,false];
+            if((mouse.x >= 208 && mouse.x <= 451)&&(mouse.y >= 235 && mouse.y <= 295)){
+                secretSticker.main.buildingHover[0] = true;
+            }
+            if((mouse.x >= 530 && mouse.x <= 880)&&(mouse.y >= 20 && mouse.y <= 150)){
+                secretSticker.main.buildingHover[1] = true;
+            }
+            //gym2
+            else if((mouse.x >= 725 && mouse.x <= 880)&&(mouse.y >= 20 && mouse.y <= 300)){
+                secretSticker.main.buildingHover[1] = true;
+            }
+            //media 		ctx.strokeRect(135,333,175,145);
+            if((mouse.x >= 135 && mouse.x <= 310)&&(mouse.y >= 333 && mouse.y <= 475)){
+                secretSticker.main.buildingHover[2] = true;
+            }
         
+            //labs1
+            if((mouse.x >= 225 && mouse.x <= 383)&&(mouse.y >= 20 && mouse.y <= 170)){
+                secretSticker.main.buildingHover[3] = true;
+            }
+            //labs2
+            else if((mouse.x >= 275 && mouse.x <= 340)&&(mouse.y >= 170 && mouse.y <= 200)){
+                secretSticker.main.buildingHover[3] = true;
+            }
+            //coffee shop 
+            if((mouse.x >= 13 && mouse.x <= 178)&&(mouse.y >= 43 && mouse.y <= 303)){
+                secretSticker.main.buildingHover[4] = true;
+            }
+            //library 	ctx.strokeRect(600,330,280,155);
+            if((mouse.x >= 600 && mouse.x <= 880)&&(mouse.y >= 330 && mouse.y <= 495)){
+                secretSticker.main.buildingHover[5] = true;
+            }
+        }
+        else if (secretSticker.main.areaNumber >=0 && secretSticker.main.areaNumber <7){
+        	var flagcheck = false;
+        	 for(var i =0; i<secretSticker.main.areas[secretSticker.main.areaNumber].students.length; i++)
+            {
+            		checkx = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].x;
+            		checky = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].y;
+            	 if ((mouse.x >= checkx && mouse.x <=checkx + 100) && (mouse.y >= checky && mouse.y <=checky + 150))
+                {
+
+                	secretSticker.main.activeHover = true;
+                	secretSticker.main.activeStudent = i;
+                	flagcheck = true;
+                	secretSticker.main.activeID = secretSticker.main.areas[secretSticker.main.areaNumber].students[i].interest;
+               
+                }
+                else{
+                	if(!flagcheck){
+                		secretSticker.main.activeHover = false;
+                	}
+                }
+            }
+        }
+    },
+    doMouseUp: function()
+    {
+        var mouse = canvasMouse;
+        if(secretSticker.main.areaNumber != 0)
+        {
+            secretSticker.main.drag = false;
+           
+            for(var i =0; i<secretSticker.main.areas[secretSticker.main.areaNumber].students.length; i++)
+            {
+            		checkx = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].x;
+            		checky = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].y;
+            	 if ((mouse.x >= checkx && mouse.x <=checkx + 100) && (mouse.y >= checky && mouse.y <=checky + 150))
+                {
+                    if(!secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions.stickered)
+                    {
+                    	
+                        if (secretSticker.main.activeID == secretSticker.main.demograph1num)
+                        {						
+                            secretSticker.main.takenDemograph1++;
+                            secretSticker.main.scores.score++;				
+                        }
+                        secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].stickered = true;
+                    }
+                }
+            }
+        }
+    },
+    
+    populateArea: function(posterNum, areaNum)
+    {
+
+        var posterCount = posterNum*2;
+        console.log(posterCount)
+        createSample(posterCount, secretSticker.main.areaNumber);
+        secretSticker.main.areas[secretSticker.main.areaNumber].students = [];
+        sample.forEach(function(element, i) 
+        {
+            var studentCircleHolder = 
+            {
+                isDemographic: false,
+                interest: Math.floor(Math.random() * 5),
+                typenum: Math.floor(Math.random() * 4),
+                headnum: Math.floor(Math.random() * 3),
+            }
+            if(studentCircleHolder.interest == runningGame2.main.demograph1num)
+            {
+                studentCircleHolder.isDemographic = true;   					
+            }
+
+            secretSticker.main.areas[areaNum].students.push(studentCircleHolder)
+        });
     }
+}
 
 
 
@@ -7957,6 +8152,7 @@ tshirtCannon.main = {
 	areaNum: 0,
 	students: [],
 	time: 60,
+	instruction: true,
 	playTime: this.time*1000,
 	scores:
 	{
@@ -7970,21 +8166,45 @@ tshirtCannon.main = {
 
 	init: function(c,ctx){
 		ctx.restore;
-		ctx.save;	
+		ctx.save;
+
+		tshirtCannon.main.students = [];
+		tshirtCannon.main.scores.score = 0;
+		//images
+		gymBG = new Image();
+		gymBG.src = '../img/minigame5/background.png'
+		thinwalk = new Image();
+		thinwalk.src = '../img/minigame5/thinwalkcyclesheet.png'
+		medwalk = new Image();
+		medwalk.src = '../img/minigame5/medwalkcycletop.png'
+		pluswalk = new Image();
+		pluswalk.src = '../img/minigame5/largewalkcycletop.png'
+		chairwalk = new Image();
+		chairwalk.src = '../img/minigame5/chairwalkcycletop.png'
+
+		happy = new Image();
+		happy.src = '../img/minigame5/happyreaction.png'
+		neutral = new Image();
+		neutral.src = '../img/minigame5/neutralreaction.png'
+		angry = new Image();
+		angry.src = '../img/minigame5/angryreaction.png'
+
+		tshirt1 = new Image();
+		tshirt1.src = '../img/minigame5/tshirt1.png'
+		tshirt2 = new Image();
+		tshirt2.src = '../img/minigame5/tshirt2.png'
+		tshirt3 = new Image();
+		tshirt3.src = '../img/minigame5/tshirt3.png'
+
+		walkingArray = [thinwalk,medwalk,pluswalk,chairwalk];
+		reactionArray = [happy,neutral,angry];
+
+		tshirtCannon.main.instruction = true;
 
 		tshirtCannon.main.areaNum = 0;
 		tshirtCannon.main.currentAmmo = 0;
 		tshirtCannon.main.gameStop = false;
-		tshirtCannon.main.time = 60;
-		tshirtCannon.main.playTime= tshirtCannon.main.time*1000;
-
-		for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/20){
-			setTimeout(tshirtCannon.main.peopleGenerator, i);
-		}
-		setTimeout(tshirtCannon.main.stop, tshirtCannon.main.playTime);
-        
-		for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/tshirtCannon.main.time)
-		{setTimeout(tshirtCannon.main.timer, i);}
+	
         
 		c.onmousedown = tshirtCannon.main.doMousedown;
 		tshirtCannon.main.update(c,ctx);
@@ -7999,25 +8219,25 @@ tshirtCannon.main = {
 	{
 		if(!tshirtCannon.main.gameStop){
 		//check if game finished
+				requestAnimationFrame(function(){tshirtCannon.main.draw(c,ctx)});
+			
+			if(tshirtCannon.main.instruction == false){		
 
-			requestAnimationFrame(function(){tshirtCannon.main.draw(c,ctx)});
-			requestAnimationFrame(function(){tshirtCannon.main.update(c,ctx)});		
+				requestAnimationFrame(function(){tshirtCannon.main.update(c,ctx)});		
+			}
 			
 			//update score
 
 		}
 	},
 
-	draw: function(c,ctx){
-        
-        //BackGrounds
-        var GymBG = new Image();
-        GymBG.src = '../../img/minigame5/GymTshirtCanonBG.png';
-        
-		//clear
-		ctx.drawImage(GymBG, 0,0,900,500);
-		//draw bg
+	draw: function(c,ctx){    
+		ctx.fillStyle = '#FFFFFF';
+		ctx.fillRect(0,0,c.width, c.height);
 
+    if(tshirtCannon.main.instruction == false) {
+    ctx.drawImage(gymBG,0,0,c.width, c.height);
+	
 		ctx.fillStyle = "#000000";
 		ctx.font = "15px Arial";
 		ctx.fillText("Time Remaining: " +tshirtCannon.main.time+"",700,20);
@@ -8029,27 +8249,54 @@ tshirtCannon.main = {
 		ctx.fillStyle = '#00FFFF'
 		for(var i=0;i<tshirtCannon.main.students.length;i++){
 			if(tshirtCannon.main.students[i].active){
-				ctx.fillRect(tshirtCannon.main.students[i].x,tshirtCannon.main.students[i].y, tshirtCannon.main.students[i].width, tshirtCannon.main.students[i].height)
+				var studentFeeling = 1;
+				if(tshirtCannon.main.students[i].likedtshirt == tshirtCannon.main.currentAmmo){
+					studentFeeling = 0;
+				}
+				else if(tshirtCannon.main.students[i].neutraltshirt == tshirtCannon.main.currentAmmo){
+					studentFeeling = 1;
+				}
+				else if(tshirtCannon.main.students[i].disliketshirt == tshirtCannon.main.currentAmmo){
+					studentFeeling = 2;
+				}
+				ctx.save();
+				if(tshirtCannon.main.students[i].direction == -1){
+					ctx.drawImage(reactionArray[studentFeeling],(tshirtCannon.main.students[i].x*-1) -41,(tshirtCannon.main.students[i].y*-1)-85,35,35)
+					ctx.rotate(Math.PI)
+
+				}
+				else{
+					ctx.drawImage(reactionArray[studentFeeling],tshirtCannon.main.students[i].x+7,tshirtCannon.main.students[i].y-38,35,35)
+				}
+
+				ctx.drawImage(walkingArray[tshirtCannon.main.students[i].body],tshirtCannon.main.students[i].picwidth* tshirtCannon.main.students[i].gender,tshirtCannon.main.students[i].picheight* tshirtCannon.main.students[i].frame,tshirtCannon.main.students[i].picwidth,tshirtCannon.main.students[i].picheight,tshirtCannon.main.students[i].x,tshirtCannon.main.students[i].y,50,50)
+			//draw icon
+				ctx.restore();
 				tshirtCannon.main.students[i].move();
 			}
 		}
 
 		//draw tshirts
 		var strokeArray = [[80,400],[380,400],[680,400]]
+		
+		ctx.fillStyle = "#990000";
+		ctx.fillRect(80,400,160,90);
+		ctx.fillStyle = "#009900";
+		ctx.fillRect(380,400,160,90);
+		ctx.fillStyle = "#000099";
+		ctx.fillRect(680,400,160,90);
 
-		ctx.fillStyle = "#AAAAAA";
-		ctx.fillRect(0,390,c.width,c.height);
-		ctx.fillStyle = "#FF0000";
-		ctx.fillRect(80,400,160,80);
-		ctx.fillStyle = "#00FF00";
-		ctx.fillRect(380,400,160,80);
-		ctx.fillStyle = "#0000FF";
-		ctx.fillRect(680,400,160,80);
+		//draw the shirts
+		ctx.drawImage(tshirt1,125,405,65,74);
+		ctx.drawImage(tshirt2,425,405,65,74);
+		ctx.drawImage(tshirt3,725,405,65,74);
 
 		//stroke
 		ctx.strokeStyle = "#000000";
 		ctx.lineWidth = 5;
-		ctx.strokeRect(strokeArray[tshirtCannon.main.currentAmmo][0],strokeArray[tshirtCannon.main.currentAmmo][1], 160, 80)
+		ctx.strokeRect(strokeArray[tshirtCannon.main.currentAmmo][0],strokeArray[tshirtCannon.main.currentAmmo][1], 160, 90)
+		}
+
 
 	},
 
@@ -8073,14 +8320,20 @@ tshirtCannon.main = {
 		var mod;
 		var directionMod =  Math.floor(Math.random() * 2);
 		var startx;
-		var starty =  Math.floor(Math.random() * 300) + 50;
+		var starty =  Math.floor(Math.random() * 240) +105;
+		var gen = Math.floor((Math.random() * 3));
+		var bodynum =  Math.floor((Math.random() * 4));
+
+		widthArray = [[123,169],[137,185],[175,218],[194,180]]
+
 		if(directionMod == 1){
 			startx = -99;
 			mod = 1
 		}
 		else{
-			startx = 999;
-			mod = -1
+			startx = -900;
+			starty = -1 * starty;
+			mod = -1;
 		}
 
 		var tempRect = 
@@ -8099,20 +8352,28 @@ tshirtCannon.main = {
 		}	
 		if(add)
 		{
+			var tshirtArray = [0,1,2]
+			tshirtArray.sort(function(a, b){return 0.5 - Math.random()});
+
 			tshirtCannon.main.students.push(
 			{
 				touched:false,
 				active: true,
+				direction: mod,
 				width : 50,
+				frame: 0,
 				height : 50,
 				y: starty,
-				tshirt: Math.floor(Math.random() * 3),
-				race: Math.floor((Math.random() * 3)),
-				gender: Math.floor((Math.random() * 3)), 
-				face: Math.floor((Math.random() * 6)), 
-				body: Math.floor((Math.random() * 4)),  
+				picwidth: widthArray[bodynum][0],
+				picheight: widthArray[bodynum][1],
+				likedtshirt: tshirtArray[0],
+				neutraltshirt: tshirtArray[1],
+				disliketshirt: tshirtArray[2],
+				gender: gen, 
+				ticker: 0,
+				body: bodynum,  
 				x: startx,
-				move: function(){this.x+= (100 * mod) * tshirtCannon.main.calculateDeltaTime()},
+				move: function(){this.x+= (100) * tshirtCannon.main.calculateDeltaTime(); this.ticker++; if(this.ticker ==5){if(this.body <3){this.frame++}this.ticker = 0} ; if(this.frame >=8){this.frame = 0;}},
 			});		
 		}
 	},
@@ -8120,8 +8381,7 @@ tshirtCannon.main = {
 	peopleManager: function(){
 		for(var i=0;i<tshirtCannon.main.students.length;i++)
 		{
-			if(tshirtCannon.main.students[i].x >1000 || tshirtCannon.main.students[i].x <-100)
-			{
+			if(tshirtCannon.main.students[i].x >1000 || tshirtCannon.main.students[i].x <-100){
 				tshirtCannon.main.students[i].active = false;
 			}
 		}
@@ -8129,11 +8389,19 @@ tshirtCannon.main = {
 
 	clickPicker: function(mouse){
 
+		if(tshirtCannon.main.instruction == false){
 		for(var x =0; x < tshirtCannon.main.students.length; x++){
-			if(mouse.x >= tshirtCannon.main.students[x].x && mouse.x <= (tshirtCannon.main.students[x].x+tshirtCannon.main.students[x].width)){
-				if(mouse.y >= tshirtCannon.main.students[x].y && mouse.y <= (tshirtCannon.main.students[x].y+tshirtCannon.main.students[x].height)){			
-					if(tshirtCannon.main.students[x].tshirt == tshirtCannon.main.currentAmmo && tshirtCannon.main.students[x].touched == false){
-						console.log('correct');
+			xcord = tshirtCannon.main.students[x].x
+			ycord = tshirtCannon.main.students[x].y
+
+			if(tshirtCannon.main.students[x].direction == -1){			
+				xcord = (tshirtCannon.main.students[x].x * -1) -tshirtCannon.main.students[x].width
+				ycord = (tshirtCannon.main.students[x].y * -1) -tshirtCannon.main.students[x].height
+			}
+			if(mouse.x >= xcord && mouse.x <= (xcord+tshirtCannon.main.students[x].width)){
+				if(mouse.y >= ycord && mouse.y <= (ycord+tshirtCannon.main.students[x].height)){					
+					if(tshirtCannon.main.students[x].likedtshirt == tshirtCannon.main.currentAmmo && tshirtCannon.main.students[x].touched == false){
+		
                         tshirtCannon.main.scores.score++;
                         tshirtCannon.main.students[x].touched = true; 
 					}
@@ -8156,6 +8424,26 @@ tshirtCannon.main = {
 				tshirtCannon.main.currentAmmo = 2;
 			}
 		}
+	}
+	else{
+			tshirtCannon.main.instruction = false;
+			tshirtCannon.main.time = 60;
+			tshirtCannon.main.playTime= tshirtCannon.main.time*1000;
+
+		for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/20){
+			setTimeout(tshirtCannon.main.peopleGenerator, i);
+		}
+		setTimeout(tshirtCannon.main.stop, tshirtCannon.main.playTime);
+        
+		for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/tshirtCannon.main.time){
+			setTimeout(tshirtCannon.main.timer, i);
+		}
+
+
+		 	c = document.getElementById("myCanvas");
+			ctx = c.getContext("2d")
+			tshirtCannon.main.update(c,ctx)
+	}
 	},
 
 
