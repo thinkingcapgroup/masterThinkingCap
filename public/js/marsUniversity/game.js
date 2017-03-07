@@ -6638,6 +6638,8 @@ secretSticker.main =
         gymWall.src = '../img/minigame3/WallforGymBG.png';
         mediaWall = new Image();
         mediaWall.src = '../img/minigame3/WallforMediaRoomBG.png';
+        cafeWall = new Image();
+        cafeWall.src = '../img/minigame3/WallforCafeBG.png';
 
         //icons
         tuitionIcon = new Image();
@@ -6802,8 +6804,7 @@ secretSticker.main =
                 break;
                 case 5:
                 ctx.fillStyle = '#FFFFFF';
-                 ctx.fillRect(0,0,900, 500)
-                //ctx.drawImage(mapbackground, 0,0,900,500);
+                ctx.drawImage(cafeWall, 0,0,900,500);
                 break;
                 case 6:
                 ctx.drawImage(libWall, 0,0,900,500);
