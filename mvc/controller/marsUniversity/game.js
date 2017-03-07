@@ -45,13 +45,86 @@ router.post('/logger', auth, function (req, res, next) {
       // Get user id
       id = req.user.userId,
       username = req.user.userName,
-      type = req.body.eventType
+      type = req.body.eventType,
+      modulenum = req.body.module,
+      gameSession = req.body.session,
+      gameID = id+"_"+modulenum+"_"+gameSession,
       // Concatenate information
-      stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + Date.now() + "-" +username;
+      stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + Date.now() + "-" +username +"-" + gameID;
 
+  console.log(gameID);
   // Append stringTem to file 'logInfo/useraction.txt'
   fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
     console.log('Student information logged');
+  });
+
+  // End the response
+  res.end();
+});
+
+router.post('/loggerHelp', auth, function (req, res, next) {
+  // Get the name of the event
+  var event = req.body.eventName,
+      // Get user id
+      id = req.user.userId,
+      username = req.user.userName,
+      type = req.body.eventType,
+      modulenum = req.body.module,
+      gameSession = req.body.session,
+      gameID = id+"_"+modulenum+"_"+gameSession,
+      // Concatenate information
+      stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + Date.now() + "-" +username +"-" + gameID;
+
+  console.log(gameID);
+  // Append stringTem to file 'logInfo/useraction.txt'
+  fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
+    console.log('Student information logged');
+  });
+
+  // End the response
+  res.end();
+});
+
+router.post('/loggerHelpEnd', auth, function (req, res, next) {
+  // Get the name of the event
+  var event = req.body.eventName,
+      // Get user id
+      id = req.user.userId,
+      username = req.user.userName,
+      type = req.body.eventType,
+      modulenum = req.body.module,
+      gameSession = req.body.session,
+      gameID = id+"_"+modulenum+"_"+gameSession,
+      // Concatenate information
+      stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + Date.now() + "-" +username +"-" + gameID;
+
+  console.log(gameID);
+  // Append stringTem to file 'logInfo/useraction.txt'
+  fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
+    console.log('Student information logged');
+  });
+
+  // End the response
+  res.end();
+});
+
+router.post('/loggerHelpEndTutorial', auth, function (req, res, next) {
+  // Get the name of the event
+  var event = req.body.eventName + " at section " + req.body.part,
+      // Get user id
+      id = req.user.userId,
+      username = req.user.userName,
+      type = req.body.eventType,
+      modulenum = req.body.module,
+      gameSession = req.body.session,
+      gameID = id+"_"+modulenum+"_"+gameSession,
+      // Concatenate information
+      stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + Date.now() + "-" +username +"-" + gameID;
+
+  console.log(gameID);
+  // Append stringTem to file 'logInfo/useraction.txt'
+  fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
+    console.log('Student information logged' - stringTem);
   });
 
   // End the response
@@ -65,11 +138,14 @@ router.post('/loggerEnd', auth, function (req, res, next) {
       id = req.user.userId,
       username = req.user.userName,
       type = req.body.eventType,
+      modulenum = req.body.module,
+      gameSession = req.body.session,
+      gameID = id+"_"+modulenum+"_"+gameSession,
       rank = req.body.rank;
   
 
       // Concatenate information
-      stringTem = "\n" + id + "-" + type + "-" + event + "-" + "Player Rank:" + rank + "-" + Date.now() + "-" +username;
+      stringTem = "\n" + id + "-" + type + "-" + event + "-" + "Player Rank:" + rank + "-" + Date.now() + "-" +username+"-" + gameID;
 
   // Append stringTem to file 'logInfo/useraction.txt'
   fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
@@ -126,9 +202,12 @@ router.post('/loggerPoll', auth, function (req, res, next) {
       q4 = req.body.q4,
       q5 = req.body.q5,
       q6 = req.body.q6,
-      type = req.body.eventType
+      type = req.body.eventType,
+      modulenum = req.body.module,
+      gameSession = req.body.session,
+      gameID = id+"_"+modulenum+"_"+gameSession,
       // Concatenate information
-      stringThing = '\n' + id + '-' + type + '-'+ q1 + '*' + q2 + '*' +q3 + '*' + q4 + '*' + q5 + '*' + q6 + "-" + Date.now() + "-" +username;
+      stringThing = '\n' + id + '-' + type + '-'+ q1 + '*' + q2 + '*' +q3 + '*' + q4 + '*' + q5 + '*' + q6 + "-" + Date.now() + "-" +username +"-" + gameID;
 
   // Append information to 'logInfo/useraction.txt'
   fs.appendFile('logInfo/useraction.txt', stringThing, function (err) {
@@ -148,8 +227,11 @@ router.post('/loggerMinigame', auth, function (req, res, next) {
       // Get the 6 questions asked
       mininumber = req.body.minigameID,
       score = req.body.score,
+      modulenum = req.body.module,
+      gameSession = req.body.session,
+      gameID = id+"_"+modulenum+"_"+gameSession,
       // Concatenate information
-      stringThing = '\n' + "MinigameScore" + id + '-'+ mininumber+ "-" + score + "-" + Date.now() + "-" +username;
+      stringThing = '\n' + "MinigameScore" + id + '-'+ mininumber+ "-" + score + "-" + Date.now() + "-" +username +"-" + gameID;
 
   // Append information to 'logInfo/useraction.txt'
   fs.appendFile('logInfo/useraction.txt', stringThing, function (err) {

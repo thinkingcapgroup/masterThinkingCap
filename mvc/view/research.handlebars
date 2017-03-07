@@ -43,6 +43,9 @@
             <th class='table-column-title'>
               Date
             </th>
+            <th class='table-column-title'>
+              Game Session
+            </th>
           </tr>
           {{#each researchArray}}          
           <tr class='table-row' id = {{id}}>
@@ -66,7 +69,10 @@
             </td>
             <td class='table-cell'>
               {{timeStamp}}
-              </td>            
+              </td>        
+            <td class='table-cell'>
+              {{gameSession}}
+            </td>      
           </tr>
           {{/each}}
         </table>
