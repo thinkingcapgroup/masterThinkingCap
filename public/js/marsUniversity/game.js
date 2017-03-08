@@ -5096,7 +5096,7 @@ function trendReporter(category)
                 {
                     if(element.value == category)
                     {
-                        answers = element.labels.split(", ")
+                        answers = element.labels.split(",")
                         if(element.value == "candFav" ||element.value == "candOpp")
                         {
                             answers = [];
