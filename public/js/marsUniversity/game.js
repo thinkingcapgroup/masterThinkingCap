@@ -5109,7 +5109,7 @@ function trendReporter(category)
                     }
                     else if(element.value == category.substring(0,5))
                     {
-                        answers = element.labels.split(", ")
+                        answers = element.labels.split(",")
                     }
                 });
                 
