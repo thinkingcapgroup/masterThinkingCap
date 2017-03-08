@@ -3802,7 +3802,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
     {
         document.getElementById("holo").src = "../../img/holopadSize2.png";
     }
-    else{document.getElementById("holo").src = "../../img/holopadSize3.png";}
+    else{document.getElementById("holo").src = "../../img/HolopadSize3.png";}
     
 	//console.log(tableArray2);
 	var rowCounter = 0;
