@@ -227,12 +227,12 @@ function trendReportMenu()
       }
     var thing;
     var buttonHolder = document.getElementsByClassName('trendButton')
-    console.log(currentTrendReports) 	
+
     for(var x = 0; x < buttonHolder.length; x++){
     	var idName = buttonHolder[x].getAttribute('id');   
     
     	for(var y =0; y < currentTrendReports.length; y++){
-    		console.log(currentTrendReports[y], idName)
+    	
     		if(currentTrendReports[y] == idName){    	
     			document.getElementById(idName).disabled = false;
     		}
@@ -5086,7 +5086,7 @@ function trendReporter(category)
         {
             tempGraphData.push(e);
         });
-        //console.log(tempGraphData);
+        console.log(tempGraphData);
         tempGraphData.splice(0,3);
         for(var j =0; j< pastPollChoices[i].length; j++)
         {
@@ -5113,7 +5113,8 @@ function trendReporter(category)
                     }
                 });
                 
-                //console.log(tempGraphData);
+                console.log(tempGraphData);
+
                 for (var k =0; k< tempGraphData[j].length; k++)
                 {
                     switch(k)
