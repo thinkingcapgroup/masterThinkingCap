@@ -137,3 +137,5 @@ MinigameScore2-3-4-1488224111552-aaronjmill32-2_1_1
 2-Help Area-Enter Help-1488916633423-aaronjmill32-2_1_9
 2-Help Area-Enter Help-1488917095319-aaronjmill32-2_1_9
 2-Help Area-Enter Help-1488917210783-aaronjmill32-2_1_9
+2-poll-candOpp*issFav*undefined*undefined*undefined*undefined-1488982379058-aaronjmill32-2_1_10
+2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1488982401551-aaronjmill32-2_1_10
