@@ -560,15 +560,15 @@
 	[
 		{
 			"question":"What issue are you most in favor of?", 
-			"labels":"Tuition, ATH Equipment, RES Equipment, School Events, Medical",
-			"graph":"0,0,0,0,0",
+			"labels":"Tuition, Budgets, Functions,Medical",
+			"graph":"0,0,0,0",
 			"id":"0",
 			"value":"issFav"
 		},
 		{
 			"question":"What issue are you most in opposition to?", 
-			"labels":"Tuition, Athletic Equipment, Research Equipment, School Events,Medical",
-			"graph":"0,0,0,0,0",
+			"labels":"Tuition, Budgets, Functions,Medical",
+			"graph":"0,0,0,0",
 			"id":"1",
 			"value":"issOpp"
 		},

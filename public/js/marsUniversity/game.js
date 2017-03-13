@@ -7,6 +7,7 @@ var fakeCandidateHolder = []
 var currentCandidateArrayHolder = []
 var graphData = [];
 var lastMinigame = 0; 
+var isPoll = false;
 
 
 var fakeCandidateYou = new CandidateCreate('FakeCandidate1');
@@ -953,7 +954,7 @@ function userAction()
 	c.onmousemove = doMouseOver;
     
   
-	mapbackground.onload = drawMap();
+	mapbackground.onload = drawMap(false);
     
 	currentEvents = [];
     document.getElementById("CommonsChoice").innerHTML += "<h2>Commons</h2>";
@@ -1480,9 +1481,9 @@ function map(state, isFirst, isFree){
     c.onmousemove = doMouseOver;
     
   
-    mapbackground.onload = drawMap();
+    mapbackground.onload = drawMap(true);
 	document.getElementById("questionArea").innerHTML +="<h4>Population & Sample</h4><br>";
-	var buttonLabels = ["Quad", "Coffee Shop", "Gym", "Lab", "Media Room", "Library"];
+	var buttonLabels = ["Quad", "Gym", "Lab", "Commons", "Library"];
 	document.getElementById("questionArea").innerHTML += "<label>Location: </label><select id = 'location'></select><br>";
 	for(x =0; x< buttonLabels.length; x++){
 		document.getElementById("location").options.add(new Option(buttonLabels[x],x));
@@ -1593,8 +1594,9 @@ function map(state, isFirst, isFree){
 			addMoreQuestions();
 	});
 }
-function drawMap()
+function drawMap(poll)
 {
+	isPoll = poll
 	//map icons
 	var libraryIcon = new Image();
 	libraryIcon.src = '../img/map/libraryicon.png';
@@ -1607,9 +1609,8 @@ function drawMap()
 	var labIcon = new Image();
 	labIcon.src = '../img/map/labicon.png';
 
-
-        var mapbackground = new Image();
-        mapbackground.src = '../../img/map/mapMU600pxW.png';
+    var mapbackground = new Image();
+    mapbackground.src = '../../img/map/mapMU600pxW.png';
 
 	//peopleicons
 	var tuitionIcon = new Image();
@@ -1626,11 +1627,12 @@ function drawMap()
     var c=document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
     
-  ctx.draw
-	ctx.strokeStyle = '#00FFFF';
+	mapbackground.onload = function(){
+			  ctx.drawImage(mapbackground, 0,0,600,414);
+			  	ctx.strokeStyle = '#00FFFF';
 	ctx.fillStyle = 'rgba(0,255,255,0.5)';
 	ctx.lineWidth = 3;
-	  ctx.drawImage(mapbackground, 0,0,600,414);
+	
 	//stroke areas for gym
 	ctx.beginPath();
         ctx.moveTo(360,15);
@@ -1670,11 +1672,17 @@ function drawMap()
 	
 	//draw icon
 
-	ctx.drawImage(libraryIcon, 435,270,113,75)
-	ctx.drawImage(gymIcon, 475,50,113,75)
-	ctx.drawImage(cafeIcon, 10,125,113,75)
+	    ctx.drawImage(libraryIcon, 435,270,113,75)
+            ctx.drawImage(gymIcon, 475,50,113,75)
+            ctx.drawImage(cafeIcon, 90,285,113,75)
+            if(isPoll){
 
-	ctx.drawImage(labIcon, 145,30,113,75)
+			ctx.drawImage(quadIcon, 160,160,113,75) 
+			}
+            ctx.drawImage(labIcon, 145,30,113,75)
+		}
+
+
 }
  function doMousedown(c, e)
 	{
@@ -1687,33 +1695,31 @@ function drawMap()
 			
 			//gym1
 			if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
-                document.getElementById("location").value = 2;
+                document.getElementById("location").value = 1;
 			}
 			//gym2
 			if((mouse.x >= 480 && mouse.x <=590 )&&(mouse.y >= 115 && mouse.y <= 235)){
-                document.getElementById("location").value = 2;
+                document.getElementById("location").value = 1;
 			}
 			//media 		ctx.strokeRect(135,333,175,145);
 			if((mouse.x >= 90 && mouse.x <= 205)&&(mouse.y >= 275 && mouse.y <= 395)){
-                document.getElementById("location").value = 4;
+                document.getElementById("location").value = 3;
 			}
 		
 			//labs1
 			if((mouse.x >= 150 && mouse.x <= 255)&&(mouse.y >= 15 && mouse.y <= 135)){
-                document.getElementById("location").value = 3;
+                document.getElementById("location").value = 2;
 			}
 			//labs2
 			else if((mouse.x >= 180 && mouse.x <= 230)&&(mouse.y >= 225 && mouse.y <= 395)){
-                document.getElementById("location").value = 3;
+                document.getElementById("location").value = 2;
 			}
 
 			//coffee shop 
-			if((mouse.x >= 5 && mouse.x <= 115)&&(mouse.y >= 40 && mouse.y <= 250)){
-                document.getElementById("location").value = 1;
-			}
+			
 			//library 	ctx.strokeRect(600,330,280,155);
 			if((mouse.x >= 400 && mouse.x <= 590)&&(mouse.y >= 275 && mouse.y <= 400)){
-                document.getElementById("location").value = 5;
+                document.getElementById("location").value = 4;
 			}
     }
  function doMousedownMain(c, e)
@@ -1876,15 +1882,25 @@ function drawMap()
             cafeIcon.src = '../img/map/cafeicon.png';
             var labIcon = new Image();
             labIcon.src = '../img/map/labicon.png';
-     
+            quadIcon = new Image();
+			quadIcon.src = '../img/map/icon.png';
+     		
             
             //draw icon
 
             ctx.drawImage(libraryIcon, 435,270,113,75)
             ctx.drawImage(gymIcon, 475,50,113,75)
             ctx.drawImage(cafeIcon, 90,285,113,75)
-
+            if(isPoll){
+            	   if((mouse.x >= 135 && mouse.x <= 300)&&(mouse.y >= 190 && mouse.y <= 250)){ 
+             
+                ctx.fillRect(135,190,170,56); 
+      } 
+            	ctx.strokeRect(135,190,170,56);
+			ctx.drawImage(quadIcon, 160,160,113,75) 
+			}
             ctx.drawImage(labIcon, 145,30,113,75)
+          
 	}
     function strokeAreas()
     {
@@ -2759,7 +2775,7 @@ function votePercentage(sampleSize, bias)
 				issues = issues/4;
 			}
 			////console.log(candidates[j].name +" Issue Score: "+ issues);
-			console.log(candidates[j].name + " Issues:"  + issues)
+			//console.log(candidates[j].name + " Issues:"  + issues)
 			if(candidates[j].name != "Liz")
 			{
 				var candWinPer = 10*Math.pow(fame*issues,2) - candidates[j].consMod;
@@ -3011,7 +3027,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 		else if(majorHolder == "tech"){
 			graphData[0][2]++;
 		}
-		else if(majorHolder == "Arts"){
+		else if(majorHolder == "arts"){
 			graphData[0][3]++;
 		}
 
@@ -3187,11 +3203,11 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
                         break;
     
                         case "issuebudget":
-                            tableArrays[10].push(parseFloat(sample[j].athleticScore).toFixed(2));
-                            if(sample[j].athleticScore >=2){
+                            tableArrays[10].push(parseFloat(sample[j].budgetScore).toFixed(2));
+                            if(sample[j].budgetScore>=2){
                                 graphData[i+2][0]++;
                             }
-                            else if(sample[j].athleticScore >=-1){
+                            else if(sample[j].budgetScore >=-1){
                                 graphData[i+2][1]++;
                             }
                             else{
@@ -3200,11 +3216,11 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
                         break;
     
                         case "issuefunctions":
-                            tableArrays[12].push(parseFloat(sample[j].eventScore).toFixed(2));
-                            if(sample[j].eventScore >=2){
+                            tableArrays[12].push(parseFloat(sample[j].functionScore).toFixed(2));
+                            if(sample[j].functionScore >=2){
                                 graphData[i+2][0]++;
                             }
-                            else if(sample[j].eventScore >=-1){
+                            else if(sample[j].functionScore >=-1){
                                 graphData[i+2][1]++;
                             }
                             else{
@@ -3720,7 +3736,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 			break;
 
 			case "issuebudget":
-				name = 	"Increase Athletic Budget";
+				name = 	"Increase Budget";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
 				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
@@ -3767,6 +3783,8 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 			////console.log(graphData[questionNum], " AT ", questions[qID].question)					
 			data2[j]=graphData[i][j];
 		}
+
+	
 		var dataCounter = 0;
 		x = d3.scaleLinear()
 		.domain([0, d3.max(data2)])
@@ -3786,9 +3804,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 			return zid; 
         });
         
-        var dataset = 
-        [
-        ];
+        var dataset =  [];
         for (var k = 0; k < graphData[i].length; k++)
         {			
             dataset.push ({label: graphLabels[i][k], count: graphData[i][k]})
