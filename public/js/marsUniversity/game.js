@@ -1,7 +1,6 @@
 //making all the score presets
-var groupList = ["socialite", "athlete", "researcher", "mediaLover", "reader"];
-var majorList = ["business", "engineering", "tech", "fineArts", "libArts"];
-var stuEconomic = ["poverty", "low", "midLow", "midHigh", "high"];
+var groupList = ["socialite", "athlete", "gamer", "reader"];
+var majorList = ["business", "law", "tech", "arts"];
 var playerCandidate = new CandidateCreate("ph");
 var opponentCandidate = new CandidateCreate("Liz");
 var fakeCandidateHolder = []
@@ -12,8 +11,8 @@ var lastMinigame = 0;
 
 var fakeCandidateYou = new CandidateCreate('FakeCandidate1');
 var fakeCandidateOther = new CandidateCreate('FakeCandidate2');
-fakeCandidateYou.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
-fakeCandidateOther.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+fakeCandidateYou.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
+fakeCandidateOther.fame = [1,1,1,1,1,1,1,1];
 fakeCandidateHolder.push(fakeCandidateYou);
 fakeCandidateHolder.push(fakeCandidateOther);
 
@@ -61,23 +60,21 @@ var imgArrayHeadHeight = [171,173,173];
 var positions =
 [
 	"Lowering Tuition",
-	"Increase Athletic Budget",
-	"Increase Research Budget",
-	"More School Events",
+	"Increase Budget",
+	"More School Functions",
 	"Improve Medical Services"
 ];
 
 var positionsLower = [
 	"tuition",
-	"athletic",
-	"research",
-	"events",
+	"budget",
+	"functions",
 	"medical"
 ];
 
 var groupIssues = [
 	[2,2,2,1,0,3,1,1,-1,2],
-	[0,2,3,1,0,3,1,1,-1,2],
+	[0,2,3,1,0,3,1,1,-1,2],8
 	[1,1,-1,2,1,2,3,1,-2,3],
 	[-1,1,-1,1,2,2,3,1,0,4],
 	[0,3,-2,2,0,2,1,3,3,1]
@@ -93,7 +90,7 @@ var classIssues =
 	[-1,1,-2,3,2,-1,3,1,0,4]
 ];
 
-//goes Business/Engineering/Technology/FineArts/LiberalArts
+//goes Business/Engineering/Technology/Finearts/Liberalarts
 var majorIssues =
 [
 	[-2,1,3,1,1,1,0,3,2,1],
@@ -119,15 +116,14 @@ var endReset = false;
 var spriteHead = new Image();
 spriteHead.src = "../img/spritehead.png";
 //sample person
-function Student(group, ecoClass, major, tuitionScore, athleticScore, researchScore, eventScore, medicalScore)
+function Student(group, ecoClass, major, tuitionScore, budgetScore, functionScore, medicalScore)
 {
 	this.group = group;
 	this.ecoClass = ecoClass;
 	this.major = major;
-	this.athleticScore = athleticScore;
-	this.researchScore = researchScore;
+	this.budgetScore = budgetScore;
 	this.tuitionScore = tuitionScore;
-	this.eventScore = eventScore;
+	this.functionScore = functionScore;
 	this.medicalScore = medicalScore;
 }
 
@@ -198,7 +194,7 @@ function trendReportMenu()
 	clearScreen();
 	var currentTrendReports = [];
 	document.getElementById("playerInfo").style.display = "none";
-	document.getElementById("gameInfo").innerHTML = "<div id= 'reportButtons' > <h1> Trend Reports</h1> <hr><br><div><h2> General</h2><button onclick= 'trendReporter(`issFav`)' class = 'trendButton' id = 'issFav' disabled>Favored Issue Report</button><button onclick= 'trendReporter(`issOpp`)' class = 'trendButton' id = 'issOpp' disabled>Opposed Issue Report</button><button onclick= 'trendReporter(`candFav`)' class = 'trendButton' id = 'candFav' disabled>Favored Candidate Report</button><button onclick= 'trendReporter(`candOpp`)' class = 'trendButton' id = 'candOpp' disabled>Opposed Candidate Report</button></div><br><div><h2> Support For Issues</h2><button onclick= 'trendReporter(`issuetuition`)' class = 'trendButton' id = 'issuetuition' disabled>Lowering Tuition Report</button><button onclick= 'trendReporter(`issueathletic`)' class = 'trendButton' id = 'issueathletic' disabled>Increse Athletic Budget Report</button><button onclick= 'trendReporter(`issueresearch`)' class = 'trendButton' id = 'issueresearch' disabled>Increase Research Budget Report</button><button onclick= 'trendReporter(`issueevents`)' class = 'trendButton' id = 'issueevents' disabled>More School Events Report</button><button onclick= 'trendReporter(`issuemedical`)' class = 'trendButton' id = 'issuemedical'  disabled>Improve Medical Services</button></div><br><div id = 'candReportsFame'><h2>Candidate Stats - Fame</h2></div><br><div id = 'candReportsTrust'><h2>Candidate Stats - Trust</h2></div>"
+	document.getElementById("gameInfo").innerHTML = "<div id= 'reportButtons' > <h1> Trend Reports</h1> <hr><br><div><h2> General</h2><button onclick= 'trendReporter(`issFav`)' class = 'trendButton' id = 'issFav' disabled>Favored Issue Report</button><button onclick= 'trendReporter(`issOpp`)' class = 'trendButton' id = 'issOpp' disabled>Opposed Issue Report</button><button onclick= 'trendReporter(`candFav`)' class = 'trendButton' id = 'candFav' disabled>Favored Candidate Report</button><button onclick= 'trendReporter(`candOpp`)' class = 'trendButton' id = 'candOpp' disabled>Opposed Candidate Report</button></div><br><div><h2> Support For Issues</h2><button onclick= 'trendReporter(`issuetuition`)' class = 'trendButton' id = 'issuetuition' disabled>Lowering Tuition Report</button><button onclick= 'trendReporter(`issuebudget`)' class = 'trendButton' id = 'issuebudget' disabled>Increse Budget Report</button><button onclick= 'trendReporter(`issuefunctions`)' class = 'trendButton' id = 'issuefunctions' disabled>More School Functions Report</button><button onclick= 'trendReporter(`issuemedical`)' class = 'trendButton' id = 'issuemedical'  disabled>Improve Medical Services</button></div><br><div id = 'candReportsFame'><h2>Candidate Stats - Fame</h2></div><br><div id = 'candReportsTrust'><h2>Candidate Stats - Trust</h2></div>"
     document.getElementById("candReportsFame").innerHTML += "<button onclick= 'trendReporter(`fame`)' class = 'trendButton' id = 'fame' disabled>Fame - " + candidates[0].name +"</button>"
     for(var k = 1;k<candidates.length;k++)
 	{
@@ -805,35 +801,27 @@ function actualSessionStart(isFromTut){
 	candidates.push(opponentCandidate);
 	
 	//Create Issue Candidates
-	var issueCand1 = new CandidateCreate("Martian Dog");
-	issueCand1.focus = positions[0];
+	var issueCand1 = new CandidateCreate("Zrap Bannigan");
+	issueCand1.focus = 0;
 	issueCand1.focusnum = 0;
 	chooseRank(issueCand1,chosenCandRanks,true);
 	candidates.push(issueCand1);
-
-	var issueCand2  = new CandidateCreate("Clamps");
-	issueCand2.focus = positions[4];
-	issueCand2.focusnum = 4;
+	var issueCand2 = new CandidateCreate("Zrap Bannigan");
+	issueCand1.focus = 1;
+	issueCand1.focusnum = 1;
 	chooseRank(issueCand2,chosenCandRanks,true);
 	candidates.push(issueCand2);
-
-	var issueCand3  = new CandidateCreate("Zrap Bannigan");
-	issueCand3.focus = positions[1];
-	issueCand3.focusnum = 1;
+	var issueCand3 = new CandidateCreate("Zrap Bannigan");
+	issueCand1.focus = 2;
+	issueCand1.focusnum = 2;
 	chooseRank(issueCand3,chosenCandRanks,true);
 	candidates.push(issueCand3);
-
-	var issueCand4  = new CandidateCreate("Cowboy");
-	issueCand4.focus = positions[3];
-	issueCand4.focusnum = 3;
+	var issueCand4 = new CandidateCreate("Zrap Bannigan");
+	issueCand1.focus = 3;
+	issueCand1.focusnum = 3;
 	chooseRank(issueCand4,chosenCandRanks,true);
 	candidates.push(issueCand4);
 
-	var issueCand5  = new CandidateCreate("Martian Scientist");
-	issueCand5.focus = positions[2];
-	issueCand5.focusnum = 2;
-	chooseRank(issueCand5,chosenCandRanks,true);
-	candidates.push(issueCand5);
 	
 	map(0,true,true);
 }
@@ -859,35 +847,13 @@ function practicePoll()
 	candidates.push(opponentCandidate);
 	
 	//Create Issue Candidates
-	var issueCand1 = new CandidateCreate("Martian Dog");
-	issueCand1.focus = positions[0];
-	issueCand1.focusnum = 0;
+	var issueCand1 = new CandidateCreate("Zrap Bannigan");
+	var oppRank = Math.floor(Math.random()*4);
+	issueCand1.focus = positions[oppRank];
+	issueCand1.focusnum = oppRank;
 	chooseRank(issueCand1,chosenCandRanks,true);
 	candidates.push(issueCand1);
 
-	var issueCand2  = new CandidateCreate("Clamps");
-	issueCand2.focus = positions[1];
-	issueCand2.focusnum = 1;
-	chooseRank(issueCand2,chosenCandRanks,true);
-	candidates.push(issueCand2);
-
-	var issueCand3  = new CandidateCreate("Zrap Bannigan");
-	issueCand3.focus = positions[2];
-	issueCand3.focusnum = 2;
-	chooseRank(issueCand3,chosenCandRanks,true);
-	candidates.push(issueCand3);
-
-	var issueCand4  = new CandidateCreate("Cowboy");
-	issueCand4.focus = positions[3];
-	issueCand4.focusnum = 3;
-	chooseRank(issueCand4,chosenCandRanks,true);
-	candidates.push(issueCand4);
-
-	var issueCand5  = new CandidateCreate("Martian Scientist");
-	issueCand5.focus = positions[4];
-	issueCand5.focusnum = 4;
-	chooseRank(issueCand5,chosenCandRanks,true);
-	candidates.push(issueCand5);
 	
 	map(2,false,false);
 }
@@ -896,7 +862,7 @@ function firstStatement()
 {
 	clearScreen();
 	document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
-	for (var x=0; x < 5; x++){
+	for (var x=0; x < positions.length; x++){
 
 	document.getElementById("gameInfo").innerHTML += "<button onclick = 'gameCycleStart("+x+")'>"+ positions[x]+"</button>"
 	}
@@ -922,9 +888,6 @@ function gameCycleStart(f)
 		break;
 		case 3:
 		playerCandidate.issueScore[3]++;
-		break;
-		case 4:
-		playerCandidate.issueScore[4]++;
 		break;
 	}
 	candidates.splice(0,0,playerCandidate);
@@ -994,12 +957,10 @@ function userAction()
 	mapbackground.onload = drawMap();
     
 	currentEvents = [];
-    document.getElementById("QuadChoice").innerHTML += "<h2>Quad</h2>";
-    document.getElementById("CafeChoice").innerHTML += "<h2>Cafe</h2>";
+    document.getElementById("CommonsChoice").innerHTML += "<h2>Commons</h2>";
     document.getElementById("LabChoice").innerHTML += "<h2>Labs</h2>";
     document.getElementById("GymChoice").innerHTML += "<h2>Gym</h2>";
     document.getElementById("LibraryChoice").innerHTML += "<h2>Library</h2>";
-    document.getElementById("MediaChoice").innerHTML += "<h2>Media Room</h2>";
 	////Adds events to button list randomly from those available and Prevents Duplicates and events with more time than is available
 	for(var i = 1;i<events.length;i++)
 	{
@@ -1008,23 +969,17 @@ function userAction()
 		var arrayPos = events[i].id -1;
        switch(events[i].loc)
         {
-            case "Quad":
-                document.getElementById("QuadChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
+            case "Com":
+                document.getElementById("CommonsChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
             break;
-            case "Cafe":
-                document.getElementById("CafeChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
-            break;
-            case "Labs":
+            case "Lab":
                 document.getElementById("LabChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
            break;
             case "Gym":
                 document.getElementById("GymChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
             break;
-            case "Library":
+            case "Lib":
                document.getElementById("LibraryChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
-            break;
-          case "Media Room":
-               document.getElementById("MediaChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
             break;
         }
       
@@ -1066,59 +1021,30 @@ function action()
 				{
 				switch(effects[i])
 				{
-					case "Poor":
-						posText += "Poor Economic Status";
+					case "Arts":
+						posText += "Arts Major";
 					break;
-
-					case "Low":
-						posText += "Lower Economic Status";
-					break;
-					case "Low Mid":
-						posText += "Low Middle Economic Status";
-					break;
-					case "Upper Mid":
-						posText += "Upper Middle Economic Status";
-					break;
-					case "High":
-						posText += "Upper Economic Status";
-					break;
-
-					case "Fine Arts":
-						posText += "Fine Arts Major";
-					break;
-
 					case "Bus":
 						posText += "Business Major";
 					break;
-					case "Eng":
-						posText += "Engineering Major";
-					break;
-					case "Lib Arts":
-						posText += "Liberal Arts Major";
+					case "Law":
+						posText += "Law Major";
 					break;
 					case "Tech":
 						posText += "Technology Major";
 					break;
 
-					case "Media":
-						posText += "Media Lover Group";
+					case "Gam":
+						posText += "Gamer Group";
 					break;
-
 					case "Soc":
 						posText += "Socialite Group";
-
 					break;
 					case "Read":
 						posText += "Reader Group";
-
-					break;
-					case "Res":
-						posText += "Researcher Group";
-
 					break;
 					case "Ath":
 						posText += "Athlete Group";
-
 					break;
 				}
 				if(i != effects.length-1)
@@ -1139,59 +1065,30 @@ function action()
 				{
 				switch(negEffects[i])
 				{
-					case "Poor":
-						negText += "Poor Economic Status";
+					case "Arts":
+						posText += "Arts Major";
 					break;
-
-					case "Low":
-						negText += "Lower Economic Status";
-					break;
-					case "Low Mid":
-						negText += "Low Middle Economic Status";
-					break;
-					case "Upper Mid":
-						negText += "Upper Middle Economic Status";
-					break;
-					case "High":
-						negText += "Upper Economic Status";
-					break;
-
-					case "Fine Arts":
-						negText += "Fine Arts Major";
-					break;
-
 					case "Bus":
-						negText += "Business Major";
+						posText += "Business Major";
 					break;
-					case "Eng":
-						negText += "Engineering Major";
-					break;
-					case "Lib Arts":
-						negText += "Liberal Arts Major";
+					case "Law":
+						posText += "Law Major";
 					break;
 					case "Tech":
-						negText += "Technology Major";
+						posText += "Technology Major";
 					break;
 
-					case "Media":
-						negText += "Media Lover Group";
+					case "Gam":
+						posText += "Gamer Group";
 					break;
-
 					case "Soc":
-						negText += "Socialite Group";
-
+						posText += "Socialite Group";
 					break;
 					case "Read":
-						negText += "Reader Group";
-
-					break;
-					case "Res":
-						negText += "Researcher Group";
-
+						posText += "Reader Group";
 					break;
 					case "Ath":
-						negText += "Athlete Group";
-
+						posText += "Athlete Group";
 					break;
 				}
 				if(i != negEffects.length-1)
@@ -1221,60 +1118,31 @@ function action()
 						{
 							switch(effects[j])
 							{
-								case "Poor":
-									posText += "Poor Economic Status";
-								break;
-
-								case "Low":
-									posText += "Lower Economic Status";
-								break;
-								case "Low Mid":
-									posText += "Low Middle Economic Status";
-								break;
-								case "Upper Mid":
-									posText += "Upper Middle Economic Status";
-								break;
-								case "High":
-									posText += "Upper Economic Status";
-								break;
-
-								case "Fine Arts":
-									posText += "Fine Arts Major";
-								break;
-
-								case "Bus":
-									posText += "Business Major";
-								break;
-								case "Eng":
-									posText += "Engineering Major";
-								break;
-								case "Lib Arts":
-									posText += "Liberal Arts Major";
-								break;
-								case "Tech":
-									posText += "Technology Major";
-								break;
-
-								case "Media":
-									posText += "Media Lover Group";
-								break;
-
-								case "Soc":
-									posText += "Socialite Group";
-
-								break;
-								case "Read":
-									posText += "Reader Group";
-
-								break;
-								case "Res":
-									posText += "Researcher Group";
-
-								break;
-								case "Ath":
-									posText += "Athlete Group";
-
-								break;
+                                case "Arts":
+                                    posText += "Arts Major";
+                                break;
+                                case "Bus":
+                                    posText += "Business Major";
+                                break;
+                                case "Law":
+                                    posText += "Law Major";
+                                break;
+                                case "Tech":
+                                    posText += "Technology Major";
+                                break;
+            
+                                case "Gam":
+                                    posText += "Gamer Group";
+                                break;
+                                case "Soc":
+                                    posText += "Socialite Group";
+                                break;
+                                case "Read":
+                                    posText += "Reader Group";
+                                break;
+                                case "Ath":
+                                    posText += "Athlete Group";
+                                break;
 							}
 							if(j != effects.length-1)
 							{
@@ -1294,60 +1162,31 @@ function action()
 						{
 							switch(negEffects[j])
 							{
-								case "Poor":
-									negText += "Poor Economic Status";
-								break;
-
-								case "Low":
-									negText += "Lower Economic Status";
-								break;
-								case "Low Mid":
-									negText += "Low Middle Economic Status";
-								break;
-								case "Upper Mid":
-									negText += "Upper Middle Economic Status";
-								break;
-								case "High":
-									negText += "Upper Economic Status";
-								break;
-
-								case "Fine Arts":
-									negText += "Fine Arts Major";
-								break;
-
-								case "Bus":
-									negText += "Business Major";
-								break;
-								case "Eng":
-									negText += "Engineering Major";
-								break;
-								case "Lib Arts":
-									negText += "Liberal Arts Major";
-								break;
-								case "Tech":
-									negText += "Technology Major";
-								break;
-
-								case "Media":
-									negText += "Media Lover Group";
-								break;
-
-								case "Soc":
-									negText += "Socialite Group";
-
-								break;
-								case "Read":
-									negText += "Reader Group";
-
-								break;
-								case "Res":
-									negText += "Researcher Group";
-
-								break;
-								case "Ath":
-									negText += "Athlete Group";
-
-								break;
+                                case "Arts":
+                                    posText += "Arts Major";
+                                break;
+                                case "Bus":
+                                    posText += "Business Major";
+                                break;
+                                case "Law":
+                                    posText += "Law Major";
+                                break;
+                                case "Tech":
+                                    posText += "Technology Major";
+                                break;
+            
+                                case "Gam":
+                                    posText += "Gamer Group";
+                                break;
+                                case "Soc":
+                                    posText += "Socialite Group";
+                                break;
+                                case "Read":
+                                    posText += "Reader Group";
+                                break;
+                                case "Ath":
+                                    posText += "Athlete Group";
+                                break;
 							}
 							if(j != negEffects.length-1)
 							{
@@ -1539,7 +1378,7 @@ function tutorial (help)
 		case 6:
 		document.getElementById("gameInfo").innerHTML += "<h3>Population</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden'; height:500px></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Types of Interests: Socialite, Athlete, Researcher, Media Lover, Reader<br><br>Types of Majors: Business, Engineering, Tech, Fine Arts, Liberal Arts<br><br>Types of Financial Wealth: Poverty, Poor, Lower Middle, Higher Middle, High</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Types of Interests: Socialite, Athlete, Researcher, Media Lover, Reader<br><br>Types of Majors: Business, Engineering, Tech, Fine arts, Liberal arts<br><br>Types of Financial Wealth: Poverty, Poor, Lower Middle, Higher Middle, High</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='nextSection("+help+");' style='float: right;'>Fame</button> ";
 		if(help)
@@ -1883,80 +1722,56 @@ function drawMap()
 	{
 		var mouse = canvasMouse;
 		//check if the area is clickable
-			//quad 		ctx.strokeRect(208,235,243,60);
-			if((mouse.x >= 135 && mouse.x <= 300)&&(mouse.y >= 190 && mouse.y <= 250)){
-                document.getElementById("QuadChoice").style = 'display:block';
-                document.getElementById("LibraryChoice").style = 'display:none';
-                document.getElementById("LabChoice").style = 'display:none';
-                document.getElementById("GymChoice").style = 'display:none';
-                document.getElementById("CafeChoice").style = 'display:none';
-                document.getElementById("MediaChoice").style = 'display:none';
-			}
-			
 			//gym1
 			if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
-                document.getElementById("QuadChoice").style = 'display:none';
                 document.getElementById("LibraryChoice").style = 'display:none';
                 document.getElementById("LabChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:block';
-                document.getElementById("CafeChoice").style = 'display:none';
-                document.getElementById("MediaChoice").style = 'display:none';
+                document.getElementById("CommonsChoice").style = 'display:none';
 			}
 			//gym2
 			if((mouse.x >= 480 && mouse.x <=590 )&&(mouse.y >= 115 && mouse.y <= 235)){
-                document.getElementById("QuadChoice").style = 'display:none';
                 document.getElementById("LibraryChoice").style = 'display:none';
                 document.getElementById("LabChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:block';
-                document.getElementById("CafeChoice").style = 'display:none';
-                document.getElementById("MediaChoice").style = 'display:none';
+                document.getElementById("CommonsChoice").style = 'display:none';
 			}
 			//media 		ctx.strokeRect(135,333,175,145);
 			if((mouse.x >= 90 && mouse.x <= 205)&&(mouse.y >= 275 && mouse.y <= 395)){
-                document.getElementById("QuadChoice").style = 'display:none';
                 document.getElementById("LibraryChoice").style = 'display:none';
                 document.getElementById("LabChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:none';
-                document.getElementById("CafeChoice").style = 'display:none';
-                document.getElementById("MediaChoice").style = 'display:block';
+                document.getElementById("CommonsChoice").style = 'display:block';
 			}
 		
 			//labs1
 			if((mouse.x >= 150 && mouse.x <= 255)&&(mouse.y >= 15 && mouse.y <= 135)){
-                document.getElementById("QuadChoice").style = 'display:none';
                 document.getElementById("LibraryChoice").style = 'display:none';
                 document.getElementById("LabChoice").style = 'display:block';
                 document.getElementById("GymChoice").style = 'display:none';
-                document.getElementById("CafeChoice").style = 'display:none';
-                document.getElementById("MediaChoice").style = 'display:none';
+                document.getElementById("CommonsChoice").style = 'display:none';
 			}
 			//labs2
 			else if((mouse.x >= 180 && mouse.x <= 230)&&(mouse.y >= 225 && mouse.y <= 395)){
-                document.getElementById("QuadChoice").style = 'display:none';
                 document.getElementById("LibraryChoice").style = 'display:none';
                 document.getElementById("LabChoice").style = 'display:block';
                 document.getElementById("GymChoice").style = 'display:none';
-                document.getElementById("CafeChoice").style = 'display:none';
-                document.getElementById("MediaChoice").style = 'display:none';
+                document.getElementById("CommonsChoice").style = 'display:none';
 			}
 
 			//coffee shop 
 			if((mouse.x >= 5 && mouse.x <= 115)&&(mouse.y >= 40 && mouse.y <= 250)){
-                document.getElementById("QuadChoice").style = 'display:none';
                 document.getElementById("LibraryChoice").style = 'display:none';
                 document.getElementById("LabChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:none';
-                document.getElementById("CafeChoice").style = 'display:block';
-                document.getElementById("MediaChoice").style = 'display:none';
+                document.getElementById("CommonsChoice").style = 'display:block';
 			}
 			//library 	ctx.strokeRect(600,330,280,155);
 			if((mouse.x >= 400 && mouse.x <= 590)&&(mouse.y >= 275 && mouse.y <= 400)){
-                document.getElementById("QuadChoice").style = 'display:none';
                 document.getElementById("LibraryChoice").style = 'display:block';
                 document.getElementById("LabChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:none';
-                document.getElementById("CafeChoice").style = 'display:none';
-                document.getElementById("MediaChoice").style = 'display:none';
+                document.getElementById("CommonsChoice").style = 'display:none';
 			}
     }
 
@@ -2240,16 +2055,13 @@ function statementCalc()
 				candidates[0].tuitPos += 1;
 			}
 			else if(currentStatement == 1){
-				candidates[0].athPos += 1;
-			}
-			else if(currentStatement == 2){
-				candidates[0].resPos += 1;
-			}
-			else if(currentStatement == 4){
-				candidates[0].medPos += 1;
+				candidates[0].budPos += 1;
 			}
 			else if(currentStatement == 3){
-				candidates[0].eventPos += 1;
+				candidates[0].medPos += 1;
+			}
+			else if(currentStatement == 2){
+				candidates[0].funcPos += 1;
 			}
 		}
 		//if negative statement
@@ -2260,26 +2072,23 @@ function statementCalc()
 					candidates[0].tuitNeg += 1;
 				}
 				else if(currentStatement == 1){
-					candidates[0].athNeg += 1;
+					candidates[0].budNeg += 1;
 				}
-				else if(currentStatement == 2){
-					candidates[0].resNeg += 1;
-				}
-				else if(currentStatement == 4){
+				else if(currentStatement == 3){
 					candidates[0].medNeg += 1;
 				}
-			else if(currentStatement == 3){
-				candidates[0].eventNeg += 1;
+			else if(currentStatement == 2){
+				candidates[0].funcNeg += 1;
 				}
 	
 		}
 		//calculate the candidate's constitution mod
 	
 		var tuitCond,
-				athCond,
-				resCond,
-				medCond,
-				eventCond;
+			athCond,
+			resCond,
+			medCond,
+			eventCond;
 	
 	
 		//check if the issues have anything even in them
@@ -2290,8 +2099,8 @@ function statementCalc()
 			tuitCond = 0;
 		}
 	
-		if(candidates[0].athPos>0 || candidates[0].athNeg>0){
-			athCond = (Math.min(candidates[0].athPos, candidates[0].athNeg))/(candidates[0].athPos+candidates[0].athNeg);
+		if(candidates[0].budPos>0 || candidates[0].budNeg>0){
+			athCond = (Math.min(candidates[0].budPos, candidates[0].budNeg))/(candidates[0].budPos+candidates[0].budNeg);
 		}
 		else{
 			athCond = 0;
@@ -2312,8 +2121,8 @@ function statementCalc()
 			medCond = 0;
 		}
 	
-		if(candidates[0].eventPos>0 || candidates[0].eventNeg>0){
-			eventCond = (Math.min(candidates[0].eventPos, candidates[0].eventNeg))/(candidates[0].eventPos+candidates[0].eventNeg);
+		if(candidates[0].funcPos>0 || candidates[0].funcNeg>0){
+			eventCond = (Math.min(candidates[0].funcPos, candidates[0].funcNeg))/(candidates[0].funcPos+candidates[0].funcNeg);
 		}
 		else{
 			eventCond = 0;
@@ -2340,16 +2149,13 @@ function statementCalcOtherCandidate(x){
 			candidates[x].tuitPos += 1;
 		}
 		else if(currentStatement == 1){
-			candidates[x].athPos += 1;
-		}
-		else if(currentStatement == 2){
-			candidates[x].resPos += 1;
+			candidates[x].budPos += 1;
 		}
 		else if(currentStatement == 3){
 			candidates[x].medPos += 1;
 		}
-		else if(currentStatement == 4){
-			candidates[x].eventPos += 1;
+		else if(currentStatement == 2){
+			candidates[x].funcPos += 1;
 		}
 	}
 	else{
@@ -2359,16 +2165,13 @@ function statementCalcOtherCandidate(x){
 				candidates[x].tuitNeg += 1;
 			}
 			else if(currentStatement == 1){
-				candidates[x].athNeg += 1;
-			}
-			else if(currentStatement == 2){
-				candidates[x].resNeg += 1;
+				candidates[x].budNeg += 1;
 			}
 			else if(currentStatement == 3){
 				candidates[x].medNeg += 1;
 			}
-		else if(currentStatement == 4){
-			candidates[x].eventNeg += 1;
+		else if(currentStatement == 2){
+			candidates[x].funcNeg += 1;
 			}
 		}
 	}
@@ -2523,7 +2326,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Res":
+			case "Gam":
 				candidate.fame[2]+=parseFloat(scoreInc);
 				if(candidate.fame[2] > 2)
 				{
@@ -2535,7 +2338,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Media":
+			case "Read":
 				candidate.fame[3]+=parseFloat(scoreInc);
 				if(candidate.fame[3] > 2)
 				{
@@ -2547,7 +2350,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Read":
+			case "Bus":
 				candidate.fame[4]+=parseFloat(scoreInc);
 				if(candidate.fame[4] > 2)
 				{
@@ -2559,7 +2362,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Bus":
+			case "Law":
 				candidate.fame[5]+=parseFloat(scoreInc);
 				if(candidate.fame[5] > 2)
 				{
@@ -2571,7 +2374,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Eng":
+			case "Tech":
 				candidate.fame[6]+=parseFloat(scoreInc);
 				if(candidate.fame[6] > 2)
 				{
@@ -2583,7 +2386,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Tech":
+			case "Arts":
 				candidate.fame[7]+=parseFloat(scoreInc);
 				if(candidate.fame[7] > 2)
 				{
@@ -2595,89 +2398,6 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Fine Arts":
-				candidate.fame[8]+=parseFloat(scoreInc);
-				if(candidate.fame[8] > 2)
-				{
-					candidate.fame[8] = 2;
-				}
-				if(candidate.fame[8] < .1)
-				{
-					candidate.fame[8] = .1;
-				}
-				break;
-
-			case "Lib Arts":
-				candidate.fame[9]+=parseFloat(scoreInc);
-				if(candidate.fame[9] > 2)
-				{
-					candidate.fame[9] = 2;
-				}
-				if(candidate.fame[9] < .1)
-				{
-					candidate.fame[9] = .1;
-				}
-				break;
-
-			case "Poor":
-				candidate.fame[10]+=parseFloat(scoreInc);
-				if(candidate.fame[10] > 2)
-				{
-					candidate.fame[10] = 2;
-				}
-				if(candidate.fame[10] < .1)
-				{
-					candidate.fame[10] = .1;
-				}
-				break;
-
-			case "Low":
-				candidate.fame[11]+=parseFloat(scoreInc);
-				if(candidate.fame[11] > 2)
-				{
-					candidate.fame[11] = 2;
-				}
-				if(candidate.fame[11] < .1)
-				{
-					candidate.fame[11] = .1;
-				}
-				break;
-
-			case "Low Mid":
-				candidate.fame[12]+=parseFloat(scoreInc);
-				if(candidate.fame[12] > 2)
-				{
-					candidate.fame[12] = 2;
-				}
-				if(candidate.fame[12] < .1)
-				{
-					candidate.fame[12] = .1;
-				}
-				break;
-
-			case "Upper Mid":
-				candidate.fame[13]+=parseFloat(scoreInc);
-				if(candidate.fame[13] > 2)
-				{
-					candidate.fame[13] = 2;
-				}
-				if(candidate.fame[13] < .1)
-				{
-					candidate.fame[13] = .1;
-				}
-				break;
-
-			case "High":
-				candidate.fame[14]+=parseFloat(scoreInc);
-				if(candidate.fame[14] > 2)
-				{
-					candidate.fame[14] = 2;
-				}
-				if(candidate.fame[14] < .1)
-				{
-					candidate.fame[14] = .1;
-				}
-				break;
 
 			case "tuition":
 				candidate.issueScore[0]+=parseFloat(scoreInc);
@@ -2691,7 +2411,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 						}
 				break;
 
-			case "athletic":
+			case "budget":
 				candidate.issueScore[1]+=parseFloat(scoreInc);
 						if(candidate.issueScore[1] > 4)
 						{
@@ -2703,7 +2423,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 						}
 				break;
 
-			case "research":
+			case "functions":
 				candidate.issueScore[2]+=parseFloat(scoreInc);
 						if(candidate.issueScore[2] > 4)
 						{
@@ -2715,7 +2435,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 						}
 				break;
 
-			case "events":
+			case "medical":
 				candidate.issueScore[3]+=parseFloat(scoreInc);
 						if(candidate.issueScore[3] > 4)
 						{
@@ -2724,18 +2444,6 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 						if(candidate.issueScore[3] < -4)
 						{
 							candidate.issueScore[3] = -4;
-						}
-				break;
-
-			case "medical":
-				candidate.issueScore[4]+=parseFloat(scoreInc);
-						if(candidate.issueScore[4] > 4)
-						{
-							candidate.issueScore[4] = 4;
-						}
-						if(candidate.issueScore[4] < -4)
-						{
-							candidate.issueScore[4] = -4;
 						}
 				break;
 
@@ -2782,7 +2490,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Res":
+			case "Gam":
 				candidate.fame[2]-=parseFloat(scoreInc);
 				if(candidate.fame[2] > 2)
 				{
@@ -2794,7 +2502,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Media":
+			case "Read":
 				candidate.fame[3]-=parseFloat(scoreInc);
 				if(candidate.fame[3] > 2)
 				{
@@ -2806,7 +2514,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Read":
+			case "Bus":
 				candidate.fame[4]-=parseFloat(scoreInc);
 				if(candidate.fame[4] > 2)
 				{
@@ -2818,7 +2526,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Bus":
+			case "Law":
 				candidate.fame[5]-=parseFloat(scoreInc);
 				if(candidate.fame[5] > 2)
 				{
@@ -2830,7 +2538,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Eng":
+			case "Tech":
 				candidate.fame[6]-=parseFloat(scoreInc);
 				if(candidate.fame[6] > 2)
 				{
@@ -2842,7 +2550,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Tech":
+			case "Arts":
 				candidate.fame[7]-=parseFloat(scoreInc);
 				if(candidate.fame[7] > 2)
 				{
@@ -2854,89 +2562,6 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Fine Arts":
-				candidate.fame[8]-=parseFloat(scoreInc);
-				if(candidate.fame[8] > 2)
-				{
-					candidate.fame[8] = 2;
-				}
-				if(candidate.fame[8] < .1)
-				{
-					candidate.fame[8] = .1;
-				}
-				break;
-
-			case "Lib Arts":
-				candidate.fame[9]-=parseFloat(scoreInc);
-				if(candidate.fame[9] > 2)
-				{
-					candidate.fame[9] = 2;
-				}
-				if(candidate.fame[9] < .1)
-				{
-					candidate.fame[9] = .1;
-				}
-				break;
-
-			case "Poor":
-				candidate.fame[10]-=parseFloat(scoreInc);
-				if(candidate.fame[10] > 2)
-				{
-					candidate.fame[10] = 2;
-				}
-				if(candidate.fame[10] < .1)
-				{
-					candidate.fame[10] = .1;
-				}
-				break;
-
-			case "Low":
-				candidate.fame[11]-=parseFloat(scoreInc);
-				if(candidate.fame[11] > 2)
-				{
-					candidate.fame[11] = 2;
-				}
-				if(candidate.fame[11] < .1)
-				{
-					candidate.fame[11] = .1;
-				}
-				break;
-
-			case "Low Mid":
-				candidate.fame[12]-=parseFloat(scoreInc);
-				if(candidate.fame[12] > 2)
-				{
-					candidate.fame[12] = 2;
-				}
-				if(candidate.fame[12] < .1)
-				{
-					candidate.fame[12] = .1;
-				}
-				break;
-
-			case "Upper Mid":
-				candidate.fame[13]-=parseFloat(scoreInc);
-				if(candidate.fame[13] > 2)
-				{
-					candidate.fame[13] = 2;
-				}
-				if(candidate.fame[13] < .1)
-				{
-					candidate.fame[13] = .1;
-				}
-				break;
-
-			case "High":
-				candidate.fame[14]-=parseFloat(scoreInc);
-				if(candidate.fame[14] > 2)
-				{
-					candidate.fame[14] = 2;
-				}
-				if(candidate.fame[14] < .1)
-				{
-					candidate.fame[14] = .1;
-				}
-				break;
 
 			case "tuition":
 				candidate.issueScore[0]-=parseFloat(scoreInc);
@@ -2950,7 +2575,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 						}
 				break;
 
-			case "athletic":
+			case "budget":
 				candidate.issueScore[1]-=parseFloat(scoreInc);
 						if(candidate.issueScore[1] > 4)
 						{
@@ -2962,7 +2587,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 						}
 				break;
 
-			case "research":
+			case "functions":
 				candidate.issueScore[2]-=parseFloat(scoreInc);
 						if(candidate.issueScore[2] > 4)
 						{
@@ -2974,7 +2599,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 						}
 				break;
 
-			case "events":
+			case "medical":
 				candidate.issueScore[3]-=parseFloat(scoreInc);
 						if(candidate.issueScore[3] > 4)
 						{
@@ -2983,18 +2608,6 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 						if(candidate.issueScore[3] < -4)
 						{
 							candidate.issueScore[3] = -4;
-						}
-				break;
-
-			case "medical":
-				candidate.issueScore[4]-=parseFloat(scoreInc);
-						if(candidate.issueScore[4] > 4)
-						{
-							candidate.issueScore[4] = 4;
-						}
-						if(candidate.issueScore[4] < -4)
-						{
-							candidate.issueScore[4] = -4;
 						}
 				break;
 
@@ -3041,8 +2654,8 @@ function Student(group, ecoClass, major, tuitionScore, athleticScore, researchSc
 //used for making Player Candidate & Opponent Candidate
 function CandidateCreate(name){
 	this.name = name;
-	this.fame= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-	this.issueScore= [0,0,0,0,0];
+	this.fame= [0,0,0,0,0,0,0,0];
+	this.issueScore= [0,0,0,0];
 	this.consMod= 0;
 	this.focus= "";
 	this.focusnum= 0;
@@ -3059,14 +2672,12 @@ function CandidateCreate(name){
 
 	this.tuitPos= 0;
 	this.tuitNeg= 0;
-	this.athPos= 0;
-	this.athNeg= 0;
-	this.resPos= 0;
-	this.resNeg= 0;
+	this.budPos= 0;
+	this.budNeg= 0;
 	this.medPos= 0;
 	this.medNeg= 0;
-	this.eventPos= 0;
-	this.eventNeg= 0;
+	this.funcPos= 0;
+	this.funcNeg= 0;
 };
 
 function createSample(x, bias)
@@ -3083,7 +2694,7 @@ function getScores(x, bias){
 
 	var groupRandom;
 
-	if(bias < 5){
+	if(bias < 4){
 		var coinFlip = Math.floor(Math.random() * 3)
 		if(coinFlip == 1){
 					groupRandom = bias;
@@ -3091,35 +2702,35 @@ function getScores(x, bias){
 				}
 
 		else{
-					groupRandom = Math.floor(Math.random()* 5);
+					groupRandom = Math.floor(Math.random()* 4);
 
 					while(groupRandom == bias){
-						groupRandom = Math.floor(Math.random()* 5);
+						groupRandom = Math.floor(Math.random()* 4);
 					}
 		}
 	}
 	else{
-		groupRandom = Math.floor(Math.random()* 5);
+		groupRandom = Math.floor(Math.random()* 4);
 	}
-	var majorRandom = Math.floor(Math.random()* 5);
-	var ecoClassRandom = Math.floor(Math.random()* 5);
+	var majorRandom = Math.floor(Math.random()* 4);
+	var ecoClassRandom = Math.floor(Math.random()* 4);
 	var ath =0;
 	var res = 0;
 	var tuit = 0;
 	var med = 0;
 	var event = 0;
 	//SCORE calculated by (group issue + variable) + (major issue + variable)  + (class issue + variable)
-	tuit = (((groupIssues[groupRandom][0]) + (Math.floor(Math.random() * (groupIssues[groupRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][0]) + (Math.floor(Math.random() * (groupIssues[majorRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][0]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	ath =  (((groupIssues[groupRandom][2]) + (Math.floor(Math.random() * (groupIssues[groupRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][2]) + (Math.floor(Math.random() * (groupIssues[majorRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][2]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	res =  (((groupIssues[groupRandom][4]) + (Math.floor(Math.random() * (groupIssues[groupRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][4]) + (Math.floor(Math.random() * (groupIssues[majorRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][4]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	event =  (((groupIssues[groupRandom][6]) + (Math.floor(Math.random() * (groupIssues[groupRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][6]) + (Math.floor(Math.random() * (groupIssues[majorRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][6]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	med =  (((groupIssues[groupRandom][8]) + (Math.floor(Math.random() * (groupIssues[groupRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][8]) + (Math.floor(Math.random() * (groupIssues[majorRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][8]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	tuit = (((groupIssues[groupRandom][0]) + (Math.floor(Math.random() * (groupIssues[groupRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][0]) + (Math.floor(Math.random() * (groupIssues[majorRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	ath =  (((groupIssues[groupRandom][2]) + (Math.floor(Math.random() * (groupIssues[groupRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][2]) + (Math.floor(Math.random() * (groupIssues[majorRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	res =  (((groupIssues[groupRandom][4]) + (Math.floor(Math.random() * (groupIssues[groupRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][4]) + (Math.floor(Math.random() * (groupIssues[majorRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	event =  (((groupIssues[groupRandom][6]) + (Math.floor(Math.random() * (groupIssues[groupRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][6]) + (Math.floor(Math.random() * (groupIssues[majorRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) ;
+	med =  (((groupIssues[groupRandom][8]) + (Math.floor(Math.random() * (groupIssues[groupRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][8]) + (Math.floor(Math.random() * (groupIssues[majorRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
 
-	 tuit = tuit/3;
-     ath = ath/3;
-     res =  res/3;
-     event = event/3;
-     med = med/3;
+	 tuit = tuit/2;
+     ath = ath/2;
+     res =  res/2;
+     event = event/2;
+     med = med/2;
 
      tuit = tuit.toFixed(2);
      ath = ath.toFixed(2);
@@ -3128,7 +2739,7 @@ function getScores(x, bias){
      med = med.toFixed(2);
 
 
-	var returnArray = [groupRandom, majorRandom, ecoClassRandom, tuit, ath,res,event,med];
+	var returnArray = [groupRandom, majorRandom, tuit, ath,res,event,med];
 	return returnArray;
 }
 
@@ -3160,8 +2771,7 @@ function votePercentage(sampleSize, bias)
 				issues += parseFloat(sample[i].athleticScore) * parseFloat(candidates[j].issueScore[1])
 				issues += parseFloat(sample[i].researchScore)* parseFloat(candidates[j].issueScore[2])
 				issues += parseFloat(sample[i].eventScore)  * parseFloat(candidates[j].issueScore[3])
-				issues += parseFloat(sample[i].medicalScore) * parseFloat(candidates[j].issueScore[4]);
-				issues = issues/5;
+				issues = issues/4;
 			}
 			else
 			{
@@ -3169,8 +2779,7 @@ function votePercentage(sampleSize, bias)
 				issues += parseFloat(sample[i].athleticScore) * parseFloat(candidates[j].issueScore[1])
 				issues += parseFloat(sample[i].researchScore)* parseFloat(candidates[j].issueScore[2])
 				issues += parseFloat(sample[i].eventScore)  * parseFloat(candidates[j].issueScore[3])
-				issues += parseFloat(sample[i].medicalScore) * parseFloat(candidates[j].issueScore[4]);
-				issues = issues/5;
+				issues = issues/4;
 			}
 			////console.log(candidates[j].name +" Issue Score: "+ issues);
 			
@@ -3246,66 +2855,31 @@ function fameCalc(cand, student)
 		fame+= cand.fame[3];
 		break;
     
-		case groupList[4]:
-	
-		fame+= cand.fame[4];
-		break;
 	}
 	switch(student.major)
 	{
 		case majorList[0]:
 
-		fame+= cand.fame[5];
+		fame+= cand.fame[4];
 		break;
 
 		case majorList[1]:
 	
-		fame+= cand.fame[6];
+		fame+= cand.fame[5];
 		break;
 
 		case majorList[2]:
 
-		fame+= cand.fame[7];
+		fame+= cand.fame[6];
 		break;
 
 		case majorList[3]:
 
-		fame+= cand.fame[8];
+		fame+= cand.fame[7];
 		break;
 
-		case majorList[4]:
-
-		fame+= cand.fame[9];
-		break;
 	}
-	switch(student.ecoClass)
-	{
-		case stuEconomic[0]:
-
-		fame+= cand.fame[10];
-		break;
-
-		case stuEconomic[1]:
-
-		fame+= cand.fame[11];
-		break;
-
-		case stuEconomic[2]:
-		
-		fame+= cand.fame[12];
-		break;
-
-		case stuEconomic[3]:
-
-		fame+= cand.fame[13];
-		break;
-
-		case stuEconomic[4]:
-	
-		fame+= cand.fame[14];
-		break;
-	}
-	return fame/6;
+	return fame/2;
 }
 
 function clearScreen()
@@ -3318,7 +2892,7 @@ function clearScreen()
 	document.getElementById('next').innerHTML = "";
 
 	gameOutput.innerHTML = "";
-	prevChoices.innerHTML = "<div id = 'Buttons' style = 'display:block;'><div id = 'Header' style = 'display:block;'> </div></div><div id = 'QuadChoice' style = 'display:block;'></div><div id = 'LabChoice' style = 'display:none;'></div><div id = 'GymChoice' style = 'display:none;'></div><div id = 'MediaChoice' style = 'display:none;'></div><div id = 'CafeChoice' style = 'display:none;'> </div><div id = 'LibraryChoice' style = 'display:none;'></div><div id = 'map' style = 'display:block;'></div><div id = 'eventInput' style = 'display:block;'></div>";
+	prevChoices.innerHTML = "<div id = 'Buttons' style = 'display:block;'><div id = 'Header' style = 'display:block;'> </div></div><div id = 'LabChoice' style = 'display:none;'></div><div id = 'GymChoice' style = 'display:none;'></div><div id = 'CommonsChoice' style = 'display:none;'> </div><div id = 'LibraryChoice' style = 'display:none;'></div><div id = 'map' style = 'display:block;'></div><div id = 'eventInput' style = 'display:block;'></div>";
 	prevEvent.innerHTML = "";
 	prevTable.innerHTML = "<table id = 'tab' class='sortable'><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
 }
@@ -3363,12 +2937,12 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 
 	graphData = [];
 	graphData.push(questions[4].graph.split(','));
-	graphData.push(questions[5].graph.split(','));
+	//graphData.push(questions[5].graph.split(','));
 	graphData.push(questions[6].graph.split(','));
 
 	var pollLabelArray = [];
 	pollLabelArray.push(questions[4].labels.split(','));
-	pollLabelArray.push(questions[5].labels.split(','));
+	//pollLabelArray.push(questions[5].labels.split(','));
 	pollLabelArray.push(questions[6].labels.split(','));
 	for(var i =0; i<pollChoices.length;i++)
 	{
@@ -3448,45 +3022,23 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 	votePercentage(sampleSize, bias);
 	//Gets the results of each question
 	for(var j=0;j<sample.length;j++)
-		{
+	{
 		tableArrays[4].push(sample[j].major);
 		var majorHolder = sample[j].major;
 		if(majorHolder == "business"){
 			graphData[0][0]++;
 		}
-		else if(majorHolder == "engineering"){
+		else if(majorHolder == "law"){
 			graphData[0][1]++;
 		}
 		else if(majorHolder == "tech"){
 			graphData[0][2]++;
 		}
-		else if(majorHolder == "libArts"){
+		else if(majorHolder == "Arts"){
 			graphData[0][3]++;
-		}
-		else if(majorHolder == "fineArts"){
-			graphData[0][4]++;
-		}
-
-		tableArrays[5].push(sample[j].ecoClass);
-		var ecoHolder = sample[j].ecoClass;
-		if(ecoHolder == "poverty"){
-			graphData[1][0]++;
-		}
-		else if(ecoHolder == "low"){
-			graphData[1][1]++;
-		}
-		else if(ecoHolder == "midLow"){
-			graphData[1][2]++;
-		}
-		else if(ecoHolder == "midHigh"){
-			graphData[1][3]++;
-		}
-		else if(ecoHolder == "high"){
-			graphData[1][4]++;
 		}
 
 		tableArrays[6].push(sample[j].group);
-
 		var groupHolder = sample[j].group;
 		if(groupHolder == "socialite"){
 			graphData[2][0]++;
@@ -3494,16 +3046,14 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 		else if(groupHolder == "athlete"){
 			graphData[2][1]++;
 		}
-		else if(groupHolder == "researcher"){
+		else if(groupHolder == "gamer"){
 			graphData[2][2]++;
 		}
-		else if(groupHolder == "mediaLover"){
+		else if(groupHolder == "reader"){
 			graphData[2][3]++;
 		}
-		else if(groupHolder == "reader"){
-			graphData[2][4]++;
-		}
-
+    }
+    
 		for(var i = 0; i < pollChoices.length ;i++)
 		{
 			switch(pollChoices[i])
@@ -3511,25 +3061,20 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 				case "issFav":
 					var fav =0;
 					var favName = "";
-					if(fav < sample[j].athleticScore ||fav==0)
+					if(fav < sample[j].budgetScore ||fav==0)
 					{
-						fav = sample[j].athleticScore;
-						var favName = "Athletics";
-					}
-					if(fav < sample[j].researchScore ||fav==0)
-					{
-						fav = sample[j].researchScore;
-						var favName = "Research";
+						fav = sample[j].budgetScore;
+						var favName = "Budget";
 					}
 					if(fav < sample[j].tuitionScore ||fav==0)
 					{
 						fav = sample[j].tuitionScore;
 						var favName = "Tuition";
 					}
-					if(fav < sample[j].eventScore ||fav==0)
+					if(fav < sample[j].functionScore ||fav==0)
 					{
-						fav = sample[j].eventScore;
-						var favName = "Events";
+						fav = sample[j].functionScore;
+						var favName = "Functions";
 					}
 					if(fav < sample[j].medicalScore ||fav==0)
 					{
@@ -3541,17 +3086,14 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 				if(favName == "Tuition"){
 					graphData[i+3][0]++;
 				}
-				else if(favName == "Athletics"){
+				else if(favName == "Budget"){
 					graphData[i+3][1]++;
 				}
-				else if(favName == "Research"){
+				else if(favName == "Functions"){
 					graphData[i+3][2]++;
 				}
-				else if(favName == "Events"){
-					graphData[i+3][3]++;
-				}
 				else if(favName == "Medical"){
-					graphData[i+3][4]++;
+					graphData[i+3][3]++;
 				}
 
 				break;
@@ -3559,49 +3101,40 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 				case "issOpp":
 					var opp =0;
 					var oppName = "";
-					if(opp > sample[j].athleticScore ||opp==0)
+					if(opp < sample[j].budgetScore ||opp==0)
 					{
-						opp = sample[j].athleticScore;
-						var oppName = "Athletics";
+						opp = sample[j].budgetScore;
+						var oppName = "Budget";
 					}
-					if(opp > sample[j].researchScore ||opp==0)
-					{
-						opp = sample[j].researchScore;
-						var oppName = "Research";
-					}
-					if(opp > sample[j].tuitionScore ||opp==0)
+					if(opp < sample[j].tuitionScore ||opp==0)
 					{
 						opp = sample[j].tuitionScore;
 						var oppName = "Tuition";
 					}
-					if(opp > sample[j].eventScore ||opp==0)
+					if(opp < sample[j].functionScore ||opp==0)
 					{
-						opp = sample[j].eventScore;
-						var oppName = "Events";
+						opp = sample[j].functionScore;
+						var oppName = "Functions";
 					}
-					if(opp > sample[j].medicalScore ||opp==0)
+					if(opp < sample[j].medicalScore ||opp==0)
 					{
 						opp = sample[j].medicalScore;
 						var oppName = "Medical";
 					}
 				tableArrays[1].push(oppName);
-
+				//find if oppe
 				if(oppName == "Tuition"){
 					graphData[i+3][0]++;
 				}
-				else if(oppName == "Athletics"){
+				else if(oppName == "Budget"){
 					graphData[i+3][1]++;
 				}
-				else if(oppName == "Research"){
+				else if(oppName == "Functions"){
 					graphData[i+3][2]++;
 				}
-				else if(oppName == "Events"){
+				else if(oppName == "Medical"){
 					graphData[i+3][3]++;
 				}
-				else if(oppName == "Medical"){
-					graphData[i+3][4]++;
-				}
-
 
 				break;
 
@@ -3676,7 +3209,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 							}
 						break;
 
-						case "issueathletic":
+						case "issuebudget":
 							tableArrays[10].push(parseFloat(sample[j].athleticScore).toFixed(2));
 							if(sample[j].athleticScore >=2){
 								graphData[i+3][0]++;
@@ -3689,21 +3222,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 							}
 						break;
 
-						case "issueresearch":
-							tableArrays[11].push(parseFloat(sample[j].researchScore).toFixed(2));
-							if(sample[j].researchScore >=2){
-								graphData[i+3][0]++;
-							}
-							else if(sample[j].researchScore >=-1){
-								graphData[i+3][1]++;
-							}
-							else{
-								graphData[i+3][2]++;
-							}
-
-						break;
-
-						case "issueevents":
+						case "issuefunctions":
 							tableArrays[12].push(parseFloat(sample[j].eventScore).toFixed(2));
 							if(sample[j].eventScore >=2){
 								graphData[i+3][0]++;
@@ -3822,7 +3341,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 			if(h==0)
 			{
 				graphQuestions.push("major");
-				graphQuestions.push("class");
+				//graphQuestions.push("class");
 				graphQuestions.push("group");
 			}
 			switch(pollChoices[h])
@@ -3881,25 +3400,18 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 
 						break;
 
-						case "issueathletic":
+						case "issuebudget":
 							var cell = headRow.insertCell(h);
 							var posInfo = tableHeaders[9] + positions[1];
 							cell.innerHTML = posInfo;
-							graphQuestions.push("issueathletic");
+							graphQuestions.push("issuebudget");
 						break;
 
-						case "issueresearch":
-							var cell = headRow.insertCell(h);
-							var posInfo = tableHeaders[9] + positions[2];
-							cell.innerHTML = posInfo;
-							graphQuestions.push("issueresearch");
-						break;
-
-						case "issueevents":
+						case "issuefunctions":
 							var cell = headRow.insertCell(h);
 							var posInfo = tableHeaders[9] + positions[3];
 							cell.innerHTML = posInfo;
-							graphQuestions.push("issueevents");
+							graphQuestions.push("issuefunctions");
 						break;
 
 						case "issuemedical":
@@ -4032,7 +3544,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									}
 							break;
 
-							case "issueathletic":
+							case "issuebudget":
 									var cell = row.insertCell(i);
 									if(tableArray2[10][h] <= -2)
 									{
@@ -4048,23 +3560,8 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									}
 							break;
 
-							case "issueresearch":
-								cell = row.insertCell(i);
-								if(tableArray2[11][h] <= -2)
-									{
-										cell.innerHTML = "Issue Disliked Score: " + parseFloat(tableArray2[11][h]);
-									}
-									else if(tableArray2[11][h]>-2 && tableArray2[11][h]<2)
-									{
-										cell.innerHTML = "Issue Neutral Score: " + parseFloat(tableArray2[11][h]);
-									}
-									else
-									{
-										cell.innerHTML = "Issue Liked Score: " +parseFloat( tableArray2[11][h]);
-									}
-							break;
 
-							case "issueevents":
+							case "issuefunctions":
 									var cell = row.insertCell(i);
 									if(tableArray2[12][h] <= -2)
 									{
@@ -4152,8 +3649,8 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		var cell = row.insertCell(0);
 		cell.innerHTML = tableArray2[4][h];
 
-		var cell = row.insertCell(1);
-		cell.innerHTML = tableArray2[5][h];
+		//var cell = row.insertCell(1);
+		//cell.innerHTML = tableArray2[5][h];
 
 		var cell = row.insertCell(2);
 		cell.innerHTML = tableArray2[6][h];
@@ -4231,10 +3728,6 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 				document.getElementById("q"+i+"text").innerHTML = questions[4].question;
 				document.getElementById("bq"+i+"text").innerHTML = questions[4].question;
 			break;
-			case "class":
-				document.getElementById("q"+i+"text").innerHTML = questions[5].question;
-				document.getElementById("bq"+i+"text").innerHTML = questions[5].question;
-			break;
 			case "group":
 				document.getElementById("q"+i+"text").innerHTML = questions[6].question;
 				document.getElementById("bq"+i+"text").innerHTML = questions[6].question;
@@ -4253,19 +3746,14 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
 
-			case "issueathletic":
+			case "issuebudget":
 				name = 	"Increase Athletic Budget";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
 				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
 
-			case "issueresearch":
-				name = 	"Increase Research Budget";
-				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
-				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
-			break;
 
-			case "issueevents":
+			case "issuefunctions":
 				name = 	"More School Events";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
 				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
@@ -4559,9 +4047,9 @@ function saveGameState()
 			textContents+="*";
 		textContents+=candidates[i].tuitNeg;
 			textContents+="*";
-		textContents+=candidates[i].athPos;
+		textContents+=candidates[i].budPos;
 			textContents+="*";
-		textContents+=candidates[i].athNeg;
+		textContents+=candidates[i].budNeg;
 			textContents+="*";
 		textContents+=candidates[i].resPos;
 			textContents+="*";
@@ -4571,9 +4059,9 @@ function saveGameState()
 			textContents+="*";
 		textContents+=candidates[i].medNeg;
 			textContents+="*";
-		textContents+=candidates[i].eventPos;
+		textContents+=candidates[i].funcPos;
 			textContents+="*";
-		textContents+=candidates[i].eventNeg;
+		textContents+=candidates[i].funcNeg;
 
 			if(i!=candidates.length-1)
 				textContents+="_";
@@ -4717,14 +4205,14 @@ function loadGame()
 		cand.headNum = parseInt(candAtts[i][14]);
 		cand.tuitPos = parseInt(candAtts[i][15]);
 		cand.tuitNeg = parseInt(candAtts[i][16]);
-		cand.athPos = parseInt(candAtts[i][17]);
-		cand.athNeg = parseInt(candAtts[i][18]);
+		cand.budPos = parseInt(candAtts[i][17]);
+		cand.budNeg = parseInt(candAtts[i][18]);
 		cand.resPos = parseInt(candAtts[i][19]);
 		cand.resNeg = parseInt(candAtts[i][20]);
 		cand.medPos = parseInt(candAtts[i][21]);
 		cand.medNeg = parseInt(candAtts[i][22]);
-		cand.eventPos = parseInt(candAtts[i][23]);
-		cand.eventNeg = parseInt(candAtts[i][24]);
+		cand.funcPos = parseInt(candAtts[i][23]);
+		cand.funcNeg = parseInt(candAtts[i][24]);
 
 
 
@@ -4835,7 +4323,7 @@ function getSession(gameOver)
 function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 {
 	var counter;
-	oppChoice=[0,1,2,3,4];
+	oppChoice=[0,1,2,3];
 
 	for(var i =0; i <chosenIssues.length;i++)
 	{
@@ -4844,7 +4332,7 @@ function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 
 
 	//Decides the opponents focus which cannot be the same as the player
-	var oppFocus = Math.floor(Math.random()*(5-chosenIssues.length));
+	var oppFocus = Math.floor(Math.random()*(4-chosenIssues.length));
 	candidate.focus = positions[oppChoice[oppFocus]];
 	candidate.focusnum = oppChoice[oppFocus];
 	switch(oppChoice[oppFocus])
@@ -4861,9 +4349,6 @@ function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 		case 3:
 		candidate.issueScore[3]=issueVal;
 		break;
-		case 4:
-		candidate.issueScore[4]=issueVal;
-		break;
 	}
 
 	if(issueCand)
@@ -4875,7 +4360,7 @@ function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 function chooseRank(candidate, chosenRanks, issueCand)
 {
 	var counter;
-	oppChoice=[0,1,2,3,4];
+	oppChoice=[0,1,2,3];
 	
 	for(var i =0; i <chosenRanks.length;i++)
 	{
@@ -4884,31 +4369,31 @@ function chooseRank(candidate, chosenRanks, issueCand)
 	
 	
 	//Decides the opponents focus which cannot be the same as the player
-	var oppRank = Math.floor(Math.random()*(5-chosenRanks.length));
+	var oppRank = Math.floor(Math.random()*(4-chosenRanks.length));
 	switch(oppChoice[oppRank])
 	{
 		case 0:
-			candidate.fame = [1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6];
+			candidate.fame = [1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6];
 			candidate.consMod = 0.25;
 			candidate.issueScore[candidate.focusnum] = 3;
 		break;
 		case 1:
-			candidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
+			candidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
 			candidate.consMod = 0.35;
 			candidate.issueScore[candidate.focusnum] = 2;
 		break;
 		case 2:
-			candidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
+			candidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
 			candidate.consMod = 0.45;
 			candidate.issueScore[candidate.focusnum] = 1.75;
 		break;
 		case 3:
-			candidate.fame = [1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25];
+			candidate.fame = [1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25];
 			candidate.consMod = 0.55;
 			candidate.issueScore[candidate.focusnum] = 1.5;
 		break;
 		case 4:
-			candidate.fame = [1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25];
+			candidate.fame = [1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25];
 			candidate.consMod = 0.65;
 			candidate.issueScore[candidate.focusnum] = 1.25;
 		break;
@@ -4946,42 +4431,19 @@ function gameResults(scores, tutorial)
 		for (var i =0; i< pos.length;i++){
 			switch(pos[i])
 			{
-				case "Poor":
-					posText += "Poor Economic Status";
-				break;
 		
-				case "Low":
-					posText += "Lower Economic Status";
-				break;
-				case "Low Mid":
-					posText += "Low Middle Economic Status";
-				break;
-				case "Upper Mid":
-					posText += "Upper Middle Economic Status";
-				break;
-				case "High":
-					posText += "Upper Economic Status";
-				break;
-		
-				case "Fine Arts":
-					posText += "Fine Arts Major";
+				case "Arts":
+					posText += "Arts Major";
 				break;
 		
 				case "Bus":
 					posText += "Business Major";
 				break;
-				case "Eng":
-					posText += "Engineering Major";
-				break;
-				case "Lib Arts":
-					posText += "Liberal Arts Major";
+				case "Law":
+					posText += "Law Major";
 				break;
 				case "Tech":
 					posText += "Technology Major";
-				break;
-		
-				case "Media":
-					posText += "Media Lover Group";
 				break;
 		
 				case "Soc":
@@ -4992,8 +4454,8 @@ function gameResults(scores, tutorial)
 					posText += "Reader Group";
 		
 				break;
-				case "Res":
-					posText += "Researcher Group";
+				case "Gam":
+					posText += "Gamer Group";
 		
 				break;
 				case "Ath":
