@@ -49,6 +49,7 @@ th, td {
 }
 #CommonsChoice
 {
+    display:block;
     float: right;
     width:35%;
 }

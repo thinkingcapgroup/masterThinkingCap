@@ -139,3 +139,40 @@ MinigameScore2-3-4-1488224111552-aaronjmill32-2_1_1
 2-Help Area-Enter Help-1488917210783-aaronjmill32-2_1_9
 2-poll-candOpp*issFav*undefined*undefined*undefined*undefined-1488982379058-aaronjmill32-2_1_10
 2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1488982401551-aaronjmill32-2_1_10
+2-userAction-Compete in Game Tournament-1489423878921-aaronjmill32-2_1_13
+2-userAction-Help Paint Mural-1489423882065-aaronjmill32-2_1_13
+2-userAction-Photobomb-1489423885921-aaronjmill32-2_1_13
+2-userAction-Ice Cream Social-1489423895061-aaronjmill32-2_1_13
+2-userAction-Mars U Sports Game-1489423905983-aaronjmill32-2_1_13
+2-userAction-Photobomb-1489423908890-aaronjmill32-2_1_13
+2-userAction-Create Posters-1489423915646-aaronjmill32-2_1_13
+2-userAction-Help Paint Mural-1489423923679-aaronjmill32-2_1_13
+2-userAction-Create Posters-1489424381664-aaronjmill32-2_1_14
+2-userAction-Community Service-1489424388785-aaronjmill32-2_1_14
+2-userAction-Ice Cream Social-1489424393009-aaronjmill32-2_1_14
+2-userAction-Help Paint Mural-1489424400389-aaronjmill32-2_1_14
+2-userAction-Help Paint Mural-1489424437503-aaronjmill32-2_1_14
+2-userAction-Help Paint Mural-1489424442815-aaronjmill32-2_1_14
+2-userAction-Create Posters-1489424450994-aaronjmill32-2_1_14
+2-userAction-Ice Cream Social-1489424453256-aaronjmill32-2_1_14
+2-userAction-Ice Cream Social-1489424457007-aaronjmill32-2_1_14
+2-userAction-Ice Cream Social-1489424460870-aaronjmill32-2_1_14
+2-userAction-Create Posters-1489424465942-aaronjmill32-2_1_14
+2-userAction-Ice Cream Social-1489424468737-aaronjmill32-2_1_14
+2-userAction-Create Posters-1489424474063-aaronjmill32-2_1_14
+2-userAction-Create Posters-1489424478007-aaronjmill32-2_1_14
+2-userAction-Create Posters-1489424510534-aaronjmill32-2_1_14
+2-userAction-Create Posters-1489424516639-aaronjmill32-2_1_14
+2-userAction-Create Posters-1489424520951-aaronjmill32-2_1_14
+2-userAction-Ice Cream Social-1489424522962-aaronjmill32-2_1_14
+2-userAction-Ice Cream Social-1489424527217-aaronjmill32-2_1_14
+2-userAction-Ice Cream Social-1489424528993-aaronjmill32-2_1_14
+2-userAction-Ice Cream Social-1489424533059-aaronjmill32-2_1_14
+2-userAction-Ice Cream Social-1489424534711-aaronjmill32-2_1_14
+2-userAction-Ice Cream Social-1489424561202-aaronjmill32-2_1_14
+2-userAction-Create Posters-1489424575882-aaronjmill32-2_1_15
+2-userAction-Go to Party-1489424753617-aaronjmill32-2_1_16
+2-userAction-Work Out-1489424765432-aaronjmill32-2_1_16
+2-userAction-Compete in Game Tournament-1489424774185-aaronjmill32-2_1_16
+2-userAction-Study in the Library-1489424782809-aaronjmill32-2_1_16
+2-userAction-Ice Cream Social-1489424802871-aaronjmill32-2_1_16

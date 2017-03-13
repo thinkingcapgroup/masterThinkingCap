@@ -794,7 +794,7 @@ function actualSessionStart(isFromTut){
 	remainingHoursDay = 12; 
 	
 	//Decides the opponents focus which cannot be the same as the player
-	opponentCandidate.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+	opponentCandidate.fame = [1,1,1,1,1,1,1,1];
 	opponentCandidate.consMod = 0;
 	////console.log(oppFocus);
 	chooseIssue(opponentCandidate,[],1,false);
@@ -840,7 +840,7 @@ function practicePoll()
 	remainingHoursDay = 12; 
 	
 	//Decides the opponents focus which cannot be the same as the player
-	opponentCandidate.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+	opponentCandidate.fame = [1,1,1,1,1,1,1,1];
 	opponentCandidate.consMod = 0;
 	////console.log(oppFocus);
 	chooseIssue(opponentCandidate,[],1,false);
@@ -2294,7 +2294,7 @@ function addMoreQuestions(){
 //Takes in an Arrays of Groups to affect with the score increase, and parses through each adding the specified increase in score
 function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 {
-	////console.log(candidate.fame);
+
 	////console.log(candidate.issueScore);
 	////console.log(scoreInc);
 	for(var i=0;i<groupPos.length;i++)
@@ -2624,7 +2624,6 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				break;
 
 		}
-	////console.log(candidates[0].fame);
 	////console.log(candidates[0].issueScore);
 	}
 }
@@ -2892,7 +2891,7 @@ function clearScreen()
 	document.getElementById('next').innerHTML = "";
 
 	gameOutput.innerHTML = "";
-	prevChoices.innerHTML = "<div id = 'Buttons' style = 'display:block;'><div id = 'Header' style = 'display:block;'> </div></div><div id = 'LabChoice' style = 'display:none;'></div><div id = 'GymChoice' style = 'display:none;'></div><div id = 'CommonsChoice' style = 'display:none;'> </div><div id = 'LibraryChoice' style = 'display:none;'></div><div id = 'map' style = 'display:block;'></div><div id = 'eventInput' style = 'display:block;'></div>";
+	prevChoices.innerHTML = "<div id = 'Buttons' style = 'display:block;'><div id = 'Header' style = 'display:block;'> </div></div><div id = 'LabChoice' style = 'display:none;'></div><div id = 'GymChoice' style = 'display:none;'></div><div id = 'CommonsChoice' style = 'display:block;'> </div><div id = 'LibraryChoice' style = 'display:none;'></div><div id = 'map' style = 'display:block;'></div><div id = 'eventInput' style = 'display:block;'></div>";
 	prevEvent.innerHTML = "";
 	prevTable.innerHTML = "<table id = 'tab' class='sortable'><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
 }
@@ -5517,8 +5516,8 @@ runningGame2.main =
 		ctx.font="14px Georgia";
 		runningGame2.main.requiredDemograph1 = Math.floor(Math.random() * 6) + 2;
 		runningGame2.main.requiredDemograph1 = Math.floor(Math.random() * 3) + 2;
-		runningGame2.main.demograph1num = Math.floor(Math.random() * 5);
-		runningGame2.main.demograph2num = Math.floor(Math.random() * 5);
+		runningGame2.main.demograph1num = Math.floor(Math.random() * 4);
+		runningGame2.main.demograph2num = Math.floor(Math.random() * 4);
 		runningGame2.main.takenDemograph1=0;
 		runningGame2.main.takenDemograph2=0;
 	
@@ -5555,7 +5554,7 @@ runningGame2.main =
 				sample.forEach(function(element) {
 					var studentCircleHolder = {
 						isDemographic: false,
-						interest: Math.floor(Math.random() * 5),
+						interest: Math.floor(Math.random() * 4),
 						typenum: Math.floor(Math.random() * 4),
 						posenum: Math.floor(Math.random() * 3),
 						headnum: Math.floor(Math.random() * 3),
@@ -6069,7 +6068,7 @@ secretSticker.main =
         ctx.font="14px Georgia";
         secretSticker.main.requiredDemograph1 = Math.floor(Math.random() * 6) + 2;
         secretSticker.main.requiredDemograph1 = Math.floor(Math.random() * 3) + 2;
-        secretSticker.main.demograph1num = Math.floor(Math.random() * 5);
+        secretSticker.main.demograph1num = Math.floor(Math.random() * 4);
         secretSticker.main.takenDemograph1=0;
         secretSticker.main.postersLeft=5;
         secretSticker.main.areas =
@@ -6657,7 +6656,7 @@ secretSticker.main =
             var studentCircleHolder = 
             {
                 isDemographic: false,
-                interest: Math.floor(Math.random() * 5),
+                interest: Math.floor(Math.random() * 4),
                 typenum: Math.floor(Math.random() * 4),
                 headnum: Math.floor(Math.random() * 3),
             }
@@ -7375,7 +7374,7 @@ runningGame4.main = {
 		//make the labels
 		for(var x =0; x < 3; x++){
 			runningGame4.main.groups[x] = x;
-			runningGame4.main.gameGroups[x] = Math.floor(Math.random() * 5);
+			runningGame4.main.gameGroups[x] = Math.floor(Math.random() * 4);
 		}
 
 
