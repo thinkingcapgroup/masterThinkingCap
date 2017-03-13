@@ -588,8 +588,8 @@
 		},
 		{
 			"question":"What is your major?", 
-			"labels":"Business, Engineering, Tech, Fine Arts, Liberal Arts",
-			"graph":"0,0,0,0,0",
+			"labels":"Business, Law, Tech, Arts",
+			"graph":"0,0,0,0",
 			"id":"4",
 			"value":"major"
 		},
@@ -602,8 +602,8 @@
 		},
 		{
 			"question":"What group do you identify with?", 
-			"labels":"Socialite, Athlete, Researcher, Media Lover, Reader",
-			"graph":"0,0,0,0,0",
+			"labels":"Socialite, Athlete, Gamer, Reader",
+			"graph":"0,0,0,0",
 			"id":"6",
 			"value":"group"
 		},
