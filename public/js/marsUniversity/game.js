@@ -3054,251 +3054,250 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 		}
     }
     
-		for(var i = 0; i < pollChoices.length ;i++)
+	for(var i = 0; i < pollChoices.length ;i++)
+	{
+		switch(pollChoices[i])
 		{
-			switch(pollChoices[i])
-			{
-				case "issFav":
-					var fav =0;
-					var favName = "";
-					if(fav < sample[j].budgetScore ||fav==0)
-					{
-						fav = sample[j].budgetScore;
-						var favName = "Budget";
+			case "issFav":
+				var fav =0;
+				var favName = "";
+				if(fav < sample[j].budgetScore ||fav==0)
+				{
+					fav = sample[j].budgetScore;
+					var favName = "Budget";
+				}
+				if(fav < sample[j].tuitionScore ||fav==0)
+				{
+					fav = sample[j].tuitionScore;
+					var favName = "Tuition";
+				}
+				if(fav < sample[j].functionScore ||fav==0)
+				{
+					fav = sample[j].functionScore;
+					var favName = "Functions";
+				}
+				if(fav < sample[j].medicalScore ||fav==0)
+				{
+					fav = sample[j].medicalScore;
+					var favName = "Medical";
+				}
+			tableArrays[0].push(favName);
+			//find if fave
+			if(favName == "Tuition"){
+				graphData[i+3][0]++;
+			}
+			else if(favName == "Budget"){
+				graphData[i+3][1]++;
+			}
+			else if(favName == "Functions"){
+				graphData[i+3][2]++;
+			}
+			else if(favName == "Medical"){
+				graphData[i+3][3]++;
+			}
+
+			break;
+
+			case "issOpp":
+				var opp =0;
+				var oppName = "";
+				if(opp < sample[j].budgetScore ||opp==0)
+				{
+					opp = sample[j].budgetScore;
+					var oppName = "Budget";
+				}
+				if(opp < sample[j].tuitionScore ||opp==0)
+				{
+					opp = sample[j].tuitionScore;
+					var oppName = "Tuition";
+				}
+				if(opp < sample[j].functionScore ||opp==0)
+				{
+					opp = sample[j].functionScore;
+					var oppName = "Functions";
+				}
+				if(opp < sample[j].medicalScore ||opp==0)
+				{
+					opp = sample[j].medicalScore;
+					var oppName = "Medical";
+				}
+			tableArrays[1].push(oppName);
+			//find if oppe
+			if(oppName == "Tuition"){
+				graphData[i+3][0]++;
+			}
+			else if(oppName == "Budget"){
+				graphData[i+3][1]++;
+			}
+			else if(oppName == "Functions"){
+				graphData[i+3][2]++;
+			}
+			else if(oppName == "Medical"){
+				graphData[i+3][3]++;
+			}
+
+			break;
+
+			case "candFav":
+				tableArrays[2].push(sample[j].results.win + " Score: " +sample[j].results.winPer.toFixed(2));
+				for(var k =0; k< candidates.length;k++)
+				{
+					if(sample[j].results.win == candidates[k].name){
+						graphData[i+3][k]++;
 					}
-					if(fav < sample[j].tuitionScore ||fav==0)
-					{
-						fav = sample[j].tuitionScore;
-						var favName = "Tuition";
+				}
+			break;
+
+			case "candOpp":
+				////console.log(sample[j].results);
+				tableArrays[3].push(sample[j].results.los + " Score: " +sample[j].results.losPer.toFixed(2));
+				for(var k =0; k< candidates.length;k++)
+				{
+					if(sample[j].results.los == candidates[k].name){
+						graphData[i+3][k]++;
 					}
-					if(fav < sample[j].functionScore ||fav==0)
-					{
-						fav = sample[j].functionScore;
-						var favName = "Functions";
-					}
-					if(fav < sample[j].medicalScore ||fav==0)
-					{
-						fav = sample[j].medicalScore;
-						var favName = "Medical";
-					}
-				tableArrays[0].push(favName);
-				//find if fave
-				if(favName == "Tuition"){
+				}
+			break;
+
+
+
+			case "fame":
+				var playFame = fameCalc(candidates[0],sample[j]).toFixed(3);
+				tableArrays[7].push(playFame);
+				if(playFame > 0.69){
 					graphData[i+3][0]++;
 				}
-				else if(favName == "Budget"){
+				else if(playFame > 0.36){
 					graphData[i+3][1]++;
 				}
-				else if(favName == "Functions"){
+				else{
 					graphData[i+3][2]++;
 				}
-				else if(favName == "Medical"){
-					graphData[i+3][3]++;
-				}
+			break;
 
-				break;
-
-				case "issOpp":
-					var opp =0;
-					var oppName = "";
-					if(opp < sample[j].budgetScore ||opp==0)
-					{
-						opp = sample[j].budgetScore;
-						var oppName = "Budget";
-					}
-					if(opp < sample[j].tuitionScore ||opp==0)
-					{
-						opp = sample[j].tuitionScore;
-						var oppName = "Tuition";
-					}
-					if(opp < sample[j].functionScore ||opp==0)
-					{
-						opp = sample[j].functionScore;
-						var oppName = "Functions";
-					}
-					if(opp < sample[j].medicalScore ||opp==0)
-					{
-						opp = sample[j].medicalScore;
-						var oppName = "Medical";
-					}
-				tableArrays[1].push(oppName);
-				//find if oppe
-				if(oppName == "Tuition"){
+			case "playTrust":
+				tableArrays[8].push(candidates[0].consMod);
+				var playConst = candidates[0].consMod;
+				if(playConst > 0.69){
 					graphData[i+3][0]++;
 				}
-				else if(oppName == "Budget"){
+				else if(playConst > 0.36){
 					graphData[i+3][1]++;
 				}
-				else if(oppName == "Functions"){
+				else{
 					graphData[i+3][2]++;
 				}
-				else if(oppName == "Medical"){
-					graphData[i+3][3]++;
-				}
-
-				break;
-
-				case "candFav":
-					tableArrays[2].push(sample[j].results.win + " Score: " +sample[j].results.winPer.toFixed(2));
-					for(var k =0; k< candidates.length;k++)
-					{
-						if(sample[j].results.win == candidates[k].name){
-							graphData[i+3][k]++;
-						}
-					}
-				break;
-
-				case "candOpp":
-					////console.log(sample[j].results);
-					tableArrays[3].push(sample[j].results.los + " Score: " +sample[j].results.losPer.toFixed(2));
-					for(var k =0; k< candidates.length;k++)
-					{
-						if(sample[j].results.los == candidates[k].name){
-							graphData[i+3][k]++;
-						}
-					}
-				break;
-
-
-
-				case "fame":
-					var playFame = fameCalc(candidates[0],sample[j]).toFixed(3);
-					tableArrays[7].push(playFame);
-					if(playFame > 0.69){
-						graphData[i+3][0]++;
-					}
-					else if(playFame > 0.36){
-						graphData[i+3][1]++;
-					}
-					else{
-						graphData[i+3][2]++;
-					}
-				break;
-
-				case "playTrust":
-					tableArrays[8].push(candidates[0].consMod);
-					var playConst = candidates[0].consMod;
-					if(playConst > 0.69){
-						graphData[i+3][0]++;
-					}
-					else if(playConst > 0.36){
-						graphData[i+3][1]++;
-					}
-					else{
-						graphData[i+3][2]++;
-					}
-				break;
-
-			}
-			for(var k = 0;k<positions.length;k++)
-			{
-				if(pollChoices[i] == "issue" + positionsLower[k])
-				{
-					switch(pollChoices[i])
-					{
-						case "issuetuition":
-							tableArrays[9].push(parseFloat(sample[j].tuitionScore).toFixed(2));
-							if(sample[j].tuitionScore >=2){
-								graphData[i+3][0]++;
-							}
-							else if(sample[j].tuitionScore >=-1){
-								graphData[i+3][1]++;
-							}
-							else{
-								graphData[i+3][2]++;
-							}
-						break;
-
-						case "issuebudget":
-							tableArrays[10].push(parseFloat(sample[j].athleticScore).toFixed(2));
-							if(sample[j].athleticScore >=2){
-								graphData[i+3][0]++;
-							}
-							else if(sample[j].athleticScore >=-1){
-								graphData[i+3][1]++;
-							}
-							else{
-								graphData[i+3][2]++;
-							}
-						break;
-
-						case "issuefunctions":
-							tableArrays[12].push(parseFloat(sample[j].eventScore).toFixed(2));
-							if(sample[j].eventScore >=2){
-								graphData[i+3][0]++;
-							}
-							else if(sample[j].eventScore >=-1){
-								graphData[i+3][1]++;
-							}
-							else{
-								graphData[i+3][2]++;
-							}
-						break;
-
-						case "issuemedical":
-							tableArrays[13].push(parseFloat(sample[j].medicalScore).toFixed(2));
-							if(sample[j].medicalScore >=2){
-								graphData[i+3][0]++;
-							}
-							else if(sample[j].medicalScore >=-1){
-								graphData[i+3][1]++;
-							}
-							else{
-								graphData[i+3][2]++;
-							}
-						break;
-					}
-				}
-			}
-
-			var candCounter = 14;
-			for(var k = 1;k<candidates.length;k++)
-			{
-				if(pollChoices[i] == "candFame" + candidates[k].name)
-				{
-					var calcHolder = fameCalc(candidates[k], sample[j]);
-					
-					tableArrays[candCounter].push(calcHolder);				
-
-					if(calcHolder> 0.66){
-						graphData[i+3][0]++;
-					}
-					else if(calcHolder > 0.33){
-						graphData[i+3][1]++;
-					}
-					else{
-						graphData[i+3][2]++;
-					}
-
-
-				}
-
-
-				candCounter++;
-			}
-			for(var k = 1;k<candidates.length;k++)
-			{
-				if(pollChoices[i] == "candTrust" + candidates[k].name)
-				{
-
-					tableArrays[candCounter].push(candidates[k].consMod);
-
-					if(candidates[k].consMod> 0.66){
-						graphData[i+3][2]++;
-					}
-					else if(candidates[k].consMod > 0.33){
-						graphData[i+3][1]++;
-					}
-					else{
-						graphData[i+3][0]++;
-					}
-				}
-
-				candCounter++;
-
-			}
+			break;
 
 		}
+		for(var k = 0;k<positions.length;k++)
+		{
+			if(pollChoices[i] == "issue" + positionsLower[k])
+			{
+				switch(pollChoices[i])
+				{
+					case "issuetuition":
+						tableArrays[9].push(parseFloat(sample[j].tuitionScore).toFixed(2));
+						if(sample[j].tuitionScore >=2){
+							graphData[i+3][0]++;
+						}
+						else if(sample[j].tuitionScore >=-1){
+							graphData[i+3][1]++;
+						}
+						else{
+							graphData[i+3][2]++;
+						}
+					break;
+
+					case "issuebudget":
+						tableArrays[10].push(parseFloat(sample[j].athleticScore).toFixed(2));
+						if(sample[j].athleticScore >=2){
+							graphData[i+3][0]++;
+						}
+						else if(sample[j].athleticScore >=-1){
+							graphData[i+3][1]++;
+						}
+						else{
+							graphData[i+3][2]++;
+						}
+					break;
+
+					case "issuefunctions":
+						tableArrays[12].push(parseFloat(sample[j].eventScore).toFixed(2));
+						if(sample[j].eventScore >=2){
+							graphData[i+3][0]++;
+						}
+						else if(sample[j].eventScore >=-1){
+							graphData[i+3][1]++;
+						}
+						else{
+							graphData[i+3][2]++;
+						}
+					break;
+
+					case "issuemedical":
+						tableArrays[13].push(parseFloat(sample[j].medicalScore).toFixed(2));
+						if(sample[j].medicalScore >=2){
+							graphData[i+3][0]++;
+						}
+						else if(sample[j].medicalScore >=-1){
+							graphData[i+3][1]++;
+						}
+						else{
+							graphData[i+3][2]++;
+						}
+					break;
+				}
+			}
+		}
+
+		var candCounter = 14;
+		for(var k = 1;k<candidates.length;k++)
+		{
+			if(pollChoices[i] == "candFame" + candidates[k].name)
+			{
+				var calcHolder = fameCalc(candidates[k], sample[j]);
+				
+				tableArrays[candCounter].push(calcHolder);				
+
+				if(calcHolder> 0.66){
+					graphData[i+3][0]++;
+				}
+				else if(calcHolder > 0.33){
+					graphData[i+3][1]++;
+				}
+				else{
+					graphData[i+3][2]++;
+				}
+
+
+			}
+
+
+			candCounter++;
+		}
+		for(var k = 1;k<candidates.length;k++)
+		{
+			if(pollChoices[i] == "candTrust" + candidates[k].name)
+			{
+
+				tableArrays[candCounter].push(candidates[k].consMod);
+
+				if(candidates[k].consMod> 0.66){
+					graphData[i+3][2]++;
+				}
+				else if(candidates[k].consMod > 0.33){
+					graphData[i+3][1]++;
+				}
+				else{
+					graphData[i+3][0]++;
+				}
+			}
+
+			candCounter++;
+
+		}
+
 	}
 
 	var reviewFlag = false;
