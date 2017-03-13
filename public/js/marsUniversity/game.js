@@ -116,10 +116,9 @@ var endReset = false;
 var spriteHead = new Image();
 spriteHead.src = "../img/spritehead.png";
 //sample person
-function Student(group, ecoClass, major, tuitionScore, budgetScore, functionScore, medicalScore)
+function Student(group, major, tuitionScore, budgetScore, functionScore, medicalScore)
 {
 	this.group = group;
-	this.ecoClass = ecoClass;
 	this.major = major;
 	this.budgetScore = budgetScore;
 	this.tuitionScore = tuitionScore;
@@ -953,7 +952,7 @@ function userAction()
 	c.onmousedown = doMousedownMain;
 	c.onmousemove = doMouseOver;
     
-    ctx.drawImage(mapbackground, 0,0,600,414);
+  
 	mapbackground.onload = drawMap();
     
 	currentEvents = [];
@@ -1480,7 +1479,7 @@ function map(state, isFirst, isFree){
     c.onmousedown = doMousedown;
     c.onmousemove = doMouseOver;
     
-    ctx.drawImage(mapbackground, 0,0,600,414);
+  
     mapbackground.onload = drawMap();
 	document.getElementById("questionArea").innerHTML +="<h4>Population & Sample</h4><br>";
 	var buttonLabels = ["Quad", "Coffee Shop", "Gym", "Lab", "Media Room", "Library"];
@@ -1607,8 +1606,7 @@ function drawMap()
 	cafeIcon.src = '../img/map/cafeicon.png';
 	var labIcon = new Image();
 	labIcon.src = '../img/map/labicon.png';
-	var mediaIcon = new Image();
-	mediaIcon.src =  '../img/map/mediaicon.png';
+
 
         var mapbackground = new Image();
         mapbackground.src = '../../img/map/mapMU600pxW.png';
@@ -1671,11 +1669,11 @@ function drawMap()
 	ctx.strokeRect(90,275,117,122);
 	
 	//draw icon
-	ctx.drawImage(quadIcon, 160,160,113,75)
+
 	ctx.drawImage(libraryIcon, 435,270,113,75)
 	ctx.drawImage(gymIcon, 475,50,113,75)
 	ctx.drawImage(cafeIcon, 10,125,113,75)
-	ctx.drawImage(mediaIcon, 90,280,113,75)
+
 	ctx.drawImage(labIcon, 145,30,113,75)
 }
  function doMousedown(c, e)
@@ -1786,13 +1784,9 @@ function drawMap()
         ctx.drawImage(mapbackground, 0,0,450,250);
 		//check if the area is clickable
 			//quad 		ctx.strokeRect(208,235,243,60);
-			if((mouse.x >= 135 && mouse.x <= 300)&&(mouse.y >= 190 && mouse.y <= 250)){
-                strokeAreas();
-                ctx.fillRect(135,190,170,56);
-			}
-			
+						
 			//gym1
-			else if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
+			if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
                 
                 strokeAreas();
                 ctx.beginPath();
@@ -1859,12 +1853,7 @@ function drawMap()
 			}
 
 			//coffee shop 
-			else if((mouse.x >= 5 && mouse.x <= 115)&&(mouse.y >= 40 && mouse.y <= 250)){
-                
-                strokeAreas();
-                
-                ctx.fillRect(5,40,113,216);
-			}
+		
 			//library 	ctx.strokeRect(600,330,280,155);
 			else if((mouse.x >= 400 && mouse.x <= 590)&&(mouse.y >= 255 && mouse.y <= 400)){
                 
@@ -1880,23 +1869,21 @@ function drawMap()
             //map icons
             var libraryIcon = new Image();
             libraryIcon.src = '../img/map/libraryicon.png';
-            var quadIcon = new Image();
-            quadIcon.src = '../img/map/icon.png';
+       
             var gymIcon = new Image();
             gymIcon.src = '../img/map/gymicon.png';
             var cafeIcon = new Image();
             cafeIcon.src = '../img/map/cafeicon.png';
             var labIcon = new Image();
             labIcon.src = '../img/map/labicon.png';
-            var mediaIcon = new Image();
-            mediaIcon.src =  '../img/map/mediaicon.png';
+     
             
             //draw icon
-            ctx.drawImage(quadIcon, 160,160,113,75)
+
             ctx.drawImage(libraryIcon, 435,270,113,75)
             ctx.drawImage(gymIcon, 475,50,113,75)
-            ctx.drawImage(cafeIcon, 10,125,113,75)
-            ctx.drawImage(mediaIcon, 90,280,113,75)
+            ctx.drawImage(cafeIcon, 90,285,113,75)
+
             ctx.drawImage(labIcon, 145,30,113,75)
 	}
     function strokeAreas()
@@ -1936,15 +1923,11 @@ function drawMap()
         ctx.closePath();
         ctx.stroke();
         
-        
-        //quad
-        ctx.strokeRect(135,190,170,56);
+ 
         
         //library
         ctx.strokeRect(400,275,188,124);
-        
-        //cafe
-        ctx.strokeRect(5,40,113,216);
+
         
         //media
         ctx.strokeRect(90,275,117,122);
@@ -2629,15 +2612,13 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 }
 
 //sample person
-function Student(group, ecoClass, major, tuitionScore, athleticScore, researchScore, eventScore, medicalScore)
+function Student(group, major, tuitionScore, budgetScore, functionScore, medicalScore))
 {
 	this.group = group;
-	this.ecoClass = ecoClass;
 	this.major = major;
-	this.athleticScore = athleticScore;
-	this.researchScore = researchScore;
+	this.budgetScore = budgetScore;
 	this.tuitionScore = tuitionScore ;
-	this.eventScore = eventScore;
+	this.functionScore = functionScore;
 	this.medicalScore = medicalScore ;
 	this.studentCaring = Math.random(.1,1.0).toFixed(2);
 
@@ -2684,7 +2665,7 @@ function createSample(x, bias)
 	sample = [];
 	for (var count= 0; count < x; count++){
 		var scoreHolder = getScores(x, bias);
-		var holderStudent = new Student(groupList[scoreHolder[0]],  stuEconomic[scoreHolder[1]], majorList[scoreHolder[2]], scoreHolder[3], scoreHolder[4], scoreHolder[5], scoreHolder[6], scoreHolder[7])
+		var holderStudent = new Student(groupList[scoreHolder[0]], majorList[scoreHolder[1]], scoreHolder[2], scoreHolder[3], scoreHolder[4], scoreHolder[5], scoreHolder[6])
 		sample.push(holderStudent);
 	}
 }
@@ -5657,10 +5638,7 @@ runningGame2.main =
 						ctx.fillRect(600,330,280,155);
 					}
 					//cafe
-					ctx.strokeRect(13,43,165,260);
-					if(runningGame2.main.buildingHover[4]){
-						ctx.fillRect(13,43,165,260);
-					}
+					
 					//media
 					ctx.strokeRect(135,333,175,145);
 					if(runningGame2.main.buildingHover[2]){
@@ -5672,8 +5650,8 @@ runningGame2.main =
 					ctx.drawImage(quadIcon, 255,190,150,100)
 					ctx.drawImage(libraryIcon, 665,325,150,100)
 					ctx.drawImage(gymIcon, 725,50,150,100)
-					ctx.drawImage(cafeIcon, 20,110,150,100)
-					ctx.drawImage(mediaIcon, 150,335,150,100)
+			
+					ctx.drawImage(cafeIcon, 150,335,150,100)
 					ctx.drawImage(labIcon, 230,25,150,100)
 				}
 				if(runningGame2.main.areaNumber>0){
