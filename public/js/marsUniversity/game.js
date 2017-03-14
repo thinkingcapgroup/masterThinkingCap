@@ -5445,8 +5445,7 @@ runningGame2.main =
 		//peopleicons
 		tuitionIcon = new Image();
 		tuitionIcon.src = '../img/icons/tuitionsquare.png';
-		sportsIcon = new Image();
-		sportsIcon.src = '../img/icons/sportssquare.png';
+	
 		researchIcon = new Image();
 		researchIcon.src = '../img/icons/researchsquare.png';
 		socialIcon = new Image();
@@ -5490,7 +5489,7 @@ runningGame2.main =
 		cameraIcon.src = '../img/minigame3/cameraicon.png';
 
 		imgBArray = [[thinPeace1, thinPeace2, thinStrong], [medPeace1, medPeace2, medStrong], [plusPeace1, plusPeace2, plusStrong], [hoverPeace1, hoverPeace2, hoverStrong]]
-		iconArray = [tuitionIcon, sportsIcon, researchIcon, socialIcon, medicalIcon];
+		iconArray = [tuitionIcon, researchIcon, socialIcon, medicalIcon];
 		mapbackground = new Image();
 		mapbackground.src = '../img/map/map.png';
 
@@ -6021,8 +6020,7 @@ secretSticker.main =
         //icons
         tuitionIcon = new Image();
         tuitionIcon.src = '../img/icons/tuitionsquare.png'
-        athleticIcon = new Image();
-        athleticIcon.src = '../img/icons/sportssquare.png';
+       
         researchIcon = new Image()
         researchIcon.src = '../img/icons/researchsquare.png';
         eventsIcon = new Image();
@@ -6030,7 +6028,7 @@ secretSticker.main =
         medicalIcon = new Image();
         medicalIcon.src = '../img/icons/medicalsquare.png';
 
-        interestArray = [tuitionIcon, athleticIcon, researchIcon, eventsIcon, medicalIcon];
+        interestArray = [tuitionIcon, researchIcon, eventsIcon, medicalIcon];
 
         backButton = new Image();
         backButton.src = '../img/backbutton.png';
@@ -6171,18 +6169,14 @@ secretSticker.main =
                 ctx.drawImage(gymWall, 0,0,900,500);
                 break;
                 case 3:
-                ctx.drawImage(mediaWall, 0,0,900,500);
+                ctx.fillStyle = '#FFFFFF';
+                ctx.drawImage(labWall, 0,0,900,500);            
                 break;
                 case 4:
                 ctx.fillStyle = '#FFFFFF';
-                ctx.drawImage(labWall, 0,0,900,500);            
-                //ctx.drawImage(mapbackground, 0,0,900,500);
-                break;
-                case 5:
-                ctx.fillStyle = '#FFFFFF';
                 ctx.drawImage(cafeWall, 0,0,900,500);
                 break;
-                case 6:
+                case 5:
                 ctx.drawImage(libWall, 0,0,900,500);
                 break;
                 default:
@@ -6241,10 +6235,8 @@ secretSticker.main =
                 ctx.fillRect(600,330,280,155);
             }
             //cafe
-            ctx.strokeRect(13,43,165,260);
-            if(secretSticker.main.buildingHover[4]){
-                ctx.fillRect(13,43,165,260);
-            }
+            //ctx.strokeRect(13,43,165,260);
+         
             //media
             ctx.strokeRect(135,333,175,145);
             if(secretSticker.main.buildingHover[2]){
@@ -6256,8 +6248,8 @@ secretSticker.main =
             ctx.drawImage(quadIcon, 255,190,150,100)
             ctx.drawImage(libraryIcon, 665,325,150,100)
             ctx.drawImage(gymIcon, 725,50,150,100)
-            ctx.drawImage(cafeIcon, 20,110,150,100)
-            ctx.drawImage(mediaIcon, 150,335,150,100)
+            //ctx.drawImage(cafeIcon, 20,110,150,100)
+            ctx.drawImage(cafeIcon, 150,335,150,100)
             ctx.drawImage(labIcon, 230,25,150,100)
 	}
        
@@ -6436,32 +6428,28 @@ secretSticker.main =
 			secretSticker.main.areaNumber = 2;
             secretSticker.main.inArea = true;
 		}
-		//media 		ctx.strokeRect(135,333,175,145);
-		if((mouse.x >= 135 && mouse.x <= 310)&&(mouse.y >= 333 && mouse.y <= 475)){
-			secretSticker.main.areaNumber = 3;
-            secretSticker.main.inArea = true;
-		}
+	
 	
 		//labs1
 		if((mouse.x >= 225 && mouse.x <= 383)&&(mouse.y >= 20 && mouse.y <= 170)){
-			secretSticker.main.areaNumber = 4;
+			secretSticker.main.areaNumber = 3;
             secretSticker.main.inArea = true;
 		}
 		//labs2
 		else if((mouse.x >= 275 && mouse.x <= 340)&&(mouse.y >= 170 && mouse.y <= 200)){
-			secretSticker.main.areaNumber = 4;
+			secretSticker.main.areaNumber = 3;
             secretSticker.main.inArea = true;
 		}
 	
 
 		//coffee shop 
 		if((mouse.x >= 13 && mouse.x <= 178)&&(mouse.y >= 43 && mouse.y <= 303)){
-			secretSticker.main.areaNumber = 5;
+			secretSticker.main.areaNumber = 4;
 			secretSticker.main.inArea = true;
 		}
 		//library 	ctx.strokeRect(600,330,280,155);
 		if((mouse.x >= 600 && mouse.x <= 880)&&(mouse.y >= 330 && mouse.y <= 495)){
-			secretSticker.main.areaNumber = 6;
+			secretSticker.main.areaNumber = 5;
 			secretSticker.main.inArea = true;
 		}
 	}
@@ -6515,7 +6503,7 @@ secretSticker.main =
             if (dist < 30) 
             {
                 secretSticker.main.drag = true;
-                console.log("click")
+
             }
             
             
@@ -6524,11 +6512,11 @@ secretSticker.main =
                 if(secretSticker.main.areaNumber >1)
                 secretSticker.main.areaNumber--;
                 else
-                secretSticker.main.areaNumber = 6;
+                secretSticker.main.areaNumber = 5;
             }
             if((mouse.x >= 875&& mouse.x <= 900)&&(mouse.y >= 250 && mouse.y <= 275 ))
             {
-                if(secretSticker.main.areaNumber <6)
+                if(secretSticker.main.areaNumber <5)
                 secretSticker.main.areaNumber++;
                 else
                 secretSticker.main.areaNumber = 1;
