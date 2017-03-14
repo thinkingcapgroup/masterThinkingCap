@@ -1659,13 +1659,13 @@ function drawMap(poll)
     
 	
 	//quad
-	ctx.strokeRect(135,190,170,56);
+	if(isPoll)
+		ctx.strokeRect(135,190,170,56);
     
 	//library
 	ctx.strokeRect(400,275,188,124);
     
-	//cafe
-	ctx.strokeRect(5,40,113,216);
+
     
 	//media
 	ctx.strokeRect(90,275,117,122);
