@@ -81,16 +81,6 @@ var groupIssues = [
 	[0,3,-2,2,0,2,1,3,3,1]
 ];
 
-//goes Poverty/Low/MediumLow/MediumHigh/High
-var classIssues =
-[
-	[2,2,0,1,2,1,-2,2,3,1],
-	[0,2,-1,1,1,3,1,2,2,1],
-	[3,1,1,3,2,2,-1,1,1,1],
-	[-2,1,2,1,-1,3,1,2,2,1],
-	[-1,1,-2,3,2,-1,3,1,0,4]
-];
-
 //goes Business/Engineering/Technology/Finearts/Liberalarts
 var majorIssues =
 [
@@ -2690,8 +2680,8 @@ function getScores(x, bias){
 
 	var groupRandom;
 
-	if(bias < 4){
-		var coinFlip = Math.floor(Math.random() * 3)
+	if(bias > 0){
+		var coinFlip = Math.floor(Math.random())
 		if(coinFlip == 1){
 					groupRandom = bias;
 
@@ -2709,7 +2699,6 @@ function getScores(x, bias){
 		groupRandom = Math.floor(Math.random()* 4);
 	}
 	var majorRandom = Math.floor(Math.random()* 4);
-	var ecoClassRandom = Math.floor(Math.random()* 4);
 	var ath =0;
 	var res = 0;
 	var tuit = 0;
@@ -5537,7 +5526,7 @@ runningGame2.main =
 			if(runningGame2.main.areaNumber > 0 && runningGame2.main.areaNumber < 9 && !(runningGame2.main.picturetaken)){
 			 			var hold = 0;	
 			 	if(!runningGame2.main.inArea){
-			 	createSample((Math.floor(Math.random() * 3) + 5), runningGame2.main.areaNumber)
+			 	createSample((Math.floor(Math.random() * 3) + 5), runningGame2.main.areaNumber - 1)
 				runningGame2.main.studentCircles = [];
 				widthArray = [ [[60,150],[70,160],[70,120]], [[80,140],[80,140],[80,140]],[[100,140],[100,140],[100,140]],[[80,140],[80,140],[80,140]]]		
 				headArray = [[[17,9,0],[5,14,7],[12,10,2]] , [[1,8,4],[1,9,17],[7,3,8]] , [[16,8,0],[0,16,6],[14,4,7]] , [[0,11,14],[12,8,5],[4,7,16]] ]
@@ -5759,30 +5748,23 @@ runningGame2.main =
 			}
 			//media 		ctx.strokeRect(135,333,175,145);
 			if((mouse.x >= 135 && mouse.x <= 310)&&(mouse.y >= 333 && mouse.y <= 475)){
-				runningGame2.main.areaNumber = 3;
+				runningGame2.main.areaNumber = 4;
 				update = true;
 			}
 		
 			//labs1
 			if((mouse.x >= 225 && mouse.x <= 383)&&(mouse.y >= 20 && mouse.y <= 170)){
-				runningGame2.main.areaNumber = 4;
+				runningGame2.main.areaNumber = 3;
 				update = true;
 			}
 			//labs2
 			else if((mouse.x >= 275 && mouse.x <= 340)&&(mouse.y >= 170 && mouse.y <= 200)){
-				runningGame2.main.areaNumber = 4;
-				update = true;
-			}
-		
-
-			//coffee shop 
-			if((mouse.x >= 13 && mouse.x <= 178)&&(mouse.y >= 43 && mouse.y <= 303)){
-				runningGame2.main.areaNumber = 5;
+				runningGame2.main.areaNumber = 3;
 				update = true;
 			}
 			//library 	ctx.strokeRect(600,330,280,155);
 			if((mouse.x >= 600 && mouse.x <= 880)&&(mouse.y >= 330 && mouse.y <= 495)){
-				runningGame2.main.areaNumber = 6;
+				runningGame2.main.areaNumber = 5;
 				update = true;
 			}
 		}
