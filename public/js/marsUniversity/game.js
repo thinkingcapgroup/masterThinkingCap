@@ -3096,22 +3096,22 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
                 case "issOpp":
                     var opp =0;
                     var oppName = "";
-                    if(opp < sample[j].budgetScore ||opp==0)
+                    if(opp > sample[j].budgetScore ||opp==0)
                     {
                         opp = sample[j].budgetScore;
                         var oppName = "Budget";
                     }
-                    if(opp < sample[j].tuitionScore ||opp==0)
+                    if(opp > sample[j].tuitionScore ||opp==0)
                     {
                         opp = sample[j].tuitionScore;
                         var oppName = "Tuition";
                     }
-                    if(opp < sample[j].functionScore ||opp==0)
+                    if(opp > sample[j].functionScore ||opp==0)
                     {
                         opp = sample[j].functionScore;
                         var oppName = "Functions";
                     }
-                    if(opp < sample[j].medicalScore ||opp==0)
+                    if(opp > sample[j].medicalScore ||opp==0)
                     {
                         opp = sample[j].medicalScore;
                         var oppName = "Medical";

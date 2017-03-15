@@ -166,3 +166,21 @@ MinigameScore2-3-4-1488224111552-aaronjmill32-2_1_1
 35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1489426480115-sml5527-35_1_13
 35-poll-candFame*candFame*candFame*candFame*candFame*-1489426754015-sml5527-35_1_13
 35-poll-candTrust*candTrust*candTrust*candTrust*candTrust*undefined-1489426950236-sml5527-35_1_13
+2-userAction-Create Posters-1489429584224-aaronjmill32-2_1_16
+2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1489429587841-aaronjmill32-2_1_16
+2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1489429714000-aaronjmill32-2_1_16
+2-poll-issFav*candOpp*undefined*undefined*undefined*undefined-1489429718095-aaronjmill32-2_1_16
+2-poll-issFav*candFav*undefined*undefined*undefined*undefined-1489429737340-aaronjmill32-2_1_16
+2-poll-issFav*candFav*undefined*undefined*undefined*undefined-1489429761999-aaronjmill32-2_1_16
+2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1489430138625-aaronjmill32-2_1_16
+2-poll-candFame*issOpp*undefined*undefined*undefined*undefined-1489430229828-aaronjmill32-2_1_16
+2-poll-issOpp*issFav*undefined*undefined*undefined*undefined-1489430266267-aaronjmill32-2_1_16
+2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1489430354713-aaronjmill32-2_1_16
+2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1489430417772-aaronjmill32-2_1_16
+2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1489430496483-aaronjmill32-2_1_16
+2-poll-issFav*issOpp*candFav*candOpp*issue*issue-1489430813935-aaronjmill32-2_1_17
+2-poll-issFav*issOpp*undefined*candFame*candTrust*undefined-1489502442564-aaronjmill32-2_1_17
+35-userAction-Help Paint Mural-1489596034386-sml5527-35_1_14
+35-userAction-Create Posters-1489596040571-sml5527-35_1_14
+35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1489596094158-sml5527-35_1_15
+35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1489597633100-sml5527-35_1_15
