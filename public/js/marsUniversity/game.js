@@ -107,15 +107,6 @@ var endReset = false;
 var spriteHead = new Image();
 spriteHead.src = "../img/spritehead.png";
 //sample person
-function Student(group, major, tuitionScore, budgetScore, functionScore, medicalScore)
-{
-	this.group = group;
-	this.major = major;
-	this.budgetScore = budgetScore;
-	this.tuitionScore = tuitionScore;
-	this.functionScore = functionScore;
-	this.medicalScore = medicalScore;
-}
 
 //setting up some more variables
 
@@ -6607,7 +6598,7 @@ secretSticker.main =
 
         var posterCount = posterNum*2;
         //console.log(posterCount)
-        createSample(posterCount, secretSticker.main.areaNumber);
+        createSample(posterCount, secretSticker.main.areaNumber-1);
         secretSticker.main.areas[secretSticker.main.areaNumber].students = [];
         sample.forEach(function(element, i) 
         {

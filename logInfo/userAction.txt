@@ -185,3 +185,6 @@ MinigameScore2-3-4-1488224111552-aaronjmill32-2_1_1
 2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1489587696507-aaronjmill32-2_1_17
 2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1489587708097-aaronjmill32-2_1_17
 2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1489587717746-aaronjmill32-2_1_17
+2-poll-candFav*candFame*undefined*candFav*undefined*undefined-1489591346586-aaronjmill32-2_1_18
+2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1489596234003-aaronjmill32-2_1_0
+2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1489596346715-aaronjmill32-2_1_0
