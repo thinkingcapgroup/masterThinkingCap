@@ -7,6 +7,7 @@ var fakeCandidateHolder = []
 var currentCandidateArrayHolder = []
 var graphData = [];
 var lastMinigame = 0; 
+var isPoll = false;
 
 
 var fakeCandidateYou = new CandidateCreate('FakeCandidate1');
@@ -80,16 +81,6 @@ var groupIssues = [
 	[0,3,-2,2,0,2,1,3,3,1]
 ];
 
-//goes Poverty/Low/MediumLow/MediumHigh/High
-var classIssues =
-[
-	[2,2,0,1,2,1,-2,2,3,1],
-	[0,2,-1,1,1,3,1,2,2,1],
-	[3,1,1,3,2,2,-1,1,1,1],
-	[-2,1,2,1,-1,3,1,2,2,1],
-	[-1,1,-2,3,2,-1,3,1,0,4]
-];
-
 //goes Business/Engineering/Technology/Finearts/Liberalarts
 var majorIssues =
 [
@@ -116,16 +107,6 @@ var endReset = false;
 var spriteHead = new Image();
 spriteHead.src = "../img/spritehead.png";
 //sample person
-function Student(group, ecoClass, major, tuitionScore, budgetScore, functionScore, medicalScore)
-{
-	this.group = group;
-	this.ecoClass = ecoClass;
-	this.major = major;
-	this.budgetScore = budgetScore;
-	this.tuitionScore = tuitionScore;
-	this.functionScore = functionScore;
-	this.medicalScore = medicalScore;
-}
 
 //setting up some more variables
 
@@ -840,7 +821,7 @@ function practicePoll()
 	remainingHoursDay = 12; 
 	
 	//Decides the opponents focus which cannot be the same as the player
-	opponentCandidate.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+	opponentCandidate.fame = [1,1,1,1,1,1,1,1];
 	opponentCandidate.consMod = 0;
 	////console.log(oppFocus);
 	chooseIssue(opponentCandidate,[],1,false);
@@ -953,8 +934,8 @@ function userAction()
 	c.onmousedown = doMousedownMain;
 	c.onmousemove = doMouseOver;
     
-    ctx.drawImage(mapbackground, 0,0,600,414);
-	mapbackground.onload = drawMap();
+  
+	mapbackground.onload = drawMap(false);
     
 	currentEvents = [];
     document.getElementById("CommonsChoice").innerHTML += "<h2>Commons</h2>";
@@ -1480,10 +1461,10 @@ function map(state, isFirst, isFree){
     c.onmousedown = doMousedown;
     c.onmousemove = doMouseOver;
     
-    ctx.drawImage(mapbackground, 0,0,600,414);
-    mapbackground.onload = drawMap();
+  
+    mapbackground.onload = drawMap(true);
 	document.getElementById("questionArea").innerHTML +="<h4>Population & Sample</h4><br>";
-	var buttonLabels = ["Quad", "Coffee Shop", "Gym", "Lab", "Media Room", "Library"];
+	var buttonLabels = ["Quad", "Gym", "Lab", "Commons", "Library"];
 	document.getElementById("questionArea").innerHTML += "<label>Location: </label><select id = 'location'></select><br>";
 	for(x =0; x< buttonLabels.length; x++){
 		document.getElementById("location").options.add(new Option(buttonLabels[x],x));
@@ -1594,8 +1575,9 @@ function map(state, isFirst, isFree){
 			addMoreQuestions();
 	});
 }
-function drawMap()
+function drawMap(poll)
 {
+	isPoll = poll
 	//map icons
 	var libraryIcon = new Image();
 	libraryIcon.src = '../img/map/libraryicon.png';
@@ -1607,11 +1589,9 @@ function drawMap()
 	cafeIcon.src = '../img/map/cafeicon.png';
 	var labIcon = new Image();
 	labIcon.src = '../img/map/labicon.png';
-	var mediaIcon = new Image();
-	mediaIcon.src =  '../img/map/mediaicon.png';
 
-        var mapbackground = new Image();
-        mapbackground.src = '../../img/map/mapMU600pxW.png';
+    var mapbackground = new Image();
+    mapbackground.src = '../../img/map/mapMU600pxW.png';
 
 	//peopleicons
 	var tuitionIcon = new Image();
@@ -1628,11 +1608,12 @@ function drawMap()
     var c=document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
     
-  ctx.draw
-	ctx.strokeStyle = '#00FFFF';
+	mapbackground.onload = function(){
+			  ctx.drawImage(mapbackground, 0,0,600,414);
+			  	ctx.strokeStyle = '#00FFFF';
 	ctx.fillStyle = 'rgba(0,255,255,0.5)';
 	ctx.lineWidth = 3;
-	  ctx.drawImage(mapbackground, 0,0,600,414);
+	
 	//stroke areas for gym
 	ctx.beginPath();
         ctx.moveTo(360,15);
@@ -1659,24 +1640,30 @@ function drawMap()
     
 	
 	//quad
-	ctx.strokeRect(135,190,170,56);
+	if(isPoll)
+		ctx.strokeRect(135,190,170,56);
     
 	//library
 	ctx.strokeRect(400,275,188,124);
     
-	//cafe
-	ctx.strokeRect(5,40,113,216);
+
     
 	//media
 	ctx.strokeRect(90,275,117,122);
 	
 	//draw icon
-	ctx.drawImage(quadIcon, 160,160,113,75)
-	ctx.drawImage(libraryIcon, 435,270,113,75)
-	ctx.drawImage(gymIcon, 475,50,113,75)
-	ctx.drawImage(cafeIcon, 10,125,113,75)
-	ctx.drawImage(mediaIcon, 90,280,113,75)
-	ctx.drawImage(labIcon, 145,30,113,75)
+
+	    ctx.drawImage(libraryIcon, 435,270,113,75)
+            ctx.drawImage(gymIcon, 475,50,113,75)
+            ctx.drawImage(cafeIcon, 90,285,113,75)
+            if(isPoll){
+
+			ctx.drawImage(quadIcon, 160,160,113,75) 
+			}
+            ctx.drawImage(labIcon, 145,30,113,75)
+		}
+
+
 }
  function doMousedown(c, e)
 	{
@@ -1689,33 +1676,31 @@ function drawMap()
 			
 			//gym1
 			if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
-                document.getElementById("location").value = 2;
+                document.getElementById("location").value = 1;
 			}
 			//gym2
 			if((mouse.x >= 480 && mouse.x <=590 )&&(mouse.y >= 115 && mouse.y <= 235)){
-                document.getElementById("location").value = 2;
+                document.getElementById("location").value = 1;
 			}
 			//media 		ctx.strokeRect(135,333,175,145);
 			if((mouse.x >= 90 && mouse.x <= 205)&&(mouse.y >= 275 && mouse.y <= 395)){
-                document.getElementById("location").value = 4;
+                document.getElementById("location").value = 3;
 			}
 		
 			//labs1
 			if((mouse.x >= 150 && mouse.x <= 255)&&(mouse.y >= 15 && mouse.y <= 135)){
-                document.getElementById("location").value = 3;
+                document.getElementById("location").value = 2;
 			}
 			//labs2
 			else if((mouse.x >= 180 && mouse.x <= 230)&&(mouse.y >= 225 && mouse.y <= 395)){
-                document.getElementById("location").value = 3;
+                document.getElementById("location").value = 2;
 			}
 
 			//coffee shop 
-			if((mouse.x >= 5 && mouse.x <= 115)&&(mouse.y >= 40 && mouse.y <= 250)){
-                document.getElementById("location").value = 1;
-			}
+			
 			//library 	ctx.strokeRect(600,330,280,155);
 			if((mouse.x >= 400 && mouse.x <= 590)&&(mouse.y >= 275 && mouse.y <= 400)){
-                document.getElementById("location").value = 5;
+                document.getElementById("location").value = 4;
 			}
     }
  function doMousedownMain(c, e)
@@ -1786,13 +1771,9 @@ function drawMap()
         ctx.drawImage(mapbackground, 0,0,450,250);
 		//check if the area is clickable
 			//quad 		ctx.strokeRect(208,235,243,60);
-			if((mouse.x >= 135 && mouse.x <= 300)&&(mouse.y >= 190 && mouse.y <= 250)){
-                strokeAreas();
-                ctx.fillRect(135,190,170,56);
-			}
-			
+						
 			//gym1
-			else if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
+			if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
                 
                 strokeAreas();
                 ctx.beginPath();
@@ -1859,12 +1840,7 @@ function drawMap()
 			}
 
 			//coffee shop 
-			else if((mouse.x >= 5 && mouse.x <= 115)&&(mouse.y >= 40 && mouse.y <= 250)){
-                
-                strokeAreas();
-                
-                ctx.fillRect(5,40,113,216);
-			}
+		
 			//library 	ctx.strokeRect(600,330,280,155);
 			else if((mouse.x >= 400 && mouse.x <= 590)&&(mouse.y >= 255 && mouse.y <= 400)){
                 
@@ -1880,24 +1856,32 @@ function drawMap()
             //map icons
             var libraryIcon = new Image();
             libraryIcon.src = '../img/map/libraryicon.png';
-            var quadIcon = new Image();
-            quadIcon.src = '../img/map/icon.png';
+       
             var gymIcon = new Image();
             gymIcon.src = '../img/map/gymicon.png';
             var cafeIcon = new Image();
             cafeIcon.src = '../img/map/cafeicon.png';
             var labIcon = new Image();
             labIcon.src = '../img/map/labicon.png';
-            var mediaIcon = new Image();
-            mediaIcon.src =  '../img/map/mediaicon.png';
+            quadIcon = new Image();
+			quadIcon.src = '../img/map/icon.png';
+     		
             
             //draw icon
-            ctx.drawImage(quadIcon, 160,160,113,75)
+
             ctx.drawImage(libraryIcon, 435,270,113,75)
             ctx.drawImage(gymIcon, 475,50,113,75)
-            ctx.drawImage(cafeIcon, 10,125,113,75)
-            ctx.drawImage(mediaIcon, 90,280,113,75)
+            ctx.drawImage(cafeIcon, 90,285,113,75)
+            if(isPoll){
+            	   if((mouse.x >= 135 && mouse.x <= 300)&&(mouse.y >= 190 && mouse.y <= 250)){ 
+             
+                ctx.fillRect(135,190,170,56); 
+      } 
+            	ctx.strokeRect(135,190,170,56);
+			ctx.drawImage(quadIcon, 160,160,113,75) 
+			}
             ctx.drawImage(labIcon, 145,30,113,75)
+          
 	}
     function strokeAreas()
     {
@@ -1936,15 +1920,11 @@ function drawMap()
         ctx.closePath();
         ctx.stroke();
         
-        
-        //quad
-        ctx.strokeRect(135,190,170,56);
+ 
         
         //library
         ctx.strokeRect(400,275,188,124);
-        
-        //cafe
-        ctx.strokeRect(5,40,113,216);
+
         
         //media
         ctx.strokeRect(90,275,117,122);
@@ -2294,7 +2274,7 @@ function addMoreQuestions(){
 //Takes in an Arrays of Groups to affect with the score increase, and parses through each adding the specified increase in score
 function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 {
-	////console.log(candidate.fame);
+
 	////console.log(candidate.issueScore);
 	////console.log(scoreInc);
 	for(var i=0;i<groupPos.length;i++)
@@ -2624,7 +2604,6 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				break;
 
 		}
-	////console.log(candidates[0].fame);
 	////console.log(candidates[0].issueScore);
 	}
 }
@@ -2692,8 +2671,8 @@ function getScores(x, bias){
 
 	var groupRandom;
 
-	if(bias < 4){
-		var coinFlip = Math.floor(Math.random() * 3)
+	if(bias > 0){
+		var coinFlip = Math.floor(Math.random())
 		if(coinFlip == 1){
 					groupRandom = bias;
 
@@ -2711,7 +2690,6 @@ function getScores(x, bias){
 		groupRandom = Math.floor(Math.random()* 4);
 	}
 	var majorRandom = Math.floor(Math.random()* 4);
-	var ecoClassRandom = Math.floor(Math.random()* 4);
 	var ath =0;
 	var res = 0;
 	var tuit = 0;
@@ -2777,7 +2755,7 @@ function votePercentage(sampleSize, bias)
 				issues = issues/4;
 			}
 			////console.log(candidates[j].name +" Issue Score: "+ issues);
-			console.log(candidates[j].name + " Issues:"  + issues)
+			//console.log(candidates[j].name + " Issues:"  + issues)
 			if(candidates[j].name != "Liz")
 			{
 				var candWinPer = 10*Math.pow(fame*issues,2) - candidates[j].consMod;
@@ -2887,7 +2865,7 @@ function clearScreen()
 	document.getElementById('next').innerHTML = "";
 
 	gameOutput.innerHTML = "";
-	prevChoices.innerHTML = "<div id = 'Buttons' style = 'display:block;'><div id = 'Header' style = 'display:block;'> </div></div><div id = 'LabChoice' style = 'display:none;'></div><div id = 'GymChoice' style = 'display:none;'></div><div id = 'CommonsChoice' style = 'display:none;'> </div><div id = 'LibraryChoice' style = 'display:none;'></div><div id = 'map' style = 'display:block;'></div><div id = 'eventInput' style = 'display:block;'></div>";
+	prevChoices.innerHTML = "<div id = 'Buttons' style = 'display:block;'><div id = 'Header' style = 'display:block;'> </div></div><div id = 'LabChoice' style = 'display:none;'></div><div id = 'GymChoice' style = 'display:none;'></div><div id = 'CommonsChoice' style = 'display:block;'> </div><div id = 'LibraryChoice' style = 'display:none;'></div><div id = 'map' style = 'display:block;'></div><div id = 'eventInput' style = 'display:block;'></div>";
 	prevEvent.innerHTML = "";
 	prevTable.innerHTML = "<table id = 'tab' class='sortable'><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
 }
@@ -3029,7 +3007,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 		else if(majorHolder == "tech"){
 			graphData[0][2]++;
 		}
-		else if(majorHolder == "Arts"){
+		else if(majorHolder == "arts"){
 			graphData[0][3]++;
 		}
 
@@ -3205,11 +3183,11 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
                         break;
     
                         case "issuebudget":
-                            tableArrays[10].push(parseFloat(sample[j].athleticScore).toFixed(2));
-                            if(sample[j].athleticScore >=2){
+                            tableArrays[10].push(parseFloat(sample[j].budgetScore).toFixed(2));
+                            if(sample[j].budgetScore>=2){
                                 graphData[i+2][0]++;
                             }
-                            else if(sample[j].athleticScore >=-1){
+                            else if(sample[j].budgetScore >=-1){
                                 graphData[i+2][1]++;
                             }
                             else{
@@ -3218,11 +3196,11 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
                         break;
     
                         case "issuefunctions":
-                            tableArrays[12].push(parseFloat(sample[j].eventScore).toFixed(2));
-                            if(sample[j].eventScore >=2){
+                            tableArrays[12].push(parseFloat(sample[j].functionScore).toFixed(2));
+                            if(sample[j].functionScore >=2){
                                 graphData[i+2][0]++;
                             }
-                            else if(sample[j].eventScore >=-1){
+                            else if(sample[j].functionScore >=-1){
                                 graphData[i+2][1]++;
                             }
                             else{
@@ -3738,7 +3716,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 			break;
 
 			case "issuebudget":
-				name = 	"Increase Athletic Budget";
+				name = 	"Increase Budget";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
 				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
@@ -3785,6 +3763,8 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 			////console.log(graphData[questionNum], " AT ", questions[qID].question)					
 			data2[j]=graphData[i][j];
 		}
+
+	
 		var dataCounter = 0;
 		x = d3.scaleLinear()
 		.domain([0, d3.max(data2)])
@@ -3804,9 +3784,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 			return zid; 
         });
         
-        var dataset = 
-        [
-        ];
+        var dataset =  [];
         for (var k = 0; k < graphData[i].length; k++)
         {			
             dataset.push ({label: graphLabels[i][k], count: graphData[i][k]})
@@ -5447,8 +5425,7 @@ runningGame2.main =
 		//peopleicons
 		tuitionIcon = new Image();
 		tuitionIcon.src = '../img/icons/tuitionsquare.png';
-		sportsIcon = new Image();
-		sportsIcon.src = '../img/icons/sportssquare.png';
+	
 		researchIcon = new Image();
 		researchIcon.src = '../img/icons/researchsquare.png';
 		socialIcon = new Image();
@@ -5492,7 +5469,7 @@ runningGame2.main =
 		cameraIcon.src = '../img/minigame3/cameraicon.png';
 
 		imgBArray = [[thinPeace1, thinPeace2, thinStrong], [medPeace1, medPeace2, medStrong], [plusPeace1, plusPeace2, plusStrong], [hoverPeace1, hoverPeace2, hoverStrong]]
-		iconArray = [tuitionIcon, sportsIcon, researchIcon, socialIcon, medicalIcon];
+		iconArray = [tuitionIcon, researchIcon, socialIcon, medicalIcon];
 		mapbackground = new Image();
 		mapbackground.src = '../img/map/map.png';
 
@@ -5509,8 +5486,8 @@ runningGame2.main =
 		ctx.font="14px Georgia";
 		runningGame2.main.requiredDemograph1 = Math.floor(Math.random() * 6) + 2;
 		runningGame2.main.requiredDemograph1 = Math.floor(Math.random() * 3) + 2;
-		runningGame2.main.demograph1num = Math.floor(Math.random() * 5);
-		runningGame2.main.demograph2num = Math.floor(Math.random() * 5);
+		runningGame2.main.demograph1num = Math.floor(Math.random() * 4);
+		runningGame2.main.demograph2num = Math.floor(Math.random() * 4);
 		runningGame2.main.takenDemograph1=0;
 		runningGame2.main.takenDemograph2=0;
 	
@@ -5540,14 +5517,14 @@ runningGame2.main =
 			if(runningGame2.main.areaNumber > 0 && runningGame2.main.areaNumber < 9 && !(runningGame2.main.picturetaken)){
 			 			var hold = 0;	
 			 	if(!runningGame2.main.inArea){
-			 	createSample((Math.floor(Math.random() * 3) + 5), runningGame2.main.areaNumber)
+			 	createSample((Math.floor(Math.random() * 3) + 5), runningGame2.main.areaNumber - 1)
 				runningGame2.main.studentCircles = [];
 				widthArray = [ [[60,150],[70,160],[70,120]], [[80,140],[80,140],[80,140]],[[100,140],[100,140],[100,140]],[[80,140],[80,140],[80,140]]]		
 				headArray = [[[17,9,0],[5,14,7],[12,10,2]] , [[1,8,4],[1,9,17],[7,3,8]] , [[16,8,0],[0,16,6],[14,4,7]] , [[0,11,14],[12,8,5],[4,7,16]] ]
 				sample.forEach(function(element) {
 					var studentCircleHolder = {
 						isDemographic: false,
-						interest: Math.floor(Math.random() * 5),
+						interest: Math.floor(Math.random() * 4),
 						typenum: Math.floor(Math.random() * 4),
 						posenum: Math.floor(Math.random() * 3),
 						headnum: Math.floor(Math.random() * 3),
@@ -5650,10 +5627,7 @@ runningGame2.main =
 						ctx.fillRect(600,330,280,155);
 					}
 					//cafe
-					ctx.strokeRect(13,43,165,260);
-					if(runningGame2.main.buildingHover[4]){
-						ctx.fillRect(13,43,165,260);
-					}
+					
 					//media
 					ctx.strokeRect(135,333,175,145);
 					if(runningGame2.main.buildingHover[2]){
@@ -5665,8 +5639,8 @@ runningGame2.main =
 					ctx.drawImage(quadIcon, 255,190,150,100)
 					ctx.drawImage(libraryIcon, 665,325,150,100)
 					ctx.drawImage(gymIcon, 725,50,150,100)
-					ctx.drawImage(cafeIcon, 20,110,150,100)
-					ctx.drawImage(mediaIcon, 150,335,150,100)
+			
+					ctx.drawImage(cafeIcon, 150,335,150,100)
 					ctx.drawImage(labIcon, 230,25,150,100)
 				}
 				if(runningGame2.main.areaNumber>0){
@@ -5765,30 +5739,23 @@ runningGame2.main =
 			}
 			//media 		ctx.strokeRect(135,333,175,145);
 			if((mouse.x >= 135 && mouse.x <= 310)&&(mouse.y >= 333 && mouse.y <= 475)){
-				runningGame2.main.areaNumber = 3;
+				runningGame2.main.areaNumber = 4;
 				update = true;
 			}
 		
 			//labs1
 			if((mouse.x >= 225 && mouse.x <= 383)&&(mouse.y >= 20 && mouse.y <= 170)){
-				runningGame2.main.areaNumber = 4;
+				runningGame2.main.areaNumber = 3;
 				update = true;
 			}
 			//labs2
 			else if((mouse.x >= 275 && mouse.x <= 340)&&(mouse.y >= 170 && mouse.y <= 200)){
-				runningGame2.main.areaNumber = 4;
-				update = true;
-			}
-		
-
-			//coffee shop 
-			if((mouse.x >= 13 && mouse.x <= 178)&&(mouse.y >= 43 && mouse.y <= 303)){
-				runningGame2.main.areaNumber = 5;
+				runningGame2.main.areaNumber = 3;
 				update = true;
 			}
 			//library 	ctx.strokeRect(600,330,280,155);
 			if((mouse.x >= 600 && mouse.x <= 880)&&(mouse.y >= 330 && mouse.y <= 495)){
-				runningGame2.main.areaNumber = 6;
+				runningGame2.main.areaNumber = 5;
 				update = true;
 			}
 		}
@@ -6026,8 +5993,7 @@ secretSticker.main =
         //icons
         tuitionIcon = new Image();
         tuitionIcon.src = '../img/icons/tuitionsquare.png'
-        athleticIcon = new Image();
-        athleticIcon.src = '../img/icons/sportssquare.png';
+       
         researchIcon = new Image()
         researchIcon.src = '../img/icons/researchsquare.png';
         eventsIcon = new Image();
@@ -6035,7 +6001,7 @@ secretSticker.main =
         medicalIcon = new Image();
         medicalIcon.src = '../img/icons/medicalsquare.png';
 
-        interestArray = [tuitionIcon, athleticIcon, researchIcon, eventsIcon, medicalIcon];
+        interestArray = [tuitionIcon, researchIcon, eventsIcon, medicalIcon];
 
         backButton = new Image();
         backButton.src = '../img/backbutton.png';
@@ -6061,7 +6027,7 @@ secretSticker.main =
         ctx.font="14px Georgia";
         secretSticker.main.requiredDemograph1 = Math.floor(Math.random() * 6) + 2;
         secretSticker.main.requiredDemograph1 = Math.floor(Math.random() * 3) + 2;
-        secretSticker.main.demograph1num = Math.floor(Math.random() * 5);
+        secretSticker.main.demograph1num = Math.floor(Math.random() * 4);
         secretSticker.main.takenDemograph1=0;
         secretSticker.main.postersLeft=5;
         secretSticker.main.areas =
@@ -6176,18 +6142,14 @@ secretSticker.main =
                 ctx.drawImage(gymWall, 0,0,900,500);
                 break;
                 case 3:
-                ctx.drawImage(mediaWall, 0,0,900,500);
+                ctx.fillStyle = '#FFFFFF';
+                ctx.drawImage(labWall, 0,0,900,500);            
                 break;
                 case 4:
                 ctx.fillStyle = '#FFFFFF';
-                ctx.drawImage(labWall, 0,0,900,500);            
-                //ctx.drawImage(mapbackground, 0,0,900,500);
-                break;
-                case 5:
-                ctx.fillStyle = '#FFFFFF';
                 ctx.drawImage(cafeWall, 0,0,900,500);
                 break;
-                case 6:
+                case 5:
                 ctx.drawImage(libWall, 0,0,900,500);
                 break;
                 default:
@@ -6246,10 +6208,8 @@ secretSticker.main =
                 ctx.fillRect(600,330,280,155);
             }
             //cafe
-            ctx.strokeRect(13,43,165,260);
-            if(secretSticker.main.buildingHover[4]){
-                ctx.fillRect(13,43,165,260);
-            }
+            //ctx.strokeRect(13,43,165,260);
+         
             //media
             ctx.strokeRect(135,333,175,145);
             if(secretSticker.main.buildingHover[2]){
@@ -6261,8 +6221,8 @@ secretSticker.main =
             ctx.drawImage(quadIcon, 255,190,150,100)
             ctx.drawImage(libraryIcon, 665,325,150,100)
             ctx.drawImage(gymIcon, 725,50,150,100)
-            ctx.drawImage(cafeIcon, 20,110,150,100)
-            ctx.drawImage(mediaIcon, 150,335,150,100)
+            //ctx.drawImage(cafeIcon, 20,110,150,100)
+            ctx.drawImage(cafeIcon, 150,335,150,100)
             ctx.drawImage(labIcon, 230,25,150,100)
 	}
        
@@ -6441,32 +6401,28 @@ secretSticker.main =
 			secretSticker.main.areaNumber = 2;
             secretSticker.main.inArea = true;
 		}
-		//media 		ctx.strokeRect(135,333,175,145);
-		if((mouse.x >= 135 && mouse.x <= 310)&&(mouse.y >= 333 && mouse.y <= 475)){
-			secretSticker.main.areaNumber = 3;
-            secretSticker.main.inArea = true;
-		}
+	
 	
 		//labs1
 		if((mouse.x >= 225 && mouse.x <= 383)&&(mouse.y >= 20 && mouse.y <= 170)){
-			secretSticker.main.areaNumber = 4;
+			secretSticker.main.areaNumber = 3;
             secretSticker.main.inArea = true;
 		}
 		//labs2
 		else if((mouse.x >= 275 && mouse.x <= 340)&&(mouse.y >= 170 && mouse.y <= 200)){
-			secretSticker.main.areaNumber = 4;
+			secretSticker.main.areaNumber = 3;
             secretSticker.main.inArea = true;
 		}
 	
 
 		//coffee shop 
 		if((mouse.x >= 13 && mouse.x <= 178)&&(mouse.y >= 43 && mouse.y <= 303)){
-			secretSticker.main.areaNumber = 5;
+			secretSticker.main.areaNumber = 4;
 			secretSticker.main.inArea = true;
 		}
 		//library 	ctx.strokeRect(600,330,280,155);
 		if((mouse.x >= 600 && mouse.x <= 880)&&(mouse.y >= 330 && mouse.y <= 495)){
-			secretSticker.main.areaNumber = 6;
+			secretSticker.main.areaNumber = 5;
 			secretSticker.main.inArea = true;
 		}
 	}
@@ -6520,7 +6476,7 @@ secretSticker.main =
             if (dist < 30) 
             {
                 secretSticker.main.drag = true;
-                console.log("click")
+
             }
             
             
@@ -6529,11 +6485,11 @@ secretSticker.main =
                 if(secretSticker.main.areaNumber >1)
                 secretSticker.main.areaNumber--;
                 else
-                secretSticker.main.areaNumber = 6;
+                secretSticker.main.areaNumber = 5;
             }
             if((mouse.x >= 875&& mouse.x <= 900)&&(mouse.y >= 250 && mouse.y <= 275 ))
             {
-                if(secretSticker.main.areaNumber <6)
+                if(secretSticker.main.areaNumber <5)
                 secretSticker.main.areaNumber++;
                 else
                 secretSticker.main.areaNumber = 1;
@@ -6642,14 +6598,14 @@ secretSticker.main =
 
         var posterCount = posterNum*2;
         //console.log(posterCount)
-        createSample(posterCount, secretSticker.main.areaNumber);
+        createSample(posterCount, secretSticker.main.areaNumber-1);
         secretSticker.main.areas[secretSticker.main.areaNumber].students = [];
         sample.forEach(function(element, i) 
         {
             var studentCircleHolder = 
             {
                 isDemographic: false,
-                interest: Math.floor(Math.random() * 5),
+                interest: Math.floor(Math.random() * 4),
                 typenum: Math.floor(Math.random() * 4),
                 headnum: Math.floor(Math.random() * 3),
             }
@@ -7367,7 +7323,7 @@ runningGame4.main = {
 		//make the labels
 		for(var x =0; x < 3; x++){
 			runningGame4.main.groups[x] = x;
-			runningGame4.main.gameGroups[x] = Math.floor(Math.random() * 5);
+			runningGame4.main.gameGroups[x] = Math.floor(Math.random() * 4);
 		}
 
 
