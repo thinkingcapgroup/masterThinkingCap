@@ -147,7 +147,7 @@
 			"name":"Mars U Sports Game",
 			"id":"6",
 			"type":"smallEvent",
-			"text":"Time to support out local floozball team! Head over to the gazorb field and cheer your heArts out!",
+			"text":"Time to support out local floozball team! Head over to the gazorb field and cheer your hearts out!",
 			"timeRequired":"2",
 			"groupPos":"Ath",
 			"groupNeg":"",
@@ -190,19 +190,19 @@
 			"options":
 			[
 				{
-					"optionName":"Grab some Coffee",
+					"optionName":"Study with your Friends",
 					"optionID":"DonateaPercentageofProfits",
 					"type":"boost",
 					"extraTime" : "1", 
-					"posEffects":"Bus",
+					"posEffects":"Law",
 					"negEffects":""
 				},
 				{
-					"optionName":"Study with Classmates",
+					"optionName":"Listen to Guitarist ",
 					"optionID":"study",
 					"type":"boost",
 					"extraTime" : "1", 
-					"posEffects":"Read",
+					"posEffects":"Art",
 					"negEffects":""
 				}
 			]
@@ -254,7 +254,7 @@
 			"name":"Charity Event",
 			"id":"10",
 			"type":"smallEvent",
-			"text":"Certain voters need some extra convincing that you have their interests at heArts, so why don't you stop by a club to show that your interests align with theirs. ",
+			"text":"Certain voters need some extra convincing that you have their interests at hearts, so why don't you stop by a club to show that your interests align with theirs. ",
 			"timeRequired":"2",
 			"groupPos":"Bus",
 			"groupNeg":"",
@@ -427,7 +427,7 @@
 			]
 		},		
 		{
-			"name":"Fun Run",
+			"name":"Coffee Run",
 			"id":"18",
 			"type":"smallEvent",
 			"text":"Time for a quick burst of advertising. Take an hour and run accross campus high fiving as many voters as you can.",
