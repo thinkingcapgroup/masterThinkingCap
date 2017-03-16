@@ -891,7 +891,7 @@ function gameCycleStart(f)
 	candidates.splice(0,0,playerCandidate);
 	
 
-	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
+	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +"/10 </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
 	userAction();
 };
 
@@ -1290,7 +1290,7 @@ function gameCycleEnd()
 	nextArea.innerHTML = "";
 
 
-	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	votePercentage(1000,5);
+	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +"/10 </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	votePercentage(1000,5);
 	var winner;
 	var winvotes = 0;
 	ranking = candidates.slice();
@@ -1447,7 +1447,7 @@ function map(state, isFirst, isFree){
 
 	}
 	else if(isFree == false && isFirst == false && state !=2 ){
-		document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";
+		document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +"/10 </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";
 	
 	}
 	if(state == 1||state == 2){
@@ -1602,7 +1602,7 @@ function drawMap(poll)
 	var tuitionIcon = new Image();
 	tuitionIcon.src = '../img/icons/tuitionsquare.png';
 	var sportsIcon = new Image();
-	sportsIcon.src = '../img/icons/sportscircle.png';
+	sportsIcon.src = '../img/icons/sportssquare.png';
 	var researchIcon = new Image();
 	researchIcon.src = '../img/icons/researchsquare.png';
 	var socialIcon = new Image();
@@ -1750,12 +1750,7 @@ function drawMap(poll)
 			}
 
 			//coffee shop 
-			if((mouse.x >= 5 && mouse.x <= 115)&&(mouse.y >= 40 && mouse.y <= 250)){
-                document.getElementById("LibraryChoice").style = 'display:none';
-                document.getElementById("LabChoice").style = 'display:none';
-                document.getElementById("GymChoice").style = 'display:none';
-                document.getElementById("CommonsChoice").style = 'display:block';
-			}
+			
 			//library 	ctx.strokeRect(600,330,280,155);
 			if((mouse.x >= 400 && mouse.x <= 590)&&(mouse.y >= 275 && mouse.y <= 400)){
                 document.getElementById("LibraryChoice").style = 'display:block';
@@ -4520,10 +4515,10 @@ function trendReporter(category)
         tempGraphData = [];
         pastGraphData[i].forEach(function(e)
         {
+
             tempGraphData.push(e);
         });
-        console.log(tempGraphData);
-        //console.log(tempGraphData);
+
         tempGraphData.splice(0,2);
         for(var j =0; j< pastPollChoices[i].length; j++)
         {
@@ -4940,6 +4935,9 @@ runningGame.main =
 			bodyTypeNumber = 0
 		}
 
+		titleScreen = new Image();
+		titleScreen.src = '../img/minigame1/titlescreen.png'
+
 		bodyPixelArray = [[169,123], [185,137],[218,175],[180,194]]
 		backgroundImage= new Image();
 		backgroundImage.src ="../img/minigame1/cafebg.png";
@@ -5034,7 +5032,9 @@ runningGame.main =
 
 		c.onmousedown = runningGame.main.doMousedown;
 		
-		runningGame.main.update(c,ctx);
+		titleScreen.onload = function(){
+			runningGame.main.update(c,ctx);
+		}
 	},
 
 	update: function (c,ctx)
@@ -5968,7 +5968,7 @@ secretSticker.main =
         tuitionIcon = new Image();
         tuitionIcon.src = '../img/icons/tuitionsquare.png';
         sportsIcon = new Image();
-        sportsIcon.src = '../img/icons/sportscircle.png';
+        sportsIcon.src = '../img/icons/sportssquare.png';
         researchIcon = new Image();
         researchIcon.src = '../img/icons/researchsquare.png';
         socialIcon = new Image();
