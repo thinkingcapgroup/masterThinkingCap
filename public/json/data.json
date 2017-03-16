@@ -14,8 +14,8 @@
 			"options":
 			[
 				{
-					"optionName":"Pay Participant",
-					"optionID":"PayParticipant",
+					"optionName":"Pay PArtsicipant",
+					"optionID":"PayPArtsicipant",
 					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Low,Poor",
@@ -37,7 +37,7 @@
 			"name":"Ice Cream Social",
 			"id":"2",
 			"type":"smallEvent",
-			"text":"Setting up infront of the building, you start passing out vanilla ice cream to those who are coming in and out of the building. ",
+			"text":"Setting up infront of the building, you stArts passing out vanilla ice cream to those who are coming in and out of the building. ",
 			"timeRequired":"2",
 			"groupPos":"Bus",
 			"groupNeg":"",
@@ -113,9 +113,9 @@
 			"name":"Create Posters",
 			"id":"5",
 			"type":"smallEvent",
-			"text":"Heading over to the art college, you decide to work posters for your campaign. You also hope to spend time with art students.",
+			"text":"Heading over to the Arts college, you decide to work posters for your campaign. You also hope to spend time with Arts students.",
 			"timeRequired":"2",
-			"groupPos":"Art",
+			"groupPos":"Arts",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Com",
@@ -131,7 +131,7 @@
 					"negEffects":""
 				},
 				{
-					"optionName":"Get Coffee with Art Kids",
+					"optionName":"Get Coffee with Arts Kids",
 					"optionID":"ClaimTaxDeductable",
 					"type":"boost",
 					"extraTime" : "1", 
@@ -147,7 +147,7 @@
 			"name":"Mars U Sports Game",
 			"id":"6",
 			"type":"smallEvent",
-			"text":"Time to support out local floozball team! Head over to the gazorb field and cheer your heart out!",
+			"text":"Time to support out local floozball team! Head over to the gazorb field and cheer your heArts out!",
 			"timeRequired":"2",
 			"groupPos":"Ath",
 			"groupNeg":"",
@@ -161,7 +161,7 @@
 					"optionID":"posters",
 					"type":"boost",
 					"extraTime" : "1", 
-					"posEffects":"Art",
+					"posEffects":"Arts",
 					"negEffects":""
 				},
 				{
@@ -227,7 +227,7 @@
 		},
 		
 		{
-			"name":"Go to Party",
+			"name":"Go to a Party",
 			"id":"9",
 			"type":"smallEvent",
 			"text":"You decide to go hangout with your school mates and party after dealing with a long week. It's a good time to say hello and become more famous.",
@@ -254,7 +254,7 @@
 			"name":"Charity Event",
 			"id":"10",
 			"type":"smallEvent",
-			"text":"Certain voters need some extra convincing that you have their interests at heart, so why don't you stop by a club to show that your interests align with theirs. ",
+			"text":"Certain voters need some extra convincing that you have their interests at heArts, so why don't you stop by a club to show that your interests align with theirs. ",
 			"timeRequired":"2",
 			"groupPos":"Bus",
 			"groupNeg":"",
@@ -351,9 +351,9 @@
 			"name":"Help Paint Mural",
 			"id":"14",
 			"type":"smallEvent",
-			"text":"Help the art students work on the giant mural that they've been working on all semester.",
+			"text":"Help the Arts students work on the giant mural that they've been working on all semester.",
 			"timeRequired":"2",
-			"groupPos":"Art",
+			"groupPos":"Arts",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Com",
@@ -509,7 +509,7 @@
 			"type":"smallEvent",
 			"text":"Lets take pictures",
 			"timeRequired":"2",
-			"groupPos":"Art",
+			"groupPos":"Arts",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Com",
@@ -588,7 +588,7 @@
 		},
 		{
 			"question":"What is your major?", 
-			"labels":"Business, Law, Tech, Arts",
+			"labels":"Business, Law, Tech, Artss",
 			"graph":"0,0,0,0",
 			"id":"4",
 			"value":"major"
@@ -617,7 +617,7 @@
 		},
 		{
 			"question":"How good of a job do you think I will do? ", 
-			"labels":"Good, Neutral, Bad",
+			"labels":"Bad, Neutral, Good",
 			"graph":"0,0,0",
 			"id":"8",
 			"value":"playTrust"
@@ -639,7 +639,7 @@
 		},
 		{
 			"question":"How good of a job do you think this candidate will do? ", 
-			"labels":"Good, Neutral, Bad",
+			"labels":"Bad, Neutral, Good",
 			"graph":"0,0,0",
 			"id":"11",
 			"value":"candTrust"
