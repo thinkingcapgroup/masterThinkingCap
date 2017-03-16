@@ -5129,17 +5129,7 @@ runningGame.main =
 			}
 		}
 		else{
-			ctx.fillStyle = "#FFFFFF";
-			ctx.fillRect(0,0,c.width, c.height);
-			ctx.fillStyle = '#000000';
-			ctx.font="30px Arial";
-			ctx.fillText("Fun Run",390,70)
-			ctx.font = '16px Arial';
-			ctx.fillText('You have places to be and things to do.',300,125);
-			ctx.fillText('On the way be sure to greet your (hopefully) adoring public.',250,175);
-			ctx.fillText('High Five as many as you can before time runs out.',275,225);
-			ctx.fillText('Be careful not to run into the ones carrying things.', 275, 275)
-				ctx.fillText('Click to start!', 400, 320)
+			ctx.drawImage(titleScreen,0,0,c.width,c.height)
 
 		}
 		
@@ -5428,6 +5418,9 @@ runningGame2.main =
 		mediaIcon = new Image();
 		mediaIcon.src =  '../img/map/mediaicon.png';
 
+		titleScreen = new Image();
+		titleScreen.src = '../img/minigame2/titlescreen.png';
+
 		//peopleicons
 		tuitionIcon = new Image();
 		tuitionIcon.src = '../img/icons/tuitionsquare.png';
@@ -5575,15 +5568,14 @@ runningGame2.main =
 	draw: function(c,ctx)
 	{
 		//draw the background for the area
-
+			ctx.drawImage(titleScreen,0,0,c.width,c.height)
 		if(!runningGame2.main.inArea && runningGame2.main.areaNumber>=0)
 		{
 			ctx.drawImage(mapbackground, 0,0,900,500);
 		}
 		else{
-				ctx.fillStyle = '#FFFFFF';
-				ctx.fillRect(0,0,900, 500)
-			
+		 
+			//draw backgrounds
 		}
 		//draw anything specific ontop of the background layer depending on what area you are
 		if(runningGame2.main.areaNumber >= 0){
@@ -5688,15 +5680,7 @@ runningGame2.main =
 					ctx.drawImage(iconArray[runningGame2.main.demograph1num], 750,1,30,30);
 					ctx.fillText(photosLeftText, 100,10);
 		}
-		else if (runningGame2.main.areaNumber == -1){
-			ctx.fillStyle = '#000000'
-			ctx.fillText('Photobomb', 400,100)
-			ctx.fillText('Travel around the school to snap photos for your campaign’s social media.', 200,150)
-			ctx.fillText('You’ll be given a target demographic for this set of photos in the top right.', 200,200)
-			ctx.fillText('Find who is in the group by hovering your mouse over a student.', 250,250)
-			ctx.fillText('When you run out of photos the game is over.', 300,300)
-			ctx.fillText('Click to Start',400,400);
-		}
+	
 	},
 
 	drawStudents: function(c,ctx, students){
@@ -5950,6 +5934,9 @@ secretSticker.main =
         secretSticker.main.gameStop = false;
         secretSticker.main.activeHover = false;
         
+
+        titleScreen = new Image();
+		titleScreen.src = '../img/minigame3/titlescreen.png';
         //map icons
         libraryIcon = new Image();
         libraryIcon.src = '../img/map/libraryicon.png';
@@ -6357,19 +6344,7 @@ secretSticker.main =
        if(secretSticker.main.areaNumber == 9)
        {
            
-            ctx.fillStyle = "#FFFFFF";
-            ctx.fillRect(0,0,c.width, c.height);
-            ctx.fillStyle = '#000000';
-            ctx.font="30px Arial";
-            ctx.fillText("Secret Sticker",390,70)
-			ctx.font = '16px Arial';
-            ctx.fillText("Your goal is to attract the demographic shown in the top right and place a sticker on them.",160,110);
-            ctx.fillText("You have 5 posters and you have to target the correct sample of the population.",200,150);
-            ctx.fillText("Place posters in an area to attract people to them.",280,190);
-            ctx.fillText("The more posters you place the more people you attract.",270,230);
-            ctx.fillText("Once they're around drag a sticker onto them to score.",280,270);
-            ctx.fillText("If you return to the quad with no posters, you pack it in for the day. ",230,310);
-			ctx.fillText('Click to start!', 400, 350)
+      			ctx.drawImage(titleScreen,0,0,c.width,c.height)
        }
             
             //draw the score
@@ -6875,8 +6850,6 @@ runningGame4.main = {
 		backgroundAerialDanceFloor = new Image();
 		backgroundAerialDanceFloor.src = '../img/minigame4/arieldance.png';
 
-
-
 		if(practice){
 				runningGame4.main.player.headnum = 0;
 				runningGame4.main.player.facenum = 0;
@@ -6896,6 +6869,9 @@ runningGame4.main = {
 		oops.src = '../img/minigame4/oops.png'
 		great = new Image();
 		great.src = '../img/minigame4/great.png'
+
+		titleScreen = new Image();
+		titleScreen.src = '../img/minigame4/titlescreen.png';
 
 		textArray = [great, oops, getReady]
 
@@ -7034,18 +7010,7 @@ runningGame4.main = {
 		//if not in dance mode
 		if(!runningGame4.main.inDanceMode){
 			if(runningGame4.main.instruction){
-				ctx.fillStyle = '#FFFFFF';
-				ctx.fillRect(0,0,c.width,c.height)
-
-				ctx.fillStyle = '#000000';
-				//
-				ctx.font="30px Arial";
-				ctx.fillText("Mean Moves",390,70)
-				ctx.font = '16px Arial';
-				ctx.fillText('Choose the group that matches the prompt.',300,125);
-				ctx.fillText('The crowd will show you the moves to do. ',300,175);
-				ctx.fillText('Bust a move by hitting the arrows in the correct order.',270,225);
-				ctx.fillText('Click to start!', 400, 320)
+					ctx.drawImage(titleScreen,0,0,c.width,c.height)
 
 	
 			}
@@ -7076,17 +7041,11 @@ runningGame4.main = {
 			ctx.drawImage(backgroundAerialDanceFloor,0,0,c.width, c.height)
 			ctx.drawImage(backgroundDanceFloor,0,-40,c.width, c.height+40)
 			ctx.filter = 'blur(3px)';
-
-
 			
 			ctx.filter = 'none';
 			ctx.drawImage(stageLampGreen,70,20,140,120)
 			ctx.drawImage(stageLampRed,370,20,140,120)
 			ctx.drawImage(stageLampBlue,670,20,140,120)
-
-
-
-
 			//the correct 
 			//((width*3) * runningGame4.main.danceOrder[runningGame4.main.colorCounter]) + (width* runningGame4.main.studentDancingNow)
 			//nb f m
@@ -7114,12 +7073,7 @@ runningGame4.main = {
 			ctx.drawImage(thinNB,((280*3) * runningGame4.main.danceOrder[runningGame4.main.colorCounter]) + (280* runningGame4.main.studentDancingNow),0,280,486,85,220,110,200);		
 			ctx.drawImage(thinMale,((280*3) * runningGame4.main.danceOrder[runningGame4.main.colorCounter]) + (280* runningGame4.main.studentDancingNow),0,280,486,680,220,120,200)
 
-			//thin body nonbinary
-
-
-		
-
-			//we
+			
 			//we are stopping clicking
 			if(runningGame4.main.clickpause && runningGame4.main.showMeYourMove){
 				if(runningGame4.main.moveCounter == 200){
@@ -7534,6 +7488,9 @@ tshirtCannon.main = {
 		chairwalk = new Image();
 		chairwalk.src = '../img/minigame5/chairwalkcycletop.png'
 
+		titleScreen = new Image();
+		titleScreen.src = '../img/minigame5/titlescreen.png';
+
 		happy = new Image();
 		happy.src = '../img/minigame5/happyreaction.png'
 		neutral = new Image();
@@ -7559,7 +7516,9 @@ tshirtCannon.main = {
 	
         
 		c.onmousedown = tshirtCannon.main.doMousedown;
-		tshirtCannon.main.update(c,ctx);
+		titleScreen.onload = function(){
+			tshirtCannon.main.update(c,ctx);
+		}
 
 	},
     stop: function() 
@@ -7584,18 +7543,8 @@ tshirtCannon.main = {
 	},
 
 	draw: function(c,ctx){    
-		ctx.fillStyle = '#FFFFFF';
-		ctx.fillRect(0,0,c.width, c.height);
-		ctx.fillStyle = '#000000';
-		ctx.font="30px Arial";
-				ctx.fillText("T Shirt Cannon",350,70)
-				ctx.font = '16px Arial';
-				ctx.fillText('Sample the group of people walking across the quad. ',275,125);
-				ctx.fillText('Give them a T-Shirt based on their interest.  ',300,175);
-				ctx.fillText('Click a bin to select the proper shirt.',315,225);
-				ctx.fillText('Then Click on the person as the walk across the screen.',275,275);
-				ctx.fillText('Give out as many matching shirts as you can before time runs out. ',240,325);
-				ctx.fillText('Click to start!', 400, 375)
+	
+		ctx.drawImage(titleScreen,0,0,c.width,c.height)
 
     if(tshirtCannon.main.instruction == false) {
     ctx.drawImage(gymBG,0,0,c.width, c.height);
