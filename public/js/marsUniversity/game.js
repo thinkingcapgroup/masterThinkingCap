@@ -169,7 +169,24 @@ function helpScreen()
 	document.getElementById("playerInfo").style.display = "none";
 	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <button onclick= 'openGlossary()'>Glossary Page</button> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><br><button class = 'logHelpEnd' onclick= 'userAction()'>Return to User Action Area</button>"
 }
-
+function pollMenu()
+{
+    clearScreen();
+    if(remainingHoursDay >=3)
+    {
+        document.getElementById("gameInfo").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' onclick='map("+0+",false,false)'> Take A Poll </button><br><br><h2> Previous Poll Results</h2>";
+    }
+    else
+    {
+        document.getElementById("gameInfo").innerHTML += "<h2> Poll</h2> <button type='button' > Cannot Take a Poll </button><h2> Previous Poll Results</h2>";
+    }
+	for(var i=0; i<pastPollResults.length;i++)
+	{
+		var num = i+1;
+		document.getElementById("gameInfo").innerHTML += "<button type='button' onclick='reportViewer("+i+")' >View Poll "+ num +" Result </button>";
+    }
+     document.getElementById("gameInfo").innerHTML += "<br><br><button onclick= 'userAction()'>Return to User Action Area</button>";
+}
 function trendReportMenu()
 {
 	clearScreen();
@@ -216,7 +233,7 @@ function trendReportMenu()
     	}
     }
 
-   	 document.getElementById("gameInfo").innerHTML += "<hr>"
+   	 document.getElementById("gameInfo").innerHTML += "<br>"
 
      document.getElementById("gameInfo").innerHTML += "<button id ='buttonViewer' style = 'display:none'>Choose Another Trend Report</button>";
      document.getElementById("gameInfo").innerHTML += "<button onclick= 'userAction()'>Return to User Action Area</button>";
@@ -788,18 +805,18 @@ function actualSessionStart(isFromTut){
 	chooseRank(issueCand1,chosenCandRanks,true);
 	candidates.push(issueCand1);
 	var issueCand2 = new CandidateCreate("1");
-	issueCand1.focus = positions[1];
-	issueCand1.focusnum = 1;
+	issueCand2.focus = positions[1];
+	issueCand2.focusnum = 1;
 	chooseRank(issueCand2,chosenCandRanks,true);
 	candidates.push(issueCand2);
 	var issueCand3 = new CandidateCreate("2");
-	issueCand1.focus = positions[2];
-	issueCand1.focusnum = 2;
+	issueCand3.focus = positions[2];
+	issueCand3.focusnum = 2;
 	chooseRank(issueCand3,chosenCandRanks,true);
 	candidates.push(issueCand3);
 	var issueCand4 = new CandidateCreate("3");
-	issueCand1.focus = positions[3];
-	issueCand1.focusnum = 3;
+	issueCand4.focus = positions[3];
+	issueCand4.focusnum = 3;
 	chooseRank(issueCand4,chosenCandRanks,true);
 	candidates.push(issueCand4);
 
@@ -906,23 +923,11 @@ function userAction()
     
     
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
-    if(remainingHoursDay >=3)
-    {
-        document.getElementById("Buttons").innerHTML += "<button type='button' onclick='map("+0+",false,false)'> Take A Poll </button>";
-    }
-    else
-    {
-        document.getElementById("Buttons").innerHTML += "<button type='button' > Cannot Take a Poll </button>";
-    }
+    document.getElementById("Buttons").innerHTML += "<button type='button' onclick='pollMenu()'> Poll Menu</button>";
 	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='statement()'> Make a Statement - 1 Hour</button>";
+	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='trendReportMenu()'> View Trend Reports</button>";
 	document.getElementById("Buttons").innerHTML += "<button type='button' class = 'logHelp' onclick='helpScreen()'> Help Screen</button>";
-	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='trendReportMenu()'> View Trend Reports</button></br>";
 	//document.getElementById("Buttons").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
-	for(var i=0; i<pastPollResults.length;i++)
-	{
-		var num = i+1;
-		document.getElementById("Buttons").innerHTML += "<button type='button' onclick='reportViewer("+i+")' >View Poll "+ num +" Result </button>";
-    }
 	document.getElementById("gameInfo").innerHTML += "<h3 style = 'float: right'> Rival\'s Last Move: " + candidates[1].lastMove + "</h3>";
 	//document.getElementById("choices").innerHTML += "<br>";
     
@@ -3257,13 +3262,13 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
                     tableArrays[candCounter].push(candidates[k].consMod);
     
                     if(candidates[k].consMod> 0.66){
-                        graphData[i+2][2]++;
+                        graphData[i+2][0]++;
                     }
                     else if(candidates[k].consMod > 0.33){
                         graphData[i+2][1]++;
                     }
                     else{
-                        graphData[i+2][0]++;
+                        graphData[i+2][2]++;
                     }
                 }
     
@@ -3482,7 +3487,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var cell = row.insertCell(i);
 								if(parseFloat(tableArray2[8][h]).toFixed(2) >= 0.66)
 									{
-										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.33 && parseFloat(tableArray2[8][h]).toFixed(2)<0.66)
 									{
@@ -3490,7 +3495,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									}
 									else
 									{
-										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 					break;
 				}
@@ -3600,7 +3605,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var counter = canCounter;
 								if(parseFloat(tableArray2[counter][h]).toFixed(2) >= 0.66)
 								{
-									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 								{
@@ -3608,7 +3613,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								}
 								else
 								{
-									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}		
 					}
 
@@ -4348,18 +4353,18 @@ function chooseRank(candidate, chosenRanks, issueCand)
 		break;
 		case 1:
 			candidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
-			candidate.consMod = 0.35;
-			candidate.issueScore[candidate.focusnum] = 2;
+			candidate.consMod = 0.30;
+			candidate.issueScore[candidate.focusnum] = 2.75;
 		break;
 		case 2:
 			candidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
-			candidate.consMod = 0.45;
-			candidate.issueScore[candidate.focusnum] = 1.75;
+			candidate.consMod = 0.35;
+			candidate.issueScore[candidate.focusnum] = 2.5;
 		break;
 		case 3:
 			candidate.fame = [1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25];
-			candidate.consMod = 0.55;
-			candidate.issueScore[candidate.focusnum] = 1.5;
+			candidate.consMod = 0.45;
+			candidate.issueScore[candidate.focusnum] = 2.5;
 		break;
 		case 4:
 			candidate.fame = [1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25];
@@ -4517,8 +4522,9 @@ function trendReporter(category)
         {
             tempGraphData.push(e);
         });
+        console.log(tempGraphData);
         //console.log(tempGraphData);
-        tempGraphData.splice(0,3);
+        tempGraphData.splice(0,2);
         for(var j =0; j< pastPollChoices[i].length; j++)
         {
             if(category == pastPollChoices[i][j])

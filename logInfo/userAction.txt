@@ -188,3 +188,77 @@ MinigameScore2-3-4-1488224111552-aaronjmill32-2_1_1
 2-poll-candFav*candFame*undefined*candFav*undefined*undefined-1489591346586-aaronjmill32-2_1_18
 2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1489596234003-aaronjmill32-2_1_0
 2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1489596346715-aaronjmill32-2_1_0
+35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1489667573876-sml5527-35_1_16
+35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1489667763224-sml5527-35_1_16
+35-userAction-Create Posters-1489668097049-sml5527-35_1_16
+35-userAction-Create Posters-1489668103837-sml5527-35_1_16
+35-userAction-Create Posters-1489668117476-sml5527-35_1_16
+35-userAction-Create Posters-1489668122363-sml5527-35_1_16
+35-userAction-T-Shirt Canon-1489668344556-sml5527-35_1_16
+MinigameScore35-5-18-1489668405585-sml5527-35_undefined_undefined
+35-userAction-Photobomb-1489668418846-sml5527-35_1_16
+MinigameScore35-2-8-1489668461449-sml5527-35_undefined_undefined
+35-userAction-Photobomb-1489668546728-sml5527-35_1_16
+35-userAction-Secret Sticker-1489668571950-sml5527-35_1_16
+MinigameScore35-3-4-1489668610435-sml5527-35_undefined_undefined
+35-userAction-Fun Run-1489668703475-sml5527-35_1_16
+MinigameScore35-1-19-1489668765223-sml5527-35_undefined_undefined
+35-userAction-Secret Sticker-1489668911316-sml5527-35_1_16
+MinigameScore35-3-4-1489668967027-sml5527-35_undefined_undefined
+35-userAction-Secret Sticker-1489668976612-sml5527-35_1_16
+MinigameScore35-3-1-1489668997743-sml5527-35_undefined_undefined
+35-userAction-Secret Sticker-1489669007739-sml5527-35_1_16
+MinigameScore35-3-5-1489669047126-sml5527-35_undefined_undefined
+35-userAction-T-Shirt Canon-1489669103566-sml5527-35_1_16
+MinigameScore35-5-19-1489669164106-sml5527-35_undefined_undefined
+35-userAction-T-Shirt Canon-1489669186143-sml5527-35_1_16
+MinigameScore35-5-20-1489669246777-sml5527-35_undefined_undefined
+35-userAction-Fun Run-1489669262818-sml5527-35_1_16
+MinigameScore35-1-19-1489669323671-sml5527-35_undefined_undefined
+35-userAction-Fun Run-1489669387092-sml5527-35_1_16
+MinigameScore35-1-19-1489669447676-sml5527-35_undefined_undefined
+35-userAction-Photobomb-1489669458840-sml5527-35_1_16
+MinigameScore35-2-7-1489669546806-sml5527-35_undefined_undefined
+35-userAction-Photobomb-1489669565496-sml5527-35_1_16
+MinigameScore35-2-7-1489669608121-sml5527-35_undefined_undefined
+35-userAction-Meet the Debate Team-1489669725402-sml5527-35_1_16
+35-userAction-Mean Moves-1489669730694-sml5527-35_1_16
+35-userAction-Meet the Debate Team-1489669740762-sml5527-35_1_16
+35-userAction-Mean Moves-1489669746556-sml5527-35_1_16
+35-userAction-Meet the Debate Team-1489669756970-sml5527-35_1_16
+35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1489669764946-sml5527-35_1_16
+35-userAction-Meet the Robotics Team-1489671044173-sml5527-35_1_16
+35-userAction-Meet the Robotics Team-1489671051004-sml5527-35_1_16
+35-userAction-Meet the Robotics Team-1489671056411-sml5527-35_1_16
+35-userAction-Meet the Robotics Team-1489671060793-sml5527-35_1_16
+35-userAction-Meet the Robotics Team-1489671067770-sml5527-35_1_16
+35-userAction-Meet the Robotics Team-1489671074083-sml5527-35_1_16
+35-userAction-Meet the Robotics Team-1489671078451-sml5527-35_1_16
+35-userAction-Meet the Robotics Team-1489671083299-sml5527-35_1_16
+35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1489671103564-sml5527-35_1_16
+35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1489671442307-sml5527-35_1_16
+35-userAction-Community Service-1489671860973-sml5527-35_1_16
+35-userAction-Community Service-1489671870877-sml5527-35_1_16
+35-userAction-Community Service-1489671875259-sml5527-35_1_16
+35-userAction-Community Service-1489671879554-sml5527-35_1_16
+35-userAction-Help Paint Mural-1489671889779-sml5527-35_1_16
+35-Help Area-Enter Help-1489674648199-sml5527-35_1_16
+35-Help Area-Leave Help-1489674649200-sml5527-35_1_16
+35-poll-candOpp*candFav*issOpp*issFav*undefined*undefined-1489675085354-sml5527-35_1_17
+35-poll-candOpp*candFav*issOpp*issFav*undefined*undefined-1489675101025-sml5527-35_1_17
+35-poll-issOpp*issFav*candFav*candOpp*undefined*undefined-1489675227394-sml5527-35_1_17
+35-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1489675609126-sml5527-35_1_18
+35-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1489675618359-sml5527-35_1_18
+35-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1489675624533-sml5527-35_1_18
+35-poll-issOpp*issFav*undefined*undefined*undefined*undefined-1489675639269-sml5527-35_1_18
+35-Help Area-Enter Help-1489676587808-sml5527-35_1_18
+35-Help Area-Leave Help-1489676588881-sml5527-35_1_18
+35-poll-candTrust*candTrust*undefined*undefined*undefined*undefined-1489676692561-sml5527-35_1_18
+35-userAction-Create Posters-1489676699992-sml5527-35_1_18
+35-poll-candFame*candTrust*undefined*undefined*undefined*undefined-1489676705574-sml5527-35_1_18
+35-poll-candTrust*candTrust*undefined*undefined*undefined*undefined-1489676788472-sml5527-35_1_18
+35-userAction-Create Posters-1489676795995-sml5527-35_1_18
+35-poll-candTrust*candTrust*undefined*undefined*undefined*undefined-1489676807949-sml5527-35_1_18
+35-poll-candTrust*candTrust*undefined*undefined*undefined*undefined-1489679241866-sml5527-35_1_19
+35-poll-candTrust*candTrust*undefined*undefined*undefined*undefined-1489679262101-sml5527-35_1_19
+35-poll-candTrust*candTrust*candTrust*candTrust*undefined*undefined-1489679306379-sml5527-35_1_19
