@@ -174,11 +174,15 @@ function pollMenu()
     clearScreen();
     if(remainingHoursDay >=3)
     {
-        document.getElementById("gameInfo").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' onclick='map("+0+",false,false)'> Take A Poll </button><br><br><h2> Previous Poll Results</h2>";
+        document.getElementById("gameInfo").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' onclick='map("+0+",false,false)'> Take A Poll </button><br><br>";
+        if(pastPollResults.length > 0)
+            document.getElementById("gameInfo").innerHTML += "<h2> Previous Poll Results</h2>";
     }
     else
     {
-        document.getElementById("gameInfo").innerHTML += "<h2> Poll</h2> <button type='button' > Cannot Take a Poll </button><h2> Previous Poll Results</h2>";
+        document.getElementById("gameInfo").innerHTML += "<h2> Poll</h2> <button type='button' > Cannot Take a Poll </button>";
+        if(pastPollResults.length > 0)
+            document.getElementById("gameInfo").innerHTML += "<h2> Previous Poll Results</h2>";
     }
 	for(var i=0; i<pastPollResults.length;i++)
 	{
@@ -786,7 +790,9 @@ function actualSessionStart(isFromTut){
 	
 	population = 1000;
 	sample = [];
+    //10 Days
 	startHours = 120; 
+    
 	remainingHoursTotal = startHours;
 	days = 1; 
 	remainingHoursDay = 12; 
@@ -927,7 +933,7 @@ function userAction()
 	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='statement()'> Make a Statement - 1 Hour</button>";
 	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='trendReportMenu()'> View Trend Reports</button>";
 	document.getElementById("Buttons").innerHTML += "<button type='button' class = 'logHelp' onclick='helpScreen()'> Help Screen</button>";
-	//document.getElementById("Buttons").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
+	document.getElementById("Buttons").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
 	document.getElementById("gameInfo").innerHTML += "<h3 style = 'float: right'> Rival\'s Last Move: " + candidates[1].lastMove + "</h3>";
 	//document.getElementById("choices").innerHTML += "<br>";
     

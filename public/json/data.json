@@ -14,8 +14,8 @@
 			"options":
 			[
 				{
-					"optionName":"Pay PArtsicipant",
-					"optionID":"PayPArtsicipant",
+					"optionName":"Pay Participant",
+					"optionID":"PayParticipant",
 					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Low,Poor",
@@ -37,7 +37,7 @@
 			"name":"Ice Cream Social",
 			"id":"2",
 			"type":"smallEvent",
-			"text":"Setting up infront of the building, you stArts passing out vanilla ice cream to those who are coming in and out of the building. ",
+			"text":"Setting up infront of the building, you starts passing out vanilla ice cream to those who are coming in and out of the building. ",
 			"timeRequired":"2",
 			"groupPos":"Bus",
 			"groupNeg":"",
@@ -202,7 +202,7 @@
 					"optionID":"study",
 					"type":"boost",
 					"extraTime" : "1", 
-					"posEffects":"Art",
+					"posEffects":"Arts",
 					"negEffects":""
 				}
 			]
@@ -588,7 +588,7 @@
 		},
 		{
 			"question":"What is your major?", 
-			"labels":"Business, Law, Tech, Artss",
+			"labels":"Business, Law, Tech, Arts",
 			"graph":"0,0,0,0",
 			"id":"4",
 			"value":"major"
