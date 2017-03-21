@@ -5484,6 +5484,12 @@ runningGame2.main =
 		//backgrounds
 		cafebg = new Image();
 		cafebg.src = '../img/minigame2/backgroundcafe.png';
+		quadbg = new Image();
+		quadbg.src = '../img/minigame2/quadpicturebgNEW.png';
+		gymbg = new Image();
+		gymbg.src = '../img/minigame2/photobombgymbg.png';
+		libbg = new Image();
+		libbg.src = '../img/minigame2/Librarusnapshotbg.png';
 
 
 		//get people assets
@@ -5629,11 +5635,33 @@ runningGame2.main =
 		{
 			ctx.drawImage(mapbackground, 0,0,900,500);
 		}
-		else{
-		 
+		else
+        {
 			//draw backgrounds
-
-			ctx.drawImage(cafebg,0,0,c.width,c.height)
+            switch(runningGame2.main.areaNumber)
+            {
+                case 1:
+                ctx.drawImage(quadbg, 0,0,900,500);
+                break;
+                case 2:
+                ctx.drawImage(gymbg, 0,0,900,500);
+                break;
+                //case 3:
+                //ctx.fillStyle = '#FFFFFF';
+                //ctx.drawImage(labWall, 0,0,900,500);            
+                //break;
+                case 4:
+                ctx.fillStyle = '#FFFFFF';
+                ctx.drawImage(cafebg, 0,0,900,500);
+                break;
+                case 5:
+                ctx.drawImage(libbg, 0,0,900,500);
+                break;
+                default:
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(0,0,900, 500)
+                break;
+            }
 		}
 		//draw anything specific ontop of the background layer depending on what area you are
 		if(runningGame2.main.areaNumber >= 0){
