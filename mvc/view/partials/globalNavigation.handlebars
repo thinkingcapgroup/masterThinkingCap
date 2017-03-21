@@ -1,0 +1,189 @@
+<!-- Global Navigation -->
+<header class='global-navigation'>
+  {{! Open navigation button for mobile}}
+  <a href='#0' class='nav-trigger'>Open Nav <span aria-hidden='true'></span></a>
+
+  {{! Main nav }}
+  <nav class='global-nav-bar'>
+    <ul>
+      <li data-content='home'>
+        <a href='/'>Home</a>
+      </li>
+
+      {{! Navigation for authenticated users }}
+      {{#if globalNavigationMode.authenticatedUser }}
+
+        {{! Navigation for inactive users }}
+        {{#if globalNavigationMode.inactiveUser}}
+          {{! Resend activation email }}
+          <li class='has-dropdown links' data-content='navActivationEmailForm'>
+            <a href='/accountactivation'>Account Activation</a>
+          </li>
+
+          {{! Navigation for active users}}
+          {{else}}
+          {{! Game }}
+          <li class='has-dropdown links' data-content='games'>
+            <a href='/dashboard'>Games</a>
+          </li>
+        {{/if}}
+
+        {{! My Account }}
+        <li class='has-dropdown links' data-content='account'>
+          <a href='#0'>{{globalNavigationMode.accountDisplay}}</a>
+        </li>
+
+        {{! Navigation for Admin users }}
+        {{#if globalNavigationMode.adminUser }}
+          {{! Admin Panel }}
+          <li class='has-dropdown links' data-content='admin'>
+            <a href='#0'>Admin Panel</a>
+          </li>
+        {{/if}}
+
+        {{! Navigation for unauthenticated users }}
+        {{else}}
+        {{! Login }}
+        <li class='has-dropdown links' data-content='navLoginForm'>
+          <a href='/login'>Login</a>
+        </li>
+
+        {{! Sign up }}
+        <li data-content='navSignupLink'>
+          <a href='/consentauthorization' class='btn'>Sign up</a>
+        </li>
+      {{/if}}
+      {{! End of Navigation specific for authenticated or unauthenticated users }}
+
+      {{! Bug Report }}
+      <li data-content='bugreport'>
+        <button class='btn bug-report-button'>
+           <img class='bug-report-icon' src='{{__dirname}}/media/img/bugs/bug-icon.svg' alt='Bug Report Icon' title='Report Bug'/>
+        </button>
+      </li>
+
+      {{! Navigation for authenticated users }}
+      {{#if globalNavigationMode.authenticatedUser}}
+        {{! Log out}}
+        <li data-content='logout'>
+          <a href='/logout' class='btn'>Log out</a>
+        </li>
+      {{/if}}
+    </ul>
+  </nav>
+
+  {{! global-navigation-wrapper}}
+  <div class='global-navigation-wrapper'>
+    <div class='nav-dropdown-list'>
+      <ul>
+        {{! Home }}
+        <li id='home' class='dropdown links'>
+          <a href='/' class='label'>Home</a>
+        </li>
+
+        {{! Navigation for authenticated users }}
+        {{#if globalNavigationMode.authenticatedUser}}
+
+          {{#if globalNavigationMode.inactiveUser}}
+            {{! Resend activation email }}
+            <li id='navActivationEmailForm' class='dropdown links'>
+              <a href='/accountactivation' class='label'>Account Activation</a>
+              <div class='nav-dropdown-content'>
+                <form action='/accountactivation' method='post'>
+                  <h2>Resend Activation Email</h2>
+                  <input id='email' class='input' type='text' name='email' placeholder='Email'/>
+                  <button class='btn' type='submit' name='resendActivationEmail' value='true'>Resend</button>
+                </form>
+              </div>
+            </li>
+
+            {{! Navigation for active users}}
+            {{else}}
+            {{! Game }}
+            <li id='games' class='dropdown links'>
+              <a href='#0' class='label'>Games</a>
+              <div class='nav-dropdown-content'>
+                <ul>
+                  <li>
+                    <h2>Games</h2>
+                    <ul class='nav-links-list'>
+                      <li><a href='/marsuniversity'>Mars University</a></li>
+                      <li><a href='/'>***</a></li>
+                      <li><a href='/'>***</a></li>
+                      <li><a href='/'>***</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          {{/if}}
+
+          {{! My Account }}
+          <li id='account' class='dropdown button'>
+            <a href='#0' class='label'>{{globalNavigationMode.accountDisplay}}</a>
+            <div class='nav-dropdown-content'>
+              <h2>My Account</h2>
+              <ul class='nav-links-list'>
+                <li><a href='#0'>View @{{globalNavigationMode.username}}</a></li>
+                <li><a href='/editaccount'>Edit My Account</a></li>
+              </ul>
+              <a href='/logout' class='btn'>Log out</a>
+            </div>
+          </li>
+
+          {{! Navigation for Admin users }}
+          {{#if globalNavigationMode.adminUser}}
+            {{! Admin Panel }}
+            <li id='admin' class='dropdown links'>
+              <a href='#0' class='label'>Admin Panel</a>
+              <div class='nav-dropdown-content'>
+                <h2>Admin Panel</h2>
+                <ul class='nav-links-list'>
+                  <li><a href='/adduser'>Create New User</a></li>
+                  <li><a href='/edituser'>Edit User Account</a></li>
+                  <li><a href='#0'>Edit Permissions</a></li>
+                  <li><a href='/research'>Research Area</a></li>
+                  <li><a href='/bugreports'>Bug Reports</a></li>
+                </ul>
+              </div>
+            </li>
+          {{/if}}
+
+          {{! Navigation for unauthenticated users }}
+          {{else}}
+          {{! Log in}}
+          <li id='navLoginForm' class='dropdown links'>
+            <a href='/login' class='label'>Login</a>
+            <div class='nav-dropdown-content'>
+              <form class='nav-login-form' action='/login' method='post'>
+                <h2>Enter your username or email, and your password to login</h2>
+                <input class='input' type='text' name='handle' placeholder='Username or Email' />
+                <input class='input' type='password' name='password' placeholder='Password' />
+                <button class='btn login-btn' type='submit' name='loginSubmit' value='loginSubmit'>Log in</button>
+                <a href='/resetpassword' class='btn'>Forgot Password</a>
+              </form>
+            </div>
+          </li>
+
+          {{! Sign up }}
+          <li id='navSignupLink' class='dropdown links'>
+            <h2>Create an account</h2>
+            <a href='/consentauthorization' class='btn'>Sign up</a>
+          </li>
+        {{/if}}
+        {{! End of Navigation specific for authenticated or unauthenticated users }}
+
+        {{! Bug Report }}
+        <li id='bugreport' class='dropdown links'>
+          <h2>Bug Report</h2>
+          <button class='btn bug-report-button'>
+             <img class='bug-report-icon' src='{{__dirname}}/media/img/bugs/bug-icon.svg' alt='Bug Report Icon' title='Report Bug'/>
+          </button>
+        </li>
+      </ul>
+      {{! bg-layer }}
+      <div class='bg-layer' aria-hidden='true'></div>
+    </div> {{! end of .nav-dropdown-list }}
+  </div> {{! end of .global-navigation-wrapper }}
+</header> {{! end of .global-navigation }}
+<!-- -->

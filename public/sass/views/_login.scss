@@ -13,6 +13,11 @@
     justify-content: center;
     max-width: 380px;
 
+    label {
+      text-align: left;
+      text-transform: none;
+    }
+
     .input {
       margin: $content-padding 0;
     }

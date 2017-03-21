@@ -1,23 +1,10 @@
 #footer {
+	margin: 2em auto;
 	padding: calc(#{$content-padding});
 	text-align: center;
 
 	@include MQ(M) {
 		padding: calc(#{$content-padding} * 5);
-	}
-
-	// Stick footer to bottom when main takes whole viewport
-	.full-page & {
-		// Position it absolutely so we can place it exactly where we want
-		position: absolute;
-
-		// Make it full width
-		width: 100%;
-
-		// Stick footer to bottom
-		bottom: 0;
-		// Use the centering mixin to center it horizontally
-		@include center(x);
 	}
 }
 
@@ -38,10 +25,20 @@
 
 #reference-links {
 	display: flex;
-	flex-wrap: nowrap;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
+	flex-direction: column;
+
+	@include MQ (M) {
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	@include MQ (L) {
+		flex-direction: row;
+		flex-wrap: nowrap;
+	}
 
 	li {
 		margin: $content-padding calc(#{$content-padding} * 2);

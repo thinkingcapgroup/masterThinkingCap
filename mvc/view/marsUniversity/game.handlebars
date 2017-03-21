@@ -4,14 +4,26 @@
       <h1 class='thinking-cap-title'>{{content.appTitle}}</h1>
     </header>
     <section>
-<div id = "gameArea">
+<div id = "gameArea" >
+<img id = 'holo' src = '../../img/openscreenlarge.png' width = '1200' >
+<br>
+  <div id = gameContents>
   <div id = "playerInfo">
   </div>
   <div id = "gameInfo">
-    <p>Welcome to Mars University! <br>Animatic will be going on here during this time.<br><br>
-    <button onclick = "startCharacterSelect()">Continue After Animatic Finish</button>
-	<button onclick = "loadGame()">Load Game</button>
-  
+	<div id = "intro" style = "text-align:center; ">
+		<br>
+		<h1 style = " font-size: 250%;">Welcome to Mars University! </h1>
+		<br>
+	
+		<a onclick = "startAnimatic()" class = 'btn double remove' ">New Game</a>
+		<br>
+		<br>
+		<a onclick = "loadGame()" class = 'btn double remove'">Continue</a>
+		<br>
+		<br>
+		<a onclick = "startPractice()" class = 'btn double remove'">Practice</a>
+	</div>
     
   </div>
   
@@ -28,7 +40,33 @@
   
   <div id = "userAction">
     <div id = "choices" style = "display:none;">
-    
+        <div id = "Buttons" style = "display:block;">
+        
+        </div>
+        <div id = "QuadChoice" style = "display:block;">
+        
+        </div>
+        <div id = "LabChoice" style = "display:none;">
+        
+        </div>
+        <div id = "GymChoice" style = "display:none;">
+        
+        </div>
+        <div id = "MediaChoice" style = "display:none;">
+        
+        </div>
+        <div id = "CafeChoice" style = "display:none;">
+        
+        </div>
+        <div id = "LibraryChoice" style = "display:none;">
+        
+        </div>
+        <div id = "map" style = "display:none;">
+        
+        </div>
+        <div id = "eventInput" style = "display:none;">
+        
+        </div>
     </div>
     
     <div id = "event" style = "display:none;">
@@ -41,13 +79,12 @@
       
       </thead>
       <tbody id="pollTable">
-  
       </tbody>
       </table>
     </div>
     
     <div id = "next" style = "display:none;">
-    
+    </div>
     </div>
   </div>
 </div>

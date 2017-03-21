@@ -1,9 +1,8 @@
 #index {
 
   #index-section {
-    position: absolute;
+    margin-top: 2em;
     text-align: center;
-    @include center(xy);
     text-transform: uppercase;
   }
 
@@ -16,5 +15,7 @@
   #index-link {
     animation: fadeIn 0.2s;
     font-size: 3em;
+    height: 110px;
+    line-height: 100px;
   }
 }

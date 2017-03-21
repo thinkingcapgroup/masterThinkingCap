@@ -6,11 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "dev": "node-dev server.js"
+    "dev": "webpack && node-dev server.js"
   },
   "author": "Aaron Miller (aaronjmill.32@gmail.com)",
   "license": "ISC",
   "dependencies": {
+    "babel": "^6.5.2",
     "bcrypt-nodejs": "latest",
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
@@ -19,11 +20,15 @@
     "express-handlebars": "^3.0.0",
     "express-recaptcha": "^2.1.0",
     "express-session": "^1.14.1",
+    "lodash": "^4.17.2",
+    "moment": "^2.17.1",
     "mysql": "^2.11.1",
     "node-sass-middleware": "^0.9.8",
+    "nodemailer": "^2.6.4",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",
-    "validator": "^6.1.0"
+    "validator": "^6.2.0",
+    "webpack": "^1.14.0"
   }
 }

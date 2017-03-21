@@ -6,10 +6,10 @@
   <body>
     <!-- The HTML for each view goes here -->
     <div id='app'>
+      {{>globalNavigation}}
       {{{body}}}
-      {{>bugReportIcon}}
       {{>bugReportSection}}
     </div>
-    <script src ='js/main.js'></script>
+    <script src ='{{__dirname}}/js/build/bundle.js'></script>
   </body>
 </html>

@@ -12,6 +12,13 @@
 * To add a new package
  * Type npm install [packageName] -save
 
+### Events error?
+```js
+events.js:160
+throw er; // Unhandled 'error' event
+```
+
+Type in terminal/ command line: ```sudo pkill node```
 ### Adding new pages:
 
 #### Creating a controller
@@ -19,20 +26,53 @@
 * Create the [newPageName].js in the appropriate folder inside mvc/controller with the following:
 
 ``` js
-var auth = require('../model/auth');
+// Require express
+var express = require('express'),
+    // Get the express Router
+    router = express.Router(),
+    // Require the Auth middleware
+    auth = require('../model/auth');
 
-module.exports = function(app){
+/**
+ * router - GET method for [NewPageName] route '/[NewPageName]'
+ * @param  {String} '/'    - local route string
+ * @param  {Function} auth - authentication middleware
+ * @param  {Object} req    - Express Request Object
+ * @param  {Object} res    - Express Response Object
+ */
+router.get('/', auth, function (req, res) {
+  render[NewPageName](req, res);
+});
 
-  app.get('/[newPageName]', auth, function(req,res){
-    render[NewPageName](req, res);
-  });
+/**
+ * router - POST method for [NewPageName] route '/[NewPageName]'
+ * @param  {String} '/'    - local route string
+ * @param  {Function} auth - authentication middleware
+ * @param  {Object} req    - Express Request Object
+ * @param  {Object} res    - Express Response Object
+ */
+router.post('/', auth, function (req, res) {
+  res.redirect('/[newPageName]');
+});
 
-  function render[NewPageName] (req, res) {
-   var model = require('./../model/global')(req, res);
+/**
+ * render[NewPageName] - renders the [NewPageName] view
+ * @param  {Object} req - Express Request Object
+ * @param  {Object} res - Express Response Object
+ */
+function render[NewPageName] (req, res) {
+  // Require the global app model
+  var model = require('./../model/global')(req, res);
 
-   res.render('[newPageName]', model);
-  }
-};
+  model.content.pageTitle = 'Thinking Cap';
+  model.globalNavigationMode = require('../model/globalNavigationModeAuth')(req, res);
+
+  // Render /[newPageName] using the '[newPageName]' view and model
+  res.render('[newPageName]', model);
+}
+
+// Export [NewPageName] router
+module.exports = router;
 ```
 
 #### Creating a view
@@ -41,23 +81,17 @@ module.exports = function(app){
 
 ``` html
 <main id='[new-page-name]'>
-
   <article class='wrapper'>
-
     <header>
-
+      <h1>Mars University</h1>
     </header>
-
     <section>
-
+      <p>Lorem ipsum</p>
     </section>
-
     <footer id='footer'>
-
+      <p>Thinking Cap &copy; 2016</p>
     </footer>
-
   </article>
-
 </main>
 ```
 #### Creating a model
@@ -113,14 +147,44 @@ module.exports = function(req, data, next) {
 };
 ```
 ### Creating client-side code not game specific
-* Go into ```public/js/main.js```
- * If creating something for a specific page follow the model below
+* Go into ```public/js/dev/```
+ * Create a new js file there following the following format:
 
 ``` js
-else if (document.getElementById('[View/Element ID]')) {
-// your code here
+function [pageName] () {
+  // add your code here
+}
+
+module.exports = [pageName];
+```
+
+* Then go into ```public/js/dev/thinkingcap.js```
+ * Add your new file under the appropriate comment
+  * Global is for global components in the app such as the navigation and bug Reports
+  * Views are for specific pages like ```/login``` or ```dashboard```
+  * Components are for widgets that are not seen on every page such as notifications ect.
+ * Follow this format:
+
+``` js
+[pageName]: require('./[pageName]')
+```
+* Finally in ```public/js/dev/main.js```
+ * If your file was under global you should simply do the following below the other globals:
+
+``` js
+// [pageName]
+thinkingcap.[pageName]();
+```
+ * Otherwise the following:
+
+``` js
+else if (document.getElementById('[View/Element ID/]')) {
+  thinkingcap.[pageName]();
 }
 ```
+  * Now remember to run ```npm run dev``` in your terminal after you change client side code!
+   * This runs both ```webpack``` and ```node-dev server.js``` so that it bundles our code and starts the server
+   * If you just want to bundle the code you can type ```webpack``` in your terminal
 
 ### Adding new styles
 * If creating a new component (button, form, input, image, header, etc. something 'universal')

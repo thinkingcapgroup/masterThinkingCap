@@ -1,4 +1,3 @@
-
 <main class='main-page-layout' id='create-account'>
   {{#if errorNotifications}}
     <ul class='notifications error-notifications'>
@@ -19,42 +18,126 @@
           <p>
             Please fill out the fields below with your information.
           </p>
-          <ul class='form-fields'>
+          <ul class='form-fields form-fields-validation'>
             <li>
-              <label id='usernameLabel' for='username'>Username: <span class='required-asterisk'>*</span></label>
-              <input id='username' class='input' type='text' name='username' value='{{user.name}}' required/>
+              <dl>
+                <dt>
+                  <label id='usernameLabel' for='username'>Username: <span class='required-asterisk'>*</span></label>
+                </dt>
+                <dd>
+                  <input id='username' class='input' type='text' name='username' value='{{user.name}}' required/>
+                  <ul class='input-requirements' id='username-requirements'>
+                    <li class='invalid-input-requirement'>Your username will act as your unique identifier for login. Must not be empty, can be a combination of letters and numbers.</li>
+                    <li class='invalid-input-requirement'>No spaces.</li>
+                  </ul>
+                </dd>
+              </dl>
             </li>
             <li>
-              <label id='emailLabel' for='email'>Email: <span class='required-asterisk'>*</span></label>
-              <input id='email' class='input' type='text' name='email' value='{{user.email}}' required/>
+              <dl>
+                <dt>
+                  <label id='emailLabel' for='email'>Email: <span class='required-asterisk'>*</span></label>
+                </dt>
+                <dd>
+                  <input id='email' class='input' type='text' name='email' value='{{user.email}}' required/>
+                  <ul class='input-requirements' id='email-requirements'>
+                    <li class='invalid-input-requirement'>Must be a real email address that isn't already in use.</li>
+                  </ul>
+                </dd>
+              </dl>
             </li>
             <li id='password-section'>
-              <label id='passwordLabel' for='password'>Password <span class='required-asterisk'>*</span></label>
-              <input class='input' type='password' name='password' placeholder='Password' pattern='(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$' title='Passwords must be at least 8 characters long, contain an uppercase and lowercase letter, and have either a number or a special character.'/>
+              <dl>
+                <dt>
+                  <label id='passwordLabel' for='password'>Password <span class='required-asterisk'>*</span></label>
+                </dt>
+                <dd>
+                  <input class='input' id='password' type='password' name='password' placeholder='Password' pattern='(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$' title='Passwords must be at least 8 characters long, contain an uppercase and lowercase letter, and have either a number or a special character.' required/>
+                  <ul class='input-requirements' id='password-requirements'>
+                    <li class='invalid-input-requirement'>
+                      Contains lowercase letter.
+                    </li>
+                    <li class='invalid-input-requirement'>
+                      Contains uppercase letter.
+                    </li>
+                    <li class='invalid-input-requirement'>
+                      Contains a number.
+                    </li>
+                    <li class='invalid-input-requirement'>
+                      At least 8 characters long.
+                    </li>
+                  </ul>
+                </dd>
+              </dl>
             </li>
             <li id='retype-password-section'>
-              <label id='passwordCheckLabel' for='passwordCheck'>Retype Password <span class='required-asterisk'>*</span></label>
-              <input class='input' type='password' name='passwordCheck' placeholder='Password' pattern='(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$' title='Passwords must be at least 8 characters long, contain an uppercase and lowercase letter, and have either a number or a special character.'/>
+              <dl>
+                <dt>
+                  <label id='passwordCheckLabel' for='passwordCheck'>Retype Password <span class='required-asterisk'>*</span></label>
+                </dt>
+                <dd>
+                  <input class='input' id='passwordCheck' type='password' name='passwordCheck' placeholder='Password' pattern='(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$' title='Passwords must be at least 8 characters long, contain an uppercase and lowercase letter, and have either a number or a special character.' required/>
+                  <ul class='input-requirements' id='passwordCheck-requirements'>
+                    <li class='invalid-input-requirement'>
+                      Contains lowercase letter.
+                    </li>
+                    <li class='invalid-input-requirement'>
+                      Contains uppercase letter.
+                    </li>
+                    <li class='invalid-input-requirement'>
+                      Contains a number.
+                    </li>
+                    <li class='invalid-input-requirement'>
+                      At least 8 characters long.
+                    </li>
+                    <li class='invalid-input-requirement'>
+                      Passwords match.
+                    </li>
+                  </ul>
+                </dd>
+              </dl>
             </li>
             <li>
-              <label id='displayNameLabel' for='displayName'>Display Name:</label>
-              <input id='displayName' class='input' type='text' name='displayName' value='{{user.displayName}}' />
+              <dl>
+                <dt>
+                  <label id='displayNameLabel' for='displayName'>Display Name:</label>
+                </dt>
+                <dd>
+                  <input id='displayName' class='input' type='text' name='displayName' value='{{user.displayName}}' required />
+                  <ul class='input-requirements' id='displayName-requirements'>
+                    <li class='invalid-input-requirement'>Name by which Thinking Cap will refer to you as. Can be your name or any name and does not have to be unique.</li>
+                  </ul>
+                </dd>
+              </dl>
             </li>
             <li>
-              <label>Are you deaf or hard of hearing?</label>
-              <ul>
-                <li>
-                  <input id='yesDeaf' type='radio' name='deaf' value='yes'>
-                  <label id='yesDeafLabel' for='yesDeaf'>Yes</label>
-                </li>
-                <li>
-                  <input id='noDeaf' type='radio' name='deaf' value='no'>
-                  <label id='noDeafLabel' for='noDeaf'>No</label>
-                </li>
-              </ul>
+              <dl>
+                <dt>
+                  <label>Are you deaf or hard of hearing?</label>
+                </dt>
+                <dd>
+                  <ul>
+                    <li>
+                      <input id='yeselligibleForTest' type='radio' name='elligibleForTest' value='yes'>
+                      <label id='yeselligibleForTestLabel' for='yeselligibleForTest'>Yes</label>
+                    </li>
+                    <li>
+                      <input id='noelligibleForTest' type='radio' name='elligibleForTest' value='no' checked>
+                      <label id='noelligibleForTestLabel' for='noelligibleForTest'>No</label>
+                    </li>
+                  </ul>
+                </dd>
+              </dl>
             </li>
             <li>
-              {{{captcha}}}
+              <dl>
+                <dt>
+                  <label>Verify your humanity:</label>
+                </dt>
+                <dd>
+                  {{{captcha}}}
+                </dd>
+              </dl>
             </li>
             <ul class='action-links'>
               <li>
