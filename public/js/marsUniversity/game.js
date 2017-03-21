@@ -6214,6 +6214,7 @@ secretSticker.main =
     draw: function(c,ctx)
     {
         var mouse = canvasMouse;
+        console.log(secretSticker.main.areaNumber)
   
         //draw the background for the area
         ctx.fillStyle="#FFFFFF";
@@ -6221,9 +6222,18 @@ secretSticker.main =
         //draw anything specific ontop of the background layer depending on what area you are
         //draw the background for the area
 
-        if(!secretSticker.main.inArea && secretSticker.main.areaNumber>=0 &&secretSticker.main.areaNumber<9)
+        if(!secretSticker.main.inArea && secretSticker.main.areaNumber>=-0 &&secretSticker.main.areaNumber<9)
         {
-            ctx.drawImage(mapbackground, 0,0,900,500);
+            if(secretSticker.main.areaNumber == 0)
+            	ctx.drawImage(mapbackground, 0,0,900,500);
+            else if(secretSticker.main.areaNumber == 8){
+            	ctx.drawImage(instruction, 0,0,c.width,c.height);
+            	ctx.drawImage(backButton,35,420,190,60);
+            }
+            else if(secretSticker.main.areaNumber == 7){
+            	ctx.drawImage(instruction2, 0,0,c.width,c.height);
+            	ctx.drawImage(backButton,35,420,190,60)
+            }
         }
         else{
             switch(secretSticker.main.areaNumber)
@@ -6319,7 +6329,7 @@ secretSticker.main =
             ctx.drawImage(labIcon, 230,25,150,100)
 	}
        
-       if(secretSticker.main.areaNumber >0 && secretSticker.main.areaNumber <9  ){
+       if(secretSticker.main.areaNumber >0 && secretSticker.main.areaNumber <6  ){
            
            if(secretSticker.main.placeStudents)
            {
@@ -6385,7 +6395,7 @@ secretSticker.main =
 
 
 
-           ctx.drawImage(backButton,5,445,150,50);
+           ctx.drawImage(backButton,10,440,150,50);
            
            ctx.fillStyle = '#AAAAAA'
            ctx.fillRect(0,250,25,25);
@@ -6404,7 +6414,7 @@ secretSticker.main =
            //ctx.stroke();
            
            
-           ctx.drawImage(sticker,c.width/2-30,c.height-50,50,50);
+           ctx.drawImage(sticker,c.width/2-30,c.height-60,50,50);
            if(secretSticker.main.drag)
            {
                //ctx.fillStyle = '#0000FF';
@@ -6499,7 +6509,7 @@ secretSticker.main =
 	
 
 		//coffee shop 
-		if((mouse.x >= 13 && mouse.x <= 178)&&(mouse.y >= 43 && mouse.y <= 303)){
+		if(((mouse.x >= 135 && mouse.x <= 310)&&(mouse.y >= 333 && mouse.y <= 475))){
 			secretSticker.main.areaNumber = 4;
 			secretSticker.main.inArea = true;
 		}
@@ -6509,7 +6519,7 @@ secretSticker.main =
 			secretSticker.main.inArea = true;
 		}
 	}
-        if(secretSticker.main.areaNumber > 0 && secretSticker.main.areaNumber < 9 )
+        if(secretSticker.main.areaNumber > 0 && secretSticker.main.areaNumber < 6 )
         {
             if((mouse.x >= 5 && mouse.x <= 155)&&(mouse.y >= 445 && mouse.y <= 495))
             {
@@ -6578,11 +6588,36 @@ secretSticker.main =
                 secretSticker.main.areaNumber = 1;
             }
         }
-           if(secretSticker.main.areaNumber == 9)
+         if(secretSticker.main.areaNumber == 9)
         {
-            if((mouse.x >= 0 && mouse.x <= 880)&&(mouse.y >= 0 && mouse.y <= 500))
+            if((mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225))
             {
                 secretSticker.main.areaNumber = 0;
+            }
+            else if ((mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 666 && mouse.x <=856)){
+            	 secretSticker.main.areaNumber = 8;
+            }
+        }
+         else if(secretSticker.main.areaNumber == 8)
+        {
+
+            if((mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225))
+            {
+            	 console.log('hey')
+                secretSticker.main.areaNumber = 9;
+            }
+            else if ((mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 666 && mouse.x <=856)){
+            	 secretSticker.main.areaNumber = 7;
+            }
+        }
+         else if(secretSticker.main.areaNumber == 7)
+        {
+            if((mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225))
+            {
+                secretSticker.main.areaNumber = 8;
+            }
+            else if ((mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 666 && mouse.x <=856)){
+            	 secretSticker.main.areaNumber = 9;
             }
         }
     },
@@ -6651,7 +6686,7 @@ secretSticker.main =
     doMouseUp: function()
     {
         var mouse = canvasMouse;
-        if(secretSticker.main.areaNumber != 0)
+        if(secretSticker.main.areaNumber != 0 && secretSticker.main.areaNumber <6)
         {
             secretSticker.main.drag = false;
            
@@ -6745,6 +6780,7 @@ runningGame4.main = {
 	prompt: 0,
 	clickpause: false,
 	lastClick: 0,
+	instructionArea: 0,
 	colorCounter: 0,
 	delayCounter: 0,
 	isPlayerDancingNow: false,
@@ -6979,7 +7015,7 @@ runningGame4.main = {
 
 		titleScreen = new Image();
 		titleScreen.src = '../img/minigame4/titlescreen.png';
-
+		runningGame.main.instructionArea = 0;
 		textArray = [great, oops, getReady]
 
 
@@ -7021,6 +7057,9 @@ runningGame4.main = {
 		downArrow.src = '../img/minigame4/downarrowgreyed.png';
 		downArrowGlow = new Image();
 		downArrowGlow.src = '../img/minigame4/downarrowGREEN.png';
+
+		backButton = new Image();
+		backButton.src = '../img/backbutton.png'
 
 		//people
 		headSheet = new Image();
@@ -7117,9 +7156,17 @@ runningGame4.main = {
 		//if not in dance mode
 		if(!runningGame4.main.inDanceMode){
 			if(runningGame4.main.instruction){
+				if(runningGame4.main.instructionArea == 0)
 					ctx.drawImage(titleScreen,0,0,c.width,c.height)
+				else if(runningGame4.main.instructionArea == 1){
+					ctx.drawImage(instruction,0,0,c.width,c.height)
+					ctx.drawImage(backButton,35,420,190,60)
+				}
+				else if(runningGame4.main.instructionArea == 2){
+					ctx.drawImage(instruction2,0,0,c.width,c.height)
+					ctx.drawImage(backButton,35,420,190,60)
+				}
 
-	
 			}
 			else{
 	
@@ -7456,7 +7503,29 @@ runningGame4.main = {
 		}
 		if(!runningGame4.main.inDanceMode && runningGame4.main.instruction){
 		
-						runningGame4.main.instruction = false;
+			
+			if(runningGame4.main.instructionArea == 0 && (mouse.x >= 35 && mouse.x <=225) && (mouse.y >=420 && mouse.y <= 726)){
+				runningGame4.main.instruction = false;
+				var c=document.getElementById("myCanvas");		
+			}
+			else if (runningGame4.main.instructionArea == 0 && (mouse.x >= 666 && mouse.x <=856) &&(mouse.y >=420 && mouse.y <= 726)){
+				runningGame4.main.instructionArea = 1;
+			}
+			else if (runningGame4.main.instructionArea == 1 && (mouse.x >= 35 && mouse.x <=225) && (mouse.y >=420 && mouse.y <= 726)){
+				runningGame4.main.instructionArea = 0;
+			}
+			else if (runningGame4.main.instructionArea == 1 && (mouse.x >= 666 && mouse.x <=856) &&(mouse.y >=420 && mouse.y <= 726)){
+				runningGame4.main.instructionArea = 2;
+			}
+				else if (runningGame4.main.instructionArea == 2 && (mouse.x >= 35 && mouse.x <=225) && (mouse.y >=420 && mouse.y <= 726)){
+				runningGame4.main.instructionArea = 1;
+			}
+			else if (runningGame4.main.instructionArea == 2 && (mouse.x >= 666 && mouse.x <=856) &&(mouse.y >=420 && mouse.y <= 726)){
+				runningGame4.main.instructionArea = 0;
+			}
+
+		
+
 				
 		}
 
@@ -7566,6 +7635,7 @@ tshirtCannon.main = {
 	students: [],
 	time: 60,
 	instruction: true,
+	instructionArea: 0,
 	playTime: this.time*1000,
 	scores:
 	{
@@ -7581,11 +7651,14 @@ tshirtCannon.main = {
 		ctx.restore;
 		ctx.save;
 
+		tshirtCannon.main.instructionArea = 0;
 		tshirtCannon.main.students = [];
 		tshirtCannon.main.scores.score = 0;
 
 		instruction = new Image();
 		instruction.src = '../img/minigame5/instruction.png'
+		backButton = new Image();
+		backButton.src = '../img/backbutton.png'
 		//images
 		gymBG = new Image();
 		gymBG.src = '../img/minigame5/background.png'
@@ -7600,6 +7673,10 @@ tshirtCannon.main = {
 
 		titleScreen = new Image();
 		titleScreen.src = '../img/minigame5/titlescreen.png';
+		blueBar = new Image();
+		blueBar.src = '../img/bluebar.png'
+		blueBarSmall = new Image();
+		blueBarSmall.src = '../img/bluebarsmall.png';
 
 		happy = new Image();
 		happy.src = '../img/minigame5/happyreaction.png'
@@ -7640,31 +7717,30 @@ tshirtCannon.main = {
 	{
 		if(!tshirtCannon.main.gameStop){
 		//check if game finished
-				requestAnimationFrame(function(){tshirtCannon.main.draw(c,ctx)});
-			
-			if(tshirtCannon.main.instruction == false){		
-
-				requestAnimationFrame(function(){tshirtCannon.main.update(c,ctx)});		
-			}
-			
-			//update score
+			requestAnimationFrame(function(){tshirtCannon.main.draw(c,ctx)});
+			requestAnimationFrame(function(){tshirtCannon.main.update(c,ctx)});		
 
 		}
 	},
 
 	draw: function(c,ctx){    
 	
-		ctx.drawImage(titleScreen,0,0,c.width,c.height)
+		if(tshirtCannon.main.instructionArea == 0)
+			ctx.drawImage(titleScreen,0,0,c.width,c.height)
+		else if (tshirtCannon.main.instructionArea == 1){
+			ctx.drawImage(instruction,0,0,c.width,c.height)
+			ctx.drawImage(backButton,35,420,190,60)
+		}
 
     if(tshirtCannon.main.instruction == false) {
-    ctx.drawImage(gymBG,0,0,c.width, c.height);
-	
+    	ctx.drawImage(gymBG,0,0,c.width, c.height);	
+    	ctx.drawImage(blueBar,0,0,c.width,35);
 		ctx.fillStyle = "#000000";
 		ctx.font = "15px Arial";
 		ctx.fillText("Time Remaining: " +tshirtCannon.main.time+"",700,20);
 		
 		ctx.font = "15px Arial";
-		ctx.fillText("Score " +tshirtCannon.main.scores.score+"",0,20);
+		ctx.fillText("Score " +tshirtCannon.main.scores.score+"",50,20);
         
 		//draw students moving
 		ctx.fillStyle = '#00FFFF'
@@ -7684,7 +7760,6 @@ tshirtCannon.main = {
 				if(tshirtCannon.main.students[i].direction == -1){
 					ctx.drawImage(reactionArray[studentFeeling],(tshirtCannon.main.students[i].x*-1) -41,(tshirtCannon.main.students[i].y*-1)-85,35,35)
 					ctx.rotate(Math.PI)
-
 				}
 				else{
 					ctx.drawImage(reactionArray[studentFeeling],tshirtCannon.main.students[i].x+7,tshirtCannon.main.students[i].y-38,35,35)
@@ -7698,24 +7773,21 @@ tshirtCannon.main = {
 		}
 
 		//draw tshirts
-		var strokeArray = [[80,400],[380,400],[680,400]]
+		var strokeArray = [[335,443],[450,443],[564,443]]
 		
-		ctx.fillStyle = "#990000";
-		ctx.fillRect(80,400,160,90);
-		ctx.fillStyle = "#009900";
-		ctx.fillRect(380,400,160,90);
-		ctx.fillStyle = "#000099";
-		ctx.fillRect(680,400,160,90);
-
+		ctx.fillStyle = '#55DD68'
+		ctx.strokeStyle = '#55BB68'
+		ctx.drawImage(blueBarSmall,260,400,380,90)
+		ctx.beginPath();
+		ctx.arc(strokeArray[tshirtCannon.main.currentAmmo][0],strokeArray[tshirtCannon.main.currentAmmo][1],37,0,2*Math.PI);
+		ctx.lineWidth = 3
+		ctx.fill();
+		ctx.stroke();
 		//draw the shirts
-		ctx.drawImage(tshirt1,125,405,65,74);
-		ctx.drawImage(tshirt2,425,405,65,74);
-		ctx.drawImage(tshirt3,725,405,65,74);
+		ctx.drawImage(tshirt1,305,408,65,74);
+		ctx.drawImage(tshirt2,420,408,65,74);
+		ctx.drawImage(tshirt3,535,408,65,74);
 
-		//stroke
-		ctx.strokeStyle = "#000000";
-		ctx.lineWidth = 5;
-		ctx.strokeRect(strokeArray[tshirtCannon.main.currentAmmo][0],strokeArray[tshirtCannon.main.currentAmmo][1], 160, 90)
 		}
 
 
@@ -7794,7 +7866,7 @@ tshirtCannon.main = {
 				ticker: 0,
 				body: bodynum,  
 				x: startx,
-				move: function(){this.x+= (100) * tshirtCannon.main.calculateDeltaTime(); this.ticker++; if(this.ticker ==5){if(this.body <3){this.frame++}this.ticker = 0} ; if(this.frame >=8){this.frame = 0;}},
+				move: function(){this.x+= (100) * tshirtCannon.main.calculateDeltaTime()/2; this.ticker++; if(this.ticker ==10){if(this.body <3){this.frame++}this.ticker = 0} ; if(this.frame >=8){this.frame = 0;}},
 			});		
 		}
 	},
@@ -7833,39 +7905,48 @@ tshirtCannon.main = {
 			}
 		}
 
-		//if tshirt cannon
 		if(mouse.y>= 400 && mouse.y <=480){
-			if(mouse.x >=80 && mouse.x <=240){
+			if(mouse.x >=305 && mouse.x <=370){
 				tshirtCannon.main.currentAmmo = 0;
 			}
-			else if(mouse.x >=380 && mouse.x <=540){
+			else if(mouse.x >=420 && mouse.x <=485){
 				tshirtCannon.main.currentAmmo = 1;
 			}
-			else if(mouse.x >=680 && mouse.x <=840){
+			else if(mouse.x >=535 && mouse.x <=600){
 				tshirtCannon.main.currentAmmo = 2;
 			}
 		}
 	}
 	else{
+		if(tshirtCannon.main.instructionArea == 0 && (mouse.x >= 35 && mouse.x <=225) && (mouse.y >=420 && mouse.y <= 726)){
 			tshirtCannon.main.instruction = false;
 			tshirtCannon.main.time = 60;
 			tshirtCannon.main.playTime= tshirtCannon.main.time*1000;
 
-		for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/20){
-			setTimeout(tshirtCannon.main.peopleGenerator, i);
-		}
-		setTimeout(tshirtCannon.main.stop, tshirtCannon.main.playTime);
-        
-		for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/tshirtCannon.main.time){
-			setTimeout(tshirtCannon.main.timer, i);
-		}
+			for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/20){
+				setTimeout(tshirtCannon.main.peopleGenerator, i);
+			}
+			setTimeout(tshirtCannon.main.stop, tshirtCannon.main.playTime);
+	        
+			for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/tshirtCannon.main.time){
+				setTimeout(tshirtCannon.main.timer, i);
+			}
 
 
 		 	c = document.getElementById("myCanvas");
 			ctx = c.getContext("2d")
 			tshirtCannon.main.update(c,ctx)
+			
+		}
+		else if(tshirtCannon.main.instructionArea == 0 && (mouse.x >= 666 && mouse.x <=856) &&(mouse.y >=420 && mouse.y <= 726)){
+
+			tshirtCannon.main.instructionArea = 1;
+		}
+		else if(tshirtCannon.main.instructionArea == 1 && (mouse.x >= 35 && mouse.x <=225)&&(mouse.y >=420 && mouse.y <= 726)){
+			tshirtCannon.main.instructionArea = 0;
+		}
 	}
-	},
+},
 
 
 	calculateDeltaTime: function()
