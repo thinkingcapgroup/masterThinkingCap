@@ -174,11 +174,15 @@ function pollMenu()
     clearScreen();
     if(remainingHoursDay >=3)
     {
-        document.getElementById("gameInfo").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' onclick='map("+0+",false,false)'> Take A Poll </button><br><br><h2> Previous Poll Results</h2>";
+        document.getElementById("gameInfo").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' onclick='map("+0+",false,false)'> Take A Poll </button><br><br>";
+        if(pastPollResults.length > 0)
+            document.getElementById("gameInfo").innerHTML += "<h2> Previous Poll Results</h2>";
     }
     else
     {
-        document.getElementById("gameInfo").innerHTML += "<h2> Poll</h2> <button type='button' > Cannot Take a Poll </button><h2> Previous Poll Results</h2>";
+        document.getElementById("gameInfo").innerHTML += "<h2> Poll</h2> <button type='button' > Cannot Take a Poll </button>";
+        if(pastPollResults.length > 0)
+            document.getElementById("gameInfo").innerHTML += "<h2> Previous Poll Results</h2>";
     }
 	for(var i=0; i<pastPollResults.length;i++)
 	{
@@ -786,7 +790,9 @@ function actualSessionStart(isFromTut){
 	
 	population = 1000;
 	sample = [];
+    //10 Days
 	startHours = 120; 
+    
 	remainingHoursTotal = startHours;
 	days = 1; 
 	remainingHoursDay = 12; 
@@ -927,7 +933,7 @@ function userAction()
 	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='statement()'> Make a Statement - 1 Hour</button>";
 	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='trendReportMenu()'> View Trend Reports</button>";
 	document.getElementById("Buttons").innerHTML += "<button type='button' class = 'logHelp' onclick='helpScreen()'> Help Screen</button>";
-	//document.getElementById("Buttons").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
+	document.getElementById("Buttons").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
 	document.getElementById("gameInfo").innerHTML += "<h3 style = 'float: right'> Rival\'s Last Move: " + candidates[1].lastMove + "</h3>";
 	//document.getElementById("choices").innerHTML += "<br>";
     
@@ -5478,6 +5484,12 @@ runningGame2.main =
 		//backgrounds
 		cafebg = new Image();
 		cafebg.src = '../img/minigame2/backgroundcafe.png';
+		quadbg = new Image();
+		quadbg.src = '../img/minigame2/quadpicturebgNEW.png';
+		gymbg = new Image();
+		gymbg.src = '../img/minigame2/photobombgymbg.png';
+		libbg = new Image();
+		libbg.src = '../img/minigame2/Librarusnapshotbg.png';
 
 
 		//get people assets
@@ -5623,11 +5635,33 @@ runningGame2.main =
 		{
 			ctx.drawImage(mapbackground, 0,0,900,500);
 		}
-		else{
-		 
+		else
+        {
 			//draw backgrounds
-
-			ctx.drawImage(cafebg,0,0,c.width,c.height)
+            switch(runningGame2.main.areaNumber)
+            {
+                case 1:
+                ctx.drawImage(quadbg, 0,0,900,500);
+                break;
+                case 2:
+                ctx.drawImage(gymbg, 0,0,900,500);
+                break;
+                //case 3:
+                //ctx.fillStyle = '#FFFFFF';
+                //ctx.drawImage(labWall, 0,0,900,500);            
+                //break;
+                case 4:
+                ctx.fillStyle = '#FFFFFF';
+                ctx.drawImage(cafebg, 0,0,900,500);
+                break;
+                case 5:
+                ctx.drawImage(libbg, 0,0,900,500);
+                break;
+                default:
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(0,0,900, 500)
+                break;
+            }
 		}
 		//draw anything specific ontop of the background layer depending on what area you are
 		if(runningGame2.main.areaNumber >= 0){
