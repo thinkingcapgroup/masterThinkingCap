@@ -4905,6 +4905,7 @@ runningGame.main =
 	enemies:[],
 	coins:[],
 	instruction: true,
+	instructionArea:0,
 	speed:50,
 	time: 60,
 	playTime: this.time*1000,
@@ -4927,6 +4928,7 @@ runningGame.main =
 		runningGame.main.instruction = true;
 		bodyPixelLocation = [];
 		frameIndex = 0;
+		runningGame4.main.instructionArea = 0;
 		ticker = 0;
 		if(typeof playerCandidate !== 'undefined'){
 			headNumber = playerCandidate.headNum
@@ -4943,6 +4945,13 @@ runningGame.main =
 
 		titleScreen = new Image();
 		titleScreen.src = '../img/minigame1/titlescreen.png'
+		instruction = new Image();
+		instruction.src = '../img/minigame1/instruction.png'
+		backButton = new Image();
+		backButton.src = '../img/backbutton.png'
+
+		blueBar = new Image();
+		blueBar.src = '../img/bluebar.png';
 
 		bodyPixelArray = [[169,123], [185,137],[218,175],[180,194]]
 		backgroundImage= new Image();
@@ -5070,17 +5079,16 @@ runningGame.main =
 
 	draw: function(c,ctx)
 	{
-		//console.log(runningGame.main.instruction)
+
 		if(runningGame.main.instruction == false){
-		ctx.drawImage(backgroundImage,-30,0,930,500);
-		ctx.fillStyle = '#AAAAAA'
-		ctx.fillRect(0,0,c.width,25)
-		ctx.fillStyle = '#000000'
-		ctx.font = "20px Arial";
-		ctx.fillText("Time Remaining: " +runningGame.main.time+"",700,20);
+			ctx.drawImage(backgroundImage,-30,0,930,500);
+			ctx.drawImage(blueBar,0,0,c.width,30)
+			ctx.fillStyle = '#000000'
+			ctx.font = "20px Arial";
+			ctx.fillText("Time Remaining: " +runningGame.main.time+"",700,22);
 		
-		ctx.font = "20px Arial";
-		ctx.fillText("Score " +runningGame.main.scores.score+"",0,20);
+			ctx.font = "20px Arial";
+			ctx.fillText("Score " +runningGame.main.scores.score+"",10,22);
 		var actualFrame;
 		//player	
 		//body
@@ -5135,11 +5143,16 @@ runningGame.main =
 			}
 		}
 		else{
-			ctx.drawImage(titleScreen,0,0,c.width,c.height)
 
-		}
+			if(runningGame.main.instructionArea == 0){
+				ctx.drawImage(titleScreen,0,0,c.width,c.height)			}
+			else if (runningGame.main.instructionArea == 1){
+				ctx.drawImage(instruction,0,0,c.width,c.height)
+				ctx.drawImage(backButton,35,420,190,60)
+			}
 		
-
+				runningGame.main.update(c,ctx);
+		}
 	},
 	
 	doMousedown: function(c, e)
@@ -5175,22 +5188,34 @@ runningGame.main =
 		}
 	}
 	else{
-		runningGame.main.instruction = false;
-			var c=document.getElementById("myCanvas");
-			var ctx = c.getContext("2d");
+
+		if(runningGame.main.instructionArea == 0 && (mouse.x >= 35 && mouse.x <=225) && (mouse.y >=420 && mouse.y <= 726)){
+			runningGame.main.instruction = false;
+
+				var c=document.getElementById("myCanvas");
+				var ctx = c.getContext("2d");
 
 			for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/15)
-		{setTimeout(runningGame.main.enemyGenerator, i);}
-		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/20)
-		{setTimeout(runningGame.main.coinGenerator, i);}
-		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/6)
-		{setTimeout(runningGame.main.increaseSpeed, i);}
-		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/runningGame.main.time)
-		{setTimeout(runningGame.main.timer, i);}
-		setTimeout(runningGame.main.stopGame, runningGame.main.playTime);
+			{setTimeout(runningGame.main.enemyGenerator, i);}
+			for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/20)
+			{setTimeout(runningGame.main.coinGenerator, i);}
+			for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/6)
+			{setTimeout(runningGame.main.increaseSpeed, i);}
+			for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/runningGame.main.time)
+			{setTimeout(runningGame.main.timer, i);}
+			setTimeout(runningGame.main.stopGame, runningGame.main.playTime);
 
-			runningGame.main.update(c,ctx);
+				runningGame.main.update(c,ctx);
+			}
+			else if (runningGame.main.instructionArea == 0 && (mouse.x >= 666 && mouse.x <=856) &&(mouse.y >=420 && mouse.y <= 726)){
+				runningGame.main.instructionArea = 1;
+			}
+			else if (runningGame.main.instructionArea == 1 && (mouse.x >= 35 && mouse.x <=225) && (mouse.y >=420 && mouse.y <= 726)){
+				runningGame.main.instructionArea = 0;
+			}
+
 		}
+
 	},
 
 	enemyGenerator: function ()
@@ -5383,6 +5408,7 @@ runningGame2.main =
 	takenDemograph2:0,
 	demograph1num:0,
 	demograph2num:0,
+	instructionNum:0,
 	areaNumber: 0,
 	specialExist: false,
 	picturetaken: false,
@@ -5406,9 +5432,12 @@ runningGame2.main =
 		ctx.save;
 		runningGame2.main.stop = false;
 		runningGame2.main.hover = false;
+		runningGame2.main.instructionNum = 0;
 
 		headIcons = new Image();
 		headIcons.src = '../img/spriteheadlong.png';
+		instruction = new Image();
+		instruction.src = '../img/minigame2/instruction.png'
 
 		//map icons
 		libraryIcon = new Image();
@@ -5424,22 +5453,37 @@ runningGame2.main =
 		mediaIcon = new Image();
 		mediaIcon.src =  '../img/map/mediaicon.png';
 
+		blueBar = new Image();
+		blueBar.src = '../img/blueBar.png';
+
 		titleScreen = new Image();
 		titleScreen.src = '../img/minigame2/titlescreen.png';
 
 		//peopleicons
 		tuitionIcon = new Image();
-		tuitionIcon.src = '../img/icons/tuitionsquare.png';
-	
+		tuitionIcon.src = '../img/icons/tuitionsquare.png';	
 		researchIcon = new Image();
 		researchIcon.src = '../img/icons/researchsquare.png';
 		socialIcon = new Image();
 		socialIcon.src = '../img/icons/socialsquare.png';
 		medicalIcon = new Image();
 		medicalIcon.src = '../img/icons/medicalsquare.png';
+		//majoricons
+		artIcon = new Image();
+		artIcon.src = '../img/icons/artisticon.png';
+		businessIcon = new Image();
+		businessIcon.src = '../img/icons/businessicon.png'
+		lawIcon = new Image();
+		lawIcon.src = '../img/icons/lawicon.png'
+		techIcon = new Image();
+		techIcon.src = '../img/icons/techicon.png'
 
 		studentID = new Image();
-		studentID.src = '../img/minigame2/studentid.png';
+		studentID.src = '../img/studentid.png';
+
+		//backgrounds
+		cafebg = new Image();
+		cafebg.src = '../img/minigame2/backgroundcafe.png';
 
 
 		//get people assets
@@ -5475,6 +5519,7 @@ runningGame2.main =
 
 		imgBArray = [[thinPeace1, thinPeace2, thinStrong], [medPeace1, medPeace2, medStrong], [plusPeace1, plusPeace2, plusStrong], [hoverPeace1, hoverPeace2, hoverStrong]]
 		iconArray = [tuitionIcon, researchIcon, socialIcon, medicalIcon];
+		majorIconArray = [artIcon,businessIcon,lawIcon,techIcon];
 		mapbackground = new Image();
 		mapbackground.src = '../img/map/map.png';
 
@@ -5513,7 +5558,6 @@ runningGame2.main =
 			//double check player photos = the amount they need
 				//end game
 			if(runningGame2.main.player.picturenum > 2){
-				//console.log('hi', runningGame2.main.scores.score, practice);
 				runningGame2.main.stopGame();
 			}
 
@@ -5522,7 +5566,7 @@ runningGame2.main =
 			if(runningGame2.main.areaNumber > 0 && runningGame2.main.areaNumber < 9 && !(runningGame2.main.picturetaken)){
 			 			var hold = 0;	
 			 	if(!runningGame2.main.inArea){
-			 	createSample((Math.floor(Math.random() * 3) + 5), runningGame2.main.areaNumber - 1)
+			 	createSample((Math.floor(Math.random() * 3) + 4), runningGame2.main.areaNumber - 1)
 				runningGame2.main.studentCircles = [];
 				widthArray = [ [[60,150],[70,160],[70,120]], [[80,140],[80,140],[80,140]],[[100,140],[100,140],[100,140]],[[80,140],[80,140],[80,140]]]		
 				headArray = [[[17,9,0],[5,14,7],[12,10,2]] , [[1,8,4],[1,9,17],[7,3,8]] , [[16,8,0],[0,16,6],[14,4,7]] , [[0,11,14],[12,8,5],[4,7,16]] ]
@@ -5530,11 +5574,12 @@ runningGame2.main =
 					var studentCircleHolder = {
 						isDemographic: false,
 						interest: Math.floor(Math.random() * 4),
+						major: Math.floor(Math.random() * 4),
 						typenum: Math.floor(Math.random() * 4),
 						posenum: Math.floor(Math.random() * 3),
 						headnum: Math.floor(Math.random() * 3),
-						x:  Math.floor(Math.random() * 99) + (110 * hold),
-   					y:  Math.floor(Math.random() * 250) + 50,
+						x:  Math.floor(Math.random() * 79) + (110 * hold),
+   					y:  Math.floor(Math.random() * 50) + 230,
    					headID: 0,
    					width: 10,
    					height: 10,
@@ -5546,9 +5591,7 @@ runningGame2.main =
    				if(studentCircleHolder.interest == runningGame2.main.demograph1num){
    						studentCircleHolder.isDemographic = true;   					
    					}
-   					
-   						runningGame2.main.studentCircles.push(studentCircleHolder)
-   					
+   				runningGame2.main.studentCircles.push(studentCircleHolder)   					
 				});
 				runningGame2.main.inArea = true;
 				}
@@ -5574,14 +5617,23 @@ runningGame2.main =
 	draw: function(c,ctx)
 	{
 		//draw the background for the area
+		
+		if(runningGame2.main.areaNumber == -1)
 			ctx.drawImage(titleScreen,0,0,c.width,c.height)
-		if(!runningGame2.main.inArea && runningGame2.main.areaNumber>=0)
+		else if (runningGame2.main.areaNumber == -2){
+			ctx.drawImage(instruction,0,0,c.width,c.height)
+			ctx.drawImage(backButton,35,420,190,60)
+		}
+
+		else if(!runningGame2.main.inArea && runningGame2.main.areaNumber>=0)
 		{
 			ctx.drawImage(mapbackground, 0,0,900,500);
 		}
 		else{
 		 
 			//draw backgrounds
+
+			ctx.drawImage(cafebg,0,0,c.width,c.height)
 		}
 		//draw anything specific ontop of the background layer depending on what area you are
 		if(runningGame2.main.areaNumber >= 0){
@@ -5653,38 +5705,39 @@ runningGame2.main =
 		
 					runningGame2.main.drawStudents(c,ctx,runningGame2.main.studentCircles)
 					//draw the ux/ui of the game
-					ctx.fillStyle = '#EEEEEE'
-					ctx.fillRect(0,440,c.width,100);
-					ctx.fillStyle = '#000000'
-					ctx.fillRect(400,445,100,50)
-					ctx.strokeStyle = '#000000'
-					ctx.drawImage(cameraIcon,423,440,55,55)
-					ctx.strokeRect(400,445,100,50);
-	
+					ctx.drawImage(blueBar,0,430,c.width,70)
+
 				
-
-					ctx.drawImage(backButton,5,445,150,50)
-
-					//student ID card
-					if(runningGame2.main.hover){
-						ctx.drawImage(studentID,670,345,230,155)
-						//draw head
-						ctx.drawImage(headIcons,154 * runningGame2.main.activeStudent.headID,0,154,172,693,370,60,60)
-						//draw icon
-						ctx.drawImage(iconArray[runningGame2.main.activeStudent.interest],803,413,40,40)
-					}
-				}
+					ctx.fillStyle = '#000000'
+					ctx.fillRect(400,440,100,50)
+					ctx.strokeStyle = '#000000'
+					ctx.drawImage(cameraIcon,423,437,55,55)
+					ctx.strokeRect(400,440,100,50);
 		
-					//draw the score
-					ctx.fillStyle = '#CCCCCC';
-					ctx.fillRect(0,0,c.width,32);
 
 					ctx.fillStyle = '#000000'
 					var scoreText = runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " ";
 					var photosLeftText = runningGame2.main.player.picturenum + '/3 Photos Left'
-					ctx.fillText(scoreText, 725,20);
-					ctx.drawImage(iconArray[runningGame2.main.demograph1num], 750,1,30,30);
-					ctx.fillText(photosLeftText, 100,10);
+				
+					ctx.drawImage(iconArray[runningGame2.main.demograph1num], 660,440,50,50);
+					ctx.fillText(scoreText, 620,470);
+					ctx.fillText(photosLeftText, 210,470);
+					ctx.drawImage(backButton,10,440,150,50)
+
+					//student ID card
+					if(runningGame2.main.hover){
+						ctx.drawImage(studentID,runningGame2.main.activeStudent.x + 50,runningGame2.main.activeStudent.y-110,210,135)
+						//draw head
+						ctx.drawImage(headIcons,154 * runningGame2.main.activeStudent.headID,0,154,172,runningGame2.main.activeStudent.x + 68,runningGame2.main.activeStudent.y-96,60,60)
+						//draw icon
+						ctx.drawImage(iconArray[runningGame2.main.activeStudent.interest],runningGame2.main.activeStudent.x + 207,runningGame2.main.activeStudent.y-52,37,37)
+						ctx.drawImage(majorIconArray[runningGame2.main.activeStudent.major],runningGame2.main.activeStudent.x + 142,runningGame2.main.activeStudent.y-52,37,37)
+					}
+				}
+		
+					//draw the score
+		
+				
 		}
 	
 	},
@@ -5777,7 +5830,13 @@ runningGame2.main =
 				});
 			}
 		}
-		else if(runningGame2.main.areaNumber == -1){
+		else if(runningGame2.main.areaNumber == -1 && (mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225) ){
+			runningGame2.main.areaNumber++;
+		}
+		else if(runningGame2.main.areaNumber == -1 && (mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 666 && mouse.x <=856) ){
+			runningGame2.main.areaNumber--;
+		}
+		else if(runningGame2.main.areaNumber == -2 && (mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225) ){
 			runningGame2.main.areaNumber++;
 		}
 
@@ -5940,9 +5999,16 @@ secretSticker.main =
         secretSticker.main.gameStop = false;
         secretSticker.main.activeHover = false;
         
+        blueBar = new Image();
+		blueBar.src = '../img/blueBar.png';
 
         titleScreen = new Image();
 		titleScreen.src = '../img/minigame3/titlescreen.png';
+		instruction = new Image();
+		instruction.src = '../img/minigame3/instruction2.png'
+		instruction2 = new Image();
+		instruction2.src = '../img/minigame3/instruction1.png'
+
         //map icons
         libraryIcon = new Image();
         libraryIcon.src = '../img/map/libraryicon.png';
@@ -6280,8 +6346,17 @@ secretSticker.main =
            
 
            //draw the ux/ui of the game
-           ctx.fillStyle = '#EEEEEE'
-           ctx.fillRect(0,440,c.width,100);
+            ctx.drawImage(blueBar,0,430,c.width,70)
+
+            ctx.fillStyle = '#000000'
+            var scoreText = secretSticker.main.takenDemograph1 + '/'+ secretSticker.main.requiredDemograph1 + "";
+            var photosLeftText = secretSticker.main.postersLeft + '/5 Posters Left'
+            ctx.fillText(scoreText,530,470);
+            ctx.fillText(photosLeftText, 210,470);
+            ctx.drawImage(interestArray[secretSticker.main.demograph1num], 560,440,50,50)
+
+
+
            ctx.drawImage(backButton,5,445,150,50);
            
            ctx.fillStyle = '#AAAAAA'
@@ -6352,16 +6427,9 @@ secretSticker.main =
            
       			ctx.drawImage(titleScreen,0,0,c.width,c.height)
        }
-            
-            //draw the score
-            ctx.fillStyle = '#AAAAAA';
-       		ctx.fillRect(0,0,c.width,35)
-            ctx.fillStyle = '#000000'
-            var scoreText = secretSticker.main.takenDemograph1 + '/'+ secretSticker.main.requiredDemograph1 + "";
-            var photosLeftText = secretSticker.main.postersLeft + '/5 Posters Left'
-            ctx.fillText(scoreText, 660,20);
-            ctx.fillText(photosLeftText, 100,20);
-            ctx.drawImage(interestArray[secretSticker.main.demograph1num],700,1,30,30)
+      
+
+
         
     },
 
@@ -6855,6 +6923,11 @@ runningGame4.main = {
 		backgroundDanceFloor.src = '../img/minigame4/dancebg.png';
 		backgroundAerialDanceFloor = new Image();
 		backgroundAerialDanceFloor.src = '../img/minigame4/arieldance.png';
+
+		instruction = new Image();
+		instruction.src = '../img/minigame4/instruction1.png'
+		instruction2 = new Image();
+		instruction2.src = '../img/minigame4/instruction2.png'
 
 		if(practice){
 				runningGame4.main.player.headnum = 0;
@@ -7482,6 +7555,9 @@ tshirtCannon.main = {
 
 		tshirtCannon.main.students = [];
 		tshirtCannon.main.scores.score = 0;
+
+		instruction = new Image();
+		instruction.src = '../img/minigame5/instruction.png'
 		//images
 		gymBG = new Image();
 		gymBG.src = '../img/minigame5/background.png'
