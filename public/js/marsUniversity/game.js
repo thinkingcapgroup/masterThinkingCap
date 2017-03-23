@@ -4480,7 +4480,7 @@ function gameResults(scores, tutorial)
 		}
 		
 			saveGameState();
-     	$.post('/game/loggerMinigame', {minigameID: lastMinigame, score: scoreToLog});
+     	$.post('/game/loggerMinigame', {minigameID: lastMinigame, score: scoreToLog, module: '1', session: gameSession });
 			document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the User Action Area </button>";
 	}
 	else

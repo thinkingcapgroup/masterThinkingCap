@@ -49,13 +49,24 @@ router.post('/logger', auth, function (req, res, next) {
       modulenum = req.body.module,
       gameSession = req.body.session,
       gameID = id+"_"+modulenum+"_"+gameSession,
+      date = Date.now();
       // Concatenate information
       stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + Date.now() + "-" +username +"-" + gameID;
 
-  console.log(gameID);
+  var passingObject = {userID: id, username: username, action: type, description: event, date: Date.now(), gameSession: gameID }
   // Append stringTem to file 'logInfo/useraction.txt'
   fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
     console.log('Student information logged');
+  });
+
+    require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+    }
   });
 
   // End the response
@@ -75,10 +86,21 @@ router.post('/loggerHelp', auth, function (req, res, next) {
       // Concatenate information
       stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + Date.now() + "-" +username +"-" + gameID;
 
-  console.log(gameID);
+   var passingObject = {userID: id, username: username, action: type, description: event, date: Date.now(), gameSession: gameID }
+  
   // Append stringTem to file 'logInfo/useraction.txt'
   fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
     console.log('Student information logged');
+  });
+
+      require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+    }
   });
 
   // End the response
@@ -104,6 +126,17 @@ router.post('/loggerHelpEnd', auth, function (req, res, next) {
     console.log('Student information logged');
   });
 
+  var passingObject = {userID: id, username: username, action: type, description: event, date: Date.now(), gameSession: gameID }
+  require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+    }
+  });
+
   // End the response
   res.end();
 });
@@ -126,6 +159,18 @@ router.post('/loggerHelpEndTutorial', auth, function (req, res, next) {
   fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
     console.log('Student information logged' - stringTem);
   });
+  
+  var passingObject = {userID: id, username: username, action: type, description: event, date: Date.now(), gameSession: gameID }
+  
+  require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+    }
+  });
 
   // End the response
   res.end();
@@ -133,7 +178,7 @@ router.post('/loggerHelpEndTutorial', auth, function (req, res, next) {
 
 router.post('/loggerEnd', auth, function (req, res, next) {
   // Get the name of the event
-  var event = req.body.eventName,
+  var event = req.body.eventName + " Player Rank:" + req.body.rank,
       // Get user id
       id = req.user.userId,
       username = req.user.userName,
@@ -146,6 +191,18 @@ router.post('/loggerEnd', auth, function (req, res, next) {
 
       // Concatenate information
       stringTem = "\n" + id + "-" + type + "-" + event + "-" + "Player Rank:" + rank + "-" + Date.now() + "-" +username+"-" + gameID;
+
+  var passingObject = {userID: id, username: username, action: type, description: event, date: Date.now(), gameSession: gameID }
+  
+  require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+    }
+  });
 
   // Append stringTem to file 'logInfo/useraction.txt'
   fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
@@ -208,11 +265,26 @@ router.post('/loggerPoll', auth, function (req, res, next) {
       gameID = id+"_"+modulenum+"_"+gameSession,
       // Concatenate information
       stringThing = '\n' + id + '-' + type + '-'+ q1 + '*' + q2 + '*' +q3 + '*' + q4 + '*' + q5 + '*' + q6 + "-" + Date.now() + "-" +username +"-" + gameID;
+     questions = 'Q: '+ q1 + ' Q: '+ q2 + ' Q: '+ q3 + ' Q: '+ q4 + ' Q: '+ q5 + ' Q: '+ q6;
+
+  var passingObject = {userID: id, username: username, action: type, description: questions, date: Date.now(), gameSession: gameID }
+  
+  require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+    }
+  });
 
   // Append information to 'logInfo/useraction.txt'
   fs.appendFile('logInfo/useraction.txt', stringThing, function (err) {
     console.log('Student information logged with id: ' + id);
   });
+
+
 
   // End response
   res.end();
@@ -221,7 +293,7 @@ router.post('/loggerPoll', auth, function (req, res, next) {
 
 router.post('/loggerMinigame', auth, function (req, res, next) {
   // Get user id
-  console.log('HEY')
+
   var id = req.user.userId,
       username = req.user.userName,
       // Get the 6 questions asked
@@ -233,11 +305,27 @@ router.post('/loggerMinigame', auth, function (req, res, next) {
       // Concatenate information
       stringThing = '\n' + "MinigameScore" + id + '-'+ mininumber+ "-" + score + "-" + Date.now() + "-" +username +"-" + gameID;
 
+ var passingObject = {userID: id, username: username, action: "Minigame " + mininumber, description: "Score: " + score, date: Date.now(), gameSession: gameID }
+  
+
+
   // Append information to 'logInfo/useraction.txt'
   fs.appendFile('logInfo/useraction.txt', stringThing, function (err) {
     console.log('Student information logged with id: ' + id);
   });
 
+    require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+    }
+  });
+
+
+ 
   // End response
   res.end();
 });
