@@ -402,3 +402,44 @@ MinigameScore35-3-2-1490117507713-sml5527-35_undefined_undefined
 35-userAction-Go to a Party-1490118275134-sml5527-35_1_27
 35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1490118285230-sml5527-35_1_27
 35-endGame-Winner: Val-Player Rank:1-1490118365208-sml5527-35_1_27
+35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1490287437731-sml5527-35_1_NaN
+35-Help Area-Enter Help-1490298975093-sml5527-35_1_3
+35-Help Area-Leave Help-1490298976041-sml5527-35_1_3
+35-poll-issFav*issFav*undefined*undefined*undefined*undefined-1490299056070-sml5527-35_1_3
+35-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1490299061218-sml5527-35_1_3
+35-poll-issOpp*issFav*undefined*undefined*undefined*undefined-1490299099389-sml5527-35_1_4
+35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1490299124262-sml5527-35_1_4
+35-poll-issFav*issOpp*candFav*candOpp*issue*candTrust-1490299157425-sml5527-35_1_4
+35-poll-issFav*candFav*undefined*undefined*undefined*undefined-1490301062633-sml5527-35_1_7
+35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1490301425480-sml5527-35_1_9
+35-userAction-Compete in Game Tournament-1490301597288-sml5527-35_1_9
+35-userAction-Compete in Game Tournament-1490301603021-sml5527-35_1_9
+35-userAction-Compete in Game Tournament-1490301608779-sml5527-35_1_9
+35-userAction-Compete in Game Tournament-1490301614348-sml5527-35_1_9
+35-userAction-Compete in Game Tournament-1490301621284-sml5527-35_1_9
+35-userAction-Create Posters-1490301650977-sml5527-35_1_9
+35-userAction-Create Posters-1490301658011-sml5527-35_1_9
+35-userAction-Create Posters-1490301664341-sml5527-35_1_9
+35-userAction-Create Posters-1490301675608-sml5527-35_1_9
+35-userAction-Create Posters-1490301682409-sml5527-35_1_9
+35-userAction-Study in the Library-1490301721820-sml5527-35_1_9
+35-userAction-Study in the Library-1490301728442-sml5527-35_1_9
+35-userAction-Study in the Library-1490301741452-sml5527-35_1_9
+35-userAction-Study in the Library-1490301754314-sml5527-35_1_9
+35-userAction-Study in the Library-1490301766605-sml5527-35_1_9
+35-userAction-Mars U Sports Game-1490302291216-sml5527-35_1_9
+35-userAction-Mars U Sports Game-1490302298309-sml5527-35_1_9
+35-userAction-Mars U Sports Game-1490302302838-sml5527-35_1_9
+35-userAction-Mars U Sports Game-1490302307484-sml5527-35_1_9
+35-userAction-Mars U Sports Game-1490302313055-sml5527-35_1_9
+35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1490302330607-sml5527-35_1_9
+35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1490302429892-sml5527-35_1_9
+35-poll-candFav*candOpp*undefined*undefined*undefined*undefined-1490302776489-sml5527-35_1_10
+35-userAction-Create Posters-1490302922632-sml5527-35_1_10
+35-endGame-Winner: 3-Player Rank:6-1490302925127-sml5527-35_1_10
+35-endGame-Winner: 3-Player Rank:6-1490302957821-sml5527-35_1_11
+35-endGame-Winner: 3-Player Rank:6-1490303001661-sml5527-35_1_12
+35-endGame-Winner: Karma-Player Rank:2-1490303048014-sml5527-35_1_12
+35-endGame-Winner: Karma-Player Rank:2-1490303064031-sml5527-35_1_12
+35-endGame-Winner: 3-Player Rank:6-1490303078423-sml5527-35_1_12
+35-poll-undefined*undefined*undefined*undefined*candTrust*undefined-1490303565735-sml5527-35_1_13

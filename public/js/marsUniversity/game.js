@@ -2,7 +2,7 @@
 var groupList = ["socialite", "athlete", "gamer", "reader"];
 var majorList = ["business", "law", "tech", "arts"];
 var playerCandidate = new CandidateCreate("ph");
-var opponentCandidate = new CandidateCreate("Liz");
+var opponentCandidate = new CandidateCreate("Karma");
 var fakeCandidateHolder = []
 var currentCandidateArrayHolder = []
 var graphData = [];
@@ -116,6 +116,7 @@ var sample;
 var startHours;
 var remainingHoursTotal;
 var days;
+var totalDays;
 var remainingHoursDay;
 
 var population = 1000;
@@ -124,7 +125,7 @@ var canvasMouse;
 //starts the game
 function startGame(){
 
-	//whatever other things we have to do when initializing the game here
+	//whatever other things we have to do when initiaKarmaing the game here
 	var date = Date.now();
 
 
@@ -774,7 +775,7 @@ function startOtherCandidates(heads,body){
 	playerCandidate.bodyType = bodyTypeArray[body.bodyArrayHolder];
 
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
-	document.getElementById("gameInfo").innerHTML += "<p>You're candidate, <b>"+ playerCandidate.name +"</b> is going up again Liz the Chameleon. They're going for Student Council President just like your playerCandidate. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
+	document.getElementById("gameInfo").innerHTML += "<p>You're up against Karma the Chameleon. They're going for Student Council President just like you are. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
 	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial?</p>"
 	document.getElementById("gameInfo").innerHTML += "<button onclick='tutorial("+false+")'>Yes</button><button onclick='actualSessionStart(false)'>No</button>";
 
@@ -791,9 +792,12 @@ function actualSessionStart(isFromTut){
 	population = 1000;
 	sample = [];
     //10 Days
-	startHours = 120; 
+	//startHours = 120; 
+    //7 Days
+	startHours = 84; 
     
 	remainingHoursTotal = startHours;
+    totalDays = 7;
 	days = 1; 
 	remainingHoursDay = 12; 
 	
@@ -805,22 +809,22 @@ function actualSessionStart(isFromTut){
 	candidates.push(opponentCandidate);
 	
 	//Create Issue Candidates
-	var issueCand1 = new CandidateCreate("Zrap Bannigan");
+	var issueCand1 = new CandidateCreate("Martian Dog");
 	issueCand1.focus = positions[0];
 	issueCand1.focusnum = 0;
 	chooseRank(issueCand1,chosenCandRanks,true);
 	candidates.push(issueCand1);
-	var issueCand2 = new CandidateCreate("1");
+	var issueCand2 = new CandidateCreate("Zrap Bannigan");
 	issueCand2.focus = positions[1];
 	issueCand2.focusnum = 1;
 	chooseRank(issueCand2,chosenCandRanks,true);
 	candidates.push(issueCand2);
-	var issueCand3 = new CandidateCreate("2");
+	var issueCand3 = new CandidateCreate("Clamps");
 	issueCand3.focus = positions[2];
 	issueCand3.focusnum = 2;
 	chooseRank(issueCand3,chosenCandRanks,true);
 	candidates.push(issueCand3);
-	var issueCand4 = new CandidateCreate("3");
+	var issueCand4 = new CandidateCreate("Martian Scientist");
 	issueCand4.focus = positions[3];
 	issueCand4.focusnum = 3;
 	chooseRank(issueCand4,chosenCandRanks,true);
@@ -838,7 +842,7 @@ function practicePoll()
 	
 	population = 1000;
 	sample = [];
-	startHours = 120; 
+	startHours = 84; 
 	remainingHoursTotal = startHours;
 	days = 1; 
 	remainingHoursDay = 12; 
@@ -897,7 +901,7 @@ function gameCycleStart(f)
 	candidates.splice(0,0,playerCandidate);
 	
 
-	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +"/10 </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
+	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +"/" + totalDays + " </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";		
 	userAction();
 };
 
@@ -928,12 +932,12 @@ function userAction()
     
     
     
-	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
-    document.getElementById("Buttons").innerHTML += "<button type='button' onclick='pollMenu()'> Poll Menu</button>";
-	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='statement()'> Make a Statement - 1 Hour</button>";
-	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='trendReportMenu()'> View Trend Reports</button>";
-	document.getElementById("Buttons").innerHTML += "<button type='button' class = 'logHelp' onclick='helpScreen()'> Help Screen</button>";
-	document.getElementById("Buttons").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
+	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +"/" + totalDays + " </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";		
+    document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/takeapollicon.png'  onclick='pollMenu()'>                    </img>";
+	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/makeastatementiconNEW.png'  onclick='statement()'>                         </img>";
+	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/trendreport.png'  onclick='trendReportMenu()'>                    </img>";
+	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/helpicon.png'  class = 'logHelp' onclick='helpScreen()'></img>";
+	document.getElementById("Buttons").innerHTML += "<button  class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
 	document.getElementById("gameInfo").innerHTML += "<h3 style = 'float: right'> Rival\'s Last Move: " + candidates[1].lastMove + "</h3>";
 	//document.getElementById("choices").innerHTML += "<br>";
     
@@ -1002,9 +1006,14 @@ function action()
 
 		if(chosenEvent.type=="smallEvent")
 		{
+            
+            document.getElementById("event").innerHTML += "<center><img src = '' id = 'eventbg' height = '350'   > </img></center>";
+            document.getElementById("eventbg").src = chosenEvent.path;
 			//Creates the screen for the event
 			var eventHours = parseInt(chosenEvent.timeRequired);
 			document.getElementById("event").innerHTML += "<h4>" + chosenEvent.text + " </h4>";
+            
+
 			if(chosenEvent.groupPos != [])
 			{
 				var effects = chosenEvent.groupPos.split(',');
@@ -1093,8 +1102,7 @@ function action()
 			}
 				document.getElementById("event").innerHTML += negText+ " </h4>";
 			}
-
-
+            
 			for(var i =0; i<chosenEvent.options.length; i++)
 			{
 				var totalText = "";
@@ -1190,10 +1198,9 @@ function action()
 						}
 					}
 					totalText += negText;
-					document.getElementById("event").innerHTML += "<input type='radio' name = 'option' id = " + chosenEvent.options[i].optionID + ">" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours" +totalText+"<br>";
+					document.getElementById("event").innerHTML += "<input type='radio' name = 'option' id = " + chosenEvent.options[i].optionID + ">" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours" +totalText+"<br> ";
 				}
 			}
-
 		}
 	document.getElementById("event").innerHTML += "<br> <button type='button' class='logEvent' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
 	}
@@ -1296,7 +1303,8 @@ function gameCycleEnd()
 	nextArea.innerHTML = "";
 
 
-	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +"/10 </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	votePercentage(1000,5);
+	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +"/" + totalDays + " </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";		
+    votePercentage(1000,5);
 	var winner;
 	var winvotes = 0;
 	ranking = candidates.slice();
@@ -1453,7 +1461,7 @@ function map(state, isFirst, isFree){
 
 	}
 	else if(isFree == false && isFirst == false && state !=2 ){
-		document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +"/10 </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";
+		document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +"/" + totalDays + " </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
 	
 	}
 	if(state == 1||state == 2){
@@ -2762,13 +2770,13 @@ function votePercentage(sampleSize, bias)
 			}
 			////console.log(candidates[j].name +" Issue Score: "+ issues);
 			//console.log(candidates[j].name + " Issues:"  + issues)
-			if(candidates[j].name != "Liz")
+			if(candidates[j].name != "Karma")
 			{
 				var candWinPer = 10*Math.pow(fame*issues,2) - candidates[j].consMod;
 			}
 			else
 			{
-				var candWinPer = 10*0.5*issues;
+				var candWinPer = 10*0.75*issues;
 			}
 			
 			
@@ -2858,7 +2866,7 @@ function fameCalc(cand, student)
 		break;
 
 	}
-	return fame/2;
+	return fame/4;
 }
 
 function clearScreen()
@@ -2890,7 +2898,7 @@ function resetGame()
 	currentEvents = [];
 	candidates=[];
 	var playerCandidate = new CandidateCreate("ph");
-	var opponentCandidate = new CandidateCreate("Liz");
+	var opponentCandidate = new CandidateCreate("Karma");
   	if(gameOver)
     {
         gameSession++; 
@@ -3937,7 +3945,7 @@ function pollTimeCheck(sSize, pollQuestions)
 	{
 		timeRequired = sSize/10 + (pollQuestions.length*0.5) +0.5;
 	}
-	return (timeRequired < remainingHoursDay);
+	return (timeRequired <= remainingHoursDay);
 }
 
 function backtoUA()
@@ -4090,6 +4098,10 @@ function saveGameState()
     
 	//Save GameOver
 	textContents+=gameOver.toString();
+	textContents+="~";
+    
+	//Saves Total Number of Days
+	textContents+=totalDays;
 	textContents+="~";
 	
 	//post all that information
@@ -4266,6 +4278,9 @@ function loadGame()
         gameOver = false;
     }
 	
+	//Total Number of Days
+	totalDays = parseInt(saveArray[11]);
+    
 	back=true;
 	saveState = "";
 	hourChecker();
@@ -4369,8 +4384,8 @@ function chooseRank(candidate, chosenRanks, issueCand)
 		break;
 		case 4:
 			candidate.fame = [1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25];
-			candidate.consMod = 0.65;
-			candidate.issueScore[candidate.focusnum] = 1.25;
+			candidate.consMod = 0.50;
+			candidate.issueScore[candidate.focusnum] = 2.25;
 		break;
 	}
 	
@@ -4813,7 +4828,7 @@ function trendReporter(category)
 function hourChecker()
 {
 
-	if (days < 10)
+	if (days < totalDays)
 	{
 
 		if(remainingHoursDay < 1)
@@ -4830,7 +4845,6 @@ function hourChecker()
 	}
 	else
 	{
-
 		if(remainingHoursTotal<1)
 		{
 			gameCycleEnd();

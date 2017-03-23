@@ -44,6 +44,7 @@
 			"results":"",
 			"loc":"Gym",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\freeicecreambg.png",
 			"options":
 			[
 				{
@@ -78,6 +79,7 @@
 			"results":"The voters really responded to your charm and you did a great job of endorsing your platform.",
 			"loc":"Lib",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\fooddrivebg.png",
 			"options":
 			[
 			]
@@ -94,6 +96,7 @@
 			"results":"",
 			"loc":"Lab",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\gammingbg.png",
 			"options":
 			[
 				{
@@ -120,6 +123,7 @@
 			"results":"",
 			"loc":"Com",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\posterartsbg.png",
 			"options":
 			[
 				{
@@ -154,6 +158,7 @@
 			"results":"",
 			"loc":"Gym",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\footballgame.png",
 			"options":
 			[
 				{
@@ -165,11 +170,11 @@
 					"negEffects":""
 				},
 				{
-					"optionName":"Cheer Loudly",
-					"optionID":"ExhibitionGame",
+					"optionName":"Sponsor a Team",
+					"optionID":"sponsorTeam",
 					"type":"boost",
 					"extraTime" : "1", 
-					"posEffects":"Soc",
+					"posEffects":"Bus",
 					"negEffects":""
 				}
 			]
@@ -187,6 +192,7 @@
 			"results":"",
 			"loc":"Lib",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\footballgame.png",
 			"options":
 			[
 				{
@@ -221,6 +227,7 @@
 			"results":"",
 			"loc":"Labs",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\TestProgrambg.png",
 			"options":
 			[
 			]
@@ -237,6 +244,7 @@
 			"results":"",
 			"loc":"Lib",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\GottoaPartyBG.png",
 			"options":
 			[
 				{
@@ -261,6 +269,7 @@
 			"results":"",
 			"loc":"Gym",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\charityeventbg.png",
 			"options":
 			[
 			]
@@ -277,6 +286,7 @@
 			"results":"",
 			"loc":"Lab",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\roboticsclubbg.png",
 			"options":
 			[
 				{
@@ -309,6 +319,7 @@
 			"results":"",
 			"loc":"Lib",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\debatebg.png",
 			"options":
 			[
 				{
@@ -334,6 +345,7 @@
 			"results":"You managed to sway a lot of people to your side with your quick witted responses.",
 			"loc":"Lab",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\techlabsbg.png",
 			"options":
 			[
 				{
@@ -358,6 +370,7 @@
 			"results":"",
 			"loc":"Com",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\paintingbg.png",
 			"options":
 			[
 				{
@@ -382,6 +395,7 @@
 			"results":"",
 			"loc":"Gym",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\gymbg.png",
 			"options":
 			[
 			]
@@ -398,6 +412,7 @@
 			"results":"",
 			"loc":"Library",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\bookdrivebg.png",
 			"options": 
 			[
 			]
@@ -414,6 +429,7 @@
 			"results":"",
 			"loc":"Labs",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\clubsbg.png",
 			"options": 
 			[
 				{
@@ -437,6 +453,7 @@
 			"results":"",
 			"loc":"Gym",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\gymbg.png",
 			"options":
 			[
 				{
@@ -462,6 +479,7 @@
 			"results":"",
 			"loc":"Com",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\gymbg.png",
 			"options":
 			[
 				{
@@ -489,6 +507,7 @@
 			"results":"",
 			"loc":"Lab",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\gymbg.png",
 			"options":
 			[
 				{
@@ -514,6 +533,7 @@
 			"results":"",
 			"loc":"Com",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\gymbg.png",
 			"options":
 			[
 				{
@@ -539,6 +559,7 @@
 			"results":"",
 			"loc":"Gym",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\gymbg.png",
 			"options":
 			[
 				{
