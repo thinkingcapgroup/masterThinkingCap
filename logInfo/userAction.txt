@@ -262,3 +262,184 @@ MinigameScore35-2-7-1489669608121-sml5527-35_undefined_undefined
 35-poll-candTrust*candTrust*undefined*undefined*undefined*undefined-1489679241866-sml5527-35_1_19
 35-poll-candTrust*candTrust*undefined*undefined*undefined*undefined-1489679262101-sml5527-35_1_19
 35-poll-candTrust*candTrust*candTrust*candTrust*undefined*undefined-1489679306379-sml5527-35_1_19
+35-Help Area-Enter Help-1489755524402-sml5527-35_1_21
+35-Help Area-Enter Help-1489758523890-sml5527-35_1_21
+35-Help Area-Leave Help-1489758525018-sml5527-35_1_21
+35-Help Area-Enter Help-1489758539478-sml5527-35_1_21
+35-Help Area-Leave Help-1489758540920-sml5527-35_1_21
+35-poll-issOpp*issue*undefined*undefined*undefined*undefined-1489759889912-sml5527-35_1_21
+35-Help Area-Enter Help-1489759904485-sml5527-35_1_21
+35-Help Area-Leave Help-1489760104837-sml5527-35_1_21
+35-Help Area-Enter Help-1489760110317-sml5527-35_1_21
+35-Help Area-Leave Help-1489760111205-sml5527-35_1_21
+35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1489760805444-sml5527-35_1_23
+35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1489762000341-sml5527-35_1_23
+35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1489762049798-sml5527-35_1_23
+35-userAction-Coffee Run-1489762270564-sml5527-35_1_23
+MinigameScore35-1-18-1489762331090-sml5527-35_undefined_undefined
+35-userAction-Coffee Run-1489762340253-sml5527-35_1_23
+MinigameScore35-1-17-1489762401355-sml5527-35_undefined_undefined
+35-userAction-Coffee Run-1489762423378-sml5527-35_1_23
+MinigameScore35-1-19-1489762483942-sml5527-35_undefined_undefined
+35-userAction-Mean Moves-1489762715510-sml5527-35_1_23
+MinigameScore35-4-13-1489762746482-sml5527-35_undefined_undefined
+35-userAction-Mean Moves-1489762775823-sml5527-35_1_23
+35-userAction-Secret Sticker-1489762832699-sml5527-35_1_23
+MinigameScore35-3-3-1489762861932-sml5527-35_undefined_undefined
+35-userAction-Secret Sticker-1489762908951-sml5527-35_1_23
+35-userAction-Photobomb-1489762934167-sml5527-35_1_23
+MinigameScore35-2-7-1489762976729-sml5527-35_undefined_undefined
+35-userAction-Photobomb-1489762983367-sml5527-35_1_23
+MinigameScore35-2-9-1489763026943-sml5527-35_undefined_undefined
+35-userAction-Photobomb-1489763042067-sml5527-35_1_23
+MinigameScore35-2-6-1489763067260-sml5527-35_undefined_undefined
+35-userAction-T-Shirt Canon-1489763100654-sml5527-35_1_23
+MinigameScore35-5-19-1489763160987-sml5527-35_undefined_undefined
+35-userAction-T-Shirt Canon-1489763560684-sml5527-35_1_23
+MinigameScore35-5-20-1489763621409-sml5527-35_undefined_undefined
+35-userAction-Mean Moves-1489763720683-sml5527-35_1_23
+MinigameScore35-4-13-1489763756289-sml5527-35_undefined_undefined
+35-userAction-Mean Moves-1489763763561-sml5527-35_1_23
+MinigameScore35-4-26-1489763799689-sml5527-35_undefined_undefined
+35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1489763818537-sml5527-35_1_23
+35-userAction-Secret Sticker-1489763967279-sml5527-35_1_23
+35-userAction-Secret Sticker-1489764026232-sml5527-35_1_23
+MinigameScore35-3-4-1489764051250-sml5527-35_undefined_undefined
+35-userAction-Secret Sticker-1489764072754-sml5527-35_1_23
+MinigameScore35-3-8-1489764110033-sml5527-35_undefined_undefined
+35-userAction-T-Shirt Canon-1489764154245-sml5527-35_1_23
+MinigameScore35-5-19-1489764214924-sml5527-35_undefined_undefined
+35-userAction-Meet the Robotics Team-1489764345498-sml5527-35_1_23
+35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1489764369758-sml5527-35_1_23
+35-userAction-Meet the Robotics Team-1489764424748-sml5527-35_1_23
+35-userAction-Meet the Robotics Team-1489764435454-sml5527-35_1_23
+35-userAction-Meet the Robotics Team-1489764442638-sml5527-35_1_23
+35-userAction-Meet the Robotics Team-1489764516419-sml5527-35_1_23
+35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1489764525510-sml5527-35_1_23
+35-userAction-Meet the Debate Team-1489764602583-sml5527-35_1_23
+35-userAction-Meet the Debate Team-1489764607028-sml5527-35_1_23
+35-userAction-Meet the Debate Team-1489764611702-sml5527-35_1_23
+35-userAction-Meet the Debate Team-1489764617299-sml5527-35_1_23
+35-userAction-Meet the Debate Team-1489764621763-sml5527-35_1_23
+35-userAction-Meet the Debate Team-1489764626084-sml5527-35_1_23
+35-endGame-Winner: Val-Player Rank:1-1489764661625-sml5527-35_1_23
+35-endGame-Winner: 3-Player Rank:5-1490114570161-sml5527-35_1_25
+35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1490114920493-sml5527-35_1_26
+35-userAction-T-Shirt Canon-1490116174070-sml5527-35_1_26
+MinigameScore35-5-19-1490116234060-sml5527-35_undefined_undefined
+35-userAction-T-Shirt Canon-1490116293560-sml5527-35_1_26
+MinigameScore35-5-19-1490116354434-sml5527-35_undefined_undefined
+35-userAction-T-Shirt Canon-1490116361880-sml5527-35_1_26
+MinigameScore35-5-5-1490116422553-sml5527-35_undefined_undefined
+35-userAction-Photobomb-1490116626107-sml5527-35_1_26
+MinigameScore35-2-7-1490116673471-sml5527-35_undefined_undefined
+35-userAction-Photobomb-1490116685633-sml5527-35_1_26
+MinigameScore35-2-4-1490116729785-sml5527-35_undefined_undefined
+35-userAction-Secret Sticker-1490116748883-sml5527-35_1_26
+MinigameScore35-3-3-1490116790902-sml5527-35_undefined_undefined
+35-userAction-Mean Moves-1490116809979-sml5527-35_1_26
+MinigameScore35-4-9-1490116866054-sml5527-35_undefined_undefined
+35-userAction-Secret Sticker-1490116899620-sml5527-35_1_26
+MinigameScore35-3-8-1490116941701-sml5527-35_undefined_undefined
+35-userAction-Secret Sticker-1490116956290-sml5527-35_1_26
+MinigameScore35-3-4-1490116989368-sml5527-35_undefined_undefined
+35-userAction-Secret Sticker-1490117393290-sml5527-35_1_26
+MinigameScore35-3-4-1490117429363-sml5527-35_undefined_undefined
+35-userAction-Secret Sticker-1490117449336-sml5527-35_1_26
+MinigameScore35-3-2-1490117507713-sml5527-35_undefined_undefined
+35-userAction-Community Service-1490117515986-sml5527-35_1_26
+35-userAction-Compete in Game Tournament-1490117535273-sml5527-35_1_26
+35-userAction-Compete in Game Tournament-1490117540503-sml5527-35_1_26
+35-userAction-Compete in Game Tournament-1490117545447-sml5527-35_1_26
+35-userAction-Community Service-1490117553622-sml5527-35_1_26
+35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1490117556865-sml5527-35_1_26
+35-userAction-Work Out-1490117574679-sml5527-35_1_26
+35-userAction-Help Paint Mural-1490117579392-sml5527-35_1_26
+35-userAction-Help Paint Mural-1490117585768-sml5527-35_1_26
+35-userAction-Meet the Robotics Team-1490117591023-sml5527-35_1_26
+35-userAction-Charity Event-1490117595584-sml5527-35_1_26
+35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1490117606245-sml5527-35_1_26
+35-userAction-Mars U Sports Game-1490117689792-sml5527-35_1_26
+35-userAction-Compete in Game Tournament-1490117695012-sml5527-35_1_26
+35-userAction-Meet the Robotics Team-1490117702421-sml5527-35_1_26
+35-userAction-Go to a Party-1490117709495-sml5527-35_1_26
+35-userAction-Work Out-1490117714655-sml5527-35_1_26
+35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1490117726556-sml5527-35_1_26
+35-userAction-Create Posters-1490117871121-sml5527-35_1_26
+35-userAction-Compete in Game Tournament-1490117876807-sml5527-35_1_26
+35-userAction-Study in the Library-1490117884159-sml5527-35_1_26
+35-userAction-Study in the Library-1490117889841-sml5527-35_1_26
+35-userAction-Study in the Library-1490117900856-sml5527-35_1_26
+35-userAction-Mars U Sports Game-1490117907003-sml5527-35_1_26
+35-userAction-Meet the Robotics Team-1490117912683-sml5527-35_1_26
+35-userAction-Visit the Tech Lab-1490117919375-sml5527-35_1_26
+35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1490117920840-sml5527-35_1_26
+35-userAction-Visit the Tech Lab-1490117934417-sml5527-35_1_26
+35-userAction-Study in the Library-1490117939888-sml5527-35_1_26
+35-userAction-Mars U Sports Game-1490117948084-sml5527-35_1_26
+35-userAction-Visit the Tech Lab-1490117953651-sml5527-35_1_26
+35-userAction-Community Service-1490118125436-sml5527-35_1_27
+35-userAction-Community Service-1490118131008-sml5527-35_1_27
+35-userAction-Community Service-1490118134769-sml5527-35_1_27
+35-userAction-Community Service-1490118138832-sml5527-35_1_27
+35-userAction-Community Service-1490118144672-sml5527-35_1_27
+35-userAction-Community Service-1490118149109-sml5527-35_1_27
+35-userAction-Study in the Library-1490118158832-sml5527-35_1_27
+35-userAction-Study in the Library-1490118165435-sml5527-35_1_27
+35-userAction-Study in the Library-1490118170784-sml5527-35_1_27
+35-userAction-Study in the Library-1490118177054-sml5527-35_1_27
+35-userAction-Study in the Library-1490118184079-sml5527-35_1_27
+35-userAction-Help Paint Mural-1490118191232-sml5527-35_1_27
+35-userAction-Help Paint Mural-1490118195702-sml5527-35_1_27
+35-userAction-Help Paint Mural-1490118199454-sml5527-35_1_27
+35-userAction-Help Paint Mural-1490118209743-sml5527-35_1_27
+35-userAction-Meet the Robotics Team-1490118232329-sml5527-35_1_27
+35-userAction-Meet the Robotics Team-1490118238551-sml5527-35_1_27
+35-userAction-Meet the Robotics Team-1490118247744-sml5527-35_1_27
+35-userAction-Meet the Robotics Team-1490118255662-sml5527-35_1_27
+35-userAction-Meet the Robotics Team-1490118261062-sml5527-35_1_27
+35-userAction-Go to a Party-1490118270472-sml5527-35_1_27
+35-userAction-Go to a Party-1490118275134-sml5527-35_1_27
+35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1490118285230-sml5527-35_1_27
+35-endGame-Winner: Val-Player Rank:1-1490118365208-sml5527-35_1_27
+35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1490287437731-sml5527-35_1_NaN
+35-Help Area-Enter Help-1490298975093-sml5527-35_1_3
+35-Help Area-Leave Help-1490298976041-sml5527-35_1_3
+35-poll-issFav*issFav*undefined*undefined*undefined*undefined-1490299056070-sml5527-35_1_3
+35-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1490299061218-sml5527-35_1_3
+35-poll-issOpp*issFav*undefined*undefined*undefined*undefined-1490299099389-sml5527-35_1_4
+35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1490299124262-sml5527-35_1_4
+35-poll-issFav*issOpp*candFav*candOpp*issue*candTrust-1490299157425-sml5527-35_1_4
+35-poll-issFav*candFav*undefined*undefined*undefined*undefined-1490301062633-sml5527-35_1_7
+35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1490301425480-sml5527-35_1_9
+35-userAction-Compete in Game Tournament-1490301597288-sml5527-35_1_9
+35-userAction-Compete in Game Tournament-1490301603021-sml5527-35_1_9
+35-userAction-Compete in Game Tournament-1490301608779-sml5527-35_1_9
+35-userAction-Compete in Game Tournament-1490301614348-sml5527-35_1_9
+35-userAction-Compete in Game Tournament-1490301621284-sml5527-35_1_9
+35-userAction-Create Posters-1490301650977-sml5527-35_1_9
+35-userAction-Create Posters-1490301658011-sml5527-35_1_9
+35-userAction-Create Posters-1490301664341-sml5527-35_1_9
+35-userAction-Create Posters-1490301675608-sml5527-35_1_9
+35-userAction-Create Posters-1490301682409-sml5527-35_1_9
+35-userAction-Study in the Library-1490301721820-sml5527-35_1_9
+35-userAction-Study in the Library-1490301728442-sml5527-35_1_9
+35-userAction-Study in the Library-1490301741452-sml5527-35_1_9
+35-userAction-Study in the Library-1490301754314-sml5527-35_1_9
+35-userAction-Study in the Library-1490301766605-sml5527-35_1_9
+35-userAction-Mars U Sports Game-1490302291216-sml5527-35_1_9
+35-userAction-Mars U Sports Game-1490302298309-sml5527-35_1_9
+35-userAction-Mars U Sports Game-1490302302838-sml5527-35_1_9
+35-userAction-Mars U Sports Game-1490302307484-sml5527-35_1_9
+35-userAction-Mars U Sports Game-1490302313055-sml5527-35_1_9
+35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1490302330607-sml5527-35_1_9
+35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1490302429892-sml5527-35_1_9
+35-poll-candFav*candOpp*undefined*undefined*undefined*undefined-1490302776489-sml5527-35_1_10
+35-userAction-Create Posters-1490302922632-sml5527-35_1_10
+35-endGame-Winner: 3-Player Rank:6-1490302925127-sml5527-35_1_10
+35-endGame-Winner: 3-Player Rank:6-1490302957821-sml5527-35_1_11
+35-endGame-Winner: 3-Player Rank:6-1490303001661-sml5527-35_1_12
+35-endGame-Winner: Karma-Player Rank:2-1490303048014-sml5527-35_1_12
+35-endGame-Winner: Karma-Player Rank:2-1490303064031-sml5527-35_1_12
+35-endGame-Winner: 3-Player Rank:6-1490303078423-sml5527-35_1_12
+35-poll-undefined*undefined*undefined*undefined*candTrust*undefined-1490303565735-sml5527-35_1_13
