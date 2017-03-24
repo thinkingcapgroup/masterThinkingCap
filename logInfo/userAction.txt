@@ -402,44 +402,28 @@ MinigameScore35-3-2-1490117507713-sml5527-35_undefined_undefined
 35-userAction-Go to a Party-1490118275134-sml5527-35_1_27
 35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1490118285230-sml5527-35_1_27
 35-endGame-Winner: Val-Player Rank:1-1490118365208-sml5527-35_1_27
-35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1490287437731-sml5527-35_1_NaN
-35-Help Area-Enter Help-1490298975093-sml5527-35_1_3
-35-Help Area-Leave Help-1490298976041-sml5527-35_1_3
-35-poll-issFav*issFav*undefined*undefined*undefined*undefined-1490299056070-sml5527-35_1_3
-35-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1490299061218-sml5527-35_1_3
-35-poll-issOpp*issFav*undefined*undefined*undefined*undefined-1490299099389-sml5527-35_1_4
-35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1490299124262-sml5527-35_1_4
-35-poll-issFav*issOpp*candFav*candOpp*issue*candTrust-1490299157425-sml5527-35_1_4
-35-poll-issFav*candFav*undefined*undefined*undefined*undefined-1490301062633-sml5527-35_1_7
-35-poll-issFav*issOpp*candFav*candOpp*undefined*undefined-1490301425480-sml5527-35_1_9
-35-userAction-Compete in Game Tournament-1490301597288-sml5527-35_1_9
-35-userAction-Compete in Game Tournament-1490301603021-sml5527-35_1_9
-35-userAction-Compete in Game Tournament-1490301608779-sml5527-35_1_9
-35-userAction-Compete in Game Tournament-1490301614348-sml5527-35_1_9
-35-userAction-Compete in Game Tournament-1490301621284-sml5527-35_1_9
-35-userAction-Create Posters-1490301650977-sml5527-35_1_9
-35-userAction-Create Posters-1490301658011-sml5527-35_1_9
-35-userAction-Create Posters-1490301664341-sml5527-35_1_9
-35-userAction-Create Posters-1490301675608-sml5527-35_1_9
-35-userAction-Create Posters-1490301682409-sml5527-35_1_9
-35-userAction-Study in the Library-1490301721820-sml5527-35_1_9
-35-userAction-Study in the Library-1490301728442-sml5527-35_1_9
-35-userAction-Study in the Library-1490301741452-sml5527-35_1_9
-35-userAction-Study in the Library-1490301754314-sml5527-35_1_9
-35-userAction-Study in the Library-1490301766605-sml5527-35_1_9
-35-userAction-Mars U Sports Game-1490302291216-sml5527-35_1_9
-35-userAction-Mars U Sports Game-1490302298309-sml5527-35_1_9
-35-userAction-Mars U Sports Game-1490302302838-sml5527-35_1_9
-35-userAction-Mars U Sports Game-1490302307484-sml5527-35_1_9
-35-userAction-Mars U Sports Game-1490302313055-sml5527-35_1_9
-35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1490302330607-sml5527-35_1_9
-35-poll-issFav*issOpp*candFav*candOpp*candFame*candTrust-1490302429892-sml5527-35_1_9
-35-poll-candFav*candOpp*undefined*undefined*undefined*undefined-1490302776489-sml5527-35_1_10
-35-userAction-Create Posters-1490302922632-sml5527-35_1_10
-35-endGame-Winner: 3-Player Rank:6-1490302925127-sml5527-35_1_10
-35-endGame-Winner: 3-Player Rank:6-1490302957821-sml5527-35_1_11
-35-endGame-Winner: 3-Player Rank:6-1490303001661-sml5527-35_1_12
-35-endGame-Winner: Karma-Player Rank:2-1490303048014-sml5527-35_1_12
-35-endGame-Winner: Karma-Player Rank:2-1490303064031-sml5527-35_1_12
-35-endGame-Winner: 3-Player Rank:6-1490303078423-sml5527-35_1_12
-35-poll-undefined*undefined*undefined*undefined*candTrust*undefined-1490303565735-sml5527-35_1_13
+2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1490194306807-aaronjmill32-2_1_NaN
+2-userAction-Create Posters-1490194313081-aaronjmill32-2_1_NaN
+2-userAction-Create Posters-1490205046405-aaronjmill32-2_1_NaN
+2-userAction-Create Posters-1490205086552-aaronjmill32-2_1_NaN
+2-userAction-Create Posters-1490205108006-aaronjmill32-2_1_0
+2-userAction-Create Posters-1490205137997-aaronjmill32-2_1_0
+2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1490280631422-aaronjmill32-2_1_1
+2-userAction-Mean Moves-1490281157952-aaronjmill32-2_1_1
+MinigameScore2-4-5-1490281213107-aaronjmill32-2_undefined_undefined
+2-userAction-Photobomb-1490281352897-aaronjmill32-2_1_0
+MinigameScore2-2-2-1490281357932-aaronjmill32-2_undefined_undefined
+2-userAction-Photobomb-1490282451964-aaronjmill32-2_1_0
+MinigameScore2-1-4-1490282456348-aaronjmill32-2_undefined_0
+2-userAction-Photobomb-1490282547435-aaronjmill32-2_1_0
+MinigameScore2-2-3-1490282551812-aaronjmill32-2_1_0
+2-userAction-Create Posters-1490286779543-aaronjmill32-2_1_0
+2-userAction-Photobomb-1490286791408-aaronjmill32-2_1_0
+2-userAction-Mean Moves-1490286816083-aaronjmill32-2_1_0
+2-userAction-Meet the Debate Team-1490286824270-aaronjmill32-2_1_0
+2-userAction-Help Paint Mural-1490286857800-aaronjmill32-2_1_0
+2-userAction-Create Posters-1,490,286,961,745-aaronjmill32-2_1_0
+2-userAction-Charity Event-1490287883166-aaronjmill32-2_1_0
+2-poll-issFav*candFav*undefined*undefined*undefined*undefined-1490288270297-aaronjmill32-2_1_0
+2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1490288300808-aaronjmill32-2_1_0
+2-userAction-Help Paint Mural-1490289738498-aaronjmill32-2_1_0

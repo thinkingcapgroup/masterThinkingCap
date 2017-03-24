@@ -20,8 +20,9 @@ router.get('/', auth, function (req, res) {
     holderArray = [];
   if (req.user.role > 5) {
     // Render dashboard view
-    readLines();
-    renderResearch(req, res);
+    getDatabase(req,res);
+
+   
   }
 
   // Otherwise
@@ -62,6 +63,42 @@ router.get('/search', auth, function (req, res) {
   // End response
 
 });
+
+function getDatabase(req,res){
+
+   require('../model/researchArea/getAllResearchData.js')(req, function(err, b) {
+    // If there is a database error
+    if (err) {
+
+      // If there where no bug reports
+      if (err === 'No Research Data found!') {
+        // Set model to emptyState
+        model.emptyState = true;
+      }
+      // Otherwise
+      else {
+        // Show user the error message
+        errorNotifications.push(err);
+      }
+
+      console.error(err);
+    }
+
+    // Otherwise bug reports were found
+    else {
+      // Set the model's bugReports to recieved data
+      lineArray = b;
+    }
+
+    // If there are errors notifications attach them to model
+
+
+        renderResearch(req, res);
+    // Render /bugreports using the 'bugReports' view and model
+
+  });
+  
+};
 
 
 function readLines(){
