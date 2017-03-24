@@ -427,3 +427,11 @@ MinigameScore2-2-3-1490282551812-aaronjmill32-2_1_0
 2-poll-issFav*candFav*undefined*undefined*undefined*undefined-1490288270297-aaronjmill32-2_1_0
 2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1490288300808-aaronjmill32-2_1_0
 2-userAction-Help Paint Mural-1490289738498-aaronjmill32-2_1_0
+2-poll-issFav*issOpp*undefined*candOpp*candTrust*candFav-1490371081145-aaronjmill32-2_1_1
+2-userAction-Create Posters-1490371096505-aaronjmill32-2_1_1
+2-userAction-Create Posters-1490371102008-aaronjmill32-2_1_1
+2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1490371985712-aaronjmill32-2_1_1
+2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1490372023882-aaronjmill32-2_1_2
+2-poll-issFav*issOpp*undefined*undefined*undefined*undefined-1490372031762-aaronjmill32-2_1_2
+2-poll-candOpp*issFav*undefined*undefined*undefined*undefined-1490372632052-aaronjmill32-2_1_2
+2-userAction-Ice Cream Social-1490372649238-aaronjmill32-2_1_2

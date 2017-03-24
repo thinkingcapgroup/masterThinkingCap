@@ -55,6 +55,8 @@ var imgArrayBodyWidth = [164,190,264,215];
 var imgArrayBodyHeight = [343,327,304,334];
 var imgArrayHeadHeight = [171,173,173];
 
+var dayCycleImage = ['daybar0','daybar1','daybar2','daybar3','daybar4','daybar5','daybar6','daybar7']
+
 
 //scores go Socialite/Athlete/MediaLover/Researcher/Reader
 //the score goes tuition, tuition var, athletic, athletic var, research, research var, events, events var, medical, issueScore[4]
@@ -900,7 +902,7 @@ function gameCycleStart(f)
 	}
 	candidates.splice(0,0,playerCandidate);
 	
-
+	document.getElementById("playerInfo").innerHTML += "<img src = '../../img/daybar/"+dayCycleImage[days] +".png' width = ''/>"
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +"/" + totalDays + " </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";		
 	userAction();
 };
@@ -931,8 +933,9 @@ function userAction()
     ctx.fillStyle = '#FFFFFF'
     
     
-    
-	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +"/" + totalDays + " </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";		
+    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daybar/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+	
+	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + remainingHoursDay + "</h3><hr>";		
     document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/takeapollicon.png'  onclick='pollMenu()'>                    </img>";
 	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/makeastatementiconNEW.png'  onclick='statement()'>                         </img>";
 	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/trendreport.png'  onclick='trendReportMenu()'>                    </img>";
@@ -1302,9 +1305,9 @@ function gameCycleEnd()
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
 
-
-	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +"/" + totalDays + " </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";		
-    votePercentage(1000,5);
+	    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daybar/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+	
+	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + remainingHoursDay + "</h3><hr>";	votePercentage(1000,5);
 	var winner;
 	var winvotes = 0;
 	ranking = candidates.slice();
@@ -1461,9 +1464,9 @@ function map(state, isFirst, isFree){
 
 	}
 	else if(isFree == false && isFirst == false && state !=2 ){
-		document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +"/" + totalDays + " </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
+		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daybar/"+dayCycleImage[days-1] +".png' width = '300px'/>"
 	
-	}
+	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + remainingHoursDay + "</h3><hr>";	}
 	if(state == 1||state == 2){
 		currentCandidateArrayHolder = candidates;
 		candidates = fakeCandidateHolder;

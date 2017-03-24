@@ -2,28 +2,456 @@
 	"questions":
 	[
 		{
-			"question":"Question 1", 
+			"question":"Which letter A-E is an example of a sample from members of all NTID student clubs?", 
+			"type": "population",
+			"random":"no",
 			"answers":
 			[
-				"Correct",
-				"Incorrect",
-				"Incorrect",
-				"Incorrect"
+				"From all NTID student clubs, ask two members from each club if they own a computer.",
+				"Ask five students in the NTID Asian Student Club, if they own a smartphone.",
+				"Ask all NTID students who enter LBJ on Monday at 10am, if they use the RIT shuttle bus to arrive at LBJ.",
+				"A and B",
+				"A and C"
 			],
-			"correct":"Correct",
+			"correct":"Ask all NTID students who enter LBJ on Monday at 10am, if they use the RIT shuttle bus to arrive at LBJ.",
 			"id":"0"
 		},
 		{
-			"question":"Question 2", 
+			"question":"Which letter A-E is the population variable for the RIT administrators?", 
+			"type": "population",
+			"random":"no",
 			"answers":
 			[
-				"Correct",
-				"Incorrect",
-				"Incorrect",
-				"Incorrect"
+				"The data collected of 150 student's parking time",
+				"All faculty, staff, and students who park at RIT.",
+				"The parking time for all students that park at RIT.",
+				"Students who park at RIT between 9am and 10am on Wednesdays.",
+				"A and B"
 			],
-			"correct":"Correct",
+			"correct":"Students who park at RIT between 9am and 10am on Wednesdays",
 			"id":"1"
-		}
+		},
+		{
+			"question":"Do freshmen at Mars University get tuition assistance? We conduct a poll asking 40 freshmen if they get tuition assistance. Our population is:", 
+			"type": "population",
+			"random":"no",
+			"answers":
+			[
+				"All students who attend Mars University.",
+				"All students attending Mars University who get tuition assistance",
+				"The 40 freshman who get tuition assistance",
+				"40 freshman who participated in our poll",
+				"None of the above"
+			],
+			"correct":"None",
+			"id":"2"
+		},
+		{
+			"question":"This year at Mars University, there are 1400 students. Among the students there are 380 humans, 420 aliens and 600 Martians. Which letter A-E is an example of random sample of Mars University students?", 
+			"type": "population",
+			"random":"yes",
+			"answers":
+			[
+				"All 1400 Mars University students",
+				"All of the students on my soccer team",
+				"My friends at Mars University",
+				"100 human students, 100 alien students, and 100 Martian students, selected at random",
+				"100 faculty and staff at Mars University, selected at random"
+			],
+			"correct":"100 faculty and staff at Mars University, selected at random",
+			"id":"3"
+		},
+		{
+			"question":"Which letter A-E is categorical variable?", 
+			"type": "category",
+			"random":"no",
+			"answers":
+			[
+				"Whether each customer sitting in a restaurant is a Smoker or a Non-smoker",
+				"Temperature of a cup of coffee served in a restaurant",
+				"The primary language of a student at RIT",
+				"A and B",
+				"A and C"
+			],
+			"correct":"A and C",
+			"id":"4"
+		},
+		{
+			"question":"Which letter A-E is categorical variable?", 
+			"type": "category",
+			"random":"no",
+			"answers":
+			[
+				"Whether each customer sitting in a restaurant is a Smoker or a Non-smoker",
+				"Temperature of a cup of coffee served in a restaurant",
+				"The primary language of a student at RIT",
+				"A and B",
+				"A and C"
+			],
+			"correct":"A and C",
+			"id":"5"
+		},
+		{
+			"question":"Which letter A-E is numerical variable?", 
+			"type": "category",
+			"random":"no",
+			"answers":
+			[
+				"Model of a car parked in the M lot at RIT",
+				"The home Zip Code of RIT students",
+				"The weight, in pounds, of each suitcase going on an airplane",
+				"A and B",
+				"B and C"
+			],
+			"correct":"B and C",
+			"id":"6"
+		},
+		{
+			"question":"Which letter A-E correctly identifies the numerical variables?", 
+			"type": "category",
+			"random":"no",
+			"answers":
+			[
+				"Student ID Number only",
+				"Student ID Number, Area of Interest, and GPA",
+				"GPA only",
+				"Student ID Number and GPA",
+				"None of the variables are numerical"
+			],
+			"correct":"Student ID Number and GPA",
+			"id":"7"
+		},
+		{
+			"question":"Mars University wants to collect data about students taking Introduction to Biology. Which letter A-E is an example of a categorical variable?", 
+			"type": "category",
+			"random":"no",
+			"answers":
+			[
+				"Payment method used by students to buy the textbook for Introduction to Biology (cash or credit)",
+				"Weight of the textbook for Introduction to Biology",
+				"Year-level of students taking Introduction to Biology (freshman, sophomore, ... )",
+				"A and C",
+				"B and C"
+			],
+			"correct":"A and C",
+			"id":"8"
+		},
+		{
+			"question":"President Destler wants to know if professors on campus would join a union. He cannot interview all professors, so he will obtain a sample. Which letter A-E is a method of sampling to avoid bias?", 
+			"type": "bias",
+			"random":"no",
+			"answers":
+			[
+				"Randomly select and interview fifty males and fifty female professors from the University",
+				"Interview professors who eat lunch at the faculty club",
+				"Interview all of the professors in five randomly selected departments",
+				"Randomly select professors who have filed complaints and interview those selected",
+				"A and C"
+			],
+			"correct":"A and C",
+			"id":"9"
+		},
+		{
+			"question":"Do students at RIT support building a new library? The student government will ask a sample of students to take a survey. Which method of sampling A-E is best to avoid bias?", 
+			"type": "bias",
+			"random":"yes",
+			"answers":
+			[
+				"Ask a random sample of workers at the current library",
+				"Ask 10 randomly selected students from each RIT college",
+				"Ask every 8th person who walks into the library that day",
+				"Ask the first 300 people who are listed in the campus phone directory",
+				"Ask the university president's family"
+			],
+			"correct":"Ask 10 randomly selected students from each RIT college",
+			"id":"10"
+		},
+		{
+			"question":"The student newspaper editors want to know how students feel about the candidates who are running for student government. Which method of sampling A-E is best to avoid bias?", 
+			"type": "bias",
+			"random":"yes",
+			"answers":
+			[
+				"Ask twenty randomly selected students at the gym",
+				"Email a survey to every student on campus, asking them to respond",
+				"Ask all the students who live in your dorm",
+				"The next issue of the student newspaper will include a survey and ask students to mail in their responses",
+				"Ask 3 randomly selected students from each RIT major"
+			],
+			"correct":"Email a survey to every student on campus, asking them to respond",
+			"id":"11"
+		},
+		{
+			"question":"The student newspaper editors want to know how students feel about the candidates who are running for student government. Which method of sampling A-E is best to avoid bias?", 
+			"type": "bias",
+			"random":"yes",
+			"answers":
+			[
+				"Ask twenty randomly selected students at the gym",
+				"Email a survey to every student on campus, asking them to respond",
+				"Ask all the students who live in your dorm",
+				"The next issue of the student newspaper will include a survey and ask students to mail in their responses",
+				"Ask 3 randomly selected students from each RIT major"
+			],
+			"correct":"Email a survey to every student on campus, asking them to respond",
+			"id":"12"
+		},
+		{
+			"question":"The student newspaper editors want to know how students feel about the candidates who are running for student government. Which method of sampling A-E is best to avoid bias?", 
+			"type": "bias",
+			"random":"yes",
+			"answers":
+			[
+				"Ask twenty randomly selected students at the gym",
+				"Email a survey to every student on campus, asking them to respond",
+				"Ask all the students who live in your dorm",
+				"The next issue of the student newspaper will include a survey and ask students to mail in their responses",
+				"Ask 3 randomly selected students from each RIT major"
+			],
+			"correct":"Email a survey to every student on campus, asking them to respond",
+			"id":"13"
+		},
+		{
+			"question":"Mars University is conducting a poll. Students will be asked, 'Do you support expanding the gym?' Which letter A-E would be the best way to collect our sample and minimize bias?", 
+			"type": "bias",
+			"random":"no",
+			"answers":
+			[
+				"Post flyers in the gym asking students to email their answer to the question",
+				"Send an email to 100 randomly selected students asking the question",
+				"Ask the question of all of the students in your kick-boxing class",
+				"A and C",
+				"None of the Above"
+			],
+			"correct":"Send an email to 100 randomly selected students asking the question",
+			"id":"14"
+		},
+		{
+			"question":"Which letter A-E is true?", 
+			"type": "mean",
+			"random":"no",
+			"answers":
+			[
+				"The mean homeruns is higher for Sosa than for Bonds",
+				"The standard deviation of homeruns is larger for Sosa than for Bonds",
+				"Both A and B",
+				"Neither A nor B",
+				"Cannot compare Sosa and Bonds"
+			],
+			"correct":"Both A and B",
+			"id":"15"
+		},
+		{
+			"question":"Which letter A-E is correct ?", 
+			"type": "mean",
+			"random":"no",
+			"answers":
+			[
+				"The typical batting average is higher for Sosa than for Bonds",
+				"Sosa is more likely than Bonds to have a batting average over 0.300",
+				"Both A and B",
+				"Neither A nor B",
+				"Cannot compare Sosa and Bonds"
+			],
+			"correct":"Both A and B",
+			"id":"16"
+		},
+		{
+			"question":"Which letter A-E is correct ?", 
+			"type": "mean",
+			"random":"no",
+			"answers":
+			[
+				"Type A has a better chance of lasting over 3200 hours",
+				"Type B has a better chance of lasting over 3200 hours",
+				"Type A and B have the same average lifetime",
+				"A and B",
+				"B and C"
+			],
+			"correct":"Both A and B",
+			"id":"17"
+		},
+		{
+			"question":"Which letter A-E is correct ?", 
+			"type": "mean",
+			"random":"no",
+			"answers":
+			[
+				"Test 1 has a smaller standard deviation; it's more consistent and less variable",
+				"Test 2 has a bigger standard deviation; it's less consistent and more variable",
+				"Test 2 has a wider spread than Test 1",
+				"A, B and C are all true",
+				"A, B and C are all false"
+			],
+			"correct":"Test 2 has a wider spread than Test 1",
+			"id":"18"
+		},
+		{
+			"question":"What percentage of the 80 people answered 'computer'?", 
+			"type": "percentage",
+			"random":"yes",
+			"answers":
+			[
+				"20%",
+				"25%",
+				"15%",
+				"5%",
+				"0%"
+			],
+			"correct":"0%",
+			"id":"19"
+		},
+		{
+			"question":" What percentage of the 80 people answered either 'television' or 'radio'", 
+			"type": "percentage",
+			"random":"yes",
+			"answers":
+			[
+				"7%",
+				"12%",
+				"31%",
+				"82%",
+				"70%"
+			],
+			"correct":"70%",
+			"id":"20"
+		},
+		{
+			"question":"What percentage of the students travels by bus?", 
+			"type": "percentage",
+			"random":"yes",
+			"answers":
+			[
+				"70%",
+				"3%",
+				"31%",
+				"14%",
+				"None"
+			],
+			"correct":"70%",
+			"id":"21"
+		},
+		{
+			"question":"What percentage of the students do NOT travel to school by car?", 
+			"type": "percentage",
+			"random":"yes",
+			"answers":
+			[
+				"0.70",
+				"0.31",
+				"0.19",
+				"0.85",
+				"None"
+			],
+			"correct":"None",
+			"id":"22"
+		},
+	],
+
+	"demographic":[
+
+		{
+			"question":"Name", 
+			"required": "no",
+			"type": "text",		
+			"id":"0"
+		},
+		{
+			"question":"Age", 
+			"required": "yes",
+			"type": "text",		
+			"id":"1"
+		},
+		{
+			"question":"I am currently in my ___ year at RIT/NTID", 
+			"required": "yes",
+			"type": "text",		
+			"id":"2"
+		},
+		{
+			"question":"Have you taken a Statistics Class", 
+			"required": "yes",
+			"type": "radio",
+			"answers":
+			[
+				"Yes",
+				"No"
+			],		
+			"id":"3"
+		},
+		{
+			"question":"If yes, please explain. Explain: I took an intro to stats in my sophomore year", 
+			"required": "no",
+			"type": "longtest",		
+			"id":"4"
+		},
+		{
+			"question":"Gender", 
+			"required": "yes",
+			"type": "radio",
+			"answers":
+			[
+				"Male",
+				"Female",
+				"Non-Binary",
+				"Do not wish to identify"
+			],			
+			"id":"5"
+		},
+		{
+			"question":"Hearing Status", 
+			"required": "no",
+			"type": "radio",
+			"answers":
+			[
+				"Deaf",
+				"Hard of Hearing",
+				"Hearing",
+			],			
+			"id":"6"
+		},
+		{
+			"question":"Ethnicity", 
+			"required": "yes",
+			"type": "radio",
+			"answers":
+			[
+				"African American/Black",
+				"Latino American",
+				"Native",
+				"White",
+				"Other"
+			],			
+			"id":"7"
+		},
+		{
+			"question":"If other has been selected above, please specify:", 
+			"required": "no",
+			"type": "text",		
+			"id":"8"
+		},
+		{
+			"question":"Native (Primary) Language", 
+			"required": "yes",
+			"type": "radio",
+			"answers":
+			[
+				"English",
+				"Spanish",
+				"French",
+				"ASL",
+				"Other"
+			],			
+			"id":"9"
+		},
+		{
+			"question":"If other has been selected above, please specify:", 
+			"required": "no",
+			"type": "text",		
+			"id":"10"
+		},
+
+
 	]
+
 }
