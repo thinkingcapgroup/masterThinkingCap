@@ -345,7 +345,7 @@
 			],
 			"correct":"None",
 			"id":"22"
-		},
+		}
 	],
 
 	"demographic":[
@@ -406,7 +406,7 @@
 			[
 				"Deaf",
 				"Hard of Hearing",
-				"Hearing",
+				"Hearing"
 			],			
 			"id":"6"
 		},
@@ -449,9 +449,7 @@
 			"required": "no",
 			"type": "text",		
 			"id":"10"
-		},
-
-
+		}
 	]
 
 }

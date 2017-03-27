@@ -3,9 +3,13 @@
     <header class='thinking-cap-header'>
       <h1 class='thinking-cap-title'>{{content.appTitle}}</h1>
     </header>
-    <section id='index-section'>
-	<button onclick = "buildTests()"> Start  </button>
+    <section id='index-section' style = "text-transform: none">
+	<button onclick = "buildTests('pre')"> Start Pre-Test </button>
+	<button onclick = "buildTests('post')"> Start Post Test </button>
 	
+    </section>
+    <section id='warning' style = "text-transform: none; display: none">
+        <center>All Questions Must Be Answered</center>
     </section>
     <footer id='footer'>
       <ul id='reference-links'>
