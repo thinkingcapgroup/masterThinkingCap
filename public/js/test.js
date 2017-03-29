@@ -46,6 +46,7 @@ function showResults()
         {
             case 'pre':
             $.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: playerResults[j], testId: testID });
+            document.getElementById("index-section").innerHTML = "<h2> Test Submitted </h2> <br><br><a class = 'btn double remove' href='/dashboard'>Choose Module</a>";
             break;
             case 'post':
             postTest = true;
@@ -154,7 +155,7 @@ function submitDemographics()
         else
             $.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: "N/A", testId: "demo" });
     }
-    document.getElementById("index-section").innerHTML = "";
+    document.getElementById("index-section").innerHTML = "<h2> Test Submitted </h2><br><br><a class = 'btn double remove' href='/dashboard'>Choose Module</a>";
 }
 function submitAnswers()
 {
