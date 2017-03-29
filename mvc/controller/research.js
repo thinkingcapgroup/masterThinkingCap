@@ -6,7 +6,11 @@ var express = require('express'),
     json2xls = require('json2xls'),
     // Require the Auth middleware
     auth = require('../model/auth/auth');
+    var postArray = [];
+    var preArray = [];
+    var demoArray = [];
     lineArray = [];
+    lineArray2 = [];
     holderArray = [];
 
 /**
@@ -121,12 +125,59 @@ function getDatabase(req,res){
     else {
       // Set the model's bugReports to recieved data
       lineArray = b;
+       require('../model/researchArea/getAllResearchTestData.js')(req, function(err, b) {
+
+        if (err) {
+
+      // If there where no bug reports
+      if (err === 'No Research Data found!') {
+        // Set model to emptyState
+        model.emptyState = true;
+      }
+      // Otherwise
+      else {
+        // Show user the error message
+        errorNotifications.push(err);
+      }
+
+      console.error(err);
     }
+
+    // Otherwise bug reports were found
+    else {
+      // Set the model's bugReports to recieved data
+      lineArray2 = b;
+      preArray = [];
+      postArray = [];
+      demoArray = [];
+
+      for(var z=0; z < lineArray2.length; z++){
+        var thing = lineArray2[z].testId.split('-')
+        if(thing[0] == 'pre'){
+          console.log('pre')
+          preArray.push(lineArray2[z])
+        }
+        else if (thing[0] == 'post'){
+          console.log('post')
+          postArray.push(lineArray2[z])
+        }
+        else{
+          demoArray.push(lineArray2[z])
+        }
+      }
+
+
+    }
+       });
+
+    }
+
+    //grab log information
+
 
     // If there are errors notifications attach them to model
 
-
-        renderResearch(req, res);
+      renderResearch(req, res);
     // Render /bugreports using the 'bugReports' view and model
 
   });
@@ -147,6 +198,10 @@ function renderResearch (req, res) {
 
   model.content.pageTitle = 'Thinking Cap';
   model.researchArray = lineArray;
+  model.researchArray2 = preArray;
+   model.researchArray3 = postArray;
+  model.researchArray4 = demoArray;
+
   model.layout = 'researchlayout'
   model.globalNavigationMode = require('../model/global/globalNavigationModeAuth')(req, res);
 
