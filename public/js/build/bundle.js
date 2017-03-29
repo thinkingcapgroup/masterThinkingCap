@@ -947,7 +947,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var version = '6.2.0';
+	var version = '6.2.1';
 
 	var validator = {
 	  version: version,

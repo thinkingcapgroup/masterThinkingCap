@@ -19,6 +19,54 @@ router.get('/', auth, function(req, res){
   renderTestArea(req, res);
 });
 
+router.post('/recordTest', auth, function (req, res, next) 
+{
+  // Get user id
+  var id = req.user.userId,
+  // Get questions afrom test
+  question = req.body.questionID,
+  answer = req.body.studentAnswer,
+  correct = req.body.isCorrect,
+  test = req.body.testId + "-" + req.user.userId + "-" + req.user.testSession;
+
+  var passingObject = {studentId: id, questionId: question, studentAnswer: answer, isCorrect: correct, testId: test }
+
+  require('../model/testArea/testLog.js')(req, passingObject, function(err, success) {
+  // If there was an error
+  if (err) {
+    console.error(err);
+  }
+  // Otherwise
+  else {
+  }
+  });
+ 
+  // End response
+  res.end();
+});
+
+router.post('/newTestSession', auth, function (req, res, next) 
+{
+  // Get user id
+  var test = parseInt(req.user.testSession) + 1,
+  userId = req.user.userId;
+
+  var passingObject = {testSession: test, user: userId}
+
+  require('../model/users/updateTestSession.js')(req, passingObject, function(err, success) {
+  // If there was an error
+  if (err) {
+    console.error(err);
+  }
+  // Otherwise
+  else {
+  }
+  });
+ 
+  // End response
+  res.end();
+});
+
 /**
  * renderBugReports - renders the bugReports view
  * @param  {Object} req - Express Request Object
