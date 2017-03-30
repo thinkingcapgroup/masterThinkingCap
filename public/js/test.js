@@ -103,10 +103,31 @@ function showDemographics()
 function checkDemographics()
 {
 	complete = true;
-	for( var i = questions.length; i < playerAnswers.length; i++)
+	for( var i = 0; i < demographics.length; i++)
 	{
-		if(playerAnswers[i] == "" && demographics[i].required == 'true')
+        var demoNum = questions.length + i;
+        switch(demographics[i].type)
+        {
+            case 'text':
+            case 'longtest':
+            if(document.getElementById('q'+ demoNum + 'a').value == "" && demographics[i].required == 'true')
 				complete = false;
+            break;
+            case 'radio':
+               var radios = document.getElementsByName("q"+demoNum);
+                var selected = false;
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if (radios[j].checked ) {
+                        selected == true;
+                        break;
+                    }
+                }
+                if(!selected && demographics[i].required == 'true')
+                {
+                    complete = false;
+                }
+            break;
+        }
 	}
 	if(complete)
 	{
@@ -120,40 +141,66 @@ function checkDemographics()
 }
 function submitDemographics()
 {
-    for( var i =0; i < demographics.length; i++)
-	{
-        var demoNum = questions.length + i;
-            console.log(demoNum)
-        switch(demographics[i].type)
-        {
-            case 'text':
-                playerAnswers.push(document.getElementById('q'+ demoNum + 'a').value);
-            break;
-            case 'longtest':
-                playerAnswers.push(document.getElementById('q'+ demoNum + 'a').value);
-            break;
-            case 'radio':
-               var radios = document.getElementsByName("q"+demoNum);
-    
-                for (var j = 0, length = radios.length; j < length; j++) {
-                    if (radios[j].checked) {
-                        // do whatever you want with the checked radio
-                        playerAnswers.push(radios[j].value);
-                
-                        // only one radio can be logically checked, don't check the rest
-                        break;
-                    }
-                }
+    var _name = document.getElementById('q'+ (questions.length + 0) + 'a').value; 
+    var _age = document.getElementById('q'+ (questions.length + 1) + 'a').value; 
+    var _year = document.getElementById('q'+ (questions.length + 2) + 'a').value; 
+    var radios = document.getElementsByName('q'+ (questions.length + 3));
+    var _classTaken ="";
+    console.log(radios);
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked ) {
+            if(radios[j].value == 'No')
+                _classTaken = 'None';
+            else if(radios[j].value == 'Yes')
+                _classTaken = document.getElementById('q'+ (questions.length + 4) + 'a').value;
             break;
         }
-    }
-    
-    for(var j =0; j < questions.length + demographics.length;j++)
+    } 
+    radios = document.getElementsByName('q'+ (questions.length + 5));
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked ) {
+            var _gender = radios[j].value; 
+            break;
+        }
+    } 
+    radios = document.getElementsByName('q'+ (questions.length + 6));
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked ) {
+            var _hearingStatus = radios[j].value; 
+            break;
+        }
+    } 
+    var _ethnicity="";
+    console.log(radios);
+    radios = document.getElementsByName('q'+ (questions.length + 7));
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked ) {
+            if(radios[j].value != 'Other')
+                _ethnicity = radios[j].value; 
+            else
+                _ethnicity = document.getElementById('q'+ (questions.length + 8) + 'a').value;
+            break;
+        }
+    } 
+    var _language ="";
+    console.log(radios);
+    radios = document.getElementsByName('q'+ (questions.length + 9));
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked ) {
+            if(radios[j].value != 'Other')
+                _language = radios[j].value; 
+            else
+                 _language = document.getElementById('q'+ (questions.length + 10) + 'a').value;
+            break;
+        }
+    } 
+    console.log(_classTaken);
+    console.log(_ethnicity);
+    console.log(_language);
+    $.post('/testArea/recordDemo', {name: _name, age: _age, year: _year, classTaken: _classTaken, gender: _gender, hearingStatus: _hearingStatus, ethnicity: _ethnicity, language: _language});
+    for(var j =0; j < questions.length;j++)
     {
-        if(j < questions.length)
-            $.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: playerResults[j], testId: testID });
-        else
-            $.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: "N/A", testId: "demo" });
+        $.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: playerResults[j], testId: testID });
     }
     document.getElementById("index-section").innerHTML = "<h2> Test Submitted </h2><br><br><a class = 'btn double remove' href='/dashboard'>Choose Module</a>";
 }

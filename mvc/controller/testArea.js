@@ -19,6 +19,36 @@ router.get('/', auth, function(req, res){
   renderTestArea(req, res);
 });
 
+router.post('/recordDemo', auth, function (req, res, next) 
+{
+  // Get user id
+  var id = req.user.userId,
+  userName = req.body.name, 
+  userAge = req.body.age, 
+  userYear = req.body.year, 
+  userClassTaken = req.body.classTaken, 
+  userGender = req.body.gender, 
+  userHearingStatus = req.body.hearingStatus, 
+  userEthnicity = req.body.ethnicity, 
+  userLanguage = req.body.language,
+  test = "Demo-" + req.user.userId + "-" + req.user.testSession;
+  var passingObject = {userId: id, name: userName, age: userAge, schoolYear: userYear, statisticCoursesTaken: userClassTaken, gender: userGender, deaf: userHearingStatus, ethnicity: userEthnicity, nativeLanguage: userLanguage, testId: test  }
+    console.log(passingObject);
+
+  require('../model/testArea/demoLog.js')(req, passingObject, function(err, success) {
+  // If there was an error
+  if (err) {
+    console.error(err);
+  }
+  // Otherwise
+  else {
+  }
+  });
+ 
+  // End response
+  res.end();
+});
+
 router.post('/recordTest', auth, function (req, res, next) 
 {
   // Get user id
