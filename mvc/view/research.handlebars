@@ -4,6 +4,10 @@
     <header class='thinking-cap-header'>
       <h1 class='thinking-cap-title'>{{content.pageTitle}}</h1>
     </header>
+    <script>
+    
+        
+    </script>
 
     <div id = 'tabArea'>
    
@@ -11,8 +15,10 @@
     <section id = 'tabs'>
       <ul>
         <li><a href = '#tabcontent' class = 'tablinks' onclick = 'tabChange(event, 0)'>Minigame 1</a></li>
-        <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 1)'>Pre & Post Test</a></li>
-        <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 2)'>User Database</a></li>
+        <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 1)'>Pre Test</a></li>
+        <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 2)'>Post Test</a></li>
+        <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 3)'>Demographics</a></li>
+        <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 4)'>User Database</a></li>
       </ul>
 
     </section>
@@ -25,7 +31,8 @@
       {{else}}
       <section id='report0' class = 'tabcontent active'>
       <br>
-      <h2>Minigame 1</h1>    
+      <h2>Minigame 1</h1>   
+      <a href = 'research/makeExcel' target="_blank">Download</a>
         <table class='table'>
           <tr class='table-row-heading'>
             <th class='table-column-title'>
@@ -94,35 +101,137 @@
               User ID
             </th>
             <th class='table-column-title'>
-              Username
+              Question ID
             </th>        
             <th class='table-column-title'>
-              Type of Test
+             Test ID
             </th>
             <th class='table-column-title'>
-              Score
+              Student's Answer
             </th>
             <th class='table-column-title'>
-              Date
+              isCorrect
             </th>
           </tr>
-          {{#each researchArray}}          
+          {{#each researchArray2}}          
           <tr class='table-row' id = {{id}}>
             <td class='table-cell' id = 'subject'>
-       
+              {{studentId}}
             </td>
             <td class='table-cell'>
-        
+              {{questionId}}
             </td>        
-             
+          
             <td class='table-cell'>
-      
+              {{studentAnswer}}
             </td>
             <td class='table-cell'>
-      
+              {{isCorrect}}
             </td>
             <td class='table-cell'>
-              {{timeStamp}}
+                  {{testId}}
+            </td>
+          </tr>
+          {{/each}}
+        </table>
+      {{/if}}
+    </section>
+
+    {{#if emptyState}}
+      <section class='empty-state-section'>
+        <h2 class='empty-state-header'>No research data found 😃</h2>
+      </section>
+
+      {{else}}
+      <section id='report2' class = 'tabcontent active'>
+      <br>
+      <h2>Test Results</h2>    
+        <table class='table'>
+          <tr class='table-row-heading'>
+            <th class='table-column-title'>
+              User ID
+            </th>
+            <th class='table-column-title'>
+              Question ID
+            </th>        
+            <th class='table-column-title'>
+             Test ID
+            </th>
+            <th class='table-column-title'>
+              Student's Answer
+            </th>
+            <th class='table-column-title'>
+              isCorrect
+            </th>
+          </tr>
+          {{#each researchArray3}}          
+          <tr class='table-row' id = {{id}}>
+            <td class='table-cell' id = 'subject'>
+              {{studentId}}
+            </td>
+            <td class='table-cell'>
+              {{questionId}}
+            </td>        
+          
+            <td class='table-cell'>
+              {{studentAnswer}}
+            </td>
+            <td class='table-cell'>
+              {{isCorrect}}
+            </td>
+            <td class='table-cell'>
+                  {{testId}}
+            </td>
+          </tr>
+          {{/each}}
+        </table>
+      {{/if}}
+    </section>
+
+    {{#if emptyState}}
+      <section class='empty-state-section'>
+        <h2 class='empty-state-header'>No research data found 😃</h2>
+      </section>
+
+      {{else}}
+      <section id='report3' class = 'tabcontent active'>
+      <br>
+      <h2>Test Results</h2>    
+        <table class='table'>
+          <tr class='table-row-heading'>
+            <th class='table-column-title'>
+              User ID
+            </th>
+            <th class='table-column-title'>
+              Question ID
+            </th>        
+            <th class='table-column-title'>
+             Test ID
+            </th>
+            <th class='table-column-title'>
+              Student's Answer
+            </th>
+            <th class='table-column-title'>
+              isCorrect
+            </th>
+          </tr>
+          {{#each researchArray4}}          
+          <tr class='table-row' id = {{id}}>
+            <td class='table-cell' id = 'subject'>
+              {{studentId}}
+            </td>
+            <td class='table-cell'>
+              {{questionId}}
+            </td>        
+          
+            <td class='table-cell'>
+              {{studentAnswer}}
+            </td>
+            <td class='table-cell'>
+              {{isCorrect}}
+            </td>
+            <td class='table-cell'>
+                  {{testId}}
             </td>
           </tr>
           {{/each}}
@@ -136,7 +245,7 @@
       </section>
 
       {{else}}
-      <section id='report2' class = 'tabcontent active'>
+      <section id='report4' class = 'tabcontent active'>
       <br>
       <h2>User Database</h2>    
         <div id = 'searchArea'>

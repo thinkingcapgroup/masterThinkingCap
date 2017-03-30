@@ -5,6 +5,7 @@
 	var express = require('express'),
 			app = express(),
 			mysql = require('mysql'),
+			http = require('http').Server(app),
 			// Database
 			db,
 			// Database credentials

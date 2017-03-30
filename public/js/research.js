@@ -1,7 +1,8 @@
 function tabChange(evt, tabID){
 	var i,
 	tablinks,
-			tabcontent;
+  currentTab = 0,
+	tabcontent;
 
 	tabcontent = document.getElementsByClassName("tabcontent");
 
@@ -18,6 +19,9 @@ function tabChange(evt, tabID){
     // Show the current tab, and add an "active" class to the link that opened the tab
     document.getElementById(elementID).style.display = "block";
     evt.currentTarget.className += " active";
+
+ currentTab = tabID
+ console.log(currentTab)
 }
 
 function researchQuery(){

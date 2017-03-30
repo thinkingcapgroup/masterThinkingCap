@@ -3,9 +3,14 @@ var express = require('express'),
     fs = require('fs');
     // Get the express Router
     router = express.Router(),
+    json2xls = require('json2xls'),
     // Require the Auth middleware
     auth = require('../model/auth/auth');
+    var postArray = [];
+    var preArray = [];
+    var demoArray = [];
     lineArray = [];
+    lineArray2 = [];
     holderArray = [];
 
 /**
@@ -64,6 +69,38 @@ router.get('/search', auth, function (req, res) {
 
 });
 
+router.get('/makeExcel', function (req, res) {
+  // TextFile Saving
+
+  //fs.writeFile('saveFile/userSave.txt', stringTem, function (err)
+  //{});
+
+  //Database Saving
+  require('../model/researchArea/makeExcel.js')(req, lineArray, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+     var file = __dirname + '/../../upload/data.xlsx'
+      res.download(file, function (err) {
+       if (err) {
+           console.log("Error");
+           console.log(err);
+       } else {
+           console.log("Success");
+
+       }
+   });
+    }
+ });
+
+  // End response
+
+});
+
+
 function getDatabase(req,res){
 
    require('../model/researchArea/getAllResearchData.js')(req, function(err, b) {
@@ -88,89 +125,64 @@ function getDatabase(req,res){
     else {
       // Set the model's bugReports to recieved data
       lineArray = b;
+       require('../model/researchArea/getAllResearchTestData.js')(req, function(err, b) {
+
+        if (err) {
+
+      // If there where no bug reports
+      if (err === 'No Research Data found!') {
+        // Set model to emptyState
+        model.emptyState = true;
+      }
+      // Otherwise
+      else {
+        // Show user the error message
+        errorNotifications.push(err);
+      }
+
+      console.error(err);
     }
+
+    // Otherwise bug reports were found
+    else {
+      // Set the model's bugReports to recieved data
+      lineArray2 = b;
+      preArray = [];
+      postArray = [];
+      demoArray = [];
+
+      for(var z=0; z < lineArray2.length; z++){
+        var thing = lineArray2[z].testId.split('-')
+        if(thing[0] == 'pre'){
+          console.log('pre')
+          preArray.push(lineArray2[z])
+        }
+        else if (thing[0] == 'post'){
+          console.log('post')
+          postArray.push(lineArray2[z])
+        }
+        else{
+          demoArray.push(lineArray2[z])
+        }
+      }
+
+
+    }
+       });
+
+    }
+
+    //grab log information
+
 
     // If there are errors notifications attach them to model
 
-
-        renderResearch(req, res);
+      renderResearch(req, res);
     // Render /bugreports using the 'bugReports' view and model
 
   });
   
 };
-
-
-function readLines(){
-
-  lineArray = [];
-  holderArray = [];
-  holderArray = fs.readFileSync('logInfo/userAction.txt').toString().split('\n');
-
-  for(var x= 0; x < holderArray.length; x++){
-    var objectHolder = [];
-    objectHolder.isPoll = false;
-    var newHolderArray = holderArray[x].split("-");
-    if(newHolderArray[1] == 'userAction'){
-      objectHolder.id = newHolderArray[0];
-      objectHolder.type = newHolderArray[1];
-      objectHolder.action = newHolderArray[2];
-      objectHolder.username = newHolderArray[4];
-      objectHolder.timeStamp =  new Date(newHolderArray[3] * 1).toLocaleString();
-      objectHolder.gameSession = newHolderArray[5];
-    }
-    else if(newHolderArray[1] == 'endGame'){
-      objectHolder.id = newHolderArray[0];
-      objectHolder.type = newHolderArray[1];
-      objectHolder.action = newHolderArray[2] + " " + newHolderArray[3];
-      objectHolder.username = newHolderArray[5];
-      objectHolder.timeStamp =  new Date(newHolderArray[4] * 1).toLocaleString()
-      objectHolder.gameSession = newHolderArray[6];
-         console.log(objectHolder.gameSession)
-    }
-    else if(newHolderArray[1] == 'poll'){
-      objectHolder.id = newHolderArray[0];
-      objectHolder.type = newHolderArray[1];
-      objectHolder.action = newHolderArray[2];
-      objectHolder.timeStamp =  new Date(newHolderArray[3] * 1).toLocaleString();
-      objectHolder.username = newHolderArray[4];
-      objectHolder.gameSession = newHolderArray[5];
-         console.log(objectHolder.gameSession)
-      objectHolder.isPoll = true;
-      //do the questions
-
-      var questionHolder = newHolderArray[2].split('*')
-      var objectQuestion = [];      
-      questionHolder.forEach(function(element){
-        var hold = "";
-        if(element == 'undefined'){
-          hold = "NA"
-        }
-        else{
-          hold = element;
-        }
-        objectQuestion.push(hold)
-      })
-      objectHolder.questions = objectQuestion;
-
-
-    }
-    else if(newHolderArray[1] == 'minigameScore'){
-      objectHolder.id = newHolderArray[0];
-      objectHolder.type = "Minigame " + newHolderArray[1];
-      objectHolder.action = "Score: " + newHolderArray[2];
-      objectHolder.timeStamp =  new Date(newHolderArray[3] * 1).toLocaleString()
-      objectHolder.username = newHolderArray[4];
-      objectHolder.gameSession = newHolderArray[5];
-     
-    }
-
-
-    if(objectHolder.length >=0){
-      lineArray.push(objectHolder);
-    }
-  }
-}
 
 /**
  * renderDashboard - renders the user dashboard view
@@ -186,6 +198,10 @@ function renderResearch (req, res) {
 
   model.content.pageTitle = 'Thinking Cap';
   model.researchArray = lineArray;
+  model.researchArray2 = preArray;
+   model.researchArray3 = postArray;
+  model.researchArray4 = demoArray;
+
   model.layout = 'researchlayout'
   model.globalNavigationMode = require('../model/global/globalNavigationModeAuth')(req, res);
 
