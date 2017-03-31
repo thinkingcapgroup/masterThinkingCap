@@ -122,36 +122,16 @@ function getDatabase(req,res){
 
       console.error(err);
     }
-
     // Otherwise bug reports were found
     else {
       // Set the model's bugReports to recieved data
       lineArray = b;
     
     }
+  });
 
-    //pre & post
-    require('../model/researchArea/getAllResearchTestData.js')(req, function(err, b) {
 
-    if (err) {
-
-      // If there where no bug reports
-      if (err === 'No Research Data found!') {
-        // Set model to emptyState
-        model.emptyState = true;
-      }
-      // Otherwise
-      else {
-        // Show user the error message
-        errorNotifications.push(err);
-      }
-
-      console.error(err);
-    else 
-    {
-        // Set the model's bugReports to recieved data
-        lineArray = b;
-        require('../model/researchArea/getAllResearchTestData.js')(req, function(err, b) 
+ require('../model/researchArea/getAllResearchTestData.js')(req, function(err, b) 
         {
         
             if (err) 
@@ -184,20 +164,18 @@ function getDatabase(req,res){
                     var thing = lineArray2[z].testId.split('-')
                     if(thing[0] == 'pre')
                     {
-                        console.log('pre')
+                     
                         preArray.push(lineArray2[z])
                     }
                     else if (thing[0] == 'post')
                     {
-                        console.log('post')
                         postArray.push(lineArray2[z])
                     }
                 }
             }
-        });
-        
-        //Get Demographic Data
-        require('../model/researchArea/getAllResearchDemoData.js')(req, function(err, b) 
+          });
+
+  require('../model/researchArea/getAllResearchDemoData.js')(req, function(err, b) 
         {
         
             if (err) 
@@ -223,34 +201,6 @@ function getDatabase(req,res){
                 // Set the model's bugReports to recieved data
                 demoArray = b;
             }
-        });
-    }
-
-    // Otherwise bug reports were found
-    else {
-      // Set the model's bugReports to recieved data
-      lineArray2 = b;
-      preArray = [];
-      postArray = [];
-      demoArray = [];
-
-      for(var z=0; z < lineArray2.length; z++){
-        var thing = lineArray2[z].testId.split('-')
-        if(thing[0] == 'pre'){
-
-          preArray.push(lineArray2[z])
-        }
-        else if (thing[0] == 'post'){
-
-          postArray.push(lineArray2[z])
-        }
-        else{
-          demoArray.push(lineArray2[z])
-        }
-      }
-
-
-    }
     });
 
     require('../model/researchArea/getAllTestTimeData.js')(req, function(err, b) {
@@ -270,7 +220,6 @@ function getDatabase(req,res){
 
       console.error(err);
     }
-
     // Otherwise bug reports were found
     else {
       // Set the model's bugReports to recieved data
@@ -296,26 +245,12 @@ function getDatabase(req,res){
     }
     });
 
-
-    //make the overall Pre & Post Tests
-
-    require('../model/researchArea/makeExcel.js')(req, lineArray, function(err, success) {
-    // If there was an error
-    if (err) {
-      console.error(err);
-    }
-    // Otherwise
-    else {
-    }
-    });
-
     //grab log information
     renderResearch(req, res);
         
 
     // Render /bugreports using the 'bugReports' view and model
 
-  });
   
 };
 
