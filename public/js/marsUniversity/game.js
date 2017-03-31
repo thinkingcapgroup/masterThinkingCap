@@ -871,6 +871,7 @@ function practicePoll()
 function firstStatement()
 {
 	clearScreen();
+    document.getElementById("holo").src = "../../img/openscreenlarge.png";
 	document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
 	for (var x=0; x < positions.length; x++){
 
