@@ -103,6 +103,161 @@ router.get('/makeExcel', function (req, res) {
 });
 
 
+router.get('/makePreTestExcel', function (req, res) {
+  // TextFile Saving
+
+  //fs.writeFile('saveFile/userSave.txt', stringTem, function (err)
+  //{});
+
+  //Database Saving
+  require('../model/researchArea/makePreTestExcel.js')(req, preArray, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+     var file = __dirname + '/../../upload/allPreTestData.xlsx'
+      res.download(file, function (err) {
+       if (err) {
+           console.log("Error");
+           console.log(err);
+       } else {
+           console.log("Success");
+
+       }
+   });
+    }
+ });
+
+  // End response
+
+});
+
+router.get('/makePostTestExcel', function (req, res) {
+  // TextFile Saving
+
+  //fs.writeFile('saveFile/userSave.txt', stringTem, function (err)
+  //{});
+
+  //Database Saving
+  require('../model/researchArea/makePostExcel.js')(req, postArray, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+     var file = __dirname + '/../../upload/allPostTestData.xlsx'
+      res.download(file, function (err) {
+       if (err) {
+           console.log("Error");
+           console.log(err);
+       } else {
+           console.log("Success");
+
+       }
+   });
+    }
+ });
+
+  // End response
+
+});
+
+
+router.get('/summaryPreTestData', function (req, res) {
+  // TextFile Saving
+
+  //fs.writeFile('saveFile/userSave.txt', stringTem, function (err)
+  //{});
+
+  //Database Saving
+  require('../model/researchArea/summaryPreTestExcel.js')(req, preTotalArray, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+     var file = __dirname + '/../../upload/summaryPreTestData.xlsx'
+      res.download(file, function (err) {
+       if (err) {
+           console.log("Error");
+           console.log(err);
+       } else {
+           console.log("Success");
+
+       }
+   });
+    }
+ });
+
+  // End response
+
+});
+
+
+router.get('/summaryPostTestExcel', function (req, res) {
+  // TextFile Saving
+
+  //fs.writeFile('saveFile/userSave.txt', stringTem, function (err)
+  //{});
+
+  //Database Saving
+  require('../model/researchArea/summaryPostTestExcel.js')(req, postTotalArray, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+     var file = __dirname + '/../../upload/summaryPostTestData.xlsx'
+      res.download(file, function (err) {
+       if (err) {
+           console.log("Error");
+           console.log(err);
+       } else {
+           console.log("Success");
+
+       }
+   });
+    }
+ });
+
+
+});
+
+router.get('/demographicExcel', function (req, res) {
+  // TextFile Saving
+
+  //fs.writeFile('saveFile/userSave.txt', stringTem, function (err)
+  //{});
+
+  //Database Saving
+  require('../model/researchArea/demographicExcel.js')(req, demoArray, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+     var file = __dirname + '/../../upload/demographicData.xlsx'
+      res.download(file, function (err) {
+       if (err) {
+           console.log("Error");
+           console.log(err);
+       } else {
+           console.log("Success");
+
+       }
+   });
+    }
+ });
+
+
+});
+
 function getDatabase(req,res){
 
    require('../model/researchArea/getAllResearchData.js')(req, function(err, b) {
