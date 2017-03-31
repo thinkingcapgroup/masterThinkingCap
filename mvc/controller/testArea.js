@@ -2,12 +2,16 @@
 var express = require('express'),
     // Get the express Router
     router = express.Router(),
+    moment = require('moment'),
     // Require the Auth middleware
     auth = require('../model/auth/auth'),
     // errorNotifications
     errorNotifications = [],
+    startTimeUnix = 0;
     // successNotifications
     successNotifications = [];
+
+var correctTotal = 0;
 
 /**
  * router - GET method for our bugReports route '/bugreports'
@@ -16,6 +20,8 @@ var express = require('express'),
  * @param  {Object} res - Express Response Object
  */
 router.get('/', auth, function(req, res){
+  startTimeUnix = Date.now();
+  startTime = moment().format('MMMM Do YYYY, h:mm:ss a');   
   renderTestArea(req, res);
 });
 
@@ -26,10 +32,47 @@ router.post('/recordTest', auth, function (req, res, next)
   // Get questions afrom test
   question = req.body.questionID,
   answer = req.body.studentAnswer,
+  time = 0,
+  endTime = "",
   correct = req.body.isCorrect,
   test = req.body.testId + "-" + req.user.userId + "-" + req.user.testSession;
+  if(correct == "Answer Correct"){
+    console.log('correct')
+    correctTotal++;
+  }
 
-  var passingObject = {studentId: id, questionId: question, studentAnswer: answer, isCorrect: correct, testId: test }
+
+  if(question == 22){
+    endTimeUnix = Date.now();
+    endTime = moment().format('MMMM Do YYYY h:mm:ss a');
+    timeSpent = endTimeUnix - startTimeUnix;
+    timeSpent = timeSpent / 1000
+    var minutes = Math.floor(timeSpent / 60);
+    var seconds = Math.floor(timeSpent - minutes * 60);
+
+    time = minutes + " minutes and " + seconds + " seconds"
+      var passingObject2 = {userId: id, startTime: startTime, endTime: endTime, timeSpent: time, testId: test, correctTotal:correctTotal}
+
+     require('../model/testArea/testTime.js')(req, passingObject2, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+    }
+      
+    });
+
+
+  if(question >= 22){
+    correctTotal = 0;
+  }
+  }
+ 
+
+  var passingObject = {studentId: id, questionId: question, studentAnswer: answer, isCorrect: correct, testId: test, start: startTime, end: endTime, totalTime: time}
+
 
   require('../model/testArea/testLog.js')(req, passingObject, function(err, success) {
   // If there was an error
@@ -37,7 +80,9 @@ router.post('/recordTest', auth, function (req, res, next)
     console.error(err);
   }
   // Otherwise
-  else {
+  else {    
+   
+
   }
   });
  

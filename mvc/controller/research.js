@@ -9,6 +9,8 @@ var express = require('express'),
     var postArray = [];
     var preArray = [];
     var demoArray = [];
+    var preTotalArray = [];
+    var postTotalArray = [];
     lineArray = [];
     lineArray2 = [];
     holderArray = [];
@@ -125,9 +127,13 @@ function getDatabase(req,res){
     else {
       // Set the model's bugReports to recieved data
       lineArray = b;
-       require('../model/researchArea/getAllResearchTestData.js')(req, function(err, b) {
+    
+    }
 
-        if (err) {
+    //pre & post
+    require('../model/researchArea/getAllResearchTestData.js')(req, function(err, b) {
+
+    if (err) {
 
       // If there where no bug reports
       if (err === 'No Research Data found!') {
@@ -154,11 +160,11 @@ function getDatabase(req,res){
       for(var z=0; z < lineArray2.length; z++){
         var thing = lineArray2[z].testId.split('-')
         if(thing[0] == 'pre'){
-          console.log('pre')
+
           preArray.push(lineArray2[z])
         }
         else if (thing[0] == 'post'){
-          console.log('post')
+
           postArray.push(lineArray2[z])
         }
         else{
@@ -168,16 +174,68 @@ function getDatabase(req,res){
 
 
     }
-       });
+    });
 
+    require('../model/researchArea/getAllTestTimeData.js')(req, function(err, b) {
+
+    if (err) {
+
+      // If there where no bug reports
+      if (err === 'No Research Data found!') {
+        // Set model to emptyState
+        model.emptyState = true;
+      }
+      // Otherwise
+      else {
+        // Show user the error message
+        errorNotifications.push(err);
+      }
+
+      console.error(err);
     }
 
+    // Otherwise bug reports were found
+    else {
+      // Set the model's bugReports to recieved data
+
+        preTotalArray = [];
+      postTotalArray = [];
+
+
+      for(var z=0; z < b.length; z++){
+        var thing = b[z].testId.split('-')
+        if(thing[0] == 'pre'){
+
+          preTotalArray.push(b[z])
+        }
+        else if (thing[0] == 'post'){
+
+          postTotalArray.push(b[z])
+        }
+        
+      }
+
+
+    }
+    });
+
+
+    //make the overall Pre & Post Tests
+
+    require('../model/researchArea/makeExcel.js')(req, lineArray, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+    }
+    });
+
     //grab log information
+    renderResearch(req, res);
+        
 
-
-    // If there are errors notifications attach them to model
-
-      renderResearch(req, res);
     // Render /bugreports using the 'bugReports' view and model
 
   });
@@ -199,8 +257,10 @@ function renderResearch (req, res) {
   model.content.pageTitle = 'Thinking Cap';
   model.researchArray = lineArray;
   model.researchArray2 = preArray;
-   model.researchArray3 = postArray;
+  model.researchArray3 = postArray;
   model.researchArray4 = demoArray;
+  model.researchArray5 = preTotalArray;
+  model.researchArray6 = postTotalArray;
 
   model.layout = 'researchlayout'
   model.globalNavigationMode = require('../model/global/globalNavigationModeAuth')(req, res);

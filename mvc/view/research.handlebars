@@ -93,7 +93,66 @@
 
       {{else}}
       <section id='report1' class = 'tabcontent active'>
+         <section id = 'subtabs'>
+      <ul>
+        <li><a href = '#subtabcontent0' class = 'subtablinks' onclick = 'subtabChange(event, 0)'>Pre-Test Summary</a></li>
+        <li><a href = '#subtabcontent1' class = 'subtablinks' onclick = 'subtabChange(event, 1)'>All Pre-Test Answers</a></li>
+
+      </ul>
+
+    </section>
       <br>
+      <section id = 'subreport0'>
+        <h2>Pre-Test Overall Results</h2>
+          <table class='table'>
+          <tr class='table-row-heading'>
+            <th class='table-column-title'>
+              User ID
+            </th>
+            <th class='table-column-title'>
+              Test ID
+            </th>     
+            <th class='table-column-title'>
+             Number Correct
+            </th>      
+            <th class='table-column-title'>
+             Start Time
+            </th>
+            <th class='table-column-title'>
+              End Time
+            </th>
+            <th class='table-column-title'>
+              Total Time
+            </th>
+          </tr>
+
+              {{#each researchArray5}}          
+          <tr class='table-row' id = {{userId}}>
+           <td class='table-cell'>
+              {{userId}}
+            </td>        
+            <td class='table-cell'>
+              {{testId}}
+            </td>  
+            <td class='table-cell'>
+              {{correctTotal}}
+            </td>  
+            <td class='table-cell'>
+              {{startTime}}
+            </td>     
+            <td class='table-cell'>
+              {{endTime}}
+            </td>    
+            <td class='table-cell'>
+              {{totalTime}}
+            </td>  
+          
+          </tr>
+          {{/each}}
+          
+        </table>
+      </section>
+      <section id = 'subreport1'>
       <h2>Test Results</h2>    
         <table class='table'>
           <tr class='table-row-heading'>
@@ -104,13 +163,13 @@
               Question ID
             </th>        
             <th class='table-column-title'>
-             Test ID
+             Student's Answer
             </th>
             <th class='table-column-title'>
-              Student's Answer
+              Answer Correct?
             </th>
             <th class='table-column-title'>
-              isCorrect
+              Test ID
             </th>
           </tr>
           {{#each researchArray2}}          
@@ -129,11 +188,12 @@
               {{isCorrect}}
             </td>
             <td class='table-cell'>
-                  {{testId}}
+                 {{testId}}
             </td>
           </tr>
           {{/each}}
         </table>
+        </section>
       {{/if}}
     </section>
 
@@ -144,7 +204,63 @@
 
       {{else}}
       <section id='report2' class = 'tabcontent active'>
+           <section id = 'subtabs'>
+      <ul>
+        <li><a href = '#subtabcontent0' class = 'subtablinks' onclick = 'subtabChange(event, 0)'>Post-Test Summary</a></li>
+        <li><a href = '#subtabcontent1' class = 'subtablinks' onclick = 'subtabChange(event, 1)'>All Post-Test Answers</a></li>
+      </ul>
+      </section>
       <br>
+      <section id = 'subreport2'>
+        <h2>Post-Test Overall Results</h2>
+          <table class='table'>
+         <tr class='table-row-heading'>
+            <th class='table-column-title'>
+              User ID
+            </th>
+            <th class='table-column-title'>
+              Test ID
+            </th>     
+            <th class='table-column-title'>
+             Number Correct
+            </th>      
+            <th class='table-column-title'>
+             Start Time
+            </th>
+            <th class='table-column-title'>
+              End Time
+            </th>
+            <th class='table-column-title'>
+              Total Time
+            </th>
+          </tr>
+        {{#each researchArray6}}          
+          <tr class='table-row' id = {{userId}}>
+           <td class='table-cell'>
+              {{userId}}
+            </td>        
+            <td class='table-cell'>
+              {{testId}}
+            </td>  
+            <td class='table-cell'>
+              {{correctTotal}}
+            </td>  
+            <td class='table-cell'>
+              {{startTime}}
+            </td>     
+            <td class='table-cell'>
+              {{endTime}}
+            </td>    
+            <td class='table-cell'>
+              {{totalTime}}
+            </td>  
+          
+          </tr>
+          {{/each}}
+          
+        </table>
+      </section>
+      <section id = 'subreport4'>
       <h2>Test Results</h2>    
         <table class='table'>
           <tr class='table-row-heading'>
@@ -155,13 +271,13 @@
               Question ID
             </th>        
             <th class='table-column-title'>
-             Test ID
+             Student's Answer
             </th>
             <th class='table-column-title'>
-              Student's Answer
+              Answer Correct?
             </th>
             <th class='table-column-title'>
-              isCorrect
+              Test ID
             </th>
           </tr>
           {{#each researchArray3}}          
@@ -186,6 +302,7 @@
           {{/each}}
         </table>
       {{/if}}
+    </section>
     </section>
 
     {{#if emptyState}}
