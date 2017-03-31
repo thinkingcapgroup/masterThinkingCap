@@ -104,13 +104,13 @@
               Question ID
             </th>        
             <th class='table-column-title'>
-             Test ID
-            </th>
-            <th class='table-column-title'>
               Student's Answer
             </th>
             <th class='table-column-title'>
               isCorrect
+            </th>
+            <th class='table-column-title'>
+             Test ID
             </th>
           </tr>
           {{#each researchArray2}}          
@@ -153,15 +153,15 @@
             </th>
             <th class='table-column-title'>
               Question ID
-            </th>        
-            <th class='table-column-title'>
-             Test ID
-            </th>
+            </th>      
             <th class='table-column-title'>
               Student's Answer
             </th>
             <th class='table-column-title'>
               isCorrect
+            </th>  
+            <th class='table-column-title'>
+             Test ID
             </th>
           </tr>
           {{#each researchArray3}}          
@@ -196,42 +196,71 @@
       {{else}}
       <section id='report3' class = 'tabcontent active'>
       <br>
-      <h2>Test Results</h2>    
+      <h2>User Demographic Results</h2>    
         <table class='table'>
           <tr class='table-row-heading'>
             <th class='table-column-title'>
               User ID
             </th>
             <th class='table-column-title'>
-              Question ID
+              Name
             </th>        
             <th class='table-column-title'>
-             Test ID
+             Age
             </th>
             <th class='table-column-title'>
-              Student's Answer
+             School Year
             </th>
             <th class='table-column-title'>
-              isCorrect
+              Statistics Courses Taken
+            </th>
+            <th class='table-column-title'>
+              Gender
+            </th>
+            <th class='table-column-title'>
+              Hearing Status
+            </th>
+            <th class='table-column-title'>
+              Ethnicity
+            </th>
+            <th class='table-column-title'>
+              Native Language
+            </th>
+            <th class='table-column-title'>
+              Test ID
             </th>
           </tr>
           {{#each researchArray4}}          
           <tr class='table-row' id = {{id}}>
             <td class='table-cell' id = 'subject'>
-              {{studentId}}
+              {{userId}}
             </td>
             <td class='table-cell'>
-              {{questionId}}
-            </td>        
-          
+              {{name}}
+            </td>      
             <td class='table-cell'>
-              {{studentAnswer}}
+              {{age}}
             </td>
             <td class='table-cell'>
-              {{isCorrect}}
+              {{schoolYear}}
             </td>
             <td class='table-cell'>
-                  {{testId}}
+              {{statisticCoursesTaken}}
+            </td>
+            <td class='table-cell' id = 'subject'>
+              {{gender}}
+            </td>
+            <td class='table-cell'>
+              {{deaf}}
+            </td>      
+            <td class='table-cell'>
+              {{ethnicity}}
+            </td>
+            <td class='table-cell'>
+              {{nativeLanguage}}
+            </td>
+            <td class='table-cell'>
+              {{testId}}
             </td>
           </tr>
           {{/each}}

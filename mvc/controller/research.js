@@ -122,59 +122,85 @@ function getDatabase(req,res){
     }
 
     // Otherwise bug reports were found
-    else {
-      // Set the model's bugReports to recieved data
-      lineArray = b;
-       require('../model/researchArea/getAllResearchTestData.js')(req, function(err, b) {
-
-        if (err) {
-
-      // If there where no bug reports
-      if (err === 'No Research Data found!') {
-        // Set model to emptyState
-        model.emptyState = true;
-      }
-      // Otherwise
-      else {
-        // Show user the error message
-        errorNotifications.push(err);
-      }
-
-      console.error(err);
+    else 
+    {
+        // Set the model's bugReports to recieved data
+        lineArray = b;
+        require('../model/researchArea/getAllResearchTestData.js')(req, function(err, b) 
+        {
+        
+            if (err) 
+            {
+            // If there where no bug reports
+            if (err === 'No Research Data found!') 
+            {
+            // Set model to emptyState
+            model.emptyState = true;
+            }
+            // Otherwise
+            else 
+            {
+            // Show user the error message
+            errorNotifications.push(err);
+            }
+        
+            console.error(err);
+            }
+            // Otherwise bug reports were found
+            else 
+            {
+                // Set the model's bugReports to recieved data
+                lineArray2 = b;
+                preArray = [];
+                postArray = [];
+            
+                for(var z=0; z < lineArray2.length; z++)
+                {
+                    var thing = lineArray2[z].testId.split('-')
+                    if(thing[0] == 'pre')
+                    {
+                        console.log('pre')
+                        preArray.push(lineArray2[z])
+                    }
+                    else if (thing[0] == 'post')
+                    {
+                        console.log('post')
+                        postArray.push(lineArray2[z])
+                    }
+                }
+            }
+        });
+        
+        //Get Demographic Data
+        require('../model/researchArea/getAllResearchDemoData.js')(req, function(err, b) 
+        {
+        
+            if (err) 
+            {
+            // If there where no bug reports
+            if (err === 'No Demographic Data found!') 
+            {
+            // Set model to emptyState
+            model.emptyState = true;
+            }
+            // Otherwise
+            else 
+            {
+            // Show user the error message
+            errorNotifications.push(err);
+            }
+        
+            console.error(err);
+            }
+            // Otherwise bug reports were found
+            else 
+            {
+                // Set the model's bugReports to recieved data
+                demoArray = b;
+            }
+        });
     }
-
-    // Otherwise bug reports were found
-    else {
-      // Set the model's bugReports to recieved data
-      lineArray2 = b;
-      preArray = [];
-      postArray = [];
-      demoArray = [];
-
-      for(var z=0; z < lineArray2.length; z++){
-        var thing = lineArray2[z].testId.split('-')
-        if(thing[0] == 'pre'){
-          console.log('pre')
-          preArray.push(lineArray2[z])
-        }
-        else if (thing[0] == 'post'){
-          console.log('post')
-          postArray.push(lineArray2[z])
-        }
-        else{
-          demoArray.push(lineArray2[z])
-        }
-      }
-
-
-    }
-       });
-
-    }
-
     //grab log information
-
-
     // If there are errors notifications attach them to model
 
       renderResearch(req, res);
