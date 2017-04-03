@@ -947,7 +947,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var version = '6.2.1';
+	var version = '6.2.0';
 
 	var validator = {
 	  version: version,
@@ -1508,7 +1508,7 @@
 
 	function isURL(url, options) {
 	  (0, _assertString2.default)(url);
-	  if (!url || url.length >= 2083 || /[\s<>]/.test(url)) {
+	  if (!url || url.length >= 2083 || /\s/.test(url)) {
 	    return false;
 	  }
 	  if (url.indexOf('mailto:') === 0) {
@@ -2934,7 +2934,6 @@
 	  'es-ES': /^(\+?34)?(6\d{1}|7[1234])\d{7}$/,
 	  'fi-FI': /^(\+?358|0)\s?(4(0|1|2|4|5)?|50)\s?(\d\s?){4,8}\d$/,
 	  'fr-FR': /^(\+?33|0)[67]\d{8}$/,
-	  'he-IL': /^(\+972|0)([23489]|5[0248]|77)[1-9]\d{6}/,
 	  'hu-HU': /^(\+?36)(20|30|70)\d{7}$/,
 	  'it-IT': /^(\+?39)?\s?3\d{2} ?\d{6,7}$/,
 	  'ja-JP': /^(\+?81|0)\d{1,4}[ \-]?\d{1,4}[ \-]?\d{4}$/,
