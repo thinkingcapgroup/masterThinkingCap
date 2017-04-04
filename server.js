@@ -10,10 +10,10 @@
 			db,
 			// Database credentials
 			dbCredentials = {
-				host: 'thinkingcapdb.c2bwfidxhwyj.us-east-2.rds.amazonaws.com',
+				host: 'thinkingcapdb.cpxa365rmlla.us-east-2.rds.amazonaws.com',
 				port: '3306',
 				database: 'thinkingcapdb',
-				user: 'thinkingcapdevs',
+				user: 'thinkingcapdev',
 				password: 'thinkingcap2016'
 			},
 			handlebars = require('express-handlebars').create(
