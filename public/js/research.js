@@ -1,7 +1,9 @@
 function tabChange(evt, tabID){
 	var i,
 	tablinks,
-			tabcontent;
+  currentTab = 0,
+  currentsubTab = 0,
+	tabcontent;
 
 	tabcontent = document.getElementsByClassName("tabcontent");
 
@@ -18,6 +20,44 @@ function tabChange(evt, tabID){
     // Show the current tab, and add an "active" class to the link that opened the tab
     document.getElementById(elementID).style.display = "block";
     evt.currentTarget.className += " active";
+
+ currentTab = tabID
+
+ if(currentTab == 1){
+  document.getElementById('subreport0').style.display = 'block';
+  document.getElementById('subreport1').style.display = 'none';
+ } 
+ if(currentTab == 2){
+  document.getElementById('subreport2').style.display = 'block';
+  document.getElementById('subreport3').style.display = 'none';
+ }
+
+}
+
+function subtabChange(evt, tabID){
+  var i,
+  tablinks,
+  currentTab = 0,
+  tabcontent;
+
+  tabcontent = document.getElementsByClassName("subtabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  tablinks = document.getElementsByClassName("subtablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    var elementID = "subreport"+tabID;
+    console.log(elementID)
+    // Show the current tab, and add an "active" class to the link that opened the tab
+    document.getElementById(elementID).style.display = "block";
+    evt.currentTarget.className += " active";
+
+ currentTab = tabID
+ console.log(currentTab)
 }
 
 function researchQuery(){

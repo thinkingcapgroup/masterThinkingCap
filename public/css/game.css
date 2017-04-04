@@ -47,8 +47,9 @@ th, td {
     float: right;
     width:35%;
 }
-#CafeChoice
+#CommonsChoice
 {
+    display:block;
     float: right;
     width:35%;
 }

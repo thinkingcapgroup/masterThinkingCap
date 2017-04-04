@@ -5,7 +5,7 @@
 			"name":"Poll",
 			"id":"1",
 			"type":"smallEvent",
-			"text":"You've decided ot take a poll to gauge opinions aboutyour campaign. Choose the questions you would like to include below.",
+			"text":"You've decided ot take a poll to gauge opinions about your campaign. Choose the questions you would like to include below.",
 			"timeRequired":"1",
 			"groupPos":"Res",
 			"groupNeg":"",
@@ -34,29 +34,30 @@
 		},
 			
 		{
-			"name":"Posters",
+			"name":"Ice Cream Social",
 			"id":"2",
 			"type":"smallEvent",
-			"text":"You plan to make posters and put them up around campus to draw attention to yourself.",
+			"text":"Setting up infront of the building, you starts passing out vanilla ice cream to those who are coming in and out of the building. ",
 			"timeRequired":"2",
 			"groupPos":"Bus",
 			"groupNeg":"",
 			"results":"",
-			"loc":"Quad",
+			"loc":"Gym",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\freeicecreambg.png",
 			"options":
 			[
 				{
-					"optionName":"Catchy Slogan",
-					"optionID":"CatchySlogan",
+					"optionName":"Offer More Flavors",
+					"optionID":"moreflavor",
 					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Soc",
 					"negEffects":""
 				},
 				{
-					"optionName":"Web Address",
-					"optionID":"WebAddress",
+					"optionName":"Offer Stickers",
+					"optionID":"stickers",
 					"type":"boost",
 					"extraTime" : "1", 
 					"posEffects":"Tech",
@@ -68,82 +69,77 @@
 		},
 		
 		{
-			"name":"Booth",
+			"name":"Community Service",
 			"id":"3",
 			"type":"smallEvent",
-			"text":"It's time for some 1 on 1 with the voters. Use their visual cues and anecdotes to choose the proper item to give them",
+			"text":"You've decided to help out the community by collecting food for the poor and needy, organizing it, and shipping it to the local food bank.",
 			"timeRequired":"2",
-			"groupPos":"Res",
+			"groupPos":"Law",
 			"groupNeg":"",
 			"results":"The voters really responded to your charm and you did a great job of endorsing your platform.",
-			"loc":"Quad",
+			"loc":"Lib",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\fooddrivebg.png",
 			"options":
 			[
 			]
 		},
 		
 		{
-			"name":"Party",
+			"name":"Compete in Game Tournament",
 			"id":"4",
 			"type":"smallEvent",
-			"text":"You decide to throw a party in order to make yourself more popular and aproachable. ",
+			"text":"You decided to compete in video game tournament at school in hopes of becoming more popular with the students.",
 			"timeRequired":"2",
-			"groupPos":"Soc",
-			"groupNeg":"Read",
+			"groupPos":"Gam",
+			"groupNeg":"",
 			"results":"",
-			"loc":"Quad",
+			"loc":"Lab",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\gammingbg.png",
 			"options":
 			[
 				{
-					"optionName":"Hire a DJ",
+					"optionName":"Hand out Stickers",
 					"optionID":"HireaDJ",
 					"type":"boost",
 					"extraTime" : "1", 
-					"posEffects":"Media",
+					"posEffects":"Tech",
 					"negEffects":""
 
-				},
-				{
-					"optionName":"Charge Admisson",
-					"optionID":"ChargeAdmisson",
-					"type":"boost",
-					"extraTime" : "1", 
-					"posEffects":"Bus",
-					"negEffects":"Low,Poor"
 				}
 			]
 					
 		},
 		
 		{
-			"name":"Charity Event",
+			"name":"Create Posters",
 			"id":"5",
 			"type":"smallEvent",
-			"text":"In order to support a local charity, you've decide to host an event to raise money for it. ",
+			"text":"Heading over to the Arts college, you decide to work posters for your campaign. You also hope to spend time with Arts students.",
 			"timeRequired":"2",
-			"groupPos":"Poor",
+			"groupPos":"Arts",
 			"groupNeg":"",
 			"results":"",
-			"loc":"Quad",
+			"loc":"Com",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\posterartsbg.png",
 			"options":
 			[
 				{
-					"optionName":"Promote Literacy",
+					"optionName":"Use Digital Media",
 					"optionID":"PromoteLiteracy",
 					"type":"boost",
 					"extraTime" : "1", 
-					"posEffects":"Read",
+					"posEffects":"Tech",
 					"negEffects":""
 				},
 				{
-					"optionName":"Claim Tax Deductable",
+					"optionName":"Get Coffee with Arts Kids",
 					"optionID":"ClaimTaxDeductable",
 					"type":"boost",
 					"extraTime" : "1", 
-					"posEffects":"Bus",
+					"posEffects":"Soc",
 					"negEffects":""
 				}
 			]
@@ -152,182 +148,182 @@
 		},
 		
 		{
-			"name":"Meet and Greets",
+			"name":"Mars U Sports Game",
 			"id":"6",
 			"type":"smallEvent",
-			"text":"Time to get to know some more of your voters. We're having an event where they can come and meet you en masse. Be sure to mingle with everybody.",
+			"text":"Time to support out local floozball team! Head over to the gazorb field and cheer your hearts out!",
 			"timeRequired":"2",
-			"groupPos":"Soc",
-			"groupNeg":"",
-			"results":"",
-			"loc":"Cafe",
-			"scoreInc":".4",
-			"options":
-			[
-				{
-					"optionName":"Black Tie Gala",
-					"optionID":"BlackTieGala",
-					"type":"boost",
-					"extraTime" : "1", 
-					"posEffects":"High",
-					"negEffects":"Low,Poor"
-				},
-				{
-					"optionName":"Exhibition Game",
-					"optionID":"ExhibitionGame",
-					"type":"boost",
-					"extraTime" : "1", 
-					"posEffects":"Ath",
-					"negEffects":""
-				}
-			]
-					
-		},
-		
-		{
-			"name":"Fundraisers",
-			"id":"7",
-			"type":"smallEvent",
-			"text":"The campaign could use a bit of extra funding. Give the voters a chance to be a part of this historic event in Martian Collegiate HIstory and hold an event to raise money.",
-			"timeRequired":"2",
-			"groupPos":"Bus",
-			"groupNeg":"",
-			"results":"",
-			"loc":"Cafe",
-			"scoreInc":".4",
-			"options":
-			[
-				{
-					"optionName":"Donate a Percentage of Profits",
-					"optionID":"DonateaPercentageofProfits",
-					"type":"boost",
-					"extraTime" : "1", 
-					"posEffects":"Low,Poor",
-					"negEffects":""
-				},
-				{
-					"optionName":"Advertising",
-					"optionID":"Advertising",
-					"type":"boost",
-					"extraTime" : "1", 
-					"posEffects":"Bus",
-					"negEffects":""
-				}
-			]
-					
-					
-		},
-		
-		{
-			"name":"Food Giveaway",
-			"id":"8",
-			"type":"smallEvent",
-			"text":"College students will do anything for free food. You can gain some voters by giving away food.",
-			"timeRequired":"2",
-			"groupPos":"Low",
-			"groupNeg":"",
-			"results":"",
-			"loc":"Labs",
-			"scoreInc":".4",
-			"options":
-			[
-				{
-					"optionName":"Ice Cream Social",
-					"optionID":"IceCreamSocial",
-					"extraTime" : "1", 
-					"posEffects":"Soc",
-					"negEffects":""
-				}
-			]
-		},
-		
-		{
-			"name":"Community Service",
-			"id":"9",
-			"type":"smallEvent",
-			"text":"You know that certain voters have a soft spot for those who help out in their community, so you go out and perform some services to society. ",
-			"timeRequired":"2",
-			"groupPos":"Low Mid",
-			"groupNeg":"",
-			"results":"",
-			"loc":"Library",
-			"scoreInc":".4",
-			"options":
-			[
-				{
-					"optionName":"Community Outreach",
-					"optionID":"CommunityOutreach",
-					"type":"boost",
-					"extraTime" : "1", 
-					"posEffects":"Soc",
-					"negEffects":""
-				}
-			]
-		},
-		
-		{
-			"name":"Attend Clubs",
-			"id":"10",
-			"type":"smallEvent",
-			"text":"Certain voters need some extra convincing that you have their interests at heart, so why don't you stop by a club to show that your interests align with theirs. ",
-			"timeRequired":"2",
-			"groupPos":"Soc",
+			"groupPos":"Ath",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Gym",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\footballgame.png",
+			"options":
+			[
+				{
+					"optionName":"Posters for the Game",
+					"optionID":"posters",
+					"type":"boost",
+					"extraTime" : "1", 
+					"posEffects":"Arts",
+					"negEffects":""
+				},
+				{
+					"optionName":"Sponsor a Team",
+					"optionID":"sponsorTeam",
+					"type":"boost",
+					"extraTime" : "1", 
+					"posEffects":"Bus",
+					"negEffects":""
+				}
+			]
+					
+		},
+		
+		{
+			"name":"Study in the Library",
+			"id":"7",
+			"type":"smallEvent",
+			"text":"Time to buckle down and study. Time to sit down and have some peace and quite, or study with a group of people.",
+			"timeRequired":"2",
+			"groupPos":"Read",
+			"groupNeg":"",
+			"results":"",
+			"loc":"Lib",
+			"scoreInc":".4",
+            "path": "..\\\\img\\events\\footballgame.png",
+			"options":
+			[
+				{
+					"optionName":"Study with your Friends",
+					"optionID":"DonateaPercentageofProfits",
+					"type":"boost",
+					"extraTime" : "1", 
+					"posEffects":"Law",
+					"negEffects":""
+				},
+				{
+					"optionName":"Listen to Guitarist ",
+					"optionID":"study",
+					"type":"boost",
+					"extraTime" : "1", 
+					"posEffects":"Arts",
+					"negEffects":""
+				}
+			]
+					
+					
+		},
+		
+		{
+			"name":"Test Students Programs",
+			"id":"8",
+			"type":"smallEvent",
+			"text":"Students in technology want people to try out their programs. You gladly agree to help them and give them feedback.",
+			"timeRequired":"2",
+			"groupPos":"Gam",
+			"groupNeg":"",
+			"results":"",
+			"loc":"Labs",
+			"scoreInc":".4",
+            "path": "..\\\\img\\events\\TestProgrambg.png",
 			"options":
 			[
 			]
 		},
 		
 		{
-			"name":"Movie Night",
-			"id":"11",
+			"name":"Go to a Party",
+			"id":"9",
 			"type":"smallEvent",
-			"text":"Movies are a great way to bring people together and fun events can draw in more votes. You have the brilliant idea of having a movie night on campus. ",
+			"text":"You decide to go hangout with your school mates and party after dealing with a long week. It's a good time to say hello and become more famous.",
 			"timeRequired":"2",
-			"groupPos":"Media",
+			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
-			"loc":"Media Room",
+			"loc":"Lib",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\GottoaPartyBG.png",
 			"options":
 			[
 				{
-					"optionName":"Poolside Viewing",
-					"optionID":"PoolsideViewing",
+					"optionName":"Get in a Friendly Debate",
+					"optionID":"CommunityOutreach",
 					"type":"boost",
 					"extraTime" : "1", 
-					"posEffects":"Ath",
-					"negEffects":""
-				},
-				{
-					"optionName":"Drive In",
-					"optionID":"DriveIn",
-					"type":"boost",
-					"extraTime" : "1", 
-					"posEffects":"Upper Mid",
+					"posEffects":"Law",
 					"negEffects":""
 				}
 			]
 		},
 		
 		{
-			"name":"Open Mic Night",
-			"id":"12",
+			"name":"Charity Event",
+			"id":"10",
 			"type":"smallEvent",
-			"text":"Open Mic Nights give lots people a way to voice their thoughts and opinions, so you attend one to see if you can get in your voters heads.",
+			"text":"Certain voters need some extra convincing that you have their interests at hearts, so why don't you stop by a club to show that your interests align with theirs. ",
 			"timeRequired":"2",
-			"groupPos":"Fine Arts",
+			"groupPos":"Bus",
 			"groupNeg":"",
 			"results":"",
-			"loc":"Cafe",
+			"loc":"Gym",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\charityeventbg.png",
+			"options":
+			[
+			]
+		},
+		
+		{
+			"name":"Meet the Robotics Team",
+			"id":"11",
+			"type":"smallEvent",
+			"text":"Talk to the Robotics Team about their current project and their plan for the future.",
+			"timeRequired":"2",
+			"groupPos":"Tech",
+			"groupNeg":"",
+			"results":"",
+			"loc":"Lab",
+			"scoreInc":".4",
+            "path": "..\\\\img\\events\\roboticsclubbg.png",
 			"options":
 			[
 				{
-					"optionName":"Poetry Slam",
+					"optionName":"Talk about their Budget",
+					"optionID":"PoolsideViewing",
+					"type":"boost",
+					"extraTime" : "1", 
+					"posEffects":"Bus",
+					"negEffects":""
+				},
+				{
+					"optionName":"Ask about Robotics",
+					"optionID":"DriveIn",
+					"type":"boost",
+					"extraTime" : "1", 
+					"posEffects":"Read",
+					"negEffects":""
+				}
+			]
+		},
+		
+		{
+			"name":"Meet the Debate Team",
+			"id":"12",
+			"type":"smallEvent",
+			"text":"You decide to talk to the Debate Team about what their current plans are and how they're doing in competitions.",
+			"timeRequired":"2",
+			"groupPos":"Law",
+			"groupNeg":"",
+			"results":"",
+			"loc":"Lib",
+			"scoreInc":".4",
+            "path": "..\\\\img\\events\\debatebg.png",
+			"options":
+			[
+				{
+					"optionName":"Research Topics",
 					"optionID":"PoetrySlam",
 					"type":"boost",
 					"extraTime" : "1", 
@@ -339,108 +335,105 @@
 		},
 		
 		{
-			"name":"Debate",
+			"name":"Visit the Tech Lab",
 			"id":"13",
 			"type":"smallEvent",
-			"text":"Time to take that opponent of your head on. It's you versus him in a fight of ythe issues. Be alert and ready to correctly respond to his comments in as short a time as possible.",
+			"text":"You decide to come by and look at all the projects that are being created in the Tech Lab.",
 			"timeRequired":"2",
-			"groupPos":"Res",
+			"groupPos":"Tech",
 			"groupNeg":"",
 			"results":"You managed to sway a lot of people to your side with your quick witted responses.",
-			"loc":"Media Room",
+			"loc":"Lab",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\techlabsbg.png",
 			"options":
 			[
 				{
-					"optionName":"Live Stream",
+					"optionName":"Offer Free Food",
 					"optionID":"LiveStream",
 					"type":"boost",
 					"extraTime" : "1", 
-					"posEffects":"Media",
+					"posEffects":"Gam",
 					"negEffects":""
 				}
 			]
 		},
 		
 		{
-			"name":"Speech",
+			"name":"Help Paint Mural",
 			"id":"14",
 			"type":"smallEvent",
-			"text":"Make a speech on the issue you have chosen to focus on. You  can always sway the crowd with a good old fashioned speech. ",
+			"text":"Help the Arts students work on the giant mural that they've been working on all semester.",
 			"timeRequired":"2",
-			"groupPos":"Soc",
+			"groupPos":"Arts",
 			"groupNeg":"",
 			"results":"",
-			"loc":"Media Room",
+			"loc":"Com",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\paintingbg.png",
 			"options":
 			[
 				{
-					"optionName":"Live Stream",
+					"optionName":"Look into a Mural Budget",
 					"optionID":"LiveStream",
 					"type":"boost",
 					"extraTime" : "1", 
-					"posEffects":"Media",
+					"posEffects":"Bus",
 					"negEffects":""
 				}
 			]
 		},
 		
 		{
-			"name":"Dance",
+			"name":"Work Out",
 			"id":"15",
 			"type":"smallEvent",
-			"text":"Why not host a dance so that people ca see you cut loose and relax. People love a candidate they can relate to. ",
+			"text":"Time to work out at the gym. Loose some weight and get to know the students.",
 			"timeRequired":"2",
-			"groupPos":"Soc",
+			"groupPos":"Ath",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Gym",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\gymbg.png",
 			"options":
 			[
-				{
-					"optionName":"Donate Profits",
-					"optionID":"DonateProfits",
-					"type":"boost",
-					"extraTime" : "1", 
-					"posEffects":"Low,Poor",
-					"negEffects":""
-				}
 			]
 		},
 		
 		{
-			"name":"Study Session",
+			"name":"Book Drive",
 			"id":"16",
 			"type":"smallEvent",
-			"text":"Remember that in order to be a good student president you also need to be a good student. Lets meet up with a group and study for the upcoming test in the library.",
+			"text":"Let's help the library out and get some more books in the library. ",
 			"timeRequired":"2",
 			"groupPos":"Read",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Library",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\bookdrivebg.png",
 			"options": 
 			[
 			]
 		},
 		
 		{
-			"name":"Participate in Study",
+			"name":"Promote Club Activities",
 			"id":"17",
 			"type":"smallEvent",
-			"text":"The researchers are lookuing for subjects to help with studies all through the school year. A good leader leads by example, so you sign yourself up for one.",
+			"text":"It's that time of year - Club Fair! Help clubs organize and promote themselves to get new members.",
 			"timeRequired":"2",
-			"groupPos":"Lib Arts",
+			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Labs",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\clubsbg.png",
 			"options": 
 			[
 				{
-					"optionName":"Publish Findings",
+					"optionName":"Hand out Flyers",
 					"optionID":"PublishFindings",
 					"type":"boost",
 					"extraTime" : "1", 
@@ -448,101 +441,10 @@
 					"negEffects":""
 				}
 			]
-		},
-		
+		},		
 		{
-			"name":"Interview",
+			"name":"Coffee Run",
 			"id":"18",
-			"type":"smallEvent",
-			"text":"You get approached by the school newspaper to do an interview about your campaign. They say \"All Press is Good Press\", so you go ahead and agree to it.",
-			"timeRequired":"2",
-			"groupPos":"Read",
-			"groupNeg":"",
-			"results":"",
-			"loc":"Library",
-			"scoreInc":".4",
-			"options":
-			[
-			]
-		},
-		
-		{
-			"name":"Reddit AMA",
-			"id":"19",
-			"type":"smallEvent",
-			"text":"You think your voters should get a chance to ask you anything that might be on their minds, but you can always make sure to get certain subjects talked about.",
-			"timeRequired":"2",
-			"groupPos":"Tech",
-			"groupNeg":"",
-			"results":"",
-			"loc":"Media Room",
-			"scoreInc":".4",
-			"options":
-			[
-				{
-					"optionName":"Talk about Campaign Funds",
-					"optionID":"TalkaboutCampaignFunds",
-					"type":"boost",
-					"extraTime" : "1", 
-					"posEffects":"Bus",
-					"negEffects":""
-				},
-				{
-					"optionName":"Talk about Issue",
-					"optionID":"TalkaboutIssue",
-					"type":"boost",
-					"extraTime" : "1", 
-					"posEffects":"Read",
-					"negEffects":""
-				}
-			]
-			
-			
-		},
-		
-		{
-			"name":"Attend Game",
-			"id":"20",
-			"type":"smallEvent",
-			"text":"You attend a school sporting event in order to show your spirit and draw in some votes from likeminded individuals. ",
-			"timeRequired":"2",
-			"groupPos":"Ath",
-			"groupNeg":"",
-			"results":"",
-			"loc":"Gym",
-			"scoreInc":".4",
-			"options":
-			[
-				{
-					"optionName":"Tailgate",
-					"optionID":"Tailgate",
-					"type":"boost",
-					"extraTime" : "1", 
-					"posEffects":"Soc",
-					"negEffects":""
-				}
-			]
-		},
-		
-		{
-			"name":"Attend Symposium",
-			"id":"21",
-			"type":"smallEvent",
-			"text":"It would be a good idea to show off your academic prowess, so you decide to go to a symposium on engineering. Be sure to participate whenever possible so voters will notice you and your eagerness.",
-			"timeRequired":"2",
-			"groupPos":"Eng",
-			"groupNeg":"",
-			"results":"",
-			"loc":"Labs",
-			"scoreInc":".4",
-			"options":
-			[
-			]
-		},
-		
-		{
-			"name":"Fun Run",
-			"id":"22",
 			"type":"smallEvent",
 			"text":"Time for a quick burst of advertising. Take an hour and run accross campus high fiving as many voters as you can.",
 			"timeRequired":"2",
@@ -551,6 +453,7 @@
 			"results":"",
 			"loc":"Gym",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\gymbg.png",
 			"options":
 			[
 				{
@@ -567,15 +470,16 @@
 
 		{
 			"name":"Photobomb",
-			"id":"23",
+			"id":"19",
 			"type":"smallEvent",
 			"text":"Lets take pictures",
 			"timeRequired":"2",
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
-			"loc":"Quad",
+			"loc":"Com",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\gymbg.png",
 			"options":
 			[
 				{
@@ -594,15 +498,16 @@
         
 		{
 			"name":"Secret Sticker",
-			"id":"24",
+			"id":"20",
 			"type":"smallEvent",
 			"text":"Attract People to your side, by giving them a sticker.",
 			"timeRequired":"2",
-			"groupPos":"Soc",
+			"groupPos":"Read",
 			"groupNeg":"",
 			"results":"",
-			"loc":"Quad",
+			"loc":"Lab",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\gymbg.png",
 			"options":
 			[
 				{
@@ -619,15 +524,16 @@
 
 			{
 			"name":"Mean Moves",
-			"id":"25",
+			"id":"21",
 			"type":"smallEvent",
 			"text":"Lets take pictures",
 			"timeRequired":"2",
-			"groupPos":"Soc",
+			"groupPos":"Arts",
 			"groupNeg":"",
 			"results":"",
-			"loc":"Media Room",
+			"loc":"Com",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\gymbg.png",
 			"options":
 			[
 				{
@@ -644,15 +550,16 @@
 
 			{
 			"name":"T-Shirt Canon",
-			"id":"25",
+			"id":"22",
 			"type":"smallEvent",
 			"text":"Lets take pictures",
 			"timeRequired":"2",
-			"groupPos":"Soc",
+			"groupPos":"Gam",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Gym",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\gymbg.png",
 			"options":
 			[
 				{
@@ -674,15 +581,15 @@
 	[
 		{
 			"question":"What issue are you most in favor of?", 
-			"labels":"Tuition, ATH Equipment, RES Equipment, School Events, Medical",
-			"graph":"0,0,0,0,0",
+			"labels":"Tuition, Budgets, Functions,Medical",
+			"graph":"0,0,0,0",
 			"id":"0",
 			"value":"issFav"
 		},
 		{
 			"question":"What issue are you most in opposition to?", 
-			"labels":"Tuition, Athletic Equipment, Research Equipment, School Events,Medical",
-			"graph":"0,0,0,0,0",
+			"labels":"Tuition, Budgets, Functions,Medical",
+			"graph":"0,0,0,0",
 			"id":"1",
 			"value":"issOpp"
 		},
@@ -702,8 +609,8 @@
 		},
 		{
 			"question":"What is your major?", 
-			"labels":"Business, Engineering, Tech, Fine Arts, Liberal Arts",
-			"graph":"0,0,0,0,0",
+			"labels":"Business, Law, Tech, Arts",
+			"graph":"0,0,0,0",
 			"id":"4",
 			"value":"major"
 		},
@@ -716,8 +623,8 @@
 		},
 		{
 			"question":"What group do you identify with?", 
-			"labels":"Socialite, Athlete, Researcher, Media Lover, Reader",
-			"graph":"0,0,0,0,0",
+			"labels":"Socialite, Athlete, Gamer, Reader",
+			"graph":"0,0,0,0",
 			"id":"6",
 			"value":"group"
 		},
@@ -731,7 +638,7 @@
 		},
 		{
 			"question":"How good of a job do you think I will do? ", 
-			"labels":"Good, Neutral, Bad",
+			"labels":"Bad, Neutral, Good",
 			"graph":"0,0,0",
 			"id":"8",
 			"value":"playTrust"
@@ -753,7 +660,7 @@
 		},
 		{
 			"question":"How good of a job do you think this candidate will do? ", 
-			"labels":"Good, Neutral, Bad",
+			"labels":"Bad, Neutral, Good",
 			"graph":"0,0,0",
 			"id":"11",
 			"value":"candTrust"

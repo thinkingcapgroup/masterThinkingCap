@@ -1,19 +1,19 @@
 //making all the score presets
-var groupList = ["socialite", "athlete", "researcher", "mediaLover", "reader"];
-var majorList = ["business", "engineering", "tech", "fineArts", "libArts"];
-var stuEconomic = ["poverty", "low", "midLow", "midHigh", "high"];
+var groupList = ["socialite", "athlete", "gamer", "reader"];
+var majorList = ["business", "law", "tech", "arts"];
 var playerCandidate = new CandidateCreate("ph");
-var opponentCandidate = new CandidateCreate("Liz");
+var opponentCandidate = new CandidateCreate("Karma");
 var fakeCandidateHolder = []
 var currentCandidateArrayHolder = []
 var graphData = [];
 var lastMinigame = 0; 
+var isPoll = false;
 
 
 var fakeCandidateYou = new CandidateCreate('FakeCandidate1');
 var fakeCandidateOther = new CandidateCreate('FakeCandidate2');
-fakeCandidateYou.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
-fakeCandidateOther.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+fakeCandidateYou.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
+fakeCandidateOther.fame = [1,1,1,1,1,1,1,1];
 fakeCandidateHolder.push(fakeCandidateYou);
 fakeCandidateHolder.push(fakeCandidateOther);
 
@@ -55,23 +55,23 @@ var imgArrayBodyWidth = [164,190,264,215];
 var imgArrayBodyHeight = [343,327,304,334];
 var imgArrayHeadHeight = [171,173,173];
 
+var dayCycleImage = ['daybar0','daybar1','daybar2','daybar3','daybar4','daybar5','daybar6','daybar7']
+
 
 //scores go Socialite/Athlete/MediaLover/Researcher/Reader
 //the score goes tuition, tuition var, athletic, athletic var, research, research var, events, events var, medical, issueScore[4]
 var positions =
 [
 	"Lowering Tuition",
-	"Increase Athletic Budget",
-	"Increase Research Budget",
-	"More School Events",
+	"Increase Budget",
+	"More School Functions",
 	"Improve Medical Services"
 ];
 
 var positionsLower = [
 	"tuition",
-	"athletic",
-	"research",
-	"events",
+	"budget",
+	"functions",
 	"medical"
 ];
 
@@ -83,17 +83,7 @@ var groupIssues = [
 	[0,3,-2,2,0,2,1,3,3,1]
 ];
 
-//goes Poverty/Low/MediumLow/MediumHigh/High
-var classIssues =
-[
-	[2,2,0,1,2,1,-2,2,3,1],
-	[0,2,-1,1,1,3,1,2,2,1],
-	[3,1,1,3,2,2,-1,1,1,1],
-	[-2,1,2,1,-1,3,1,2,2,1],
-	[-1,1,-2,3,2,-1,3,1,0,4]
-];
-
-//goes Business/Engineering/Technology/FineArts/LiberalArts
+//goes Business/Engineering/Technology/Finearts/Liberalarts
 var majorIssues =
 [
 	[-2,1,3,1,1,1,0,3,2,1],
@@ -119,17 +109,6 @@ var endReset = false;
 var spriteHead = new Image();
 spriteHead.src = "../img/spritehead.png";
 //sample person
-function Student(group, ecoClass, major, tuitionScore, athleticScore, researchScore, eventScore, medicalScore)
-{
-	this.group = group;
-	this.ecoClass = ecoClass;
-	this.major = major;
-	this.athleticScore = athleticScore;
-	this.researchScore = researchScore;
-	this.tuitionScore = tuitionScore;
-	this.eventScore = eventScore;
-	this.medicalScore = medicalScore;
-}
 
 //setting up some more variables
 
@@ -139,6 +118,7 @@ var sample;
 var startHours;
 var remainingHoursTotal;
 var days;
+var totalDays;
 var remainingHoursDay;
 
 var population = 1000;
@@ -147,7 +127,7 @@ var canvasMouse;
 //starts the game
 function startGame(){
 
-	//whatever other things we have to do when initializing the game here
+	//whatever other things we have to do when initiaKarmaing the game here
 	var date = Date.now();
 
 
@@ -188,16 +168,38 @@ function startPractice()
 function helpScreen()
 {
 	clearScreen();
+	section = 1;
 	document.getElementById("playerInfo").style.display = "none";
 	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <button onclick= 'openGlossary()'>Glossary Page</button> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><br><button class = 'logHelpEnd' onclick= 'userAction()'>Return to User Action Area</button>"
 }
-
+function pollMenu()
+{
+    clearScreen();
+    if(remainingHoursDay >=3)
+    {
+        document.getElementById("gameInfo").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' onclick='map("+0+",false,false)'> Take A Poll </button><br><br>";
+        if(pastPollResults.length > 0)
+            document.getElementById("gameInfo").innerHTML += "<h2> Previous Poll Results</h2>";
+    }
+    else
+    {
+        document.getElementById("gameInfo").innerHTML += "<h2> Poll</h2> <button type='button' > Cannot Take a Poll </button>";
+        if(pastPollResults.length > 0)
+            document.getElementById("gameInfo").innerHTML += "<h2> Previous Poll Results</h2>";
+    }
+	for(var i=0; i<pastPollResults.length;i++)
+	{
+		var num = i+1;
+		document.getElementById("gameInfo").innerHTML += "<button type='button' onclick='reportViewer("+i+")' >View Poll "+ num +" Result </button>";
+    }
+     document.getElementById("gameInfo").innerHTML += "<br><br><button onclick= 'userAction()'>Return to User Action Area</button>";
+}
 function trendReportMenu()
 {
 	clearScreen();
 	var currentTrendReports = [];
 	document.getElementById("playerInfo").style.display = "none";
-	document.getElementById("gameInfo").innerHTML = "<div id= 'reportButtons' > <h1> Trend Reports</h1> <hr><br><div><h2> General</h2><button onclick= 'trendReporter(`issFav`)' class = 'trendButton' id = 'issFav' disabled>Favored Issue Report</button><button onclick= 'trendReporter(`issOpp`)' class = 'trendButton' id = 'issOpp' disabled>Opposed Issue Report</button><button onclick= 'trendReporter(`candFav`)' class = 'trendButton' id = 'candFav' disabled>Favored Candidate Report</button><button onclick= 'trendReporter(`candOpp`)' class = 'trendButton' id = 'candOpp' disabled>Opposed Candidate Report</button></div><br><div><h2> Support For Issues</h2><button onclick= 'trendReporter(`issuetuition`)' class = 'trendButton' id = 'issuetuition' disabled>Lowering Tuition Report</button><button onclick= 'trendReporter(`issueathletic`)' class = 'trendButton' id = 'issueathletic' disabled>Increse Athletic Budget Report</button><button onclick= 'trendReporter(`issueresearch`)' class = 'trendButton' id = 'issueresearch' disabled>Increase Research Budget Report</button><button onclick= 'trendReporter(`issueevents`)' class = 'trendButton' id = 'issueevents' disabled>More School Events Report</button><button onclick= 'trendReporter(`issuemedical`)' class = 'trendButton' id = 'issuemedical'  disabled>Improve Medical Services</button></div><br><div id = 'candReportsFame'><h2>Candidate Stats - Fame</h2></div><br><div id = 'candReportsTrust'><h2>Candidate Stats - Trust</h2></div>"
+	document.getElementById("gameInfo").innerHTML = "<div id= 'reportButtons' > <h1> Trend Reports</h1> <hr><br><div><h2> General</h2><button onclick= 'trendReporter(`issFav`)' class = 'trendButton' id = 'issFav' disabled>Favored Issue Report</button><button onclick= 'trendReporter(`issOpp`)' class = 'trendButton' id = 'issOpp' disabled>Opposed Issue Report</button><button onclick= 'trendReporter(`candFav`)' class = 'trendButton' id = 'candFav' disabled>Favored Candidate Report</button><button onclick= 'trendReporter(`candOpp`)' class = 'trendButton' id = 'candOpp' disabled>Opposed Candidate Report</button></div><br><div><h2> Support For Issues</h2><button onclick= 'trendReporter(`issuetuition`)' class = 'trendButton' id = 'issuetuition' disabled>Lowering Tuition Report</button><button onclick= 'trendReporter(`issuebudget`)' class = 'trendButton' id = 'issuebudget' disabled>Increse Budget Report</button><button onclick= 'trendReporter(`issuefunctions`)' class = 'trendButton' id = 'issuefunctions' disabled>More School Functions Report</button><button onclick= 'trendReporter(`issuemedical`)' class = 'trendButton' id = 'issuemedical'  disabled>Improve Medical Services</button></div><br><div id = 'candReportsFame'><h2>Candidate Stats - Fame</h2></div><br><div id = 'candReportsTrust'><h2>Candidate Stats - Trust</h2></div>"
     document.getElementById("candReportsFame").innerHTML += "<button onclick= 'trendReporter(`fame`)' class = 'trendButton' id = 'fame' disabled>Fame - " + candidates[0].name +"</button>"
     for(var k = 1;k<candidates.length;k++)
 	{
@@ -226,19 +228,19 @@ function trendReportMenu()
       }
     var thing;
     var buttonHolder = document.getElementsByClassName('trendButton')
-    console.log(currentTrendReports) 	
+
     for(var x = 0; x < buttonHolder.length; x++){
     	var idName = buttonHolder[x].getAttribute('id');   
     
     	for(var y =0; y < currentTrendReports.length; y++){
-    		console.log(currentTrendReports[y], idName)
+    	
     		if(currentTrendReports[y] == idName){    	
     			document.getElementById(idName).disabled = false;
     		}
     	}
     }
 
-   	 document.getElementById("gameInfo").innerHTML += "<hr>"
+   	 document.getElementById("gameInfo").innerHTML += "<br>"
 
      document.getElementById("gameInfo").innerHTML += "<button id ='buttonViewer' style = 'display:none'>Choose Another Trend Report</button>";
      document.getElementById("gameInfo").innerHTML += "<button onclick= 'userAction()'>Return to User Action Area</button>";
@@ -775,7 +777,7 @@ function startOtherCandidates(heads,body){
 	playerCandidate.bodyType = bodyTypeArray[body.bodyArrayHolder];
 
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
-	document.getElementById("gameInfo").innerHTML += "<p>You're candidate, <b>"+ playerCandidate.name +"</b> is going up again Liz the Chameleon. They're going for Student Council President just like your playerCandidate. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
+	document.getElementById("gameInfo").innerHTML += "<p>You're up against Karma the Chameleon. They're going for Student Council President just like you are. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
 	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial?</p>"
 	document.getElementById("gameInfo").innerHTML += "<button onclick='tutorial("+false+")'>Yes</button><button onclick='actualSessionStart(false)'>No</button>";
 
@@ -791,13 +793,18 @@ function actualSessionStart(isFromTut){
 	
 	population = 1000;
 	sample = [];
-	startHours = 120; 
+    //10 Days
+	//startHours = 120; 
+    //7 Days
+	startHours = 84; 
+    
 	remainingHoursTotal = startHours;
+    totalDays = 7;
 	days = 1; 
 	remainingHoursDay = 12; 
 	
 	//Decides the opponents focus which cannot be the same as the player
-	opponentCandidate.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+	opponentCandidate.fame = [1,1,1,1,1,1,1,1];
 	opponentCandidate.consMod = 0;
 	////console.log(oppFocus);
 	chooseIssue(opponentCandidate,[],1,false);
@@ -809,30 +816,22 @@ function actualSessionStart(isFromTut){
 	issueCand1.focusnum = 0;
 	chooseRank(issueCand1,chosenCandRanks,true);
 	candidates.push(issueCand1);
-
-	var issueCand2  = new CandidateCreate("Clamps");
-	issueCand2.focus = positions[4];
-	issueCand2.focusnum = 4;
+	var issueCand2 = new CandidateCreate("Zrap Bannigan");
+	issueCand2.focus = positions[1];
+	issueCand2.focusnum = 1;
 	chooseRank(issueCand2,chosenCandRanks,true);
 	candidates.push(issueCand2);
-
-	var issueCand3  = new CandidateCreate("Zrap Bannigan");
-	issueCand3.focus = positions[1];
-	issueCand3.focusnum = 1;
+	var issueCand3 = new CandidateCreate("Clamps");
+	issueCand3.focus = positions[2];
+	issueCand3.focusnum = 2;
 	chooseRank(issueCand3,chosenCandRanks,true);
 	candidates.push(issueCand3);
-
-	var issueCand4  = new CandidateCreate("Cowboy");
+	var issueCand4 = new CandidateCreate("Martian Scientist");
 	issueCand4.focus = positions[3];
 	issueCand4.focusnum = 3;
 	chooseRank(issueCand4,chosenCandRanks,true);
 	candidates.push(issueCand4);
 
-	var issueCand5  = new CandidateCreate("Martian Scientist");
-	issueCand5.focus = positions[2];
-	issueCand5.focusnum = 2;
-	chooseRank(issueCand5,chosenCandRanks,true);
-	candidates.push(issueCand5);
 	
 	map(0,true,true);
 }
@@ -845,48 +844,26 @@ function practicePoll()
 	
 	population = 1000;
 	sample = [];
-	startHours = 120; 
+	startHours = 84; 
 	remainingHoursTotal = startHours;
 	days = 1; 
 	remainingHoursDay = 12; 
 	
 	//Decides the opponents focus which cannot be the same as the player
-	opponentCandidate.fame = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+	opponentCandidate.fame = [1,1,1,1,1,1,1,1];
 	opponentCandidate.consMod = 0;
 	////console.log(oppFocus);
 	chooseIssue(opponentCandidate,[],1,false);
 	candidates.push(opponentCandidate);
 	
 	//Create Issue Candidates
-	var issueCand1 = new CandidateCreate("Martian Dog");
-	issueCand1.focus = positions[0];
-	issueCand1.focusnum = 0;
+	var issueCand1 = new CandidateCreate("Zrap Bannigan");
+	var oppRank = Math.floor(Math.random()*4);
+	issueCand1.focus = positions[oppRank];
+	issueCand1.focusnum = oppRank;
 	chooseRank(issueCand1,chosenCandRanks,true);
 	candidates.push(issueCand1);
 
-	var issueCand2  = new CandidateCreate("Clamps");
-	issueCand2.focus = positions[1];
-	issueCand2.focusnum = 1;
-	chooseRank(issueCand2,chosenCandRanks,true);
-	candidates.push(issueCand2);
-
-	var issueCand3  = new CandidateCreate("Zrap Bannigan");
-	issueCand3.focus = positions[2];
-	issueCand3.focusnum = 2;
-	chooseRank(issueCand3,chosenCandRanks,true);
-	candidates.push(issueCand3);
-
-	var issueCand4  = new CandidateCreate("Cowboy");
-	issueCand4.focus = positions[3];
-	issueCand4.focusnum = 3;
-	chooseRank(issueCand4,chosenCandRanks,true);
-	candidates.push(issueCand4);
-
-	var issueCand5  = new CandidateCreate("Martian Scientist");
-	issueCand5.focus = positions[4];
-	issueCand5.focusnum = 4;
-	chooseRank(issueCand5,chosenCandRanks,true);
-	candidates.push(issueCand5);
 	
 	map(2,false,false);
 }
@@ -894,8 +871,9 @@ function practicePoll()
 function firstStatement()
 {
 	clearScreen();
+    document.getElementById("holo").src = "../../img/openscreenlarge.png";
 	document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
-	for (var x=0; x < 5; x++){
+	for (var x=0; x < positions.length; x++){
 
 	document.getElementById("gameInfo").innerHTML += "<button onclick = 'gameCycleStart("+x+")'>"+ positions[x]+"</button>"
 	}
@@ -922,14 +900,11 @@ function gameCycleStart(f)
 		case 3:
 		playerCandidate.issueScore[3]++;
 		break;
-		case 4:
-		playerCandidate.issueScore[4]++;
-		break;
 	}
 	candidates.splice(0,0,playerCandidate);
 	
-
-	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
+	document.getElementById("playerInfo").innerHTML += "<img src = '../../img/daybar/"+dayCycleImage[days] +".png' width = ''/>"
+	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +"/" + totalDays + " </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";		
 	userAction();
 };
 
@@ -959,25 +934,14 @@ function userAction()
     ctx.fillStyle = '#FFFFFF'
     
     
-    
-	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	
-    if(remainingHoursDay >=3)
-    {
-        document.getElementById("Buttons").innerHTML += "<button type='button' onclick='map("+0+",false,false)'> Take A Poll </button>";
-    }
-    else
-    {
-        document.getElementById("Buttons").innerHTML += "<button type='button' > Cannot Take a Poll </button>";
-    }
-	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='statement()'> Make a Statement - 1 Hour</button>";
-	document.getElementById("Buttons").innerHTML += "<button type='button' class = 'logHelp' onclick='helpScreen()'> Help Screen</button>";
-	document.getElementById("Buttons").innerHTML += "<button type='button' onclick='trendReportMenu()'> View Trend Reports</button>";
-	document.getElementById("Buttons").innerHTML += "<button type='button' class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
-	for(var i=0; i<pastPollResults.length;i++)
-	{
-		var num = i+1;
-		document.getElementById("Buttons").innerHTML += "<button type='button' onclick='reportViewer("+i+")' >View Poll "+ num +" Result </button>";
-    }
+    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daybar/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+	
+	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + remainingHoursDay + "</h3><hr>";		
+    document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/takeapollicon.png'  onclick='pollMenu()'>                    </img>";
+	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/makeastatementiconNEW.png'  onclick='statement()'>                         </img>";
+	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/trendreport.png'  onclick='trendReportMenu()'>                    </img>";
+	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/helpicon.png'  class = 'logHelp' onclick='helpScreen()'></img>";
+	document.getElementById("Buttons").innerHTML += "<button  class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
 	document.getElementById("gameInfo").innerHTML += "<h3 style = 'float: right'> Rival\'s Last Move: " + candidates[1].lastMove + "</h3>";
 	//document.getElementById("choices").innerHTML += "<br>";
     
@@ -989,16 +953,14 @@ function userAction()
 	c.onmousedown = doMousedownMain;
 	c.onmousemove = doMouseOver;
     
-    ctx.drawImage(mapbackground, 0,0,600,414);
-	mapbackground.onload = drawMap();
+  
+	mapbackground.onload = drawMap(false);
     
 	currentEvents = [];
-    document.getElementById("QuadChoice").innerHTML += "<h2>Quad</h2>";
-    document.getElementById("CafeChoice").innerHTML += "<h2>Cafe</h2>";
+    document.getElementById("CommonsChoice").innerHTML += "<h2>Commons</h2>";
     document.getElementById("LabChoice").innerHTML += "<h2>Labs</h2>";
     document.getElementById("GymChoice").innerHTML += "<h2>Gym</h2>";
     document.getElementById("LibraryChoice").innerHTML += "<h2>Library</h2>";
-    document.getElementById("MediaChoice").innerHTML += "<h2>Media Room</h2>";
 	////Adds events to button list randomly from those available and Prevents Duplicates and events with more time than is available
 	for(var i = 1;i<events.length;i++)
 	{
@@ -1007,23 +969,17 @@ function userAction()
 		var arrayPos = events[i].id -1;
        switch(events[i].loc)
         {
-            case "Quad":
-                document.getElementById("QuadChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
+            case "Com":
+                document.getElementById("CommonsChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
             break;
-            case "Cafe":
-                document.getElementById("CafeChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
-            break;
-            case "Labs":
+            case "Lab":
                 document.getElementById("LabChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
            break;
             case "Gym":
                 document.getElementById("GymChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
             break;
-            case "Library":
+            case "Lib":
                document.getElementById("LibraryChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
-            break;
-          case "Media Room":
-               document.getElementById("MediaChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
             break;
         }
       
@@ -1054,9 +1010,14 @@ function action()
 
 		if(chosenEvent.type=="smallEvent")
 		{
+            
+            document.getElementById("event").innerHTML += "<center><img src = '' id = 'eventbg' height = '350'   > </img></center>";
+            document.getElementById("eventbg").src = chosenEvent.path;
 			//Creates the screen for the event
 			var eventHours = parseInt(chosenEvent.timeRequired);
 			document.getElementById("event").innerHTML += "<h4>" + chosenEvent.text + " </h4>";
+            
+
 			if(chosenEvent.groupPos != [])
 			{
 				var effects = chosenEvent.groupPos.split(',');
@@ -1065,59 +1026,30 @@ function action()
 				{
 				switch(effects[i])
 				{
-					case "Poor":
-						posText += "Poor Economic Status";
+					case "Arts":
+						posText += "Arts Major";
 					break;
-
-					case "Low":
-						posText += "Lower Economic Status";
-					break;
-					case "Low Mid":
-						posText += "Low Middle Economic Status";
-					break;
-					case "Upper Mid":
-						posText += "Upper Middle Economic Status";
-					break;
-					case "High":
-						posText += "Upper Economic Status";
-					break;
-
-					case "Fine Arts":
-						posText += "Fine Arts Major";
-					break;
-
 					case "Bus":
 						posText += "Business Major";
 					break;
-					case "Eng":
-						posText += "Engineering Major";
-					break;
-					case "Lib Arts":
-						posText += "Liberal Arts Major";
+					case "Law":
+						posText += "Law Major";
 					break;
 					case "Tech":
 						posText += "Technology Major";
 					break;
 
-					case "Media":
-						posText += "Media Lover Group";
+					case "Gam":
+						posText += "Gamer Group";
 					break;
-
 					case "Soc":
 						posText += "Socialite Group";
-
 					break;
 					case "Read":
 						posText += "Reader Group";
-
-					break;
-					case "Res":
-						posText += "Researcher Group";
-
 					break;
 					case "Ath":
 						posText += "Athlete Group";
-
 					break;
 				}
 				if(i != effects.length-1)
@@ -1138,59 +1070,30 @@ function action()
 				{
 				switch(negEffects[i])
 				{
-					case "Poor":
-						negText += "Poor Economic Status";
+					case "Arts":
+						posText += "Arts Major";
 					break;
-
-					case "Low":
-						negText += "Lower Economic Status";
-					break;
-					case "Low Mid":
-						negText += "Low Middle Economic Status";
-					break;
-					case "Upper Mid":
-						negText += "Upper Middle Economic Status";
-					break;
-					case "High":
-						negText += "Upper Economic Status";
-					break;
-
-					case "Fine Arts":
-						negText += "Fine Arts Major";
-					break;
-
 					case "Bus":
-						negText += "Business Major";
+						posText += "Business Major";
 					break;
-					case "Eng":
-						negText += "Engineering Major";
-					break;
-					case "Lib Arts":
-						negText += "Liberal Arts Major";
+					case "Law":
+						posText += "Law Major";
 					break;
 					case "Tech":
-						negText += "Technology Major";
+						posText += "Technology Major";
 					break;
 
-					case "Media":
-						negText += "Media Lover Group";
+					case "Gam":
+						posText += "Gamer Group";
 					break;
-
 					case "Soc":
-						negText += "Socialite Group";
-
+						posText += "Socialite Group";
 					break;
 					case "Read":
-						negText += "Reader Group";
-
-					break;
-					case "Res":
-						negText += "Researcher Group";
-
+						posText += "Reader Group";
 					break;
 					case "Ath":
-						negText += "Athlete Group";
-
+						posText += "Athlete Group";
 					break;
 				}
 				if(i != negEffects.length-1)
@@ -1203,8 +1106,7 @@ function action()
 			}
 				document.getElementById("event").innerHTML += negText+ " </h4>";
 			}
-
-
+            
 			for(var i =0; i<chosenEvent.options.length; i++)
 			{
 				var totalText = "";
@@ -1220,60 +1122,31 @@ function action()
 						{
 							switch(effects[j])
 							{
-								case "Poor":
-									posText += "Poor Economic Status";
-								break;
-
-								case "Low":
-									posText += "Lower Economic Status";
-								break;
-								case "Low Mid":
-									posText += "Low Middle Economic Status";
-								break;
-								case "Upper Mid":
-									posText += "Upper Middle Economic Status";
-								break;
-								case "High":
-									posText += "Upper Economic Status";
-								break;
-
-								case "Fine Arts":
-									posText += "Fine Arts Major";
-								break;
-
-								case "Bus":
-									posText += "Business Major";
-								break;
-								case "Eng":
-									posText += "Engineering Major";
-								break;
-								case "Lib Arts":
-									posText += "Liberal Arts Major";
-								break;
-								case "Tech":
-									posText += "Technology Major";
-								break;
-
-								case "Media":
-									posText += "Media Lover Group";
-								break;
-
-								case "Soc":
-									posText += "Socialite Group";
-
-								break;
-								case "Read":
-									posText += "Reader Group";
-
-								break;
-								case "Res":
-									posText += "Researcher Group";
-
-								break;
-								case "Ath":
-									posText += "Athlete Group";
-
-								break;
+                                case "Arts":
+                                    posText += "Arts Major";
+                                break;
+                                case "Bus":
+                                    posText += "Business Major";
+                                break;
+                                case "Law":
+                                    posText += "Law Major";
+                                break;
+                                case "Tech":
+                                    posText += "Technology Major";
+                                break;
+            
+                                case "Gam":
+                                    posText += "Gamer Group";
+                                break;
+                                case "Soc":
+                                    posText += "Socialite Group";
+                                break;
+                                case "Read":
+                                    posText += "Reader Group";
+                                break;
+                                case "Ath":
+                                    posText += "Athlete Group";
+                                break;
 							}
 							if(j != effects.length-1)
 							{
@@ -1293,60 +1166,31 @@ function action()
 						{
 							switch(negEffects[j])
 							{
-								case "Poor":
-									negText += "Poor Economic Status";
-								break;
-
-								case "Low":
-									negText += "Lower Economic Status";
-								break;
-								case "Low Mid":
-									negText += "Low Middle Economic Status";
-								break;
-								case "Upper Mid":
-									negText += "Upper Middle Economic Status";
-								break;
-								case "High":
-									negText += "Upper Economic Status";
-								break;
-
-								case "Fine Arts":
-									negText += "Fine Arts Major";
-								break;
-
-								case "Bus":
-									negText += "Business Major";
-								break;
-								case "Eng":
-									negText += "Engineering Major";
-								break;
-								case "Lib Arts":
-									negText += "Liberal Arts Major";
-								break;
-								case "Tech":
-									negText += "Technology Major";
-								break;
-
-								case "Media":
-									negText += "Media Lover Group";
-								break;
-
-								case "Soc":
-									negText += "Socialite Group";
-
-								break;
-								case "Read":
-									negText += "Reader Group";
-
-								break;
-								case "Res":
-									negText += "Researcher Group";
-
-								break;
-								case "Ath":
-									negText += "Athlete Group";
-
-								break;
+                                case "Arts":
+                                    posText += "Arts Major";
+                                break;
+                                case "Bus":
+                                    posText += "Business Major";
+                                break;
+                                case "Law":
+                                    posText += "Law Major";
+                                break;
+                                case "Tech":
+                                    posText += "Technology Major";
+                                break;
+            
+                                case "Gam":
+                                    posText += "Gamer Group";
+                                break;
+                                case "Soc":
+                                    posText += "Socialite Group";
+                                break;
+                                case "Read":
+                                    posText += "Reader Group";
+                                break;
+                                case "Ath":
+                                    posText += "Athlete Group";
+                                break;
 							}
 							if(j != negEffects.length-1)
 							{
@@ -1358,10 +1202,9 @@ function action()
 						}
 					}
 					totalText += negText;
-					document.getElementById("event").innerHTML += "<input type='radio' name = 'option' id = " + chosenEvent.options[i].optionID + ">" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours" +totalText+"<br>";
+					document.getElementById("event").innerHTML += "<input type='radio' name = 'option' id = " + chosenEvent.options[i].optionID + ">" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours" +totalText+"<br> ";
 				}
 			}
-
 		}
 	document.getElementById("event").innerHTML += "<br> <button type='button' class='logEvent' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
 	}
@@ -1463,8 +1306,9 @@ function gameCycleEnd()
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
 
-
-	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";	votePercentage(1000,5);
+	    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daybar/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+	
+	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + remainingHoursDay + "</h3><hr>";	votePercentage(1000,5);
 	var winner;
 	var winvotes = 0;
 	ranking = candidates.slice();
@@ -1490,20 +1334,20 @@ function tutorial (help)
 	{
 		case 1:
 		
-		document.getElementById("gameInfo").innerHTML += "<h3>Groups and Fame</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<h3>Welcome</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px;'>Hi, my name is Gui'De, I will help you find your way around MarsU.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px;'>Hi, my name is Gui'De, I will help you find your way around MarsU. Though you may be new to the university, MarsU needs you. There is a student government election is soon and all of the candidates are horrible. You need to find a better candidate and help them to win the election.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
-		document.getElementById("gameInfo").innerHTML += "<br><button onclick='nextSection("+help+");' style='float: right;'>Events and Minigames</button> ";
+		document.getElementById("gameInfo").innerHTML += "<br><button onclick='nextSection("+help+");' style='float: right;'>How to Play</button> ";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<button float = 'left' class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 2:
-		document.getElementById("gameInfo").innerHTML += "<h3>Events and Minigames</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<h3>How to Play</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'> Though you may be new to the university, MarsU needs you. There is a student government election and all of the candidates are horrible. You need to find a better candidate and help them to win the election.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>You can win by doing three different types of action. Statements, Polling, and Actions.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Groups and Fame</button> <button onclick='nextSection("+help+");' style='float: right; text-decoration: underline;'>Statements</button> ";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Introduction</button> <button onclick='nextSection("+help+");' style='float: right; text-decoration: underline;'>Statements</button> ";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
@@ -1511,16 +1355,16 @@ function tutorial (help)
 		var term = 1;
 		document.getElementById("gameInfo").innerHTML += "<h3>Statements</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'> First, you need to know about the students. We have a diverse <span onclick = 'explainTerm("+term+","+help+")' >population</span> here at MarsU including three species: humans, martians, and androids.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>You can talk about what issue to support the most. You can choose: Lowering Tuition, Increase Athletic Budget, Increase Research Budget, More School Events, More Medical Services. You can positively or negatively influence the populations idea of an issue.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Events and Minigames</button> <button onclick='nextSection("+help+");' style='float: right;'>Consistency</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>How to Play</button> <button onclick='nextSection("+help+");' style='float: right;'>Consistency</button>";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 4:
-		document.getElementById("gameInfo").innerHTML += "<h3>Consistency</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<h3>Consistency & Trust</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Here they are, aren't they cute?</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Try to be consistant on your issues - if you jump all over the place people will not trust you.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling</button>";
 		if(help)
@@ -1529,138 +1373,58 @@ function tutorial (help)
 		case 5:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden'; height:500px></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Unsurprising, they come in different shapes and sizes, and have a wide variety of interests.They may each have a variety of interests, but we can describe them based on their primary interest, their major, and how much money they or their parents have.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>There are many different types of students with a variety of interest. We can ask how they feel about candidates, what they like, what major they are, and how much money their parents have.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency & Trust</button> <button onclick='nextSection("+help+");' style='float: right;'>Population</button> ";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 6:
-		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<h3>Population</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden'; height:500px></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>We don't have a lot of prejudice here at MarsU, but knowing what people like can help you to learn more about them and help them come to know and like your candidate.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Types of Interests: Socialite, Athlete, Researcher, Media Lover, Reader<br><br>Types of Majors: Business, Engineering, Tech, Fine arts, Liberal arts<br><br>Types of Financial Wealth: Poverty, Poor, Lower Middle, Higher Middle, High</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='nextSection("+help+");' style='float: right;'>Fame</button> ";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 7:
-		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<h3>Fame</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Here are the groups by category. Click an icon for more information. (Show icons with headers).</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>You need to be well known if people are going to vote for you. You can increase your fame with groups by doing actions.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Population</button> <button onclick='nextSection("+help+");' style='float: right;'>Actions</button> ";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 8:
-		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<h3>Actions</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>To win the election, your candidate will need to gain enough fame with some of the groups, particularly the ones that share your the opinions of your platform.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>You can do a variety of actions to raise your fame among groups. You can do simple actions or minigames.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Fame</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 9:
-		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<h3>Time</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Your candidate should spend as much time as possible with students, but you have only a few days left, so use your time wisely.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Everything takes time - and the election is in 10 days. I know you can climb to the top in a couple days!</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Actions</button> <button onclick='nextSection("+help+");' style='float: right;'>Practice Area</button> ";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
+		
 		case 10:
-		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'> You control your candidate's calendar, so you can have your candidate take actions to increase fame and encourage others to agree with your platform.</p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
-		break;
-		case 11:
-		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>One of the actions you can take is worth taking some time to explain in detail. You can take a poll to see how the students feel about issues and candidates at the moment. This can, and hopefully will, change over time, but previous polls will remain available to you and can help you determine which actions to take next.</p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
-		break;
-		case 12:
-		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>When you take a poll you will need to identify which population of students you would like to poll, what questions you wish to ask, and how many students you would like to survey.</p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
-		break;
-		case 13:
-		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>The results will give you the opinions of your sample.</p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
-		break;
-		case 14:
-		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Don't worry, the students here at MarsU always tell the truth on polls, but your sample may not be a perfect representation of the population.</p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial'  onclick= 'userAction()'>Return to User Action Area</button>";
-		break;
-		case 15:
-		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'> Finally, your candidate must make an initial statement showing your platform position. You may have your candidate make additional statements, which can change opinions on an issue.</p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
-		break;
-		case 16:
-		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Positive statements will increase student opinion on an issue. Negative statements will decrease student opinion. It is a small change, but can make a big difference.</p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
-		break;
-		case 17:
-		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Realize, students are paying attention to your statements and if you more than a little inconsistent they will stop trusting you.</p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelp' onclick= 'userAction()'>Return to User Action Area</button>";
-		break;
-		case 18:
-		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>I said polls were important, so I've created a practice polling area where you can create polls and look at polling results.</p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
-		break;
-		case 19:
 		document.getElementById("gameInfo").innerHTML += "<h3>Days and Time</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Try it out, but remember, the data is not real and does not represent the actual students. For that you will need to take a real poll. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>I said polls were important, so I've created a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data is not real and does not represent the actual students. For that you will need to take a real poll. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		if(!help)
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button> ";
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button> ";
 		else
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='map("+3+", false, false)' style='float: right;'>Try Polling</button> <br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='map("+3+", false, false)' style='float: right;'>Try Polling</button> <br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 			
 		break;
 	}
@@ -1701,9 +1465,9 @@ function map(state, isFirst, isFree){
 
 	}
 	else if(isFree == false && isFirst == false && state !=2 ){
-		document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +" </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";
+		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daybar/"+dayCycleImage[days-1] +".png' width = '300px'/>"
 	
-	}
+	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + remainingHoursDay + "</h3><hr>";	}
 	if(state == 1||state == 2){
 		currentCandidateArrayHolder = candidates;
 		candidates = fakeCandidateHolder;
@@ -1720,10 +1484,10 @@ function map(state, isFirst, isFree){
     c.onmousedown = doMousedown;
     c.onmousemove = doMouseOver;
     
-    ctx.drawImage(mapbackground, 0,0,600,414);
-    mapbackground.onload = drawMap();
+  
+    mapbackground.onload = drawMap(true);
 	document.getElementById("questionArea").innerHTML +="<h4>Population & Sample</h4><br>";
-	var buttonLabels = ["Quad", "Coffee Shop", "Gym", "Lab", "Media Room", "Library"];
+	var buttonLabels = ["Quad", "Gym", "Lab", "Commons", "Library"];
 	document.getElementById("questionArea").innerHTML += "<label>Location: </label><select id = 'location'></select><br>";
 	for(x =0; x< buttonLabels.length; x++){
 		document.getElementById("location").options.add(new Option(buttonLabels[x],x));
@@ -1834,8 +1598,9 @@ function map(state, isFirst, isFree){
 			addMoreQuestions();
 	});
 }
-function drawMap()
+function drawMap(poll)
 {
+	isPoll = poll
 	//map icons
 	var libraryIcon = new Image();
 	libraryIcon.src = '../img/map/libraryicon.png';
@@ -1847,17 +1612,15 @@ function drawMap()
 	cafeIcon.src = '../img/map/cafeicon.png';
 	var labIcon = new Image();
 	labIcon.src = '../img/map/labicon.png';
-	var mediaIcon = new Image();
-	mediaIcon.src =  '../img/map/mediaicon.png';
 
-        var mapbackground = new Image();
-        mapbackground.src = '../../img/map/mapMU600pxW.png';
+    var mapbackground = new Image();
+    mapbackground.src = '../../img/map/mapMU600pxW.png';
 
 	//peopleicons
 	var tuitionIcon = new Image();
 	tuitionIcon.src = '../img/icons/tuitionsquare.png';
 	var sportsIcon = new Image();
-	sportsIcon.src = '../img/icons/sportscircle.png';
+	sportsIcon.src = '../img/icons/sportssquare.png';
 	var researchIcon = new Image();
 	researchIcon.src = '../img/icons/researchsquare.png';
 	var socialIcon = new Image();
@@ -1868,11 +1631,12 @@ function drawMap()
     var c=document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
     
-  ctx.draw
-	ctx.strokeStyle = '#00FFFF';
+	mapbackground.onload = function(){
+			  ctx.drawImage(mapbackground, 0,0,600,414);
+			  	ctx.strokeStyle = '#00FFFF';
 	ctx.fillStyle = 'rgba(0,255,255,0.5)';
 	ctx.lineWidth = 3;
-	  ctx.drawImage(mapbackground, 0,0,600,414);
+	
 	//stroke areas for gym
 	ctx.beginPath();
         ctx.moveTo(360,15);
@@ -1899,24 +1663,30 @@ function drawMap()
     
 	
 	//quad
-	ctx.strokeRect(135,190,170,56);
+	if(isPoll)
+		ctx.strokeRect(135,190,170,56);
     
 	//library
 	ctx.strokeRect(400,275,188,124);
     
-	//cafe
-	ctx.strokeRect(5,40,113,216);
+
     
 	//media
 	ctx.strokeRect(90,275,117,122);
 	
 	//draw icon
-	ctx.drawImage(quadIcon, 160,160,113,75)
-	ctx.drawImage(libraryIcon, 435,270,113,75)
-	ctx.drawImage(gymIcon, 475,50,113,75)
-	ctx.drawImage(cafeIcon, 10,125,113,75)
-	ctx.drawImage(mediaIcon, 90,280,113,75)
-	ctx.drawImage(labIcon, 145,30,113,75)
+
+	    ctx.drawImage(libraryIcon, 435,270,113,75)
+            ctx.drawImage(gymIcon, 475,50,113,75)
+            ctx.drawImage(cafeIcon, 90,285,113,75)
+            if(isPoll){
+
+			ctx.drawImage(quadIcon, 160,160,113,75) 
+			}
+            ctx.drawImage(labIcon, 145,30,113,75)
+		}
+
+
 }
  function doMousedown(c, e)
 	{
@@ -1929,113 +1699,82 @@ function drawMap()
 			
 			//gym1
 			if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
-                document.getElementById("location").value = 2;
+                document.getElementById("location").value = 1;
 			}
 			//gym2
 			if((mouse.x >= 480 && mouse.x <=590 )&&(mouse.y >= 115 && mouse.y <= 235)){
-                document.getElementById("location").value = 2;
+                document.getElementById("location").value = 1;
 			}
 			//media 		ctx.strokeRect(135,333,175,145);
 			if((mouse.x >= 90 && mouse.x <= 205)&&(mouse.y >= 275 && mouse.y <= 395)){
-                document.getElementById("location").value = 4;
+                document.getElementById("location").value = 3;
 			}
 		
 			//labs1
 			if((mouse.x >= 150 && mouse.x <= 255)&&(mouse.y >= 15 && mouse.y <= 135)){
-                document.getElementById("location").value = 3;
+                document.getElementById("location").value = 2;
 			}
 			//labs2
 			else if((mouse.x >= 180 && mouse.x <= 230)&&(mouse.y >= 225 && mouse.y <= 395)){
-                document.getElementById("location").value = 3;
+                document.getElementById("location").value = 2;
 			}
 
 			//coffee shop 
-			if((mouse.x >= 5 && mouse.x <= 115)&&(mouse.y >= 40 && mouse.y <= 250)){
-                document.getElementById("location").value = 1;
-			}
+			
 			//library 	ctx.strokeRect(600,330,280,155);
 			if((mouse.x >= 400 && mouse.x <= 590)&&(mouse.y >= 275 && mouse.y <= 400)){
-                document.getElementById("location").value = 5;
+                document.getElementById("location").value = 4;
 			}
     }
  function doMousedownMain(c, e)
 	{
 		var mouse = canvasMouse;
 		//check if the area is clickable
-			//quad 		ctx.strokeRect(208,235,243,60);
-			if((mouse.x >= 135 && mouse.x <= 300)&&(mouse.y >= 190 && mouse.y <= 250)){
-                document.getElementById("QuadChoice").style = 'display:block';
-                document.getElementById("LibraryChoice").style = 'display:none';
-                document.getElementById("LabChoice").style = 'display:none';
-                document.getElementById("GymChoice").style = 'display:none';
-                document.getElementById("CafeChoice").style = 'display:none';
-                document.getElementById("MediaChoice").style = 'display:none';
-			}
-			
 			//gym1
 			if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
-                document.getElementById("QuadChoice").style = 'display:none';
                 document.getElementById("LibraryChoice").style = 'display:none';
                 document.getElementById("LabChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:block';
-                document.getElementById("CafeChoice").style = 'display:none';
-                document.getElementById("MediaChoice").style = 'display:none';
+                document.getElementById("CommonsChoice").style = 'display:none';
 			}
 			//gym2
 			if((mouse.x >= 480 && mouse.x <=590 )&&(mouse.y >= 115 && mouse.y <= 235)){
-                document.getElementById("QuadChoice").style = 'display:none';
                 document.getElementById("LibraryChoice").style = 'display:none';
                 document.getElementById("LabChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:block';
-                document.getElementById("CafeChoice").style = 'display:none';
-                document.getElementById("MediaChoice").style = 'display:none';
+                document.getElementById("CommonsChoice").style = 'display:none';
 			}
 			//media 		ctx.strokeRect(135,333,175,145);
 			if((mouse.x >= 90 && mouse.x <= 205)&&(mouse.y >= 275 && mouse.y <= 395)){
-                document.getElementById("QuadChoice").style = 'display:none';
                 document.getElementById("LibraryChoice").style = 'display:none';
                 document.getElementById("LabChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:none';
-                document.getElementById("CafeChoice").style = 'display:none';
-                document.getElementById("MediaChoice").style = 'display:block';
+                document.getElementById("CommonsChoice").style = 'display:block';
 			}
 		
 			//labs1
 			if((mouse.x >= 150 && mouse.x <= 255)&&(mouse.y >= 15 && mouse.y <= 135)){
-                document.getElementById("QuadChoice").style = 'display:none';
                 document.getElementById("LibraryChoice").style = 'display:none';
                 document.getElementById("LabChoice").style = 'display:block';
                 document.getElementById("GymChoice").style = 'display:none';
-                document.getElementById("CafeChoice").style = 'display:none';
-                document.getElementById("MediaChoice").style = 'display:none';
+                document.getElementById("CommonsChoice").style = 'display:none';
 			}
 			//labs2
 			else if((mouse.x >= 180 && mouse.x <= 230)&&(mouse.y >= 225 && mouse.y <= 395)){
-                document.getElementById("QuadChoice").style = 'display:none';
                 document.getElementById("LibraryChoice").style = 'display:none';
                 document.getElementById("LabChoice").style = 'display:block';
                 document.getElementById("GymChoice").style = 'display:none';
-                document.getElementById("CafeChoice").style = 'display:none';
-                document.getElementById("MediaChoice").style = 'display:none';
+                document.getElementById("CommonsChoice").style = 'display:none';
 			}
 
 			//coffee shop 
-			if((mouse.x >= 5 && mouse.x <= 115)&&(mouse.y >= 40 && mouse.y <= 250)){
-                document.getElementById("QuadChoice").style = 'display:none';
-                document.getElementById("LibraryChoice").style = 'display:none';
-                document.getElementById("LabChoice").style = 'display:none';
-                document.getElementById("GymChoice").style = 'display:none';
-                document.getElementById("CafeChoice").style = 'display:block';
-                document.getElementById("MediaChoice").style = 'display:none';
-			}
+			
 			//library 	ctx.strokeRect(600,330,280,155);
 			if((mouse.x >= 400 && mouse.x <= 590)&&(mouse.y >= 275 && mouse.y <= 400)){
-                document.getElementById("QuadChoice").style = 'display:none';
                 document.getElementById("LibraryChoice").style = 'display:block';
                 document.getElementById("LabChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:none';
-                document.getElementById("CafeChoice").style = 'display:none';
-                document.getElementById("MediaChoice").style = 'display:none';
+                document.getElementById("CommonsChoice").style = 'display:none';
 			}
     }
 
@@ -2050,13 +1789,9 @@ function drawMap()
         ctx.drawImage(mapbackground, 0,0,450,250);
 		//check if the area is clickable
 			//quad 		ctx.strokeRect(208,235,243,60);
-			if((mouse.x >= 135 && mouse.x <= 300)&&(mouse.y >= 190 && mouse.y <= 250)){
-                strokeAreas();
-                ctx.fillRect(135,190,170,56);
-			}
-			
+						
 			//gym1
-			else if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
+			if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
                 
                 strokeAreas();
                 ctx.beginPath();
@@ -2123,12 +1858,7 @@ function drawMap()
 			}
 
 			//coffee shop 
-			else if((mouse.x >= 5 && mouse.x <= 115)&&(mouse.y >= 40 && mouse.y <= 250)){
-                
-                strokeAreas();
-                
-                ctx.fillRect(5,40,113,216);
-			}
+		
 			//library 	ctx.strokeRect(600,330,280,155);
 			else if((mouse.x >= 400 && mouse.x <= 590)&&(mouse.y >= 255 && mouse.y <= 400)){
                 
@@ -2144,24 +1874,32 @@ function drawMap()
             //map icons
             var libraryIcon = new Image();
             libraryIcon.src = '../img/map/libraryicon.png';
-            var quadIcon = new Image();
-            quadIcon.src = '../img/map/icon.png';
+       
             var gymIcon = new Image();
             gymIcon.src = '../img/map/gymicon.png';
             var cafeIcon = new Image();
             cafeIcon.src = '../img/map/cafeicon.png';
             var labIcon = new Image();
             labIcon.src = '../img/map/labicon.png';
-            var mediaIcon = new Image();
-            mediaIcon.src =  '../img/map/mediaicon.png';
+            quadIcon = new Image();
+			quadIcon.src = '../img/map/icon.png';
+     		
             
             //draw icon
-            ctx.drawImage(quadIcon, 160,160,113,75)
+
             ctx.drawImage(libraryIcon, 435,270,113,75)
             ctx.drawImage(gymIcon, 475,50,113,75)
-            ctx.drawImage(cafeIcon, 10,125,113,75)
-            ctx.drawImage(mediaIcon, 90,280,113,75)
+            ctx.drawImage(cafeIcon, 90,285,113,75)
+            if(isPoll){
+            	   if((mouse.x >= 135 && mouse.x <= 300)&&(mouse.y >= 190 && mouse.y <= 250)){ 
+             
+                ctx.fillRect(135,190,170,56); 
+      } 
+            	ctx.strokeRect(135,190,170,56);
+			ctx.drawImage(quadIcon, 160,160,113,75) 
+			}
             ctx.drawImage(labIcon, 145,30,113,75)
+          
 	}
     function strokeAreas()
     {
@@ -2200,15 +1938,11 @@ function drawMap()
         ctx.closePath();
         ctx.stroke();
         
-        
-        //quad
-        ctx.strokeRect(135,190,170,56);
+ 
         
         //library
         ctx.strokeRect(400,275,188,124);
-        
-        //cafe
-        ctx.strokeRect(5,40,113,216);
+
         
         //media
         ctx.strokeRect(90,275,117,122);
@@ -2319,16 +2053,13 @@ function statementCalc()
 				candidates[0].tuitPos += 1;
 			}
 			else if(currentStatement == 1){
-				candidates[0].athPos += 1;
-			}
-			else if(currentStatement == 2){
-				candidates[0].resPos += 1;
-			}
-			else if(currentStatement == 4){
-				candidates[0].medPos += 1;
+				candidates[0].budPos += 1;
 			}
 			else if(currentStatement == 3){
-				candidates[0].eventPos += 1;
+				candidates[0].medPos += 1;
+			}
+			else if(currentStatement == 2){
+				candidates[0].funcPos += 1;
 			}
 		}
 		//if negative statement
@@ -2339,26 +2070,23 @@ function statementCalc()
 					candidates[0].tuitNeg += 1;
 				}
 				else if(currentStatement == 1){
-					candidates[0].athNeg += 1;
+					candidates[0].budNeg += 1;
 				}
-				else if(currentStatement == 2){
-					candidates[0].resNeg += 1;
-				}
-				else if(currentStatement == 4){
+				else if(currentStatement == 3){
 					candidates[0].medNeg += 1;
 				}
-			else if(currentStatement == 3){
-				candidates[0].eventNeg += 1;
+			else if(currentStatement == 2){
+				candidates[0].funcNeg += 1;
 				}
 	
 		}
 		//calculate the candidate's constitution mod
 	
 		var tuitCond,
-				athCond,
-				resCond,
-				medCond,
-				eventCond;
+			athCond,
+			resCond,
+			medCond,
+			eventCond;
 	
 	
 		//check if the issues have anything even in them
@@ -2369,8 +2097,8 @@ function statementCalc()
 			tuitCond = 0;
 		}
 	
-		if(candidates[0].athPos>0 || candidates[0].athNeg>0){
-			athCond = (Math.min(candidates[0].athPos, candidates[0].athNeg))/(candidates[0].athPos+candidates[0].athNeg);
+		if(candidates[0].budPos>0 || candidates[0].budNeg>0){
+			athCond = (Math.min(candidates[0].budPos, candidates[0].budNeg))/(candidates[0].budPos+candidates[0].budNeg);
 		}
 		else{
 			athCond = 0;
@@ -2391,8 +2119,8 @@ function statementCalc()
 			medCond = 0;
 		}
 	
-		if(candidates[0].eventPos>0 || candidates[0].eventNeg>0){
-			eventCond = (Math.min(candidates[0].eventPos, candidates[0].eventNeg))/(candidates[0].eventPos+candidates[0].eventNeg);
+		if(candidates[0].funcPos>0 || candidates[0].funcNeg>0){
+			eventCond = (Math.min(candidates[0].funcPos, candidates[0].funcNeg))/(candidates[0].funcPos+candidates[0].funcNeg);
 		}
 		else{
 			eventCond = 0;
@@ -2419,16 +2147,13 @@ function statementCalcOtherCandidate(x){
 			candidates[x].tuitPos += 1;
 		}
 		else if(currentStatement == 1){
-			candidates[x].athPos += 1;
-		}
-		else if(currentStatement == 2){
-			candidates[x].resPos += 1;
+			candidates[x].budPos += 1;
 		}
 		else if(currentStatement == 3){
 			candidates[x].medPos += 1;
 		}
-		else if(currentStatement == 4){
-			candidates[x].eventPos += 1;
+		else if(currentStatement == 2){
+			candidates[x].funcPos += 1;
 		}
 	}
 	else{
@@ -2438,16 +2163,13 @@ function statementCalcOtherCandidate(x){
 				candidates[x].tuitNeg += 1;
 			}
 			else if(currentStatement == 1){
-				candidates[x].athNeg += 1;
-			}
-			else if(currentStatement == 2){
-				candidates[x].resNeg += 1;
+				candidates[x].budNeg += 1;
 			}
 			else if(currentStatement == 3){
 				candidates[x].medNeg += 1;
 			}
-		else if(currentStatement == 4){
-			candidates[x].eventNeg += 1;
+		else if(currentStatement == 2){
+			candidates[x].funcNeg += 1;
 			}
 		}
 	}
@@ -2570,7 +2292,7 @@ function addMoreQuestions(){
 //Takes in an Arrays of Groups to affect with the score increase, and parses through each adding the specified increase in score
 function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 {
-	////console.log(candidate.fame);
+
 	////console.log(candidate.issueScore);
 	////console.log(scoreInc);
 	for(var i=0;i<groupPos.length;i++)
@@ -2602,7 +2324,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Res":
+			case "Gam":
 				candidate.fame[2]+=parseFloat(scoreInc);
 				if(candidate.fame[2] > 2)
 				{
@@ -2614,7 +2336,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Media":
+			case "Read":
 				candidate.fame[3]+=parseFloat(scoreInc);
 				if(candidate.fame[3] > 2)
 				{
@@ -2626,7 +2348,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Read":
+			case "Bus":
 				candidate.fame[4]+=parseFloat(scoreInc);
 				if(candidate.fame[4] > 2)
 				{
@@ -2638,7 +2360,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Bus":
+			case "Law":
 				candidate.fame[5]+=parseFloat(scoreInc);
 				if(candidate.fame[5] > 2)
 				{
@@ -2650,7 +2372,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Eng":
+			case "Tech":
 				candidate.fame[6]+=parseFloat(scoreInc);
 				if(candidate.fame[6] > 2)
 				{
@@ -2662,7 +2384,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Tech":
+			case "Arts":
 				candidate.fame[7]+=parseFloat(scoreInc);
 				if(candidate.fame[7] > 2)
 				{
@@ -2674,89 +2396,6 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Fine Arts":
-				candidate.fame[8]+=parseFloat(scoreInc);
-				if(candidate.fame[8] > 2)
-				{
-					candidate.fame[8] = 2;
-				}
-				if(candidate.fame[8] < .1)
-				{
-					candidate.fame[8] = .1;
-				}
-				break;
-
-			case "Lib Arts":
-				candidate.fame[9]+=parseFloat(scoreInc);
-				if(candidate.fame[9] > 2)
-				{
-					candidate.fame[9] = 2;
-				}
-				if(candidate.fame[9] < .1)
-				{
-					candidate.fame[9] = .1;
-				}
-				break;
-
-			case "Poor":
-				candidate.fame[10]+=parseFloat(scoreInc);
-				if(candidate.fame[10] > 2)
-				{
-					candidate.fame[10] = 2;
-				}
-				if(candidate.fame[10] < .1)
-				{
-					candidate.fame[10] = .1;
-				}
-				break;
-
-			case "Low":
-				candidate.fame[11]+=parseFloat(scoreInc);
-				if(candidate.fame[11] > 2)
-				{
-					candidate.fame[11] = 2;
-				}
-				if(candidate.fame[11] < .1)
-				{
-					candidate.fame[11] = .1;
-				}
-				break;
-
-			case "Low Mid":
-				candidate.fame[12]+=parseFloat(scoreInc);
-				if(candidate.fame[12] > 2)
-				{
-					candidate.fame[12] = 2;
-				}
-				if(candidate.fame[12] < .1)
-				{
-					candidate.fame[12] = .1;
-				}
-				break;
-
-			case "Upper Mid":
-				candidate.fame[13]+=parseFloat(scoreInc);
-				if(candidate.fame[13] > 2)
-				{
-					candidate.fame[13] = 2;
-				}
-				if(candidate.fame[13] < .1)
-				{
-					candidate.fame[13] = .1;
-				}
-				break;
-
-			case "High":
-				candidate.fame[14]+=parseFloat(scoreInc);
-				if(candidate.fame[14] > 2)
-				{
-					candidate.fame[14] = 2;
-				}
-				if(candidate.fame[14] < .1)
-				{
-					candidate.fame[14] = .1;
-				}
-				break;
 
 			case "tuition":
 				candidate.issueScore[0]+=parseFloat(scoreInc);
@@ -2770,7 +2409,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 						}
 				break;
 
-			case "athletic":
+			case "budget":
 				candidate.issueScore[1]+=parseFloat(scoreInc);
 						if(candidate.issueScore[1] > 4)
 						{
@@ -2782,7 +2421,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 						}
 				break;
 
-			case "research":
+			case "functions":
 				candidate.issueScore[2]+=parseFloat(scoreInc);
 						if(candidate.issueScore[2] > 4)
 						{
@@ -2794,7 +2433,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 						}
 				break;
 
-			case "events":
+			case "medical":
 				candidate.issueScore[3]+=parseFloat(scoreInc);
 						if(candidate.issueScore[3] > 4)
 						{
@@ -2803,18 +2442,6 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 						if(candidate.issueScore[3] < -4)
 						{
 							candidate.issueScore[3] = -4;
-						}
-				break;
-
-			case "medical":
-				candidate.issueScore[4]+=parseFloat(scoreInc);
-						if(candidate.issueScore[4] > 4)
-						{
-							candidate.issueScore[4] = 4;
-						}
-						if(candidate.issueScore[4] < -4)
-						{
-							candidate.issueScore[4] = -4;
 						}
 				break;
 
@@ -2861,7 +2488,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Res":
+			case "Gam":
 				candidate.fame[2]-=parseFloat(scoreInc);
 				if(candidate.fame[2] > 2)
 				{
@@ -2873,7 +2500,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Media":
+			case "Read":
 				candidate.fame[3]-=parseFloat(scoreInc);
 				if(candidate.fame[3] > 2)
 				{
@@ -2885,7 +2512,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Read":
+			case "Bus":
 				candidate.fame[4]-=parseFloat(scoreInc);
 				if(candidate.fame[4] > 2)
 				{
@@ -2897,7 +2524,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Bus":
+			case "Law":
 				candidate.fame[5]-=parseFloat(scoreInc);
 				if(candidate.fame[5] > 2)
 				{
@@ -2909,7 +2536,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Eng":
+			case "Tech":
 				candidate.fame[6]-=parseFloat(scoreInc);
 				if(candidate.fame[6] > 2)
 				{
@@ -2921,7 +2548,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Tech":
+			case "Arts":
 				candidate.fame[7]-=parseFloat(scoreInc);
 				if(candidate.fame[7] > 2)
 				{
@@ -2933,89 +2560,6 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				}
 				break;
 
-			case "Fine Arts":
-				candidate.fame[8]-=parseFloat(scoreInc);
-				if(candidate.fame[8] > 2)
-				{
-					candidate.fame[8] = 2;
-				}
-				if(candidate.fame[8] < .1)
-				{
-					candidate.fame[8] = .1;
-				}
-				break;
-
-			case "Lib Arts":
-				candidate.fame[9]-=parseFloat(scoreInc);
-				if(candidate.fame[9] > 2)
-				{
-					candidate.fame[9] = 2;
-				}
-				if(candidate.fame[9] < .1)
-				{
-					candidate.fame[9] = .1;
-				}
-				break;
-
-			case "Poor":
-				candidate.fame[10]-=parseFloat(scoreInc);
-				if(candidate.fame[10] > 2)
-				{
-					candidate.fame[10] = 2;
-				}
-				if(candidate.fame[10] < .1)
-				{
-					candidate.fame[10] = .1;
-				}
-				break;
-
-			case "Low":
-				candidate.fame[11]-=parseFloat(scoreInc);
-				if(candidate.fame[11] > 2)
-				{
-					candidate.fame[11] = 2;
-				}
-				if(candidate.fame[11] < .1)
-				{
-					candidate.fame[11] = .1;
-				}
-				break;
-
-			case "Low Mid":
-				candidate.fame[12]-=parseFloat(scoreInc);
-				if(candidate.fame[12] > 2)
-				{
-					candidate.fame[12] = 2;
-				}
-				if(candidate.fame[12] < .1)
-				{
-					candidate.fame[12] = .1;
-				}
-				break;
-
-			case "Upper Mid":
-				candidate.fame[13]-=parseFloat(scoreInc);
-				if(candidate.fame[13] > 2)
-				{
-					candidate.fame[13] = 2;
-				}
-				if(candidate.fame[13] < .1)
-				{
-					candidate.fame[13] = .1;
-				}
-				break;
-
-			case "High":
-				candidate.fame[14]-=parseFloat(scoreInc);
-				if(candidate.fame[14] > 2)
-				{
-					candidate.fame[14] = 2;
-				}
-				if(candidate.fame[14] < .1)
-				{
-					candidate.fame[14] = .1;
-				}
-				break;
 
 			case "tuition":
 				candidate.issueScore[0]-=parseFloat(scoreInc);
@@ -3029,7 +2573,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 						}
 				break;
 
-			case "athletic":
+			case "budget":
 				candidate.issueScore[1]-=parseFloat(scoreInc);
 						if(candidate.issueScore[1] > 4)
 						{
@@ -3041,7 +2585,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 						}
 				break;
 
-			case "research":
+			case "functions":
 				candidate.issueScore[2]-=parseFloat(scoreInc);
 						if(candidate.issueScore[2] > 4)
 						{
@@ -3053,7 +2597,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 						}
 				break;
 
-			case "events":
+			case "medical":
 				candidate.issueScore[3]-=parseFloat(scoreInc);
 						if(candidate.issueScore[3] > 4)
 						{
@@ -3062,18 +2606,6 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 						if(candidate.issueScore[3] < -4)
 						{
 							candidate.issueScore[3] = -4;
-						}
-				break;
-
-			case "medical":
-				candidate.issueScore[4]-=parseFloat(scoreInc);
-						if(candidate.issueScore[4] > 4)
-						{
-							candidate.issueScore[4] = 4;
-						}
-						if(candidate.issueScore[4] < -4)
-						{
-							candidate.issueScore[4] = -4;
 						}
 				break;
 
@@ -3090,21 +2622,18 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				break;
 
 		}
-	////console.log(candidates[0].fame);
 	////console.log(candidates[0].issueScore);
 	}
 }
 
 //sample person
-function Student(group, ecoClass, major, tuitionScore, athleticScore, researchScore, eventScore, medicalScore)
+function Student(group, major, tuitionScore, budgetScore, functionScore, medicalScore)
 {
 	this.group = group;
-	this.ecoClass = ecoClass;
 	this.major = major;
-	this.athleticScore = athleticScore;
-	this.researchScore = researchScore;
+	this.budgetScore = budgetScore;
 	this.tuitionScore = tuitionScore ;
-	this.eventScore = eventScore;
+	this.functionScore = functionScore;
 	this.medicalScore = medicalScore ;
 	this.studentCaring = Math.random(.1,1.0).toFixed(2);
 
@@ -3120,8 +2649,8 @@ function Student(group, ecoClass, major, tuitionScore, athleticScore, researchSc
 //used for making Player Candidate & Opponent Candidate
 function CandidateCreate(name){
 	this.name = name;
-	this.fame= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-	this.issueScore= [0,0,0,0,0];
+	this.fame= [0,0,0,0,0,0,0,0];
+	this.issueScore= [0,0,0,0];
 	this.consMod= 0;
 	this.focus= "";
 	this.focusnum= 0;
@@ -3138,14 +2667,12 @@ function CandidateCreate(name){
 
 	this.tuitPos= 0;
 	this.tuitNeg= 0;
-	this.athPos= 0;
-	this.athNeg= 0;
-	this.resPos= 0;
-	this.resNeg= 0;
+	this.budPos= 0;
+	this.budNeg= 0;
 	this.medPos= 0;
 	this.medNeg= 0;
-	this.eventPos= 0;
-	this.eventNeg= 0;
+	this.funcPos= 0;
+	this.funcNeg= 0;
 };
 
 function createSample(x, bias)
@@ -3153,7 +2680,7 @@ function createSample(x, bias)
 	sample = [];
 	for (var count= 0; count < x; count++){
 		var scoreHolder = getScores(x, bias);
-		var holderStudent = new Student(groupList[scoreHolder[0]],  stuEconomic[scoreHolder[1]], majorList[scoreHolder[2]], scoreHolder[3], scoreHolder[4], scoreHolder[5], scoreHolder[6], scoreHolder[7])
+		var holderStudent = new Student(groupList[scoreHolder[0]], majorList[scoreHolder[1]], scoreHolder[2], scoreHolder[3], scoreHolder[4], scoreHolder[5])
 		sample.push(holderStudent);
 	}
 }
@@ -3162,52 +2689,48 @@ function getScores(x, bias){
 
 	var groupRandom;
 
-	if(bias < 5){
-		var coinFlip = Math.floor(Math.random() * 3)
+	if(bias > 0){
+		var coinFlip = Math.floor(Math.random())
 		if(coinFlip == 1){
 					groupRandom = bias;
 
 				}
 
 		else{
-					groupRandom = Math.floor(Math.random()* 5);
+					groupRandom = Math.floor(Math.random()* 4);
 
 					while(groupRandom == bias){
-						groupRandom = Math.floor(Math.random()* 5);
+						groupRandom = Math.floor(Math.random()* 4);
 					}
 		}
 	}
 	else{
-		groupRandom = Math.floor(Math.random()* 5);
+		groupRandom = Math.floor(Math.random()* 4);
 	}
-	var majorRandom = Math.floor(Math.random()* 5);
-	var ecoClassRandom = Math.floor(Math.random()* 5);
+	var majorRandom = Math.floor(Math.random()* 4);
 	var ath =0;
 	var res = 0;
 	var tuit = 0;
 	var med = 0;
 	var event = 0;
 	//SCORE calculated by (group issue + variable) + (major issue + variable)  + (class issue + variable)
-	tuit = (((groupIssues[groupRandom][0]) + (Math.floor(Math.random() * (groupIssues[groupRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][0]) + (Math.floor(Math.random() * (groupIssues[majorRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][0]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	ath =  (((groupIssues[groupRandom][2]) + (Math.floor(Math.random() * (groupIssues[groupRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][2]) + (Math.floor(Math.random() * (groupIssues[majorRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][2]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	res =  (((groupIssues[groupRandom][4]) + (Math.floor(Math.random() * (groupIssues[groupRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][4]) + (Math.floor(Math.random() * (groupIssues[majorRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][4]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][5]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	event =  (((groupIssues[groupRandom][6]) + (Math.floor(Math.random() * (groupIssues[groupRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][6]) + (Math.floor(Math.random() * (groupIssues[majorRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][6]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	med =  (((groupIssues[groupRandom][8]) + (Math.floor(Math.random() * (groupIssues[groupRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][8]) + (Math.floor(Math.random() * (groupIssues[majorRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((classIssues[ecoClassRandom][8]) + (Math.floor(Math.random() * (classIssues[ecoClassRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	tuit = (((groupIssues[groupRandom][0]) + (Math.floor(Math.random() * (groupIssues[groupRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][0]) + (Math.floor(Math.random() * (groupIssues[majorRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	bud =  (((groupIssues[groupRandom][2]) + (Math.floor(Math.random() * (groupIssues[groupRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][2]) + (Math.floor(Math.random() * (groupIssues[majorRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	event =  (((groupIssues[groupRandom][6]) + (Math.floor(Math.random() * (groupIssues[groupRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][6]) + (Math.floor(Math.random() * (groupIssues[majorRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) ;
+	med =  (((groupIssues[groupRandom][8]) + (Math.floor(Math.random() * (groupIssues[groupRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][8]) + (Math.floor(Math.random() * (groupIssues[majorRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
 
-	 tuit = tuit/3;
-     ath = ath/3;
-     res =  res/3;
-     event = event/3;
-     med = med/3;
+	 tuit = tuit/2;
+     bud = bud/2;
+     event = event/2;
+     med = med/2;
 
      tuit = tuit.toFixed(2);
-     ath = ath.toFixed(2);
-     res =  res.toFixed(2);
+     bud = bud.toFixed(2);
      event = event.toFixed(2);
      med = med.toFixed(2);
 
 
-	var returnArray = [groupRandom, majorRandom, ecoClassRandom, tuit, ath,res,event,med];
+	var returnArray = [groupRandom, majorRandom, tuit, bud, event, med];
 	return returnArray;
 }
 
@@ -3236,30 +2759,28 @@ function votePercentage(sampleSize, bias)
 			if(j != 1)
 			{
 				var issues = parseFloat(sample[i].tuitionScore) * parseFloat(candidates[j].issueScore[0])
-				issues += parseFloat(sample[i].athleticScore) * parseFloat(candidates[j].issueScore[1])
-				issues += parseFloat(sample[i].researchScore)* parseFloat(candidates[j].issueScore[2])
-				issues += parseFloat(sample[i].eventScore)  * parseFloat(candidates[j].issueScore[3])
-				issues += parseFloat(sample[i].medicalScore) * parseFloat(candidates[j].issueScore[4]);
-				issues = issues/5;
+				issues += parseFloat(sample[i].budgetScore) * parseFloat(candidates[j].issueScore[1])
+				issues += parseFloat(sample[i].functionScore)* parseFloat(candidates[j].issueScore[2])
+				issues += parseFloat(sample[i].medicalScore)  * parseFloat(candidates[j].issueScore[3])
+				issues = issues/4;
 			}
 			else
 			{
 				var issues = parseFloat(sample[i].tuitionScore) * parseFloat(candidates[j].issueScore[0])
-				issues += parseFloat(sample[i].athleticScore) * parseFloat(candidates[j].issueScore[1])
-				issues += parseFloat(sample[i].researchScore)* parseFloat(candidates[j].issueScore[2])
-				issues += parseFloat(sample[i].eventScore)  * parseFloat(candidates[j].issueScore[3])
-				issues += parseFloat(sample[i].medicalScore) * parseFloat(candidates[j].issueScore[4]);
-				issues = issues/5;
+				issues += parseFloat(sample[i].budgetScore) * parseFloat(candidates[j].issueScore[1])
+				issues += parseFloat(sample[i].functionScore)* parseFloat(candidates[j].issueScore[2])
+				issues += parseFloat(sample[i].medicalScore)  * parseFloat(candidates[j].issueScore[3])
+				issues = issues/4;
 			}
 			////console.log(candidates[j].name +" Issue Score: "+ issues);
-			
-			if(candidates[j].name != "Liz")
+			//console.log(candidates[j].name + " Issues:"  + issues)
+			if(candidates[j].name != "Karma")
 			{
 				var candWinPer = 10*Math.pow(fame*issues,2) - candidates[j].consMod;
 			}
 			else
 			{
-				var candWinPer = 10*0.5*issues;
+				var candWinPer = 10*0.75*issues;
 			}
 			
 			
@@ -3325,66 +2846,31 @@ function fameCalc(cand, student)
 		fame+= cand.fame[3];
 		break;
     
-		case groupList[4]:
-	
-		fame+= cand.fame[4];
-		break;
 	}
 	switch(student.major)
 	{
 		case majorList[0]:
 
-		fame+= cand.fame[5];
+		fame+= cand.fame[4];
 		break;
 
 		case majorList[1]:
 	
-		fame+= cand.fame[6];
+		fame+= cand.fame[5];
 		break;
 
 		case majorList[2]:
 
-		fame+= cand.fame[7];
+		fame+= cand.fame[6];
 		break;
 
 		case majorList[3]:
 
-		fame+= cand.fame[8];
+		fame+= cand.fame[7];
 		break;
 
-		case majorList[4]:
-
-		fame+= cand.fame[9];
-		break;
 	}
-	switch(student.ecoClass)
-	{
-		case stuEconomic[0]:
-
-		fame+= cand.fame[10];
-		break;
-
-		case stuEconomic[1]:
-
-		fame+= cand.fame[11];
-		break;
-
-		case stuEconomic[2]:
-		
-		fame+= cand.fame[12];
-		break;
-
-		case stuEconomic[3]:
-
-		fame+= cand.fame[13];
-		break;
-
-		case stuEconomic[4]:
-	
-		fame+= cand.fame[14];
-		break;
-	}
-	return fame/6;
+	return fame/4;
 }
 
 function clearScreen()
@@ -3397,7 +2883,7 @@ function clearScreen()
 	document.getElementById('next').innerHTML = "";
 
 	gameOutput.innerHTML = "";
-	prevChoices.innerHTML = "<div id = 'Buttons' style = 'display:block;'><div id = 'Header' style = 'display:block;'> </div></div><div id = 'QuadChoice' style = 'display:block;'></div><div id = 'LabChoice' style = 'display:none;'></div><div id = 'GymChoice' style = 'display:none;'></div><div id = 'MediaChoice' style = 'display:none;'></div><div id = 'CafeChoice' style = 'display:none;'> </div><div id = 'LibraryChoice' style = 'display:none;'></div><div id = 'map' style = 'display:block;'></div><div id = 'eventInput' style = 'display:block;'></div>";
+	prevChoices.innerHTML = "<div id = 'Buttons' style = 'display:block;'><div id = 'Header' style = 'display:block;'> </div></div><div id = 'LabChoice' style = 'display:none;'></div><div id = 'GymChoice' style = 'display:none;'></div><div id = 'CommonsChoice' style = 'display:block;'> </div><div id = 'LibraryChoice' style = 'display:none;'></div><div id = 'map' style = 'display:block;'></div><div id = 'eventInput' style = 'display:block;'></div>";
 	prevEvent.innerHTML = "";
 	prevTable.innerHTML = "<table id = 'tab' class='sortable'><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
 }
@@ -3416,7 +2902,7 @@ function resetGame()
 	currentEvents = [];
 	candidates=[];
 	var playerCandidate = new CandidateCreate("ph");
-	var opponentCandidate = new CandidateCreate("Liz");
+	var opponentCandidate = new CandidateCreate("Karma");
   	if(gameOver)
     {
         gameSession++; 
@@ -3442,12 +2928,12 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 
 	graphData = [];
 	graphData.push(questions[4].graph.split(','));
-	graphData.push(questions[5].graph.split(','));
+	//graphData.push(questions[5].graph.split(','));
 	graphData.push(questions[6].graph.split(','));
 
 	var pollLabelArray = [];
 	pollLabelArray.push(questions[4].labels.split(','));
-	pollLabelArray.push(questions[5].labels.split(','));
+	//pollLabelArray.push(questions[5].labels.split(','));
 	pollLabelArray.push(questions[6].labels.split(','));
 	for(var i =0; i<pollChoices.length;i++)
 	{
@@ -3527,338 +3013,282 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 	votePercentage(sampleSize, bias);
 	//Gets the results of each question
 	for(var j=0;j<sample.length;j++)
-		{
+	{
 		tableArrays[4].push(sample[j].major);
 		var majorHolder = sample[j].major;
 		if(majorHolder == "business"){
 			graphData[0][0]++;
 		}
-		else if(majorHolder == "engineering"){
+		else if(majorHolder == "law"){
 			graphData[0][1]++;
 		}
 		else if(majorHolder == "tech"){
 			graphData[0][2]++;
 		}
-		else if(majorHolder == "libArts"){
+		else if(majorHolder == "arts"){
 			graphData[0][3]++;
-		}
-		else if(majorHolder == "fineArts"){
-			graphData[0][4]++;
-		}
-
-		tableArrays[5].push(sample[j].ecoClass);
-		var ecoHolder = sample[j].ecoClass;
-		if(ecoHolder == "poverty"){
-			graphData[1][0]++;
-		}
-		else if(ecoHolder == "low"){
-			graphData[1][1]++;
-		}
-		else if(ecoHolder == "midLow"){
-			graphData[1][2]++;
-		}
-		else if(ecoHolder == "midHigh"){
-			graphData[1][3]++;
-		}
-		else if(ecoHolder == "high"){
-			graphData[1][4]++;
 		}
 
 		tableArrays[6].push(sample[j].group);
-
 		var groupHolder = sample[j].group;
 		if(groupHolder == "socialite"){
-			graphData[2][0]++;
+			graphData[1][0]++;
 		}
 		else if(groupHolder == "athlete"){
-			graphData[2][1]++;
+			graphData[1][1]++;
 		}
-		else if(groupHolder == "researcher"){
-			graphData[2][2]++;
-		}
-		else if(groupHolder == "mediaLover"){
-			graphData[2][3]++;
+		else if(groupHolder == "gamer"){
+			graphData[1][2]++;
 		}
 		else if(groupHolder == "reader"){
-			graphData[2][4]++;
+			graphData[1][3]++;
 		}
-
-		for(var i = 0; i < pollChoices.length ;i++)
-		{
-			switch(pollChoices[i])
-			{
-				case "issFav":
-					var fav =0;
-					var favName = "";
-					if(fav < sample[j].athleticScore ||fav==0)
-					{
-						fav = sample[j].athleticScore;
-						var favName = "Athletics";
-					}
-					if(fav < sample[j].researchScore ||fav==0)
-					{
-						fav = sample[j].researchScore;
-						var favName = "Research";
-					}
-					if(fav < sample[j].tuitionScore ||fav==0)
-					{
-						fav = sample[j].tuitionScore;
-						var favName = "Tuition";
-					}
-					if(fav < sample[j].eventScore ||fav==0)
-					{
-						fav = sample[j].eventScore;
-						var favName = "Events";
-					}
-					if(fav < sample[j].medicalScore ||fav==0)
-					{
-						fav = sample[j].medicalScore;
-						var favName = "Medical";
-					}
-				tableArrays[0].push(favName);
-				//find if fave
-				if(favName == "Tuition"){
-					graphData[i+3][0]++;
-				}
-				else if(favName == "Athletics"){
-					graphData[i+3][1]++;
-				}
-				else if(favName == "Research"){
-					graphData[i+3][2]++;
-				}
-				else if(favName == "Events"){
-					graphData[i+3][3]++;
-				}
-				else if(favName == "Medical"){
-					graphData[i+3][4]++;
-				}
-
-				break;
-
-				case "issOpp":
-					var opp =0;
-					var oppName = "";
-					if(opp > sample[j].athleticScore ||opp==0)
-					{
-						opp = sample[j].athleticScore;
-						var oppName = "Athletics";
-					}
-					if(opp > sample[j].researchScore ||opp==0)
-					{
-						opp = sample[j].researchScore;
-						var oppName = "Research";
-					}
-					if(opp > sample[j].tuitionScore ||opp==0)
-					{
-						opp = sample[j].tuitionScore;
-						var oppName = "Tuition";
-					}
-					if(opp > sample[j].eventScore ||opp==0)
-					{
-						opp = sample[j].eventScore;
-						var oppName = "Events";
-					}
-					if(opp > sample[j].medicalScore ||opp==0)
-					{
-						opp = sample[j].medicalScore;
-						var oppName = "Medical";
-					}
-				tableArrays[1].push(oppName);
-
-				if(oppName == "Tuition"){
-					graphData[i+3][0]++;
-				}
-				else if(oppName == "Athletics"){
-					graphData[i+3][1]++;
-				}
-				else if(oppName == "Research"){
-					graphData[i+3][2]++;
-				}
-				else if(oppName == "Events"){
-					graphData[i+3][3]++;
-				}
-				else if(oppName == "Medical"){
-					graphData[i+3][4]++;
-				}
-
-
-				break;
-
-				case "candFav":
-					tableArrays[2].push(sample[j].results.win + " Score: " +sample[j].results.winPer.toFixed(2));
-					for(var k =0; k< candidates.length;k++)
-					{
-						if(sample[j].results.win == candidates[k].name){
-							graphData[i+3][k]++;
-						}
-					}
-				break;
-
-				case "candOpp":
-					////console.log(sample[j].results);
-					tableArrays[3].push(sample[j].results.los + " Score: " +sample[j].results.losPer.toFixed(2));
-					for(var k =0; k< candidates.length;k++)
-					{
-						if(sample[j].results.los == candidates[k].name){
-							graphData[i+3][k]++;
-						}
-					}
-				break;
-
-
-
-				case "fame":
-					var playFame = fameCalc(candidates[0],sample[j]).toFixed(3);
-					tableArrays[7].push(playFame);
-					if(playFame > 0.69){
-						graphData[i+3][0]++;
-					}
-					else if(playFame > 0.36){
-						graphData[i+3][1]++;
-					}
-					else{
-						graphData[i+3][2]++;
-					}
-				break;
-
-				case "playTrust":
-					tableArrays[8].push(candidates[0].consMod);
-					var playConst = candidates[0].consMod;
-					if(playConst > 0.69){
-						graphData[i+3][0]++;
-					}
-					else if(playConst > 0.36){
-						graphData[i+3][1]++;
-					}
-					else{
-						graphData[i+3][2]++;
-					}
-				break;
-
-			}
-			for(var k = 0;k<positions.length;k++)
-			{
-				if(pollChoices[i] == "issue" + positionsLower[k])
-				{
-					switch(pollChoices[i])
-					{
-						case "issuetuition":
-							tableArrays[9].push(parseFloat(sample[j].tuitionScore).toFixed(2));
-							if(sample[j].tuitionScore >=2){
-								graphData[i+3][0]++;
-							}
-							else if(sample[j].tuitionScore >=-1){
-								graphData[i+3][1]++;
-							}
-							else{
-								graphData[i+3][2]++;
-							}
-						break;
-
-						case "issueathletic":
-							tableArrays[10].push(parseFloat(sample[j].athleticScore).toFixed(2));
-							if(sample[j].athleticScore >=2){
-								graphData[i+3][0]++;
-							}
-							else if(sample[j].athleticScore >=-1){
-								graphData[i+3][1]++;
-							}
-							else{
-								graphData[i+3][2]++;
-							}
-						break;
-
-						case "issueresearch":
-							tableArrays[11].push(parseFloat(sample[j].researchScore).toFixed(2));
-							if(sample[j].researchScore >=2){
-								graphData[i+3][0]++;
-							}
-							else if(sample[j].researchScore >=-1){
-								graphData[i+3][1]++;
-							}
-							else{
-								graphData[i+3][2]++;
-							}
-
-						break;
-
-						case "issueevents":
-							tableArrays[12].push(parseFloat(sample[j].eventScore).toFixed(2));
-							if(sample[j].eventScore >=2){
-								graphData[i+3][0]++;
-							}
-							else if(sample[j].eventScore >=-1){
-								graphData[i+3][1]++;
-							}
-							else{
-								graphData[i+3][2]++;
-							}
-						break;
-
-						case "issuemedical":
-							tableArrays[13].push(parseFloat(sample[j].medicalScore).toFixed(2));
-							if(sample[j].medicalScore >=2){
-								graphData[i+3][0]++;
-							}
-							else if(sample[j].medicalScore >=-1){
-								graphData[i+3][1]++;
-							}
-							else{
-								graphData[i+3][2]++;
-							}
-						break;
-					}
-				}
-			}
-
-			var candCounter = 14;
-			for(var k = 1;k<candidates.length;k++)
-			{
-				if(pollChoices[i] == "candFame" + candidates[k].name)
-				{
-					var calcHolder = fameCalc(candidates[k], sample[j]);
-					
-					tableArrays[candCounter].push(calcHolder);				
-
-					if(calcHolder> 0.66){
-						graphData[i+3][0]++;
-					}
-					else if(calcHolder > 0.33){
-						graphData[i+3][1]++;
-					}
-					else{
-						graphData[i+3][2]++;
-					}
-
-
-				}
-
-
-				candCounter++;
-			}
-			for(var k = 1;k<candidates.length;k++)
-			{
-				if(pollChoices[i] == "candTrust" + candidates[k].name)
-				{
-
-					tableArrays[candCounter].push(candidates[k].consMod);
-
-					if(candidates[k].consMod> 0.66){
-						graphData[i+3][2]++;
-					}
-					else if(candidates[k].consMod > 0.33){
-						graphData[i+3][1]++;
-					}
-					else{
-						graphData[i+3][0]++;
-					}
-				}
-
-				candCounter++;
-
-			}
-
-		}
+    
+        for(var i = 0; i < pollChoices.length ;i++)
+        {
+            //console.log(i)
+            switch(pollChoices[i])
+            {
+                case "issFav":
+                    var fav =0;
+                    var favName = "";
+                    if(fav < sample[j].budgetScore ||fav==0)
+                    {
+                        fav = sample[j].budgetScore;
+                        var favName = "Budget";
+                    }
+                    if(fav < sample[j].tuitionScore ||fav==0)
+                    {
+                        fav = sample[j].tuitionScore;
+                        var favName = "Tuition";
+                    }
+                    if(fav < sample[j].functionScore ||fav==0)
+                    {
+                        fav = sample[j].functionScore;
+                        var favName = "Functions";
+                    }
+                    if(fav < sample[j].medicalScore ||fav==0)
+                    {
+                        fav = sample[j].medicalScore;
+                        var favName = "Medical";
+                    }
+                tableArrays[0].push(favName);
+                //find if fave
+                if(favName == "Tuition"){
+                    graphData[i+2][0]++;
+                }
+                else if(favName == "Budget"){
+                    graphData[i+2][1]++;
+                }
+                else if(favName == "Functions"){
+                    graphData[i+2][2]++;
+                }
+                else if(favName == "Medical"){
+                    graphData[i+2][3]++;
+                }
+    
+                break;
+    
+                case "issOpp":
+                    var opp =0;
+                    var oppName = "";
+                    if(opp > sample[j].budgetScore ||opp==0)
+                    {
+                        opp = sample[j].budgetScore;
+                        var oppName = "Budget";
+                    }
+                    if(opp > sample[j].tuitionScore ||opp==0)
+                    {
+                        opp = sample[j].tuitionScore;
+                        var oppName = "Tuition";
+                    }
+                    if(opp > sample[j].functionScore ||opp==0)
+                    {
+                        opp = sample[j].functionScore;
+                        var oppName = "Functions";
+                    }
+                    if(opp > sample[j].medicalScore ||opp==0)
+                    {
+                        opp = sample[j].medicalScore;
+                        var oppName = "Medical";
+                    }
+                tableArrays[1].push(oppName);
+                //find if oppe
+                if(oppName == "Tuition"){
+                    graphData[i+2][0]++;
+                }
+                else if(oppName == "Budget"){
+                    graphData[i+2][1]++;
+                }
+                else if(oppName == "Functions"){
+                    graphData[i+2][2]++;
+                }
+                else if(oppName == "Medical"){
+                    graphData[i+2][3]++;
+                }
+    
+                break;
+    
+                case "candFav":
+                    tableArrays[2].push(sample[j].results.win + " Score: " +sample[j].results.winPer.toFixed(2));
+                    for(var k =0; k< candidates.length;k++)
+                    {
+                        if(sample[j].results.win == candidates[k].name){
+                            graphData[i+2][k]++;
+                        }
+                    }
+                break;
+    
+                case "candOpp":
+                    ////console.log(sample[j].results);
+                    tableArrays[3].push(sample[j].results.los + " Score: " +sample[j].results.losPer.toFixed(2));
+                    for(var k =0; k< candidates.length;k++)
+                    {
+                        if(sample[j].results.los == candidates[k].name){
+                            graphData[i+2][k]++;
+                        }
+                    }
+                break;
+    
+    
+    
+                case "fame":
+                    var playFame = fameCalc(candidates[0],sample[j]).toFixed(3);
+                    tableArrays[7].push(playFame);
+                    if(playFame > 0.69){
+                        graphData[i+2][0]++;
+                    }
+                    else if(playFame > 0.36){
+                        graphData[i+2][1]++;
+                    }
+                    else{
+                        graphData[i+2][2]++;
+                    }
+                break;
+    
+                case "playTrust":
+                    tableArrays[8].push(candidates[0].consMod);
+                    var playConst = candidates[0].consMod;
+                    if(playConst > 0.69){
+                        graphData[i+2][0]++;
+                    }
+                    else if(playConst > 0.36){
+                        graphData[i+2][1]++;
+                    }
+                    else{
+                        graphData[i+2][2]++;
+                    }
+                break;
+    
+            }
+            for(var k = 0;k<positions.length;k++)
+            {
+                if(pollChoices[i] == "issue" + positionsLower[k])
+                {
+                    switch(pollChoices[i])
+                    {
+                        case "issuetuition":
+                            tableArrays[9].push(parseFloat(sample[j].tuitionScore).toFixed(2));
+                            if(sample[j].tuitionScore >=2){
+                                graphData[i+2][0]++;
+                            }
+                            else if(sample[j].tuitionScore >=-1){
+                                graphData[i+2][1]++;
+                            }
+                            else{
+                                graphData[i+2][2]++;
+                            }
+                        break;
+    
+                        case "issuebudget":
+                            tableArrays[10].push(parseFloat(sample[j].budgetScore).toFixed(2));
+                            if(sample[j].budgetScore>=2){
+                                graphData[i+2][0]++;
+                            }
+                            else if(sample[j].budgetScore >=-1){
+                                graphData[i+2][1]++;
+                            }
+                            else{
+                                graphData[i+2][2]++;
+                            }
+                        break;
+    
+                        case "issuefunctions":
+                            tableArrays[12].push(parseFloat(sample[j].functionScore).toFixed(2));
+                            if(sample[j].functionScore >=2){
+                                graphData[i+2][0]++;
+                            }
+                            else if(sample[j].functionScore >=-1){
+                                graphData[i+2][1]++;
+                            }
+                            else{
+                                graphData[i+2][2]++;
+                            }
+                        break;
+    
+                        case "issuemedical":
+                            tableArrays[13].push(parseFloat(sample[j].medicalScore).toFixed(2));
+                            if(sample[j].medicalScore >=2){
+                                graphData[i+2][0]++;
+                            }
+                            else if(sample[j].medicalScore >=-1){
+                                graphData[i+2][1]++;
+                            }
+                            else{
+                                graphData[i+2][2]++;
+                            }
+                        break;
+                    }
+                }
+            }
+    
+            var candCounter = 14;
+            for(var k = 1;k<candidates.length;k++)
+            {
+                if(pollChoices[i] == "candFame" + candidates[k].name)
+                {
+                    var calcHolder = fameCalc(candidates[k], sample[j]);
+                    
+                    tableArrays[candCounter].push(calcHolder);				
+    
+                    if(calcHolder> 0.66){
+                        graphData[i+2][0]++;
+                    }
+                    else if(calcHolder > 0.33){
+                        graphData[i+2][1]++;
+                    }
+                    else{
+                        graphData[i+2][2]++;
+                    }
+    
+    
+                }
+    
+    
+                candCounter++;
+            }
+            for(var k = 1;k<candidates.length;k++)
+            {
+                if(pollChoices[i] == "candTrust" + candidates[k].name)
+                {
+    
+                    tableArrays[candCounter].push(candidates[k].consMod);
+    
+                    if(candidates[k].consMod> 0.66){
+                        graphData[i+2][0]++;
+                    }
+                    else if(candidates[k].consMod > 0.33){
+                        graphData[i+2][1]++;
+                    }
+                    else{
+                        graphData[i+2][2]++;
+                    }
+                }
+    
+                candCounter++;
+    
+            }
+        }
 	}
 
 	var reviewFlag = false;
@@ -3881,7 +3311,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
     {
         document.getElementById("holo").src = "../../img/holopadSize2.png";
     }
-    else{document.getElementById("holo").src = "../../img/holopadSize3.png";}
+    else{document.getElementById("holo").src = "../../img/HolopadSize3.png";}
     
 	//console.log(tableArray2);
 	var rowCounter = 0;
@@ -3901,7 +3331,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 			if(h==0)
 			{
 				graphQuestions.push("major");
-				graphQuestions.push("class");
+				//graphQuestions.push("class");
 				graphQuestions.push("group");
 			}
 			switch(pollChoices[h])
@@ -3960,25 +3390,18 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 
 						break;
 
-						case "issueathletic":
+						case "issuebudget":
 							var cell = headRow.insertCell(h);
 							var posInfo = tableHeaders[9] + positions[1];
 							cell.innerHTML = posInfo;
-							graphQuestions.push("issueathletic");
+							graphQuestions.push("issuebudget");
 						break;
 
-						case "issueresearch":
-							var cell = headRow.insertCell(h);
-							var posInfo = tableHeaders[9] + positions[2];
-							cell.innerHTML = posInfo;
-							graphQuestions.push("issueresearch");
-						break;
-
-						case "issueevents":
+						case "issuefunctions":
 							var cell = headRow.insertCell(h);
 							var posInfo = tableHeaders[9] + positions[3];
 							cell.innerHTML = posInfo;
-							graphQuestions.push("issueevents");
+							graphQuestions.push("issuefunctions");
 						break;
 
 						case "issuemedical":
@@ -4016,10 +3439,10 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 				var cell = headRow.insertCell(0);
 				cell.innerHTML = tableHeaders[4];
 
-				var cell = headRow.insertCell(1);
-				cell.innerHTML = tableHeaders[5];
+				//var cell = headRow.insertCell(1);
+				//cell.innerHTML = tableHeaders[5];
 
-				var cell = headRow.insertCell(2);
+				var cell = headRow.insertCell(1);
 				cell.innerHTML = tableHeaders[6];
 			}
 		}
@@ -4077,7 +3500,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var cell = row.insertCell(i);
 								if(parseFloat(tableArray2[8][h]).toFixed(2) >= 0.66)
 									{
-										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.33 && parseFloat(tableArray2[8][h]).toFixed(2)<0.66)
 									{
@@ -4085,7 +3508,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									}
 									else
 									{
-										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 					break;
 				}
@@ -4111,7 +3534,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									}
 							break;
 
-							case "issueathletic":
+							case "issuebudget":
 									var cell = row.insertCell(i);
 									if(tableArray2[10][h] <= -2)
 									{
@@ -4127,23 +3550,8 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									}
 							break;
 
-							case "issueresearch":
-								cell = row.insertCell(i);
-								if(tableArray2[11][h] <= -2)
-									{
-										cell.innerHTML = "Issue Disliked Score: " + parseFloat(tableArray2[11][h]);
-									}
-									else if(tableArray2[11][h]>-2 && tableArray2[11][h]<2)
-									{
-										cell.innerHTML = "Issue Neutral Score: " + parseFloat(tableArray2[11][h]);
-									}
-									else
-									{
-										cell.innerHTML = "Issue Liked Score: " +parseFloat( tableArray2[11][h]);
-									}
-							break;
 
-							case "issueevents":
+							case "issuefunctions":
 									var cell = row.insertCell(i);
 									if(tableArray2[12][h] <= -2)
 									{
@@ -4210,7 +3618,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var counter = canCounter;
 								if(parseFloat(tableArray2[counter][h]).toFixed(2) >= 0.66)
 								{
-									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 								{
@@ -4218,7 +3626,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								}
 								else
 								{
-									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}		
 					}
 
@@ -4231,10 +3639,10 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		var cell = row.insertCell(0);
 		cell.innerHTML = tableArray2[4][h];
 
-		var cell = row.insertCell(1);
-		cell.innerHTML = tableArray2[5][h];
+		//var cell = row.insertCell(1);
+		//cell.innerHTML = tableArray2[5][h];
 
-		var cell = row.insertCell(2);
+		var cell = row.insertCell(1);
 		cell.innerHTML = tableArray2[6][h];
 	}
 	sorttable.makeSortable(document.getElementById('tab'));
@@ -4248,9 +3656,6 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ groupList[x] +"'> "+ groupList[x] +" ";
 	}
 	document.getElementById('filterArea').innerHTML +='<br>'
-	for (var x = 0; x < groupList.length; x++){
-		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ stuEconomic[x] +"'> "+ stuEconomic[x] +" ";
-	}
 	document.getElementById('filterArea').innerHTML +='<br>'
 	for (var x = 0; x < groupList.length; x++){
 		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ majorList[x] +"'> "+ majorList[x] +" ";
@@ -4265,7 +3670,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	{
 	document.getElementById("barChartDiv").innerHTML += "<div id = 'q"+i+"text'><br></div><div class = 'barChart"+i+" chart'></div>";
     document.getElementById("pieChartDiv").innerHTML += "<div id = 'bq"+i+"text'><br></div><div class = 'pieChart"+i+"'></div>";
-		if(i==2){
+		if(i==1){
 			document.getElementById("barChartDiv").innerHTML += "<hr>";
 			document.getElementById("pieChartDiv").innerHTML += "<hr>";
 		}
@@ -4310,10 +3715,6 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 				document.getElementById("q"+i+"text").innerHTML = questions[4].question;
 				document.getElementById("bq"+i+"text").innerHTML = questions[4].question;
 			break;
-			case "class":
-				document.getElementById("q"+i+"text").innerHTML = questions[5].question;
-				document.getElementById("bq"+i+"text").innerHTML = questions[5].question;
-			break;
 			case "group":
 				document.getElementById("q"+i+"text").innerHTML = questions[6].question;
 				document.getElementById("bq"+i+"text").innerHTML = questions[6].question;
@@ -4332,19 +3733,14 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
 
-			case "issueathletic":
-				name = 	"Increase Athletic Budget";
+			case "issuebudget":
+				name = 	"Increase Budget";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
 				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
 			break;
 
-			case "issueresearch":
-				name = 	"Increase Research Budget";
-				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
-				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
-			break;
 
-			case "issueevents":
+			case "issuefunctions":
 				name = 	"More School Events";
 				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
 				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
@@ -4385,6 +3781,8 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 			////console.log(graphData[questionNum], " AT ", questions[qID].question)					
 			data2[j]=graphData[i][j];
 		}
+
+	
 		var dataCounter = 0;
 		x = d3.scaleLinear()
 		.domain([0, d3.max(data2)])
@@ -4404,14 +3802,12 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 			return zid; 
         });
         
-        var dataset = 
-        [
-        ];
+        var dataset =  [];
         for (var k = 0; k < graphData[i].length; k++)
         {			
             dataset.push ({label: graphLabels[i][k], count: graphData[i][k]})
 		}
-        console.log(dataset)
+        //console.log(dataset)
         var width = 120;
         var height = 120;
         var radius = Math.min(width, height) / 2;
@@ -4440,7 +3836,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
         .attr("class", "slice");
         
         arcs.append("svg:path")
-        .attr("fill", function(d, i) { console.log("Arc - " + color(i)); return color(i); } )
+        .attr("fill", function(d, i) { return color(i); } )
         .attr("d", arc);
         
         arcs.append("svg:text")
@@ -4451,7 +3847,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
         .attr("x", function(d, i) 
         {return width/2 + 30;})
         .attr("y", function(d, i) { return -50 + i*15; } )
-        .style("fill", function(d, i) {  console.log(d);console.log("Text - " + color(i)); return color(i); } )
+        .style("fill", function(d, i) { return color(i); } )
         .style("font", "bold 12px Arial")
         .text(function(d) { return d.data.label + "-" +d.data.count; });
         
@@ -4553,7 +3949,7 @@ function pollTimeCheck(sSize, pollQuestions)
 	{
 		timeRequired = sSize/10 + (pollQuestions.length*0.5) +0.5;
 	}
-	return (timeRequired < remainingHoursDay);
+	return (timeRequired <= remainingHoursDay);
 }
 
 function backtoUA()
@@ -4638,9 +4034,9 @@ function saveGameState()
 			textContents+="*";
 		textContents+=candidates[i].tuitNeg;
 			textContents+="*";
-		textContents+=candidates[i].athPos;
+		textContents+=candidates[i].budPos;
 			textContents+="*";
-		textContents+=candidates[i].athNeg;
+		textContents+=candidates[i].budNeg;
 			textContents+="*";
 		textContents+=candidates[i].resPos;
 			textContents+="*";
@@ -4650,9 +4046,9 @@ function saveGameState()
 			textContents+="*";
 		textContents+=candidates[i].medNeg;
 			textContents+="*";
-		textContents+=candidates[i].eventPos;
+		textContents+=candidates[i].funcPos;
 			textContents+="*";
-		textContents+=candidates[i].eventNeg;
+		textContents+=candidates[i].funcNeg;
 
 			if(i!=candidates.length-1)
 				textContents+="_";
@@ -4706,6 +4102,10 @@ function saveGameState()
     
 	//Save GameOver
 	textContents+=gameOver.toString();
+	textContents+="~";
+    
+	//Saves Total Number of Days
+	textContents+=totalDays;
 	textContents+="~";
 	
 	//post all that information
@@ -4796,14 +4196,14 @@ function loadGame()
 		cand.headNum = parseInt(candAtts[i][14]);
 		cand.tuitPos = parseInt(candAtts[i][15]);
 		cand.tuitNeg = parseInt(candAtts[i][16]);
-		cand.athPos = parseInt(candAtts[i][17]);
-		cand.athNeg = parseInt(candAtts[i][18]);
+		cand.budPos = parseInt(candAtts[i][17]);
+		cand.budNeg = parseInt(candAtts[i][18]);
 		cand.resPos = parseInt(candAtts[i][19]);
 		cand.resNeg = parseInt(candAtts[i][20]);
 		cand.medPos = parseInt(candAtts[i][21]);
 		cand.medNeg = parseInt(candAtts[i][22]);
-		cand.eventPos = parseInt(candAtts[i][23]);
-		cand.eventNeg = parseInt(candAtts[i][24]);
+		cand.funcPos = parseInt(candAtts[i][23]);
+		cand.funcNeg = parseInt(candAtts[i][24]);
 
 
 
@@ -4882,6 +4282,9 @@ function loadGame()
         gameOver = false;
     }
 	
+	//Total Number of Days
+	totalDays = parseInt(saveArray[11]);
+    
 	back=true;
 	saveState = "";
 	hourChecker();
@@ -4893,7 +4296,7 @@ function getSession(gameOver)
 	//Takes the Whole data and splits it into sections
 	var saveArray = saveState.split("~");
 	if(!gameOver){
-    	console.log(saveArray[9] == "NaN")
+    	//console.log(saveArray[9] == "NaN")
     	if(saveArray[9] !=[] && saveArray[9] != "NaN")
     	{
         	gameSession = parseInt(saveArray[9]) + 1;
@@ -4914,7 +4317,7 @@ function getSession(gameOver)
 function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 {
 	var counter;
-	oppChoice=[0,1,2,3,4];
+	oppChoice=[0,1,2,3];
 
 	for(var i =0; i <chosenIssues.length;i++)
 	{
@@ -4923,7 +4326,7 @@ function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 
 
 	//Decides the opponents focus which cannot be the same as the player
-	var oppFocus = Math.floor(Math.random()*(5-chosenIssues.length));
+	var oppFocus = Math.floor(Math.random()*(4-chosenIssues.length));
 	candidate.focus = positions[oppChoice[oppFocus]];
 	candidate.focusnum = oppChoice[oppFocus];
 	switch(oppChoice[oppFocus])
@@ -4940,9 +4343,6 @@ function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 		case 3:
 		candidate.issueScore[3]=issueVal;
 		break;
-		case 4:
-		candidate.issueScore[4]=issueVal;
-		break;
 	}
 
 	if(issueCand)
@@ -4954,7 +4354,7 @@ function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 function chooseRank(candidate, chosenRanks, issueCand)
 {
 	var counter;
-	oppChoice=[0,1,2,3,4];
+	oppChoice=[0,1,2,3];
 	
 	for(var i =0; i <chosenRanks.length;i++)
 	{
@@ -4963,33 +4363,33 @@ function chooseRank(candidate, chosenRanks, issueCand)
 	
 	
 	//Decides the opponents focus which cannot be the same as the player
-	var oppRank = Math.floor(Math.random()*(5-chosenRanks.length));
+	var oppRank = Math.floor(Math.random()*(4-chosenRanks.length));
 	switch(oppChoice[oppRank])
 	{
 		case 0:
-			candidate.fame = [1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6];
+			candidate.fame = [1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6];
 			candidate.consMod = 0.25;
 			candidate.issueScore[candidate.focusnum] = 3;
 		break;
 		case 1:
-			candidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
-			candidate.consMod = 0.35;
-			candidate.issueScore[candidate.focusnum] = 2;
+			candidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
+			candidate.consMod = 0.30;
+			candidate.issueScore[candidate.focusnum] = 2.75;
 		break;
 		case 2:
-			candidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
-			candidate.consMod = 0.45;
-			candidate.issueScore[candidate.focusnum] = 1.75;
+			candidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
+			candidate.consMod = 0.35;
+			candidate.issueScore[candidate.focusnum] = 2.5;
 		break;
 		case 3:
-			candidate.fame = [1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25];
-			candidate.consMod = 0.55;
-			candidate.issueScore[candidate.focusnum] = 1.5;
+			candidate.fame = [1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25];
+			candidate.consMod = 0.45;
+			candidate.issueScore[candidate.focusnum] = 2.5;
 		break;
 		case 4:
-			candidate.fame = [1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25];
-			candidate.consMod = 0.65;
-			candidate.issueScore[candidate.focusnum] = 1.25;
+			candidate.fame = [1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25];
+			candidate.consMod = 0.50;
+			candidate.issueScore[candidate.focusnum] = 2.25;
 		break;
 	}
 	
@@ -5025,42 +4425,19 @@ function gameResults(scores, tutorial)
 		for (var i =0; i< pos.length;i++){
 			switch(pos[i])
 			{
-				case "Poor":
-					posText += "Poor Economic Status";
-				break;
 		
-				case "Low":
-					posText += "Lower Economic Status";
-				break;
-				case "Low Mid":
-					posText += "Low Middle Economic Status";
-				break;
-				case "Upper Mid":
-					posText += "Upper Middle Economic Status";
-				break;
-				case "High":
-					posText += "Upper Economic Status";
-				break;
-		
-				case "Fine Arts":
-					posText += "Fine Arts Major";
+				case "Arts":
+					posText += "Arts Major";
 				break;
 		
 				case "Bus":
 					posText += "Business Major";
 				break;
-				case "Eng":
-					posText += "Engineering Major";
-				break;
-				case "Lib Arts":
-					posText += "Liberal Arts Major";
+				case "Law":
+					posText += "Law Major";
 				break;
 				case "Tech":
 					posText += "Technology Major";
-				break;
-		
-				case "Media":
-					posText += "Media Lover Group";
 				break;
 		
 				case "Soc":
@@ -5071,8 +4448,8 @@ function gameResults(scores, tutorial)
 					posText += "Reader Group";
 		
 				break;
-				case "Res":
-					posText += "Researcher Group";
+				case "Gam":
+					posText += "Gamer Group";
 		
 				break;
 				case "Ath":
@@ -5122,7 +4499,7 @@ function gameResults(scores, tutorial)
 		}
 		
 			saveGameState();
-     	$.post('/game/loggerMinigame', {minigameID: lastMinigame, score: scoreToLog});
+     	$.post('/game/loggerMinigame', {minigameID: lastMinigame, score: scoreToLog, module: '1', session: gameSession });
 			document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the User Action Area </button>";
 	}
 	else
@@ -5163,10 +4540,11 @@ function trendReporter(category)
         tempGraphData = [];
         pastGraphData[i].forEach(function(e)
         {
+
             tempGraphData.push(e);
         });
-        //console.log(tempGraphData);
-        tempGraphData.splice(0,3);
+
+        tempGraphData.splice(0,2);
         for(var j =0; j< pastPollChoices[i].length; j++)
         {
             if(category == pastPollChoices[i][j])
@@ -5175,24 +4553,25 @@ function trendReporter(category)
                 {
                     if(element.value == category)
                     {
-                        answers = element.labels.split(", ")
+                        answers = element.labels.split(",")
                         if(element.value == "candFav" ||element.value == "candOpp")
                         {
                             answers = [];
                             candidates.forEach(function(element2)
                             {
                             	answers.push(element2.name);
-                            	console.log(answers);
+                            	//console.log(answers);
                             });
                         }
                     }
                     else if(element.value == category.substring(0,5))
                     {
-                        answers = element.labels.split(", ")
+                        answers = element.labels.split(",")
                     }
                 });
                 
                 //console.log(tempGraphData);
+
                 for (var k =0; k< tempGraphData[j].length; k++)
                 {
                     switch(k)
@@ -5453,7 +4832,7 @@ function trendReporter(category)
 function hourChecker()
 {
 
-	if (days < 10)
+	if (days < totalDays)
 	{
 
 		if(remainingHoursDay < 1)
@@ -5470,7 +4849,6 @@ function hourChecker()
 	}
 	else
 	{
-
 		if(remainingHoursTotal<1)
 		{
 			gameCycleEnd();
@@ -5545,6 +4923,7 @@ runningGame.main =
 	enemies:[],
 	coins:[],
 	instruction: true,
+	instructionArea:0,
 	speed:50,
 	time: 60,
 	playTime: this.time*1000,
@@ -5567,6 +4946,7 @@ runningGame.main =
 		runningGame.main.instruction = true;
 		bodyPixelLocation = [];
 		frameIndex = 0;
+		runningGame4.main.instructionArea = 0;
 		ticker = 0;
 		if(typeof playerCandidate !== 'undefined'){
 			headNumber = playerCandidate.headNum
@@ -5580,6 +4960,16 @@ runningGame.main =
 			genderNumber = 0
 			bodyTypeNumber = 0
 		}
+
+		titleScreen = new Image();
+		titleScreen.src = '../img/minigame1/titlescreen.png'
+		instruction = new Image();
+		instruction.src = '../img/minigame1/instruction.png'
+		backButton = new Image();
+		backButton.src = '../img/backbutton.png'
+
+		blueBar = new Image();
+		blueBar.src = '../img/bluebar.png';
 
 		bodyPixelArray = [[169,123], [185,137],[218,175],[180,194]]
 		backgroundImage= new Image();
@@ -5675,7 +5065,9 @@ runningGame.main =
 
 		c.onmousedown = runningGame.main.doMousedown;
 		
-		runningGame.main.update(c,ctx);
+		titleScreen.onload = function(){
+			runningGame.main.update(c,ctx);
+		}
 	},
 
 	update: function (c,ctx)
@@ -5705,16 +5097,16 @@ runningGame.main =
 
 	draw: function(c,ctx)
 	{
-		console.log(runningGame.main.instruction)
+
 		if(runningGame.main.instruction == false){
-		ctx.drawImage(backgroundImage,-30,0,930,500);
+			ctx.drawImage(backgroundImage,-30,0,930,500);
+			ctx.drawImage(blueBar,0,0,c.width,30)
+			ctx.fillStyle = '#000000'
+			ctx.font = "20px Arial";
+			ctx.fillText("Time Remaining: " +runningGame.main.time+"",700,22);
 		
-		
-		ctx.font = "20px Arial";
-		ctx.strokeText("Time Remaining: " +runningGame.main.time+"",700,20);
-		
-		ctx.font = "20px Arial";
-		ctx.strokeText("Score " +runningGame.main.scores.score+"",0,20);
+			ctx.font = "20px Arial";
+			ctx.fillText("Score " +runningGame.main.scores.score+"",10,22);
 		var actualFrame;
 		//player	
 		//body
@@ -5769,21 +5161,16 @@ runningGame.main =
 			}
 		}
 		else{
-			ctx.fillStyle = "#FFFFFF";
-			ctx.fillRect(0,0,c.width, c.height);
-			ctx.fillStyle = '#000000';
-			ctx.font="30px Arial";
-			ctx.fillText("Fun Run",390,70)
-			ctx.font = '16px Arial';
-			ctx.fillText('You have places to be and things to do.',300,125);
-			ctx.fillText('On the way be sure to greet your (hopefully) adoring public.',250,175);
-			ctx.fillText('High Five as many as you can before time runs out.',275,225);
-			ctx.fillText('Be careful not to run into the ones carrying things.', 275, 275)
-				ctx.fillText('Click to start!', 400, 320)
 
-		}
+			if(runningGame.main.instructionArea == 0){
+				ctx.drawImage(titleScreen,0,0,c.width,c.height)			}
+			else if (runningGame.main.instructionArea == 1){
+				ctx.drawImage(instruction,0,0,c.width,c.height)
+				ctx.drawImage(backButton,35,420,190,60)
+			}
 		
-
+				runningGame.main.update(c,ctx);
+		}
 	},
 	
 	doMousedown: function(c, e)
@@ -5796,7 +5183,7 @@ runningGame.main =
 	laneChanger: function (mouse,c,ctx)
 	{
 		//console.log(runningGame.main.lanes);
-		console.log(mouse, runningGame.main.instruction);
+		//console.log(mouse, runningGame.main.instruction);
 		if(!runningGame.main.instruction){
 		for(var i=0; i < runningGame.main.lanes.length; i++)
 		{
@@ -5819,22 +5206,34 @@ runningGame.main =
 		}
 	}
 	else{
-		runningGame.main.instruction = false;
-			var c=document.getElementById("myCanvas");
-			var ctx = c.getContext("2d");
+
+		if(runningGame.main.instructionArea == 0 && (mouse.x >= 35 && mouse.x <=225) && (mouse.y >=420 && mouse.y <= 726)){
+			runningGame.main.instruction = false;
+
+				var c=document.getElementById("myCanvas");
+				var ctx = c.getContext("2d");
 
 			for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/15)
-		{setTimeout(runningGame.main.enemyGenerator, i);}
-		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/20)
-		{setTimeout(runningGame.main.coinGenerator, i);}
-		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/6)
-		{setTimeout(runningGame.main.increaseSpeed, i);}
-		for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/runningGame.main.time)
-		{setTimeout(runningGame.main.timer, i);}
-		setTimeout(runningGame.main.stopGame, runningGame.main.playTime);
+			{setTimeout(runningGame.main.enemyGenerator, i);}
+			for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/20)
+			{setTimeout(runningGame.main.coinGenerator, i);}
+			for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/6)
+			{setTimeout(runningGame.main.increaseSpeed, i);}
+			for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/runningGame.main.time)
+			{setTimeout(runningGame.main.timer, i);}
+			setTimeout(runningGame.main.stopGame, runningGame.main.playTime);
 
-			runningGame.main.update(c,ctx);
+				runningGame.main.update(c,ctx);
+			}
+			else if (runningGame.main.instructionArea == 0 && (mouse.x >= 666 && mouse.x <=856) &&(mouse.y >=420 && mouse.y <= 726)){
+				runningGame.main.instructionArea = 1;
+			}
+			else if (runningGame.main.instructionArea == 1 && (mouse.x >= 35 && mouse.x <=225) && (mouse.y >=420 && mouse.y <= 726)){
+				runningGame.main.instructionArea = 0;
+			}
+
 		}
+
 	},
 
 	enemyGenerator: function ()
@@ -6027,6 +5426,7 @@ runningGame2.main =
 	takenDemograph2:0,
 	demograph1num:0,
 	demograph2num:0,
+	instructionNum:0,
 	areaNumber: 0,
 	specialExist: false,
 	picturetaken: false,
@@ -6050,9 +5450,12 @@ runningGame2.main =
 		ctx.save;
 		runningGame2.main.stop = false;
 		runningGame2.main.hover = false;
+		runningGame2.main.instructionNum = 0;
 
 		headIcons = new Image();
 		headIcons.src = '../img/spriteheadlong.png';
+		instruction = new Image();
+		instruction.src = '../img/minigame2/instruction.png'
 
 		//map icons
 		libraryIcon = new Image();
@@ -6068,20 +5471,43 @@ runningGame2.main =
 		mediaIcon = new Image();
 		mediaIcon.src =  '../img/map/mediaicon.png';
 
+		blueBar = new Image();
+		blueBar.src = '../img/blueBar.png';
+
+		titleScreen = new Image();
+		titleScreen.src = '../img/minigame2/titlescreen.png';
+
 		//peopleicons
 		tuitionIcon = new Image();
-		tuitionIcon.src = '../img/icons/tuitionsquare.png';
-		sportsIcon = new Image();
-		sportsIcon.src = '../img/icons/sportssquare.png';
+		tuitionIcon.src = '../img/icons/tuitionsquare.png';	
 		researchIcon = new Image();
 		researchIcon.src = '../img/icons/researchsquare.png';
 		socialIcon = new Image();
 		socialIcon.src = '../img/icons/socialsquare.png';
 		medicalIcon = new Image();
 		medicalIcon.src = '../img/icons/medicalsquare.png';
+		//majoricons
+		artIcon = new Image();
+		artIcon.src = '../img/icons/artisticon.png';
+		businessIcon = new Image();
+		businessIcon.src = '../img/icons/businessicon.png'
+		lawIcon = new Image();
+		lawIcon.src = '../img/icons/lawicon.png'
+		techIcon = new Image();
+		techIcon.src = '../img/icons/techicon.png'
 
 		studentID = new Image();
-		studentID.src = '../img/minigame2/studentid.png';
+		studentID.src = '../img/studentid.png';
+
+		//backgrounds
+		cafebg = new Image();
+		cafebg.src = '../img/minigame2/backgroundcafe.png';
+		quadbg = new Image();
+		quadbg.src = '../img/minigame2/quadpicturebgNEW.png';
+		gymbg = new Image();
+		gymbg.src = '../img/minigame2/photobombgymbg.png';
+		libbg = new Image();
+		libbg.src = '../img/minigame2/Librarusnapshotbg.png';
 
 
 		//get people assets
@@ -6110,8 +5536,14 @@ runningGame2.main =
 		plusStrong = new Image();
 		plusStrong.src = '../img/minigame2/plusstrong.png';
 
+		backButton = new Image();
+		backButton.src = '../img/backbutton.png'
+		cameraIcon = new Image();
+		cameraIcon.src = '../img/minigame3/cameraicon.png';
+
 		imgBArray = [[thinPeace1, thinPeace2, thinStrong], [medPeace1, medPeace2, medStrong], [plusPeace1, plusPeace2, plusStrong], [hoverPeace1, hoverPeace2, hoverStrong]]
-		iconArray = [tuitionIcon, sportsIcon, researchIcon, socialIcon, medicalIcon];
+		iconArray = [tuitionIcon, researchIcon, socialIcon, medicalIcon];
+		majorIconArray = [artIcon,businessIcon,lawIcon,techIcon];
 		mapbackground = new Image();
 		mapbackground.src = '../img/map/map.png';
 
@@ -6128,8 +5560,8 @@ runningGame2.main =
 		ctx.font="14px Georgia";
 		runningGame2.main.requiredDemograph1 = Math.floor(Math.random() * 6) + 2;
 		runningGame2.main.requiredDemograph1 = Math.floor(Math.random() * 3) + 2;
-		runningGame2.main.demograph1num = Math.floor(Math.random() * 5);
-		runningGame2.main.demograph2num = Math.floor(Math.random() * 5);
+		runningGame2.main.demograph1num = Math.floor(Math.random() * 4);
+		runningGame2.main.demograph2num = Math.floor(Math.random() * 4);
 		runningGame2.main.takenDemograph1=0;
 		runningGame2.main.takenDemograph2=0;
 	
@@ -6150,7 +5582,6 @@ runningGame2.main =
 			//double check player photos = the amount they need
 				//end game
 			if(runningGame2.main.player.picturenum > 2){
-				//console.log('hi', runningGame2.main.scores.score, practice);
 				runningGame2.main.stopGame();
 			}
 
@@ -6159,19 +5590,20 @@ runningGame2.main =
 			if(runningGame2.main.areaNumber > 0 && runningGame2.main.areaNumber < 9 && !(runningGame2.main.picturetaken)){
 			 			var hold = 0;	
 			 	if(!runningGame2.main.inArea){
-			 	createSample((Math.floor(Math.random() * 3) + 5), runningGame2.main.areaNumber)
+			 	createSample((Math.floor(Math.random() * 3) + 4), runningGame2.main.areaNumber - 1)
 				runningGame2.main.studentCircles = [];
 				widthArray = [ [[60,150],[70,160],[70,120]], [[80,140],[80,140],[80,140]],[[100,140],[100,140],[100,140]],[[80,140],[80,140],[80,140]]]		
 				headArray = [[[17,9,0],[5,14,7],[12,10,2]] , [[1,8,4],[1,9,17],[7,3,8]] , [[16,8,0],[0,16,6],[14,4,7]] , [[0,11,14],[12,8,5],[4,7,16]] ]
 				sample.forEach(function(element) {
 					var studentCircleHolder = {
 						isDemographic: false,
-						interest: Math.floor(Math.random() * 5),
+						interest: Math.floor(Math.random() * 4),
+						major: Math.floor(Math.random() * 4),
 						typenum: Math.floor(Math.random() * 4),
 						posenum: Math.floor(Math.random() * 3),
 						headnum: Math.floor(Math.random() * 3),
-						x:  Math.floor(Math.random() * 99) + (110 * hold),
-   					y:  Math.floor(Math.random() * 250) + 50,
+						x:  Math.floor(Math.random() * 79) + (110 * hold),
+   					y:  Math.floor(Math.random() * 50) + 230,
    					headID: 0,
    					width: 10,
    					height: 10,
@@ -6183,9 +5615,7 @@ runningGame2.main =
    				if(studentCircleHolder.interest == runningGame2.main.demograph1num){
    						studentCircleHolder.isDemographic = true;   					
    					}
-   					
-   						runningGame2.main.studentCircles.push(studentCircleHolder)
-   					
+   				runningGame2.main.studentCircles.push(studentCircleHolder)   					
 				});
 				runningGame2.main.inArea = true;
 				}
@@ -6211,15 +5641,45 @@ runningGame2.main =
 	draw: function(c,ctx)
 	{
 		//draw the background for the area
+		
+		if(runningGame2.main.areaNumber == -1)
+			ctx.drawImage(titleScreen,0,0,c.width,c.height)
+		else if (runningGame2.main.areaNumber == -2){
+			ctx.drawImage(instruction,0,0,c.width,c.height)
+			ctx.drawImage(backButton,35,420,190,60)
+		}
 
-		if(!runningGame2.main.inArea && runningGame2.main.areaNumber>=0)
+		else if(!runningGame2.main.inArea && runningGame2.main.areaNumber>=0)
 		{
 			ctx.drawImage(mapbackground, 0,0,900,500);
 		}
-		else{
-				ctx.fillStyle = '#FFFFFF';
-				ctx.fillRect(0,0,900, 500)
-			
+		else
+        {
+			//draw backgrounds
+            switch(runningGame2.main.areaNumber)
+            {
+                case 1:
+                ctx.drawImage(quadbg, 0,0,900,500);
+                break;
+                case 2:
+                ctx.drawImage(gymbg, 0,0,900,500);
+                break;
+                //case 3:
+                //ctx.fillStyle = '#FFFFFF';
+                //ctx.drawImage(labWall, 0,0,900,500);            
+                //break;
+                case 4:
+                ctx.fillStyle = '#FFFFFF';
+                ctx.drawImage(cafebg, 0,0,900,500);
+                break;
+                case 5:
+                ctx.drawImage(libbg, 0,0,900,500);
+                break;
+                default:
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(0,0,900, 500)
+                break;
+            }
 		}
 		//draw anything specific ontop of the background layer depending on what area you are
 		if(runningGame2.main.areaNumber >= 0){
@@ -6269,10 +5729,7 @@ runningGame2.main =
 						ctx.fillRect(600,330,280,155);
 					}
 					//cafe
-					ctx.strokeRect(13,43,165,260);
-					if(runningGame2.main.buildingHover[4]){
-						ctx.fillRect(13,43,165,260);
-					}
+					
 					//media
 					ctx.strokeRect(135,333,175,145);
 					if(runningGame2.main.buildingHover[2]){
@@ -6284,8 +5741,8 @@ runningGame2.main =
 					ctx.drawImage(quadIcon, 255,190,150,100)
 					ctx.drawImage(libraryIcon, 665,325,150,100)
 					ctx.drawImage(gymIcon, 725,50,150,100)
-					ctx.drawImage(cafeIcon, 20,110,150,100)
-					ctx.drawImage(mediaIcon, 150,335,150,100)
+			
+					ctx.drawImage(cafeIcon, 150,335,150,100)
 					ctx.drawImage(labIcon, 230,25,150,100)
 				}
 				if(runningGame2.main.areaNumber>0){
@@ -6294,48 +5751,41 @@ runningGame2.main =
 		
 					runningGame2.main.drawStudents(c,ctx,runningGame2.main.studentCircles)
 					//draw the ux/ui of the game
-					ctx.fillStyle = '#EEEEEE'
-					ctx.fillRect(0,440,c.width,100);
-					ctx.fillStyle = '#AAAAAA'
-					ctx.fillRect(0,440,100,50);
-					ctx.fillStyle = '#000000'
-					ctx.fillText("Back",0,460);
-		
-					ctx.fillStyle = '#000000'
-					ctx.fillRect(400,440,100,50);
-					ctx.fillStyle = '#FFFFFF'
-					ctx.fillText("Take Picture",410,460);
+					ctx.drawImage(blueBar,0,430,c.width,70)
 
-					//student ID card
-					if(runningGame2.main.hover){
-						ctx.drawImage(studentID,670,345,230,155)
-						//draw head
-						ctx.drawImage(headIcons,154 * runningGame2.main.activeStudent.headID,0,154,172,693,370,60,60)
-						//draw icon
-						ctx.drawImage(iconArray[runningGame2.main.activeStudent.interest],803,413,40,40)
-					}
-				}
+				
+					ctx.fillStyle = '#000000'
+					ctx.fillRect(400,440,100,50)
+					ctx.strokeStyle = '#000000'
+					ctx.drawImage(cameraIcon,423,437,55,55)
+					ctx.strokeRect(400,440,100,50);
 		
-					//draw the score
-					ctx.fillStyle = '#CCCCCC';
-					ctx.fillRect(0,0,c.width,32);
 
 					ctx.fillStyle = '#000000'
 					var scoreText = runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " ";
 					var photosLeftText = runningGame2.main.player.picturenum + '/3 Photos Left'
-					ctx.fillText(scoreText, 725,20);
-					ctx.drawImage(iconArray[runningGame2.main.demograph1num], 750,1,30,30);
-					ctx.fillText(photosLeftText, 100,10);
+				
+					ctx.drawImage(iconArray[runningGame2.main.demograph1num], 660,440,50,50);
+					ctx.fillText(scoreText, 620,470);
+					ctx.fillText(photosLeftText, 210,470);
+					ctx.drawImage(backButton,10,440,150,50)
+
+					//student ID card
+					if(runningGame2.main.hover){
+						ctx.drawImage(studentID,runningGame2.main.activeStudent.x + 50,runningGame2.main.activeStudent.y-110,210,135)
+						//draw head
+						ctx.drawImage(headIcons,154 * runningGame2.main.activeStudent.headID,0,154,172,runningGame2.main.activeStudent.x + 68,runningGame2.main.activeStudent.y-96,60,60)
+						//draw icon
+						ctx.drawImage(iconArray[runningGame2.main.activeStudent.interest],runningGame2.main.activeStudent.x + 207,runningGame2.main.activeStudent.y-52,37,37)
+						ctx.drawImage(majorIconArray[runningGame2.main.activeStudent.major],runningGame2.main.activeStudent.x + 142,runningGame2.main.activeStudent.y-52,37,37)
+					}
+				}
+		
+					//draw the score
+		
+				
 		}
-		else if (runningGame2.main.areaNumber == -1){
-			ctx.fillStyle = '#000000'
-			ctx.fillText('Photobomb', 400,100)
-			ctx.fillText('Travel around the school to snap photos for your campaign’s social media.', 200,150)
-			ctx.fillText('You’ll be given a target demographic for this set of photos in the top right.', 200,200)
-			ctx.fillText('Find who is in the group by hovering your mouse over a student.', 250,250)
-			ctx.fillText('When you run out of photos the game is over.', 300,300)
-			ctx.fillText('Click to Start',400,400);
-		}
+	
 	},
 
 	drawStudents: function(c,ctx, students){
@@ -6384,35 +5834,29 @@ runningGame2.main =
 			}
 			//media 		ctx.strokeRect(135,333,175,145);
 			if((mouse.x >= 135 && mouse.x <= 310)&&(mouse.y >= 333 && mouse.y <= 475)){
-				runningGame2.main.areaNumber = 3;
+				runningGame2.main.areaNumber = 4;
 				update = true;
 			}
 		
 			//labs1
 			if((mouse.x >= 225 && mouse.x <= 383)&&(mouse.y >= 20 && mouse.y <= 170)){
-				runningGame2.main.areaNumber = 4;
+				runningGame2.main.areaNumber = 3;
 				update = true;
 			}
 			//labs2
 			else if((mouse.x >= 275 && mouse.x <= 340)&&(mouse.y >= 170 && mouse.y <= 200)){
-				runningGame2.main.areaNumber = 4;
-				update = true;
-			}
-		
-
-			//coffee shop 
-			if((mouse.x >= 13 && mouse.x <= 178)&&(mouse.y >= 43 && mouse.y <= 303)){
-				runningGame2.main.areaNumber = 5;
+				runningGame2.main.areaNumber = 3;
 				update = true;
 			}
 			//library 	ctx.strokeRect(600,330,280,155);
 			if((mouse.x >= 600 && mouse.x <= 880)&&(mouse.y >= 330 && mouse.y <= 495)){
-				runningGame2.main.areaNumber = 6;
+				runningGame2.main.areaNumber = 5;
 				update = true;
 			}
 		}
 		else if(runningGame2.main.areaNumber > 0 && runningGame2.main.areaNumber < 9 ){
-			if((mouse.x >= 0 && mouse.x <= 100)&&(mouse.y >= 440 && mouse.y <= 490)){
+
+			if((mouse.x >= 5 && mouse.x <= 155)&&(mouse.y >= 445 && mouse.y <= 495)){
 				runningGame2.main.areaNumber = 0;
 				runningGame2.main.inArea = false;
 				update = true;
@@ -6432,7 +5876,13 @@ runningGame2.main =
 				});
 			}
 		}
-		else if(runningGame2.main.areaNumber == -1){
+		else if(runningGame2.main.areaNumber == -1 && (mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225) ){
+			runningGame2.main.areaNumber++;
+		}
+		else if(runningGame2.main.areaNumber == -1 && (mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 666 && mouse.x <=856) ){
+			runningGame2.main.areaNumber--;
+		}
+		else if(runningGame2.main.areaNumber == -2 && (mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225) ){
 			runningGame2.main.areaNumber++;
 		}
 
@@ -6595,6 +6045,16 @@ secretSticker.main =
         secretSticker.main.gameStop = false;
         secretSticker.main.activeHover = false;
         
+        blueBar = new Image();
+		blueBar.src = '../img/blueBar.png';
+
+        titleScreen = new Image();
+		titleScreen.src = '../img/minigame3/titlescreen.png';
+		instruction = new Image();
+		instruction.src = '../img/minigame3/instruction2.png'
+		instruction2 = new Image();
+		instruction2.src = '../img/minigame3/instruction1.png'
+
         //map icons
         libraryIcon = new Image();
         libraryIcon.src = '../img/map/libraryicon.png';
@@ -6613,7 +6073,7 @@ secretSticker.main =
         tuitionIcon = new Image();
         tuitionIcon.src = '../img/icons/tuitionsquare.png';
         sportsIcon = new Image();
-        sportsIcon.src = '../img/icons/sportscircle.png';
+        sportsIcon.src = '../img/icons/sportssquare.png';
         researchIcon = new Image();
         researchIcon.src = '../img/icons/researchsquare.png';
         socialIcon = new Image();
@@ -6638,12 +6098,13 @@ secretSticker.main =
         gymWall.src = '../img/minigame3/WallforGymBG.png';
         mediaWall = new Image();
         mediaWall.src = '../img/minigame3/WallforMediaRoomBG.png';
+        cafeWall = new Image();
+        cafeWall.src = '../img/minigame3/WallforCafeBG.png';
 
         //icons
         tuitionIcon = new Image();
         tuitionIcon.src = '../img/icons/tuitionsquare.png'
-        athleticIcon = new Image();
-        athleticIcon.src = '../img/icons/sportssquare.png';
+       
         researchIcon = new Image()
         researchIcon.src = '../img/icons/researchsquare.png';
         eventsIcon = new Image();
@@ -6651,9 +6112,10 @@ secretSticker.main =
         medicalIcon = new Image();
         medicalIcon.src = '../img/icons/medicalsquare.png';
 
-        interestArray = [tuitionIcon, athleticIcon, researchIcon, eventsIcon, medicalIcon];
+        interestArray = [tuitionIcon, researchIcon, eventsIcon, medicalIcon];
 
-        
+        backButton = new Image();
+        backButton.src = '../img/backbutton.png';
         
         //get people assets
         hoverBack = new Image();
@@ -6676,7 +6138,7 @@ secretSticker.main =
         ctx.font="14px Georgia";
         secretSticker.main.requiredDemograph1 = Math.floor(Math.random() * 6) + 2;
         secretSticker.main.requiredDemograph1 = Math.floor(Math.random() * 3) + 2;
-        secretSticker.main.demograph1num = Math.floor(Math.random() * 5);
+        secretSticker.main.demograph1num = Math.floor(Math.random() * 4);
         secretSticker.main.takenDemograph1=0;
         secretSticker.main.postersLeft=5;
         secretSticker.main.areas =
@@ -6770,18 +6232,26 @@ secretSticker.main =
     draw: function(c,ctx)
     {
         var mouse = canvasMouse;
-
-    
-    
+        console.log(secretSticker.main.areaNumber)
+  
         //draw the background for the area
         ctx.fillStyle="#FFFFFF";
         ctx.fillRect(0,0,c.width,c.height);
         //draw anything specific ontop of the background layer depending on what area you are
         //draw the background for the area
 
-        if(!secretSticker.main.inArea && secretSticker.main.areaNumber>=0 &&secretSticker.main.areaNumber<9)
+        if(!secretSticker.main.inArea && secretSticker.main.areaNumber>=-0 &&secretSticker.main.areaNumber<9)
         {
-            ctx.drawImage(mapbackground, 0,0,900,500);
+            if(secretSticker.main.areaNumber == 0)
+            	ctx.drawImage(mapbackground, 0,0,900,500);
+            else if(secretSticker.main.areaNumber == 8){
+            	ctx.drawImage(instruction, 0,0,c.width,c.height);
+            	ctx.drawImage(backButton,35,420,190,60);
+            }
+            else if(secretSticker.main.areaNumber == 7){
+            	ctx.drawImage(instruction2, 0,0,c.width,c.height);
+            	ctx.drawImage(backButton,35,420,190,60)
+            }
         }
         else{
             switch(secretSticker.main.areaNumber)
@@ -6793,19 +6263,14 @@ secretSticker.main =
                 ctx.drawImage(gymWall, 0,0,900,500);
                 break;
                 case 3:
-                ctx.drawImage(mediaWall, 0,0,900,500);
+                ctx.fillStyle = '#FFFFFF';
+                ctx.drawImage(labWall, 0,0,900,500);            
                 break;
                 case 4:
                 ctx.fillStyle = '#FFFFFF';
-                ctx.drawImage(labWall, 0,0,900,500);            
-                //ctx.drawImage(mapbackground, 0,0,900,500);
+                ctx.drawImage(cafeWall, 0,0,900,500);
                 break;
                 case 5:
-                ctx.fillStyle = '#FFFFFF';
-                 ctx.fillRect(0,0,900, 500)
-                //ctx.drawImage(mapbackground, 0,0,900,500);
-                break;
-                case 6:
                 ctx.drawImage(libWall, 0,0,900,500);
                 break;
                 default:
@@ -6815,6 +6280,7 @@ secretSticker.main =
             }
             
         }
+
         //draw anything specific ontop of the background layer depending on what area you are
         if(secretSticker.main.areaNumber == 0)
         {
@@ -6863,10 +6329,8 @@ secretSticker.main =
                 ctx.fillRect(600,330,280,155);
             }
             //cafe
-            ctx.strokeRect(13,43,165,260);
-            if(secretSticker.main.buildingHover[4]){
-                ctx.fillRect(13,43,165,260);
-            }
+            //ctx.strokeRect(13,43,165,260);
+         
             //media
             ctx.strokeRect(135,333,175,145);
             if(secretSticker.main.buildingHover[2]){
@@ -6878,12 +6342,12 @@ secretSticker.main =
             ctx.drawImage(quadIcon, 255,190,150,100)
             ctx.drawImage(libraryIcon, 665,325,150,100)
             ctx.drawImage(gymIcon, 725,50,150,100)
-            ctx.drawImage(cafeIcon, 20,110,150,100)
-            ctx.drawImage(mediaIcon, 150,335,150,100)
+            //ctx.drawImage(cafeIcon, 20,110,150,100)
+            ctx.drawImage(cafeIcon, 150,335,150,100)
             ctx.drawImage(labIcon, 230,25,150,100)
 	}
        
-       if(secretSticker.main.areaNumber >0 && secretSticker.main.areaNumber <9  ){
+       if(secretSticker.main.areaNumber >0 && secretSticker.main.areaNumber <6  ){
            
            if(secretSticker.main.placeStudents)
            {
@@ -6938,12 +6402,18 @@ secretSticker.main =
            
 
            //draw the ux/ui of the game
-           ctx.fillStyle = '#EEEEEE'
-           ctx.fillRect(0,440,c.width,100);
-           ctx.fillStyle = '#AAAAAA'
-           ctx.fillRect(0,440,100,50);
-           ctx.fillStyle = '#000000'
-           ctx.fillText("Back",0,460);
+            ctx.drawImage(blueBar,0,430,c.width,70)
+
+            ctx.fillStyle = '#000000'
+            var scoreText = secretSticker.main.takenDemograph1 + '/'+ secretSticker.main.requiredDemograph1 + "";
+            var photosLeftText = secretSticker.main.postersLeft + '/5 Posters Left'
+            ctx.fillText(scoreText,530,470);
+            ctx.fillText(photosLeftText, 210,470);
+            ctx.drawImage(interestArray[secretSticker.main.demograph1num], 560,440,50,50)
+
+
+
+           ctx.drawImage(backButton,10,440,150,50);
            
            ctx.fillStyle = '#AAAAAA'
            ctx.fillRect(0,250,25,25);
@@ -6962,7 +6432,7 @@ secretSticker.main =
            //ctx.stroke();
            
            
-           ctx.drawImage(sticker,c.width/2-30,c.height-50,50,50);
+           ctx.drawImage(sticker,c.width/2-30,c.height-60,50,50);
            if(secretSticker.main.drag)
            {
                //ctx.fillStyle = '#0000FF';
@@ -7011,25 +6481,11 @@ secretSticker.main =
        if(secretSticker.main.areaNumber == 9)
        {
            
-           ctx.fillStyle = '#000000'
-           ctx.fillText("Your goal is to attract the demographic shown in the top right and place a sticker on them.",100,80);
-           ctx.fillText("You have 5 posters and you have to target the correct sample of the population.",100,100);
-           ctx.fillText("Place posters in an area to attract people to them.",100,120);
-           ctx.fillText("The more posters you place the more people you attract.",100,140);
-           ctx.fillText("Once they're around drag a sticker onto them to score.",100,160);
-           ctx.fillText("If you return to the quad with no posters, you pack it in for the day. ",100,180);
-           ctx.fillStyle = '#AAAAAA'
-           ctx.fillRect(400,400,100,50);
-           ctx.fillStyle = '#000000'
-           ctx.fillText("Start",440,430);
+      			ctx.drawImage(titleScreen,0,0,c.width,c.height)
        }
-            
-            //draw the score
-            ctx.fillStyle = '#000000'
-            var scoreText = secretSticker.main.takenDemograph1 + '/'+ secretSticker.main.requiredDemograph1 + " " + positions[secretSticker.main.demograph1num] + " Students";
-            var photosLeftText = secretSticker.main.postersLeft + '/5 Posters Left'
-            ctx.fillText(scoreText, 700,10);
-            ctx.fillText(photosLeftText, 100,10);
+      
+
+
         
     },
 
@@ -7056,38 +6512,34 @@ secretSticker.main =
 			secretSticker.main.areaNumber = 2;
             secretSticker.main.inArea = true;
 		}
-		//media 		ctx.strokeRect(135,333,175,145);
-		if((mouse.x >= 135 && mouse.x <= 310)&&(mouse.y >= 333 && mouse.y <= 475)){
-			secretSticker.main.areaNumber = 3;
-            secretSticker.main.inArea = true;
-		}
+	
 	
 		//labs1
 		if((mouse.x >= 225 && mouse.x <= 383)&&(mouse.y >= 20 && mouse.y <= 170)){
-			secretSticker.main.areaNumber = 4;
+			secretSticker.main.areaNumber = 3;
             secretSticker.main.inArea = true;
 		}
 		//labs2
 		else if((mouse.x >= 275 && mouse.x <= 340)&&(mouse.y >= 170 && mouse.y <= 200)){
-			secretSticker.main.areaNumber = 4;
+			secretSticker.main.areaNumber = 3;
             secretSticker.main.inArea = true;
 		}
 	
 
 		//coffee shop 
-		if((mouse.x >= 13 && mouse.x <= 178)&&(mouse.y >= 43 && mouse.y <= 303)){
-			secretSticker.main.areaNumber = 5;
+		if(((mouse.x >= 135 && mouse.x <= 310)&&(mouse.y >= 333 && mouse.y <= 475))){
+			secretSticker.main.areaNumber = 4;
 			secretSticker.main.inArea = true;
 		}
 		//library 	ctx.strokeRect(600,330,280,155);
 		if((mouse.x >= 600 && mouse.x <= 880)&&(mouse.y >= 330 && mouse.y <= 495)){
-			secretSticker.main.areaNumber = 6;
+			secretSticker.main.areaNumber = 5;
 			secretSticker.main.inArea = true;
 		}
 	}
-        if(secretSticker.main.areaNumber > 0 && secretSticker.main.areaNumber < 9 )
+        if(secretSticker.main.areaNumber > 0 && secretSticker.main.areaNumber < 6 )
         {
-            if((mouse.x >= 0 && mouse.x <= 100)&&(mouse.y >= 440 && mouse.y <= 490))
+            if((mouse.x >= 5 && mouse.x <= 155)&&(mouse.y >= 445 && mouse.y <= 495))
             {
                 secretSticker.main.areaNumber = 0;
                 secretSticker.main.inArea = false;
@@ -7135,7 +6587,7 @@ secretSticker.main =
             if (dist < 30) 
             {
                 secretSticker.main.drag = true;
-                console.log("click")
+
             }
             
             
@@ -7144,21 +6596,46 @@ secretSticker.main =
                 if(secretSticker.main.areaNumber >1)
                 secretSticker.main.areaNumber--;
                 else
-                secretSticker.main.areaNumber = 6;
+                secretSticker.main.areaNumber = 5;
             }
             if((mouse.x >= 875&& mouse.x <= 900)&&(mouse.y >= 250 && mouse.y <= 275 ))
             {
-                if(secretSticker.main.areaNumber <6)
+                if(secretSticker.main.areaNumber <5)
                 secretSticker.main.areaNumber++;
                 else
                 secretSticker.main.areaNumber = 1;
             }
         }
-           if(secretSticker.main.areaNumber == 9)
+         if(secretSticker.main.areaNumber == 9)
         {
-            if((mouse.x >= 400 && mouse.x <= 500)&&(mouse.y >= 400 && mouse.y <= 450))
+            if((mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225))
             {
                 secretSticker.main.areaNumber = 0;
+            }
+            else if ((mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 666 && mouse.x <=856)){
+            	 secretSticker.main.areaNumber = 8;
+            }
+        }
+         else if(secretSticker.main.areaNumber == 8)
+        {
+
+            if((mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225))
+            {
+            	 console.log('hey')
+                secretSticker.main.areaNumber = 9;
+            }
+            else if ((mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 666 && mouse.x <=856)){
+            	 secretSticker.main.areaNumber = 7;
+            }
+        }
+         else if(secretSticker.main.areaNumber == 7)
+        {
+            if((mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225))
+            {
+                secretSticker.main.areaNumber = 8;
+            }
+            else if ((mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 666 && mouse.x <=856)){
+            	 secretSticker.main.areaNumber = 9;
             }
         }
     },
@@ -7227,7 +6704,7 @@ secretSticker.main =
     doMouseUp: function()
     {
         var mouse = canvasMouse;
-        if(secretSticker.main.areaNumber != 0)
+        if(secretSticker.main.areaNumber != 0 && secretSticker.main.areaNumber <6)
         {
             secretSticker.main.drag = false;
            
@@ -7256,15 +6733,15 @@ secretSticker.main =
     {
 
         var posterCount = posterNum*2;
-        console.log(posterCount)
-        createSample(posterCount, secretSticker.main.areaNumber);
+        //console.log(posterCount)
+        createSample(posterCount, secretSticker.main.areaNumber-1);
         secretSticker.main.areas[secretSticker.main.areaNumber].students = [];
         sample.forEach(function(element, i) 
         {
             var studentCircleHolder = 
             {
                 isDemographic: false,
-                interest: Math.floor(Math.random() * 5),
+                interest: Math.floor(Math.random() * 4),
                 typenum: Math.floor(Math.random() * 4),
                 headnum: Math.floor(Math.random() * 3),
             }
@@ -7321,6 +6798,7 @@ runningGame4.main = {
 	prompt: 0,
 	clickpause: false,
 	lastClick: 0,
+	instructionArea: 0,
 	colorCounter: 0,
 	delayCounter: 0,
 	isPlayerDancingNow: false,
@@ -7528,6 +7006,11 @@ runningGame4.main = {
 		backgroundAerialDanceFloor = new Image();
 		backgroundAerialDanceFloor.src = '../img/minigame4/arieldance.png';
 
+		instruction = new Image();
+		instruction.src = '../img/minigame4/instruction1.png'
+		instruction2 = new Image();
+		instruction2.src = '../img/minigame4/instruction2.png'
+
 		if(practice){
 				runningGame4.main.player.headnum = 0;
 				runningGame4.main.player.facenum = 0;
@@ -7540,6 +7023,19 @@ runningGame4.main = {
 				runningGame4.main.player.gendernum = playerCandidate.genderNum;
 				runningGame4.main.player.bodynum = playerCandidate.bodyTypeNum;
 			}
+		//words
+		getReady = new Image();
+		getReady.src = '../img/minigame4/getready.png';
+		oops = new Image();
+		oops.src = '../img/minigame4/oops.png'
+		great = new Image();
+		great.src = '../img/minigame4/great.png'
+
+		titleScreen = new Image();
+		titleScreen.src = '../img/minigame4/titlescreen.png';
+		runningGame.main.instructionArea = 0;
+		textArray = [great, oops, getReady]
+
 
 		//groups
 		smallGroup = new Image();
@@ -7566,7 +7062,7 @@ runningGame4.main = {
 		rightArrow = new Image();
 		rightArrow.src = '../img/minigame4/rightarrowgreyed.png';
 		rightArrowGlow = new Image();
-		rightArrowGlow.src = '../img/minigame4/rightArrowGREEN.png';
+		rightArrowGlow.src = '../img/minigame4/rightarrowGREEN.png';
 		leftArrow = new Image();
 		leftArrow.src = '../img/minigame4/leftarrowgreyed.png';
 		leftArrowGlow = new Image();
@@ -7579,6 +7075,9 @@ runningGame4.main = {
 		downArrow.src = '../img/minigame4/downarrowgreyed.png';
 		downArrowGlow = new Image();
 		downArrowGlow.src = '../img/minigame4/downarrowGREEN.png';
+
+		backButton = new Image();
+		backButton.src = '../img/backbutton.png'
 
 		//people
 		headSheet = new Image();
@@ -7645,6 +7144,7 @@ runningGame4.main = {
 		//focus on a target on one of the 3 statistics (major, economic group, main interest)
 		whichStatGroup = Math.floor(Math.random() * 3);
 		runningGame4.main.setUpGroup();
+		runningGame4.main.getReady = true;
 		runningGame4.main.update(c,ctx);
 	
 	},
@@ -7658,7 +7158,7 @@ runningGame4.main = {
 			runningGame4.main.endOfRound();
 		}
 		else{
-			console.log('END GAME')
+			//console.log('END GAME')
 			
 			gameResults(runningGame4.main.scores, practice)
 		}
@@ -7668,19 +7168,28 @@ runningGame4.main = {
 	{
 		//draw background
 	
-		ctx.drawImage(backgroundAerialDanceFloor,0,0,c.width, c.height)
+		
 	
 		
 		//if not in dance mode
 		if(!runningGame4.main.inDanceMode){
 			if(runningGame4.main.instruction){
-					ctx.fillStyle = '#FF0000';
-					ctx.fillRect(300,300,100,50)
+				if(runningGame4.main.instructionArea == 0)
+					ctx.drawImage(titleScreen,0,0,c.width,c.height)
+				else if(runningGame4.main.instructionArea == 1){
+					ctx.drawImage(instruction,0,0,c.width,c.height)
+					ctx.drawImage(backButton,35,420,190,60)
+				}
+				else if(runningGame4.main.instructionArea == 2){
+					ctx.drawImage(instruction2,0,0,c.width,c.height)
+					ctx.drawImage(backButton,35,420,190,60)
+				}
+
 			}
 			else{
 	
 			//draw the lights
-
+			ctx.drawImage(backgroundAerialDanceFloor,0,0,c.width, c.height)
 			ctx.font = "20px Serif";
 			ctx.fillStyle = '#FFFFFF';
 			ctx.fillText(runningGame4.main.groupPrompt[prompt], 335, 40);
@@ -7701,19 +7210,14 @@ runningGame4.main = {
 	else if(runningGame4.main.inDanceMode){		
 			
 			//background
+			ctx.drawImage(backgroundAerialDanceFloor,0,0,c.width, c.height)
 			ctx.drawImage(backgroundDanceFloor,0,-40,c.width, c.height+40)
 			ctx.filter = 'blur(3px)';
-
-
 			
 			ctx.filter = 'none';
 			ctx.drawImage(stageLampGreen,70,20,140,120)
 			ctx.drawImage(stageLampRed,370,20,140,120)
 			ctx.drawImage(stageLampBlue,670,20,140,120)
-
-
-
-
 			//the correct 
 			//((width*3) * runningGame4.main.danceOrder[runningGame4.main.colorCounter]) + (width* runningGame4.main.studentDancingNow)
 			//nb f m
@@ -7741,12 +7245,7 @@ runningGame4.main = {
 			ctx.drawImage(thinNB,((280*3) * runningGame4.main.danceOrder[runningGame4.main.colorCounter]) + (280* runningGame4.main.studentDancingNow),0,280,486,85,220,110,200);		
 			ctx.drawImage(thinMale,((280*3) * runningGame4.main.danceOrder[runningGame4.main.colorCounter]) + (280* runningGame4.main.studentDancingNow),0,280,486,680,220,120,200)
 
-			//thin body nonbinary
-
-
-		
-
-			//we
+			
 			//we are stopping clicking
 			if(runningGame4.main.clickpause && runningGame4.main.showMeYourMove){
 				if(runningGame4.main.moveCounter == 200){
@@ -7758,6 +7257,9 @@ runningGame4.main = {
 				
 				else{
 					runningGame4.main.moveCounter++;
+					if(runningGame4.main.moveCounter == 100){
+						runningGame4.main.getReady = true;
+					}
 
 						if(runningGame4.main.isPlayerDancingNow){
 
@@ -7894,24 +7396,21 @@ runningGame4.main = {
 
 			//the move
 			if(runningGame4.main.showMeYourMove)
-			{
-				ctx.fillStyle = '#e2cf63';
-				ctx.fillRect(100,400, 200,80);
-				ctx.fillStyle = '#000000'
-			
+			{					
 				if(runningGame4.main.getReady){
-					runningGame4.main.resultText = 'Get Ready'
+					runningGame4.main.resultText =  2
 				}
 				else{
 					if(runningGame4.main.incorrectDance){
-						runningGame4.main.resultText = 'Wrong'
+						runningGame4.main.resultText = 1
 					}
 					else{
 						
-						runningGame4.main.resultText = 'Correct'
+						runningGame4.main.resultText = 0
 					}
 				}
-				ctx.fillText(runningGame4.main.resultText, 120, 420);
+				arrayofWidths = [[330, 120,230,100],[265, 120,350,100],[300, 120,300,100]]
+				ctx.drawImage(textArray[runningGame4.main.resultText], arrayofWidths[runningGame4.main.resultText][0], arrayofWidths[runningGame4.main.resultText][1],arrayofWidths[runningGame4.main.resultText][2],arrayofWidths[runningGame4.main.resultText][3]);
 			}
 		}
 
@@ -7929,25 +7428,7 @@ runningGame4.main = {
 		runningGame4.main.danceOrder[1] = Math.floor(Math.random() * 4);
 		runningGame4.main.danceOrder[2] = Math.floor(Math.random() * 4);
 		runningGame4.main.danceOrder[3] = Math.floor(Math.random() * 4);
-		console.log(runningGame4.main.danceOrder);
-	},
-
-	danceAnimationTicker: function(){
-		runningGame4.main.animationTicker++;
-		if(runningGame4.main.animationTicker > 10){
-			runningGame4.main.animationTicker = 0;
-		}
-		else{
-			if(runningGame4.main.animationTicker <=2){
-			
-			}
-			else if(runningGame4.main.animationTicker <=4){
-			
-			}
-			else{
-				
-			}
-		}
+		//console.log(runningGame4.main.danceOrder);
 	},
 
 	danceMoveCheck: function(clicked){
@@ -7974,7 +7455,7 @@ runningGame4.main = {
 		//make the labels
 		for(var x =0; x < 3; x++){
 			runningGame4.main.groups[x] = x;
-			runningGame4.main.gameGroups[x] = Math.floor(Math.random() * 5);
+			runningGame4.main.gameGroups[x] = Math.floor(Math.random() * 4);
 		}
 
 
@@ -8039,12 +7520,31 @@ runningGame4.main = {
 			
 		}
 		if(!runningGame4.main.inDanceMode && runningGame4.main.instruction){
-			if(mouse.y >= 300 && mouse.y <=350){
-					if(mouse.x >= 300 && mouse.x <= 380){
-						
-						runningGame4.main.instruction = false;
-					}
-				}
+		
+			
+			if(runningGame4.main.instructionArea == 0 && (mouse.x >= 35 && mouse.x <=225) && (mouse.y >=420 && mouse.y <= 726)){
+				runningGame4.main.instruction = false;
+				var c=document.getElementById("myCanvas");		
+			}
+			else if (runningGame4.main.instructionArea == 0 && (mouse.x >= 666 && mouse.x <=856) &&(mouse.y >=420 && mouse.y <= 726)){
+				runningGame4.main.instructionArea = 1;
+			}
+			else if (runningGame4.main.instructionArea == 1 && (mouse.x >= 35 && mouse.x <=225) && (mouse.y >=420 && mouse.y <= 726)){
+				runningGame4.main.instructionArea = 0;
+			}
+			else if (runningGame4.main.instructionArea == 1 && (mouse.x >= 666 && mouse.x <=856) &&(mouse.y >=420 && mouse.y <= 726)){
+				runningGame4.main.instructionArea = 2;
+			}
+				else if (runningGame4.main.instructionArea == 2 && (mouse.x >= 35 && mouse.x <=225) && (mouse.y >=420 && mouse.y <= 726)){
+				runningGame4.main.instructionArea = 1;
+			}
+			else if (runningGame4.main.instructionArea == 2 && (mouse.x >= 666 && mouse.x <=856) &&(mouse.y >=420 && mouse.y <= 726)){
+				runningGame4.main.instructionArea = 0;
+			}
+
+		
+
+				
 		}
 
 
@@ -8104,7 +7604,7 @@ runningGame4.main = {
 
 	promptChecker: function(prompt,x){
 		var groupPop = runningGame4.main.groups[x]
-		console.log(groupPop)
+		//console.log(groupPop)
 		switch(prompt){
 			case 0:			
 				var minArray = Math.min.apply(groupPop, runningGame4.main.groups);		
@@ -8153,6 +7653,7 @@ tshirtCannon.main = {
 	students: [],
 	time: 60,
 	instruction: true,
+	instructionArea: 0,
 	playTime: this.time*1000,
 	scores:
 	{
@@ -8168,8 +7669,14 @@ tshirtCannon.main = {
 		ctx.restore;
 		ctx.save;
 
+		tshirtCannon.main.instructionArea = 0;
 		tshirtCannon.main.students = [];
 		tshirtCannon.main.scores.score = 0;
+
+		instruction = new Image();
+		instruction.src = '../img/minigame5/instruction.png'
+		backButton = new Image();
+		backButton.src = '../img/backbutton.png'
 		//images
 		gymBG = new Image();
 		gymBG.src = '../img/minigame5/background.png'
@@ -8181,6 +7688,13 @@ tshirtCannon.main = {
 		pluswalk.src = '../img/minigame5/largewalkcycletop.png'
 		chairwalk = new Image();
 		chairwalk.src = '../img/minigame5/chairwalkcycletop.png'
+
+		titleScreen = new Image();
+		titleScreen.src = '../img/minigame5/titlescreen.png';
+		blueBar = new Image();
+		blueBar.src = '../img/bluebar.png'
+		blueBarSmall = new Image();
+		blueBarSmall.src = '../img/bluebarsmall.png';
 
 		happy = new Image();
 		happy.src = '../img/minigame5/happyreaction.png'
@@ -8207,7 +7721,9 @@ tshirtCannon.main = {
 	
         
 		c.onmousedown = tshirtCannon.main.doMousedown;
-		tshirtCannon.main.update(c,ctx);
+		titleScreen.onload = function(){
+			tshirtCannon.main.update(c,ctx);
+		}
 
 	},
     stop: function() 
@@ -8219,31 +7735,30 @@ tshirtCannon.main = {
 	{
 		if(!tshirtCannon.main.gameStop){
 		//check if game finished
-				requestAnimationFrame(function(){tshirtCannon.main.draw(c,ctx)});
-			
-			if(tshirtCannon.main.instruction == false){		
-
-				requestAnimationFrame(function(){tshirtCannon.main.update(c,ctx)});		
-			}
-			
-			//update score
+			requestAnimationFrame(function(){tshirtCannon.main.draw(c,ctx)});
+			requestAnimationFrame(function(){tshirtCannon.main.update(c,ctx)});		
 
 		}
 	},
 
 	draw: function(c,ctx){    
-		ctx.fillStyle = '#FFFFFF';
-		ctx.fillRect(0,0,c.width, c.height);
+	
+		if(tshirtCannon.main.instructionArea == 0)
+			ctx.drawImage(titleScreen,0,0,c.width,c.height)
+		else if (tshirtCannon.main.instructionArea == 1){
+			ctx.drawImage(instruction,0,0,c.width,c.height)
+			ctx.drawImage(backButton,35,420,190,60)
+		}
 
     if(tshirtCannon.main.instruction == false) {
-    ctx.drawImage(gymBG,0,0,c.width, c.height);
-	
+    	ctx.drawImage(gymBG,0,0,c.width, c.height);	
+    	ctx.drawImage(blueBar,0,0,c.width,35);
 		ctx.fillStyle = "#000000";
 		ctx.font = "15px Arial";
 		ctx.fillText("Time Remaining: " +tshirtCannon.main.time+"",700,20);
 		
 		ctx.font = "15px Arial";
-		ctx.fillText("Score " +tshirtCannon.main.scores.score+"",0,20);
+		ctx.fillText("Score " +tshirtCannon.main.scores.score+"",50,20);
         
 		//draw students moving
 		ctx.fillStyle = '#00FFFF'
@@ -8263,7 +7778,6 @@ tshirtCannon.main = {
 				if(tshirtCannon.main.students[i].direction == -1){
 					ctx.drawImage(reactionArray[studentFeeling],(tshirtCannon.main.students[i].x*-1) -41,(tshirtCannon.main.students[i].y*-1)-85,35,35)
 					ctx.rotate(Math.PI)
-
 				}
 				else{
 					ctx.drawImage(reactionArray[studentFeeling],tshirtCannon.main.students[i].x+7,tshirtCannon.main.students[i].y-38,35,35)
@@ -8277,24 +7791,21 @@ tshirtCannon.main = {
 		}
 
 		//draw tshirts
-		var strokeArray = [[80,400],[380,400],[680,400]]
+		var strokeArray = [[335,443],[450,443],[564,443]]
 		
-		ctx.fillStyle = "#990000";
-		ctx.fillRect(80,400,160,90);
-		ctx.fillStyle = "#009900";
-		ctx.fillRect(380,400,160,90);
-		ctx.fillStyle = "#000099";
-		ctx.fillRect(680,400,160,90);
-
+		ctx.fillStyle = '#55DD68'
+		ctx.strokeStyle = '#55BB68'
+		ctx.drawImage(blueBarSmall,260,400,380,90)
+		ctx.beginPath();
+		ctx.arc(strokeArray[tshirtCannon.main.currentAmmo][0],strokeArray[tshirtCannon.main.currentAmmo][1],37,0,2*Math.PI);
+		ctx.lineWidth = 3
+		ctx.fill();
+		ctx.stroke();
 		//draw the shirts
-		ctx.drawImage(tshirt1,125,405,65,74);
-		ctx.drawImage(tshirt2,425,405,65,74);
-		ctx.drawImage(tshirt3,725,405,65,74);
+		ctx.drawImage(tshirt1,305,408,65,74);
+		ctx.drawImage(tshirt2,420,408,65,74);
+		ctx.drawImage(tshirt3,535,408,65,74);
 
-		//stroke
-		ctx.strokeStyle = "#000000";
-		ctx.lineWidth = 5;
-		ctx.strokeRect(strokeArray[tshirtCannon.main.currentAmmo][0],strokeArray[tshirtCannon.main.currentAmmo][1], 160, 90)
 		}
 
 
@@ -8373,7 +7884,7 @@ tshirtCannon.main = {
 				ticker: 0,
 				body: bodynum,  
 				x: startx,
-				move: function(){this.x+= (100) * tshirtCannon.main.calculateDeltaTime(); this.ticker++; if(this.ticker ==5){if(this.body <3){this.frame++}this.ticker = 0} ; if(this.frame >=8){this.frame = 0;}},
+				move: function(){this.x+= (100) * tshirtCannon.main.calculateDeltaTime()/2; this.ticker++; if(this.ticker ==10){if(this.body <3){this.frame++}this.ticker = 0} ; if(this.frame >=8){this.frame = 0;}},
 			});		
 		}
 	},
@@ -8406,45 +7917,54 @@ tshirtCannon.main = {
                         tshirtCannon.main.students[x].touched = true; 
 					}
 					else{
-						console.log('no');
+						//console.log('no');
 					}
 				}
 			}
 		}
 
-		//if tshirt cannon
 		if(mouse.y>= 400 && mouse.y <=480){
-			if(mouse.x >=80 && mouse.x <=240){
+			if(mouse.x >=305 && mouse.x <=370){
 				tshirtCannon.main.currentAmmo = 0;
 			}
-			else if(mouse.x >=380 && mouse.x <=540){
+			else if(mouse.x >=420 && mouse.x <=485){
 				tshirtCannon.main.currentAmmo = 1;
 			}
-			else if(mouse.x >=680 && mouse.x <=840){
+			else if(mouse.x >=535 && mouse.x <=600){
 				tshirtCannon.main.currentAmmo = 2;
 			}
 		}
 	}
 	else{
+		if(tshirtCannon.main.instructionArea == 0 && (mouse.x >= 35 && mouse.x <=225) && (mouse.y >=420 && mouse.y <= 726)){
 			tshirtCannon.main.instruction = false;
 			tshirtCannon.main.time = 60;
 			tshirtCannon.main.playTime= tshirtCannon.main.time*1000;
 
-		for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/20){
-			setTimeout(tshirtCannon.main.peopleGenerator, i);
-		}
-		setTimeout(tshirtCannon.main.stop, tshirtCannon.main.playTime);
-        
-		for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/tshirtCannon.main.time){
-			setTimeout(tshirtCannon.main.timer, i);
-		}
+			for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/20){
+				setTimeout(tshirtCannon.main.peopleGenerator, i);
+			}
+			setTimeout(tshirtCannon.main.stop, tshirtCannon.main.playTime);
+	        
+			for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/tshirtCannon.main.time){
+				setTimeout(tshirtCannon.main.timer, i);
+			}
 
 
 		 	c = document.getElementById("myCanvas");
 			ctx = c.getContext("2d")
 			tshirtCannon.main.update(c,ctx)
+			
+		}
+		else if(tshirtCannon.main.instructionArea == 0 && (mouse.x >= 666 && mouse.x <=856) &&(mouse.y >=420 && mouse.y <= 726)){
+
+			tshirtCannon.main.instructionArea = 1;
+		}
+		else if(tshirtCannon.main.instructionArea == 1 && (mouse.x >= 35 && mouse.x <=225)&&(mouse.y >=420 && mouse.y <= 726)){
+			tshirtCannon.main.instructionArea = 0;
+		}
 	}
-	},
+},
 
 
 	calculateDeltaTime: function()
