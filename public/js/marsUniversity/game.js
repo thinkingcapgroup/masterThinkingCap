@@ -55,7 +55,7 @@ var imgArrayBodyWidth = [164,190,264,215];
 var imgArrayBodyHeight = [343,327,304,334];
 var imgArrayHeadHeight = [171,173,173];
 
-var dayCycleImage = ['daybar0','daybar1','daybar2','daybar3','daybar4','daybar5','daybar6','daybar7']
+var dayCycleImage = ['day0','day1','day2','day3','day4','day5','day6','day7','day8','day9']
 
 
 //scores go Socialite/Athlete/MediaLover/Researcher/Reader
@@ -153,7 +153,13 @@ function splashScreen()
 
 function startAnimatic()
 {
-	document.getElementById("gameInfo").innerHTML = "<p>Welcome to Mars University! <br>Animatic will be going on here during this time. </p> </br> <a onclick = 'startCharacterSelect()' class = 'btn double remove'>Continue After Animatic Finish</a>";
+	document.getElementById("gameInfo").innerHTML = "<p>Welcome to Mars University! <br></p> ";
+    document.getElementById("gameInfo").innerHTML += "<center><video id = 'animatic' width='880' height='500' autoplay controls><source src='media/video/MascotAnimaticNEW.mov' type='video/mp4' ></video><center>";
+    //document.getElementById("gameInfo").innerHTML += "</br> <a onclick = 'startCharacterSelect()' class = 'btn double remove'>Continue After Animatic Finish</a>";
+    document.getElementById('animatic').addEventListener('ended',myHandler,false);
+    function myHandler(e) {
+        startCharacterSelect();
+    }
 }
 
 function startPractice()
@@ -878,7 +884,22 @@ function firstStatement()
 	document.getElementById("gameInfo").innerHTML += "<button onclick = 'gameCycleStart("+x+")'>"+ positions[x]+"</button>"
 	}
 }
-
+function chooseDiff()
+{
+	clearScreen();
+    document.getElementById("holo").src = "../../img/openscreenlarge.png";
+	document.getElementById("gameInfo").innerHTML = "<p>Choose Your Dificulty.</p><br.<br>";
+    document.getElementById("gameInfo").innerHTML += "<button onclick = setDiff("+9+")> Easy</button>";
+    document.getElementById("gameInfo").innerHTML += "<button onclick = setDiff("+7+")> Normal</button>";
+    document.getElementById("gameInfo").innerHTML += "<button onclick = setDiff("+5+")> Hard</button>";
+}
+function setDiff(days)
+{
+	startHours = days*12; 
+    remainingHoursTotal = startHours;
+    totalDays = days;
+    firstStatement();
+}
 /*GAME CYCLE FUNCTIONS8*/
 function gameCycleStart(f)
 {
@@ -903,7 +924,13 @@ function gameCycleStart(f)
 	}
 	candidates.splice(0,0,playerCandidate);
 	
-	document.getElementById("playerInfo").innerHTML += "<img src = '../../img/daybar/"+dayCycleImage[days] +".png' width = ''/>"
+	if(totalDays == 5)
+		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+        else if(totalDays == 7)
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+        else if(totalDays == 9)
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+        
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +"/" + totalDays + " </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";		
 	userAction();
 };
@@ -934,7 +961,12 @@ function userAction()
     ctx.fillStyle = '#FFFFFF'
     
     
-    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daybar/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+    if(totalDays == 5)
+		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+        else if(totalDays == 7)
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+        else if(totalDays == 9)
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+dayCycleImage[days-1] +".png' width = '300px'/>"
 	
 	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + remainingHoursDay + "</h3><hr>";		
     document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/takeapollicon.png'  onclick='pollMenu()'>                    </img>";
@@ -1306,7 +1338,12 @@ function gameCycleEnd()
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
 
-	    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daybar/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+	    if(totalDays == 5)
+		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+        else if(totalDays == 7)
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+        else if(totalDays == 9)
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+dayCycleImage[days-1] +".png' width = '300px'/>"
 	
 	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + remainingHoursDay + "</h3><hr>";	votePercentage(1000,5);
 	var winner;
@@ -1464,9 +1501,15 @@ function map(state, isFirst, isFree){
 	if( isFree == false && isFirst == false && state ==1){
 
 	}
-	else if(isFree == false && isFirst == false && state !=2 ){
-		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daybar/"+dayCycleImage[days-1] +".png' width = '300px'/>"
-	
+	else if(isFree == false && isFirst == false && state !=2 )
+    {
+        if(totalDays == 5)
+		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+        else if(totalDays == 7)
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+        else if(totalDays == 9)
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+            
 	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + remainingHoursDay + "</h3><hr>";	}
 	if(state == 1||state == 2){
 		currentCandidateArrayHolder = candidates;
@@ -1579,7 +1622,7 @@ function map(state, isFirst, isFree){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='userAction()'> Return to Game </button>";
 	}
 	else if(isFirst == true){
-		document.getElementById("questionArea").innerHTML += "<br> <hr><button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
+		document.getElementById("questionArea").innerHTML += "<br> <hr><button onclick = 'chooseDiff()'> Make your Initial Statement on an Issue </button>";
 	}
 	else{
 		if(!isFree)
@@ -2269,7 +2312,7 @@ function pollResults(state, isFirst, isFree)
 		if(!isFirst)
 			document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 		else
-			document.getElementById("next").innerHTML += "<button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
+			document.getElementById("next").innerHTML += "<button onclick = 'chooseDiff()'> Make your Initial Statement on an Issue </button>";
 
 	}
 
