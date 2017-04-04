@@ -7702,6 +7702,10 @@ tshirtCannon.main = {
 		neutral.src = '../img/minigame5/neutralreaction.png'
 		angry = new Image();
 		angry.src = '../img/minigame5/angryreaction.png'
+		superHappy = new Image();
+		superHappy.src = '../img/minigame5/superhapyreaction.png'
+		superAngry = new Image();
+		superAngry.src = '../img/minigame5/superangryreaction.png'
 
 		tshirt1 = new Image();
 		tshirt1.src = '../img/minigame5/tshirt1.png'
@@ -7711,7 +7715,7 @@ tshirtCannon.main = {
 		tshirt3.src = '../img/minigame5/tshirt3.png'
 
 		walkingArray = [thinwalk,medwalk,pluswalk,chairwalk];
-		reactionArray = [happy,neutral,angry];
+		reactionArray = [happy,neutral,angry,superHappy,superAngry];
 
 		tshirtCannon.main.instruction = true;
 
@@ -7765,6 +7769,7 @@ tshirtCannon.main = {
 		for(var i=0;i<tshirtCannon.main.students.length;i++){
 			if(tshirtCannon.main.students[i].active){
 				var studentFeeling = 1;
+				if(tshirtCannon.main.students[i].clickedReaction == 0){
 				if(tshirtCannon.main.students[i].likedtshirt == tshirtCannon.main.currentAmmo){
 					studentFeeling = 0;
 				}
@@ -7774,13 +7779,20 @@ tshirtCannon.main = {
 				else if(tshirtCannon.main.students[i].disliketshirt == tshirtCannon.main.currentAmmo){
 					studentFeeling = 2;
 				}
+			}
+				else if(tshirtCannon.main.students[i].clickedReaction == 1){
+					studentFeeling = 3;
+				}
+				else if(tshirtCannon.main.students[i].clickedReaction == 2){
+					studentFeeling = 4;
+				}
 				ctx.save();
 				if(tshirtCannon.main.students[i].direction == -1){
 					ctx.drawImage(reactionArray[studentFeeling],(tshirtCannon.main.students[i].x*-1) -41,(tshirtCannon.main.students[i].y*-1)-85,35,35)
 					ctx.rotate(Math.PI)
 				}
 				else{
-					ctx.drawImage(reactionArray[studentFeeling],tshirtCannon.main.students[i].x+7,tshirtCannon.main.students[i].y-38,35,35)
+					ctx.drawImage(reactionArray[studentFeeling],tshirtCannon.main.students[i].x+5,tshirtCannon.main.students[i].y-38,35,35)
 				}
 
 				ctx.drawImage(walkingArray[tshirtCannon.main.students[i].body],tshirtCannon.main.students[i].picwidth* tshirtCannon.main.students[i].gender,tshirtCannon.main.students[i].picheight* tshirtCannon.main.students[i].frame,tshirtCannon.main.students[i].picwidth,tshirtCannon.main.students[i].picheight,tshirtCannon.main.students[i].x,tshirtCannon.main.students[i].y,50,50)
@@ -7880,6 +7892,7 @@ tshirtCannon.main = {
 				likedtshirt: tshirtArray[0],
 				neutraltshirt: tshirtArray[1],
 				disliketshirt: tshirtArray[2],
+				clickedReaction: 0,
 				gender: gen, 
 				ticker: 0,
 				body: bodynum,  
@@ -7915,9 +7928,10 @@ tshirtCannon.main = {
 		
                         tshirtCannon.main.scores.score++;
                         tshirtCannon.main.students[x].touched = true; 
+                        tshirtCannon.main.students[x].clickedReaction = 1
 					}
 					else{
-						//console.log('no');
+						tshirtCannon.main.students[x].clickedReaction = 1
 					}
 				}
 			}
