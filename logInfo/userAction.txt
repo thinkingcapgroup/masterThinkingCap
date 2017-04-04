@@ -439,3 +439,15 @@ MinigameScore2-2-3-1490282551812-aaronjmill32-2_1_0
 2-userAction-Create Posters-March 28th 2017, 1:08:22 pm-aaronjmill32-2_1_3
 2-userAction-Meet the Debate Team-March 30th 2017, 12:41:14 pm-aaronjmill32-2_1_3
 2-userAction-Study in the Library-March 30th 2017, 12:41:53 pm-aaronjmill32-2_1_3
+35-poll-issFav*issOpp*candFav*candOpp*candOpp*issue-1491331965604-sml5527-35_1_22
+35-userAction-Ice Cream Social-April 4th 2017, 2:54:29 pm-sml5527-35_1_24
+35-userAction-Ice Cream Social-April 4th 2017, 2:54:31 pm-sml5527-35_1_24
+35-userAction-Ice Cream Social-April 4th 2017, 2:54:33 pm-sml5527-35_1_24
+35-userAction-Ice Cream Social-April 4th 2017, 2:54:35 pm-sml5527-35_1_24
+35-userAction-Ice Cream Social-April 4th 2017, 2:54:37 pm-sml5527-35_1_24
+35-userAction-Ice Cream Social-April 4th 2017, 2:54:39 pm-sml5527-35_1_24
+35-userAction-Ice Cream Social-April 4th 2017, 2:55:14 pm-sml5527-35_1_25
+35-userAction-Ice Cream Social-April 4th 2017, 2:55:18 pm-sml5527-35_1_25
+35-userAction-Ice Cream Social-April 4th 2017, 2:55:19 pm-sml5527-35_1_25
+35-userAction-Ice Cream Social-April 4th 2017, 2:55:21 pm-sml5527-35_1_25
+35-userAction-Ice Cream Social-April 4th 2017, 2:55:23 pm-sml5527-35_1_25
