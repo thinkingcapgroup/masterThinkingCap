@@ -638,7 +638,7 @@
 		},
 		{
 			"question":"How good of a job do you think I will do? ", 
-			"labels":"Bad, Neutral, Good",
+			"labels":"Good, Neutral, Bad",
 			"graph":"0,0,0",
 			"id":"8",
 			"value":"playTrust"
@@ -660,7 +660,7 @@
 		},
 		{
 			"question":"How good of a job do you think this candidate will do? ", 
-			"labels":"Bad, Neutral, Good",
+			"labels":"Good, Neutral, Bad",
 			"graph":"0,0,0",
 			"id":"11",
 			"value":"candTrust"

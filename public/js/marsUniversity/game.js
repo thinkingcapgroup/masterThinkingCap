@@ -973,7 +973,7 @@ function userAction()
 	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/makeastatementiconNEW.png'  onclick='statement()'>                         </img>";
 	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/trendreport.png'  onclick='trendReportMenu()'>                    </img>";
 	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/helpicon.png'  class = 'logHelp' onclick='helpScreen()'></img>";
-	document.getElementById("Buttons").innerHTML += "<button  class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
+	//document.getElementById("Buttons").innerHTML += "<button  class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
 	document.getElementById("gameInfo").innerHTML += "<h3 style = 'float: right'> Rival\'s Last Move: " + candidates[1].lastMove + "</h3>";
 	//document.getElementById("choices").innerHTML += "<br>";
     
@@ -3213,13 +3213,13 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
                     tableArrays[8].push(candidates[0].consMod);
                     var playConst = candidates[0].consMod;
                     if(playConst > 0.69){
-                        graphData[i+2][0]++;
+                        graphData[i+2][2]++;
                     }
                     else if(playConst > 0.36){
                         graphData[i+2][1]++;
                     }
                     else{
-                        graphData[i+2][2]++;
+                        graphData[i+2][0]++;
                     }
                 break;
     
@@ -3318,13 +3318,13 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
                     tableArrays[candCounter].push(candidates[k].consMod);
     
                     if(candidates[k].consMod> 0.66){
-                        graphData[i+2][0]++;
+                        graphData[i+2][2]++;
                     }
                     else if(candidates[k].consMod > 0.33){
                         graphData[i+2][1]++;
                     }
                     else{
-                        graphData[i+2][2]++;
+                        graphData[i+2][0]++;
                     }
                 }
     
@@ -3352,7 +3352,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
     }
     else if(pollChoices.length >= 3 && pollChoices.length< 5)
     {
-        document.getElementById("holo").src = "../../img/holopadSize2.png";
+        document.getElementById("holo").src = "../../img/holoPadSize2.png";
     }
     else{document.getElementById("holo").src = "../../img/HolopadSize3.png";}
     
