@@ -966,11 +966,11 @@ function userAction()
     document.getElementById("playerInfo").innerHTML += "<div id = 'topPlayerArea'></div>"
   
     if(totalDays == 5)
-		    document.getElementById("topPlayerArea").innerHTML += "<h3 style = 'margin-top:8px'>Days Remaining</h3><img  src = '../../img/dayfive/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+		    document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3 style = 'margin-top:8px'>Days Remaining</h3><img  src = '../../img/dayfive/"+dayCycleImage[days-1] +".png' width = '300px'/></div>"
         else if(totalDays == 7)
             document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3>Days Remaining</h3><img src = '../../img/dayseven/"+dayCycleImage[days-1] +".png' width = '300px'/></div>"
         else if(totalDays == 9)
-            document.getElementById("topPlayerArea").innerHTML += "<h3 style = 'margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+            document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3 style = 'margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+dayCycleImage[days-1] +".png' width = '300px'/></div>"
 	   document.getElementById("topPlayerArea").innerHTML += "<h3 style = 'margin-top:30px'>  Remaining Hours Today:   " + remainingHoursDay + "</h3>";		
     
 	 document.getElementById("playerInfo").innerHTML +="<hr style = 'clear: right;'>"
