@@ -2189,7 +2189,7 @@ function statementCalcOtherCandidate(x){
 	var currentStatement = document.getElementById("statements").value;
 	var currentPosNeg = document.getElementById("posneg").value;
 
-	if(currentPosNeg == 1){
+	if(currentPosNeg == 0){
 		candidates[x].issueScore[currentStatement] += 0.75;
 		if(currentStatement == 0){
 			candidates[x].tuitPos += 1;
@@ -2206,7 +2206,7 @@ function statementCalcOtherCandidate(x){
 	}
 	else{
 		if(currentPosNeg == 1){
-			candidates[x].issueScore[currentStatement] -= 0.75;
+			//candidates[x].issueScore[currentStatement] -= 0.75;
 			if(currentStatement == 0){
 				candidates[x].tuitNeg += 1;
 			}
@@ -2216,7 +2216,7 @@ function statementCalcOtherCandidate(x){
 			else if(currentStatement == 3){
 				candidates[x].medNeg += 1;
 			}
-		else if(currentStatement == 2){
+            else if(currentStatement == 2){
 			candidates[x].funcNeg += 1;
 			}
 		}
@@ -2828,7 +2828,7 @@ function votePercentage(sampleSize, bias)
 			}
 			else
 			{
-				var candWinPer = 10*0.75*issues;
+				var candWinPer = 10*0.85*issues;
 			}
 			
 			
