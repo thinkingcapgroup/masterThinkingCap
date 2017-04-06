@@ -2823,7 +2823,14 @@ function votePercentage(sampleSize, bias)
 			}
 			else
 			{
-				var candWinPer = 10*0.85*issues;
+                if(totalDays>5)
+                {
+                    var candWinPer = 10*0.4*issues;
+                }
+                else
+                {
+                    var candWinPer = 10*0.35*issues;
+                }
 			}
 			
 			
