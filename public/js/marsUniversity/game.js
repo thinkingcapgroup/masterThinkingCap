@@ -154,12 +154,15 @@ function splashScreen()
 function startAnimatic()
 {
 	document.getElementById("gameInfo").innerHTML = "<p>Welcome to Mars University! <br></p> ";
-    document.getElementById("gameInfo").innerHTML += "<center><video id = 'animatic' width='880' height='500' autoplay controls><source src='media/video/MascotAnimaticNEW.mov' type='video/mp4' ></video><center>";
+    document.getElementById("gameInfo").innerHTML += "<center><video id = 'animatic' width='880' height='500' preload='auto' autoplay controls><source src='media/video/MascotAnimaticNEW.mov' type='video/mp4' ></video><center>";
     //document.getElementById("gameInfo").innerHTML += "</br> <a onclick = 'startCharacterSelect()' class = 'btn double remove'>Continue After Animatic Finish</a>";
     document.getElementById('animatic').addEventListener('ended',myHandler,false);
+    document.getElementById('gameInfo').innerHTML += '<button onclick = "startCharacterSelect()">Skip</button>'
     function myHandler(e) {
         startCharacterSelect();
     }
+
+  
 }
 
 function startPractice()
@@ -960,16 +963,18 @@ function userAction()
 		var ctx = c.getContext("2d");
     ctx.fillStyle = '#FFFFFF'
     
-    
+    document.getElementById("playerInfo").innerHTML += "<div id = 'topPlayerArea'></div>"
+  
     if(totalDays == 5)
-		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+		    document.getElementById("topPlayerArea").innerHTML += "<h3 style = 'margin-top:8px'>Days Remaining</h3><img  src = '../../img/dayfive/"+dayCycleImage[days-1] +".png' width = '300px'/>"
         else if(totalDays == 7)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+            document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3>Days Remaining</h3><img src = '../../img/dayseven/"+dayCycleImage[days-1] +".png' width = '300px'/></div>"
         else if(totalDays == 9)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+dayCycleImage[days-1] +".png' width = '300px'/>"
-	
-	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + remainingHoursDay + "</h3><hr>";		
-    document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/takeapollicon.png'  onclick='pollMenu()'>                    </img>";
+            document.getElementById("topPlayerArea").innerHTML += "<h3 style = 'margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+	   document.getElementById("topPlayerArea").innerHTML += "<h3 style = 'margin-top:30px'>  Remaining Hours Today:   " + remainingHoursDay + "</h3>";		
+    
+	 document.getElementById("playerInfo").innerHTML +="<hr style = 'clear: right;'>"
+	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/takeapollicon.png'  onclick='pollMenu()'>                    </img>";
 	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/makeastatementiconNEW.png'  onclick='statement()'>                         </img>";
 	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/trendreport.png'  onclick='trendReportMenu()'>                    </img>";
 	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/helpicon.png'  class = 'logHelp' onclick='helpScreen()'></img>";
@@ -4320,7 +4325,7 @@ function loadGame()
     
 	//Game Session Number
 	gameSession = parseInt(saveArray[9]);
-    console.log(saveArray)
+
     
 	//Game Over Boolean
 	if(saveArray[10] == "true")
@@ -4563,7 +4568,7 @@ function gameResults(scores, tutorial)
 
 function trendReporter(category)
 {
-    
+   
     document.getElementById('buttonViewer').style = 'display:block';
     document.getElementById('visualisation').innerHTML = "";
     
@@ -4590,10 +4595,10 @@ function trendReporter(category)
         tempGraphData = [];
         pastGraphData[i].forEach(function(e)
         {
-
             tempGraphData.push(e);
+        
         });
-
+     
         tempGraphData.splice(0,2);
         for(var j =0; j< pastPollChoices[i].length; j++)
         {
@@ -4619,21 +4624,29 @@ function trendReporter(category)
                         answers = element.labels.split(",")
                     }
                 });
-                
-                //console.log(tempGraphData);
+                var tempGraphTotal = 0;
 
+                for(var x =0; x < tempGraphData[j].length; x++){
+                	tempGraphTotal = tempGraphTotal + tempGraphData[j][x]
+                }
+
+                
+                
+                
                 for (var k =0; k< tempGraphData[j].length; k++)
                 {
+
                     switch(k)
                     {
                         case 0:
                         data0.push(
                         {
-                            count: tempGraphData[j][k],
+                            count:(tempGraphData[j][k]/tempGraphTotal) * 100,
                             poll: i,
                             key: answers[k]
 
                         });
+
                         //data0.splice(i,1,
                         //{
                         //    count: pastGraphData[i][j][k],
@@ -4643,7 +4656,7 @@ function trendReporter(category)
                         case 1:
                         data1.push(
                         {
-                            count: pastGraphData[i][j][k],
+                            count: (tempGraphData[j][k]/tempGraphTotal) * 100,
                             poll: i,
                             key: answers[k]
                         });
@@ -4652,7 +4665,7 @@ function trendReporter(category)
                         case 2:
                         data2.push(
                         {
-                            count: pastGraphData[i][j][k],
+                            count: (tempGraphData[j][k]/tempGraphTotal) * 100,
                             poll: i,
                             key: answers[k]
                         });
@@ -4661,7 +4674,7 @@ function trendReporter(category)
                         case 3:
                         data3.push(
                         {
-                            count: pastGraphData[i][j][k],
+                            count:(tempGraphData[j][k]/tempGraphTotal) * 100,
                             poll: i,
                             key: answers[k]
                         });
@@ -4670,7 +4683,7 @@ function trendReporter(category)
                         case 4:
                         data4.push(
                         {
-                            count: pastGraphData[i][j][k],
+                            count:(tempGraphData[j][k]/tempGraphTotal) * 100,
                             poll: i,
                             key: answers[k]
                         });
@@ -4678,7 +4691,7 @@ function trendReporter(category)
                         case 5:
                         data5.push(
                         {
-                            count: pastGraphData[i][j][k],
+                            count:(tempGraphData[j][k]/tempGraphTotal) * 100,
                             poll: i,
                             key: answers[k]
                         });
@@ -4686,7 +4699,7 @@ function trendReporter(category)
                         case 6:
                         data6.push(
                         {
-                            count: pastGraphData[i][j][k],
+                            count:(tempGraphData[j][k]/tempGraphTotal) * 100,
                             poll: i,
                             key: answers[k]
                         });
@@ -4697,6 +4710,7 @@ function trendReporter(category)
         
         }
     }
+    console.log(data0,data1,data2,data3)
     var margin = {top: 30, right: 20, bottom: 70, left: 50},
     width2 = 800 - margin.left - margin.right,
     height2 = 450 - margin.top - margin.bottom;
@@ -4713,7 +4727,7 @@ function trendReporter(category)
         left: 50
     },
     xScale = d3.scaleLinear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([0, 15]),
-    yScale = d3.scaleLinear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, 50]),
+    yScale = d3.scaleLinear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, 100]),
     
     xAxis = d3.axisBottom()
     .scale(xScale),
@@ -5522,7 +5536,7 @@ runningGame2.main =
 		mediaIcon.src =  '../img/map/mediaicon.png';
 
 		blueBar = new Image();
-		blueBar.src = '../img/blueBar.png';
+		blueBar.src = '../img/bluebar.png';
 
 		titleScreen = new Image();
 		titleScreen.src = '../img/minigame2/titlescreen.png';
@@ -6096,7 +6110,7 @@ secretSticker.main =
         secretSticker.main.activeHover = false;
         
         blueBar = new Image();
-		blueBar.src = '../img/blueBar.png';
+		blueBar.src = '../img/bluebar.png';
 
         titleScreen = new Image();
 		titleScreen.src = '../img/minigame3/titlescreen.png';

@@ -453,7 +453,7 @@
 			"results":"",
 			"loc":"Gym",
 			"scoreInc":".4",
-            "path": "..\\\\img\\events\\gymbg.png",
+            "path": "..\\\\img\\events\\coffeerun.png",
 			"options":
 			[
 				{
@@ -479,7 +479,7 @@
 			"results":"",
 			"loc":"Com",
 			"scoreInc":".4",
-            "path": "..\\\\img\\events\\gymbg.png",
+            "path": "..\\\\img\\events\\photobomb.png",
 			"options":
 			[
 				{
@@ -507,7 +507,7 @@
 			"results":"",
 			"loc":"Lab",
 			"scoreInc":".4",
-            "path": "..\\\\img\\events\\gymbg.png",
+            "path": "..\\\\img\\events\\secretsticker.png",
 			"options":
 			[
 				{
@@ -533,7 +533,7 @@
 			"results":"",
 			"loc":"Com",
 			"scoreInc":".4",
-            "path": "..\\\\img\\events\\gymbg.png",
+            "path": "..\\\\img\\events\\dancing.png",
 			"options":
 			[
 				{
@@ -559,7 +559,7 @@
 			"results":"",
 			"loc":"Gym",
 			"scoreInc":".4",
-            "path": "..\\\\img\\events\\gymbg.png",
+            "path": "..\\\\img\\events\\tshirtcannon.png",
 			"options":
 			[
 				{
