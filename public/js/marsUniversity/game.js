@@ -157,9 +157,12 @@ function startAnimatic()
     document.getElementById("gameInfo").innerHTML += "<center><video id = 'animatic' width='880' height='500' preload='auto' autoplay controls><source src='media/video/MascotAnimaticNEW.mov' type='video/mp4' ></video><center>";
     //document.getElementById("gameInfo").innerHTML += "</br> <a onclick = 'startCharacterSelect()' class = 'btn double remove'>Continue After Animatic Finish</a>";
     document.getElementById('animatic').addEventListener('ended',myHandler,false);
+    document.getElementById('gameInfo').innerHTML += '<button onclick = "startCharacterSelect()">Skip</button>'
     function myHandler(e) {
         startCharacterSelect();
     }
+
+  
 }
 
 function startPractice()
