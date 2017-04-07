@@ -1656,8 +1656,8 @@ function drawMap(poll)
 	quadIcon.src = '../img/map/icon.png';
 	var gymIcon = new Image();
 	gymIcon.src = '../img/map/gymicon.png';
-	var cafeIcon = new Image();
-	cafeIcon.src = '../img/map/cafeicon.png';
+	var commonsicon = new Image();
+	commonsicon.src = '../img/map/commonsicon.png';
 	var labIcon = new Image();
 	labIcon.src = '../img/map/labicon.png';
 
@@ -1726,7 +1726,7 @@ function drawMap(poll)
 
 	    ctx.drawImage(libraryIcon, 435,270,113,75)
             ctx.drawImage(gymIcon, 475,50,113,75)
-            ctx.drawImage(cafeIcon, 90,285,113,75)
+            ctx.drawImage(commonsicon, 90,285,113,75)
             if(isPoll){
 
 			ctx.drawImage(quadIcon, 160,160,113,75) 
@@ -1925,8 +1925,8 @@ function drawMap(poll)
        
             var gymIcon = new Image();
             gymIcon.src = '../img/map/gymicon.png';
-            var cafeIcon = new Image();
-            cafeIcon.src = '../img/map/cafeicon.png';
+            var commonsicon = new Image();
+            commonsicon.src = '../img/map/commonsicon.png';
             var labIcon = new Image();
             labIcon.src = '../img/map/labicon.png';
             quadIcon = new Image();
@@ -1937,7 +1937,7 @@ function drawMap(poll)
 
             ctx.drawImage(libraryIcon, 435,270,113,75)
             ctx.drawImage(gymIcon, 475,50,113,75)
-            ctx.drawImage(cafeIcon, 90,285,113,75)
+            ctx.drawImage(commonsicon, 90,285,113,75)
             if(isPoll){
             	   if((mouse.x >= 135 && mouse.x <= 300)&&(mouse.y >= 190 && mouse.y <= 250)){ 
              
@@ -5528,8 +5528,8 @@ runningGame2.main =
 		quadIcon.src = '../img/map/icon.png';
 		gymIcon = new Image();
 		gymIcon.src = '../img/map/gymicon.png';
-		cafeIcon = new Image();
-		cafeIcon.src = '../img/map/cafeicon.png';
+		commonsicon = new Image();
+		commonsicon.src = '../img/map/commonsicon.png';
 		labIcon = new Image();
 		labIcon.src = '../img/map/labicon.png';
 		mediaIcon = new Image();
@@ -5806,7 +5806,7 @@ runningGame2.main =
 					ctx.drawImage(libraryIcon, 665,325,150,100)
 					ctx.drawImage(gymIcon, 725,50,150,100)
 			
-					ctx.drawImage(cafeIcon, 150,335,150,100)
+					ctx.drawImage(commonsicon, 150,335,150,100)
 					ctx.drawImage(labIcon, 230,25,150,100)
 				}
 				if(runningGame2.main.areaNumber>0){
@@ -6126,8 +6126,8 @@ secretSticker.main =
         quadIcon.src = '../img/map/icon.png';
         gymIcon = new Image();
         gymIcon.src = '../img/map/gymicon.png';
-        cafeIcon = new Image();
-        cafeIcon.src = '../img/map/cafeicon.png';
+        commonsicon = new Image();
+        commonsicon.src = '../img/map/commonsicon.png';
         labIcon = new Image();
         labIcon.src = '../img/map/labicon.png';
         mediaIcon = new Image();
@@ -6406,8 +6406,8 @@ secretSticker.main =
             ctx.drawImage(quadIcon, 255,190,150,100)
             ctx.drawImage(libraryIcon, 665,325,150,100)
             ctx.drawImage(gymIcon, 725,50,150,100)
-            //ctx.drawImage(cafeIcon, 20,110,150,100)
-            ctx.drawImage(cafeIcon, 150,335,150,100)
+            //ctx.drawImage(commonsicon, 20,110,150,100)
+            ctx.drawImage(commonsicon, 150,335,150,100)
             ctx.drawImage(labIcon, 230,25,150,100)
 	}
        
