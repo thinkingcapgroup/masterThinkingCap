@@ -19,7 +19,18 @@ var express = require('express'),
  */
 router.get('/', auth, function (req, res) {
   // Render Mars University game
-  renderMarsUniversityGame(req, res);
+  if (req.user.role > 3) {
+    // Render dashboard view
+      renderMarsUniversityGame(req, res);
+  }
+
+  // Otherwise
+  else {
+    // Redirect to accountactivation
+    res.redirect('/dashboard');
+  }
+
+
 });
 
 /**

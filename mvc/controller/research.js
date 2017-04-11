@@ -25,11 +25,9 @@ var express = require('express'),
 router.get('/', auth, function (req, res) {
   // If user account is activated
     holderArray = [];
-  if (req.user.role > 5) {
+  if (req.user.role >= 6) {
     // Render dashboard view
     getDatabase(req,res);
-
-   
   }
 
   // Otherwise

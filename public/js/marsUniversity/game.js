@@ -796,10 +796,7 @@ function startOtherCandidates(heads,body){
 function actualSessionStart(isFromTut){
 	var tutHolder = isFromTut
 	clearScreen();
-	
-
-	candidates = [];
-	
+	candidates = [];	
 	population = 1000;
 	sample = [];
     //10 Days
@@ -839,9 +836,7 @@ function actualSessionStart(isFromTut){
 	issueCand4.focus = positions[3];
 	issueCand4.focusnum = 3;
 	chooseRank(issueCand4,chosenCandRanks,true);
-	candidates.push(issueCand4);
-
-	
+	candidates.push(issueCand4);	
 	map(0,true,true);
 }
 
@@ -4710,7 +4705,7 @@ function trendReporter(category)
         
         }
     }
-    console.log(data0,data1,data2,data3)
+
     var margin = {top: 30, right: 20, bottom: 70, left: 50},
     width2 = 800 - margin.left - margin.right,
     height2 = 450 - margin.top - margin.bottom;

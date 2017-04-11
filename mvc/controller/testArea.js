@@ -39,7 +39,7 @@ router.post('/recordDemo', auth, function (req, res, next)
   userLanguage = req.body.language,
   test = "Demo-" + req.user.userId + "-" + req.user.testSession;
   var passingObject = {userId: id, name: userName, age: userAge, schoolYear: userYear, statisticCoursesTaken: userClassTaken, gender: userGender, deaf: userHearingStatus, ethnicity: userEthnicity, nativeLanguage: userLanguage, testId: test  }
-    console.log(passingObject);
+
 
   require('../model/testArea/demoLog.js')(req, passingObject, function(err, success) {
   // If there was an error
@@ -63,6 +63,7 @@ router.post('/recordTest', auth, function (req, res, next)
   question = req.body.questionID,
   answer = req.body.studentAnswer,
   time = 0,
+  confidence = req.body.confidence,
   endTime = "",
   correct = req.body.isCorrect,
   test = req.body.testId + "-" + req.user.userId + "-" + req.user.testSession;
@@ -95,13 +96,13 @@ router.post('/recordTest', auth, function (req, res, next)
     });
 
 
-  if(question >= 22){
-    correctTotal = 0;
-  }
+    if(question >= 22){
+      correctTotal = 0;
+    }
   }
  
 
-  var passingObject = {studentId: id, questionId: question, studentAnswer: answer, isCorrect: correct, testId: test, start: startTime, end: endTime, totalTime: time}
+  var passingObject = {studentId: id, questionId: question, studentAnswer: answer, isCorrect: correct, testId: test, start: startTime, end: endTime, totalTime: time, confidence: confidence}
 
 
   require('../model/testArea/testLog.js')(req, passingObject, function(err, success) {

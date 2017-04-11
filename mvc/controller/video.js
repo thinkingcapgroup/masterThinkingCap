@@ -15,7 +15,7 @@ var express = require('express'),
 
 router.get('/', auth, function (req, res) {
   // If user account is activated
-  if (req.user.role > 1) {
+  if (req.user.role > 2) {
     // Render dashboard view
     renderVideo(req, res);
   }
