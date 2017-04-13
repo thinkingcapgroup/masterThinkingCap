@@ -36,7 +36,6 @@
                 <dd>
                   <input id='username' class='input' type='text' name='username' value='{{userData.userName}}'/>
                   <ul class='input-requirements' id='username-requirements'>
-                    <li class='invalid-input-requirement'>Must not be empty, can be a combination of letters and numbers.</li>
                     <li class='invalid-input-requirement'>No spaces.</li>
                   </ul>
                 </dd>
@@ -50,7 +49,6 @@
                 <dd>
                   <input id='email' class='input' type='text' name='email' value='{{userData.email}}'/>
                   <ul class='input-requirements' id='email-requirements'>
-                    <li class='invalid-input-requirement'>Must be a real email address that isn't already in use.</li>
                   </ul>
                 </dd>
               </dl>
@@ -87,21 +85,6 @@
                 <dd>
                   <input class='input' id='passwordCheck' type='password' name='passwordCheck' placeholder='Password' pattern='(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$' title='Passwords must be at least 8 characters long, contain an uppercase and lowercase letter, and have either a number or a special character.'/>
                   <ul class='input-requirements' id='passwordCheck-requirements'>
-                    <li class='invalid-input-requirement'>
-                      Contains lowercase letter.
-                    </li>
-                    <li class='invalid-input-requirement'>
-                      Contains uppercase letter.
-                    </li>
-                    <li class='invalid-input-requirement'>
-                      Contains a number.
-                    </li>
-                    <li class='invalid-input-requirement'>
-                      At least 8 characters long.
-                    </li>
-                    <li class='invalid-input-requirement'>
-                      Passwords match.
-                    </li>
                   </ul>
                 </dd>
               </dl>
@@ -114,7 +97,6 @@
                 <dd>
                   <input id='displayName' class='input' type='text' name='displayName' value='{{userData.displayName}}' />
                   <ul class='input-requirements' id='displayName-requirements'>
-                    <li class='invalid-input-requirement'>Name by which Thinking Cap will refer to the new user.</li>
                   </ul>
                 </dd>
               </dl>
