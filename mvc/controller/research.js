@@ -11,6 +11,7 @@ var express = require('express'),
     var demoArray = [];
     var preTotalArray = [];
     var postTotalArray = [];
+    var errorNotifications = [];
     lineArray = [];
     lineArray2 = [];
     holderArray = [];
@@ -265,7 +266,7 @@ function getDatabase(req,res){
       // If there where no bug reports
       if (err === 'No Research Data found!') {
         // Set model to emptyState
-        model.emptyState = true;
+     
       }
       // Otherwise
       else {
@@ -293,7 +294,7 @@ function getDatabase(req,res){
             if (err === 'No Research Data found!') 
             {
             // Set model to emptyState
-            model.emptyState = true;
+   
             }
             // Otherwise
             else 
@@ -337,7 +338,7 @@ function getDatabase(req,res){
             if (err === 'No Demographic Data found!') 
             {
             // Set model to emptyState
-            model.emptyState = true;
+
             }
             // Otherwise
             else 
@@ -363,7 +364,7 @@ function getDatabase(req,res){
       // If there where no bug reports
       if (err === 'No Research Data found!') {
         // Set model to emptyState
-        model.emptyState = true;
+
       }
       // Otherwise
       else {
