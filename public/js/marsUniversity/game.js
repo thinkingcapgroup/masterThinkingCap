@@ -123,7 +123,7 @@ var remainingHoursDay;
 
 var population = 1000;
 var canvasMouse;
-
+var images = new Array(30);
 //starts the game
 function startGame(){
 
@@ -142,6 +142,15 @@ function startGame(){
 	};
 	oReq.open("get", "json/data.json", true);
 	oReq.send();
+    
+    preload(events);
+}
+
+function preload(actions) {
+	for (i = 1; i < actions.length; i++) {
+		images[i] = new Image()
+		images[i].src = actions[i].path;
+	}
 }
 
 /*GAME INTRO FUNCTIONS8*/
@@ -4389,6 +4398,7 @@ function loadGame()
     
 	back=true;
 	saveState = "";
+    preload(events);
 	hourChecker();
 
 }
