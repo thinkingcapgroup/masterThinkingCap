@@ -156,12 +156,12 @@ function startAnimatic()
 {
     //Shows the animatic
 	document.getElementById("gameInfo").innerHTML = "<p>Welcome to Mars University! <br></p> ";
-    document.getElementById("gameInfo").innerHTML += "<center><video id = 'animatic' width='880' height='500' preload='auto' autoplay controls><source src='media/video/MascotAnimaticNEW.mov' type='video/mp4' ></video><center>";
+    document.getElementById("gameInfo").innerHTML += "<center><video id = 'animatic' width='880' height='500' preload='auto' autoplay controls><source src='media/video/MascotAnimaticNEW.mov' type='video/mp4' ></video><button onclick = 'startPractice()'>Skip</button><center>";
     //document.getElementById("gameInfo").innerHTML += "</br> <a onclick = 'startCharacterSelect()' class = 'btn double remove'>Continue After Animatic Finish</a>";
     
     //Starts the character select after the animatic finishes
     document.getElementById('animatic').addEventListener('ended',myHandler,false);
-    document.getElementById('gameInfo').innerHTML += '<button onclick = "startCharacterSelect()">Skip</button>'
+
     function myHandler(e) {
         startCharacterSelect();
     }
