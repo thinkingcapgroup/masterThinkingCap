@@ -204,7 +204,7 @@
 					"negEffects":""
 				},
 				{
-					"optionName":"Listen to Guitarist ",
+					"optionName":"Listen to Slam Poetry",
 					"optionID":"study",
 					"type":"boost",
 					"extraTime" : "1", 
