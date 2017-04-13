@@ -3,6 +3,7 @@ var demographics;
 var playerAnswers =[];
 var playerResults = [];
 var playerDemographicss =[];
+var playerConfidence = [];
 var testID;
 var postTest = false;
 
@@ -45,7 +46,7 @@ function showResults()
         switch(testID)
         {
             case 'pre':
-            $.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: playerResults[j], testId: testID });
+            $.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: playerResults[j], testId: testID, confidence: playerConfidence[j] });
             document.getElementById("index-section").innerHTML = "<h2> Test Submitted </h2> <br><br><a class = 'btn double remove' href='/dashboard'>Choose Module</a>";
             break;
             case 'post':
@@ -220,8 +221,23 @@ function submitAnswers()
             }
         }
     }
+    for(var z =0; z < questions.length; z++){
+        var sliderID = "sliderValue" + z
+        var confAnswer = document.getElementById(sliderID).value
+        playerConfidence.push(confAnswer)
+    }
     checkAnswers();
 }
+
+function changeValue(x){
+
+    //get the 
+    var slideVal = 'sliderValue'+x;
+    var paragraphVal = 'questionValue'+x;
+    var newVal = document.getElementById(slideVal).value;
+    document.getElementById(paragraphVal).innerHTML = newVal;
+}
+
 
 function start()
 {
@@ -286,9 +302,12 @@ function  buildTests (type)
                     document.getElementById(questions[i].type).innerHTML += "<input type='radio' name='q"+ questions[i].id+"' value='"+ answers[j] +"' id='q"+ questions[i].id+"e'><label for='q"+ questions[i].id+"e'> E. "+ answers[j] +"</label><br/>";
                 break;
             }
+
+
             if(j == answers.length -1)
             { document.getElementById(questions[i].type).innerHTML += "<br>";}
         }
+           document.getElementById(questions[i].type).innerHTML += "<p>Confidence: <input id = 'sliderValue"+i+"'type = 'range' min='1' max='10'  value = '5' onchange= 'changeValue("+i+")'> <span id = 'questionValue"+i+"'>5</span></p>"
 		playerAnswers.push("");
 	}
 	

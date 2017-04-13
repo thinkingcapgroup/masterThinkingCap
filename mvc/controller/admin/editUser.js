@@ -225,7 +225,7 @@ function verifyUserIsADev (req, res) {
   tempUserData = {};
   
   // If user is not a dev
-  if (req.user.role < 5) {
+  if (req.user.role <= 5) {
     // Redirect them to dashboard
     res.redirect('/dashboard');
   }

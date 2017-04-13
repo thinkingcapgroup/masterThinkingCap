@@ -818,10 +818,7 @@ function startOtherCandidates(heads,body){
 function actualSessionStart(isFromTut){
 	var tutHolder = isFromTut
 	clearScreen();
-	
-
-	candidates = [];
-	
+	candidates = [];	
 	population = 1000;
 	sample = [];
     //10 Days
@@ -861,9 +858,7 @@ function actualSessionStart(isFromTut){
 	issueCand4.focus = positions[3];
 	issueCand4.focusnum = 3;
 	chooseRank(issueCand4,chosenCandRanks,true);
-	candidates.push(issueCand4);
-
-	
+	candidates.push(issueCand4);	
 	map(0,true,true);
 }
 

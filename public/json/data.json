@@ -204,7 +204,7 @@
 					"negEffects":""
 				},
 				{
-					"optionName":"Listen to Guitarist ",
+					"optionName":"Listen to Slam Poetry",
 					"optionID":"study",
 					"type":"boost",
 					"extraTime" : "1", 
@@ -242,7 +242,7 @@
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
-			"loc":"Lib",
+			"loc":"Com",
 			"scoreInc":".4",
             "path": "..\\\\img\\events\\GottoaPartyBG.png",
 			"options":
@@ -451,7 +451,7 @@
 			"groupPos":"Ath",
 			"groupNeg":"",
 			"results":"",
-			"loc":"Gym",
+			"loc":"Lib",
 			"scoreInc":".4",
             "path": "..\\\\img\\events\\coffeerun.png",
 			"options":
