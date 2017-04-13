@@ -3027,7 +3027,7 @@ tshirtCannon.main = {
                         tshirtCannon.main.students[x].clickedReaction = 1
 					}
 					else{
-						tshirtCannon.main.students[x].clickedReaction = 1
+						tshirtCannon.main.students[x].clickedReaction = 2
 					}
 				}
 			}
