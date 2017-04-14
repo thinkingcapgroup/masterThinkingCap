@@ -37,13 +37,14 @@
 			"name":"Ice Cream Social",
 			"id":"2",
 			"type":"smallEvent",
-			"text":"Setting up infront of the building, you starts passing out vanilla ice cream to those who are coming in and out of the building. ",
+			"text":"You will be passing out vanilla ice cream, giving it to students coming in and out of the building.  ",
 			"timeRequired":"2",
 			"groupPos":"Bus",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Gym",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\freeicecreambg.png",
 			"options":
 			[
 				{
@@ -71,13 +72,14 @@
 			"name":"Community Service",
 			"id":"3",
 			"type":"smallEvent",
-			"text":"You've decided to help out the community by collecting food for the poor and needy, organizing it, and shipping it to the local food bank.",
+			"text":"You've decided to help the community by collecting food for the poor and needy. ",
 			"timeRequired":"2",
 			"groupPos":"Law",
 			"groupNeg":"",
 			"results":"The voters really responded to your charm and you did a great job of endorsing your platform.",
 			"loc":"Lib",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\fooddrivebg.png",
 			"options":
 			[
 			]
@@ -87,13 +89,14 @@
 			"name":"Compete in Game Tournament",
 			"id":"4",
 			"type":"smallEvent",
-			"text":"You decided to compete in video game tournament at school in hopes of becoming more popular with the students.",
+			"text":"You want to join and play video game tournament at Mars U. Hoping you will become more popular with the students.",
 			"timeRequired":"2",
 			"groupPos":"Gam",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Lab",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\gammingbg.png",
 			"options":
 			[
 				{
@@ -113,13 +116,14 @@
 			"name":"Create Posters",
 			"id":"5",
 			"type":"smallEvent",
-			"text":"Heading over to the Arts college, you decide to work posters for your campaign. You also hope to spend time with Arts students.",
+			"text":"Going to the Arts college, you decide to work on the posters for your campaign. You also hope to spend time with Arts students.",
 			"timeRequired":"2",
 			"groupPos":"Arts",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Com",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\posterartsbg.png",
 			"options":
 			[
 				{
@@ -147,13 +151,14 @@
 			"name":"Mars U Sports Game",
 			"id":"6",
 			"type":"smallEvent",
-			"text":"Time to support out local floozball team! Head over to the gazorb field and cheer your hearts out!",
+			"text":"It is time to support out local floozball team! Please go to the gazorb field and cheer your hearts out!",
 			"timeRequired":"2",
 			"groupPos":"Ath",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Gym",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\footballgame.png",
 			"options":
 			[
 				{
@@ -165,11 +170,11 @@
 					"negEffects":""
 				},
 				{
-					"optionName":"Cheer Loudly",
-					"optionID":"ExhibitionGame",
+					"optionName":"Sponsor a Team",
+					"optionID":"sponsorTeam",
 					"type":"boost",
 					"extraTime" : "1", 
-					"posEffects":"Soc",
+					"posEffects":"Bus",
 					"negEffects":""
 				}
 			]
@@ -180,13 +185,14 @@
 			"name":"Study in the Library",
 			"id":"7",
 			"type":"smallEvent",
-			"text":"Time to buckle down and study. Time to sit down and have some peace and quite, or study with a group of people.",
+			"text":"It is time to sit down and have some peace and quiet, or study with a group of students.  ",
 			"timeRequired":"2",
 			"groupPos":"Read",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Lib",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\studyinlibrary.png",
 			"options":
 			[
 				{
@@ -198,7 +204,7 @@
 					"negEffects":""
 				},
 				{
-					"optionName":"Listen to Guitarist ",
+					"optionName":"Listen to Slam Poetry",
 					"optionID":"study",
 					"type":"boost",
 					"extraTime" : "1", 
@@ -214,13 +220,14 @@
 			"name":"Test Students Programs",
 			"id":"8",
 			"type":"smallEvent",
-			"text":"Students in technology want people to try out their programs. You gladly agree to help them and give them feedback.",
+			"text":"The technology students want you to try their computer programs. You will need to give them feedback on their programs. ",
 			"timeRequired":"2",
 			"groupPos":"Gam",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Labs",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\TestProgrambg.png",
 			"options":
 			[
 			]
@@ -230,13 +237,14 @@
 			"name":"Go to a Party",
 			"id":"9",
 			"type":"smallEvent",
-			"text":"You decide to go hangout with your school mates and party after dealing with a long week. It's a good time to say hello and become more famous.",
+			"text":"You want to go hangout with your friends and party after dealing with a long week. It's a good time to say hello and become more famous.",
 			"timeRequired":"2",
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
-			"loc":"Lib",
+			"loc":"Com",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\GottoaPartyBG.png",
 			"options":
 			[
 				{
@@ -254,13 +262,14 @@
 			"name":"Charity Event",
 			"id":"10",
 			"type":"smallEvent",
-			"text":"Certain voters need some extra convincing that you have their interests at hearts, so why don't you stop by a club to show that your interests align with theirs. ",
+			"text":"Certain voters need some prove that you have their interests at hearts. So, why don't you stop by a club to show that your interests connect with theirs. ",
 			"timeRequired":"2",
 			"groupPos":"Bus",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Gym",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\charityeventbg.png",
 			"options":
 			[
 			]
@@ -270,13 +279,14 @@
 			"name":"Meet the Robotics Team",
 			"id":"11",
 			"type":"smallEvent",
-			"text":"Talk to the Robotics Team about their current project and their plan for the future.",
+			"text":"You need to talk to the Robotics Team about their current project and their plans. ",
 			"timeRequired":"2",
 			"groupPos":"Tech",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Lab",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\roboticsclubbg.png",
 			"options":
 			[
 				{
@@ -302,13 +312,14 @@
 			"name":"Meet the Debate Team",
 			"id":"12",
 			"type":"smallEvent",
-			"text":"You decide to talk to the Debate Team about what their current plans are and how they're doing in competitions.",
+			"text":"You want to talk to the Debate Team about what their current plans. You want to find out how they're doing in competitions.",
 			"timeRequired":"2",
 			"groupPos":"Law",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Lib",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\debatebg.png",
 			"options":
 			[
 				{
@@ -327,13 +338,14 @@
 			"name":"Visit the Tech Lab",
 			"id":"13",
 			"type":"smallEvent",
-			"text":"You decide to come by and look at all the projects that are being created in the Tech Lab.",
+			"text":"You want to come by and look at all the projects that are being created in the Tech Lab. ",
 			"timeRequired":"2",
 			"groupPos":"Tech",
 			"groupNeg":"",
 			"results":"You managed to sway a lot of people to your side with your quick witted responses.",
 			"loc":"Lab",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\techlabsbg.png",
 			"options":
 			[
 				{
@@ -351,13 +363,14 @@
 			"name":"Help Paint Mural",
 			"id":"14",
 			"type":"smallEvent",
-			"text":"Help the Arts students work on the giant mural that they've been working on all semester.",
+			"text":"You want to help the Arts students work on the giant mural. Art students have been working on the giant mural all semester. ",
 			"timeRequired":"2",
 			"groupPos":"Arts",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Com",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\paintingbg.png",
 			"options":
 			[
 				{
@@ -375,13 +388,14 @@
 			"name":"Work Out",
 			"id":"15",
 			"type":"smallEvent",
-			"text":"Time to work out at the gym. Loose some weight and get to know the students.",
+			"text":"It is time to work out at the gym. You need to lose some weight and get to know the students.",
 			"timeRequired":"2",
 			"groupPos":"Ath",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Gym",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\gymbg.png",
 			"options":
 			[
 			]
@@ -398,6 +412,7 @@
 			"results":"",
 			"loc":"Library",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\bookdrivebg.png",
 			"options": 
 			[
 			]
@@ -414,6 +429,7 @@
 			"results":"",
 			"loc":"Labs",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\clubsbg.png",
 			"options": 
 			[
 				{
@@ -430,13 +446,14 @@
 			"name":"Coffee Run",
 			"id":"18",
 			"type":"smallEvent",
-			"text":"Time for a quick burst of advertising. Take an hour and run accross campus high fiving as many voters as you can.",
+			"text":"Time for some coffee, but it’s during the busiest time of the day. You gotta run and get there fast!",
 			"timeRequired":"2",
 			"groupPos":"Ath",
 			"groupNeg":"",
 			"results":"",
-			"loc":"Gym",
+			"loc":"Lib",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\coffeerun.png",
 			"options":
 			[
 				{
@@ -455,13 +472,14 @@
 			"name":"Photobomb",
 			"id":"19",
 			"type":"smallEvent",
-			"text":"Lets take pictures",
+			"text":"Let’s take pictures with everyone and post them on your MyFace account!",
 			"timeRequired":"2",
 			"groupPos":"Soc",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Com",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\photobomb.png",
 			"options":
 			[
 				{
@@ -482,13 +500,14 @@
 			"name":"Secret Sticker",
 			"id":"20",
 			"type":"smallEvent",
-			"text":"Attract People to your side, by giving them a sticker.",
+			"text":"You want students to support your side. You need to give them a sticker.",
 			"timeRequired":"2",
 			"groupPos":"Read",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Lab",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\secretsticker.png",
 			"options":
 			[
 				{
@@ -507,13 +526,14 @@
 			"name":"Mean Moves",
 			"id":"21",
 			"type":"smallEvent",
-			"text":"Lets take pictures",
+			"text":"Time to bust a move to those dance moves!",
 			"timeRequired":"2",
 			"groupPos":"Arts",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Com",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\dancing.png",
 			"options":
 			[
 				{
@@ -532,13 +552,14 @@
 			"name":"T-Shirt Canon",
 			"id":"22",
 			"type":"smallEvent",
-			"text":"Lets take pictures",
+			"text":"Who doesn’t like free t-shirts? Let’s give some out!",
 			"timeRequired":"2",
 			"groupPos":"Gam",
 			"groupNeg":"",
 			"results":"",
 			"loc":"Gym",
 			"scoreInc":".4",
+            "path": "..\\\\img\\events\\tshirtcannon.png",
 			"options":
 			[
 				{
@@ -617,7 +638,7 @@
 		},
 		{
 			"question":"How good of a job do you think I will do? ", 
-			"labels":"Bad, Neutral, Good",
+			"labels":"Good, Neutral, Bad",
 			"graph":"0,0,0",
 			"id":"8",
 			"value":"playTrust"
@@ -639,7 +660,7 @@
 		},
 		{
 			"question":"How good of a job do you think this candidate will do? ", 
-			"labels":"Bad, Neutral, Good",
+			"labels":"Good, Neutral, Bad",
 			"graph":"0,0,0",
 			"id":"11",
 			"value":"candTrust"

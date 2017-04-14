@@ -180,7 +180,7 @@ function verifyUserIsADev (req, res) {
   errorNotifications.length = successNotifications.length = 0;
 
   // If user is not a dev
-  if (req.user.role < 5) {
+  if (req.user.role <= 5) {
     // Redirect them to dashboard
     res.redirect('/dashboard');
   }

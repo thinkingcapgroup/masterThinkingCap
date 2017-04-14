@@ -3,9 +3,17 @@
     <header class='thinking-cap-header'>
       <h1 class='thinking-cap-title'>{{content.appTitle}}</h1>
     </header>
-    <section id='index-section'>
-	<button onclick = "buildTests()"> Start  </button>
-	
+    <section id='index-section' >
+	<a class = 'btn double remove' onclick = "buildTests('pre')"> Start Pre-Test </a>
+	<a class = 'btn double remove' onclick = "buildTests('post')"> Start Post Test </a>
+        <section style = "text-transform: none" id = "population"></section>
+        <section style = "text-transform: none" id = "category"></section>
+        <section style = "text-transform: none" id = "bias"></section>
+        <section style = "text-transform: none" id = "mean"></section>
+        <section style = "text-transform: none" id = "percentage"></section>
+    </section>
+    <section id='warning' style = "text-transform: none; display: none">
+        <center>All Questions Must Be Answered</center>
     </section>
     <footer id='footer'>
       <ul id='reference-links'>

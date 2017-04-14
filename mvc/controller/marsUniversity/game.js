@@ -8,6 +8,7 @@ var express = require('express'),
    bodyParser = require('body-parser'),
    // Require fs module
    fs = require('fs'),
+   moment = require('moment'),
    object;
 
 /**
@@ -18,7 +19,18 @@ var express = require('express'),
  */
 router.get('/', auth, function (req, res) {
   // Render Mars University game
-  renderMarsUniversityGame(req, res);
+  if (req.user.role > 3) {
+    // Render dashboard view
+      renderMarsUniversityGame(req, res);
+  }
+
+  // Otherwise
+  else {
+    // Redirect to accountactivation
+    res.redirect('/dashboard');
+  }
+
+
 });
 
 /**
@@ -49,11 +61,11 @@ router.post('/logger', auth, function (req, res, next) {
       modulenum = req.body.module,
       gameSession = req.body.session,
       gameID = id+"_"+modulenum+"_"+gameSession,
-      date = Date.now();
+      date = moment().format('MMMM Do YYYY, h:mm:ss a'); 
       // Concatenate information
-      stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + Date.now() + "-" +username +"-" + gameID;
+      stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + date + "-" +username +"-" + gameID;
 
-  var passingObject = {userID: id, username: username, action: type, description: event, date: Date.now(), gameSession: gameID }
+  var passingObject = {userID: id, username: username, action: type, description: event, date: date, gameSession: gameID }
   // Append stringTem to file 'logInfo/useraction.txt'
   fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
     console.log('Student information logged');
@@ -83,10 +95,11 @@ router.post('/loggerHelp', auth, function (req, res, next) {
       modulenum = req.body.module,
       gameSession = req.body.session,
       gameID = id+"_"+modulenum+"_"+gameSession,
+      date =moment().format('MMMM Do YYYY, h:mm:ss a'),
       // Concatenate information
-      stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + Date.now() + "-" +username +"-" + gameID;
+      stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + date + "-" +username +"-" + gameID;
 
-   var passingObject = {userID: id, username: username, action: type, description: event, date: Date.now(), gameSession: gameID }
+   var passingObject = {userID: id, username: username, action: type, description: event, date: date, gameSession: gameID }
   
   // Append stringTem to file 'logInfo/useraction.txt'
   fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
@@ -117,8 +130,9 @@ router.post('/loggerHelpEnd', auth, function (req, res, next) {
       modulenum = req.body.module,
       gameSession = req.body.session,
       gameID = id+"_"+modulenum+"_"+gameSession,
+      date = moment().format('MMMM Do YYYY, h:mm:ss a'),
       // Concatenate information
-      stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + Date.now() + "-" +username +"-" + gameID;
+      stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + date + "-" +username +"-" + gameID;
 
   console.log(gameID);
   // Append stringTem to file 'logInfo/useraction.txt'
@@ -126,7 +140,7 @@ router.post('/loggerHelpEnd', auth, function (req, res, next) {
     console.log('Student information logged');
   });
 
-  var passingObject = {userID: id, username: username, action: type, description: event, date: Date.now(), gameSession: gameID }
+  var passingObject = {userID: id, username: username, action: type, description: event, date: date, gameSession: gameID }
   require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
     // If there was an error
     if (err) {
@@ -151,6 +165,7 @@ router.post('/loggerHelpEndTutorial', auth, function (req, res, next) {
       modulenum = req.body.module,
       gameSession = req.body.session,
       gameID = id+"_"+modulenum+"_"+gameSession,
+            date = moment().format('MMMM Do YYYY, h:mm:ss a'),
       // Concatenate information
       stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + Date.now() + "-" +username +"-" + gameID;
 
@@ -160,7 +175,7 @@ router.post('/loggerHelpEndTutorial', auth, function (req, res, next) {
     console.log('Student information logged' - stringTem);
   });
   
-  var passingObject = {userID: id, username: username, action: type, description: event, date: Date.now(), gameSession: gameID }
+  var passingObject = {userID: id, username: username, action: type, description: event, date: date, gameSession: gameID }
   
   require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
     // If there was an error
@@ -186,13 +201,14 @@ router.post('/loggerEnd', auth, function (req, res, next) {
       modulenum = req.body.module,
       gameSession = req.body.session,
       gameID = id+"_"+modulenum+"_"+gameSession,
+      date = moment().format('MMMM Do YYYY, h:mm:ss a'),
       rank = req.body.rank;
   
 
       // Concatenate information
-      stringTem = "\n" + id + "-" + type + "-" + event + "-" + "Player Rank:" + rank + "-" + Date.now() + "-" +username+"-" + gameID;
+      stringTem = "\n" + id + "-" + type + "-" + event + "-" + "Player Rank:" + rank + "-" + date+ "-" +username+"-" + gameID;
 
-  var passingObject = {userID: id, username: username, action: type, description: event, date: Date.now(), gameSession: gameID }
+  var passingObject = {userID: id, username: username, action: type, description: event, date: date, gameSession: gameID }
   
   require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
     // If there was an error
@@ -261,13 +277,14 @@ router.post('/loggerPoll', auth, function (req, res, next) {
       q6 = req.body.q6,
       type = req.body.eventType,
       modulenum = req.body.module,
+      date = moment().format('MMMM Do YYYY, h:mm:ss a'),
       gameSession = req.body.session,
       gameID = id+"_"+modulenum+"_"+gameSession,
       // Concatenate information
       stringThing = '\n' + id + '-' + type + '-'+ q1 + '*' + q2 + '*' +q3 + '*' + q4 + '*' + q5 + '*' + q6 + "-" + Date.now() + "-" +username +"-" + gameID;
      questions = 'Q: '+ q1 + ' Q: '+ q2 + ' Q: '+ q3 + ' Q: '+ q4 + ' Q: '+ q5 + ' Q: '+ q6;
 
-  var passingObject = {userID: id, username: username, action: type, description: questions, date: Date.now(), gameSession: gameID }
+  var passingObject = {userID: id, username: username, action: type, description: questions, date: date, gameSession: gameID }
   
   require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
     // If there was an error
@@ -301,9 +318,10 @@ router.post('/loggerMinigame', auth, function (req, res, next) {
       score = req.body.score,
       modulenum = req.body.module,
       gameSession = req.body.session,
+      date = moment().format('MMMM Do YYYY, h:mm:ss a'),
       gameID = id+"_"+modulenum+"_"+gameSession,
       // Concatenate information
-      stringThing = '\n' + "MinigameScore" + id + '-'+ mininumber+ "-" + score + "-" + Date.now() + "-" +username +"-" + gameID;
+      stringThing = '\n' + "MinigameScore" + id + '-'+ mininumber+ "-" + score + "-" + date+ "-" +username +"-" + gameID;
 
  var passingObject = {userID: id, username: username, action: "Minigame " + mininumber, description: "Score: " + score, date: Date.now(), gameSession: gameID }
   
