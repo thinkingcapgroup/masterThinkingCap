@@ -4405,7 +4405,7 @@ function getSession(gameOver)
 	var saveArray = saveState.split("~");
 	if(!gameOver){
     	//console.log(saveArray[9] == "NaN")
-    	if(saveArray[9] !=[] && saveArray[9] != "NaN")
+    	if(saveArray[9] !=[] && saveArray[9] != "NaN" && saveArray[9] != "Undefined")
     	{
         	gameSession = parseInt(saveArray[9]) + 1;
         	gameOver = false;
