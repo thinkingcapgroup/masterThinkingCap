@@ -267,7 +267,7 @@ function  buildTests (type)
         document.getElementById("index-section").innerHTML += "<h2>Post-Test</h2>";
         break;
     }
-    document.getElementById("index-section").innerHTML = "<section id = 'population'><h2>Population</h2></section><section id = 'category'><h2>Category</h2></section><section id = 'bias'section><h2>Bias</h2></section><section id = 'mean'><h2>Mean</h2></section><section id = 'percentage'><h2>Percentage</h2></section>";
+    document.getElementById("index-section").innerHTML = "<section id = 'population'><h2>POPULATION AND SAMPLE</h2></section><section id = 'category'><h2>CATEGORICAL AND NUMERICAL</h2> <p> Another word for categorical is “qualitative”. Another word for numerical is “quantitative”</p></section><section id = 'bias'section><h2>SAMPLING AND BIAS</h2></section><section id = 'mean'><h2>MEAN AND STANDARD DEVIATION</h2></section><section id = 'percentage'><h2>PROPORTION/PERCENTAGE</h2></section>";
     questions.sort(function(a, b){return 0.5 - Math.random()});
 	for( var i =0; i < questions.length; i++)
 	{	
