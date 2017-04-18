@@ -1425,71 +1425,80 @@ function tutorial (help)
 		var term = 1;
 		document.getElementById("gameInfo").innerHTML += "<h3>Statements</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Statements are where you focus on the issues at school. You can make a positive or negative statement on the issue. Make sure to stay on topic.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'><img src = '../img/menu/makeastatementiconNEW.png'><br>Statements are where you focus on the issues at school. You can make a positive or negative statement on the issue. Make sure to stay on topic.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>How to Play</button> <button onclick='nextSection("+help+");' style='float: right;'>Consistency</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>How to Play</button> <button onclick='nextSection("+help+");' style='float: right;'>Issues</button>";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 4:
-		document.getElementById("gameInfo").innerHTML += "<h3>Consistency & Trust</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<h3>Issues</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Here are the icons: </p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Here are the issues: <br><img src = '../img/issues.png' /></p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements</button> <button onclick='nextSection("+help+");' style='float: right;'>Student Events</button>";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 5:
-		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<h3>Student Events</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden'; height:500px></div>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Student Events is how you get to know the population. Becoming more famous among groups to help get you elected.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Consistency & Trust</button> <button onclick='nextSection("+help+");' style='float: right;'>Population</button> ";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Issues</button> <button onclick='nextSection("+help+");' style='float: right;'>Population - Majors</button> ";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 6:
-		document.getElementById("gameInfo").innerHTML += "<h3>Population</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<h3>Population - Majors</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden'; height:500px></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Here are the groups: </p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Here are the majors: <br><img src = '../img/majors.png' /></p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='nextSection("+help+");' style='float: right;'>Fame</button> ";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Student Events</button> <button onclick='nextSection("+help+");' style='float: right;'>Population - Social Events</button> ";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 7:
-		document.getElementById("gameInfo").innerHTML += "<h3>Fame</h3><hr>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>The last thing is Polling. You can see how the population feels about the candidates.You take polls in different areas which will have different biases. You can ask questions about issues, student groups, or the candidates. </p>"
+		document.getElementById("gameInfo").innerHTML += "<h3>Population - Social Events</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden'; height:500px></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Here are the social groups: <br><img src = '../img/interests.png' /></p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Population</button> <button onclick='nextSection("+help+");' style='float: right;'>Actions</button> ";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Population - Majors</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling</button> ";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 8:
-		document.getElementById("gameInfo").innerHTML += "<h3>Actions</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>You can go back and look at the previous polls in the poll area at any time. </p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'><img src = '../img/menu/takeapollicon.png'><br>The last thing is Polling. You can see how the population feels about the candidates.You take polls in different areas which will have different biases. You can ask questions about issues, student groups, or the candidates. </p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Fame</button> <button onclick='nextSection("+help+");' style='float: right;'>Days and Time</button> ";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Population - Social Events</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling Reports</button> ";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 9:
-		document.getElementById("gameInfo").innerHTML += "<h3>Time</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<h3>Polling Reports</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>If you ask the same question more than once, it will appear on the trend report. A place where you can see the summary of all the graphs for that question.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>You can go back and look at the previous polls in the poll area at any time. </p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Actions</button> <button onclick='nextSection("+help+");' style='float: right;'>Practice Area</button> ";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='nextSection("+help+");' style='float: right;'>Trend Reports</button> ";
+		if(help)
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
+		break;
+		case 10:
+		document.getElementById("gameInfo").innerHTML += "<h3>Trend Reports</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'><img src = '../img/menu/trendreport.png'><br>If you ask the same question more than once, it will appear on the trend report. A place where you can see the summary of all the graphs for that question.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling Reports</button> <button onclick='nextSection("+help+");' style='float: right;'>Practice Area</button> ";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		
-		case 10:
-		document.getElementById("gameInfo").innerHTML += "<h3>Days and Time</h3><hr>";
+		case 11:
+		document.getElementById("gameInfo").innerHTML += "<h3>Practice Area</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>And that’s it. I said polls were important, so I've created a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data is not real and does not represent the actual students. For that you will need to take a real poll. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>And that’s it. I said polls were important, so I've created a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data is not real and does not represent the actual students. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		if(!help)
 			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button> ";
