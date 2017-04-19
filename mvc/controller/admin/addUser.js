@@ -320,6 +320,7 @@ function sendMailToUser (req, res, userData, accountActivationData) {
   transporter.sendMail(mailOptions, function (err, success) {
     // If there was an error
     if (err) {
+      console.log('its happening in the sendmail')
       errorNotifications.push(err);
       errorNotifications.push(pageUrl);
       // Redirect to /addUser
