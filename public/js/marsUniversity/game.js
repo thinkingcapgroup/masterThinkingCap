@@ -808,7 +808,7 @@ function startOtherCandidates(heads,body){
 	playerCandidate.bodyType = bodyTypeArray[body.bodyArrayHolder];
 
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
-	document.getElementById("gameInfo").innerHTML += "<p>You're up against Karma the Chameleon. They're going for Student Council President just like you are. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
+	document.getElementById("gameInfo").innerHTML += "<p>You are competing against Karma the Chameleon and 4 other candidates for the potion of Student Council President. Karma is new student just like you, they call her the Chameleon, because she copies the people she is running against.... and also because, she is a Chameleon. The current student government will give you, a candidate, some information about the student body.</p>"
 	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial?</p>"
 	document.getElementById("gameInfo").innerHTML += "<button onclick='tutorial("+false+")'>Yes</button><button onclick='actualSessionStart(false)'>No</button>";
 
