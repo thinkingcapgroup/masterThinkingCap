@@ -13,11 +13,11 @@
 				"A and B",
 				"A and C"
 			],
-			"correct":"Ask all NTID students who enter LBJ on Monday at 10am, if they use the RIT shuttle bus to arrive at LBJ.",
+			"correct":"From all NTID student clubs, ask two members from each club if they own a computer.",
 			"id":"0"
 		},
 		{
-			"question":"Which letter A-E is the population variable for the RIT administrators?", 
+			"question":"RIT students often have trouble finding a parking spot. RIT administrators want to know the average parking time for students (time to find a parking spot).  Researchers measured the parking times for 150 students. <br> Which letter A-E is the population variable for the RIT administrators?", 
 			"type": "population",
 			"random":"no",
 			"answers":
@@ -28,7 +28,7 @@
 				"Students who park at RIT between 9am and 10am on Wednesdays.",
 				"A and B"
 			],
-			"correct":"Students who park at RIT between 9am and 10am on Wednesdays",
+			"correct":"The parking time for all students that park at RIT.",
 			"id":"1"
 		},
 		{
@@ -43,7 +43,7 @@
 				"40 freshman who participated in our poll",
 				"None of the above"
 			],
-			"correct":"None",
+			"correct":"None of the above",
 			"id":"2"
 		},
 		{
@@ -58,7 +58,7 @@
 				"100 human students, 100 alien students, and 100 Martian students, selected at random",
 				"100 faculty and staff at Mars University, selected at random"
 			],
-			"correct":"100 faculty and staff at Mars University, selected at random",
+			"correct":"100 human students, 100 alien students, and 100 Martian students, selected at random",
 			"id":"3"
 		},
 		{
@@ -77,21 +77,6 @@
 			"id":"4"
 		},
 		{
-			"question":"Which letter A-E is categorical variable?", 
-			"type": "category",
-			"random":"no",
-			"answers":
-			[
-				"Whether each customer sitting in a restaurant is a Smoker or a Non-smoker",
-				"Temperature of a cup of coffee served in a restaurant",
-				"The primary language of a student at RIT",
-				"A and B",
-				"A and C"
-			],
-			"correct":"A and C",
-			"id":"5"
-		},
-		{
 			"question":"Which letter A-E is numerical variable?", 
 			"type": "category",
 			"random":"no",
@@ -103,11 +88,11 @@
 				"A and B",
 				"B and C"
 			],
-			"correct":"B and C",
-			"id":"6"
+			"correct":"The weight, in pounds, of each suitcase going on an airplane",
+			"id":"5"
 		},
 		{
-			"question":"Which letter A-E correctly identifies the numerical variables?", 
+			"question":"<img src='..//img//tests//C&N-1.png'> <br> Which letter A-E correctly identifies the numerical variables?", 
 			"type": "category",
 			"random":"no",
 			"answers":
@@ -118,8 +103,8 @@
 				"Student ID Number and GPA",
 				"None of the variables are numerical"
 			],
-			"correct":"Student ID Number and GPA",
-			"id":"7"
+			"correct":"GPA only",
+			"id":"6"
 		},
 		{
 			"question":"Mars University wants to collect data about students taking Introduction to Biology. Which letter A-E is an example of a categorical variable?", 
@@ -134,7 +119,7 @@
 				"B and C"
 			],
 			"correct":"A and C",
-			"id":"8"
+			"id":"7"
 		},
 		{
 			"question":"President Destler wants to know if professors on campus would join a union. He cannot interview all professors, so he will obtain a sample. Which letter A-E is a method of sampling to avoid bias?", 
@@ -149,7 +134,7 @@
 				"A and C"
 			],
 			"correct":"A and C",
-			"id":"9"
+			"id":"8"
 		},
 		{
 			"question":"Do students at RIT support building a new library? The student government will ask a sample of students to take a survey. Which method of sampling A-E is best to avoid bias?", 
@@ -164,52 +149,22 @@
 				"Ask the university president's family"
 			],
 			"correct":"Ask 10 randomly selected students from each RIT college",
+			"id":"9"
+		},
+		{
+			"question":"The student newspaper editors want to know how students feel about the candidates who are running for student government. Which method of sampling A-E is best to avoid bias?", 
+			"type": "bias",
+			"random":"yes",
+			"answers":
+			[
+				"Ask twenty randomly selected students at the gym",
+				"Email a survey to every student on campus, asking them to respond",
+				"Ask all the students who live in your dorm",
+				"The next issue of the student newspaper will include a survey and ask students to mail in their responses",
+				"Ask 3 randomly selected students from each RIT major"
+			],
+			"correct":"Ask 3 randomly selected students from each RIT major",
 			"id":"10"
-		},
-		{
-			"question":"The student newspaper editors want to know how students feel about the candidates who are running for student government. Which method of sampling A-E is best to avoid bias?", 
-			"type": "bias",
-			"random":"yes",
-			"answers":
-			[
-				"Ask twenty randomly selected students at the gym",
-				"Email a survey to every student on campus, asking them to respond",
-				"Ask all the students who live in your dorm",
-				"The next issue of the student newspaper will include a survey and ask students to mail in their responses",
-				"Ask 3 randomly selected students from each RIT major"
-			],
-			"correct":"Email a survey to every student on campus, asking them to respond",
-			"id":"11"
-		},
-		{
-			"question":"The student newspaper editors want to know how students feel about the candidates who are running for student government. Which method of sampling A-E is best to avoid bias?", 
-			"type": "bias",
-			"random":"yes",
-			"answers":
-			[
-				"Ask twenty randomly selected students at the gym",
-				"Email a survey to every student on campus, asking them to respond",
-				"Ask all the students who live in your dorm",
-				"The next issue of the student newspaper will include a survey and ask students to mail in their responses",
-				"Ask 3 randomly selected students from each RIT major"
-			],
-			"correct":"Email a survey to every student on campus, asking them to respond",
-			"id":"12"
-		},
-		{
-			"question":"The student newspaper editors want to know how students feel about the candidates who are running for student government. Which method of sampling A-E is best to avoid bias?", 
-			"type": "bias",
-			"random":"yes",
-			"answers":
-			[
-				"Ask twenty randomly selected students at the gym",
-				"Email a survey to every student on campus, asking them to respond",
-				"Ask all the students who live in your dorm",
-				"The next issue of the student newspaper will include a survey and ask students to mail in their responses",
-				"Ask 3 randomly selected students from each RIT major"
-			],
-			"correct":"Email a survey to every student on campus, asking them to respond",
-			"id":"13"
 		},
 		{
 			"question":"Mars University is conducting a poll. Students will be asked, 'Do you support expanding the gym?' Which letter A-E would be the best way to collect our sample and minimize bias?", 
@@ -224,10 +179,10 @@
 				"None of the Above"
 			],
 			"correct":"Send an email to 100 randomly selected students asking the question",
-			"id":"14"
+			"id":"11"
 		},
 		{
-			"question":"Which letter A-E is true?", 
+			"question":"<img src='..//img//tests//M&SD-1.png'> <br> Which letter A-E is true?", 
 			"type": "mean",
 			"random":"no",
 			"answers":
@@ -239,10 +194,10 @@
 				"Cannot compare Sosa and Bonds"
 			],
 			"correct":"Both A and B",
-			"id":"15"
+			"id":"12"
 		},
 		{
-			"question":"Which letter A-E is correct ?", 
+			"question":"<img src='..//img//tests//M&SD-2.png'><br>Which letter A-E is correct ?", 
 			"type": "mean",
 			"random":"no",
 			"answers":
@@ -253,11 +208,11 @@
 				"Neither A nor B",
 				"Cannot compare Sosa and Bonds"
 			],
-			"correct":"Both A and B",
-			"id":"16"
+			"correct":"Neither A nor B",
+			"id":"13"
 		},
 		{
-			"question":"Which letter A-E is correct ?", 
+			"question":"<img src='..//img//tests//M&SD-3.png'><br> Which letter A-E is correct ?", 
 			"type": "mean",
 			"random":"no",
 			"answers":
@@ -268,11 +223,11 @@
 				"A and B",
 				"B and C"
 			],
-			"correct":"Both A and B",
-			"id":"17"
+			"correct":"B and C",
+			"id":"14"
 		},
 		{
-			"question":"Which letter A-E is correct ?", 
+			"question":"<img src='..//img//tests//M&SD-4.png'><br>Which letter A-E is correct ?", 
 			"type": "mean",
 			"random":"no",
 			"answers":
@@ -283,11 +238,11 @@
 				"A, B and C are all true",
 				"A, B and C are all false"
 			],
-			"correct":"Test 2 has a wider spread than Test 1",
-			"id":"18"
+			"correct":"A, B and C are all false",
+			"id":"15"
 		},
 		{
-			"question":"What percentage of the 80 people answered 'computer'?", 
+			"question":"<img src='..//img//tests//P&P-1.png'><br>What percentage of the 80 people answered 'computer'?", 
 			"type": "percentage",
 			"random":"yes",
 			"answers":
@@ -298,26 +253,26 @@
 				"5%",
 				"0%"
 			],
-			"correct":"0%",
-			"id":"19"
+			"correct":"25%",
+			"id":"16"
 		},
 		{
-			"question":" What percentage of the 80 people answered either 'television' or 'radio'", 
+			"question":"<img src='..//img//tests//P&P-1.png'> <br>What percentage of the 80 people answered either 'television' or 'radio'", 
 			"type": "percentage",
 			"random":"yes",
 			"answers":
 			[
 				"7%",
 				"12%",
+				"70%",
 				"31%",
-				"82%",
-				"70%"
+				"82%"
 			],
-			"correct":"70%",
-			"id":"20"
+			"correct":"31%",
+			"id":"17"
 		},
 		{
-			"question":"What percentage of the students travels by bus?", 
+			"question":"<img src='..//img//tests//P&P-2.png'> <br>What percentage of the students travels by bus?", 
 			"type": "percentage",
 			"random":"yes",
 			"answers":
@@ -328,11 +283,11 @@
 				"14%",
 				"None"
 			],
-			"correct":"70%",
-			"id":"21"
+			"correct":"14%",
+			"id":"18"
 		},
 		{
-			"question":"What percentage of the students do NOT travel to school by car?", 
+			"question":"<img src='..//img//tests//P&P-2.png'> <br>What percentage of the students do NOT travel to school by car?", 
 			"type": "percentage",
 			"random":"yes",
 			"answers":
@@ -343,8 +298,8 @@
 				"0.85",
 				"None"
 			],
-			"correct":"None",
-			"id":"22"
+			"correct":"0.70",
+			"id":"19"
 		}
 	],
 
@@ -363,7 +318,7 @@
 			"id":"1"
 		},
 		{
-			"question":"I am currently in my ___ year at RIT/NTID", 
+			"question":"I am currently in my ___ year at RIT//NTID", 
 			"required": "yes",
 			"type": "text",		
 			"id":"2"
@@ -416,7 +371,7 @@
 			"type": "radio",
 			"answers":
 			[
-				"African American/Black",
+				"African American//Black",
 				"Latino American",
 				"Native",
 				"White",

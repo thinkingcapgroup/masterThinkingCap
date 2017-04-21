@@ -73,7 +73,7 @@ router.post('/recordTest', auth, function (req, res, next)
   }
 
 
-  if(question == 22){
+  if(question == 19){
     endTimeUnix = Date.now();
     endTime = moment().format('MMMM Do YYYY h:mm:ss a');
     timeSpent = endTimeUnix - startTimeUnix;
@@ -96,7 +96,7 @@ router.post('/recordTest', auth, function (req, res, next)
     });
 
 
-    if(question >= 22){
+    if(question >= 19){
       correctTotal = 0;
     }
   }
