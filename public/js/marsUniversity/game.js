@@ -194,7 +194,7 @@ function helpScreen()
 	clearScreen();
 	section = 1;
 	document.getElementById("playerInfo").style.display = "none";
-	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <button onclick= 'openGlossary()'>Glossary Page</button> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><br><button class = 'logHelpEnd' onclick= 'userAction()'>Return to User Action Area</button>"
+	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <!--<button onclick= 'openGlossary()'>Glossary Page</button>--> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><br><button class = 'logHelpEnd' onclick= 'userAction()'>Return to User Action Area</button>"
 }
 function pollMenu()
 {
@@ -269,9 +269,7 @@ function trendReportMenu()
     		}
     	}
     }
-
    	 document.getElementById("gameInfo").innerHTML += "<br>"
-
      document.getElementById("gameInfo").innerHTML += "<button id ='buttonViewer' style = 'display:none'>Choose Another Trend Report</button>";
      document.getElementById("gameInfo").innerHTML += "<button onclick= 'userAction()'>Return to User Action Area</button>";
 }
@@ -808,7 +806,7 @@ function startOtherCandidates(heads,body){
 	playerCandidate.bodyType = bodyTypeArray[body.bodyArrayHolder];
 
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
-	document.getElementById("gameInfo").innerHTML += "<p>You're up against Karma the Chameleon. They're going for Student Council President just like you are. Whenever any student wishes to campaign, the current student government will give the candidate some information about the student body.</p>"
+	document.getElementById("gameInfo").innerHTML += "<p>You are competing against Karma the Chameleon and 4 other candidates for the potion of Student Council President. Karma is new student just like you, they call her the Chameleon, because she copies the people she is running against.... and also because, she is a Chameleon. The current student government will give you, a candidate, some information about the student body.</p>"
 	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial?</p>"
 	document.getElementById("gameInfo").innerHTML += "<button onclick='tutorial("+false+")'>Yes</button><button onclick='actualSessionStart(false)'>No</button>";
 
@@ -1002,10 +1000,10 @@ function userAction()
 	   document.getElementById("topPlayerArea").innerHTML += "<h3 style = 'margin-top:30px'>  Remaining Hours Today:   " + remainingHoursDay + "</h3>";		
     
 	 document.getElementById("playerInfo").innerHTML +="<hr style = 'clear: right;'>"
-	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/takeapollicon.png'  onclick='pollMenu()'>                    </img>";
-	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/makeastatementiconNEW.png'  onclick='statement()'>                         </img>";
-	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/trendreport.png'  onclick='trendReportMenu()'>                    </img>";
-	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/helpicon.png'  class = 'logHelp' onclick='helpScreen()'></img>";
+	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/takeapollicon.png'  onclick='pollMenu()' title = 'Polls'>                    </img>";
+	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/makeastatementiconNEW.png'  onclick='statement()' title = 'Statements'>                         </img>";
+	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/trendreport.png'  onclick='trendReportMenu()' title = 'Trend Reports'>                    </img>";
+	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/helpicon.png'  class = 'logHelp' onclick='helpScreen()' title = 'Help'></img>";
 	//document.getElementById("Buttons").innerHTML += "<button  class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
 	document.getElementById("gameInfo").innerHTML += "<h3 style = 'float: right'> Rival\'s Last Move: " + candidates[1].lastMove + "</h3>";
 	//document.getElementById("choices").innerHTML += "<br>";
@@ -1404,20 +1402,20 @@ function tutorial (help)
 	{
 		case 1:
 		
-		document.getElementById("gameInfo").innerHTML += "<h3>Welcome</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<h3>How To Play</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px;'>Hi, my name is Gui’De. I will help you find your way around Mars U. You’re a new student, and we need your help now. It’s time for the student president election and all the candidates are horrible. Will you run and become president?</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px;'>Hi, my name is Gui’De. I will help you find your way around Mars University. You’re a new student, and we need your help now. It’s time for the student president election and all the candidates won't do a good job. Are you interested in becoming president of the Student Council?</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
-		document.getElementById("gameInfo").innerHTML += "<br><button onclick='nextSection("+help+");' style='float: right;'>How to Play</button> ";
+		document.getElementById("gameInfo").innerHTML += "<br><button onclick='nextSection("+help+");' style='float: right;'>How to Win</button> ";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<button float = 'left' class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 2:
-		document.getElementById("gameInfo").innerHTML += "<h3>How to Play</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<h3>How to Win</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>You can win by doing three different types of action. Statements, Polling, and Actions.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>You can win by doing three things: <br>-Statements<br>-Polling<br>-StudentEvents</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Introduction</button> <button onclick='nextSection("+help+");' style='float: right; text-decoration: underline;'>Statements</button> ";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>How To Play</button> <button onclick='nextSection("+help+");' style='float: right; text-decoration: underline;'>Statements</button> ";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
@@ -1427,7 +1425,7 @@ function tutorial (help)
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble' style = 'position: relative; border: 2px solid black; overflow:hidden; height:500px'></div>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'><img src = '../img/menu/makeastatementiconNEW.png'><br>Statements are where you focus on the issues at school. You can make a positive or negative statement on the issue. Make sure to stay on topic.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>How to Play</button> <button onclick='nextSection("+help+");' style='float: right;'>Issues</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>How to Win</button> <button onclick='nextSection("+help+");' style='float: right;'>Issues</button>";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
@@ -1722,6 +1720,7 @@ function drawMap(poll)
     var c=document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
     
+
 	mapbackground.onload = function(){
 			  ctx.drawImage(mapbackground, 0,0,600,414);
 			  	ctx.strokeStyle = '#00FFFF';
@@ -1768,13 +1767,14 @@ function drawMap(poll)
 	//draw icon
 
 	    ctx.drawImage(libraryIcon, 435,270,113,75)
-            ctx.drawImage(gymIcon, 475,50,113,75)
-            ctx.drawImage(commonsicon, 90,285,113,75)
+        ctx.drawImage(gymIcon, 475,50,113,75)
+        ctx.drawImage(commonsicon, 90,285,113,75)
+        ctx.drawImage(labIcon, 145,30,113,75)
             if(isPoll){
 
 			ctx.drawImage(quadIcon, 160,160,113,75) 
 			}
-            ctx.drawImage(labIcon, 145,30,113,75)
+   
 		}
 
 
@@ -1874,6 +1874,8 @@ function drawMap(poll)
     }
 //Fills the zone over the building that the mouse if hovering over
 	function doMouseOver(c, e){
+
+
 	var c=document.getElementById("myCanvas");
         var ctx = c.getContext("2d");
 		var mouse = canvasMouse;
@@ -1882,6 +1884,8 @@ function drawMap(poll)
         var mapbackground = new Image();
         mapbackground.src = '../../img/map/map.png';
         ctx.drawImage(mapbackground, 0,0,450,250);
+
+
 		//check if the area is clickable
 			//quad 		ctx.strokeRect(208,235,243,60);
 						
