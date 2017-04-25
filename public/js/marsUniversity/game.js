@@ -808,7 +808,7 @@ function startOtherCandidates(heads,body){
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
 	document.getElementById("gameInfo").innerHTML += "<p>You are competing against Karma the Chameleon and 4 other candidates for the potion of Student Council President. Karma is new student just like you, they call her the Chameleon, because she copies the people she is running against.... and also because, she is a Chameleon. The current student government will give you, a candidate, some information about the student body.</p>"
 	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial?</p>"
-	document.getElementById("gameInfo").innerHTML += "<button onclick='tutorial("+false+")'>Yes</button><button onclick='actualSessionStart(false)'>No</button>";
+	document.getElementById("gameInfo").innerHTML += "<button onclick='tutorial("+false+")'>Yes</button><button onclick='actualSessionStart("+false+")'>No</button>";
 
 }
 
@@ -857,9 +857,15 @@ function actualSessionStart(isFromTut){
 	issueCand4.focusnum = 3;
 	chooseRank(issueCand4,chosenCandRanks,true);
 	candidates.push(issueCand4);	
-	map(0,true,true);
+	//map(0,true,true);
+    bufferZone();
 }
-
+    function bufferZone()
+    {
+        clearScreen();
+        document.getElementById("gameInfo").innerHTML += "<h1>First Poll</h1> <br><p>Ready to start your Campaign at Mars U? It's time to get that initial data from the Student Government. Let them know what questions you woukld like to know the answers to.</p>";
+        document.getElementById("gameInfo").innerHTML += "<button onclick='map("+0+","+true+","+true+")'>Take Your First Poll</button>";
+    }
 //takes the player into a poll with fake candidates to test out polling
 function practicePoll()
 {
@@ -1499,7 +1505,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>And that’s it. I said polls were important, so I've created a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data is not real and does not represent the actual students. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		if(!help)
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button> ";
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='bufferZone()' style='float: right;'>Try Polling</button> ";
 		else
 			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='map("+3+", false, false)' style='float: right;'>Try Polling</button> <br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 			
