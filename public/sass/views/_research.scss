@@ -29,7 +29,15 @@
      background-color: #333333;
     }
   }
-
+    #download
+    {
+        float:right;
+        color: #000000;
+    }
+    #download:hover
+    {
+        color: #0000FF;
+    }
     #subtabs{  
     ul{
       margin: 0;
@@ -37,6 +45,7 @@
       overflow: hidden;
       background-color: #888888;
       color: #AAAAAA;
+
     }
     li{
       display: inline;
@@ -93,6 +102,10 @@
     padding:10px;
   }
 
-   #resTable{
-   }
+  table tr td{
+   border: 1px solid black;
+  }
+  tr{
+   border: 1px solid black;
+  }
 }

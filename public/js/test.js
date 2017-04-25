@@ -274,7 +274,8 @@ function  buildTests (type)
 	for( var i =0; i < questions.length; i++)
 	{	
 		var questionNum = i + 1;
-		document.getElementById(questions[i].type).innerHTML += "<br><br><h1 class='question'>"+ questions[i].question+"</h1>";
+		document.getElementById(questions[i].type).innerHTML += "<br><br><h1 class='question'>"+ questions[i].question+"</h1><br>";
+         document.getElementById(questions[i].type).innerHTML += "<div id = 'rightCol'><p>Confidence: <br><input id = 'sliderValue"+i+"'type = 'range' min='1' max='10'  value = '5' onchange= 'changeValue("+i+")'> <span id = 'questionValue"+i+"'>5</span></p></div>"
         if(questions[i].random == "yes")
         {
             var answers = questions[i].answers.sort(function(a, b){return 0.5 - Math.random()});
@@ -309,7 +310,7 @@ function  buildTests (type)
             if(j == answers.length -1)
             { document.getElementById(questions[i].type).innerHTML += "<br>";}
         }
-           document.getElementById(questions[i].type).innerHTML += "<p>Confidence: <input id = 'sliderValue"+i+"'type = 'range' min='1' max='10'  value = '5' onchange= 'changeValue("+i+")'> <span id = 'questionValue"+i+"'>5</span></p>"
+          
 		playerAnswers.push("");
 	}
 	

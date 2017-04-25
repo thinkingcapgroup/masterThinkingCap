@@ -12,6 +12,7 @@ var express = require('express'),
     var preTotalArray = [];
     var postTotalArray = [];
     var errorNotifications = [];
+    var flag = false;
     lineArray = [];
     lineArray2 = [];
     holderArray = [];
@@ -26,6 +27,7 @@ var express = require('express'),
 router.get('/', auth, function (req, res) {
   // If user account is activated
     holderArray = [];
+    flag = false;
   if (req.user.role >= 6) {
     // Render dashboard view
     getDatabase(req,res);
@@ -280,8 +282,10 @@ function getDatabase(req,res){
     else {
       // Set the model's bugReports to recieved data
       lineArray = b;
-    
+      flag = true;
+      
     }
+        console.log('lineArray done')
   });
 
 
@@ -328,6 +332,8 @@ function getDatabase(req,res){
                 }
             }
           });
+
+     console.log('pre/post done')
 
   require('../model/researchArea/getAllResearchDemoData.js')(req, function(err, b) 
         {
@@ -395,13 +401,15 @@ function getDatabase(req,res){
         
       }
 
+      console.log('prepost total done')
 
     }
     });
 
+
     //grab log information
-    renderResearch(req, res);
-        
+    setTimeout(function(){renderResearch(req, res)},3000);
+  
 
     // Render /bugreports using the 'bugReports' view and model
 
