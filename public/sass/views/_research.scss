@@ -29,7 +29,15 @@
      background-color: #333333;
     }
   }
-
+    #download
+    {
+        float:right;
+        color: #000000;
+    }
+    #download:hover
+    {
+        color: #0000FF;
+    }
     #subtabs{  
     ul{
       margin: 0;
