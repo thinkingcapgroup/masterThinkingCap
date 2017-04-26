@@ -16,7 +16,8 @@ router.get('/', auth, function (req, res) {
   // If user account is activated
   if (req.user.role > 1) {
     // Render dashboard view
-    renderDashboard(req, res);
+    //renderDashboard(req, res);
+     res.redirect('/marsuniversity');
   }
 
   // Otherwise

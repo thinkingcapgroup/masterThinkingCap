@@ -947,7 +947,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var version = '6.3.0';
+	var version = '6.2.0';
 
 	var validator = {
 	  version: version,
@@ -1508,7 +1508,7 @@
 
 	function isURL(url, options) {
 	  (0, _assertString2.default)(url);
-	  if (!url || url.length >= 2083 || /[\s<>]/.test(url)) {
+	  if (!url || url.length >= 2083 || /\s/.test(url)) {
 	    return false;
 	  }
 	  if (url.indexOf('mailto:') === 0) {
@@ -2140,7 +2140,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var float = /^(?:[-+])?(?:[0-9]+)?(?:\.[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?$/;
+	var float = /^(?:[-+]?(?:[0-9]+))?(?:\.[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?$/;
 
 	function isFloat(str, options) {
 	  (0, _assertString2.default)(str);
@@ -2928,14 +2928,12 @@
 	  'en-GB': /^(\+?44|0)7\d{9}$/,
 	  'en-HK': /^(\+?852\-?)?[569]\d{3}\-?\d{4}$/,
 	  'en-IN': /^(\+?91|0)?[789]\d{9}$/,
-	  'en-NG': /^(\+?234|0)?[789]\d{9}$/,
 	  'en-NZ': /^(\+?64|0)2\d{7,9}$/,
 	  'en-ZA': /^(\+?27|0)\d{9}$/,
 	  'en-ZM': /^(\+?26)?09[567]\d{7}$/,
 	  'es-ES': /^(\+?34)?(6\d{1}|7[1234])\d{7}$/,
 	  'fi-FI': /^(\+?358|0)\s?(4(0|1|2|4|5)?|50)\s?(\d\s?){4,8}\d$/,
 	  'fr-FR': /^(\+?33|0)[67]\d{8}$/,
-	  'he-IL': /^(\+972|0)([23489]|5[0248]|77)[1-9]\d{6}/,
 	  'hu-HU': /^(\+?36)(20|30|70)\d{7}$/,
 	  'it-IT': /^(\+?39)?\s?3\d{2} ?\d{6,7}$/,
 	  'ja-JP': /^(\+?81|0)\d{1,4}[ \-]?\d{1,4}[ \-]?\d{4}$/,
@@ -2946,8 +2944,6 @@
 	  'pl-PL': /^(\+?48)? ?[5-8]\d ?\d{3} ?\d{2} ?\d{2}$/,
 	  'pt-BR': /^(\+?55|0)\-?[1-9]{2}\-?[2-9]{1}\d{3,4}\-?\d{4}$/,
 	  'pt-PT': /^(\+?351)?9[1236]\d{7}$/,
-	  'ro-RO': /^(\+?4?0)\s?7\d{2}(\/|\s|\.|\-)?\d{3}(\s|\.|\-)?\d{3}$/,
-	  'en-PK': /^((\+92)|(0092))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$/,
 	  'ru-RU': /^(\+?7|8)?9\d{9}$/,
 	  'sr-RS': /^(\+3816|06)[- \d]{5,9}$/,
 	  'tr-TR': /^(\+?90|0)?5\d{9}$/,
@@ -2960,7 +2956,6 @@
 	// aliases
 	phones['en-CA'] = phones['en-US'];
 	phones['fr-BE'] = phones['nl-BE'];
-	phones['zh-HK'] = phones['en-HK'];
 
 	function isMobilePhone(str, locale) {
 	  (0, _assertString2.default)(str);

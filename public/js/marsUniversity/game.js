@@ -1704,7 +1704,7 @@ function drawMap(poll)
 	var gymIcon = new Image();
 	gymIcon.src = '../img/map/gymicon.png';
 	var commonsicon = new Image();
-	commonsicon.src = '../img/map/commonsicon.png';
+	commonsicon.src = '../img/map/commonsIcon.png';
 	var labIcon = new Image();
 	labIcon.src = '../img/map/labicon.png';
 
@@ -1983,7 +1983,7 @@ function drawMap(poll)
             var gymIcon = new Image();
             gymIcon.src = '../img/map/gymicon.png';
             var commonsicon = new Image();
-            commonsicon.src = '../img/map/commonsicon.png';
+            commonsicon.src = '../img/map/commonsIcon.png';
             var labIcon = new Image();
             labIcon.src = '../img/map/labicon.png';
             quadIcon = new Image();
