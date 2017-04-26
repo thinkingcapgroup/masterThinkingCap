@@ -46,7 +46,7 @@ router.post('/', auth, function (req, res) {
 function renderVideo (req, res) {
   // Require the global app model
   var model = require('../model/global/global')(req, res);
-
+    model.layout = 'videolayout'
   model.content.pageTitle = 'Thinking Cap';
   model.globalNavigationMode = require('../model/global/globalNavigationModeAuth')(req, res);
 
