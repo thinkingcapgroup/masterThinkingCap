@@ -14,6 +14,7 @@ var express = require('express'),
     var postTotalArray = [];
     var errorNotifications = [];
     var flag = false;
+    var asyncTasks = [];
     lineArray = [];
     lineArray2 = [];
     holderArray = [];
@@ -262,7 +263,18 @@ router.get('/demographicExcel', function (req, res) {
 
 function getDatabase(req,res){
 
-   require('../model/researchArea/getAllResearchData.js')(req, function(err, b) {
+  getLineArray(req,res)
+
+
+    //grab log information
+  //setTimeout(function(){renderResearch(req, res)},3000);
+  
+
+    // Render /bugreports using the 'bugReports' view and model 
+};
+
+function getLineArray(req,res){
+     require('../model/researchArea/getAllResearchData.js')(req, function(err, b) {
     // If there is a database error
     if (err) {
 
@@ -284,13 +296,16 @@ function getDatabase(req,res){
       // Set the model's bugReports to recieved data
       lineArray = b;
       flag = true;
+      getPrePostArray(req,res)
       
     }
         console.log('lineArray done')
   });
 
+}
 
- require('../model/researchArea/getAllResearchTestData.js')(req, function(err, b) 
+function getPrePostArray(req,res){
+   require('../model/researchArea/getAllResearchTestData.js')(req, function(err, b) 
         {
         
             if (err) 
@@ -331,40 +346,16 @@ function getDatabase(req,res){
                         postArray.push(lineArray2[z])
                     }
                 }
+                getSummaryArray(req,res)
             }
           });
 
      console.log('pre/post done')
 
-  require('../model/researchArea/getAllResearchDemoData.js')(req, function(err, b) 
-        {
-        
-            if (err) 
-            {
-            // If there where no bug reports
-            if (err === 'No Demographic Data found!') 
-            {
-            // Set model to emptyState
+}
 
-            }
-            // Otherwise
-            else 
-            {
-            // Show user the error message
-            errorNotifications.push(err);
-            }
-        
-            console.error(err);
-            }
-            // Otherwise bug reports were found
-            else 
-            {
-                // Set the model's bugReports to recieved data
-                demoArray = b;
-            }
-    });
-
-    require('../model/researchArea/getAllTestTimeData.js')(req, function(err, b) {
+function getSummaryArray(req,res){
+      require('../model/researchArea/getAllTestTimeData.js')(req, function(err, b) {
 
     if (err) {
 
@@ -403,19 +394,45 @@ function getDatabase(req,res){
       }
 
       console.log('prepost total done')
+      getDemographicArray(req,res)
 
     }
     });
 
+}
 
-    //grab log information
-    setTimeout(function(){renderResearch(req, res)},3000);
-  
+function getDemographicArray(req,res){
 
-    // Render /bugreports using the 'bugReports' view and model
+  require('../model/researchArea/getAllResearchDemoData.js')(req, function(err, b) 
+        {
+        
+            if (err) 
+            {
+            // If there where no bug reports
+            if (err === 'No Demographic Data found!') 
+            {
+            // Set model to emptyState
 
-  
-};
+            }
+            // Otherwise
+            else 
+            {
+            // Show user the error message
+            errorNotifications.push(err);
+            }
+        
+            console.error(err);
+            }
+            // Otherwise bug reports were found
+            else 
+            {
+                // Set the model's bugReports to recieved data
+                demoArray = b;
+                renderResearch(req,res)
+            }
+    });
+
+}
 
 /**
  * renderDashboard - renders the user dashboard view

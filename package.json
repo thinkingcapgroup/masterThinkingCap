@@ -11,7 +11,6 @@
   "author": "Aaron Miller (aaronjmill.32@gmail.com)",
   "license": "ISC",
   "dependencies": {
-    "async": "^2.3.0",
     "babel": "^6.5.2",
     "bcrypt-nodejs": "latest",
     "body-parser": "^1.15.2",
