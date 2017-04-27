@@ -92,7 +92,6 @@ $(document).on('change', '.totalTimeTracker', function(){
 $(document).on('change', '.sampleOptions', function(){
   var optionIndex = $(this).val();
   document.getElementById('sample').value = optionIndex;
-  document.getElementById('rooms').value = optionIndex;
   document.getElementById('timeSpent').value = optionIndex;
 })
 

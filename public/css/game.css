@@ -13,6 +13,13 @@ th, td {
   width:50%;
 }
 
+#tutorialBubble{
+  position: relative; 
+  border: 2px solid black; 
+  overflow:hidden; 
+  height:500px;
+}
+
 #questionArea{
   float:right;
   width:35%;
