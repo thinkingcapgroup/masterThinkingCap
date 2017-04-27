@@ -19,6 +19,7 @@
         <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 1)'>Pre Test</a></li>
         <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 2)'>Post Test</a></li>
         <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 3)'>Demographics</a></li>
+        <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 4)'>Video</a></li>
         <!--<li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 4)'>User Database</a></li>-->
       </ul>
 
@@ -107,7 +108,7 @@
       <br>
       <section id = 'subreport0' class = 'subtabcontent active'>
         <h2>Pre-Test Overall Results</h2><br>
-          <a href = 'research/summaryPreTestData' target="_blank">Download</a>
+        <h2><a href = 'research/summaryPreTestData' id = 'download' target="_blank">Download</a></h2>
           <div id = "resTable">
           <table class='table'>
           <tr class='table-row-heading'>
@@ -160,7 +161,7 @@
       </section>
       <section id = 'subreport1' class = 'subtabcontent'>
       <h2>Test Results</h2> <br>
-        <a href = 'research/makePreTestExcel' target="_blank">Download</a>
+        <h2><a href = 'research/makePreTestExcel' id = 'download' target="_blank">Download</a></h2>
         <div id = "resTable">
         <table class='table' >
           <tr class='table-row-heading'>
@@ -224,7 +225,7 @@
       <section id = 'subreport2' class = 'subtabcontent active'>
         <h2>Post-Test Overall Results</h2>
         <br>
-          <a href = 'research/summaryPostTestExcel' target="_blank">Download</a>
+        <h2><a href = 'research/msummaryPostTestExcel' id = 'download' target="_blank">Download</a></h2>
           <div id = "resTable">
           <table class='table'>
          <tr class='table-row-heading'>
@@ -276,7 +277,7 @@
       </section>
       <section id = 'subreport3' class = 'subtabcontent active'>
       <h2>Test Results</h2>  <br>
-        <a href = 'research/allPostTestData' target="_blank">Download</a>  
+      <h2><a href = 'research/allPostTestData' id = 'download' target="_blank">Download</a></h2>
         <div id = "resTable">
         <table class='table'>
           <tr class='table-row-heading'>
@@ -331,7 +332,7 @@
       <section id='report3' class = 'tabcontent active'>
       <br>
       <h2>User Demographic Results</h2>  <br>
-        <a href = 'research/demographicExcel' target="_blank">Download</a>  
+      <h2><a href = 'research/demographicExcel' id = 'download' target="_blank">Download</a></h2>
         <div id = "resTable">
         <table class='table'>
           <tr class='table-row-heading'>
@@ -411,7 +412,7 @@
       </section>
 
       {{else}}
-      <section id='report4' class = 'tabcontent active'>
+      <section id='report5' class = 'tabcontent active'>
       <br>
       <h2>User Database</h2>    
         <div id = 'searchArea'>
@@ -428,8 +429,58 @@
         </div>
       {{/if}}
     </section>
+     
+     {{#if emptyState}}
+      <section class='empty-state-section'>
+       <h2 class='empty-state-header'>No bugs found 😃</h2>
+      </section>
 
+      {{else}}
+      <section id='report4' class = 'tabcontent active'>
+      <br>
+      <h2 id = 'Title'>Video Page</h2>   
+      <h2><a href = 'research/makeExcel' id = 'download' target="_blank">Download</a></h2>
+      <div id = "resTable">
+        <table class='table'>
+          <tr class='table-row-heading'>
+            <th class='table-column-title'>
+              User ID
+            </th>
+            <th class='table-column-title'>
+              Start Time
+            </th>
+            <th class='table-column-title'>
+              Total Time
+            </th>        
+            <th class='table-column-title'>
+              Video ID
+            </th>
+          </tr>
+          {{#each researchArray7}}          
+          <tr class='table-row' id = {{id}}>
+            <td class='table-cell' id = 'subject'>
+              {{userId}}
+            </td>
+            <td class='table-cell'>
+              {{startTime}}
+            </td>   
+            <td class='table-cell'>
+              {{endTime}}
+            </td>        
+            <td class='table-cell'>
+              {{totalTime}}
+              </td>        
+            <td class='table-cell'>
+              {{videoId}}
+            </td>      
+          </tr>
+          {{/each}}
+        </table>
+        </div>
+      {{/if}}
+    </section>
 
+    
     </div>
     <br>
 

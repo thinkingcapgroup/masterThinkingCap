@@ -1,103 +1,106 @@
-#tabs{  
+#video {
+
+  #tabs{  
     ul{
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background-color: #333333;
-        color: #AAAAAA;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #333333;
+      color: #AAAAAA;
     }
     li{
-        display: inline;
-        float: left;
+      display: inline;
+       float: left;
     }
-    
-    a {
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 16px;
-        text-decoration: none;
-    }
-    
-    a:hover {
-        background-color: #111111;
-    }
-    
-    a:active{
-        background-color: #333333;
-    }
-}
-#download
-{
-    float:right;
-    color: #000000;
-}
-#download:hover
-{
-    color: #0000FF;
-}
-#subtabs{  
-ul{
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #888888;
-  color: #AAAAAA;
-}
-li{
-  display: inline;
-   float: left;
-}
 
-a {
+    a {
     display: block;
     color: white;
     text-align: center;
     padding: 16px;
     text-decoration: none;
-}
+    }
+    
+    a:hover {
+    background-color: #111111;
+    }
 
-a:hover {
+    a:active{
+     background-color: #333333;
+    }
+  }
+    #download
+    {
+        float:right;
+        color: #000000;
+    }
+    #download:hover
+    {
+        color: #0000FF;
+    }
+    #subtabs{  
+    ul{
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #888888;
+      color: #AAAAAA;
+    }
+    li{
+      display: inline;
+       float: left;
+    }
+
+    a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+    }
+    
+    a:hover {
     background-color: #AAAAAA;
-}
+    }
 
-a:active{
-    background-color: #333333;
-}
-}
+    a:active{
+     background-color: #333333;
+    }
+  }
 
 
 
-#report1{
-  display: none;
-}
+  #report1{
+    display: none;
+  }
 
-#report2{
-  display: none;
-}
+  #report2{
+    display: none;
+  }
 
-#report3{
-  display: none;
-}
+  #report3{
+    display: none;
+  }
 
-#report4{
-  display: none;
-}
+  #report4{
+    display: none;
+  }
 
-#subreport1{
-  display: none;
-}
+  #subreport1{
+    display: none;
+  }
 
-  #subreport3{
-  display: none;
-}
+    #subreport3{
+    display: none;
+  }
 
-#searchArea{
-  background-color: #c0cdd1;
-  width: 100%;
-  height:400px;
-  padding:10px;
-}
+  #searchArea{
+    background-color: #c0cdd1;
+    width: 100%;
+    height:400px;
+    padding:10px;
+  }
 
-#resTable{
+   #resTable{
+   }
 }
