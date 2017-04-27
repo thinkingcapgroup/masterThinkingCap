@@ -15,6 +15,7 @@ var express = require('express'),
     lineArray = [];
     lineArray2 = [];
     holderArray = [];
+    videoArray = [];
 
 /**
  * router - GET method for dashboard route '/dashboard'
@@ -399,6 +400,30 @@ function getDatabase(req,res){
     }
     });
 
+   require('../model/video/getAllVideos.js')(req, function(err, b) {
+    // If there is a database error
+    if (err) {
+
+      // If there where no bug reports
+      if (err === 'No Research Data found!') {
+        // Set model to emptyState
+     
+      }
+      // Otherwise
+      else {
+        // Show user the error message
+        errorNotifications.push(err);
+      }
+
+      console.error(err);
+    }
+    // Otherwise bug reports were found
+    else {
+      // Set the model's bugReports to recieved data
+      videoArray = b;
+    
+    }
+  });
     //grab log information
     renderResearch(req, res);
         
@@ -427,6 +452,7 @@ function renderResearch (req, res) {
   model.researchArray4 = demoArray;
   model.researchArray5 = preTotalArray;
   model.researchArray6 = postTotalArray;
+  model.researchArray7 = videoArray;
 
   model.layout = 'researchlayout'
   model.globalNavigationMode = require('../model/global/globalNavigationModeAuth')(req, res);
