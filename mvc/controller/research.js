@@ -1,6 +1,5 @@
 // Require express
 var express = require('express'),
-    async = require('async'),
     fs = require('fs');
     // Get the express Router
     router = express.Router(),
