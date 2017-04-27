@@ -1,5 +1,11 @@
 var player;
+var player2;
+var player3;
+var player4;
+var player5;
+var videoWatched = false;
 playing = false
+currentTab = 1;
 
 function logVideo(x){
 	var arrayOfWhere = ["/video/back", "/categoricalvideo/back", "/biasvideo/back", "/meanvideo/back", "/proportionvideo/back"]
@@ -9,10 +15,42 @@ function logVideo(x){
 }
 
 function onYouTubeIframeAPIReady() {
-   player = new YT.Player('video', {
+   player = new YT.Player('vid1', {
             height: '360',
             width: '640',
             videoId: '0vtvsAYtMK8',
+           events: {
+                'onStateChange': onPlayerStateChange
+            }
+        });
+   player2 = new YT.Player('vid2', {
+            height: '360',
+            width: '640',
+            videoId: 'ZsHDsGOYkxk',
+           events: {
+                'onStateChange': onPlayerStateChange
+            }
+        });
+   player3 = new YT.Player('vid3', {
+            height: '360',
+            width: '640',
+            videoId: 'JTuvWfkE-_Y',
+           events: {
+                'onStateChange': onPlayerStateChange
+            }
+        });
+   player4 = new YT.Player('vid4', {
+            height: '360',
+            width: '640',
+            videoId: 'X7pEpb54kto',
+           events: {
+                'onStateChange': onPlayerStateChange
+            }
+        });
+   player5 = new YT.Player('vid5', {
+            height: '360',
+            width: '640',
+            videoId: 'dhXH59c1CE4',
            events: {
                 'onStateChange': onPlayerStateChange
             }
@@ -23,19 +61,21 @@ function onYouTubeIframeAPIReady() {
 
  function onPlayerStateChange(event) {
         if(!playing){
-            alert('hi');
-            playing = true;
+            videoWatched = true;
         }
     }
     
 function tabChange(evt, tabID){
 	var i,
 	tablinks,
-  currentsubTab = 0,
 	tabcontent;
 
-	tabcontent = document.getElementsByClassName("tabcontent");
-
+	player.stopVideo();
+	player2.stopVideo();
+	player3.stopVideo();
+	player4.stopVideo();
+	player5.stopVideo();
+    tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
   }
