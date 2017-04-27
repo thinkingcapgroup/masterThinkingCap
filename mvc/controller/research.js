@@ -400,7 +400,36 @@ function getSummaryArray(req,res){
     });
     }
 
+function getVideoArray(req,res){
+
+   require('../model/video/getAllVideos.js')(req, function(err, b) {
+    // If there is a database error
+    if (err) {
+
+      // If there where no bug reports
+      if (err === 'No Research Data found!') {
+        // Set model to emptyState
+     
+      }
+      // Otherwise
+      else {
+        // Show user the error message
+        errorNotifications.push(err);
+      }
+
+      console.error(err);
+    }
+    // Otherwise bug reports were found
+    else {
+      // Set the model's bugReports to recieved data
+      videoArray = b;
+        getDemographicArray(req,res)
+    }
+  });
+   
+
 }
+
 
 function getDemographicArray(req,res){
 
@@ -434,37 +463,7 @@ function getDemographicArray(req,res){
     });
 
 }
-require('../model/video/getAllVideos.js')(req, function(err, b) {
-    // If there is a database error
-    if (err) {
-      // If there where no bug reports
-      if (err === 'No Research Data found!') {
-        // Set model to emptyState
-     
-      }
-      // Otherwise
-      else {
-        // Show user the error message
-        errorNotifications.push(err);
-      }
 
-      console.error(err);
-    }
-    // Otherwise bug reports were found
-    else {
-      // Set the model's bugReports to recieved data
-      videoArray = b;
-    
-    }
-  });
-    //grab log information
-    renderResearch(req, res);
-        
-
-    // Render /bugreports using the 'bugReports' view and model
-
-  
-};
 /**
  * renderDashboard - renders the user dashboard view
  * @param  {Object} req - Express Request Object
