@@ -2340,50 +2340,53 @@ function pollResults(state, isFirst, isFree)
 		}
 	}
 
-	if(duplicate){
-		console.log('hey duplicate')
-	}else{
+	if(duplicate)
+    {
+		document.getElementById("questionArea") += "<p> Duplicate Question Detected </p>"
+	}
+    else
+    {
 		document.getElementById("event").style.display = "none";
 		var sample = document.getElementById("sample");
-	var sampleSize = parseFloat(sample.options[sample.selectedIndex].value);
+        var sampleSize = parseFloat(sample.options[sample.selectedIndex].value);
 
-	//Clear previous screen
-	clearScreen();
-	var nextArea = document.getElementById("next");
-	nextArea.innerHTML = "";
-
-	if(pollChoices.length < 2)
-	{
-		document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'map("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
-	}
-	else if(duplicate)
-	{
-		document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'map("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
-	}
-	else if(!pollTimeCheck(sampleSize, pollChoices) && state == 0)
-	{
-		document.getElementById("gameInfo").innerHTML += "<p> You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.</p>  <button onclick = 'map("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
-	}
-	else if(state == 1){
-		pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
-		document.getElementById("next").innerHTML += "<button onclick = 'map("+1+",false,false)'> Return to Tutorial Poll</button>";
-		
-	}
-	else if(state == 2)
-	{
-		pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
-		document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to Practice Area</button>";
-	}
-	else 
-	{
-		pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
-	
-		if(!isFirst)
-			document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
-		else
-			document.getElementById("next").innerHTML += "<button onclick = 'chooseDiff()'> Make your Initial Statement on an Issue </button>";
-
-	}
+        //Clear previous screen
+        clearScreen();
+        var nextArea = document.getElementById("next");
+        nextArea.innerHTML = "";
+    
+        if(pollChoices.length < 2)
+        {
+            document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'map("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
+        }
+        else if(duplicate)
+        {
+            document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'map("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
+        }
+        else if(!pollTimeCheck(sampleSize, pollChoices) && state == 0)
+        {
+            document.getElementById("gameInfo").innerHTML += "<p> You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.</p>  <button onclick = 'map("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
+        }
+        else if(state == 1){
+            pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
+            document.getElementById("next").innerHTML += "<button onclick = 'map("+1+",false,false)'> Return to Tutorial Poll</button>";
+            
+        }
+        else if(state == 2)
+        {
+            pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
+            document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to Practice Area</button>";
+        }
+        else 
+        {
+            pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
+        
+            if(!isFirst)
+                document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
+            else
+                document.getElementById("next").innerHTML += "<button onclick = 'chooseDiff()'> Make your Initial Statement on an Issue </button>";
+    
+        }
 	}
 
 
