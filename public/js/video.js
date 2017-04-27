@@ -1,3 +1,6 @@
+var player;
+playing = false
+
 function logVideo(x){
 	var arrayOfWhere = ["/populationvideo/back", "/categoricalvideo/back", "/biasvideo/back", "/meanvideo/back", "/proportionvideo/back"]
 	var arrayDirect = ["/marsUniversity","/mod2", "/mod3", "/mod4", "/mod5"]
@@ -6,6 +9,26 @@ function logVideo(x){
 	window.location = arrayDirect[x-1]
 }
 
+function onYouTubeIframeAPIReady() {
+   player = new YT.Player('video', {
+            height: '360',
+            width: '640',
+            videoId: '0vtvsAYtMK8',
+           events: {
+                'onStateChange': onPlayerStateChange
+            }
+        });
+
+}
+
+
+ function onPlayerStateChange(event) {
+        if(!playing){
+            alert('hi');
+            playing = true;
+        }
+    }
+    
 function tabChange(evt, tabID){
 	var i,
 	tablinks,
