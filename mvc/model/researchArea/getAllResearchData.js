@@ -4,7 +4,9 @@ function getAllResearchData (req, next) {
       error = false;
 
   db.query(getAllResearchData, function(err, result) {
+
   	if (err) {
+
       console.error(err.toString());
       error = 'There was an error retrieving the research data.';
   		next(error, result)

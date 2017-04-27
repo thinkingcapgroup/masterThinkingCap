@@ -782,17 +782,24 @@ runningGame2.main =
 			if(runningGame2.main.areaNumber == 0){
 					//quad
 					ctx.strokeStyle = '#00FFFF';
+				
+			
+					ctx.drawImage(blueBar,0,0,c.width, 35)
+					ctx.fillStyle = '#000000'
+					ctx.font = '25px Arial'
+					ctx.fillText('Choose an Area', 350, 25)
+
 					ctx.fillStyle = 'rgba(0,255,255,0.5)';
 					ctx.lineWidth = 3;
-			
+
 					//stroke areas for gym
 					ctx.beginPath();
-					ctx.moveTo(530,20);
+					ctx.moveTo(530,40);
 					ctx.lineTo(530,150);
 					ctx.lineTo(725,150);
 					ctx.lineTo(725,300);
 					ctx.lineTo(880,300);
-					ctx.lineTo(880,20);
+					ctx.lineTo(880,40);
 					ctx.closePath();
 					ctx.stroke();
 					if(runningGame2.main.buildingHover[1]){
@@ -800,14 +807,14 @@ runningGame2.main =
 					}
 					//stroke labs
 					ctx.beginPath();
-					ctx.moveTo(225,20);
+					ctx.moveTo(225,40);
 					ctx.lineTo(225,170);
 					ctx.lineTo(275,170);
 					ctx.lineTo(275,200);
 					ctx.lineTo(340,200);
 					ctx.lineTo(340,170);
 					ctx.lineTo(383,170);
-					ctx.lineTo(383,20);
+					ctx.lineTo(383,40);
 					ctx.closePath();
 					ctx.stroke();
 					if(runningGame2.main.buildingHover[3]){
@@ -848,6 +855,7 @@ runningGame2.main =
 					runningGame2.main.drawStudents(c,ctx,runningGame2.main.studentCircles)
 					//draw the ux/ui of the game
 					ctx.drawImage(blueBar,0,430,c.width,70)
+
 
 				
 					ctx.fillStyle = '#000000'
@@ -1328,7 +1336,6 @@ secretSticker.main =
     draw: function(c,ctx)
     {
         var mouse = canvasMouse;
-        console.log(secretSticker.main.areaNumber)
   
         //draw the background for the area
         ctx.fillStyle="#FFFFFF";
@@ -1338,8 +1345,14 @@ secretSticker.main =
 
         if(!secretSticker.main.inArea && secretSticker.main.areaNumber>=-0 &&secretSticker.main.areaNumber<9)
         {
-            if(secretSticker.main.areaNumber == 0)
+            if(secretSticker.main.areaNumber == 0){
             	ctx.drawImage(mapbackground, 0,0,900,500);
+            	ctx.drawImage(blueBar,0,0,c.width, 35)
+					ctx.fillStyle = '#000000'
+					ctx.font = '25px Arial'
+					ctx.fillText('Choose an Area', 350, 25)
+            }
+
             else if(secretSticker.main.areaNumber == 8){
             	ctx.drawImage(instruction, 0,0,c.width,c.height);
             	ctx.drawImage(backButton,35,420,190,60);
@@ -1387,12 +1400,12 @@ secretSticker.main =
         
             //stroke areas for gym
             ctx.beginPath();
-            ctx.moveTo(530,20);
+            ctx.moveTo(530,40);
             ctx.lineTo(530,150);
             ctx.lineTo(725,150);
             ctx.lineTo(725,300);
             ctx.lineTo(880,300);
-            ctx.lineTo(880,20);
+            ctx.lineTo(880,40);
             ctx.closePath();
             ctx.stroke();
             if(secretSticker.main.buildingHover[1]){
@@ -1400,14 +1413,14 @@ secretSticker.main =
             }
             //stroke labs
             ctx.beginPath();
-            ctx.moveTo(225,20);
+            ctx.moveTo(225,40);
             ctx.lineTo(225,170);
             ctx.lineTo(275,170);
             ctx.lineTo(275,200);
             ctx.lineTo(340,200);
             ctx.lineTo(340,170);
             ctx.lineTo(383,170);
-            ctx.lineTo(383,20);
+            ctx.lineTo(383,40);
             ctx.closePath();
             ctx.stroke();
             if(secretSticker.main.buildingHover[3]){
@@ -1514,12 +1527,12 @@ secretSticker.main =
            ctx.fillStyle = '#AAAAAA'
            ctx.fillRect(0,250,25,25);
            ctx.fillStyle = '#000000'
-           ctx.fillText("<",10,265);
+           ctx.fillText("<",5,270);
            
            ctx.fillStyle = '#AAAAAA'
            ctx.fillRect(875,250,25,25);
            ctx.fillStyle = '#000000'
-           ctx.fillText(">",885,265);
+           ctx.fillText(">",880,270);
            
            //ctx.fillStyle = '#0000FF';
            //ctx.beginPath();
@@ -1543,34 +1556,34 @@ secretSticker.main =
            if (!secretSticker.main.areas[secretSticker.main.areaNumber].position1)
            {
                ctx.fillStyle = '#000000 '
-               ctx.fillRect(200,30,50,70);
+               ctx.fillRect(120,30,120,170);
            }
            else
            {
                ctx.fillStyle = '#00ff00'
-               ctx.drawImage(poster,200,30,75,125);
+               ctx.drawImage(poster,120,30,120,170);
            }
            
            if (!secretSticker.main.areas[secretSticker.main.areaNumber].position2)
            {
                ctx.fillStyle = '#000000 '
-               ctx.fillRect(440,30,50,70);
+               ctx.fillRect(400,30,120,170);
            }
            else
            {
                ctx.fillStyle = '#00ff00'
-               ctx.drawImage(poster,440,30,75,125);
+               ctx.drawImage(poster,400,30,120,170);
            }
            
            if (!secretSticker.main.areas[secretSticker.main.areaNumber].position3)
            {
                ctx.fillStyle = '#000000 '
-               ctx.fillRect(680,30,50,70);
+               ctx.fillRect(680,30,120,170);
            }
            else
            {
                ctx.fillStyle = '#00ff00'
-               ctx.drawImage(poster,680,30,75,125);
+               ctx.drawImage(poster,680,30,120,170);
            }
        }
 
@@ -1643,7 +1656,7 @@ secretSticker.main =
             
             if(!secretSticker.main.areas[secretSticker.main.areaNumber].position1 && secretSticker.main.postersLeft>0)
             {
-                if((mouse.x >= 200 && mouse.x <= 250)&&(mouse.y >= 30 && mouse.y <= 100))
+                if((mouse.x >= 120 && mouse.x <= 240)&&(mouse.y >= 30 && mouse.y <= 200))
                 {
                     secretSticker.main.areas[secretSticker.main.areaNumber].position1 = true;
                     secretSticker.main.postersLeft--;
@@ -1655,7 +1668,7 @@ secretSticker.main =
             }
             if(!secretSticker.main.areas[secretSticker.main.areaNumber].position2 && secretSticker.main.postersLeft>0)
             {
-                if((mouse.x >= 440 && mouse.x <= 490)&&(mouse.y >= 30 && mouse.y <= 100))
+                if((mouse.x >= 440 && mouse.x <= 520)&&(mouse.y >= 30 && mouse.y <= 200))
                 {
                     secretSticker.main.areas[secretSticker.main.areaNumber].position2 = true;
                     secretSticker.main.postersLeft--;
@@ -1667,7 +1680,7 @@ secretSticker.main =
             }
             if(!secretSticker.main.areas[secretSticker.main.areaNumber].position3 && secretSticker.main.postersLeft>0)
             {
-                if((mouse.x >= 680 && mouse.x <= 730)&&(mouse.y >= 30 && mouse.y <= 100))
+                if((mouse.x >= 680 && mouse.x <= 800)&&(mouse.y >= 30 && mouse.y <= 200))
                 {
                     secretSticker.main.areas[secretSticker.main.areaNumber].position3 = true;
                     secretSticker.main.postersLeft--;
