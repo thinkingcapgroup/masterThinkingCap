@@ -2290,7 +2290,7 @@ function pollResults(state, isFirst, isFree)
 {
 
 	var bias = document.getElementById('location').value;
-	document.getElementById("event").style.display = "none";
+	
 	var duplicate = false;
 	var pollChoices = [];
 	for(var i = 0; i<6 ;i++)
@@ -2340,8 +2340,11 @@ function pollResults(state, isFirst, isFree)
 		}
 	}
 
-
-	var sample = document.getElementById("sample");
+	if(duplicate){
+		console.log('hey duplicate')
+	}else{
+		document.getElementById("event").style.display = "none";
+		var sample = document.getElementById("sample");
 	var sampleSize = parseFloat(sample.options[sample.selectedIndex].value);
 
 	//Clear previous screen
@@ -2381,6 +2384,10 @@ function pollResults(state, isFirst, isFree)
 			document.getElementById("next").innerHTML += "<button onclick = 'chooseDiff()'> Make your Initial Statement on an Issue </button>";
 
 	}
+	}
+
+
+	
 
 };
 
