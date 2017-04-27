@@ -394,10 +394,13 @@ function getSummaryArray(req,res){
       }
 
       console.log('prepost total done')
-      getDemographicArray(req,res)
+      getVideoArray(req,res)
 
     }
     });
+    }
+
+function getVideoArray(req,res){
 
    require('../model/video/getAllVideos.js')(req, function(err, b) {
     // If there is a database error
@@ -420,12 +423,13 @@ function getSummaryArray(req,res){
     else {
       // Set the model's bugReports to recieved data
       videoArray = b;
-    
+        getDemographicArray(req,res)
     }
   });
-    //grab log information
-    renderResearch(req, res);
+   
+
 }
+
 
 function getDemographicArray(req,res){
 
