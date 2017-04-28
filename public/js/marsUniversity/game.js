@@ -2342,7 +2342,7 @@ function pollResults(state, isFirst, isFree)
 
 	if(duplicate)
     {
-		document.getElementById("questionArea") += "<p> Duplicate Question Detected </p>"
+		document.getElementById("questionArea").innerHTML += "<p> Duplicate Question Detected </p>"
 	}
     else
     {
