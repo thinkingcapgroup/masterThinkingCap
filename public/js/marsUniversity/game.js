@@ -1650,7 +1650,7 @@ function map(state, isFirst, isFree){
 	}
 	if(!isFree)
 	{
-		document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph'>Total Time: "+ timeForPoll +" Hours</p><br>";
+		document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph'>Total Time: "+ timeForPoll +" Hours</p>";
 	}
 	else
 	{
@@ -1659,7 +1659,7 @@ function map(state, isFirst, isFree){
 		addMoreQuestions();
 	}
 	//Displays the screen for this event
-	document.getElementById("questionArea").innerHTML += "<button class = 'logEventPoll' onclick = 'pollResults("+state+"," +isFirst+", " +isFree+")'> Submit Poll </button><button id = 'moreQuestionButton'> Add More Questions </button>";
+	document.getElementById("questionArea").innerHTML += "<p id = 'duplicateParagraph'></p><br><button class = 'logEventPoll' onclick = 'pollResults("+state+"," +isFirst+", " +isFree+")'> Submit Poll </button><button id = 'moreQuestionButton'> Add More Questions </button><br>";
 	
 	if(state == 1){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='actualSessionStart(true)'> Start the Game </button>";
@@ -2342,7 +2342,8 @@ function pollResults(state, isFirst, isFree)
 
 	if(duplicate)
     {
-		document.getElementById("questionArea").innerHTML += "<p> Duplicate Question Detected </p>"
+
+		document.getElementById("duplicateParagraph").innerHTML += "Duplicate Question Detected"
 	}
     else
     {
