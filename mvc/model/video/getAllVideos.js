@@ -1,6 +1,6 @@
 function getAllBugReports (req, next) {
   var db = req.db,
-      getAllBugReportsQuery = 'SELECT * FROM `videoLog`;',
+      getAllBugReportsQuery = 'SELECT * FROM `videoLog` where active = "active";',
       error = false;
 
   db.query(getAllBugReportsQuery, function(err, result) {
@@ -11,7 +11,7 @@ function getAllBugReports (req, next) {
   	}
 
     else if (!result[0]) {
-      error = 'No bug reports found!';
+      error = 'No Research Data found!';
       next(error, result);
     }
 

@@ -4,10 +4,20 @@
     <header class='thinking-cap-header'>
       <h1 class='thinking-cap-title'>{{content.pageTitle}}</h1>
     </header>
-    <script>
-    
-        
-    </script>
+
+    <!--MODAL-->
+    <div id = 'overlay'></div>
+    <div id = 'modal'>
+    <div id = 'content'>
+      <h2>Are you sure you want to archive everything?</h2>
+      <p>By clicking yes - you will be archiving all research data (Modules, Pre-Test, Post-Test, Demographics, and Video Data).<br>
+      Do you still wish to continue?<br>
+      <button onclick = 'archiveData()'>Yes</button><button onclick = 'closeAreYouSure()'>No</button>
+</div>
+    </div>
+     {{#if isAdmin}}
+          <h2> <a href = '#' onclick = 'areYouSureArchiveData()' style = 'float:right'>Archive</a></h2>
+         {{/if}}
 
     <div id = 'tabArea'>
    
@@ -22,19 +32,21 @@
         <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 4)'>Video</a></li>
         <!--<li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 4)'>User Database</a></li>-->
       </ul>
+     
 
     </section>
 
-      {{#if emptyState}}
-      <section class='empty-state-section'>
-        <h2 class='empty-state-header'>No bugs found 😃</h2>
+      {{#if isModuleEmpty}}
+      <section class='empty-state-section tabcontent active'  id='report0'>  
+        <h2 class='empty-state-header'>No Game Module Data Found</h2>
       </section>
 
       {{else}}
       <section id='report0' class = 'tabcontent active'>
       <br>
       <h2 id = 'Title'>Module 1</h2>   
-      <h2><a href = 'research/makeExcel' id = 'download' target="_blank">Download</a></h2>
+      <h2> <a href = 'research/makeExcel' id = 'download' target="_blank">Download</a></h2>  <br><br>
+  
       <div id = "resTable">
         <table class='table'>
           <tr class='table-row-heading'>
@@ -90,9 +102,9 @@
       {{/if}}
     </section>
 
-    {{#if emptyState}}
-      <section class='empty-state-section'>
-        <h2 class='empty-state-header'>No research data found 😃</h2>
+    {{#if isTestingEmpty}}
+      <section class='empty-state-section tabcontent active'  id='report1'>
+        <h2 class='empty-state-header'>No Pre-Test Research Data found</h2>
       </section>
 
       {{else}}
@@ -208,9 +220,9 @@
       {{/if}}
     </section>
 
-    {{#if emptyState}}
-      <section class='empty-state-section'>
-        <h2 class='empty-state-header'>No research data found 😃</h2>
+    {{#if isTestingEmpty}}
+      <section id='report2' class='empty-state-section tabcontent active' >
+        <h2 class='empty-state-header'>No Post-Test Data Found</h2>
       </section>
 
       {{else}}
@@ -323,9 +335,9 @@
     </section>
     </section>
 
-    {{#if emptyState}}
-      <section class='empty-state-section'>
-        <h2 class='empty-state-header'>No research data found 😃</h2>
+    {{#if isDemographicsEmpty}}
+      <section id='report3' class='empty-state-section tabcontent active' >
+        <h2 class='empty-state-header'>No Demographic Data Found</h2>
       </section>
 
       {{else}}
@@ -406,33 +418,9 @@
       {{/if}}
     </section>
 
-     {{#if emptyState}}
-      <section class='empty-state-section'>
-        <h2 class='empty-state-header'>No bugs found 😃</h2>
-      </section>
-
-      {{else}}
-      <section id='report5' class = 'tabcontent active'>
-      <br>
-      <h2>User Database</h2>    
-        <div id = 'searchArea'>
-        <p>Search <input type = 'text' id = 'researchInput'></input>  
-          <select id = 'searchType'>
-            <option value="userName">Username</option>
-            <option value="userId">User ID</option>
-            <option value='role'>Role</option>    
-          </select>  <button id = 'searchResearch' onclick = 'researchQuery()'>Submit</button>
-          </p>
-          <div id = 'searchResults'>
-            
-          </div>
-        </div>
-      {{/if}}
-    </section>
-     
-     {{#if emptyState}}
-      <section class='empty-state-section'>
-       <h2 class='empty-state-header'>No bugs found 😃</h2>
+     {{#if isVideoEmpty}}
+      <section id='report4' class='empty-state-section tabcontent active'>
+       <h2 class='empty-state-header'>No Video Data Found</h2>
       </section>
 
       {{else}}
@@ -448,6 +436,9 @@
             </th>
             <th class='table-column-title'>
               Start Time
+            </th>
+            <th class='table-column-title'>
+              End Time
             </th>
             <th class='table-column-title'>
               Total Time
@@ -483,6 +474,7 @@
     
     </div>
     <br>
+
 
     <footer id='footer'>
       <ul id='account-links'>

@@ -1,6 +1,6 @@
 function getAllResearchTestData (req, next) {
   var db = req.db,
-      getAllResearchData = 'SELECT * FROM `testLog`;',
+      getAllResearchData = 'SELECT * FROM `testLog` WHERE active = "active";',
       error = false;
 
   db.query(getAllResearchData, function(err, result) {

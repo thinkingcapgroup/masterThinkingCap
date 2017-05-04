@@ -18,6 +18,13 @@ var express = require('express'),
     lineArray2 = [];
     holderArray = [];
     videoArray = [];
+    emptyState = false;
+    emptyState2 = false;
+    emptyState3 = false;
+    emptyState4 = false;
+    emptyState5 = false;
+    isAdmin = false;
+
 
 /**
  * router - GET method for dashboard route '/dashboard'
@@ -32,6 +39,12 @@ router.get('/', auth, function (req, res) {
     flag = false;
   if (req.user.role >= 6) {
     // Render dashboard view
+    if(req.user.role >=7){
+      isAdmin = true;
+    }
+    else{
+      isAdmin = false;
+    }
     getDatabase(req,res);
   }
 
@@ -98,6 +111,28 @@ router.get('/makeExcel', function (req, res) {
 
        }
    });
+    }
+ });
+
+  // End response
+
+});
+
+router.get('/archiveData', function (req, res) {
+  // TextFile Saving
+
+  //fs.writeFile('saveFile/userSave.txt', stringTem, function (err)
+  //{});
+
+  //Database Saving
+  require('../model/researchArea/archiveAllData.js')(req, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+        res.json('yest')
     }
  });
 
@@ -281,7 +316,8 @@ function getLineArray(req,res){
       // If there where no bug reports
       if (err === 'No Research Data found!') {
         // Set model to emptyState
-     
+        emptyState = true;
+        getPrePostArray(req,res)
       }
       // Otherwise
       else {
@@ -299,7 +335,6 @@ function getLineArray(req,res){
       getPrePostArray(req,res)
       
     }
-        console.log('lineArray done')
   });
 
 }
@@ -314,7 +349,9 @@ function getPrePostArray(req,res){
             if (err === 'No Research Data found!') 
             {
             // Set model to emptyState
-   
+
+              emptyState2 = true;
+              getSummaryArray(req,res)
             }
             // Otherwise
             else 
@@ -350,7 +387,6 @@ function getPrePostArray(req,res){
             }
           });
 
-     console.log('pre/post done')
 
 }
 
@@ -362,7 +398,9 @@ function getSummaryArray(req,res){
       // If there where no bug reports
       if (err === 'No Research Data found!') {
         // Set model to emptyState
-
+          console.log('no test data summary found')
+        emptyState3 = true;
+          getVideoArray(req,res)
       }
       // Otherwise
       else {
@@ -393,7 +431,7 @@ function getSummaryArray(req,res){
         
       }
 
-      console.log('prepost total done')
+   
       getVideoArray(req,res)
 
     }
@@ -409,7 +447,9 @@ function getVideoArray(req,res){
       // If there where no bug reports
       if (err === 'No Research Data found!') {
         // Set model to emptyState
-     
+        emptyState4 = true;
+        console.log('video data should be true')
+        getDemographicArray(req,res)
       }
       // Otherwise
       else {
@@ -439,10 +479,11 @@ function getDemographicArray(req,res){
             if (err) 
             {
             // If there where no bug reports
-            if (err === 'No Demographic Data found!') 
+            if (err === 'No Research Data found!') 
             {
             // Set model to emptyState
-
+              emptyState5 = true;
+                renderResearch(req,res)
             }
             // Otherwise
             else 
@@ -484,7 +525,14 @@ function renderResearch (req, res) {
   model.researchArray5 = preTotalArray;
   model.researchArray6 = postTotalArray;
   model.researchArray7 = videoArray;
+  model.isModuleEmpty = emptyState
+  model.isTestingEmpty = emptyState2
+  model.isSummaryEmpty = emptyState3
+  model.isDemographicsEmpty = emptyState4
+  model.isVideoEmpty = emptyState5
+  model.isAdmin = isAdmin
 
+  console.log(model.isDemographicsEmpty)
   model.layout = 'researchlayout'
   model.globalNavigationMode = require('../model/global/globalNavigationModeAuth')(req, res);
 
