@@ -9,7 +9,7 @@
 			[
 				"From all NTID student clubs, ask two members from each club if they own a computer.",
 				"Ask five students in the NTID Asian Student Club, if they own a smartphone.",
-				"Ask all NTID students who enter LBJ on Monday at 10am, if they use the RIT shuttle bus to arrive at LBJ.",
+				"Ask all NTID students who enter LBJ on Monday at 10:00AM and 10:15AM, if they use the RIT shuttle bus to arrive at LBJ.",
 				"A and B",
 				"A and C"
 			],
@@ -17,18 +17,18 @@
 			"id":"0"
 		},
 		{
-			"question":"RIT students often have trouble finding a parking spot. RIT administrators want to know the average parking time for students (time to find a parking spot).  Researchers measured the parking times for 150 students. <br> Which letter A-E is the population variable for the RIT administrators?", 
+			"question":"RIT students often have trouble finding a parking spot. RIT administrators want to know the average parking time for students (time to find a parking spot).  Researchers measured the parking time for 150 students. <br> Which letter A-E is the population variable for the RIT administrators?", 
 			"type": "population",
 			"random":"no",
 			"answers":
 			[
-				"The data collected of 150 student's parking time",
+				"The parking time collected for the 150 students",
 				"All faculty, staff, and students who park at RIT.",
 				"The parking time for all students that park at RIT.",
 				"Students who park at RIT between 9am and 10am on Wednesdays.",
 				"A and B"
 			],
-			"correct":"The parking time for all students that park at RIT.",
+			"correct":"The parking time collected for the 150 students",
 			"id":"1"
 		},
 		{
@@ -39,30 +39,30 @@
 			[
 				"All students who attend Mars University.",
 				"All students attending Mars University who get tuition assistance",
-				"The 40 freshman who get tuition assistance",
-				"40 freshman who participated in our poll",
+				"The 40 freshmen who get tuition assistance",
+				"The 40 freshmen who participated in our poll",
 				"None of the above"
 			],
 			"correct":"None of the above",
 			"id":"2"
 		},
 		{
-			"question":"This year at Mars University, there are 1400 students. Among the students there are 380 humans, 420 aliens and 600 Martians. Which letter A-E is an example of random sample of Mars University students?", 
+			"question":"This year at Mars University, the total number of students is 1400 students. Among the students there are 380 humans, 600 Martians, and  420 'aliens' from other planets. Choose the letter A-E below that is a random sample of Mars University students.", 
 			"type": "population",
 			"random":"yes",
 			"answers":
 			[
-				"All 1400 Mars University students",
-				"All of the students on my soccer team",
-				"My friends at Mars University",
-				"100 human students, 100 alien students, and 100 Martian students, selected at random",
-				"100 faculty and staff at Mars University, selected at random"
+				"The President of Mars University selects all 1400 Mars University students",
+				"The Physical Education Direction selects all of the students on the Mars U soccer team",
+				"Zrap selects his friends at Mars University as his sample",
+				"Tina selects 100 human students, 100 Martian students, and 100 'alien' students at random",
+				"Gita randomly selects 100 faculty and staff at Mars University"
 			],
-			"correct":"100 human students, 100 alien students, and 100 Martian students, selected at random",
+			"correct":"Tina selects 100 human students, 100 Martian students, and 100 'alien' students at random",
 			"id":"3"
 		},
 		{
-			"question":"Which letter A-E is categorical variable?", 
+			"question":"Which letter A-E identifies the categorical variable(s)?", 
 			"type": "category",
 			"random":"no",
 			"answers":
@@ -77,7 +77,7 @@
 			"id":"4"
 		},
 		{
-			"question":"Which letter A-E is numerical variable?", 
+			"question":"Which letter A-E identifies the numerical variable(s)?", 
 			"type": "category",
 			"random":"no",
 			"answers":
@@ -92,13 +92,13 @@
 			"id":"5"
 		},
 		{
-			"question":"<img src='..//img//tests//C&N-1.png'> <br> Which letter A-E correctly identifies the numerical variables?", 
+			"question":"<img src='..//img//tests//C&N-1.png'> <br>Which letter A-E identifies the numerical variable(s)?", 
 			"type": "category",
 			"random":"no",
 			"answers":
 			[
 				"Student ID Number only",
-				"Student ID Number, Area of Interest, and GPA",
+				"Student ID Number, Topic of Project, and GPA",
 				"GPA only",
 				"Student ID Number and GPA",
 				"None of the variables are numerical"
@@ -122,12 +122,12 @@
 			"id":"7"
 		},
 		{
-			"question":"President Destler wants to know if professors on campus would join a union. He cannot interview all professors, so he will obtain a sample. Which letter A-E is a method of sampling to avoid bias?", 
+			"question":"The President of RIT wants to know if professors on campus would join a union. He cannot interview all professors, so he will obtain a sample. Which letter A-E is a method of sampling to avoid bias?", 
 			"type": "bias",
 			"random":"no",
 			"answers":
 			[
-				"Randomly select and interview fifty males and fifty female professors from the University",
+				"Randomly select and interview fifty males and fifty female RIT professors",
 				"Interview professors who eat lunch at the faculty club",
 				"Interview all of the professors in five randomly selected departments",
 				"Randomly select professors who have filed complaints and interview those selected",
@@ -187,8 +187,8 @@
 			"random":"no",
 			"answers":
 			[
-				"The mean homeruns is higher for Sosa than for Bonds",
-				"The standard deviation of homeruns is larger for Sosa than for Bonds",
+				"The mean number of strike-outs is higher for Sosa than for Bonds",
+				"The standard deviation of strike-outs is larger for Sosa than for Bonds",
 				"Both A and B",
 				"Neither A nor B",
 				"Cannot compare Sosa and Bonds"
