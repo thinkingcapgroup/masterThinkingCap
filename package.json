@@ -23,6 +23,7 @@
     "json2xls": "^0.1.2",
     "lodash": "^4.17.2",
     "moment": "^2.18.1",
+    "moment-timezone": "^0.5.13",
     "mysql": "^2.11.1",
     "node-sass-middleware": "^0.9.8",
     "nodemailer": "^2.6.4",

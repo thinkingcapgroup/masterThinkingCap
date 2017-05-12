@@ -8,7 +8,7 @@ var currentCandidateArrayHolder = []
 var graphData = [];
 var lastMinigame = 0; 
 var isPoll = false;
-
+var isCurrentAreaHover = 0;
 
 var fakeCandidateYou = new CandidateCreate('FakeCandidate1');
 var fakeCandidateOther = new CandidateCreate('FakeCandidate2');
@@ -194,8 +194,13 @@ function helpScreen()
 	clearScreen();
 	section = 1;
 	document.getElementById("playerInfo").style.display = "none";
-	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <!--<button onclick= 'openGlossary()'>Glossary Page</button>--> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><br><button class = 'logHelpEnd' onclick= 'userAction()'>Return to User Action Area</button>"
+	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <!--<button onclick= 'openGlossary()'>Glossary Page</button>--> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><button onclick = 'helpfulIcons()'>Demographic Icons</button><br><button class = 'logHelpEnd' onclick= 'userAction()'>Return to User Action Area</button>"
 }
+
+function helpfulIcons(){
+	document.getElementById("gameInfo").innerHTML = "<p>Here's a reminder on icon images and what they represent: </p><br> <div><img src = '../../img/issues.png'/><img src = '../../img/interests.png'><img src = '../../img/majors.png'></div><br><button onclick = 'helpScreen()'>Back to Main Help Screen</button> ";
+}
+
 function pollMenu()
 {
     //Shows the Poll Menu
@@ -1837,6 +1842,7 @@ function drawMap(poll)
                 document.getElementById("LabChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:block';
                 document.getElementById("CommonsChoice").style = 'display:none';
+                isCurrentAreaHover = 1;
 			}
 			//gym2
 			if((mouse.x >= 480 && mouse.x <=590 )&&(mouse.y >= 115 && mouse.y <= 235)){
@@ -1844,6 +1850,7 @@ function drawMap(poll)
                 document.getElementById("LabChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:block';
                 document.getElementById("CommonsChoice").style = 'display:none';
+                     isCurrentAreaHover = 1;
 			}
 			//media 		ctx.strokeRect(135,333,175,145);
 			if((mouse.x >= 90 && mouse.x <= 205)&&(mouse.y >= 275 && mouse.y <= 395)){
@@ -1851,6 +1858,7 @@ function drawMap(poll)
                 document.getElementById("LabChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:none';
                 document.getElementById("CommonsChoice").style = 'display:block';
+                     isCurrentAreaHover = 0;
 			}
 		
 			//labs1
@@ -1859,6 +1867,7 @@ function drawMap(poll)
                 document.getElementById("LabChoice").style = 'display:block';
                 document.getElementById("GymChoice").style = 'display:none';
                 document.getElementById("CommonsChoice").style = 'display:none';
+                     isCurrentAreaHover = 2;
 			}
 			//labs2
 			else if((mouse.x >= 180 && mouse.x <= 230)&&(mouse.y >= 225 && mouse.y <= 395)){
@@ -1866,6 +1875,7 @@ function drawMap(poll)
                 document.getElementById("LabChoice").style = 'display:block';
                 document.getElementById("GymChoice").style = 'display:none';
                 document.getElementById("CommonsChoice").style = 'display:none';
+                     isCurrentAreaHover = 2;
 			}
 
 			//coffee shop 
@@ -1876,6 +1886,7 @@ function drawMap(poll)
                 document.getElementById("LabChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:none';
                 document.getElementById("CommonsChoice").style = 'display:none';
+                     isCurrentAreaHover = 3;
 			}
     }
 //Fills the zone over the building that the mouse if hovering over
@@ -2022,6 +2033,10 @@ function drawMap(poll)
         mapbackground.src = '../../img/map/mapMU600pxW.png';
         ctx.drawImage(mapbackground, 0,0,600,414);
         
+          if(isCurrentAreaHover  == 1){
+          	ctx.strokeStyle = '#FFFF00';
+        	ctx.lineWidth = 6;
+        }
         //stroke areas for gym
         ctx.beginPath();
         ctx.moveTo(360,15);
@@ -2032,7 +2047,15 @@ function drawMap(poll)
         ctx.lineTo(360,120);
         ctx.closePath();
         ctx.stroke();
+
+        ctx.lineWidth = 3;
+              ctx.strokeStyle = '#00FFFF';
         
+
+          if(isCurrentAreaHover  == 2){
+          	ctx.strokeStyle = '#FFFF00';
+        	ctx.lineWidth = 6;
+        }
         //stroke labs
         ctx.beginPath();
         ctx.moveTo(150,15);
@@ -2045,15 +2068,30 @@ function drawMap(poll)
         ctx.lineTo(150,135);
         ctx.closePath();
         ctx.stroke();
-        
+        ctx.lineWidth = 3;
+
+          ctx.strokeStyle = '#00FFFF';
  
-        
+          if(isCurrentAreaHover  == 3){
+          	ctx.strokeStyle = '#FFFF00';
+        	ctx.lineWidth = 6;
+        }
         //library
         ctx.strokeRect(400,275,188,124);
+        ctx.strokeStyle = '#00FFFF';
 
+        ctx.lineWidth = 3;
+        if(isCurrentAreaHover  == 0){
+        	ctx.lineWidth = 6;
+        	ctx.strokeStyle = '#FFFF00';
+        }
         
         //media
+  
         ctx.strokeRect(90,275,117,122);
+        ctx.lineWidth = 3;
+              ctx.strokeStyle = '#00FFFF';
+
     }
     
 //makes the statement screen
@@ -2343,7 +2381,7 @@ function pollResults(state, isFirst, isFree)
 	if(duplicate)
     {
 
-		document.getElementById("duplicateParagraph").innerHTML += "Duplicate Question Detected"
+		document.getElementById("duplicateParagraph").innerHTML = "Duplicate Question Detected"
 	}
     else
     {

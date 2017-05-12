@@ -296,6 +296,38 @@ router.get('/demographicExcel', function (req, res) {
 
 });
 
+
+router.get('/videoExcel', function (req, res) {
+  // TextFile Saving
+
+  //fs.writeFile('saveFile/userSave.txt', stringTem, function (err)
+  //{});
+
+  //Database Saving
+  require('../model/researchArea/makeVideoExcel.js')(req, videoArray, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+     var file = __dirname + '/../../upload/videoData.xlsx'
+      res.download(file, function (err) {
+       if (err) {
+           console.log("Error");
+           console.log(err);
+       } else {
+           console.log("Success");
+
+       }
+   });
+    }
+ });
+
+  // End response
+
+});
+
 function getDatabase(req,res){
 
   getLineArray(req,res)
