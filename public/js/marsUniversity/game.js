@@ -863,6 +863,7 @@ function actualSessionStart(isFromTut){
     function bufferZone()
     {
         clearScreen();
+        document.getElementById("holo").src = "../../img/openscreenlarge.png";
         document.getElementById("gameInfo").innerHTML += "<h1>First Poll</h1> <br><p>Ready to start your Campaign at Mars U? It's time to get that initial data from the Student Government. Let them know what questions you would like to know the answers to.</p>";
         document.getElementById("gameInfo").innerHTML += "<button onclick='map("+0+","+true+","+true+")'>Take Your First Poll</button>";
     }
@@ -1539,7 +1540,7 @@ function explainTerm(term, help){
 function map(state, isFirst, isFree){
     
 	clearScreen();
-    
+    document.getElementById("holo").src = "../../img/openscreenlarge.png";
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
    
@@ -2242,9 +2243,37 @@ function statementCalc()
 		remainingHoursDay--;
 		statementCalcOtherCandidate(1);
 	}
-	hourChecker();
+    statementResults(currentStatement);
 }
-
+function statementResults(statement)
+{
+    clearScreen();
+    var state = parseInt(statement); 
+    switch(state)
+    {
+        case 0:
+        //tuitPos
+		document.getElementById("event").style.display = "block";
+		document.getElementById("event").innerHTML += "<h4>You made a great speech on lowering tuition</h4>";
+        break;
+        case 1:
+        //budPos
+		document.getElementById("event").style.display = "block";
+		document.getElementById("event").innerHTML += "<h4>You made a great speech on increasing the budget</h4>";
+        break;
+        case 2:
+        //funcPos
+		document.getElementById("event").style.display = "block";
+		document.getElementById("event").innerHTML += "<h4>You made a great speech on having more school functions</h4>";
+        break;
+        case 3:
+        //medPos
+		document.getElementById("event").style.display = "block";
+		document.getElementById("event").innerHTML += "<h4>You made a great speech on improving medical services</h4>";
+        break;
+    }
+	document.getElementById("event").innerHTML += "<button onclick='hourChecker()'>Return to the User Action Area</button>";
+}
 //repeats the statement at a lowered effect for Karma
 function statementCalcOtherCandidate(x){
 	var currentStatement = document.getElementById("statements").value;
