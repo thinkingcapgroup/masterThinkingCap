@@ -868,7 +868,8 @@ function actualSessionStart(isFromTut){
     function bufferZone()
     {
         clearScreen();
-        document.getElementById("gameInfo").innerHTML += "<h1>First Poll</h1> <br><p>Ready to start your Campaign at Mars U? It's time to get that initial data from the Student Government. Let them know what questions you woukld like to know the answers to.</p>";
+        document.getElementById("holo").src = "../../img/openscreenlarge.png";
+        document.getElementById("gameInfo").innerHTML += "<h1>First Poll</h1> <br><p>Ready to start your Campaign at Mars U? It's time to get that initial data from the Student Government. Let them know what questions you would like to know the answers to.</p>";
         document.getElementById("gameInfo").innerHTML += "<button onclick='map("+0+","+true+","+true+")'>Take Your First Poll</button>";
     }
 //takes the player into a poll with fake candidates to test out polling
@@ -1424,7 +1425,7 @@ function tutorial (help)
 		case 2:
 		document.getElementById("gameInfo").innerHTML += "<h3>How to Win</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>You can win by doing three things: <br>-Statements<br>-Polling<br>-StudentEvents</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>You can win by doing three things: <br>-Statements<br>-Polling<br>-Student Functions</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>How To Play</button> <button onclick='nextSection("+help+");' style='float: right; text-decoration: underline;'>Statements</button> ";
 		if(help)
@@ -1450,9 +1451,9 @@ function tutorial (help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 5:
-		document.getElementById("gameInfo").innerHTML += "<h3>Student Events</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<h3>Student Functions</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Student Events is how you get to know the population. Becoming more famous among groups to help get you elected.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Student Functions is how you get to know the population. Becoming more famous among groups to help get you elected.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Issues</button> <button onclick='nextSection("+help+");' style='float: right;'>Population - Majors</button> ";
 		if(help)
@@ -1463,12 +1464,12 @@ function tutorial (help)
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Here are the majors: <br><img src = '../img/majors.png' /></p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Student Events</button> <button onclick='nextSection("+help+");' style='float: right;'>Population - Social Events</button> ";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Student Functions</button> <button onclick='nextSection("+help+");' style='float: right;'>Population - Social Events</button> ";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
 		break;
 		case 7:
-		document.getElementById("gameInfo").innerHTML += "<h3>Population - Social Events</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<h3>Population - Social Groups</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Here are the social groups: <br><img src = '../img/interests.png' /></p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
@@ -1544,7 +1545,7 @@ function explainTerm(term, help){
 function map(state, isFirst, isFree){
     
 	clearScreen();
-    
+    document.getElementById("holo").src = "../../img/openscreenlarge.png";
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
    
@@ -2280,9 +2281,37 @@ function statementCalc()
 		remainingHoursDay--;
 		statementCalcOtherCandidate(1);
 	}
-	hourChecker();
+    statementResults(currentStatement);
 }
-
+function statementResults(statement)
+{
+    clearScreen();
+    var state = parseInt(statement); 
+    switch(state)
+    {
+        case 0:
+        //tuitPos
+		document.getElementById("event").style.display = "block";
+		document.getElementById("event").innerHTML += "<h4>You made a great speech on lowering tuition</h4>";
+        break;
+        case 1:
+        //budPos
+		document.getElementById("event").style.display = "block";
+		document.getElementById("event").innerHTML += "<h4>You made a great speech on increasing the budget</h4>";
+        break;
+        case 2:
+        //funcPos
+		document.getElementById("event").style.display = "block";
+		document.getElementById("event").innerHTML += "<h4>You made a great speech on having more school functions</h4>";
+        break;
+        case 3:
+        //medPos
+		document.getElementById("event").style.display = "block";
+		document.getElementById("event").innerHTML += "<h4>You made a great speech on improving medical services</h4>";
+        break;
+    }
+	document.getElementById("event").innerHTML += "<button onclick='hourChecker()'>Return to the User Action Area</button>";
+}
 //repeats the statement at a lowered effect for Karma
 function statementCalcOtherCandidate(x){
 	var currentStatement = document.getElementById("statements").value;

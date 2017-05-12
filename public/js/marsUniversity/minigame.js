@@ -847,6 +847,14 @@ runningGame2.main =
 			
 					ctx.drawImage(commonsicon, 150,335,150,100)
 					ctx.drawImage(labIcon, 230,25,150,100)
+                    
+					ctx.fillStyle = '#000000'
+					var scoreText = runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " ";
+					var photosLeftText = runningGame2.main.player.picturenum + '/3 Photos Left'
+				
+					ctx.drawImage(iconArray[runningGame2.main.demograph1num], 850,7,25,25);
+					ctx.fillText(scoreText, 810,27);
+					ctx.fillText(photosLeftText, 19,27);
 				}
 				if(runningGame2.main.areaNumber>0){
 					
@@ -1173,17 +1181,25 @@ secretSticker.main =
         mediaIcon = new Image();
         mediaIcon.src =  '../img/map/mediaicon.png';
 
-        //peopleicons
-        tuitionIcon = new Image();
-        tuitionIcon.src = '../img/icons/tuitionsquare.png';
-        sportsIcon = new Image();
-        sportsIcon.src = '../img/icons/sportssquare.png';
-        researchIcon = new Image();
-        researchIcon.src = '../img/icons/researchsquare.png';
-        socialIcon = new Image();
-        socialIcon.src = '../img/icons/socialsquare.png';
-        medicalIcon = new Image();
-        medicalIcon.src = '../img/icons/medicalsquare.png';
+        
+		//peopleicons
+		tuitionIcon = new Image();
+		tuitionIcon.src = '../img/icons/tuitionsquare.png';	
+		researchIcon = new Image();
+		researchIcon.src = '../img/icons/researchsquare.png';
+		socialIcon = new Image();
+		socialIcon.src = '../img/icons/socialsquare.png';
+		medicalIcon = new Image();
+		medicalIcon.src = '../img/icons/medicalsquare.png';
+		//majoricons
+		artIcon = new Image();
+		artIcon.src = '../img/icons/artisticon.png';
+		businessIcon = new Image();
+		businessIcon.src = '../img/icons/businessicon.png'
+		lawIcon = new Image();
+		lawIcon.src = '../img/icons/lawicon.png'
+		techIcon = new Image();
+		techIcon.src = '../img/icons/techicon.png'
         
         mapbackground = new Image();
         mapbackground.src = '../img/map/map.png';
@@ -1232,6 +1248,8 @@ secretSticker.main =
         plusBack.src = "../img/minigame3/plusback.png";
       
       	imgBArray = [thinBack,medBack,plusBack,hoverBack]
+        iconArray = [tuitionIcon, researchIcon, socialIcon, medicalIcon];
+		majorIconArray = [artIcon,businessIcon,lawIcon,techIcon];
         
         secretSticker.main.player.picturenum = 0;
         secretSticker.main.scores.score = 0;	
@@ -1454,6 +1472,14 @@ secretSticker.main =
             //ctx.drawImage(commonsicon, 20,110,150,100)
             ctx.drawImage(commonsicon, 150,335,150,100)
             ctx.drawImage(labIcon, 230,25,150,100)
+            
+			ctx.fillStyle = '#000000'
+			var scoreText = secretSticker.main.takenDemograph1 + '/'+ secretSticker.main.requiredDemograph1 + " ";
+			var photosLeftText = secretSticker.main.player.picturenum + '/3 Photos Left'
+			
+			ctx.drawImage(iconArray[secretSticker.main.demograph1num], 850,7,25,25);
+			ctx.fillText(scoreText, 810,27);
+			ctx.fillText(photosLeftText, 19,27);
 	}
        
        if(secretSticker.main.areaNumber >0 && secretSticker.main.areaNumber <6  ){
@@ -1518,7 +1544,7 @@ secretSticker.main =
             var photosLeftText = secretSticker.main.postersLeft + '/5 Posters Left'
             ctx.fillText(scoreText,530,470);
             ctx.fillText(photosLeftText, 210,470);
-            ctx.drawImage(interestArray[secretSticker.main.demograph1num], 560,440,50,50)
+            ctx.drawImage(interestArray[secretSticker.main.demograph1num], 580,440,50,50)
 
 
 
