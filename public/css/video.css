@@ -1,4 +1,4 @@
-#research {
+#video {
 
   #tabs{  
     ul{
@@ -45,7 +45,6 @@
       overflow: hidden;
       background-color: #888888;
       color: #AAAAAA;
-
     }
     li{
       display: inline;
@@ -68,35 +67,6 @@
      background-color: #333333;
     }
   }
-
-#overlay {
-  position: fixed; 
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-  display:none;
-}
-
-#modal {
-  display:none;
-  margin: auto;
-  position:absolute;
-  left: 20%;
-  width: 60%;
-  background:url(tint20.png) 0 0 repeat;
-  background:rgba(0,0,0,0.2);
-  border-radius:14px;
-  padding:8px;
-}
-#content {
-  border-radius:8px;
-  background:#fff;
-  padding:20px;
-}
 
 
 
@@ -131,10 +101,6 @@
     padding:10px;
   }
 
-  table tr td{
-   border: 1px solid black;
-  }
-  tr{
-   border: 1px solid black;
-  }
+   #resTable{
+   }
 }

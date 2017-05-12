@@ -62,7 +62,7 @@ router.post('/back', auth, function (req, res, next) {
   time = minutes + " minutes and " + seconds + " seconds"
   var passingObject2 = {userId: id, startTime: startTime, endTime: endTime, timeSpent: time, videoID: videoid}
 
-    require('../../model/video/videolog.js')(req, passingObject2, function(err, success) {
+    require('../model/video/videolog.js')(req, passingObject2, function(err, success) {
     // If there was an error
     if (err) {
       console.error(err);

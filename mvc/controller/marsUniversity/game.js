@@ -9,6 +9,7 @@ var express = require('express'),
    // Require fs module
    fs = require('fs'),
    moment = require('moment'),
+   momentTZ = require('moment-timezone'),
    object;
 
 /**
@@ -65,6 +66,11 @@ router.post('/logger', auth, function (req, res, next) {
       // Concatenate information
       stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + date + "-" +username +"-" + gameID;
 
+    var timestamp = Date.now();
+      var thing = moment(timestamp).tz(momentTZ.tz.guess()).format('z');
+      console.log(thing)
+
+    console.log(moment(timestamp).format("DD MMM YYYY hh:mm a") )
   var passingObject = {userID: id, username: username, action: type, description: event, date: date, gameSession: gameID }
   // Append stringTem to file 'logInfo/useraction.txt'
   fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {

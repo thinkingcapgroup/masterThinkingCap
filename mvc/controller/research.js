@@ -13,9 +13,18 @@ var express = require('express'),
     var postTotalArray = [];
     var errorNotifications = [];
     var flag = false;
+    var asyncTasks = [];
     lineArray = [];
     lineArray2 = [];
     holderArray = [];
+    videoArray = [];
+    emptyState = false;
+    emptyState2 = false;
+    emptyState3 = false;
+    emptyState4 = false;
+    emptyState5 = false;
+    isAdmin = false;
+
 
 /**
  * router - GET method for dashboard route '/dashboard'
@@ -30,6 +39,12 @@ router.get('/', auth, function (req, res) {
     flag = false;
   if (req.user.role >= 6) {
     // Render dashboard view
+    if(req.user.role >=7){
+      isAdmin = true;
+    }
+    else{
+      isAdmin = false;
+    }
     getDatabase(req,res);
   }
 
@@ -96,6 +111,28 @@ router.get('/makeExcel', function (req, res) {
 
        }
    });
+    }
+ });
+
+  // End response
+
+});
+
+router.get('/archiveData', function (req, res) {
+  // TextFile Saving
+
+  //fs.writeFile('saveFile/userSave.txt', stringTem, function (err)
+  //{});
+
+  //Database Saving
+  require('../model/researchArea/archiveAllData.js')(req, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+        res.json('yest')
     }
  });
 
@@ -259,16 +296,60 @@ router.get('/demographicExcel', function (req, res) {
 
 });
 
+
+router.get('/videoExcel', function (req, res) {
+  // TextFile Saving
+
+  //fs.writeFile('saveFile/userSave.txt', stringTem, function (err)
+  //{});
+
+  //Database Saving
+  require('../model/researchArea/makeVideoExcel.js')(req, videoArray, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+     var file = __dirname + '/../../upload/videoData.xlsx'
+      res.download(file, function (err) {
+       if (err) {
+           console.log("Error");
+           console.log(err);
+       } else {
+           console.log("Success");
+
+       }
+   });
+    }
+ });
+
+  // End response
+
+});
+
 function getDatabase(req,res){
 
-   require('../model/researchArea/getAllResearchData.js')(req, function(err, b) {
+  getLineArray(req,res)
+
+
+    //grab log information
+  //setTimeout(function(){renderResearch(req, res)},3000);
+  
+
+    // Render /bugreports using the 'bugReports' view and model 
+};
+
+function getLineArray(req,res){
+     require('../model/researchArea/getAllResearchData.js')(req, function(err, b) {
     // If there is a database error
     if (err) {
 
       // If there where no bug reports
       if (err === 'No Research Data found!') {
         // Set model to emptyState
-     
+        emptyState = true;
+        getPrePostArray(req,res)
       }
       // Otherwise
       else {
@@ -283,13 +364,15 @@ function getDatabase(req,res){
       // Set the model's bugReports to recieved data
       lineArray = b;
       flag = true;
+      getPrePostArray(req,res)
       
     }
-        console.log('lineArray done')
   });
 
+}
 
- require('../model/researchArea/getAllResearchTestData.js')(req, function(err, b) 
+function getPrePostArray(req,res){
+   require('../model/researchArea/getAllResearchTestData.js')(req, function(err, b) 
         {
         
             if (err) 
@@ -298,7 +381,9 @@ function getDatabase(req,res){
             if (err === 'No Research Data found!') 
             {
             // Set model to emptyState
-   
+
+              emptyState2 = true;
+              getSummaryArray(req,res)
             }
             // Otherwise
             else 
@@ -330,47 +415,24 @@ function getDatabase(req,res){
                         postArray.push(lineArray2[z])
                     }
                 }
+                getSummaryArray(req,res)
             }
           });
 
-     console.log('pre/post done')
 
-  require('../model/researchArea/getAllResearchDemoData.js')(req, function(err, b) 
-        {
-        
-            if (err) 
-            {
-            // If there where no bug reports
-            if (err === 'No Demographic Data found!') 
-            {
-            // Set model to emptyState
+}
 
-            }
-            // Otherwise
-            else 
-            {
-            // Show user the error message
-            errorNotifications.push(err);
-            }
-        
-            console.error(err);
-            }
-            // Otherwise bug reports were found
-            else 
-            {
-                // Set the model's bugReports to recieved data
-                demoArray = b;
-            }
-    });
-
-    require('../model/researchArea/getAllTestTimeData.js')(req, function(err, b) {
+function getSummaryArray(req,res){
+      require('../model/researchArea/getAllTestTimeData.js')(req, function(err, b) {
 
     if (err) {
 
       // If there where no bug reports
       if (err === 'No Research Data found!') {
         // Set model to emptyState
-
+          console.log('no test data summary found')
+        emptyState3 = true;
+          getVideoArray(req,res)
       }
       // Otherwise
       else {
@@ -401,20 +463,79 @@ function getDatabase(req,res){
         
       }
 
-      console.log('prepost total done')
+   
+      getVideoArray(req,res)
 
     }
     });
+    }
+
+function getVideoArray(req,res){
+
+   require('../model/video/getAllVideos.js')(req, function(err, b) {
+    // If there is a database error
+    if (err) {
+
+      // If there where no bug reports
+      if (err === 'No Research Data found!') {
+        // Set model to emptyState
+        emptyState4 = true;
+        console.log('video data should be true')
+        getDemographicArray(req,res)
+      }
+      // Otherwise
+      else {
+        // Show user the error message
+        errorNotifications.push(err);
+      }
+
+      console.error(err);
+    }
+    // Otherwise bug reports were found
+    else {
+      // Set the model's bugReports to recieved data
+      videoArray = b;
+        getDemographicArray(req,res)
+    }
+  });
+   
+
+}
 
 
-    //grab log information
-    setTimeout(function(){renderResearch(req, res)},3000);
-  
+function getDemographicArray(req,res){
 
-    // Render /bugreports using the 'bugReports' view and model
+  require('../model/researchArea/getAllResearchDemoData.js')(req, function(err, b) 
+        {
+        
+            if (err) 
+            {
+            // If there where no bug reports
+            if (err === 'No Research Data found!') 
+            {
+            // Set model to emptyState
+              emptyState5 = true;
+                renderResearch(req,res)
+            }
+            // Otherwise
+            else 
+            {
+            // Show user the error message
+            errorNotifications.push(err);
+            }
+        
+            console.error(err);
+            }
+            // Otherwise bug reports were found
+            else 
+            {
+                // Set the model's bugReports to recieved data
+                demoArray = b;
+                renderResearch(req,res)
+            }
+    });
 
-  
-};
+}
 
 /**
  * renderDashboard - renders the user dashboard view
@@ -435,7 +556,15 @@ function renderResearch (req, res) {
   model.researchArray4 = demoArray;
   model.researchArray5 = preTotalArray;
   model.researchArray6 = postTotalArray;
+  model.researchArray7 = videoArray;
+  model.isModuleEmpty = emptyState
+  model.isTestingEmpty = emptyState2
+  model.isSummaryEmpty = emptyState3
+  model.isDemographicsEmpty = emptyState4
+  model.isVideoEmpty = emptyState5
+  model.isAdmin = isAdmin
 
+  console.log(model.isDemographicsEmpty)
   model.layout = 'researchlayout'
   model.globalNavigationMode = require('../model/global/globalNavigationModeAuth')(req, res);
 

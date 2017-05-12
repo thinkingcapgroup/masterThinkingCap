@@ -60,6 +60,30 @@ function subtabChange(evt, tabID){
  console.log(currentTab)
 }
 
+function areYouSureArchiveData(){
+  console.log('modal pop')
+  document.getElementById('overlay').style.display = 'block'
+  document.getElementById('modal').style.display = 'block'
+
+}
+
+function closeAreYouSure(){
+  document.getElementById('overlay').style.display = 'none'
+  document.getElementById('modal').style.display = 'none'
+}
+
+function archiveData(){
+  $.get('/research/archiveData', function(data){
+    console.log('archive successful')
+
+    setTimeout(function(){
+    //do what you need here
+        location.reload();
+    }, 2000);
+
+  });
+}
+
 function researchQuery(){
   var searchElement = document.getElementById('researchInput').value;
   var searchType = document.getElementById('searchType').value;

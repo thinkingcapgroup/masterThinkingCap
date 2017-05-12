@@ -1,25 +1,61 @@
 </main>
-<main id='index'>
+<main id='video'>
   <article class='wrapper'>
     <header class='thinking-cap-header'>
       <h1 class='thinking-cap-title'>{{content.appTitle}}</h1>
     </header>
-    <section id='index-section'>
-	<div>
-            
+    <div id = 'tabArea'>
+        <section id = 'tabs'>
+            <ul>
+                <li><a href = '#tabcontent active' class = 'tablinks' onclick = 'tabChange(event, 0)'>Module 1</a></li>
+                <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 1)'>Module 2</a></li>
+                <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 2)'>Module 3</a></li>
+                <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 3)'>Module 4</a></li>
+                <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 4)'>Module 5</a></li>
+            </ul>
+        </section>
+        <section id='report0' class = 'tabcontent active' >
+            <h2> Population and Sample</h2>
+            <br>
+                  
+            <div>
+                 <div id="vid1"></div>
+            </div>
+            <br><a href = '/marsuniversity' onclick = 'logVideo(1)' class='btn double remove'>Back</a>
+        </section>
+        <section id='report1' class = 'tabcontent active' style = "display:none">
+            <h2> Categorical & Numerical</h2>
+            <br>
+            <div>
+                 <div id="vid2"></div>
+            </div>
+            <br><a href = '/marsuniversity' onclick = 'logVideo(2)' class='btn double remove'>Back</a>
+        </section>
+        <section id='report2' class = 'tabcontent active' style = "display:none">
+            <h2> Bias & Random</h2>
+            <br>
+            <div>
+                 <div id="vid3"></div>
+            </div>
+            <br><a href = '/marsuniversity' onclick = 'logVideo(3)' class='btn double remove'>Back</a>
+        </section>
+        <section id='report3' class = 'tabcontent active' style = "display:none">
+            <h2> Mean & Standard Deviation</h2>
+            <br>
+            <div>
+                 <div id="vid4"></div>
+            </div>
+            <br><a href = '/marsuniversity' onclick = 'logVideo(4)' class='btn double remove'>Back</a>
+        </section>
+        <section id='report4' class = 'tabcontent active' style = "display:none">
+            <h2> Proportion & Percent</h2>
+            <br>
+            <div>
+                 <div id="vid5"></div>
+            </div>
+            <br><a href = '/marsuniversity' onclick = 'logVideo(5)' class='btn double remove'>Back</a>
+        </section>
     </div>
-    <h2> Video Title</h2>
-    <br>
-    <div>
-    <h3> HTML5 Video</h3>
-        <video width="560" height="315" controls>
-        <source src="media/video/Jack.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-        </video> 
-    </div>
-    <br>
-    <!--<div><h3> Embedded Youtube Video</h3><iframe width="560" height="315" src="https://www.youtube.com/embed/VSrv_n4tw7w" frameborder="0" allowfullscreen></iframe></div>-->
-    </section>
     <footer id='footer'>
       <ul id='reference-links'>
         <li>
