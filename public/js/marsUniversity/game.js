@@ -1701,6 +1701,7 @@ function map(state, isFirst, isFree){
 //Draws lines on the map around the buildings
 function drawMap(poll)
 {
+
 	isPoll = poll
 	//map icons
 	var libraryIcon = new Image();
@@ -1800,28 +1801,35 @@ function drawMap(poll)
 			//quad 		ctx.strokeRect(208,235,243,60);
 			if((mouse.x >= 135 && mouse.x <= 300)&&(mouse.y >= 190 && mouse.y <= 250)){
                 document.getElementById("location").value = 0;
+                  isCurrentAreaHover = 5;
 			}
 			
 			//gym1
 			if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
                 document.getElementById("location").value = 1;
+                isCurrentAreaHover = 1;
+
 			}
 			//gym2
 			if((mouse.x >= 480 && mouse.x <=590 )&&(mouse.y >= 115 && mouse.y <= 235)){
                 document.getElementById("location").value = 1;
+                  isCurrentAreaHover = 1;
 			}
 			//media 		ctx.strokeRect(135,333,175,145);
 			if((mouse.x >= 90 && mouse.x <= 205)&&(mouse.y >= 275 && mouse.y <= 395)){
                 document.getElementById("location").value = 3;
+                  isCurrentAreaHover = 0;
 			}
 		
 			//labs1
 			if((mouse.x >= 150 && mouse.x <= 255)&&(mouse.y >= 15 && mouse.y <= 135)){
                 document.getElementById("location").value = 2;
+                  isCurrentAreaHover = 2;
 			}
 			//labs2
 			else if((mouse.x >= 180 && mouse.x <= 230)&&(mouse.y >= 225 && mouse.y <= 395)){
                 document.getElementById("location").value = 2;
+                  isCurrentAreaHover = 2;
 			}
 
 			//coffee shop 
@@ -1829,6 +1837,7 @@ function drawMap(poll)
 			//library 	ctx.strokeRect(600,330,280,155);
 			if((mouse.x >= 400 && mouse.x <= 590)&&(mouse.y >= 275 && mouse.y <= 400)){
                 document.getElementById("location").value = 4;
+                  isCurrentAreaHover = 3;
 			}
     }
     
@@ -2008,12 +2017,18 @@ function drawMap(poll)
             ctx.drawImage(gymIcon, 475,50,113,75)
             ctx.drawImage(commonsicon, 90,285,113,75)
             if(isPoll){
-            	   if((mouse.x >= 135 && mouse.x <= 300)&&(mouse.y >= 190 && mouse.y <= 250)){ 
+            	if(isCurrentAreaHover  == 5){
+        			ctx.lineWidth = 6;
+        			ctx.strokeStyle = '#FFFF00';
+        		}	
+
+            	if((mouse.x >= 135 && mouse.x <= 300)&&(mouse.y >= 190 && mouse.y <= 250)){ 
              
                 ctx.fillRect(135,190,170,56); 
-      } 
-            	ctx.strokeRect(135,190,170,56);
+      			} 
+            ctx.strokeRect(135,190,170,56);
 			ctx.drawImage(quadIcon, 160,160,113,75) 
+
 			}
             ctx.drawImage(labIcon, 145,30,113,75)
           
@@ -2071,7 +2086,7 @@ function drawMap(poll)
         ctx.stroke();
         ctx.lineWidth = 3;
 
-          ctx.strokeStyle = '#00FFFF';
+        ctx.strokeStyle = '#00FFFF';
  
           if(isCurrentAreaHover  == 3){
           	ctx.strokeStyle = '#FFFF00';
