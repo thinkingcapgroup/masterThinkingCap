@@ -164,8 +164,18 @@
 	  }
 
 	  function navDropdownListLeave (event) {
+	  	var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox')> -1
+	  	var globalNav = 0;
+	 	if(isFirefox){ 
+        	globalNav = 0 
+      	} 
+      	else{ 
+        	globalNav = globalNavigation.querySelectorAll('.nav-dropdown-list:hover').length  
+      	} 
+ 
+
 	    (mainNavigation.querySelectorAll('.has-dropdown:hover').length === 0 &&
-	    globalNavigation.querySelectorAll('.nav-dropdown-list:hover').length === 0) &&
+	    globalNav === 0) &&
 	    delay(hideDropdown());
 	  }
 
