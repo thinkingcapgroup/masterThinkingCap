@@ -1871,7 +1871,7 @@ function drawMap(poll)
                      isCurrentAreaHover = 2;
 			}
 			//labs2
-			else if((mouse.x >= 180 && mouse.x <= 230)&&(mouse.y >= 225 && mouse.y <= 395)){
+			else if((mouse.x >= 180 && mouse.x <= 230)&&(mouse.y >= 135 && mouse.y <= 165)){
                 document.getElementById("LibraryChoice").style = 'display:none';
                 document.getElementById("LabChoice").style = 'display:block';
                 document.getElementById("GymChoice").style = 'display:none';
