@@ -3139,7 +3139,7 @@ function reportViewer(id)
 //Calculates the results of each poll question from each student in the sample and stores them in an array
 function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 {	
-
+    //Adds the data for Major and Social Group to the graph and label arrays
 	graphData = [];
 	graphData.push(questions[4].graph.split(','));
 	//graphData.push(questions[5].graph.split(','));
@@ -3149,6 +3149,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 	pollLabelArray.push(questions[4].labels.split(','));
 	//pollLabelArray.push(questions[5].labels.split(','));
 	pollLabelArray.push(questions[6].labels.split(','));
+    
     //Goes through each question selected, exapnds the size of graphData by one and pushes the label into the pollLabelArray
 	for(var i =0; i<pollChoices.length;i++)
 	{
@@ -3225,7 +3226,9 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 		}
 
 	}
+    //Creates the sample for the poll
 	votePercentage(sampleSize, bias);
+    
 	//Gets the results of each question and pushes them into the proper sectionof table arrays
 	for(var j=0;j<sample.length;j++)
 	{
@@ -3518,6 +3521,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 //Builds a table by looping through the Array created by pollCalc and putting each value into a cell.
 function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, review, state, isFree, isFirst)
 {
+    //Choose the size of the holopad 
     if(pollChoices.length < 3)
     {
         document.getElementById("holo").src = "../../img/holopadSize1.png";
@@ -3588,7 +3592,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 				break;
 			}
 
-
+            
 			for(var k = 0;k<positions.length;k++)
 			{
 
@@ -3662,9 +3666,11 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 			}
 		}
 	}
-
+    
+    //Creates the contents of the table based on the results of PollCalc
 	for(var h = 0; h<sSize; h++)
 	{
+        //Inserts a row into the table for each member of the sample
 		row = table.insertRow(h);
 
 

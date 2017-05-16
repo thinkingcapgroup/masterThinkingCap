@@ -595,7 +595,7 @@
 		},
 		{
 			"question":"What candidate are you most in favor of?", 
-			"labels":"Liz, You",
+			"labels":"Karma, You",
 			"graph":"0,0",
 			"id":"2",
 			"value":"candFav"
@@ -603,7 +603,7 @@
 		{
 			"question":"What candidate are you most in opposition to?", 
 			"id":"3",
-			"labels":"You, Liz",
+			"labels":"You, Karma",
 			"graph":"0,0",
 			"value":"candOpp"
 		},
