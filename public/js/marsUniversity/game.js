@@ -1,132 +1,23 @@
-//making all the score presets
-var groupList = ["socialite", "athlete", "gamer", "reader"];
-var majorList = ["business", "law", "tech", "arts"];
-var playerCandidate = new CandidateCreate("ph");
-var opponentCandidate = new CandidateCreate("Karma");
-var fakeCandidateHolder = []
-var currentCandidateArrayHolder = []
-var graphData = [];
-var lastMinigame = 0; 
-var isPoll = false;
-var isCurrentAreaHover = 0;
 
-var fakeCandidateYou = new CandidateCreate('FakeCandidate1');
-var fakeCandidateOther = new CandidateCreate('FakeCandidate2');
-fakeCandidateYou.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
-fakeCandidateOther.fame = [1,1,1,1,1,1,1,1];
-fakeCandidateHolder.push(fakeCandidateYou);
-fakeCandidateHolder.push(fakeCandidateOther);
-
-
-var tableHeaders = ["Favored Issue", "Least Favored Issue", "Favored Candidate", "Least Favored Candidate", "Major", "Class", "Group", "Our Candidate's Fame", "Our Candidate's Trust", "Issue Support: ", "Candidate's Fame: ","Candidate's Trust: "];
-var tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
-var pastPollChoices = [];
-var pastPollResults = [];
-var pastPollSizes = [];
-var pastGraphData = [];
-var pastGraphLabels = [];
-var raceArray = ["Android", "Human", "Martian"];
-var genderArray = ["Non-Binary", "Female", "Male"];
-var bodyTypeArray = ["Thin", "Medium", "Plus", "HoverChair"];
-var back = false;
-var num = 1;
-var textContents;
 var saveState;
-var c;
-var ctx;
-var qPollHolder;
-var ranking;
-var practice = false;
-var section = 1;
-var graphType = "Pie";
-//sprite stuff
-var heads = new Image();
-heads.src = "../img/spritehead.png";
-var thinBody = new Image();
-thinBody.src = "../img/thinSpritesheet.png";
-var medBody = new Image();
-medBody.src = "../img/medSpritesheet.png";
-var lgBody = new Image();
-lgBody.src = "../img/plusSpritesheet.png";
-var chairBody = new Image();
-chairBody.src = "../img/chairSpritesheet.png";
-var imgArrayBody = [thinBody, medBody, lgBody, chairBody];
-var imgArrayBodyWidth = [164,190,264,215];
-var imgArrayBodyHeight = [343,327,304,334];
-var imgArrayHeadHeight = [171,173,173];
-
-var dayCycleImage = ['day0','day1','day2','day3','day4','day5','day6','day7','day8','day9']
-
-
-//scores go Socialite/Athlete/MediaLover/Researcher/Reader
-//the score goes tuition, tuition var, athletic, athletic var, research, research var, events, events var, medical, issueScore[4]
-var positions =
-[
-	"Lowering Tuition",
-	"Increase Budget",
-	"More School Functions",
-	"Improve Medical Services"
-];
-
-var positionsLower = [
-	"tuition",
-	"budget",
-	"functions",
-	"medical"
-];
-
-var groupIssues = [
-	[2,2,2,1,0,3,1,1,-1,2],
-	[0,2,3,1,0,3,1,1,-1,2],
-	[1,1,-1,2,1,2,3,1,-2,3],
-	[-1,1,-1,1,2,2,3,1,0,4],
-	[0,3,-2,2,0,2,1,3,3,1]
-];
-
-//goes Business/Engineering/Technology/Finearts/Liberalarts
-var majorIssues =
-[
-	[-2,1,3,1,1,1,0,3,2,1],
-	[-1,2,1,1,1,3,-2,1,3,1],
-	[3,1,-1,1,3,1,0,4,0,2],
-	[2,2,0,3,-2,2,2,2,2,1],
-	[0,3,0,4,-3,1,3,1,-2,1]
-];
-
-var oppChoice = [];
-var chosenCandRanks = [];
-var currentEvents = [];
-var sample = [];
-var events=[];
-var questions=[];
-var candidates=[];
-var gameSession = 0; 
-var gameOver = false; 
-var endReset = false;
-//playerIssues
-
-//sprites
-var spriteHead = new Image();
-spriteHead.src = "../img/spritehead.png";
-//sample person
-
-//setting up some more variables
-
-var turnCounter;
-var population;
-var sample;
-var startHours;
-var remainingHoursTotal;
-var days;
-var totalDays;
-var remainingHoursDay;
-
-var population = 1000;
-var canvasMouse;
-var images = new Array(30);
 //starts the game
-function startGame(){
-
+function startGame()
+{
+    globals.playerCandidate= new CandidateCreate("ph");
+    globals.opponentCandidate= new CandidateCreate("Karma");
+    fakeCandidateYou = new CandidateCreate('FakeCandidate1');
+    fakeCandidateOther = new CandidateCreate('FakeCandidate2');
+    fakeCandidateYou.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
+    fakeCandidateOther.fame = [1,1,1,1,1,1,1,1];
+    globals.spriteHead.src = "../img/spritehead.png";
+    globals.heads.src="../img/spritehead.png";
+    globals.thinBody.src="../img/thinSpritesheet.png";
+    globals.medBody.src="../img/medSpritesheet.png";
+    globals.lgBody.src="../img/plusSpritesheet.png";
+    globals.chairBody.src="../img/chairSpritesheet.png";
+    globals.imgArrayBody = [globals.thinBody, globals.medBody, globals.lgBody, globals.chairBody];
+    globals.fakeCandidateHolder.push(fakeCandidateYou);
+    globals.fakeCandidateHolder.push(fakeCandidateOther);
 	//whatever other things we have to do when initiaKarmaing the game here
 	var date = Date.now();
 
@@ -137,19 +28,19 @@ function startGame(){
 	oReq.onload = function (e)
 	{
 		Json = JSON.parse(this.responseText);
-		events = Json.events;
-		questions = Json.questions;
+		globals.events = Json.events;
+		globals.questions = Json.questions;
 	};
 	oReq.open("get", "json/data.json", true);
 	oReq.send();
     
-    preload(events);
+    preload(globals.events);
 }
 
 function preload(actions) {
 	for (i = 1; i < actions.length; i++) {
-		images[i] = new Image()
-		images[i].src = actions[i].path;
+		globals.images[i] = new Image()
+		globals.images[i].src = actions[i].path;
 	}
 }
 
@@ -182,7 +73,7 @@ function startPractice()
 {
     // Shows the practice screen menu
 	clearScreen();
-	practice = true;
+	globals.practice = true;
 	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Fun Run</a><br><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Photobomb</a><a onclick = 'practiceGame(3)' id='index-link' class = 'btn double remove'>Secret Sticker</a><br><a onclick = 'practiceGame(4)' id='index-link' class = 'btn double remove'>Mean Moves</a><a onclick = 'practiceGame(5)' id='index-link' class = 'btn double remove'>T-Shirt Canon</a></div> <br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>"; 
 
 
@@ -192,7 +83,7 @@ function helpScreen()
 {
     //Shows the Help screen 
 	clearScreen();
-	section = 1;
+	globals.section = 1;
 	document.getElementById("playerInfo").style.display = "none";
 	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <!--<button onclick= 'openGlossary()'>Glossary Page</button>--> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><button onclick = 'helpfulIcons()'>Demographic Icons</button><br><button class = 'logHelpEnd' onclick= 'userAction()'>Return to User Action Area</button>"
 }
@@ -205,24 +96,24 @@ function pollMenu()
 {
     //Shows the Poll Menu
     clearScreen();
-    if(remainingHoursDay >=3)
+    if(globals.remainingHoursDay >=3)
     {
         document.getElementById("gameInfo").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' onclick='map("+0+",false,false)'> Take A Poll </button><br><br>";
-        if(pastPollResults.length > 0)
+        if(globals.pastPollResults.length > 0)
             document.getElementById("gameInfo").innerHTML += "<h2> Previous Poll Results</h2>";
     }
     else
     {
         document.getElementById("gameInfo").innerHTML += "<h2> Poll</h2> <button type='button' > Cannot Take a Poll </button>";
-        if(pastPollResults.length > 0)
+        if(globals.pastPollResults.length > 0)
             document.getElementById("gameInfo").innerHTML += "<h2> Previous Poll Results</h2>";
     }
     
     //Adds buttons for each poll that has been taken already
-	for(var i=0; i<pastPollResults.length;i++)
+	for(var i=0; i<globals.pastPollResults.length;i++)
 	{
-		var num = i+1;
-		document.getElementById("gameInfo").innerHTML += "<button type='button' onclick='reportViewer("+i+")' >View Poll "+ num +" Result </button>";
+		globals.num = i+1;
+		document.getElementById("gameInfo").innerHTML += "<button type='button' onclick='reportViewer("+i+")' >View Poll "+ globals.num +" Result </button>";
     }
      document.getElementById("gameInfo").innerHTML += "<br><br><button onclick= 'userAction()'>Return to User Action Area</button>";
 }
@@ -233,31 +124,31 @@ function trendReportMenu()
 	var currentTrendReports = [];
 	document.getElementById("playerInfo").style.display = "none";
 	document.getElementById("gameInfo").innerHTML = "<div id= 'reportButtons' > <h1> Trend Reports</h1> <hr><br><div><h2> General</h2><button onclick= 'trendReporter(`issFav`)' class = 'trendButton' id = 'issFav' disabled>Favored Issue Report</button><button onclick= 'trendReporter(`issOpp`)' class = 'trendButton' id = 'issOpp' disabled>Opposed Issue Report</button><button onclick= 'trendReporter(`candFav`)' class = 'trendButton' id = 'candFav' disabled>Favored Candidate Report</button><button onclick= 'trendReporter(`candOpp`)' class = 'trendButton' id = 'candOpp' disabled>Opposed Candidate Report</button></div><br><div><h2> Support For Issues</h2><button onclick= 'trendReporter(`issuetuition`)' class = 'trendButton' id = 'issuetuition' disabled>Lowering Tuition Report</button><button onclick= 'trendReporter(`issuebudget`)' class = 'trendButton' id = 'issuebudget' disabled>Increse Budget Report</button><button onclick= 'trendReporter(`issuefunctions`)' class = 'trendButton' id = 'issuefunctions' disabled>More School Functions Report</button><button onclick= 'trendReporter(`issuemedical`)' class = 'trendButton' id = 'issuemedical'  disabled>Improve Medical Services</button></div><br><div id = 'candReportsFame'><h2>Candidate Stats - Fame</h2></div><br><div id = 'candReportsTrust'><h2>Candidate Stats - Trust</h2></div>"
-    document.getElementById("candReportsFame").innerHTML += "<button onclick= 'trendReporter(`fame`)' class = 'trendButton' id = 'fame' disabled>Fame - " + candidates[0].name +"</button>"
+    document.getElementById("candReportsFame").innerHTML += "<button onclick= 'trendReporter(`fame`)' class = 'trendButton' id = 'fame' disabled>Fame - " + globals.candidates[0].name +"</button>"
     
     //Disables the buttons that cooresponds to polls that havent been taken yet.
-    for(var k = 1;k<candidates.length;k++)
+    for(var k = 1;k<globals.candidates.length;k++)
 	{
-        var method = "candFame" + candidates[k].name;
-		document.getElementById("candReportsFame").innerHTML += "<button onclick= 'trendReporter(`"+method+"`)' class = 'trendButton' id = '"+method+"' disabled>Fame - " + candidates[k].name +"</button>";
+        var method = "candFame" + globals.candidates[k].name;
+		document.getElementById("candReportsFame").innerHTML += "<button onclick= 'trendReporter(`"+method+"`)' class = 'trendButton' id = '"+method+"' disabled>Fame - " + globals.candidates[k].name +"</button>";
 	}
-    document.getElementById("candReportsTrust").innerHTML += "<button onclick= 'trendReporter(`playTrust`)' class = 'trendButton' id = 'playTrust' disabled>Trust - " + candidates[0].name +"</button>"
-	for(var k = 1;k<candidates.length;k++)
+    document.getElementById("candReportsTrust").innerHTML += "<button onclick= 'trendReporter(`playTrust`)' class = 'trendButton' id = 'playTrust' disabled>Trust - " + globals.candidates[0].name +"</button>"
+	for(var k = 1;k<globals.candidates.length;k++)
 	{
-        var method = "candTrust" + candidates[k].name;
-        document.getElementById("candReportsTrust").innerHTML += "<button onclick= 'trendReporter(`"+method+"`)' class = 'trendButton' id = '"+method+"' disabled>Trust - " + candidates[k].name +"</button>";
+        var method = "candTrust" + globals.candidates[k].name;
+        document.getElementById("candReportsTrust").innerHTML += "<button onclick= 'trendReporter(`"+method+"`)' class = 'trendButton' id = '"+method+"' disabled>Trust - " + globals.candidates[k].name +"</button>";
 	}
 
 
      document.getElementById("gameInfo").innerHTML += "</div><br> <div id = 'trendArea' style = 'display:none'> <svg id='visualisation' width='800' height='450'><path id='segments-line' /><path id='gap-line' /><text font-family='sans-serif' font-size='20px'>Blah</text></svg> </div>";
       document.getElementById("gameInfo").innerHTML += "<hr>"
-      for(var x =0; x < pastPollChoices.length; x++){
-      	for(var y = 0; y < pastPollChoices[x].length; y++){
-      		if(currentTrendReports.includes(pastPollChoices[x][y])){
+      for(var x =0; x < globals.pastPollChoices.length; x++){
+      	for(var y = 0; y < globals.pastPollChoices[x].length; y++){
+      		if(currentTrendReports.includes(globals.pastPollChoices[x][y])){
 
       		}
       		else{
-      			currentTrendReports.push(pastPollChoices[x][y])
+      			currentTrendReports.push(globals.pastPollChoices[x][y])
       		}
       	}
       }
@@ -290,7 +181,7 @@ function openGlossary()
 function startCharacterSelect(){
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
- 	getSession(gameOver);
+ 	getSession(globals.gameOver);
 	resetGame();
 	//character creator here
 	//for right now we'll do a drop down option
@@ -303,10 +194,10 @@ function startCharacterSelect(){
 	document.getElementById("gameInfo").innerHTML += "<label>Candidate Name: </label><input id='charName' type='text' value = 'Val'/><br>";
 	document.getElementById("gameInfo").innerHTML += "<button id='candidateCre'>Create Candidate</button><br>";
 
-	var c=document.getElementById("myCanvas");
+	globals.c=document.getElementById("myCanvas");
 	//creates a sprite for the headsheets
-	var headSheet = new Sprite({context: c.getContext("2d"), width: 155, height: 171, image: heads});
-	var bodySheet = new Sprite({context: c.getContext("2d"), width: 164, height: 343, image: thinBody});
+	var headSheet = new Sprite({context: globals.c.getContext("2d"), width: 155, height: 171, image: globals.heads});
+	var bodySheet = new Sprite({context: globals.c.getContext("2d"), width: 164, height: 343, image: globals.thinBody});
 
 	//sets up all the buttons for changing the canvas
 	document.getElementById("headbutton").addEventListener("click", function(){
@@ -335,10 +226,10 @@ function startCharacterSelect(){
 
 function drawOnCanvas(headsheet,bodysheet){
 	//clear the canvas
-	c = document.getElementById("myCanvas");
-	ctx = c.getContext("2d")
+	globals.c = document.getElementById("myCanvas");
+	globals.ctx = globals.c.getContext("2d")
 	//clears everything
-	ctx.clearRect(0,0,c.width,c.height);
+	globals.ctx.clearRect(0,0,globals.c.width,globals.c.height);
 	//draw the body
 	drawBody(bodysheet);
 	//draws the head
@@ -721,9 +612,9 @@ function bodyChange(headsheet, body){
 	}
 	headsheet.bodyArrayHolder = z;
 
-	body.image = imgArrayBody[z];
-	body.width = imgArrayBodyWidth[z];
-	body.height = imgArrayBodyHeight[z];
+	body.image = globals.imgArrayBody[z];
+	body.width = globals.imgArrayBodyWidth[z];
+	body.height = globals.imgArrayBodyHeight[z];
 	drawOnCanvas(headsheet,body)
 }
 
@@ -761,7 +652,7 @@ function Sprite(options){
         // Draw the animation
         that.context.drawImage(
            that.image,
-           (0 + (imgArrayBodyWidth[that.bodyArrayHolder] * that.frameIndexClothing) + that.isMale),
+           (0 + (globals.imgArrayBodyWidth[that.bodyArrayHolder] * that.frameIndexClothing) + that.isMale),
            0,
            that.width,
            that.height,
@@ -793,7 +684,7 @@ function Sprite(options){
     	if (that.frameIndexRace > 2){
     		that.frameIndexRace = 0;
     	}
-    	that.height = imgArrayHeadHeight[that.frameIndexRace];
+    	that.height = globals.imgArrayHeadHeight[that.frameIndexRace];
     };
 
 	return that;
@@ -801,14 +692,14 @@ function Sprite(options){
 
 //Creates the player candidate
 function startOtherCandidates(heads,body){
-	playerCandidate.name = document.getElementById("charName").value;
-	playerCandidate.raceNum = heads.frameIndexRace;
-	playerCandidate.genderNum = body.frameIndexClothing;
-	playerCandidate.bodyTypeNum = body.bodyArrayHolder;
-	playerCandidate.headNum = heads.frameIndex
-	playerCandidate.race = raceArray[heads.frameIndexRace];
-	playerCandidate.gender = genderArray[body.frameIndexClothing];
-	playerCandidate.bodyType = bodyTypeArray[body.bodyArrayHolder];
+	globals.playerCandidate.name = document.getElementById("charName").value;
+	globals.playerCandidate.raceNum = heads.frameIndexRace;
+	globals.playerCandidate.genderNum = body.frameIndexClothing;
+	globals.playerCandidate.bodyTypeNum = body.bodyArrayHolder;
+	globals.playerCandidate.headNum = heads.frameIndex
+	globals.playerCandidate.race = globals.raceArray[heads.frameIndexRace];
+	globals.playerCandidate.gender = globals.genderArray[body.frameIndexClothing];
+	globals.playerCandidate.bodyType = globals.bodyTypeArray[body.bodyArrayHolder];
 
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
 	document.getElementById("gameInfo").innerHTML += "<p>You are competing against Karma the Chameleon and 4 other candidates for the potion of Student Council President. Karma is new student just like you, they call her the Chameleon, because she copies the people she is running against.... and also because, she is a Chameleon. The current student government will give you, a candidate, some information about the student body.</p>"
@@ -821,47 +712,47 @@ function startOtherCandidates(heads,body){
 function actualSessionStart(isFromTut){
 	var tutHolder = isFromTut
 	clearScreen();
-	candidates = [];	
-	population = 1000;
-	sample = [];
+	globals.candidates = [];	
+	globals.population = 1000;
+	globals.sample = [];
     //10 Days
-	//startHours = 120; 
+	//globals.startHours = 120; 
     //7 Days
-	startHours = 84; 
+	globals.startHours = 84; 
     
-	remainingHoursTotal = startHours;
-    totalDays = 7;
-	days = 1; 
-	remainingHoursDay = 12; 
+	globals.remainingHoursTotal = globals.startHours;
+    globals.totalDays = 7;
+	globals.days = 1; 
+	globals.remainingHoursDay = 12; 
 	
 	//Decides the opponents focus which cannot be the same as the player
-	opponentCandidate.fame = [1,1,1,1,1,1,1,1];
-	opponentCandidate.consMod = 0;
+	globals.opponentCandidate.fame = [1,1,1,1,1,1,1,1];
+	globals.opponentCandidate.consMod = 0;
 	////console.log(oppFocus);
-	chooseIssue(opponentCandidate,[],1,false);
-	candidates.push(opponentCandidate);
+	chooseIssue(globals.opponentCandidate,[],1,false);
+	globals.candidates.push(globals.opponentCandidate);
 	
 	//Create Issue Candidates
 	var issueCand1 = new CandidateCreate("Martian Dog");
-	issueCand1.focus = positions[0];
+	issueCand1.focus = globals.positions[0];
 	issueCand1.focusnum = 0;
-	chooseRank(issueCand1,chosenCandRanks,true);
-	candidates.push(issueCand1);
+	chooseRank(issueCand1,globals.chosenCandRanks,true);
+	globals.candidates.push(issueCand1);
 	var issueCand2 = new CandidateCreate("Zrap Bannigan");
-	issueCand2.focus = positions[1];
+	issueCand2.focus = globals.positions[1];
 	issueCand2.focusnum = 1;
-	chooseRank(issueCand2,chosenCandRanks,true);
-	candidates.push(issueCand2);
+	chooseRank(issueCand2,globals.chosenCandRanks,true);
+	globals.candidates.push(issueCand2);
 	var issueCand3 = new CandidateCreate("Clamps");
-	issueCand3.focus = positions[2];
+	issueCand3.focus = globals.positions[2];
 	issueCand3.focusnum = 2;
-	chooseRank(issueCand3,chosenCandRanks,true);
-	candidates.push(issueCand3);
+	chooseRank(issueCand3,globals.chosenCandRanks,true);
+	globals.candidates.push(issueCand3);
 	var issueCand4 = new CandidateCreate("Martian Scientist");
-	issueCand4.focus = positions[3];
+	issueCand4.focus = globals.positions[3];
 	issueCand4.focusnum = 3;
-	chooseRank(issueCand4,chosenCandRanks,true);
-	candidates.push(issueCand4);	
+	chooseRank(issueCand4,globals.chosenCandRanks,true);
+	globals.candidates.push(issueCand4);	
 	//map(0,true,true);
     bufferZone();
 }
@@ -877,29 +768,29 @@ function practicePoll()
 {
 	
 
-	candidates = [];
+	globals.candidates = [];
 	
-	population = 1000;
-	sample = [];
-	startHours = 84; 
-	remainingHoursTotal = startHours;
-	days = 1; 
-	remainingHoursDay = 12; 
+	globals.population = 1000;
+	globals.sample = [];
+	globals.startHours = 84; 
+	globals.remainingHoursTotal = globals.startHours;
+	globals.days = 1; 
+	globals.remainingHoursDay = 12; 
 	
 	//Decides the opponents focus which cannot be the same as the player
-	opponentCandidate.fame = [1,1,1,1,1,1,1,1];
-	opponentCandidate.consMod = 0;
+	globals.opponentCandidate.fame = [1,1,1,1,1,1,1,1];
+	globals.opponentCandidate.consMod = 0;
 	////console.log(oppFocus);
-	chooseIssue(opponentCandidate,[],1,false);
-	candidates.push(opponentCandidate);
+	chooseIssue(globals.opponentCandidate,[],1,false);
+	globals.candidates.push(globals.opponentCandidate);
 	
 	//Create Issue Candidates
 	var issueCand1 = new CandidateCreate("Zrap Bannigan");
 	var oppRank = Math.floor(Math.random()*4);
-	issueCand1.focus = positions[oppRank];
+	issueCand1.focus = globals.positions[oppRank];
 	issueCand1.focusnum = oppRank;
-	chooseRank(issueCand1,chosenCandRanks,true);
-	candidates.push(issueCand1);
+	chooseRank(issueCand1,globals.chosenCandRanks,true);
+	globals.candidates.push(issueCand1);
 
 	
 	map(2,false,false);
@@ -911,9 +802,9 @@ function firstStatement()
 	clearScreen();
     document.getElementById("holo").src = "../../img/openscreenlarge.png";
 	document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
-	for (var x=0; x < positions.length; x++){
+	for (var x=0; x < globals.positions.length; x++){
 
-	document.getElementById("gameInfo").innerHTML += "<button onclick = 'gameCycleStart("+x+")'>"+ positions[x]+"</button>"
+	document.getElementById("gameInfo").innerHTML += "<button onclick = 'gameCycleStart("+x+")'>"+ globals.positions[x]+"</button>"
 	}
 }
 
@@ -931,9 +822,9 @@ function chooseDiff()
 //Sets the number of days and time remaining according to the players difficulty choice.
 function setDiff(days)
 {
-	startHours = days*12; 
-    remainingHoursTotal = startHours;
-    totalDays = days;
+	globals.startHours = days*12; 
+    globals.remainingHoursTotal = globals.startHours;
+    globals.totalDays = days;
     firstStatement();
 }
 
@@ -941,37 +832,37 @@ function setDiff(days)
 function gameCycleStart(f)
 {
 
-	turnCounter = 1
-	playerCandidate.focus = positions[f];
-	playerCandidate.focusnum = f;
+	globals.turnCounter = 1
+	globals.playerCandidate.focus = globals.positions[f];
+	globals.playerCandidate.focusnum = f;
     
     //Increases issue score based on the players choice for their initial statement
 	switch(f)
 	{
 		case 0:
-		playerCandidate.issueScore[0]++;
+		globals.playerCandidate.issueScore[0]++;
 		break;
 		case 1:
-		playerCandidate.issueScore[1]++;
+		globals.playerCandidate.issueScore[1]++;
 		break;
 		case 2:
-		playerCandidate.issueScore[2]++;
+		globals.playerCandidate.issueScore[2]++;
 		break;
 		case 3:
-		playerCandidate.issueScore[3]++;
+		globals.playerCandidate.issueScore[3]++;
 		break;
 	}
-	candidates.splice(0,0,playerCandidate);
+	globals.candidates.splice(0,0,globals.playerCandidate);
 	
     //Displays the day barr based on the difficulty setting
-	if(totalDays == 5)
-		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+dayCycleImage[days-1] +".png' width = '300px'/>"
-        else if(totalDays == 7)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+dayCycleImage[days-1] +".png' width = '300px'/>"
-        else if(totalDays == 9)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+	if(globals.totalDays == 5)
+		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
+        else if(globals.totalDays == 7)
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
+        else if(globals.totalDays == 9)
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
         
-	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + days +"/" + totalDays + " </br> Remaining Hours Today: " + remainingHoursDay + "</h3><hr>";		
+	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + globals.days +"/" + globals.totalDays + " </br> Remaining Hours Today: " + globals.remainingHoursDay + "</h3><hr>";		
 	userAction();
 };
 
@@ -987,7 +878,7 @@ function userAction()
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
 
-	if(!back){
+	if(!globals.back){
 		saveGameState();
 	}
     
@@ -997,19 +888,19 @@ function userAction()
     var mapbackground = new Image();
     mapbackground.src = '../../img/map/mapMU600pxW.png';
     
-    var c=document.getElementById("myCanvas");
-		var ctx = c.getContext("2d");
-    ctx.fillStyle = '#FFFFFF'
+    globals.c=document.getElementById("myCanvas");
+	globals.ctx = globals.c.getContext("2d");
+    globals.ctx.fillStyle = '#FFFFFF'
     
     document.getElementById("playerInfo").innerHTML += "<div id = 'topPlayerArea'></div>"
   
-    if(totalDays == 5)
-		    document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3 style = 'margin-top:8px'>Days Remaining</h3><img  src = '../../img/dayfive/"+dayCycleImage[days-1] +".png' width = '300px'/></div>"
-        else if(totalDays == 7)
-            document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3>Days Remaining</h3><img src = '../../img/dayseven/"+dayCycleImage[days-1] +".png' width = '300px'/></div>"
-        else if(totalDays == 9)
-            document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3 style = 'margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+dayCycleImage[days-1] +".png' width = '300px'/></div>"
-	   document.getElementById("topPlayerArea").innerHTML += "<h3 style = 'margin-top:30px'>  Remaining Hours Today:   " + remainingHoursDay + "</h3>";		
+    if(globals.totalDays == 5)
+		    document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3 style = 'margin-top:8px'>Days Remaining</h3><img  src = '../../img/dayfive/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/></div>"
+        else if(globals.totalDays == 7)
+            document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3>Days Remaining</h3><img src = '../../img/dayseven/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/></div>"
+        else if(globals.totalDays == 9)
+            document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3 style = 'margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/></div>"
+	   document.getElementById("topPlayerArea").innerHTML += "<h3 style = 'margin-top:30px'>  Remaining Hours Today:   " + globals.remainingHoursDay + "</h3>";		
     
 	 document.getElementById("playerInfo").innerHTML +="<hr style = 'clear: right;'>"
 	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/takeapollicon.png'  onclick='pollMenu()' title = 'Polls'>                    </img>";
@@ -1017,32 +908,32 @@ function userAction()
 	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/trendreport.png'  onclick='trendReportMenu()' title = 'Trend Reports'>                    </img>";
 	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/helpicon.png'  class = 'logHelp' onclick='helpScreen()' title = 'Help'></img>";
 	//document.getElementById("Buttons").innerHTML += "<button  class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
-	document.getElementById("gameInfo").innerHTML += "<h3 style = 'float: right'> Rival\'s Last Move: " + candidates[1].lastMove + "</h3>";
+	document.getElementById("gameInfo").innerHTML += "<h3 style = 'float: right'> Rival\'s Last Move: " + globals.candidates[1].lastMove + "</h3>";
 	//document.getElementById("choices").innerHTML += "<br>";
     
    
 	
 
     
-	c.addEventListener('mousemove', function(evt) {canvasMouse = getMousePos(c, evt);}, false);
-	c.onmousedown = doMousedownMain;
-	c.onmousemove = doMouseOver;
+	globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
+	globals.c.onmousedown = doMousedownMain;
+	globals.c.onmousemove = doMouseOver;
     
   
 	mapbackground.onload = drawMap(false);
     
-	currentEvents = [];
+	globals.currentEvents = [];
     document.getElementById("CommonsChoice").innerHTML += "<h2>Commons</h2>";
     document.getElementById("LabChoice").innerHTML += "<h2>Labs</h2>";
     document.getElementById("GymChoice").innerHTML += "<h2>Gym</h2>";
     document.getElementById("LibraryChoice").innerHTML += "<h2>Library</h2>";
 	//Adds events to the cooresponding section based on their effect
-	for(var i = 1;i<events.length;i++)
+	for(var i = 1;i<globals.events.length;i++)
 	{
-		currentEvents.push(events[i]);
-		var eventDescription = events[i].name + " - " + events[i].timeRequired;
-		var arrayPos = events[i].id -1;
-       switch(events[i].loc)
+		globals.currentEvents.push(globals.events[i]);
+		var eventDescription =globals.events[i].name + " - " + globals.events[i].timeRequired;
+		var arrayPos = globals.events[i].id -1;
+       switch(globals.events[i].loc)
         {
             case "Com":
                 document.getElementById("CommonsChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
@@ -1074,14 +965,14 @@ function action()
 
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
-	chosenEvent = events[choice];
+	chosenEvent = globals.events[choice];
 	//console.log(chosenEvent);
-	back = false;
+	globals.back = false;
 
 	//document.getElementById("choices").innerHTML += "<button type='button' onclick='userAction()' >View Poll "+ num +" Result </button>";
-	if(remainingHoursDay >= chosenEvent.timeRequired)
+	if(globals.remainingHoursDay >= chosenEvent.timeRequired)
 	{
-		chosenEvent = events[choice];
+		chosenEvent = globals.events[choice];
 
 		if(chosenEvent.type=="smallEvent")
 		{
@@ -1185,7 +1076,7 @@ function action()
 			for(var i =0; i<chosenEvent.options.length; i++)
 			{
 				var totalText = "";
-				if( (eventHours + parseInt(chosenEvent.options[i].extraTime)) <= remainingHoursDay)
+				if( (eventHours + parseInt(chosenEvent.options[i].extraTime)) <= globals.remainingHoursDay)
 				{
 					var posText ="";
 					var negText = "";
@@ -1299,7 +1190,7 @@ function submitAction(id, eventHours)
 {
 
 	//Subtracts hours from the remaining hours in the game
-	chosenEvent = events[id];
+	chosenEvent = globals.events[id];
 	var totalPosEffects = [];
 	totalPosEffects = chosenEvent.groupPos.split(",");
 	var totalNegEffects = [];
@@ -1343,9 +1234,9 @@ function submitAction(id, eventHours)
 		
 		if(playGame)
 		{
-			remainingHoursTotal-= eventHours;
-			remainingHoursDay-= eventHours;
-			scoreChanger(candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
+			globals.remainingHoursTotal-= eventHours;
+			globals.remainingHoursDay-= eventHours;
+			scoreChanger(globals.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
 			minigamePlayer(parseInt(loaderNum));
 		}
 		else
@@ -1357,14 +1248,14 @@ function submitAction(id, eventHours)
 
 function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
 {
-	//console.log(remainingHoursTotal)
-	remainingHoursTotal-= eventHours;
-	remainingHoursDay-= eventHours;
+	//console.log(globals.remainingHoursTotal)
+	globals.remainingHoursTotal-= eventHours;
+	globals.remainingHoursDay-= eventHours;
 
-	candidates[1].lastMove = chosenEvent.name;
+	globals.candidates[1].lastMove = chosenEvent.name;
 
 	//Changes the player's score
-	scoreChanger(candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
+	scoreChanger(globals.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
 
 	//Checks to see if the game has reached it's end
 	hourChecker();
@@ -1381,26 +1272,26 @@ function gameCycleEnd()
 	prevHours.innerHTML = "";
 	nextArea.innerHTML = "";
 
-	    if(totalDays == 5)
-		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+dayCycleImage[days-1] +".png' width = '300px'/>"
-        else if(totalDays == 7)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+dayCycleImage[days-1] +".png' width = '300px'/>"
-        else if(totalDays == 9)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+	    if(globals.totalDays == 5)
+		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
+        else if(globals.totalDays == 7)
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
+        else if(globals.totalDays == 9)
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
 	
-	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + remainingHoursDay + "</h3><hr>";	votePercentage(1000,5);
+	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + globals.remainingHoursDay + "</h3><hr>";	votePercentage(1000,5);
 	var winner;
 	var winvotes = 0;
-	ranking = candidates.slice();
-	ranking.sort(function(a, b){return b.votes-a.votes})
+	globals.ranking = globals.candidates.slice();
+	globals.ranking.sort(function(a, b){return b.votes-a.votes})
 	document.getElementById("gameInfo").innerHTML = "<h1> Rankings: </h1>";
-	for(var i = 0; i<ranking.length;i++)
+	for(var i = 0; i<globals.ranking.length;i++)
 	{
-		document.getElementById("gameInfo").innerHTML += "<h1>" + (i+1) + ". " + ranking[i].name + " Votes: " + ranking[i].votes + "</h1><br>";
+		document.getElementById("gameInfo").innerHTML += "<h1>" + (i+1) + ". " + globals.ranking[i].name + " Votes: " + globals.ranking[i].votes + "</h1><br>";
 	}
-    endReset = true; 
-    gameOver = true;
-	document.getElementById("gameInfo").innerHTML += "<h1> Winner: "+ ranking[0].name +"</h1> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
+    globals.endReset = true; 
+    globals.gameOver = true;
+	document.getElementById("gameInfo").innerHTML += "<h1> Winner: "+ globals.ranking[0].name +"</h1> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
 };
 
 
@@ -1409,8 +1300,8 @@ function tutorial (help)
 {
 	document.getElementById("gameInfo").innerHTML ="";
 	var tutBUttonClicked = false; 
-	console.log(section +' tutorial')
-	switch(section)
+	//console.log(globals.section +' tutorial')
+	switch(globals.section)
 	{
 		case 1:
 		
@@ -1522,14 +1413,14 @@ function tutorial (help)
 //Displays the next tutorial section
 function nextSection(help)
 {
-	section++; 
+	globals.section++; 
 	tutorial(help);
 }
 
 //Displays the last tutorial section
 function lastSection(help)
 {
-	section--; 
+	globals.section--; 
 	tutorial(help);
 }
 
@@ -1558,30 +1449,30 @@ function map(state, isFirst, isFree){
 	}
 	else if(isFree == false && isFirst == false && state !=2 )
     {
-        if(totalDays == 5)
-		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+dayCycleImage[days-1] +".png' width = '300px'/>"
-        else if(totalDays == 7)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+dayCycleImage[days-1] +".png' width = '300px'/>"
-        else if(totalDays == 9)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+dayCycleImage[days-1] +".png' width = '300px'/>"
+        if(globals.totalDays == 5)
+		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
+        else if(globals.totalDays == 7)
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
+        else if(globals.totalDays == 9)
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
             
-	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + remainingHoursDay + "</h3><hr>";	}
+	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + globals.remainingHoursDay + "</h3><hr>";	}
 	if(state == 1||state == 2){
-		currentCandidateArrayHolder = candidates;
-		candidates = fakeCandidateHolder;
+		globals.currentCandidateArrayHolder = globals.candidates;
+		globals.candidates = globals.fakeCandidateHolder;
 	}
     //Calculates poll time
 	var timeForPoll = returnTotalPollTime(20,0);
     
-	qPollHolder = 2;
+	globals.qPollHolder = 2;
 	document.getElementById("event").style = "display:block";
     document.getElementById("event").innerHTML += "<h4>Select an area where you wish to poll.</h4>";
     document.getElementById("event").innerHTML += "<div id = 'mapArea'><canvas id='myCanvas' width='600px' height = '415px' style = 'position: relative;'></canvas></div><div id = 'questionArea'></div>";
-    var c=document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
-    c.addEventListener('mousemove', function(evt) {canvasMouse = getMousePos(c, evt);}, false);
-    c.onmousedown = doMousedown;
-    c.onmousemove = doMouseOver;
+    globals.c=document.getElementById("myCanvas");
+    globals.ctx = globals.c.getContext("2d");
+    globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
+    globals.c.onmousedown = doMousedown;
+    globals.c.onmousemove = doMouseOver;
     
     //Waits for the map to load before drawing on the canvas
     mapbackground.onload = drawMap(true);
@@ -1592,32 +1483,32 @@ function map(state, isFirst, isFree){
 		document.getElementById("location").options.add(new Option(buttonLabels[x],x));
 	}
 	document.getElementById("questionArea").innerHTML += "<label>Sample Size: </label><select id = 'sample' class = 'sampleOptions totalTimeTracker'><br></select><br><label>Time Spent: </label><select id = 'timeSpent' class = 'sampleOptions'></select><hr>";
-	back = false;
-	if(state != 0 || remainingHoursDay>= 3 )
+	globals.back = false;
+	if(state != 0 || globals.remainingHoursDay>= 3 )
 	{
 
 		document.getElementById("sample").options.add(new Option("Sample 20 Students", 20));
-		if(remainingHoursDay> 5 )
+		if(globals.remainingHoursDay> 5 )
 			document.getElementById("sample").options.add(new Option("Sample 40 Students", 40));
-		//if(remainingHoursDay> 7 )
+		//if(globals.remainingHoursDay> 7 )
 		//	document.getElementById("sample").options.add(new Option("Sample 60 Students", 60));
-		//if(remainingHoursDay> 9 )
+		//if(globals.remainingHoursDay> 9 )
 		//	document.getElementById("sample").options.add(new Option("Sample 80 Students", 80));
 
 		//	document.getElementById("rooms").options.add(new Option("1 Room", 20));
-		//if(remainingHoursDay> 5 )
+		//if(globals.remainingHoursDay> 5 )
 		//	document.getElementById("rooms").options.add(new Option("2 Rooms", 40));
-		//if(remainingHoursDay> 7 )
+		//if(globals.remainingHoursDay> 7 )
 		//	document.getElementById("rooms").options.add(new Option("3 Rooms", 60));
-		//if(remainingHoursDay> 9 )
+		//if(globals.remainingHoursDay> 9 )
 		//	document.getElementById("rooms").options.add(new Option("4 Rooms", 80));
 
 			document.getElementById("timeSpent").options.add(new Option("1 Hour", 20));
-		if(remainingHoursDay> 5 )
+		if(globals.remainingHoursDay> 5 )
 				document.getElementById("timeSpent").options.add(new Option("2 Hours", 40));
-		//if(remainingHoursDay> 7 )
+		//if(globals.remainingHoursDay> 7 )
 		//		document.getElementById("timeSpent").options.add(new Option("4 Hours", 60));
-		//if(remainingHoursDay> 9 )
+		//if(globals.remainingHoursDay> 9 )
 		//		document.getElementById("timeSpent").options.add(new Option("8 Hours", 80));
 
 
@@ -1629,13 +1520,13 @@ function map(state, isFirst, isFree){
 			document.getElementById("questionArea").innerHTML += " <select class = 'pollQ totalTimeTracker' id =\"poll"+i+ "\"> </select> ";
 			document.getElementById("questionArea").innerHTML += " <select class = 'subPollQ' style = 'display:none' id =\"subpoll"+i+ "\"> </select> ";
 			document.getElementById("poll"+i+"").options.add(new Option("None", none));
-			for(var j = 0; j<questions.length; j++)
+			for(var j = 0; j<globals.questions.length; j++)
 			{
 				if(!isFirst || state ==2)
 				{
 					if (j < 4 || j > 8)
 					{
-						document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));
+						document.getElementById("poll"+i+"").options.add(new Option(globals.questions[j].question, globals.questions[j].value));
 					
 					}
 				}
@@ -1643,7 +1534,7 @@ function map(state, isFirst, isFree){
 				{
 					if (j < 4 || j > 9)
 					{
-						document.getElementById("poll"+i+"").options.add(new Option(questions[j].question, questions[j].value));
+						document.getElementById("poll"+i+"").options.add(new Option(globals.questions[j].question, globals.questions[j].value));
 					
 					}
 				}
@@ -1702,7 +1593,7 @@ function map(state, isFirst, isFree){
 function drawMap(poll)
 {
 
-	isPoll = poll
+	globals.isPoll = poll
 	//map icons
 	var libraryIcon = new Image();
 	libraryIcon.src = '../img/map/libraryicon.png';
@@ -1730,62 +1621,62 @@ function drawMap(poll)
 	var medicalIcon = new Image();
 	medicalIcon.src = '../img/icons/medicalsquare.png';
     
-    var c=document.getElementById("myCanvas");
-	var ctx = c.getContext("2d");
+    globals.c=document.getElementById("myCanvas");
+	globals.ctx = globals.c.getContext("2d");
     
 
 	mapbackground.onload = function(){
-			  ctx.drawImage(mapbackground, 0,0,600,414);
-			  	ctx.strokeStyle = '#00FFFF';
-	ctx.fillStyle = 'rgba(0,255,255,0.5)';
-	ctx.lineWidth = 3;
+			  globals.ctx.drawImage(mapbackground, 0,0,600,414);
+			  	globals.ctx.strokeStyle = '#00FFFF';
+	globals.ctx.fillStyle = 'rgba(0,255,255,0.5)';
+	globals.ctx.lineWidth = 3;
 	
 	//stroke areas for gym
-	ctx.beginPath();
-        ctx.moveTo(360,15);
-        ctx.lineTo(585,15);
-        ctx.lineTo(585,235);
-        ctx.lineTo(485,235);
-        ctx.lineTo(485,120);
-        ctx.lineTo(360,120);
-	ctx.closePath();
-	ctx.stroke();
+	globals.ctx.beginPath();
+        globals.ctx.moveTo(360,15);
+        globals.ctx.lineTo(585,15);
+        globals.ctx.lineTo(585,235);
+        globals.ctx.lineTo(485,235);
+        globals.ctx.lineTo(485,120);
+        globals.ctx.lineTo(360,120);
+	globals.ctx.closePath();
+	globals.ctx.stroke();
     
 	//stroke labs
-	ctx.beginPath();
-	ctx.moveTo(150,15);
-	ctx.lineTo(255,15);
-	ctx.lineTo(255,135);
-	ctx.lineTo(226,135);
-	ctx.lineTo(226,165);
-	ctx.lineTo(180,165);
-	ctx.lineTo(180,135);
-	ctx.lineTo(150,135);
-	ctx.closePath();
-	ctx.stroke();
+	globals.ctx.beginPath();
+	globals.ctx.moveTo(150,15);
+	globals.ctx.lineTo(255,15);
+	globals.ctx.lineTo(255,135);
+	globals.ctx.lineTo(226,135);
+	globals.ctx.lineTo(226,165);
+	globals.ctx.lineTo(180,165);
+	globals.ctx.lineTo(180,135);
+	globals.ctx.lineTo(150,135);
+	globals.ctx.closePath();
+	globals.ctx.stroke();
     
 	
 	//quad
-	if(isPoll)
-		ctx.strokeRect(135,190,170,56);
+	if(globals.isPoll)
+		globals.ctx.strokeRect(135,190,170,56);
     
 	//library
-	ctx.strokeRect(400,275,188,124);
+	globals.ctx.strokeRect(400,275,188,124);
     
 
     
 	//media
-	ctx.strokeRect(90,275,117,122);
+	globals.ctx.strokeRect(90,275,117,122);
 	
 	//draw icon
 
-	    ctx.drawImage(libraryIcon, 435,270,113,75)
-        ctx.drawImage(gymIcon, 475,50,113,75)
-        ctx.drawImage(commonsicon, 90,285,113,75)
-        ctx.drawImage(labIcon, 145,30,113,75)
-            if(isPoll){
+	    globals.ctx.drawImage(libraryIcon, 435,270,113,75)
+        globals.ctx.drawImage(gymIcon, 475,50,113,75)
+        globals.ctx.drawImage(commonsicon, 90,285,113,75)
+        globals.ctx.drawImage(labIcon, 145,30,113,75)
+            if(globals.isPoll){
 
-			ctx.drawImage(quadIcon, 160,160,113,75) 
+			globals.ctx.drawImage(quadIcon, 160,160,113,75) 
 			}
    
 		}
@@ -1794,57 +1685,57 @@ function drawMap(poll)
 }
 
 //Sets the clickable zones on the map for polling
- function doMousedown(c, e)
+ function doMousedown(c,e)
 	{
-		var mouse = canvasMouse;
+		var mouse = globals.canvasMouse;
 		//check if the area is clickable
-			//quad 		ctx.strokeRect(208,235,243,60);
+			//quad 		globals.ctx.strokeRect(208,235,243,60);
 			if((mouse.x >= 135 && mouse.x <= 300)&&(mouse.y >= 190 && mouse.y <= 250)){
                 document.getElementById("location").value = 0;
-                  isCurrentAreaHover = 5;
+                  globals.isCurrentAreaHover = 5;
 			}
 			
 			//gym1
 			if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
                 document.getElementById("location").value = 1;
-                isCurrentAreaHover = 1;
+                globals.isCurrentAreaHover = 1;
 
 			}
 			//gym2
 			if((mouse.x >= 480 && mouse.x <=590 )&&(mouse.y >= 115 && mouse.y <= 235)){
                 document.getElementById("location").value = 1;
-                  isCurrentAreaHover = 1;
+                  globals.isCurrentAreaHover = 1;
 			}
-			//media 		ctx.strokeRect(135,333,175,145);
+			//media 		globals.ctx.strokeRect(135,333,175,145);
 			if((mouse.x >= 90 && mouse.x <= 205)&&(mouse.y >= 275 && mouse.y <= 395)){
                 document.getElementById("location").value = 3;
-                  isCurrentAreaHover = 0;
+                  globals.isCurrentAreaHover = 0;
 			}
 		
 			//labs1
 			if((mouse.x >= 150 && mouse.x <= 255)&&(mouse.y >= 15 && mouse.y <= 135)){
                 document.getElementById("location").value = 2;
-                  isCurrentAreaHover = 2;
+                  globals.isCurrentAreaHover = 2;
 			}
 			//labs2
 			else if((mouse.x >= 180 && mouse.x <= 230)&&(mouse.y >= 225 && mouse.y <= 395)){
                 document.getElementById("location").value = 2;
-                  isCurrentAreaHover = 2;
+                  globals.isCurrentAreaHover = 2;
 			}
 
 			//coffee shop 
 			
-			//library 	ctx.strokeRect(600,330,280,155);
+			//library 	globals.ctx.strokeRect(600,330,280,155);
 			if((mouse.x >= 400 && mouse.x <= 590)&&(mouse.y >= 275 && mouse.y <= 400)){
                 document.getElementById("location").value = 4;
-                  isCurrentAreaHover = 3;
+                  globals.isCurrentAreaHover = 3;
 			}
     }
     
 //Sets the clickable zones on the map forthe user action area
- function doMousedownMain(c, e)
+ function doMousedownMain(c,e)
 	{
-		var mouse = canvasMouse;
+		var mouse = globals.canvasMouse;
 		//check if the area is clickable
 			//gym1
 			if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
@@ -1852,7 +1743,7 @@ function drawMap(poll)
                 document.getElementById("LabChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:block';
                 document.getElementById("CommonsChoice").style = 'display:none';
-                isCurrentAreaHover = 1;
+                globals.isCurrentAreaHover = 1;
 			}
 			//gym2
 			if((mouse.x >= 480 && mouse.x <=590 )&&(mouse.y >= 115 && mouse.y <= 235)){
@@ -1860,15 +1751,15 @@ function drawMap(poll)
                 document.getElementById("LabChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:block';
                 document.getElementById("CommonsChoice").style = 'display:none';
-                     isCurrentAreaHover = 1;
+                     globals.isCurrentAreaHover = 1;
 			}
-			//media 		ctx.strokeRect(135,333,175,145);
+			//media 		globals.ctx.strokeRect(135,333,175,145);
 			if((mouse.x >= 90 && mouse.x <= 205)&&(mouse.y >= 275 && mouse.y <= 395)){
                 document.getElementById("LibraryChoice").style = 'display:none';
                 document.getElementById("LabChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:none';
                 document.getElementById("CommonsChoice").style = 'display:block';
-                     isCurrentAreaHover = 0;
+                     globals.isCurrentAreaHover = 0;
 			}
 		
 			//labs1
@@ -1877,7 +1768,7 @@ function drawMap(poll)
                 document.getElementById("LabChoice").style = 'display:block';
                 document.getElementById("GymChoice").style = 'display:none';
                 document.getElementById("CommonsChoice").style = 'display:none';
-                     isCurrentAreaHover = 2;
+                     globals.isCurrentAreaHover = 2;
 			}
 			//labs2
 			else if((mouse.x >= 180 && mouse.x <= 230)&&(mouse.y >= 135 && mouse.y <= 165)){
@@ -1885,112 +1776,112 @@ function drawMap(poll)
                 document.getElementById("LabChoice").style = 'display:block';
                 document.getElementById("GymChoice").style = 'display:none';
                 document.getElementById("CommonsChoice").style = 'display:none';
-                     isCurrentAreaHover = 2;
+                     globals.isCurrentAreaHover = 2;
 			}
 
 			//coffee shop 
 			
-			//library 	ctx.strokeRect(600,330,280,155);
+			//library 	globals.ctx.strokeRect(600,330,280,155);
 			if((mouse.x >= 400 && mouse.x <= 590)&&(mouse.y >= 275 && mouse.y <= 400)){
                 document.getElementById("LibraryChoice").style = 'display:block';
                 document.getElementById("LabChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:none';
                 document.getElementById("CommonsChoice").style = 'display:none';
-                     isCurrentAreaHover = 3;
+                     globals.isCurrentAreaHover = 3;
 			}
     }
 //Fills the zone over the building that the mouse if hovering over
-	function doMouseOver(c, e){
+	function doMouseOver(c,e){
 
 
-	var c=document.getElementById("myCanvas");
-        var ctx = c.getContext("2d");
-		var mouse = canvasMouse;
+        globals.c=document.getElementById("myCanvas");
+        globals.ctx = globals.c.getContext("2d");
+		var mouse = globals.canvasMouse;
         //console.log(mouse);
-		ctx.fillStyle = 'rgba(0,255,255,0.5)';
+		globals.ctx.fillStyle = 'rgba(0,255,255,0.5)';
         var mapbackground = new Image();
         mapbackground.src = '../../img/map/map.png';
-        ctx.drawImage(mapbackground, 0,0,450,250);
+        globals.ctx.drawImage(mapbackground, 0,0,450,250);
 
 
 		//check if the area is clickable
-			//quad 		ctx.strokeRect(208,235,243,60);
+			//quad 		globals.ctx.strokeRect(208,235,243,60);
 						
 			//gym1
 			if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
                 
                 strokeAreas();
-                ctx.beginPath();
-                ctx.moveTo(360,15);
-                ctx.lineTo(585,15);
-                ctx.lineTo(585,235);
-                ctx.lineTo(485,235);
-                ctx.lineTo(485,120);
-                ctx.lineTo(360,120);
-				ctx.closePath();
-                ctx.fill();
+                globals.ctx.beginPath();
+                globals.ctx.moveTo(360,15);
+                globals.ctx.lineTo(585,15);
+                globals.ctx.lineTo(585,235);
+                globals.ctx.lineTo(485,235);
+                globals.ctx.lineTo(485,120);
+                globals.ctx.lineTo(360,120);
+				globals.ctx.closePath();
+                globals.ctx.fill();
 			}
 			//gym2
 			else if((mouse.x >= 480 && mouse.x <= 590)&&(mouse.y >= 115 && mouse.y <= 235)){
                 strokeAreas();
-                ctx.beginPath();
-                ctx.moveTo(360,15);
-                ctx.lineTo(585,15);
-                ctx.lineTo(585,235);
-                ctx.lineTo(485,235);
-                ctx.lineTo(485,120);
-                ctx.lineTo(360,120);
-				ctx.closePath();
-                ctx.fill();
+                globals.ctx.beginPath();
+                globals.ctx.moveTo(360,15);
+                globals.ctx.lineTo(585,15);
+                globals.ctx.lineTo(585,235);
+                globals.ctx.lineTo(485,235);
+                globals.ctx.lineTo(485,120);
+                globals.ctx.lineTo(360,120);
+				globals.ctx.closePath();
+                globals.ctx.fill();
 			}
-			//media 		ctx.strokeRect(135,333,175,145);
+			//media 		globals.ctx.strokeRect(135,333,175,145);
 			else if((mouse.x >= 90 && mouse.x <= 205)&&(mouse.y >= 275 && mouse.y <= 395)){
                 
                strokeAreas();
-                ctx.fillRect(90,275,117,122);
+                globals.ctx.fillRect(90,275,117,122);
 			}
 		
 			//labs1
 			else if((mouse.x >= 145 && mouse.x <= 255)&&(mouse.y >= 15 && mouse.y <= 135)){
                 
                 strokeAreas();
-					ctx.beginPath();
-                    ctx.moveTo(150,15);
-                    ctx.lineTo(255,15);
-                    ctx.lineTo(255,135);
-                    ctx.lineTo(226,135);
-                    ctx.lineTo(226,165);
-                    ctx.lineTo(180,165);
-                    ctx.lineTo(180,135);
-                    ctx.lineTo(150,135);
-					ctx.closePath();
-                    ctx.fill();
+					globals.ctx.beginPath();
+                    globals.ctx.moveTo(150,15);
+                    globals.ctx.lineTo(255,15);
+                    globals.ctx.lineTo(255,135);
+                    globals.ctx.lineTo(226,135);
+                    globals.ctx.lineTo(226,165);
+                    globals.ctx.lineTo(180,165);
+                    globals.ctx.lineTo(180,135);
+                    globals.ctx.lineTo(150,135);
+					globals.ctx.closePath();
+                    globals.ctx.fill();
 			}
 			//labs2
 			else if((mouse.x >= 180 && mouse.x <= 230)&&(mouse.y >= 135 && mouse.y <= 165)){
                 
                 strokeAreas();   
-					ctx.beginPath();
-                    ctx.moveTo(145,15);
-                    ctx.lineTo(255,15);
-                    ctx.lineTo(255,135);
-                    ctx.lineTo(226,135);
-                    ctx.lineTo(226,165);
-                    ctx.lineTo(180,165);
-                    ctx.lineTo(180,135);
-                    ctx.lineTo(145,135);
-					ctx.closePath();
-                    ctx.fill();
+					globals.ctx.beginPath();
+                    globals.ctx.moveTo(145,15);
+                    globals.ctx.lineTo(255,15);
+                    globals.ctx.lineTo(255,135);
+                    globals.ctx.lineTo(226,135);
+                    globals.ctx.lineTo(226,165);
+                    globals.ctx.lineTo(180,165);
+                    globals.ctx.lineTo(180,135);
+                    globals.ctx.lineTo(145,135);
+					globals.ctx.closePath();
+                    globals.ctx.fill();
 			}
 
 			//coffee shop 
 		
-			//library 	ctx.strokeRect(600,330,280,155);
+			//library 	globals.ctx.strokeRect(600,330,280,155);
 			else if((mouse.x >= 400 && mouse.x <= 590)&&(mouse.y >= 255 && mouse.y <= 400)){
                 
                strokeAreas();
                 
-                ctx.fillRect(400,275,188,124);
+                globals.ctx.fillRect(400,275,188,124);
 			}
             else
             {
@@ -2013,24 +1904,24 @@ function drawMap(poll)
             
             //draw icon
 
-            ctx.drawImage(libraryIcon, 435,270,113,75)
-            ctx.drawImage(gymIcon, 475,50,113,75)
-            ctx.drawImage(commonsicon, 90,285,113,75)
-            if(isPoll){
-            	if(isCurrentAreaHover  == 5){
-        			ctx.lineWidth = 6;
-        			ctx.strokeStyle = '#FFFF00';
+            globals.ctx.drawImage(libraryIcon, 435,270,113,75)
+            globals.ctx.drawImage(gymIcon, 475,50,113,75)
+            globals.ctx.drawImage(commonsicon, 90,285,113,75)
+            if(globals.isPoll){
+            	if(globals.isCurrentAreaHover  == 5){
+        			globals.ctx.lineWidth = 6;
+        			globals.ctx.strokeStyle = '#FFFF00';
         		}	
 
             	if((mouse.x >= 135 && mouse.x <= 300)&&(mouse.y >= 190 && mouse.y <= 250)){ 
              
-                ctx.fillRect(135,190,170,56); 
+                globals.ctx.fillRect(135,190,170,56); 
       			} 
-            ctx.strokeRect(135,190,170,56);
-			ctx.drawImage(quadIcon, 160,160,113,75) 
+            globals.ctx.strokeRect(135,190,170,56);
+			globals.ctx.drawImage(quadIcon, 160,160,113,75) 
 
 			}
-            ctx.drawImage(labIcon, 145,30,113,75)
+            globals.ctx.drawImage(labIcon, 145,30,113,75)
           
 	}
     
@@ -2039,88 +1930,88 @@ function drawMap(poll)
     function strokeAreas()
     {
         
-        var c=document.getElementById("myCanvas");
-        var ctx = c.getContext("2d");
-		var mouse = canvasMouse;
-		ctx.fillStyle = 'rgba(0,255,255,0.5)';
-        ctx.strokeStyle = '#00FFFF';
-        ctx.lineWidth = 3;
+        globals.c=document.getElementById("myCanvas");
+        globals.ctx = globals.c.getContext("2d");
+		var mouse = globals.canvasMouse;
+		globals.ctx.fillStyle = 'rgba(0,255,255,0.5)';
+        globals.ctx.strokeStyle = '#00FFFF';
+        globals.ctx.lineWidth = 3;
         var mapbackground = new Image();
         mapbackground.src = '../../img/map/mapMU600pxW.png';
-        ctx.drawImage(mapbackground, 0,0,600,414);
+        globals.ctx.drawImage(mapbackground, 0,0,600,414);
         
-          if(isCurrentAreaHover  == 1){
-          	ctx.strokeStyle = '#FFFF00';
-        	ctx.lineWidth = 6;
+          if(globals.isCurrentAreaHover  == 1){
+          	globals.ctx.strokeStyle = '#FFFF00';
+        	globals.ctx.lineWidth = 6;
         }
         //stroke areas for gym
-        ctx.beginPath();
-        ctx.moveTo(360,15);
-        ctx.lineTo(585,15);
-        ctx.lineTo(585,235);
-        ctx.lineTo(485,235);
-        ctx.lineTo(485,120);
-        ctx.lineTo(360,120);
-        ctx.closePath();
-        ctx.stroke();
+        globals.ctx.beginPath();
+        globals.ctx.moveTo(360,15);
+        globals.ctx.lineTo(585,15);
+        globals.ctx.lineTo(585,235);
+        globals.ctx.lineTo(485,235);
+        globals.ctx.lineTo(485,120);
+        globals.ctx.lineTo(360,120);
+        globals.ctx.closePath();
+        globals.ctx.stroke();
 
-        ctx.lineWidth = 3;
-              ctx.strokeStyle = '#00FFFF';
+        globals.ctx.lineWidth = 3;
+              globals.ctx.strokeStyle = '#00FFFF';
         
 
-          if(isCurrentAreaHover  == 2){
-          	ctx.strokeStyle = '#FFFF00';
-        	ctx.lineWidth = 6;
+          if(globals.isCurrentAreaHover  == 2){
+          	globals.ctx.strokeStyle = '#FFFF00';
+        	globals.ctx.lineWidth = 6;
         }
         //stroke labs
-        ctx.beginPath();
-        ctx.moveTo(150,15);
-        ctx.lineTo(255,15);
-        ctx.lineTo(255,135);
-        ctx.lineTo(226,135);
-        ctx.lineTo(226,165);
-        ctx.lineTo(180,165);
-        ctx.lineTo(180,135);
-        ctx.lineTo(150,135);
-        ctx.closePath();
-        ctx.stroke();
-        ctx.lineWidth = 3;
+        globals.ctx.beginPath();
+        globals.ctx.moveTo(150,15);
+        globals.ctx.lineTo(255,15);
+        globals.ctx.lineTo(255,135);
+        globals.ctx.lineTo(226,135);
+        globals.ctx.lineTo(226,165);
+        globals.ctx.lineTo(180,165);
+        globals.ctx.lineTo(180,135);
+        globals.ctx.lineTo(150,135);
+        globals.ctx.closePath();
+        globals.ctx.stroke();
+        globals.ctx.lineWidth = 3;
 
-        ctx.strokeStyle = '#00FFFF';
+        globals.ctx.strokeStyle = '#00FFFF';
  
-          if(isCurrentAreaHover  == 3){
-          	ctx.strokeStyle = '#FFFF00';
-        	ctx.lineWidth = 6;
+          if(globals.isCurrentAreaHover  == 3){
+          	globals.ctx.strokeStyle = '#FFFF00';
+        	globals.ctx.lineWidth = 6;
         }
         //library
-        ctx.strokeRect(400,275,188,124);
-        ctx.strokeStyle = '#00FFFF';
+        globals.ctx.strokeRect(400,275,188,124);
+        globals.ctx.strokeStyle = '#00FFFF';
 
-        ctx.lineWidth = 3;
-        if(isCurrentAreaHover  == 0){
-        	ctx.lineWidth = 6;
-        	ctx.strokeStyle = '#FFFF00';
+        globals.ctx.lineWidth = 3;
+        if(globals.isCurrentAreaHover  == 0){
+        	globals.ctx.lineWidth = 6;
+        	globals.ctx.strokeStyle = '#FFFF00';
         }
         
         //media
   
-        ctx.strokeRect(90,275,117,122);
-        ctx.lineWidth = 3;
-              ctx.strokeStyle = '#00FFFF';
+        globals.ctx.strokeRect(90,275,117,122);
+        globals.ctx.lineWidth = 3;
+              globals.ctx.strokeStyle = '#00FFFF';
 
     }
     
 //makes the statement screen
 function statement(){
-	back = false;
+	globals.back = false;
 	clearScreen();
 		document.getElementById("event").style.display = "block";
 		document.getElementById("event").innerHTML += "<h4>People want to know how you feel on certain issues. Time to make a statement!</h4>";
 		document.getElementById("event").innerHTML += " <select id = 'statements'> </select> ";
 		document.getElementById("event").innerHTML += " <select id = 'posneg'> </select> ";
 
-		for(var x = 0; x < positions.length; x++){
-			document.getElementById("statements").options.add(new Option(positions[x], x))
+		for(var x = 0; x < globals.positions.length; x++){
+			document.getElementById("statements").options.add(new Option(globals.positions[x], x))
 		}
 
 		document.getElementById("posneg").options.add(new Option('Positive', 0))
@@ -2134,34 +2025,34 @@ function statement(){
 //Minigame
 function minigamePlayer(id){
 		//Clear previous screen
-	lastMinigame = id;
+	globals.lastMinigame = id;
 	clearScreen();
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 
 	document.getElementById("event").innerHTML += "<div id = 'centerCanvas'><canvas id='myCanvas' width='880px' height = '500px' style = 'margin: 0 auto;'></canvas></div><br>";
-	var c=document.getElementById("myCanvas");
-	var ctx = c.getContext("2d");
+	globals.c=document.getElementById("myCanvas");
+	globals.ctx = globals.c.getContext("2d");
 
 
-	c.addEventListener('mousemove', function(evt) {canvasMouse = getMousePos(c, evt);}, false);
+	globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
 	console.log(id);
 	switch(id)
 	{
 		case 1:
-		runningGame.main.init(c,ctx);
+		runningGame.main.init(globals.c,globals.ctx);
 		break;
 		case 2:
-		runningGame2.main.init(c,ctx);
+		runningGame2.main.init(globals.c,globals.ctx);
 		break;
 		case 3:
-		secretSticker.main.init(c,ctx);
+		secretSticker.main.init(globals.c,globals.ctx);
 		break;
 		case 4:
-		runningGame4.main.init(c,ctx);
+		runningGame4.main.init(globals.c,globals.ctx);
 		break;
 		case 5:
-		tshirtCannon.main.init(c,ctx);
+		tshirtCannon.main.init(globals.c,globals.ctx);
 		break;
 	}	
 }
@@ -2172,31 +2063,31 @@ function practiceGame(id){
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 	
-	currentCandidateArrayHolder = candidates;
-	candidates = fakeCandidateHolder;
+	globals.currentCandidateArrayHolder = globals.candidates;
+	globals.candidates = globals.fakeCandidateHolder;
 	document.getElementById("event").style = "display:block";
 	document.getElementById("event").innerHTML += "<canvas id='myCanvas' width='900px' height = '500px'></canvas><br>";
-	var c=document.getElementById("myCanvas");
-	var ctx = c.getContext("2d");
+	globals.c=document.getElementById("myCanvas");
+	globals.ctx = globals.c.getContext("2d");
 
 
-	c.addEventListener('mousemove', function(evt) {canvasMouse = getMousePos(c, evt);}, false);
+	globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
 	switch(id)
 	{
 		case 1:
-		runningGame.main.init(c,ctx);
+		runningGame.main.init(globals.c,globals.ctx);
 		break;
 		case 2:
-		runningGame2.main.init(c,ctx);
+		runningGame2.main.init(globals.c,globals.ctx);
 		break;
 		case 3:
-		secretSticker.main.init(c,ctx);
+		secretSticker.main.init(globals.c,globals.ctx);
 		break;
 		case 4:
-		runningGame4.main.init(c,ctx);
+		runningGame4.main.init(globals.c,globals.ctx);
 		break;
 		case 5:
-		tshirtCannon.main.init(c,ctx);
+		tshirtCannon.main.init(globals.c,globals.ctx);
 		break;
 	}	
 }
@@ -2205,41 +2096,41 @@ function practiceGame(id){
 //calculated the effectiveness of your statement & consistancy modifier
 function statementCalc()
 {
-	if(remainingHoursDay > 0)
+	if(globals.remainingHoursDay > 0)
 	{
 		var currentStatement = document.getElementById("statements").value;
 		var currentPosNeg = document.getElementById("posneg").value;
 		//if positive statement
 		if(currentPosNeg == 0){
-			candidates[0].issueScore[currentStatement] += 0.2;
+			globals.candidates[0].issueScore[currentStatement] += 0.2;
 			if(currentStatement == 0){
-				candidates[0].tuitPos += 1;
+				globals.candidates[0].tuitPos += 1;
 			}
 			else if(currentStatement == 1){
-				candidates[0].budPos += 1;
+				globals.candidates[0].budPos += 1;
 			}
 			else if(currentStatement == 3){
-				candidates[0].medPos += 1;
+				globals.candidates[0].medPos += 1;
 			}
 			else if(currentStatement == 2){
-				candidates[0].funcPos += 1;
+				globals.candidates[0].funcPos += 1;
 			}
 		}
 		//if negative statement
 		else{
 		
-				candidates[0].issueScore[currentStatement] -= 0.2;
+				globals.candidates[0].issueScore[currentStatement] -= 0.2;
 				if(currentStatement == 0){
-					candidates[0].tuitNeg += 1;
+					globals.candidates[0].tuitNeg += 1;
 				}
 				else if(currentStatement == 1){
-					candidates[0].budNeg += 1;
+					globals.candidates[0].budNeg += 1;
 				}
 				else if(currentStatement == 3){
-					candidates[0].medNeg += 1;
+					globals.candidates[0].medNeg += 1;
 				}
 			else if(currentStatement == 2){
-				candidates[0].funcNeg += 1;
+				globals.candidates[0].funcNeg += 1;
 				}
 	
 		}
@@ -2253,47 +2144,47 @@ function statementCalc()
 	
 	
 		//check if the issues have anything even in them
-		if(candidates[0].tuitPos>0 || candidates[0].tuitNeg > 0){
-			tuitCond = (Math.min(candidates[0].tuitPos, candidates[0].tuitNeg))/(candidates[0].tuitPos+candidates[0].tuitNeg);
+		if(globals.candidates[0].tuitPos>0 || globals.candidates[0].tuitNeg > 0){
+			tuitCond = (Math.min(globals.candidates[0].tuitPos, globals.candidates[0].tuitNeg))/(globals.candidates[0].tuitPos+globals.candidates[0].tuitNeg);
 		}
 		else{
 			tuitCond = 0;
 		}
 	
-		if(candidates[0].budPos>0 || candidates[0].budNeg>0){
-			athCond = (Math.min(candidates[0].budPos, candidates[0].budNeg))/(candidates[0].budPos+candidates[0].budNeg);
+		if(globals.candidates[0].budPos>0 || globals.candidates[0].budNeg>0){
+			athCond = (Math.min(globals.candidates[0].budPos, globals.candidates[0].budNeg))/(globals.candidates[0].budPos+globals.candidates[0].budNeg);
 		}
 		else{
 			athCond = 0;
 		}
 	
-		if(candidates[0].resPos>0 || candidates[0].resNeg>0){
-			resCond = (Math.min(candidates[0].resPos, candidates[0].resNeg))/(candidates[0].resPos+candidates[0].resNeg);
+		if(globals.candidates[0].resPos>0 || globals.candidates[0].resNeg>0){
+			resCond = (Math.min(globals.candidates[0].resPos, globals.candidates[0].resNeg))/(globals.candidates[0].resPos+globals.candidates[0].resNeg);
 		}
 	
 		else{
 			resCond = 0;
 		}
 	
-		if(candidates[0].medPos>0 || candidates[0].medNeg>0){
-			medCond = (Math.min(candidates[0].medPos, candidates[0].medNeg))/(candidates[0].medPos+candidates[0].medNeg);
+		if(globals.candidates[0].medPos>0 || globals.candidates[0].medNeg>0){
+			medCond = (Math.min(globals.candidates[0].medPos, globals.candidates[0].medNeg))/(globals.candidates[0].medPos+globals.candidates[0].medNeg);
 		}
 		else{
 			medCond = 0;
 		}
 	
-		if(candidates[0].funcPos>0 || candidates[0].funcNeg>0){
-			eventCond = (Math.min(candidates[0].funcPos, candidates[0].funcNeg))/(candidates[0].funcPos+candidates[0].funcNeg);
+		if(globals.candidates[0].funcPos>0 || globals.candidates[0].funcNeg>0){
+			eventCond = (Math.min(globals.candidates[0].funcPos, globals.candidates[0].funcNeg))/(globals.candidates[0].funcPos+globals.candidates[0].funcNeg);
 		}
 		else{
 			eventCond = 0;
 		}
 	
 		var condHolder = (tuitCond + athCond + resCond + medCond + eventCond)/5;
-		candidates[0].consMod = condHolder;
+		globals.candidates[0].consMod = condHolder;
 		//decrease 1 hour and continue back to user action
-		remainingHoursTotal--;
-		remainingHoursDay--;
+		globals.remainingHoursTotal--;
+		globals.remainingHoursDay--;
 		statementCalcOtherCandidate(1);
 	}
     statementResults(currentStatement);
@@ -2333,38 +2224,38 @@ function statementCalcOtherCandidate(x){
 	var currentPosNeg = document.getElementById("posneg").value;
 
 	if(currentPosNeg == 0){
-		candidates[x].issueScore[currentStatement] += 0.75;
+		globals.candidates[x].issueScore[currentStatement] += 0.75;
 		if(currentStatement == 0){
-			candidates[x].tuitPos += 1;
+			globals.candidates[x].tuitPos += 1;
 		}
 		else if(currentStatement == 1){
-			candidates[x].budPos += 1;
+			globals.candidates[x].budPos += 1;
 		}
 		else if(currentStatement == 3){
-			candidates[x].medPos += 1;
+			globals.candidates[x].medPos += 1;
 		}
 		else if(currentStatement == 2){
-			candidates[x].funcPos += 1;
+			globals.candidates[x].funcPos += 1;
 		}
 	}
 	else{
 		if(currentPosNeg == 1){
-			//candidates[x].issueScore[currentStatement] -= 0.75;
+			//globals.candidates[x].issueScore[currentStatement] -= 0.75;
 			if(currentStatement == 0){
-				candidates[x].tuitNeg += 1;
+				globals.candidates[x].tuitNeg += 1;
 			}
 			else if(currentStatement == 1){
-				candidates[x].budNeg += 1;
+				globals.candidates[x].budNeg += 1;
 			}
 			else if(currentStatement == 3){
-				candidates[x].medNeg += 1;
+				globals.candidates[x].medNeg += 1;
 			}
             else if(currentStatement == 2){
-			candidates[x].funcNeg += 1;
+			globals.candidates[x].funcNeg += 1;
 			}
 		}
 	}
-	candidates[x].lastMove = "Statement";
+	globals.candidates[x].lastMove = "Statement";
 }
 
 //Displays the result of a poll immediately after it end and then saves the report for later viewing
@@ -2483,11 +2374,11 @@ function pollResults(state, isFirst, isFree)
 /* Helper Functions*/
 
 function addMoreQuestions(){
-	if(qPollHolder< 6){
-		qh2 = qPollHolder + 1;
-		document.getElementById('poll' + qPollHolder + '').style = "display:block";
+	if(globals.qPollHolder< 6){
+		qh2 = globals.qPollHolder + 1;
+		document.getElementById('poll' + globals.qPollHolder + '').style = "display:block";
 		document.getElementById('poll' + qh2 + '').style = "display:block";
-		qPollHolder = qPollHolder + 2;
+		globals.qPollHolder = globals.qPollHolder + 2;
 	}
 }
 
@@ -2824,7 +2715,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				break;
 
 		}
-	////console.log(candidates[0].issueScore);
+	////console.log(globals.candidates[0].issueScore);
 	}
 }
 
@@ -2880,11 +2771,11 @@ function CandidateCreate(name){
 //Creates a smaple full of randomly generated students
 function createSample(x, bias)
 {
-	sample = [];
+	globals.sample = [];
 	for (var count= 0; count < x; count++){
 		var scoreHolder = getScores(x, bias);
-		var holderStudent = new Student(groupList[scoreHolder[0]], majorList[scoreHolder[1]], scoreHolder[2], scoreHolder[3], scoreHolder[4], scoreHolder[5])
-		sample.push(holderStudent);
+		var holderStudent = new Student(globals.groupList[scoreHolder[0]], globals.majorList[scoreHolder[1]], scoreHolder[2], scoreHolder[3], scoreHolder[4], scoreHolder[5])
+		globals.sample.push(holderStudent);
 	}
 }
 
@@ -2918,10 +2809,10 @@ function getScores(x, bias){
 	var med = 0;
 	var event = 0;
 	//SCORE calculated by (group issue + variable) + (major issue + variable)  + (class issue + variable)
-	tuit = (((groupIssues[groupRandom][0]) + (Math.floor(Math.random() * (groupIssues[groupRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][0]) + (Math.floor(Math.random() * (groupIssues[majorRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	bud =  (((groupIssues[groupRandom][2]) + (Math.floor(Math.random() * (groupIssues[groupRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][2]) + (Math.floor(Math.random() * (groupIssues[majorRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	event =  (((groupIssues[groupRandom][6]) + (Math.floor(Math.random() * (groupIssues[groupRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][6]) + (Math.floor(Math.random() * (groupIssues[majorRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) ;
-	med =  (((groupIssues[groupRandom][8]) + (Math.floor(Math.random() * (groupIssues[groupRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((majorIssues[majorRandom][8]) + (Math.floor(Math.random() * (groupIssues[majorRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	tuit = (((globals.groupIssues[groupRandom][0]) + (Math.floor(Math.random() * (globals.groupIssues[groupRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((globals.majorIssues[majorRandom][0]) + (Math.floor(Math.random() * (globals.groupIssues[majorRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	bud =  (((globals.groupIssues[groupRandom][2]) + (Math.floor(Math.random() * (globals.groupIssues[groupRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((globals.majorIssues[majorRandom][2]) + (Math.floor(Math.random() * (globals.groupIssues[majorRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	event =  (((globals.groupIssues[groupRandom][6]) + (Math.floor(Math.random() * (globals.groupIssues[groupRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((globals.majorIssues[majorRandom][6]) + (Math.floor(Math.random() * (globals.groupIssues[majorRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) ;
+	med =  (((globals.groupIssues[groupRandom][8]) + (Math.floor(Math.random() * (globals.groupIssues[groupRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((globals.majorIssues[majorRandom][8]) + (Math.floor(Math.random() * (globals.groupIssues[majorRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
 
 	 tuit = tuit/2;
      bud = bud/2;
@@ -2944,48 +2835,48 @@ function votePercentage(sampleSize, bias)
 	////console.log(candidates);
 	createSample(sampleSize, bias);
 	var finalWinner = "";
-	for(var i=0;i<candidates.length; i++)
+	for(var i=0;i<globals.candidates.length; i++)
 		{
-			candidates[i].votes = 0;
+			globals.candidates[i].votes = 0;
 		}
-	for(var i =0; i<sample.length; i++)
+	for(var i =0; i<globals.sample.length; i++)
 	{
 		var winPercentage=0;
 		var winner ="";
 		var lowPercentage=0;
 		var loser ="";
-		for(var j=0;j<candidates.length; j++)
+		for(var j=0;j<globals.candidates.length; j++)
 		{
 
-			////console.log(sample[i]);
+			////console.log(globals.sample[i]);
 			var fame = 0;
-			fame = fameCalc(candidates[j], sample[i]);
-			////console.log(candidates[j].name +" Fame: "+ fame);
+			fame = fameCalc(globals.candidates[j], globals.sample[i]);
+			////console.log(globals.candidates[j].name +" Fame: "+ fame);
 			if(j != 1)
 			{
-				var issues = parseFloat(sample[i].tuitionScore) * parseFloat(candidates[j].issueScore[0])
-				issues += parseFloat(sample[i].budgetScore) * parseFloat(candidates[j].issueScore[1])
-				issues += parseFloat(sample[i].functionScore)* parseFloat(candidates[j].issueScore[2])
-				issues += parseFloat(sample[i].medicalScore)  * parseFloat(candidates[j].issueScore[3])
+				var issues = parseFloat(globals.sample[i].tuitionScore) * parseFloat(globals.candidates[j].issueScore[0])
+				issues += parseFloat(globals.sample[i].budgetScore) * parseFloat(globals.candidates[j].issueScore[1])
+				issues += parseFloat(globals.sample[i].functionScore)* parseFloat(globals.candidates[j].issueScore[2])
+				issues += parseFloat(globals.sample[i].medicalScore)  * parseFloat(globals.candidates[j].issueScore[3])
 				issues = issues/4;
 			}
 			else
 			{
-				var issues = parseFloat(sample[i].tuitionScore) * parseFloat(candidates[j].issueScore[0])
-				issues += parseFloat(sample[i].budgetScore) * parseFloat(candidates[j].issueScore[1])
-				issues += parseFloat(sample[i].functionScore)* parseFloat(candidates[j].issueScore[2])
-				issues += parseFloat(sample[i].medicalScore)  * parseFloat(candidates[j].issueScore[3])
+				var issues = parseFloat(globals.sample[i].tuitionScore) * parseFloat(globals.candidates[j].issueScore[0])
+				issues += parseFloat(globals.sample[i].budgetScore) * parseFloat(globals.candidates[j].issueScore[1])
+				issues += parseFloat(globals.sample[i].functionScore)* parseFloat(globals.candidates[j].issueScore[2])
+				issues += parseFloat(globals.sample[i].medicalScore)  * parseFloat(globals.candidates[j].issueScore[3])
 				issues = issues/4;
 			}
-			////console.log(candidates[j].name +" Issue Score: "+ issues);
-			//console.log(candidates[j].name + " Issues:"  + issues)
-			if(candidates[j].name != "Karma")
+			////console.log(globals.candidates[j].name +" Issue Score: "+ issues);
+			//console.log(globals.candidates[j].name + " Issues:"  + issues)
+			if(globals.candidates[j].name != "Karma")
 			{
-				var candWinPer = 10*Math.pow(fame*issues,2) - candidates[j].consMod;
+				var candWinPer = 10*Math.pow(fame*issues,2) - globals.candidates[j].consMod;
 			}
 			else
 			{
-                if(totalDays>5)
+                if(globals.totalDays>5)
                 {
                     var candWinPer = 10*0.4*issues;
                 }
@@ -2997,20 +2888,20 @@ function votePercentage(sampleSize, bias)
 			
 			
 			
-			////console.log(candidates[j].name +" Win Percentage: "+ candWinPer);
+			////console.log(globals.candidates[j].name +" Win Percentage: "+ candWinPer);
 			////console.log("");
 
 
 			if(candWinPer > winPercentage|| winPercentage ==0)
 			{
 				winPercentage = candWinPer;
-				winner = candidates[j].name;
+				winner = globals.candidates[j].name;
 			}
 
 			if(candWinPer < lowPercentage || lowPercentage ==0)
 			{
 				lowPercentage = candWinPer;
-				loser = candidates[j].name;
+				loser = globals.candidates[j].name;
 			}
 
 		}
@@ -3018,15 +2909,15 @@ function votePercentage(sampleSize, bias)
 		////console.log("Winner: " + winner + " Vote Percentage: "+ winPercentage);
 		////console.log("Loser: " + loser + " Vote Percentage: "+ lowPercentage);
 		////console.log("");
-		sample[i].results.winPer = winPercentage;
-		sample[i].results.losPer = lowPercentage;
-		sample[i].results.win = winner;
-		sample[i].results.los = loser;
-		for(var k=0;k<candidates.length; k++)
+		globals.sample[i].results.winPer = winPercentage;
+		globals.sample[i].results.losPer = lowPercentage;
+		globals.sample[i].results.win = winner;
+		globals.sample[i].results.los = loser;
+		for(var k=0;k<globals.candidates.length; k++)
 		{
-			if(candidates[k].name == winner)
+			if(globals.candidates[k].name == winner)
 			{
-				candidates[k].votes++;
+				globals.candidates[k].votes++;
 			}
 		}
 	}
@@ -3038,22 +2929,22 @@ function fameCalc(cand, student)
 	var fame = 0;
 	switch(student.group)
 	{
-		case groupList[0]:
+		case globals.groupList[0]:
 
 		fame+= cand.fame[0];
 		break;
     
-		case groupList[1]:
+		case globals.groupList[1]:
 		
 		fame+= cand.fame[1];
 		break;
     
-		case groupList[2]:
+		case globals.groupList[2]:
 	
 		fame+= cand.fame[2];
 		break;
     
-		case groupList[3]:
+		case globals.groupList[3]:
 	
 		fame+= cand.fame[3];
 		break;
@@ -3061,22 +2952,22 @@ function fameCalc(cand, student)
 	}
 	switch(student.major)
 	{
-		case majorList[0]:
+		case globals.majorList[0]:
 
 		fame+= cand.fame[4];
 		break;
 
-		case majorList[1]:
+		case globals.majorList[1]:
 	
 		fame+= cand.fame[5];
 		break;
 
-		case majorList[2]:
+		case globals.majorList[2]:
 
 		fame+= cand.fame[6];
 		break;
 
-		case majorList[3]:
+		case globals.majorList[3]:
 
 		fame+= cand.fame[7];
 		break;
@@ -3104,23 +2995,23 @@ function clearScreen()
 //Resets the game to the characters select screen.
 function resetGame()
 {
-	tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
-	pastPollChoices = [];
-	pastPollResults = [];
-	pastPollSizes = [];
-	oppChoice = [];
-	currentEvents = [];
-	sample = [];
-	candidates=[];
-	chosenCandRanks = [];
-	currentEvents = [];
-	candidates=[];
-	var playerCandidate = new CandidateCreate("ph");
-	var opponentCandidate = new CandidateCreate("Karma");
-  	if(gameOver)
+	globals.tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
+	globals.pastPollChoices = [];
+	globals.pastPollResults = [];
+	globals.pastPollSizes = [];
+	globals.oppChoice = [];
+	globals.currentEvents = [];
+	globals.sample = [];
+	globals.candidates=[];
+	globals.chosenCandRanks = [];
+	globals.currentEvents = [];
+	globals.candidates=[];
+	globals.playerCandidate = new CandidateCreate("ph");
+	globals.opponentCandidate = new CandidateCreate("Karma");
+  	if(globals.gameOver)
     {
-        gameSession++; 
-        gameOver = false;
+        globals.gameSession++; 
+        globals.gameOver = false;
     }
     
 }
@@ -3132,7 +3023,8 @@ function reportViewer(id)
 	document.getElementById("next").style.display = "block";
 
 	//pollChoices, tableArray2, sSize, graphData, graphLabels, review, state, isFree, isFirst
-	tableBuilder(pastPollChoices[id],pastPollResults[id],pastPollSizes[id],pastGraphData[id],pastGraphLabels[id], 1, 0, false, false);
+    console.log(globals.pastGraphData);
+	tableBuilder(globals.pastPollChoices[id],globals.pastPollResults[id],globals.pastPollSizes[id],globals.pastGraphData[id],globals.pastGraphLabels[id], 1, 0, false, false);
 	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
 }
 
@@ -3140,15 +3032,15 @@ function reportViewer(id)
 function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 {	
     //Adds the data for Major and Social Group to the graph and label arrays
-	graphData = [];
-	graphData.push(questions[4].graph.split(','));
-	//graphData.push(questions[5].graph.split(','));
-	graphData.push(questions[6].graph.split(','));
+	globals.graphData = [];
+	globals.graphData.push(globals.questions[4].graph.split(','));
+	//globals.graphData.push(globals.questions[5].graph.split(','));
+	globals.graphData.push(globals.questions[6].graph.split(','));
 
 	var pollLabelArray = [];
-	pollLabelArray.push(questions[4].labels.split(','));
-	//pollLabelArray.push(questions[5].labels.split(','));
-	pollLabelArray.push(questions[6].labels.split(','));
+	pollLabelArray.push(globals.questions[4].labels.split(','));
+	//pollLabelArray.push(globals.questions[5].labels.split(','));
+	pollLabelArray.push(globals.questions[6].labels.split(','));
     
     //Goes through each question selected, exapnds the size of graphData by one and pushes the label into the pollLabelArray
 	for(var i =0; i<pollChoices.length;i++)
@@ -3158,65 +3050,65 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 			case "candFav":
 			var array =[];
 			var array2 =[];
-			for(var j =0; j < candidates.length;j++ )
+			for(var j =0; j < globals.candidates.length;j++ )
 			{
 				array.push(0);
-				array2.push(candidates[j].name);
+				array2.push(globals.candidates[j].name);
 			}
-			graphData.push(array);
+			globals.graphData.push(array);
 			pollLabelArray.push(array2);
 			break;
 			case "candOpp":
 			var array =[];
 			var array2 =[];
-			for(var j =0; j < candidates.length;j++ )
+			for(var j =0; j < globals.candidates.length;j++ )
 			{
 				array.push(0);
-				array2.push(candidates[j].name);
+				array2.push(globals.candidates[j].name);
 			}
-			graphData.push(array);
+			globals.graphData.push(array);
 			pollLabelArray.push(array2);
 			break;
 			default:
-				for(var j =0; j < questions.length; j++)
+				for(var j =0; j < globals.questions.length; j++)
 				{
-					if(pollChoices[i] == questions[j].value)
+					if(pollChoices[i] == globals.questions[j].value)
 					{
-						graphData.push(questions[j].graph.split(','));
-						pollLabelArray.push(questions[j].labels.split(','));
+						globals.graphData.push(globals.questions[j].graph.split(','));
+						pollLabelArray.push(globals.questions[j].labels.split(','));
 					}
 					else
 					{
-						if(questions[j].value == "issue")
+						if(globals.questions[j].value == "issue")
 						{
-							for(var k =0; k< positionsLower.length; k++)
+							for(var k =0; k< globals.positionsLower.length; k++)
 							{
-								if(pollChoices[i] == "issue" + positionsLower[k])
+								if(pollChoices[i] == "issue" + globals.positionsLower[k])
 								{
-									graphData.push(questions[j].graph.split(','));
-									pollLabelArray.push(questions[j].labels.split(','));
+									globals.graphData.push(globals.questions[j].graph.split(','));
+									pollLabelArray.push(globals.questions[j].labels.split(','));
 								}
 							}
 						}
-						if(questions[j].value == "candFame")
+						if(globals.questions[j].value == "candFame")
 						{
-							for(var k =0; k< candidates.length; k++)
+							for(var k =0; k< globals.candidates.length; k++)
 							{
-								if(pollChoices[i] == "candFame" + candidates[k].name)
+								if(pollChoices[i] == "candFame" + globals.candidates[k].name)
 								{
-									graphData.push(questions[j].graph.split(','));
-									pollLabelArray.push(questions[j].labels.split(','));
+									globals.graphData.push(globals.questions[j].graph.split(','));
+									pollLabelArray.push(globals.questions[j].labels.split(','));
 								}
 							}
 						}
-						if(questions[j].value == "candTrust")
+						if(globals.questions[j].value == "candTrust")
 						{
-							for(var k =0; k< candidates.length; k++)
+							for(var k =0; k< globals.candidates.length; k++)
 							{
-								if(pollChoices[i] == "candTrust" + candidates[k].name)
+								if(pollChoices[i] == "candTrust" + globals.candidates[k].name)
 								{
-									graphData.push(questions[j].graph.split(','));
-									pollLabelArray.push(questions[j].labels.split(','));
+									globals.graphData.push(globals.questions[j].graph.split(','));
+									pollLabelArray.push(globals.questions[j].labels.split(','));
 								}
 							}
 						}
@@ -3230,36 +3122,36 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 	votePercentage(sampleSize, bias);
     
 	//Gets the results of each question and pushes them into the proper sectionof table arrays
-	for(var j=0;j<sample.length;j++)
+	for(var j=0;j<globals.sample.length;j++)
 	{
-		tableArrays[4].push(sample[j].major);
-		var majorHolder = sample[j].major;
+		globals.tableArrays[4].push(globals.sample[j].major);
+		var majorHolder = globals.sample[j].major;
 		if(majorHolder == "business"){
-			graphData[0][0]++;
+			globals.graphData[0][0]++;
 		}
 		else if(majorHolder == "law"){
-			graphData[0][1]++;
+			globals.graphData[0][1]++;
 		}
 		else if(majorHolder == "tech"){
-			graphData[0][2]++;
+			globals.graphData[0][2]++;
 		}
 		else if(majorHolder == "arts"){
-			graphData[0][3]++;
+			globals.graphData[0][3]++;
 		}
 
-		tableArrays[6].push(sample[j].group);
-		var groupHolder = sample[j].group;
+		globals.tableArrays[6].push(globals.sample[j].group);
+		var groupHolder = globals.sample[j].group;
 		if(groupHolder == "socialite"){
-			graphData[1][0]++;
+			globals.graphData[1][0]++;
 		}
 		else if(groupHolder == "athlete"){
-			graphData[1][1]++;
+			globals.graphData[1][1]++;
 		}
 		else if(groupHolder == "gamer"){
-			graphData[1][2]++;
+			globals.graphData[1][2]++;
 		}
 		else if(groupHolder == "reader"){
-			graphData[1][3]++;
+			globals.graphData[1][3]++;
 		}
     
         for(var i = 0; i < pollChoices.length ;i++)
@@ -3270,39 +3162,39 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
                 case "issFav":
                     var fav =0;
                     var favName = "";
-                    if(fav < sample[j].budgetScore ||fav==0)
+                    if(fav < globals.sample[j].budgetScore ||fav==0)
                     {
-                        fav = sample[j].budgetScore;
+                        fav = globals.sample[j].budgetScore;
                         var favName = "Budget";
                     }
-                    if(fav < sample[j].tuitionScore ||fav==0)
+                    if(fav < globals.sample[j].tuitionScore ||fav==0)
                     {
-                        fav = sample[j].tuitionScore;
+                        fav = globals.sample[j].tuitionScore;
                         var favName = "Tuition";
                     }
-                    if(fav < sample[j].functionScore ||fav==0)
+                    if(fav < globals.sample[j].functionScore ||fav==0)
                     {
-                        fav = sample[j].functionScore;
+                        fav = globals.sample[j].functionScore;
                         var favName = "Functions";
                     }
-                    if(fav < sample[j].medicalScore ||fav==0)
+                    if(fav < globals.sample[j].medicalScore ||fav==0)
                     {
-                        fav = sample[j].medicalScore;
+                        fav = globals.sample[j].medicalScore;
                         var favName = "Medical";
                     }
-                tableArrays[0].push(favName);
+                globals.tableArrays[0].push(favName);
                 //find if fave
                 if(favName == "Tuition"){
-                    graphData[i+2][0]++;
+                    globals.graphData[i+2][0]++;
                 }
                 else if(favName == "Budget"){
-                    graphData[i+2][1]++;
+                    globals.graphData[i+2][1]++;
                 }
                 else if(favName == "Functions"){
-                    graphData[i+2][2]++;
+                    globals.graphData[i+2][2]++;
                 }
                 else if(favName == "Medical"){
-                    graphData[i+2][3]++;
+                    globals.graphData[i+2][3]++;
                 }
     
                 break;
@@ -3310,60 +3202,60 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
                 case "issOpp":
                     var opp =0;
                     var oppName = "";
-                    if(opp > sample[j].budgetScore ||opp==0)
+                    if(opp > globals.sample[j].budgetScore ||opp==0)
                     {
-                        opp = sample[j].budgetScore;
+                        opp = globals.sample[j].budgetScore;
                         var oppName = "Budget";
                     }
-                    if(opp > sample[j].tuitionScore ||opp==0)
+                    if(opp > globals.sample[j].tuitionScore ||opp==0)
                     {
-                        opp = sample[j].tuitionScore;
+                        opp = globals.sample[j].tuitionScore;
                         var oppName = "Tuition";
                     }
-                    if(opp > sample[j].functionScore ||opp==0)
+                    if(opp > globals.sample[j].functionScore ||opp==0)
                     {
-                        opp = sample[j].functionScore;
+                        opp = globals.sample[j].functionScore;
                         var oppName = "Functions";
                     }
-                    if(opp > sample[j].medicalScore ||opp==0)
+                    if(opp > globals.sample[j].medicalScore ||opp==0)
                     {
-                        opp = sample[j].medicalScore;
+                        opp = globals.sample[j].medicalScore;
                         var oppName = "Medical";
                     }
-                tableArrays[1].push(oppName);
+                globals.tableArrays[1].push(oppName);
                 //find if oppe
                 if(oppName == "Tuition"){
-                    graphData[i+2][0]++;
+                    globals.graphData[i+2][0]++;
                 }
                 else if(oppName == "Budget"){
-                    graphData[i+2][1]++;
+                    globals.graphData[i+2][1]++;
                 }
                 else if(oppName == "Functions"){
-                    graphData[i+2][2]++;
+                    globals.graphData[i+2][2]++;
                 }
                 else if(oppName == "Medical"){
-                    graphData[i+2][3]++;
+                    globals.graphData[i+2][3]++;
                 }
     
                 break;
     
                 case "candFav":
-                    tableArrays[2].push(sample[j].results.win + " Score: " +sample[j].results.winPer.toFixed(2));
-                    for(var k =0; k< candidates.length;k++)
+                    globals.tableArrays[2].push(globals.sample[j].results.win + " Score: " +globals.sample[j].results.winPer.toFixed(2));
+                    for(var k =0; k< globals.candidates.length;k++)
                     {
-                        if(sample[j].results.win == candidates[k].name){
-                            graphData[i+2][k]++;
+                        if(globals.sample[j].results.win == globals.candidates[k].name){
+                            globals.graphData[i+2][k]++;
                         }
                     }
                 break;
     
                 case "candOpp":
-                    ////console.log(sample[j].results);
-                    tableArrays[3].push(sample[j].results.los + " Score: " +sample[j].results.losPer.toFixed(2));
-                    for(var k =0; k< candidates.length;k++)
+                    ////console.log(globals.sample[j].results);
+                    globals.tableArrays[3].push(globals.sample[j].results.los + " Score: " +globals.sample[j].results.losPer.toFixed(2));
+                    for(var k =0; k< globals.candidates.length;k++)
                     {
-                        if(sample[j].results.los == candidates[k].name){
-                            graphData[i+2][k]++;
+                        if(globals.sample[j].results.los == globals.candidates[k].name){
+                            globals.graphData[i+2][k]++;
                         }
                     }
                 break;
@@ -3371,89 +3263,89 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
     
     
                 case "fame":
-                    var playFame = fameCalc(candidates[0],sample[j]).toFixed(3);
-                    tableArrays[7].push(playFame);
+                    var playFame = fameCalc(globals.candidates[0],globals.sample[j]).toFixed(3);
+                    globals.tableArrays[7].push(playFame);
                     if(playFame > 0.69){
-                        graphData[i+2][0]++;
+                        globals.graphData[i+2][0]++;
                     }
                     else if(playFame > 0.36){
-                        graphData[i+2][1]++;
+                        globals.graphData[i+2][1]++;
                     }
                     else{
-                        graphData[i+2][2]++;
+                        globals.graphData[i+2][2]++;
                     }
                 break;
     
                 case "playTrust":
-                    tableArrays[8].push(candidates[0].consMod);
-                    var playConst = candidates[0].consMod;
+                    globals.tableArrays[8].push(globals.candidates[0].consMod);
+                    var playConst = globals.candidates[0].consMod;
                     if(playConst > 0.69){
-                        graphData[i+2][2]++;
+                        globals.graphData[i+2][2]++;
                     }
                     else if(playConst > 0.36){
-                        graphData[i+2][1]++;
+                        globals.graphData[i+2][1]++;
                     }
                     else{
-                        graphData[i+2][0]++;
+                        globals.graphData[i+2][0]++;
                     }
                 break;
     
             }
-            for(var k = 0;k<positions.length;k++)
+            for(var k = 0;k<globals.positions.length;k++)
             {
-                if(pollChoices[i] == "issue" + positionsLower[k])
+                if(pollChoices[i] == "issue" + globals.positionsLower[k])
                 {
                     switch(pollChoices[i])
                     {
                         case "issuetuition":
-                            tableArrays[9].push(parseFloat(sample[j].tuitionScore).toFixed(2));
-                            if(sample[j].tuitionScore >=2){
-                                graphData[i+2][0]++;
+                            globals.tableArrays[9].push(parseFloat(globals.sample[j].tuitionScore).toFixed(2));
+                            if(globals.sample[j].tuitionScore >=2){
+                                globals.graphData[i+2][0]++;
                             }
-                            else if(sample[j].tuitionScore >=-1){
-                                graphData[i+2][1]++;
+                            else if(globals.sample[j].tuitionScore >=-1){
+                                globals.graphData[i+2][1]++;
                             }
                             else{
-                                graphData[i+2][2]++;
+                                globals.graphData[i+2][2]++;
                             }
                         break;
     
                         case "issuebudget":
-                            tableArrays[10].push(parseFloat(sample[j].budgetScore).toFixed(2));
-                            if(sample[j].budgetScore>=2){
-                                graphData[i+2][0]++;
+                            globals.tableArrays[10].push(parseFloat(globals.sample[j].budgetScore).toFixed(2));
+                            if(globals.sample[j].budgetScore>=2){
+                                globals.graphData[i+2][0]++;
                             }
-                            else if(sample[j].budgetScore >=-1){
-                                graphData[i+2][1]++;
+                            else if(globals.sample[j].budgetScore >=-1){
+                                globals.graphData[i+2][1]++;
                             }
                             else{
-                                graphData[i+2][2]++;
+                                globals.graphData[i+2][2]++;
                             }
                         break;
     
                         case "issuefunctions":
-                            tableArrays[12].push(parseFloat(sample[j].functionScore).toFixed(2));
-                            if(sample[j].functionScore >=2){
-                                graphData[i+2][0]++;
+                            globals.tableArrays[12].push(parseFloat(globals.sample[j].functionScore).toFixed(2));
+                            if(globals.sample[j].functionScore >=2){
+                                globals.graphData[i+2][0]++;
                             }
-                            else if(sample[j].functionScore >=-1){
-                                graphData[i+2][1]++;
+                            else if(globals.sample[j].functionScore >=-1){
+                                globals.graphData[i+2][1]++;
                             }
                             else{
-                                graphData[i+2][2]++;
+                                globals.graphData[i+2][2]++;
                             }
                         break;
     
                         case "issuemedical":
-                            tableArrays[13].push(parseFloat(sample[j].medicalScore).toFixed(2));
-                            if(sample[j].medicalScore >=2){
-                                graphData[i+2][0]++;
+                            globals.tableArrays[13].push(parseFloat(globals.sample[j].medicalScore).toFixed(2));
+                            if(globals.sample[j].medicalScore >=2){
+                                globals.graphData[i+2][0]++;
                             }
-                            else if(sample[j].medicalScore >=-1){
-                                graphData[i+2][1]++;
+                            else if(globals.sample[j].medicalScore >=-1){
+                                globals.graphData[i+2][1]++;
                             }
                             else{
-                                graphData[i+2][2]++;
+                                globals.graphData[i+2][2]++;
                             }
                         break;
                     }
@@ -3461,22 +3353,22 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
             }
     
             var candCounter = 14;
-            for(var k = 1;k<candidates.length;k++)
+            for(var k = 1;k<globals.candidates.length;k++)
             {
-                if(pollChoices[i] == "candFame" + candidates[k].name)
+                if(pollChoices[i] == "candFame" + globals.candidates[k].name)
                 {
-                    var calcHolder = fameCalc(candidates[k], sample[j]);
+                    var calcHolder = fameCalc(globals.candidates[k], globals.sample[j]);
                     
-                    tableArrays[candCounter].push(calcHolder);				
+                    globals.tableArrays[candCounter].push(calcHolder);				
     
                     if(calcHolder> 0.66){
-                        graphData[i+2][0]++;
+                        globals.graphData[i+2][0]++;
                     }
                     else if(calcHolder > 0.33){
-                        graphData[i+2][1]++;
+                        globals.graphData[i+2][1]++;
                     }
                     else{
-                        graphData[i+2][2]++;
+                        globals.graphData[i+2][2]++;
                     }
     
     
@@ -3485,21 +3377,21 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
     
                 candCounter++;
             }
-            for(var k = 1;k<candidates.length;k++)
+            for(var k = 1;k<globals.candidates.length;k++)
             {
-                if(pollChoices[i] == "candTrust" + candidates[k].name)
+                if(pollChoices[i] == "candTrust" + globals.candidates[k].name)
                 {
     
-                    tableArrays[candCounter].push(candidates[k].consMod);
+                    globals.tableArrays[candCounter].push(globals.candidates[k].consMod);
     
-                    if(candidates[k].consMod> 0.66){
-                        graphData[i+2][2]++;
+                    if(globals.candidates[k].consMod> 0.66){
+                        globals.graphData[i+2][2]++;
                     }
-                    else if(candidates[k].consMod > 0.33){
-                        graphData[i+2][1]++;
+                    else if(globals.candidates[k].consMod > 0.33){
+                        globals.graphData[i+2][1]++;
                     }
                     else{
-                        graphData[i+2][0]++;
+                        globals.graphData[i+2][0]++;
                     }
                 }
     
@@ -3514,8 +3406,8 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 		reviewFlag = true;
 	}
 
-	////console.log(tableArrays);
-	tableBuilder(pollChoices, tableArrays, sampleSize, graphData, pollLabelArray, reviewFlag, state, isFree, isFirst);
+	////console.log(globals.tableArrays);
+	tableBuilder(pollChoices, globals.tableArrays, sampleSize, globals.graphData, pollLabelArray, reviewFlag, state, isFree, isFirst);
 }
 
 //Builds a table by looping through the Array created by pollCalc and putting each value into a cell.
@@ -3557,53 +3449,53 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 			{
 				case "issFav":
 					var cell = headRow.insertCell(h);
-					cell.innerHTML = tableHeaders[0];
+					cell.innerHTML = globals.tableHeaders[0];
 					graphQuestions.push("issFav");
 				break;
 
 				case "issOpp":
 						var cell = headRow.insertCell(h);
-						cell.innerHTML = tableHeaders[1];
+						cell.innerHTML = globals.tableHeaders[1];
 						graphQuestions.push("issOpp");
 				break;
 
 				case "candFav":
 						var cell = headRow.insertCell(h);
-						cell.innerHTML = tableHeaders[2];
+						cell.innerHTML = globals.tableHeaders[2];
 						graphQuestions.push("candFav");
 				break;
 
 				case "candOpp":
 						var cell = headRow.insertCell(h);
-						cell.innerHTML = tableHeaders[3];
+						cell.innerHTML = globals.tableHeaders[3];
 						graphQuestions.push("candOpp");
 				break;
 
 				case "fame":
 						var cell = headRow.insertCell(h);
-						cell.innerHTML = tableHeaders[7];
+						cell.innerHTML = globals.tableHeaders[7];
 						graphQuestions.push("fame");
 				break;
 
 				case "playTrust":
 						var cell = headRow.insertCell(h);
-						cell.innerHTML = tableHeaders[8];
+						cell.innerHTML = globals.tableHeaders[8];
 						graphQuestions.push("playTrust");
 				break;
 			}
 
             
-			for(var k = 0;k<positions.length;k++)
+			for(var k = 0;k<globals.positions.length;k++)
 			{
 
-				if(pollChoices[h] == "issue" + positionsLower[k])
+				if(pollChoices[h] == "issue" + globals.positionsLower[k])
 				{
 
 					switch(pollChoices[h])
 					{
 						case "issuetuition":
 							var cell = headRow.insertCell(h);
-							var posInfo = tableHeaders[9] + positions[0];
+							var posInfo = globals.tableHeaders[9] + globals.positions[0];
 							cell.innerHTML = posInfo;
 							graphQuestions.push("issuetuition");
 
@@ -3611,58 +3503,58 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 
 						case "issuebudget":
 							var cell = headRow.insertCell(h);
-							var posInfo = tableHeaders[9] + positions[1];
+							var posInfo = globals.tableHeaders[9] + globals.positions[1];
 							cell.innerHTML = posInfo;
 							graphQuestions.push("issuebudget");
 						break;
 
 						case "issuefunctions":
 							var cell = headRow.insertCell(h);
-							var posInfo = tableHeaders[9] + positions[3];
+							var posInfo = globals.tableHeaders[9] + globals.positions[3];
 							cell.innerHTML = posInfo;
 							graphQuestions.push("issuefunctions");
 						break;
 
 						case "issuemedical":
 							var cell = headRow.insertCell(h);
-							var posInfo = tableHeaders[9] + positions[4];
+							var posInfo = globals.tableHeaders[9] + globals.positions[4];
 							cell.innerHTML = posInfo;
 							graphQuestions.push("issuemedical");
 						break;
 					}
 				}
 			}
-			for(var k = 1;k<candidates.length;k++)
+			for(var k = 1;k<globals.candidates.length;k++)
 			{
-				if(pollChoices[h] == "candFame" + candidates[k].name)
+				if(pollChoices[h] == "candFame" + globals.candidates[k].name)
 				{
 						var cell = headRow.insertCell(h);
-						var candInfo = tableHeaders[10] + candidates[k].name;
+						var candInfo = globals.tableHeaders[10] + globals.candidates[k].name;
 						cell.innerHTML = candInfo;
-						graphQuestions.push("candFame" + candidates[k].name);
+						graphQuestions.push("candFame" + globals.candidates[k].name);
 				}
 			}
-			for(var k = 1;k<candidates.length;k++)
+			for(var k = 1;k<globals.candidates.length;k++)
 			{
-				if(pollChoices[h] == "candTrust" + candidates[k].name)
+				if(pollChoices[h] == "candTrust" + globals.candidates[k].name)
 				{
 					////console.log(h);
 						var cell = headRow.insertCell(h);
-						var candInfo = tableHeaders[11] + candidates[k].name;
+						var candInfo = globals.tableHeaders[11] + globals.candidates[k].name;
 						cell.innerHTML = candInfo;
-						graphQuestions.push("candTrust" + candidates[k].name);
+						graphQuestions.push("candTrust" + globals.candidates[k].name);
 				}
 			}
 			if(h==pollChoices.length-1)
 			{
 				var cell = headRow.insertCell(0);
-				cell.innerHTML = tableHeaders[4];
+				cell.innerHTML = globals.tableHeaders[4];
 
 				//var cell = headRow.insertCell(1);
-				//cell.innerHTML = tableHeaders[5];
+				//cell.innerHTML = globals.tableHeaders[5];
 
 				var cell = headRow.insertCell(1);
-				cell.innerHTML = tableHeaders[6];
+				cell.innerHTML = globals.tableHeaders[6];
 			}
 		}
 	}
@@ -3733,9 +3625,9 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									}
 					break;
 				}
-				for(var k = 0;k<positions.length;k++)
+				for(var k = 0;k<globals.positions.length;k++)
 				{
-					if(pollChoices[i] == "issue" + positionsLower[k])
+					if(pollChoices[i] == "issue" + globals.positionsLower[k])
 					{
 						switch(pollChoices[i])
 						{
@@ -3810,9 +3702,9 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 
 				canCounter = 14;
 
-				for(var k = 1;k<candidates.length;k++)
+				for(var k = 1;k<globals.candidates.length;k++)
 				{
-					if(pollChoices[i] == "candFame" + candidates[k].name)
+					if(pollChoices[i] == "candFame" + globals.candidates[k].name)
 					{
 								var cell = row.insertCell(i);
 								var counter = canCounter;
@@ -3831,9 +3723,9 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 					}
 						canCounter++;
 				}
-				for(var k = 1;k<candidates.length;k++)
+				for(var k = 1;k<globals.candidates.length;k++)
 				{
-					if(pollChoices[i] == "candTrust" + candidates[k].name)
+					if(pollChoices[i] == "candTrust" + globals.candidates[k].name)
 					{
 								var cell = row.insertCell(i);
 								var counter = canCounter;
@@ -3873,13 +3765,13 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	document.getElementById("next").innerHTML += "<button id = 'dataButton' onclick = 'changeData(1)'>Show Data Table</button>";
 	document.getElementById("next").innerHTML += "<button id = 'barButton' onclick = 'changeData(2)' style = 'display:none'>Show Bar Graphs</button>";
 	document.getElementById("next").innerHTML += "<button id = 'pieButton' onclick = 'changeData(3)'>Show Pie Graphs</button><br>";
-	for (var x = 0; x < groupList.length; x++){
-		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ groupList[x] +"'> "+ groupList[x] +" ";
+	for (var x = 0; x < globals.groupList.length; x++){
+		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ globals.groupList[x] +"'> "+ globals.groupList[x] +" ";
 	}
 	document.getElementById('filterArea').innerHTML +='<br>'
 	document.getElementById('filterArea').innerHTML +='<br>'
-	for (var x = 0; x < groupList.length; x++){
-		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ majorList[x] +"'> "+ majorList[x] +" ";
+	for (var x = 0; x < globals.groupList.length; x++){
+		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ globals.majorList[x] +"'> "+ globals.majorList[x] +" ";
 	}
 	document.getElementById('filterArea').innerHTML +='<br>'
 	document.getElementById('filterArea').style.display = "none";
@@ -3917,89 +3809,90 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		switch(graphQuestions[i])
 		{
 			case "issFav":
-				document.getElementById("q"+i+"text").innerHTML = questions[0].question;
-				document.getElementById("bq"+i+"text").innerHTML = questions[0].question;
+				document.getElementById("q"+i+"text").innerHTML = globals.questions[0].question;
+				document.getElementById("bq"+i+"text").innerHTML = globals.questions[0].question;
 			break;
 			case "issOpp":
-				document.getElementById("q"+i+"text").innerHTML = questions[1].question;
-				document.getElementById("bq"+i+"text").innerHTML = questions[1].question;
+				document.getElementById("q"+i+"text").innerHTML = globals.questions[1].question;
+				document.getElementById("bq"+i+"text").innerHTML = globals.questions[1].question;
 			break;
 			case "candFav":
-				document.getElementById("q"+i+"text").innerHTML = questions[2].question;
-				document.getElementById("bq"+i+"text").innerHTML = questions[2].question;
+				document.getElementById("q"+i+"text").innerHTML = globals.questions[2].question;
+				document.getElementById("bq"+i+"text").innerHTML = globals.questions[2].question;
 			break;
 			case "candOpp":
-				document.getElementById("q"+i+"text").innerHTML = questions[3].question;
-				document.getElementById("bq"+i+"text").innerHTML = questions[3].question;
+				document.getElementById("q"+i+"text").innerHTML = globals.questions[3].question;
+				document.getElementById("bq"+i+"text").innerHTML = globals.questions[3].question;
 			break;
 			case "major":
-				document.getElementById("q"+i+"text").innerHTML = questions[4].question;
-				document.getElementById("bq"+i+"text").innerHTML = questions[4].question;
+				document.getElementById("q"+i+"text").innerHTML = globals.questions[4].question;
+				document.getElementById("bq"+i+"text").innerHTML = globals.questions[4].question;
 			break;
 			case "group":
-				document.getElementById("q"+i+"text").innerHTML = questions[6].question;
-				document.getElementById("bq"+i+"text").innerHTML = questions[6].question;
+				document.getElementById("q"+i+"text").innerHTML = globals.questions[6].question;
+				document.getElementById("bq"+i+"text").innerHTML = globals.questions[6].question;
 			break;
 			case "fame":
-				document.getElementById("q"+i+"text").innerHTML = questions[7].question;
-				document.getElementById("bq"+i+"text").innerHTML = questions[7].question;
+				document.getElementById("q"+i+"text").innerHTML = globals.questions[7].question;
+				document.getElementById("bq"+i+"text").innerHTML = globals.questions[7].question;
 			break;
 			case "playTrust":
-				document.getElementById("q"+i+"text").innerHTML = questions[8].question;
-				document.getElementById("bq"+i+"text").innerHTML = questions[8].question;
+				document.getElementById("q"+i+"text").innerHTML = globals.questions[8].question;
+				document.getElementById("bq"+i+"text").innerHTML = globals.questions[8].question;
 			break;
 			case "issuetuition":
 				name = 	"Lowering Tuition";
-				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
-				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
+				document.getElementById("q"+i+"text").innerHTML = globals.questions[9].question + " " + name;
+				document.getElementById("bq"+i+"text").innerHTML = globals.questions[9].question + " " + name;
 			break;
 
 			case "issuebudget":
 				name = 	"Increase Budget";
-				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
-				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
+				document.getElementById("q"+i+"text").innerHTML = globals.questions[9].question + " " + name;
+				document.getElementById("bq"+i+"text").innerHTML = globals.questions[9].question + " " + name;
 			break;
 
 
 			case "issuefunctions":
 				name = 	"More School Events";
-				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
-				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
+				document.getElementById("q"+i+"text").innerHTML = globals.questions[9].question + " " + name;
+				document.getElementById("bq"+i+"text").innerHTML = globals.questions[9].question + " " + name;
 			break;
 
 			case "issuemedical":
 				name = 	"Improve Medical Services";
-				document.getElementById("q"+i+"text").innerHTML = questions[9].question + " " + name;
-				document.getElementById("bq"+i+"text").innerHTML = questions[9].question + " " + name;
+				document.getElementById("q"+i+"text").innerHTML = globals.questions[9].question + " " + name;
+				document.getElementById("bq"+i+"text").innerHTML = globals.questions[9].question + " " + name;
 			break;
 
 			default:
-			for(var k = 1;k<candidates.length;k++)
+			for(var k = 1;k<globals.candidates.length;k++)
 			{
-				if(graphQuestions[i] == "candFame" + candidates[k].name)
+				if(graphQuestions[i] == "candFame" + globals.candidates[k].name)
 				{
-					name = candidates[k].name;
-					document.getElementById("q"+i+"text").innerHTML = questions[10].question + " " + name;
-					document.getElementById("bq"+i+"text").innerHTML = questions[10].question + " " + name;
+					name = globals.candidates[k].name;
+					document.getElementById("q"+i+"text").innerHTML = globals.questions[10].question + " " + name;
+					document.getElementById("bq"+i+"text").innerHTML = globals.questions[10].question + " " + name;
 				}
 			}
 
-			for(var k = 1;k<candidates.length;k++)
+			for(var k = 1;k<globals.candidates.length;k++)
 			{
-				if(graphQuestions[i] == "candTrust" + candidates[k].name)
+				if(graphQuestions[i] == "candTrust" + globals.candidates[k].name)
 				{
-					name = candidates[k].name;
-					document.getElementById("q"+i+"text").innerHTML = questions[11].question + " " + name;
-					document.getElementById("bq"+i+"text").innerHTML = questions[11].question + " " + name;
+					name = globals.candidates[k].name;
+					document.getElementById("q"+i+"text").innerHTML = globals.questions[11].question + " " + name;
+					document.getElementById("bq"+i+"text").innerHTML = globals.questions[11].question + " " + name;
 				}
 			}
 		}
 		////console.log("Question "+graphQuestions[i] + " has a length of: " + graphData[i].length);
 		////console.log(graphData[questionNum]);
         
+        
         for (var j = 0; j < graphData[i].length; j++)
         {
-			////console.log(graphData[questionNum], " AT ", questions[qID].question)					
+			////console.log(globals.graphData[questionNum], " AT ", questions[qID].question)					
 			data2[j]=graphData[i][j];
 		}
 
@@ -4086,12 +3979,12 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	}
 	if(!review)
 	{
-		pastPollResults.push(tableArray2);
-		pastPollSizes.push(sSize);
-		pastPollChoices.push(pollChoices);
-		pastGraphData.push(graphData);
-		pastGraphLabels.push(graphLabels);
-		tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
+		globals.pastPollResults.push(tableArray2);
+		globals.pastPollSizes.push(sSize);
+		globals.pastPollChoices.push(pollChoices);
+		globals.pastGraphData.push(graphData);
+		globals.pastGraphLabels.push(graphLabels);
+		globals.tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
 		if(!isFree)
 			pollTime(sSize, pollChoices);
 	}
@@ -4147,8 +4040,8 @@ function pollTime(sSize, pollQuestions)
 	{
 		timeRequired = sSize/10 + (pollQuestions.length*0.5) +0.5;
 	}
-	remainingHoursTotal -= timeRequired;
-	remainingHoursDay -= timeRequired;
+	globals.remainingHoursTotal -= timeRequired;
+	globals.remainingHoursDay -= timeRequired;
 }
 
 function returnTotalPollTime(sSize, pollQuestions){
@@ -4173,167 +4066,167 @@ function pollTimeCheck(sSize, pollQuestions)
 	{
 		timeRequired = sSize/10 + (pollQuestions.length*0.5) +0.5;
 	}
-	return (timeRequired <= remainingHoursDay);
+	return (timeRequired <= globals.remainingHoursDay);
 }
 
 function backtoUA()
 {
-	back = true;
+	globals.back = true;
 
 	userAction();
 }
 
 function saveGameState()
 {
-	textContents="";
-   //Save contents of pastPollChoices into the text file
-	for(var i=0; i<pastPollChoices.length;i++)
+	globals.textContents="";
+   //Save contents of globals.pastPollChoices into the text file
+	for(var i=0; i<globals.pastPollChoices.length;i++)
 	{
-		for(var j=0; j<pastPollChoices[i].length;j++)
+		for(var j=0; j<globals.pastPollChoices[i].length;j++)
 		{
-				textContents+= pastPollChoices[i][j];
-				if(j!=pastPollChoices[i].length-1)
-				textContents+="*";
+				globals.textContents+= globals.pastPollChoices[i][j];
+				if(j!=globals.pastPollChoices[i].length-1)
+				globals.textContents+="*";
 		}
-		if(i!=pastPollChoices.length-1)
-			textContents+="_";
+		if(i!=globals.pastPollChoices.length-1)
+			globals.textContents+="_";
 	}
-	textContents+="~";
-    //Save contents of pastPollResults into the text file
-	for(var i=0; i<pastPollResults.length;i++)
+	globals.textContents+="~";
+    //Save contents of globals.pastPollResults into the text file
+	for(var i=0; i<globals.pastPollResults.length;i++)
 	{
-		for(var j=0; j<pastPollResults[i].length;j++)
+		for(var j=0; j<globals.pastPollResults[i].length;j++)
 		{
-			textContents+= pastPollResults[i][j];
-				if(j!=pastPollResults[i].length-1)
-				textContents+="*";
+			globals.textContents+= globals.pastPollResults[i][j];
+				if(j!=globals.pastPollResults[i].length-1)
+				globals.textContents+="*";
 		}
-		if(i!=pastPollResults.length-1)
-			textContents+="_";
+		if(i!=globals.pastPollResults.length-1)
+			globals.textContents+="_";
 	}
-	textContents+="~";
+	globals.textContents+="~";
 
-	// Save contents of pastPollSizes   into the text file
-	for(var i=0; i<pastPollSizes.length;i++)
+	// Save contents of globals.pastPollSizes   into the text file
+	for(var i=0; i<globals.pastPollSizes.length;i++)
 	{
-		textContents+=pastPollSizes[i];
-			if(i!=pastPollSizes.length-1)
-				textContents+="*";
+		globals.textContents+=globals.pastPollSizes[i];
+			if(i!=globals.pastPollSizes.length-1)
+				globals.textContents+="*";
 	}
-	textContents+="~";
-	//Save candidates array
-	for(var i=0; i<candidates.length;i++)
+	globals.textContents+="~";
+	//Save globals.candidates array
+	for(var i=0; i<globals.candidates.length;i++)
 	{
-		textContents+=candidates[i].name;
-			textContents+="*";
-		textContents+=candidates[i].fame;
-			textContents+="*";
-		textContents+=candidates[i].issueScore;
-			textContents+="*";
-		textContents+=candidates[i].consMod;
-			textContents+="*";
-		textContents+=candidates[i].focus;
-			textContents+="*";
-		textContents+=candidates[i].focusnum;
-			textContents+="*";
-		textContents+=candidates[i].winChance;
-			textContents+="*";
-		textContents+=candidates[i].votes;
-			textContents+="*";
-		textContents+=candidates[i].correctAnswers;
-			textContents+="*";
-		textContents+=candidates[i].wrongAnswers;
-			textContents+="*";
-		textContents+=candidates[i].lastMove;
-			textContents+="*";
-		textContents+=candidates[i].raceNum;
-			textContents+="*";
-		textContents+=candidates[i].genderNum;
-			textContents+="*";
-		textContents+=candidates[i].bodyTypeNum;
-			textContents+="*";
-		textContents+=candidates[i].headNum;
-			textContents+="*";
-		textContents+=candidates[i].tuitPos;
-			textContents+="*";
-		textContents+=candidates[i].tuitNeg;
-			textContents+="*";
-		textContents+=candidates[i].budPos;
-			textContents+="*";
-		textContents+=candidates[i].budNeg;
-			textContents+="*";
-		textContents+=candidates[i].resPos;
-			textContents+="*";
-		textContents+=candidates[i].resNeg;
-			textContents+="*";
-		textContents+=candidates[i].medPos;
-			textContents+="*";
-		textContents+=candidates[i].medNeg;
-			textContents+="*";
-		textContents+=candidates[i].funcPos;
-			textContents+="*";
-		textContents+=candidates[i].funcNeg;
+		globals.textContents+=globals.candidates[i].name;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].fame;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].issueScore;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].consMod;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].focus;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].focusnum;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].winChance;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].votes;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].correctAnswers;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].wrongAnswers;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].lastMove;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].raceNum;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].genderNum;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].bodyTypeNum;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].headNum;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].tuitPos;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].tuitNeg;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].budPos;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].budNeg;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].resPos;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].resNeg;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].medPos;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].medNeg;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].funcPos;
+			globals.textContents+="*";
+		globals.textContents+=globals.candidates[i].funcNeg;
 
-			if(i!=candidates.length-1)
-				textContents+="_";
+			if(i!=globals.candidates.length-1)
+				globals.textContents+="_";
 	}
-	textContents+="~";
+	globals.textContents+="~";
 
-	//Save remainingHoursTotal
-	textContents+=remainingHoursTotal;
-	textContents+="~";
+	//Save globals.remainingHoursTotal
+	globals.textContents+=globals.remainingHoursTotal;
+	globals.textContents+="~";
 
 	//save graph data
-	for (var z =0; z < pastGraphData.length; z++){
+	for (var z =0; z < globals.pastGraphData.length; z++){
 		if(z !=0){
-			textContents+="_";
+			globals.textContents+="_";
 		}
-		for(var a = 0; a < pastGraphData[z].length;a++){
-			textContents+=pastGraphData[z][a];
-			if(a != pastGraphData[z].length -1){
-				textContents+="*";
+		for(var a = 0; a < globals.pastGraphData[z].length;a++){
+			globals.textContents+=globals.pastGraphData[z][a];
+			if(a != globals.pastGraphData[z].length -1){
+				globals.textContents+="*";
 			}
 		}
 	}
-	textContents+="~";
+	globals.textContents+="~";
 
-	//Save contents of pastGraphLabels into the text file
-	for(var i=0; i<pastGraphLabels.length;i++)
+	//Save contents of globals.pastGraphLabels into the text file
+	for(var i=0; i<globals.pastGraphLabels.length;i++)
 	{
-		for(var j=0; j<pastGraphLabels[i].length;j++)
+		for(var j=0; j<globals.pastGraphLabels[i].length;j++)
 		{
-			textContents+= pastGraphLabels[i][j];
-				if(j!=pastGraphLabels[i].length-1)
-				textContents+="*";
+			globals.textContents+= globals.pastGraphLabels[i][j];
+				if(j!=globals.pastGraphLabels[i].length-1)
+				globals.textContents+="*";
 		}
-		if(i!=pastGraphLabels.length-1)
-			textContents+="_";
+		if(i!=globals.pastGraphLabels.length-1)
+			globals.textContents+="_";
 	}
-	////console.log(pastGraphLabels);
-	textContents+="~";
+	////console.log(globals.pastGraphLabels);
+	globals.textContents+="~";
 	
-	//Save remainingHoursDay
-	textContents+=remainingHoursDay;
-	textContents+="~";
+	//Save globals.remainingHoursDay
+	globals.textContents+=globals.remainingHoursDay;
+	globals.textContents+="~";
 	
 	//Save days
-	textContents+=days;
-	textContents+="~";
+	globals.textContents+=globals.days;
+	globals.textContents+="~";
     
 	//Save GameSession
-	textContents+=gameSession;
-	textContents+="~";
+	globals.textContents+=globals.gameSession;
+	globals.textContents+="~";
     
 	//Save GameOver
-	textContents+=gameOver.toString();
-	textContents+="~";
+	globals.textContents+=globals.gameOver.toString();
+	globals.textContents+="~";
     
 	//Saves Total Number of Days
-	textContents+=totalDays;
-	textContents+="~";
+	globals.textContents+=globals.totalDays;
+	globals.textContents+="~";
 	
 	//post all that information
-	$.post('/game/saver', {saveData: textContents});
+	$.post('/game/saver', {saveData: globals.textContents});
 }
 
 function loadGame()
@@ -4348,7 +4241,7 @@ function loadGame()
 		var ppcOuterArray = saveArray[0].split("_");
 		for(var i =0; i < ppcOuterArray.length; i++)
 		{
-			pastPollChoices.push(ppcOuterArray[i].split("*"));
+			globals.pastPollChoices.push(ppcOuterArray[i].split("*"));
 		}
 	}
 
@@ -4372,7 +4265,7 @@ function loadGame()
 					pprResults.push([]);
 				}
 			}
-			pastPollResults.push(pprResults);
+			globals.pastPollResults.push(pprResults);
 		}
 	}
 
@@ -4380,7 +4273,7 @@ function loadGame()
 	if(saveArray[2] != [])
 	{
 		var ppsArray = saveArray[2].split("_");
-		pastPollSizes = ppsArray[0].split("*");
+		globals.pastPollSizes = ppsArray[0].split("*");
 	}
 
 	//Candidates Section
@@ -4431,18 +4324,17 @@ function loadGame()
 
 
 
-		candidates.push(cand);
+		globals.candidates.push(cand);
 	}
 
 	//console.log(candAtts);
 
 	//Remaining Hours Section
-	remainingHoursTotal = parseInt(saveArray[4]);
+	globals.remainingHoursTotal = parseInt(saveArray[4]);
 
 	//past graph saveData
 
 	var graph = [];
-	var graphgraph
 	var multiGraphData = saveArray[5].split("_");
 	////console.log(multiGraphData);
 	for(var z = 0; z < multiGraphData.length; z++){
@@ -4457,7 +4349,7 @@ function loadGame()
 		graph.push(holdArray);
 		}
 		////console.log(graph);
-	pastGraphData.push(graph);	
+	globals.pastGraphData.push(graph);	
 	graph = [];
 	}
 
@@ -4481,37 +4373,37 @@ function loadGame()
 					pglResults.push([]);
 				}
 			}
-			pastGraphLabels.push(pglResults);
+			globals.pastGraphLabels.push(pglResults);
 			////console.log(pglResults);
 		}
 	}
 
 	//Remaining Hours in the Day Section
-	remainingHoursDay = parseInt(saveArray[7]);
+	globals.remainingHoursDay = parseInt(saveArray[7]);
 	
 	//Current Day Section
-	days = parseInt(saveArray[8]);
+	globals.days = parseInt(saveArray[8]);
     
 	//Game Session Number
-	gameSession = parseInt(saveArray[9]);
+	globals.gameSession = parseInt(saveArray[9]);
 
     
 	//Game Over Boolean
 	if(saveArray[10] == "true")
     {
-        gameOver = true;
+        globals.gameOver = true;
     }
     else
     {
-        gameOver = false;
+        globals.gameOver = false;
     }
 	
 	//Total Number of Days
-	totalDays = parseInt(saveArray[11]);
+	globals.totalDays = parseInt(saveArray[11]);
     
-	back=true;
+	globals.back=true;
 	saveState = "";
-    preload(events);
+    preload(globals.events);
 	hourChecker();
 
 }
@@ -4524,19 +4416,19 @@ function getSession(gameOver)
 	console.log(saveArray[9])
 	console.log(saveArray[9] !=[] && saveArray[9] != "NaN" && saveArray[9] != undefined && saveArray[9] != "")
 
-	if(!gameOver){
+	if(!globals.gameOver){
     	//console.log(saveArray[9] == "NaN")
     	if(saveArray[9] !=[] && saveArray[9] != "NaN" && saveArray[9] != undefined && saveArray[9] != "")
     	{
-        	gameSession = parseInt(saveArray[9]) + 1;
-        	gameOver = false;
-        	endReset = false;
+        	globals.gameSession = parseInt(saveArray[9]) + 1;
+        	globals.gameOver = false;
+        	globals.endReset = false;
     	}
     	else
     	{
-        	gameSession = 0;
-        	gameOver = false;
-        	endReset = false;
+        	globals.gameSession = 0;
+        	globals.gameOver = false;
+        	globals.endReset = false;
     	}
 	}
     
@@ -4547,19 +4439,19 @@ function getSession(gameOver)
 function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 {
 	var counter;
-	oppChoice=[0,1,2,3];
+	globals.oppChoice=[0,1,2,3];
 
 	for(var i =0; i <chosenIssues.length;i++)
 	{
-		oppChoice.splice(oppChoice.indexOf(chosenIssues[i]),1);
+		globals.oppChoice.splice(globals.oppChoice.indexOf(chosenIssues[i]),1);
 	}
 
 
 	//Decides the opponents focus which cannot be the same as the player
 	var oppFocus = Math.floor(Math.random()*(4-chosenIssues.length));
-	candidate.focus = positions[oppChoice[oppFocus]];
-	candidate.focusnum = oppChoice[oppFocus];
-	switch(oppChoice[oppFocus])
+	candidate.focus = globals.positions[globals.oppChoice[oppFocus]];
+	candidate.focusnum = globals.oppChoice[oppFocus];
+	switch(globals.oppChoice[oppFocus])
 	{
 		case 0:
 		candidate.issueScore[0]=issueVal;
@@ -4577,7 +4469,7 @@ function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 
 	if(issueCand)
 	{
-		chosenCandRanks.push(oppChoice[oppFocus]);
+		globals.chosenCandRanks.push(globals.oppChoice[oppFocus]);
 	}
 }
 
@@ -4585,17 +4477,17 @@ function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 function chooseRank(candidate, chosenRanks, issueCand)
 {
 	var counter;
-	oppChoice=[0,1,2,3];
+	globals.oppChoice=[0,1,2,3];
 	
 	for(var i =0; i <chosenRanks.length;i++)
 	{
-		oppChoice.splice(oppChoice.indexOf(chosenRanks[i]),1);
+		globals.oppChoice.splice(globals.oppChoice.indexOf(chosenRanks[i]),1);
 	}
 	
 	
 	//Decides the opponents focus which cannot be the same as the player
 	var oppRank = Math.floor(Math.random()*(4-chosenRanks.length));
-	switch(oppChoice[oppRank])
+	switch(globals.oppChoice[oppRank])
 	{
 		case 0:
 			candidate.fame = [1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6];
@@ -4626,7 +4518,7 @@ function chooseRank(candidate, chosenRanks, issueCand)
 	
 	if(issueCand)
 	{
-		chosenRanks.push(oppChoice[oppRank]);
+		chosenRanks.push(globals.oppChoice[oppRank]);
 	}
 }
 
@@ -4648,8 +4540,8 @@ function gameResults(scores, tutorial)
 
 	if(!tutorial)
 	{
-		remainingHoursTotal-=1;
-		remainingHoursDay-=1;
+		globals.remainingHoursTotal-=1;
+		globals.remainingHoursDay-=1;
 		var pos = chosenEvent.groupPos.split(',');
 		//console.log(pos);
 		var posText =  "<h4>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame with these groups: ";
@@ -4700,19 +4592,19 @@ function gameResults(scores, tutorial)
 		{
 			posText += " " + "<br> By a score of "+0.1+"</h1>";
 			document.getElementById("event").innerHTML = posText;
-			scoreChanger(candidates[0], 0.1,pos,[]);
+			scoreChanger(globals.candidates[0], 0.1,pos,[]);
 		}
 		else if(scores.score <= scores.tier2 && scores.score >scores.tier1)
 		{
 			posText += " " + "<br> By a score of "+0.2+"</h1>";
 			document.getElementById("event").innerHTML = posText;
-			scoreChanger(candidates[0], 0.2,pos,[]);
+			scoreChanger(globals.candidates[0], 0.2,pos,[]);
 		}
 		else if(scores.score <= scores.tier3 && scores.score >scores.tier2)
 		{
 			posText += " " + "<br> By a score of "+0.3+"</h1>";
 			document.getElementById("event").innerHTML = posText;
-			scoreChanger(candidates[0], 0.3,pos,[]);
+			scoreChanger(globals.candidates[0], 0.3,pos,[]);
 		}
 		else if(scores.score > scores.tier3)
 		{
@@ -4722,15 +4614,15 @@ function gameResults(scores, tutorial)
 			x = x.toFixed(2);
 			posText += " " + "<br> By a score of "+x+"</h1>";
 			document.getElementById("event").innerHTML = posText;
-			scoreChanger(candidates[0], x,pos,[]);
+			scoreChanger(globals.candidates[0], x,pos,[]);
 		}
 		else{
 			document.getElementById("event").innerHTML = posText;
-			scoreChanger(candidates[0], (scores * .1),pos,[]);
+			scoreChanger(globals.candidates[0], (scores * .1),pos,[]);
 		}
 		
 			saveGameState();
-     	$.post('/game/loggerMinigame', {minigameID: lastMinigame, score: scoreToLog, module: '1', session: gameSession });
+     	$.post('/game/loggerMinigame', {minigameID: globals.lastMinigame, score: scoreToLog, module: '1', session: globals.gameSession });
 			document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the User Action Area </button>";
 	}
 	else
@@ -4759,7 +4651,7 @@ function trendReporter(category)
     var answers = [];
     var tempGraphData = [];
     
-    //for(var i =0; i< pastPollChoices.length;i++)
+    //for(var i =0; i< globals.pastPollChoices.length;i++)
     //{
     //        data0.push(
     //        {
@@ -4769,10 +4661,10 @@ function trendReporter(category)
     //}
     
     
-    for(var i =0; i< pastPollChoices.length;i++)
+    for(var i =0; i< globals.pastPollChoices.length;i++)
     {
         tempGraphData = [];
-        pastGraphData[i].forEach(function(e)
+        globals.pastGraphData[i].forEach(function(e)
         {
             tempGraphData.push(e);
         
@@ -4781,12 +4673,12 @@ function trendReporter(category)
         tempGraphData.splice(0,2);
         
         //GOes through each question choesn by the player
-        for(var j =0; j< pastPollChoices[i].length; j++)
+        for(var j =0; j< globals.pastPollChoices[i].length; j++)
         {
             //Sets the labels using the past poll data
-            if(category == pastPollChoices[i][j])
+            if(category == globals.pastPollChoices[i][j])
             {
-                questions.forEach( function(element)
+                globals.questions.forEach( function(element)
                 {
                     if(element.value == category)
                     {
@@ -4794,7 +4686,7 @@ function trendReporter(category)
                         if(element.value == "candFav" ||element.value == "candOpp")
                         {
                             answers = [];
-                            candidates.forEach(function(element2)
+                            globals.candidates.forEach(function(element2)
                             {
                             	answers.push(element2.name);
                             	//console.log(answers);
@@ -4831,7 +4723,7 @@ function trendReporter(category)
 
                         //data0.splice(i,1,
                         //{
-                        //    count: pastGraphData[i][j][k],
+                        //    count: globals.pastGraphData[i][j][k],
                         //    poll: i
                         //});
                         break;
@@ -5080,13 +4972,13 @@ function trendReporter(category)
 function hourChecker()
 {
 
-	if (days < totalDays)
+	if (globals.days < globals.totalDays)
 	{
 
-		if(remainingHoursDay < 1)
+		if(globals.remainingHoursDay < 1)
 		{
-			days++;
-			remainingHoursDay = 12;
+			globals.days++;
+			globals.remainingHoursDay = 12;
 			map(0, false, true);
 		}
 		else
@@ -5097,7 +4989,7 @@ function hourChecker()
 	}
 	else
 	{
-		if(remainingHoursTotal<1)
+		if(globals.remainingHoursTotal<1)
 		{
 			gameCycleEnd();
 		}

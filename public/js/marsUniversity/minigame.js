@@ -44,11 +44,11 @@ runningGame.main =
 		frameIndex = 0;
 		runningGame4.main.instructionArea = 0;
 		ticker = 0;
-		if(typeof playerCandidate !== 'undefined'){
-			headNumber = playerCandidate.headNum
-			raceNumber = playerCandidate.raceNum
-			genderNumber = playerCandidate.genderNum
-			bodyTypeNumber = playerCandidate.bodyTypeNum
+		if(typeof globals.playerCandidate !== 'undefined'){
+			headNumber = globals.playerCandidate.headNum
+			raceNumber = globals.playerCandidate.raceNum
+			genderNumber = globals.playerCandidate.genderNum
+			bodyTypeNumber = globals.playerCandidate.bodyTypeNum
 		}
 		else{
 			headNumber = 0;
@@ -271,9 +271,9 @@ runningGame.main =
 	
 	doMousedown: function(c, e)
 	{ 
-	//console.log(canvasMouse);
-		var mouse = canvasMouse;
-		runningGame.main.laneChanger(mouse, c, ctx );
+	//console.log(globals.canvasMouse);
+		var mouse = globals.canvasMouse;
+		runningGame.main.laneChanger(mouse, c, globals.ctx );
 	},
 
 	laneChanger: function (mouse,c,ctx)
@@ -481,7 +481,7 @@ runningGame.main =
 	stopGame: function ()
 	{
 		runningGame.main.stop=true;
-		gameResults(runningGame.main.scores, practice);
+		gameResults(runningGame.main.scores, globals.practice);
 	},
 
 	calculateDeltaTime: function()
@@ -690,7 +690,7 @@ runningGame2.main =
 				runningGame2.main.studentCircles = [];
 				widthArray = [ [[60,150],[70,160],[70,120]], [[80,140],[80,140],[80,140]],[[100,140],[100,140],[100,140]],[[80,140],[80,140],[80,140]]]		
 				headArray = [[[17,9,0],[5,14,7],[12,10,2]] , [[1,8,4],[1,9,17],[7,3,8]] , [[16,8,0],[0,16,6],[14,4,7]] , [[0,11,14],[12,8,5],[4,7,16]] ]
-				sample.forEach(function(element) {
+				globals.sample.forEach(function(element) {
 					var studentCircleHolder = {
 						isDemographic: false,
 						interest: Math.floor(Math.random() * 4),
@@ -731,7 +731,7 @@ runningGame2.main =
 	stopGame: function ()
 	{
 		runningGame2.main.stop=true;
-		gameResults(runningGame2.main.scores, practice);
+		gameResults(runningGame2.main.scores, globals.practice);
 	},
 
 	draw: function(c,ctx)
@@ -922,8 +922,8 @@ runningGame2.main =
 
 	doMousedown: function(c, e)
 	{ 
-		//console.log(canvasMouse);
-		var mouse = canvasMouse;
+		//console.log(globals.canvasMouse);
+		var mouse = globals.canvasMouse;
 		var update = false
 
 		//check if the area is clickable
@@ -1004,7 +1004,7 @@ runningGame2.main =
 	},
 
 	doMouseOver: function(c, e){
-		var mouse = canvasMouse;
+		var mouse = globals.canvasMouse;
 			widthArray = [ [[60,150],[70,160],[70,120]], [[80,140],[80,140],[80,140]],[[100,140],[100,140],[100,140]],[[80,140],[80,140],[80,140]]]		
 				//check if the area is clickable
 		if(runningGame2.main.areaNumber == 0){
@@ -1347,13 +1347,13 @@ secretSticker.main =
         {
             if(secretSticker.main.takenDemograph1 >= secretSticker.main.demograph1num)
                 secretSticker.main.score++;
-            gameResults(secretSticker.main.scores, practice);
+            gameResults(secretSticker.main.scores, globals.practice);
         }
     },
 
     draw: function(c,ctx)
     {
-        var mouse = canvasMouse;
+        var mouse = globals.canvasMouse;
   
         //draw the background for the area
         ctx.fillStyle="#FFFFFF";
@@ -1626,8 +1626,8 @@ secretSticker.main =
 
     doMousedown: function(c, e)
     { 
-        //console.log(canvasMouse);
-        var mouse = canvasMouse;
+        //console.log(globals.canvasMouse);
+        var mouse = globals.canvasMouse;
 
         //check if the area is clickable
 	if(secretSticker.main.areaNumber == 0){
@@ -1777,7 +1777,7 @@ secretSticker.main =
     
     doMouseOver: function(c, e)
     {
-        var mouse = canvasMouse;
+        var mouse = globals.canvasMouse;
 		//check if the area is clickable
         if(secretSticker.main.areaNumber == 0){
             secretSticker.main.buildingHover = [false,false,false,false,false,false];
@@ -1838,7 +1838,7 @@ secretSticker.main =
     },
     doMouseUp: function()
     {
-        var mouse = canvasMouse;
+        var mouse = globals.canvasMouse;
         if(secretSticker.main.areaNumber != 0 && secretSticker.main.areaNumber <6)
         {
             secretSticker.main.drag = false;
@@ -1871,7 +1871,7 @@ secretSticker.main =
         //console.log(posterCount)
         createSample(posterCount, secretSticker.main.areaNumber-1);
         secretSticker.main.areas[secretSticker.main.areaNumber].students = [];
-        sample.forEach(function(element, i) 
+        globals.sample.forEach(function(element, i) 
         {
             var studentCircleHolder = 
             {
@@ -2146,17 +2146,17 @@ runningGame4.main = {
 		instruction2 = new Image();
 		instruction2.src = '../img/minigame4/instruction2.png'
 
-		if(practice){
+		if(globals.practice){
 				runningGame4.main.player.headnum = 0;
 				runningGame4.main.player.facenum = 0;
 				runningGame4.main.player.gendernum = 0;
 				runningGame4.main.player.bodynum = 0;
 		}
 			else{
-				runningGame4.main.player.headnum = playerCandidate.headNum;
-				runningGame4.main.player.facenum = playerCandidate.faceNum;
-				runningGame4.main.player.gendernum = playerCandidate.genderNum;
-				runningGame4.main.player.bodynum = playerCandidate.bodyTypeNum;
+				runningGame4.main.player.headnum = globals.playerCandidate.headNum;
+				runningGame4.main.player.facenum = globals.playerCandidate.faceNum;
+				runningGame4.main.player.gendernum = globals.playerCandidate.genderNum;
+				runningGame4.main.player.bodynum = globals.playerCandidate.bodyTypeNum;
 			}
 		//words
 		getReady = new Image();
@@ -2271,7 +2271,7 @@ runningGame4.main = {
 		runningGame4.main.inDanceMode = false;
 		runningGame4.main.showMeYourMove = false;
 		//make the first round of students
-		sample = 0;
+		globals.sample = 0;
 		createSample(20,0);
 
 		arrayGlowArrows = [[upArrowGlow,370,410,65,80],[downArrowGlow,451,410,65,80],[leftArrowGlow,270,420,80,65],[rightArrowGlow,526,420,80,65]]
@@ -2295,7 +2295,7 @@ runningGame4.main = {
 		else{
 			//console.log('END GAME')
 			
-			gameResults(runningGame4.main.scores, practice)
+			gameResults(runningGame4.main.scores, globals.practice)
 		}
 	},
 
@@ -2554,7 +2554,7 @@ runningGame4.main = {
 
 	doMousedown: function(c, e)
 	{ 
-		var mouse = canvasMouse;
+		var mouse = globals.canvasMouse;
 		runningGame4.main.clickPicker(mouse);
 	},
 
@@ -2868,7 +2868,7 @@ tshirtCannon.main = {
     stop: function() 
     {
         tshirtCannon.main.gameStop=true;
-        gameResults(tshirtCannon.main.scores, practice);
+        gameResults(tshirtCannon.main.scores, globals.practice);
     },
 	update: function(c,ctx)
 	{
@@ -2960,7 +2960,7 @@ tshirtCannon.main = {
 
 	doMousedown: function(c, e)
 	{ 
-		var mouse = canvasMouse;
+		var mouse = globals.canvasMouse;
 		tshirtCannon.main.clickPicker(mouse);
 	},
 
