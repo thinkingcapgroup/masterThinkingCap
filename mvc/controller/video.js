@@ -18,7 +18,9 @@ var express = require('express'),
 
 router.get('/', auth, function (req, res) {
   startTimeUnix = Date.now();
-  startTime = moment().format('MMMM Do YYYY h:mm:ss a');
+    var timestamp = new Date().toISOString()
+    var x = timestamp.split('-')
+  startTime = moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC";
   // If user account is activated
   if (req.user.role > 2) {
     // Render dashboard view
@@ -44,7 +46,9 @@ router.post('/', auth, function (req, res) {
 });
 router.post('/change', auth, function (req, res, next) {
   startTimeUnix = Date.now();
-  startTime = moment().format('MMMM Do YYYY h:mm:ss a');
+    var timestamp = new Date().toISOString()
+    var x = timestamp.split('-')
+  startTime = moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC";
 });
 router.post('/back', auth, function (req, res, next) {
   // Get user id
@@ -55,7 +59,9 @@ router.post('/back', auth, function (req, res, next) {
   endTime = "";
 
   endTimeUnix = Date.now();
-  endTime = moment().format('MMMM Do YYYY h:mm:ss a');
+    var timestamp = new Date().toISOString()
+    var x = timestamp.split('-')
+  endTime = moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC";
   timeSpent = endTimeUnix - startTimeUnix;
   timeSpent = timeSpent / 1000
   var minutes = Math.floor(timeSpent / 60);

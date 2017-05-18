@@ -21,7 +21,9 @@ var correctTotal = 0;
  */
 router.get('/', auth, function(req, res){
   startTimeUnix = Date.now();
-  startTime = moment().format('MMMM Do YYYY, h:mm:ss a');   
+    var timestamp = new Date().toISOString()
+    var x = timestamp.split('-')
+  startTime = moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC";
   renderTestArea(req, res);
 });
 
@@ -75,7 +77,9 @@ router.post('/recordTest', auth, function (req, res, next)
 
   if(question == 19){
     endTimeUnix = Date.now();
-    endTime = moment().format('MMMM Do YYYY h:mm:ss a');
+    var timestamp = new Date().toISOString()
+    var x = timestamp.split('-')
+    endTime = moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC";
     timeSpent = endTimeUnix - startTimeUnix;
     timeSpent = timeSpent / 1000
     var minutes = Math.floor(timeSpent / 60);
