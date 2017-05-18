@@ -884,10 +884,10 @@ function userAction()
     
 
 	//Build User Action Area buttons
+    globals.isCurrentAreaHover = 0;
     document.getElementById("map").innerHTML += "<canvas id='myCanvas' width='600px' height = '415px' style = 'position: relative; display: inline'></canvas>";
     var mapbackground = new Image();
     mapbackground.src = '../../img/map/mapMU600pxW.png';
-    
     globals.c=document.getElementById("myCanvas");
 	globals.ctx = globals.c.getContext("2d");
     globals.ctx.fillStyle = '#FFFFFF'
