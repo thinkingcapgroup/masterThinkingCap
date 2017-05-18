@@ -801,7 +801,7 @@ function firstStatement()
 {
 	clearScreen();
     document.getElementById("holo").src = "../../img/openscreenlarge.png";
-	document.getElementById("gameInfo").innerHTML = "<p>First let's have your candidate pick their focus </p><br.<br>"
+	document.getElementById("gameInfo").innerHTML = "<p>Make your first statement on an issue. </p><br><br>"
 	for (var x=0; x < globals.positions.length; x++){
 
 	document.getElementById("gameInfo").innerHTML += "<button onclick = 'gameCycleStart("+x+")'>"+ globals.positions[x]+"</button>"
