@@ -66,16 +66,16 @@ router.post('/logger', auth, function (req, res, next) {
       // Concatenate information
       stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + date + "-" +username +"-" + gameID;
 
-    var timestamp = Date.now();
-      var thing = moment(timestamp).tz(momentTZ.tz.guess()).format('z');
-      console.log(thing)
+    var timestamp = new Date().toISOString()
+    var x = timestamp.split('-')
+    var dateString =  moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC"
 
-    console.log(moment(timestamp).format("DD MMM YYYY hh:mm a") )
-  var passingObject = {userID: id, username: username, action: type, description: event, date: date, gameSession: gameID }
+
+
+
+  var passingObject = {userID: id, username: username, action: type, description: event, date: dateString, gameSession: gameID }
   // Append stringTem to file 'logInfo/useraction.txt'
-  fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
-    console.log('Student information logged');
-  });
+
 
     require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
     // If there was an error
@@ -105,12 +105,12 @@ router.post('/loggerHelp', auth, function (req, res, next) {
       // Concatenate information
       stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + date + "-" +username +"-" + gameID;
 
-   var passingObject = {userID: id, username: username, action: type, description: event, date: date, gameSession: gameID }
-  
-  // Append stringTem to file 'logInfo/useraction.txt'
-  fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
-    console.log('Student information logged');
-  });
+   var passingObject = {userID: id, username: username, action: type, description: event, date: dateString, gameSession: gameID }
+
+     var timestamp = new Date().toISOString()
+    var x = timestamp.split('-')
+    var dateString =  moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC"
+
 
       require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
     // If there was an error
@@ -140,13 +140,12 @@ router.post('/loggerHelpEnd', auth, function (req, res, next) {
       // Concatenate information
       stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + date + "-" +username +"-" + gameID;
 
-  console.log(gameID);
+   var timestamp = new Date().toISOString()
+    var x = timestamp.split('-')
+    var dateString =  moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC"
   // Append stringTem to file 'logInfo/useraction.txt'
-  fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
-    console.log('Student information logged');
-  });
 
-  var passingObject = {userID: id, username: username, action: type, description: event, date: date, gameSession: gameID }
+  var passingObject = {userID: id, username: username, action: type, description: event, date: dateString, gameSession: gameID }
   require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
     // If there was an error
     if (err) {
@@ -177,11 +176,11 @@ router.post('/loggerHelpEndTutorial', auth, function (req, res, next) {
 
   console.log(gameID);
   // Append stringTem to file 'logInfo/useraction.txt'
-  fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
-    console.log('Student information logged' - stringTem);
-  });
+     var timestamp = new Date().toISOString()
+    var x = timestamp.split('-')
+    var dateString =  moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC"
   
-  var passingObject = {userID: id, username: username, action: type, description: event, date: date, gameSession: gameID }
+  var passingObject = {userID: id, username: username, action: type, description: event, date: dateString, gameSession: gameID }
   
   require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
     // If there was an error
@@ -210,11 +209,11 @@ router.post('/loggerEnd', auth, function (req, res, next) {
       date = moment().format('MMMM Do YYYY, h:mm:ss a'),
       rank = req.body.rank;
   
+    var timestamp = new Date().toISOString()
+    var x = timestamp.split('-')
+    var dateString =  moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC"
 
-      // Concatenate information
-      stringTem = "\n" + id + "-" + type + "-" + event + "-" + "Player Rank:" + rank + "-" + date+ "-" +username+"-" + gameID;
-
-  var passingObject = {userID: id, username: username, action: type, description: event, date: date, gameSession: gameID }
+  var passingObject = {userID: id, username: username, action: type, description: event, date: dateString, gameSession: gameID }
   
   require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
     // If there was an error
@@ -227,9 +226,6 @@ router.post('/loggerEnd', auth, function (req, res, next) {
   });
 
   // Append stringTem to file 'logInfo/useraction.txt'
-  fs.appendFile('logInfo/useraction.txt', stringTem, function (err) {
-    console.log('Student information logged');
-  });
 
   // End the response
   res.end();
@@ -289,9 +285,12 @@ router.post('/loggerPoll', auth, function (req, res, next) {
       // Concatenate information
       stringThing = '\n' + id + '-' + type + '-'+ q1 + '*' + q2 + '*' +q3 + '*' + q4 + '*' + q5 + '*' + q6 + "-" + Date.now() + "-" +username +"-" + gameID;
      questions = 'Q: '+ q1 + ' Q: '+ q2 + ' Q: '+ q3 + ' Q: '+ q4 + ' Q: '+ q5 + ' Q: '+ q6;
+    var timestamp = new Date().toISOString()
+    var x = timestamp.split('-')
+    var dateString =  moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC"
 
-  var passingObject = {userID: id, username: username, action: type, description: questions, date: date, gameSession: gameID }
-  
+  var passingObject = {userID: id, username: username, action: type, description: questions, date: dateString, gameSession: gameID }
+
   require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
     // If there was an error
     if (err) {
@@ -303,9 +302,6 @@ router.post('/loggerPoll', auth, function (req, res, next) {
   });
 
   // Append information to 'logInfo/useraction.txt'
-  fs.appendFile('logInfo/useraction.txt', stringThing, function (err) {
-    console.log('Student information logged with id: ' + id);
-  });
 
 
 
@@ -329,14 +325,15 @@ router.post('/loggerMinigame', auth, function (req, res, next) {
       // Concatenate information
       stringThing = '\n' + "MinigameScore" + id + '-'+ mininumber+ "-" + score + "-" + date+ "-" +username +"-" + gameID;
 
- var passingObject = {userID: id, username: username, action: "Minigame " + mininumber, description: "Score: " + score, date: Date.now(), gameSession: gameID }
+    var timestamp = new Date().toISOString()
+    var x = timestamp.split('-')
+    var dateString =  moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC"
+
+ var passingObject = {userID: id, username: username, action: "Minigame " + mininumber, description: "Score: " + score, date: dateString, gameSession: gameID }
   
 
 
   // Append information to 'logInfo/useraction.txt'
-  fs.appendFile('logInfo/useraction.txt', stringThing, function (err) {
-    console.log('Student information logged with id: ' + id);
-  });
 
     require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
     // If there was an error
