@@ -43,6 +43,28 @@ router.post('/', auth, function (req, res) {
 });
 
 /**
+ * router - POST method for Mars University game route '/reset'
+ * @param  {String} '/reset' - local route string
+ * @param  {Object} req - Express Request Object
+ * @param  {Object} res - Express Response Object
+ */
+router.post('/reset', auth, function (req, res) {
+  //Database Saving
+  require('../../model/marsUniversity/resetUserGame.js')(req, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+    }
+  });
+
+  // End response
+  res.end();
+});
+
+/**
  * renderEditAccount - renders the editUser view for editing user
  * @param  {Object} req - Express Request Object
  * @param  {Object} res - Express Response Object

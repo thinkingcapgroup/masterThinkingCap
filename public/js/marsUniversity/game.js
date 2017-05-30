@@ -85,11 +85,19 @@ function helpScreen()
 	clearScreen();
 	globals.section = 1;
 	document.getElementById("playerInfo").style.display = "none";
-	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <!--<button onclick= 'openGlossary()'>Glossary Page</button>--> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><button onclick = 'helpfulIcons()'>Demographic Icons</button><br><button class = 'logHelpEnd' onclick= 'userAction()'>Return to User Action Area</button>"
+	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <!--<button onclick= 'openGlossary()'>Glossary Page</button>--> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><button onclick = 'helpfulIcons()'>Demographic Icons</button><br><button onclick = 'mapIcons()'>Map Buttons</button><br><button class = 'logHelpEnd' onclick= 'userAction()'>Return to User Action Area</button>"
 }
 
 function helpfulIcons(){
 	document.getElementById("gameInfo").innerHTML = "<p>Here's a reminder on icon images and what they represent: </p><br> <div><img src = '../../img/issues.png'/><img src = '../../img/interests.png'><img src = '../../img/majors.png'></div><br><button onclick = 'helpScreen()'>Back to Main Help Screen</button> ";
+}
+function mapIcons(){
+	document.getElementById("gameInfo").innerHTML = "<p>Here's a reminder on icon images and what they represent: </p>";	
+	document.getElementById("gameInfo").innerHTML += "<p><div><img src = '../../img/menu/takeapollicon.png'/> Polling Menu";
+	document.getElementById("gameInfo").innerHTML += "<img src = '../../img/menu/makeastatementiconNEW.png'/> Make a Statement <br>";
+	document.getElementById("gameInfo").innerHTML += "<img src = '../../img/menu/trendreport.png'/> View the Trend Reports <br>";
+	document.getElementById("gameInfo").innerHTML += "<img src = '../../img/menu/helpicon.png'/> Help Menu <br></div><png>";
+	document.getElementById("gameInfo").innerHTML += "<br><button onclick = 'helpScreen()'>Back to Main Help Screen</button> ";
 }
 
 function pollMenu()
