@@ -114,7 +114,7 @@ $(document).on('change', '.pollQ', function(){
         $('#' + subQuestion).empty();
     
         for(var x = 0; x < globals.candidates.length; x++){
-            if(x == 0){
+            if(x == 0 && globals.candidates[0].name != "Karma"){
               document.getElementById(subQuestion).options.add(new Option(globals.candidates[x].name, "Player"));
             }               
             else{document.getElementById(subQuestion).options.add(new Option(globals.candidates[x].name, globals.candidates[x].name));

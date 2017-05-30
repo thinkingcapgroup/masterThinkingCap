@@ -2261,7 +2261,6 @@ function statementCalcOtherCandidate(x){
 //Displays the result of a poll immediately after it end and then saves the report for later viewing
 function pollResults(state, isFirst, isFree)
 {
-
 	var bias = document.getElementById('location').value;
 	
 	var duplicate = false;
@@ -3153,7 +3152,11 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 		else if(groupHolder == "reader"){
 			globals.graphData[1][3]++;
 		}
-    
+		
+		if(isFirst && j ==0)
+		{
+			globals.candidates.splice(0,0,"");
+		}
         for(var i = 0; i < pollChoices.length ;i++)
         {
             //console.log(i)
@@ -3405,7 +3408,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 	if(state == 1){
 		reviewFlag = true;
 	}
-
+	
 	////console.log(globals.tableArrays);
 	tableBuilder(pollChoices, globals.tableArrays, sampleSize, globals.graphData, pollLabelArray, reviewFlag, state, isFree, isFirst);
 }
@@ -3433,7 +3436,10 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	var table = document.getElementById("pollTable");
 	var tableHead = document.getElementById("tableHead");
 	var headRow = tableHead.insertRow(0);
-
+	
+	
+	
+	
 	//Makes the table headers based on the chose questions
 	for(var h = 0; h < pollChoices.length; h++)
 	{
@@ -3758,6 +3764,8 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		var cell = row.insertCell(1);
 		cell.innerHTML = tableArray2[6][h];
 	}
+	
+	
 	sorttable.makeSortable(document.getElementById('tab'));
 	document.getElementById("next").innerHTML += "<div id = 'filterArea'></div>"
 	document.getElementById("gameInfo").innerHTML += "<div id = 'barChartDiv' style = 'display:block'></div>";
@@ -3886,6 +3894,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 				}
 			}
 		}
+		
 		////console.log("Question "+graphQuestions[i] + " has a length of: " + graphData[i].length);
 		////console.log(graphData[questionNum]);
         
@@ -3972,6 +3981,11 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
         return a > 90 ? a - 180 : a;
         } 
 	}
+	
+		if(isFirst)
+		{
+			globals.candidates.splice(0,1);
+		}
 	document.getElementById('table').style.display = 'none';
 	if (state == 1){
 		review = true;
