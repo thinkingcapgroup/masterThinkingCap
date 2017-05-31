@@ -13,7 +13,9 @@ var express = require('express'),
     // Notifications
     successNotifications = [], errorNotifications = [],
     // tempUserData
-    tempUserData = {};
+    tempUserData = {},
+    moment = require('moment'),
+    momentTZ = require('moment-timezone');
 
 /**
  * router - GET method for our editAccount route '/editAccount'
@@ -61,6 +63,41 @@ router.post('/reset', auth, function (req, res) {
   });
 
   // End response
+  res.end();
+});
+
+router.post('/resetLog', auth, function (req, res, next) {
+  // Get the name of the event
+	var event = "Save Game Deletion",
+    // Get user id
+    id = req.user.userId,
+    username = req.user.userName,
+    type = "Account Alteration",
+    modulenum = "1",
+    gameSession = "N/A",
+    gameID = id+"_"+modulenum+"_"+gameSession,
+    date = moment().format('MMMM Do YYYY, h:mm:ss a'),
+    // Concatenate information
+    stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + date + "-" +username +"-" + gameID;
+
+    var timestamp = new Date().toISOString()
+    var x = timestamp.split('-')
+    var dateString =  moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC"
+
+    var passingObject = {userID: id, username: username, action: type, description: event, date: dateString, gameSession: gameID }
+
+
+      require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+    }
+  });
+
+  // End the response
   res.end();
 });
 

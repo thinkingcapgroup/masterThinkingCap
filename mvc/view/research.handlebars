@@ -30,6 +30,7 @@
         <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 2)'>Post Test</a></li>
         <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 3)'>Demographics</a></li>
         <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 4)'>Video</a></li>
+        <!--<li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 5)'>Options</a></li>-->
         <!--<li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 4)'>User Database</a></li>-->
       </ul>
      
@@ -470,8 +471,20 @@
         </div>
       {{/if}}
     </section>
-
-    
+	<section id='report5' class = 'tabcontent active'>
+      <br>
+      <h2 id = 'Title'>Options</h2><br>
+      <h3 >Delete Save Data All Users</h3><br>
+	  <h4>WARNING!!!! BY PRESSING THE BUTTON BELOW YOU COULD DELETE THE SAVE DATA OF ALL USERS!</h4><br>
+	<div>
+		<input type="checkbox" id="deletecheck1">
+		<label for="deletecheck1">Check this box to confirm that deleting all save data is you intention.</label>
+	</div><br>
+	If you wish to delete all save data from the database type this below exactly as it appears here: DELETE54321
+	<br><input type="text" id="deletecheck2" value="">
+    </section>
+	<br><br><br>
+    <button onclick = "deleteSaves()"> DELETE ALL SAVE DATA </button>
     </div>
     <br>
 

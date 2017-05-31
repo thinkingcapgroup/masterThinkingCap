@@ -55,6 +55,27 @@ router.get('/', auth, function (req, res) {
   }
 });
 
+/**
+ * router - POST method for Mars University game route '/resetAll'
+ * @param  {String} '/resetAll' - local route string
+ * @param  {Object} req - Express Request Object
+ * @param  {Object} res - Express Response Object
+ */
+router.post('/resetAll', auth, function (req, res) {
+  //Database Saving
+  require('../../model/marsUniversity/resetGameData.js')(req, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+    }
+  });
+
+  // End response
+  res.end();
+});
 router.get('/search', auth, function (req, res) {
   // TextFile Saving
   stringTem = 'Hi'

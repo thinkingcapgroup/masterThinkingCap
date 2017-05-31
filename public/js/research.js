@@ -33,6 +33,19 @@ function tabChange(evt, tabID){
  }
 
 }
+function deleteSaves()
+{
+	if(document.getElementById("deletecheck1").checked == true && document.getElementById("deletecheck2").value == "DELETE54321")
+	{
+		console.log("Hey");
+		//$.post('/research/reset');
+	}
+	else
+	{
+		console.log("Hi");
+		//document.getElementById("report5").innerHTML += "REQUIREMENTS NOT MET!!!!";
+	}
+}
 
 function subtabChange(evt, tabID){
   var i,
