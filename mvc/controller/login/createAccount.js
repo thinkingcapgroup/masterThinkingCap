@@ -265,9 +265,9 @@ function sendMailToUser (req, res, userData, accountActivationData) {
   var authConfig = require('../../../config/auth'),
       // Create a nodemailer transporter
       transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com', // hostname
+        host: 'smtp-mail.outlook.com', // hostname
         secureConnection: false, // TLS requires secureConnection to be false
-        port: 465, // port for secure SMTP
+        port: 587, // port for secure SMTP
         tls: {
            ciphers:'SSLv3'
         },
@@ -290,7 +290,14 @@ function sendMailToUser (req, res, userData, accountActivationData) {
 
   // Make the page url
   // pageUrl = req.protocol + '://' + req.get('host') + '/accountactivation/' + accountActivationData.activationCode;
-  pageUrl = req.protocol + '://' + req.get('host');
+  if (req.get('host') === 'localhost:3000') {
+    pageUrl = req.protocol + '://' + req.get('host');
+  }
+
+  else {
+    pageUrl = 'mars-u.org';
+  }
+
   pageUrl += '/accountactivation/' + accountActivationData.activationCode;
 
   // If user entered a display name
