@@ -295,7 +295,7 @@ function sendMailToUser (req, res, userData, accountActivationData) {
   }
 
   else {
-    pageUrl = 'https://thinkingcapdevserver.herokuapp.com';
+    pageUrl = 'mars-u.org';
   }
 
   pageUrl += '/accountactivation/' + accountActivationData.activationCode;
