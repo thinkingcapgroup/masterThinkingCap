@@ -289,14 +289,14 @@ function resetPasswordEmailPost (req, res) {
 function sendEmail (req, res, data) {
   var authConfig = require('../../../config/auth'),
       transporter = nodemailer.createTransport({
-        host: 'smtp-mail.outlook.com', // hostname
+        host: 'smtp.gmail.com', // hostname
         secureConnection: false, // TLS requires secureConnection to be false
-        port: 587, // port for secure SMTP
+        port: 465, // port for secure SMTP
         tls: {
            ciphers:'SSLv3'
         },
         // auth will be our Developer email
-        auth: authConfig.thinkingcapMail
+        auth: authConfig.thinkingcapGmail
       }),
       expirationDate = '',
       pageUrl = '',
