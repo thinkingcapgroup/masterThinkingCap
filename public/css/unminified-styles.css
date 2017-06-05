@@ -1499,17 +1499,3 @@ main {
 #research tr {
     border: 1px solid black
 }
-
-#topBar{
-    background-color:orange;
-    margin-top:.3em;
-    display: inline-flex;
-    width:100%;
-    justify-content: space-between;
-}
-#iconBar{
-
-}
-#iconBar img{
-    padding-right: .2em;
-}

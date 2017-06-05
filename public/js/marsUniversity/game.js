@@ -44,6 +44,32 @@ function preload(actions) {
 	}
 }
 
+function updateTopBar(displayIcons){
+    
+    document.getElementById("playerInfo").innerHTML += "<div id = 'topBar'></div>"
+    
+    //Add icons
+    document.getElementById("topBar").innerHTML += "<div id='iconBar'></div>";
+    document.getElementById("iconBar").innerHTML += "<img height = '50' src = '../img/menu/helpicon.png'  class = 'logHelp' onclick='helpScreen()' title = 'Help'></img>";
+    document.getElementById("iconBar").innerHTML += "<img height = '50' src = '../img/menu/takeapollicon.png'  onclick='pollMenu()' title = 'Polls'></img>";
+	document.getElementById("iconBar").innerHTML += "<img height = '50' src = '../img/menu/makeastatementiconNEW.png'  onclick='statement()' title = 'Statements'></img>";
+	document.getElementById("iconBar").innerHTML += "<img height = '50' src = '../img/menu/trendreport.png'  onclick='trendReportMenu()' title = 'Trend Reports'></img>";
+    
+    
+    //Add the day bar for remaining days
+    var dayCycleIndex = (globals.totalDays + 1) - globals.days;
+    document.getElementById("topBar").innerHTML += "<div id='remainingDays'></div>";
+    document.getElementById("remainingDays").innerHTML += "<h3>Days Remaining</h3>";
+    document.getElementById("remainingDays").innerHTML += "<img src = '../../img/day"+globals.totalDays+"/day"+dayCycleIndex +".png' width = '300px'/></div>";
+    
+    //Add container for remaining hours
+    document.getElementById("topBar").innerHTML += "<div id='remainingHours'></div>";
+    document.getElementById("remainingHours").innerHTML += "<h3>Hours Remaining Today:</h3>";
+    document.getElementById("remainingHours").innerHTML += "<h2>"+globals.remainingHoursDay+"</h2>"	
+    
+	 document.getElementById("playerInfo").innerHTML +="<hr style = 'clear: right;'>"
+}
+
 /*GAME INTRO FUNCTIONS8*/
 function splashScreen()
 {
@@ -869,21 +895,16 @@ function gameCycleStart(f)
 	}
 	globals.candidates.splice(0,0,globals.playerCandidate);
 	
-    //Displays the day barr based on the difficulty setting
-	if(globals.totalDays == 5)
-		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+globals.dayCycleImage[6 - globals.days-1] +".png' width = '300px'/>"
-        else if(globals.totalDays == 7)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+globals.dayCycleImage[8 - globals.days] +".png' width = '300px'/>"
-        else if(globals.totalDays == 9)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+globals.dayCycleImage[10 - globals.days] +".png' width = '300px'/>"
-        
-	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + globals.days +"/" + globals.totalDays + " </br> Remaining Hours Today: " + globals.remainingHoursDay + "</h3><hr>";		
+    //Display Updated Top Bar
+    updateTopBar();
+    
 	hourChecker();
 };
 
 //Creates the area in which users decide what to do
 function userAction()
 {
+    
     document.getElementById("holo").src = "../../img/openscreenlarge.png";
 	//Clear previous screen
 	clearScreen();
@@ -907,21 +928,10 @@ function userAction()
 	globals.ctx = globals.c.getContext("2d");
     globals.ctx.fillStyle = '#FFFFFF'
     
-    document.getElementById("playerInfo").innerHTML += "<div id = 'topPlayerArea'></div>"
-  
-    if(globals.totalDays == 5)
-		    document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3 style = 'margin-top:8px'>Days Remaining</h3><img  src = '../../img/dayfive/"+globals.dayCycleImage[6 - globals.days] +".png' width = '300px'/></div>"
-        else if(globals.totalDays == 7)
-            document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3>Days Remaining</h3><img src = '../../img/dayseven/"+globals.dayCycleImage[8-globals.days] +".png' width = '300px'/></div>"
-        else if(globals.totalDays == 9)
-            document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3 style = 'margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+globals.dayCycleImage[10-globals.days] +".png' width = '300px'/></div>"
-	   document.getElementById("topPlayerArea").innerHTML += "<h3 style = 'margin-top:30px'>  Remaining Hours Today:   " + globals.remainingHoursDay + "</h3>";		
+    //Display Updated Top Bar
+    updateTopBar();
     
-	 document.getElementById("playerInfo").innerHTML +="<hr style = 'clear: right;'>"
-	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/takeapollicon.png'  onclick='pollMenu()' title = 'Polls'>                    </img>";
-	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/makeastatementiconNEW.png'  onclick='statement()' title = 'Statements'>                         </img>";
-	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/trendreport.png'  onclick='trendReportMenu()' title = 'Trend Reports'>                    </img>";
-	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/helpicon.png'  class = 'logHelp' onclick='helpScreen()' title = 'Help'></img>";
+    
 	if(globals.remainingHoursDay == 1)
 		document.getElementById("Buttons").innerHTML += "    <span style = 'font-weight: bold'>   You Have Time To Make A Statment!</span>";
 	//document.getElementById("Buttons").innerHTML += "<button  class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
@@ -1284,19 +1294,9 @@ function gameCycleEnd()
 	//Clear previous screen
 	clearScreen();
 
-	var prevHours = document.getElementById("playerInfo");
-	var nextArea = document.getElementById("next");
-	prevHours.innerHTML = "";
-	nextArea.innerHTML = "";
-
-	    if(globals.totalDays == 5)
-		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/day0.png' width = '300px'/>"
-        else if(globals.totalDays == 7)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/day0.png' width = '300px'/>"
-        else if(globals.totalDays == 9)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/day0.png' width = '300px'/>"
-	
-	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + globals.remainingHoursDay + "</h3><hr>";	votePercentage(1000,5);
+    //Display Updated Top Bar
+    updateTopBar();
+    
 	var winner;
 	var winvotes = 0;
 	globals.ranking = globals.candidates.slice();
@@ -1466,14 +1466,10 @@ function map(state, isFirst, isFree){
 	}
 	else if(isFree == false && isFirst == false && state !=2 )
     {
-        if(globals.totalDays == 5)
-		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+globals.dayCycleImage[6-globals.days] +".png' width = '300px'/>"
-        else if(globals.totalDays == 7)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+globals.dayCycleImage[8-globals.days] +".png' width = '300px'/>"
-        else if(globals.totalDays == 9)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+globals.dayCycleImage[10-globals.days] +".png' width = '300px'/>"
-            
-	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + globals.remainingHoursDay + "</h3><hr>";	}
+        //Display Updated Top Bar
+        updateTopBar();    
+    }
+    
 	if(state == 1||state == 2){
 		globals.currentCandidateArrayHolder = globals.candidates;
 		globals.candidates = globals.fakeCandidateHolder;
