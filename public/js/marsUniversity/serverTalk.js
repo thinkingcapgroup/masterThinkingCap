@@ -134,6 +134,28 @@ $(document).on('change','.pollQ', function(){
       theJSONEvents[x] = quest;
  });
 
+$(document).on('change','.pollQ', function(){
+      var quest = $(this).val();
+      var place = $(this).attr('id');
+      var x = place.charAt(4);
+      theJSONEvents[x] = quest;
+ });
+ 
+$(document).on('change','.pollQ',function(){
+      document.getElementById("poll0").style.color = "black"
+      document.getElementById("poll1").style.color = "black"
+	  if(document.getElementById("poll2") != null)
+      document.getElementById("poll2").style.color = "black"
+	  if(document.getElementById("poll3") != null)
+      document.getElementById("poll3").style.color = "black"
+	  if(document.getElementById("poll4") != null)
+      document.getElementById("poll4").style.color = "black"
+	  if(document.getElementById("poll5") != null)
+      document.getElementById("poll5").style.color = "black"
+      document.getElementById("duplicateParagraph").style.display = "none"
+	  dupChecker();
+ });
+
 $(document).on('click','.logEventPoll', function(){
       //grab event ID
       //userAction

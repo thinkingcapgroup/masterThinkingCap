@@ -5,8 +5,8 @@ function startGame()
 {
     globals.playerCandidate= new CandidateCreate("ph");
     globals.opponentCandidate= new CandidateCreate("Karma");
-    fakeCandidateYou = new CandidateCreate('FakeCandidate1');
-    fakeCandidateOther = new CandidateCreate('FakeCandidate2');
+    fakeCandidateYou = new CandidateCreate('Candidate1');
+    fakeCandidateOther = new CandidateCreate('Candidate2');
     fakeCandidateYou.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
     fakeCandidateOther.fame = [1,1,1,1,1,1,1,1];
     globals.spriteHead.src = "../img/spritehead.png";
@@ -75,7 +75,7 @@ function startPractice()
 	clearScreen();
 	globals.practice = true;
 	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Fun Run</a><br><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Photobomb</a><a onclick = 'practiceGame(3)' id='index-link' class = 'btn double remove'>Secret Sticker</a><br><a onclick = 'practiceGame(4)' id='index-link' class = 'btn double remove'>Mean Moves</a><a onclick = 'practiceGame(5)' id='index-link' class = 'btn double remove'>T-Shirt Canon</a></div> <br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>"; 
-
+	document.getElementById("event").style.height = "10px";
 
 }
 
@@ -85,7 +85,7 @@ function helpScreen()
 	clearScreen();
 	globals.section = 1;
 	document.getElementById("playerInfo").style.display = "none";
-	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <!--<button onclick= 'openGlossary()'>Glossary Page</button>--> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><button onclick = 'helpfulIcons()'>Demographic Icons</button><br><button onclick = 'mapIcons()'>Map Buttons</button><br><button class = 'logHelpEnd' onclick= 'userAction()'>Return to User Action Area</button>"
+	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <!--<button onclick= 'openGlossary()'>Glossary Page</button>--> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><button onclick = 'helpfulIcons()'>Demographic Icons</button><br><button onclick = 'mapIcons()'>Map Buttons</button><br><button class = 'logHelpEnd' onclick= 'hourChecker()'>Return to User Action Area</button>"
 }
 
 function helpfulIcons(){
@@ -123,7 +123,7 @@ function pollMenu()
 		globals.num = i+1;
 		document.getElementById("gameInfo").innerHTML += "<button type='button' onclick='reportViewer("+i+")' >View Poll "+ globals.num +" Result </button>";
     }
-     document.getElementById("gameInfo").innerHTML += "<br><br><button onclick= 'userAction()'>Return to User Action Area</button>";
+     document.getElementById("gameInfo").innerHTML += "<br><br><button onclick= 'hourChecker()'>Return to User Action Area</button>";
 }
 function trendReportMenu()
 {
@@ -175,7 +175,7 @@ function trendReportMenu()
     }
    	 document.getElementById("gameInfo").innerHTML += "<br>"
      document.getElementById("gameInfo").innerHTML += "<button id ='buttonViewer' style = 'display:none'>Choose Another Trend Report</button>";
-     document.getElementById("gameInfo").innerHTML += "<button onclick= 'userAction()'>Return to User Action Area</button>";
+     document.getElementById("gameInfo").innerHTML += "<button onclick= 'hourChecker()'>Return to User Action Area</button>";
 }
 
 function openGlossary()
@@ -183,7 +183,7 @@ function openGlossary()
     //Shows the glossary
 	clearScreen();
 	document.getElementById("playerInfo").style.display = "none";
-	document.getElementById("gameInfo").innerHTML = "<h1> Glossary</h1> <hr> <ul style='list-style-type:none'><li>Data: Specific Information about a group of people or objects.</li> <li>Population: The Data for ALL people or objects. </li> <li>Sample: The Data that is measured, counted, or designated as a category for SELECTED people or objects.</li>  </ul> <button onclick= 'userAction()'>Return to User Action Area</button>"
+	document.getElementById("gameInfo").innerHTML = "<h1> Glossary</h1> <hr> <ul style='list-style-type:none'><li>Data: Specific Information about a group of people or objects.</li> <li>Population: The Data for ALL people or objects. </li> <li>Sample: The Data that is measured, counted, or designated as a category for SELECTED people or objects.</li>  </ul> <button onclick= 'hourChecker()'>Return to User Action Area</button>"
 }
 
 function startCharacterSelect(){
@@ -710,9 +710,9 @@ function startOtherCandidates(heads,body){
 	globals.playerCandidate.bodyType = globals.bodyTypeArray[body.bodyArrayHolder];
 
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
-	document.getElementById("gameInfo").innerHTML += "<p>You are competing against Karma the Chameleon and 4 other candidates for the potion of Student Council President. Karma is new student just like you, they call her the Chameleon, because she copies the people she is running against.... and also because, she is a Chameleon. The current student government will give you, a candidate, some information about the student body.</p>"
+	document.getElementById("gameInfo").innerHTML += "<p>You are competing against Karma the Chameleon and 4 other candidates for the potion of Student Council President. Karma is new student just like you, they call her the Chameleon, because she copies the people she is running against.... and also because, she is a Chameleon. The current student government will give you, a candidate, some information about the students at MarsU.</p>"
 	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial?</p>"
-	document.getElementById("gameInfo").innerHTML += "<button onclick='tutorial("+false+")'>Yes</button><button onclick='actualSessionStart("+false+")'>No</button>";
+	document.getElementById("gameInfo").innerHTML += "<button onclick='tutorial("+false+")'>Yes</button><button onclick='chooseDiff()'>No</button>";
 
 }
 
@@ -723,13 +723,6 @@ function actualSessionStart(isFromTut){
 	globals.candidates = [];	
 	globals.population = 1000;
 	globals.sample = [];
-    //10 Days
-	//globals.startHours = 120; 
-    //7 Days
-	globals.startHours = 84; 
-    
-	globals.remainingHoursTotal = globals.startHours;
-    globals.totalDays = 7;
 	globals.days = 1; 
 	globals.remainingHoursDay = 12; 
 	
@@ -807,24 +800,38 @@ function practicePoll()
 //Sets up the buttons for the intital statement the player makes in the game.
 function firstStatement()
 {
+	globals.first = false;
 	clearScreen();
     document.getElementById("holo").src = "../../img/openscreenlarge.png";
-	document.getElementById("gameInfo").innerHTML = "<p>Make your first statement on an issue. </p><br><br>"
+	document.getElementById("gameInfo").innerHTML = "<h1>First Positive Statement</h1>"
+	document.getElementById("gameInfo").innerHTML += "<p>It's Time to Make Your First Statement to the Mars U Population! <br>Pick an Issue Below that You Would Like to Support!</p>"
 	for (var x=0; x < globals.positions.length; x++){
 
 	document.getElementById("gameInfo").innerHTML += "<button onclick = 'gameCycleStart("+x+")'>"+ globals.positions[x]+"</button>"
 	}
+	if(globals.pastPollResults.length !=0)
+	{
+		document.getElementById("gameInfo").innerHTML += "<p>Not Sure on What to Choose? Click Below!</p> <button type='button' onclick='firstReport()' >View The Results of the Poll You Just Took </button>";
+	}
 }
 
+function firstReport()
+{
+	globals.first = true;
+	reportViewer(0);
+}
 //Prompts the player to choose a difficulty setting for the game
 function chooseDiff()
 {
 	clearScreen();
     document.getElementById("holo").src = "../../img/openscreenlarge.png";
-	document.getElementById("gameInfo").innerHTML = "<p>Choose Your Dificulty.</p><br.<br>";
+	document.getElementById("gameInfo").innerHTML = "<h1>Choose Your Difficulty</h1><br>";
     document.getElementById("gameInfo").innerHTML += "<button onclick = setDiff("+9+")> Easy</button>";
+    document.getElementById("gameInfo").innerHTML += "<p> In Easy Mode You Have 9 Days to Win the Election.</p>";
     document.getElementById("gameInfo").innerHTML += "<button onclick = setDiff("+7+")> Normal</button>";
+    document.getElementById("gameInfo").innerHTML += "<p> In Normal Mode You Have 7 Days to Win the Election.</p>";
     document.getElementById("gameInfo").innerHTML += "<button onclick = setDiff("+5+")> Hard</button>";
+    document.getElementById("gameInfo").innerHTML += "<p> In Hard Mode You Have 5 Days to Win the Election.</p>";
 }
 
 //Sets the number of days and time remaining according to the players difficulty choice.
@@ -833,7 +840,7 @@ function setDiff(days)
 	globals.startHours = days*12; 
     globals.remainingHoursTotal = globals.startHours;
     globals.totalDays = days;
-    firstStatement();
+    actualSessionStart(false);
 }
 
 /*GAME CYCLE FUNCTIONS8*/
@@ -864,14 +871,14 @@ function gameCycleStart(f)
 	
     //Displays the day barr based on the difficulty setting
 	if(globals.totalDays == 5)
-		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
+		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+globals.dayCycleImage[6 - globals.days-1] +".png' width = '300px'/>"
         else if(globals.totalDays == 7)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+globals.dayCycleImage[8 - globals.days] +".png' width = '300px'/>"
         else if(globals.totalDays == 9)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+globals.dayCycleImage[10 - globals.days] +".png' width = '300px'/>"
         
 	document.getElementById("playerInfo").innerHTML += "<h3> Day: " + globals.days +"/" + globals.totalDays + " </br> Remaining Hours Today: " + globals.remainingHoursDay + "</h3><hr>";		
-	userAction();
+	hourChecker();
 };
 
 //Creates the area in which users decide what to do
@@ -903,11 +910,11 @@ function userAction()
     document.getElementById("playerInfo").innerHTML += "<div id = 'topPlayerArea'></div>"
   
     if(globals.totalDays == 5)
-		    document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3 style = 'margin-top:8px'>Days Remaining</h3><img  src = '../../img/dayfive/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/></div>"
+		    document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3 style = 'margin-top:8px'>Days Remaining</h3><img  src = '../../img/dayfive/"+globals.dayCycleImage[6 - globals.days] +".png' width = '300px'/></div>"
         else if(globals.totalDays == 7)
-            document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3>Days Remaining</h3><img src = '../../img/dayseven/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/></div>"
+            document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3>Days Remaining</h3><img src = '../../img/dayseven/"+globals.dayCycleImage[8-globals.days] +".png' width = '300px'/></div>"
         else if(globals.totalDays == 9)
-            document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3 style = 'margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/></div>"
+            document.getElementById("topPlayerArea").innerHTML += "<div style = 'float:right; padding-top:-100px'><h3 style = 'margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+globals.dayCycleImage[10-globals.days] +".png' width = '300px'/></div>"
 	   document.getElementById("topPlayerArea").innerHTML += "<h3 style = 'margin-top:30px'>  Remaining Hours Today:   " + globals.remainingHoursDay + "</h3>";		
     
 	 document.getElementById("playerInfo").innerHTML +="<hr style = 'clear: right;'>"
@@ -915,8 +922,10 @@ function userAction()
 	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/makeastatementiconNEW.png'  onclick='statement()' title = 'Statements'>                         </img>";
 	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/trendreport.png'  onclick='trendReportMenu()' title = 'Trend Reports'>                    </img>";
 	document.getElementById("Buttons").innerHTML += "<img height = '50' src = '../img/menu/helpicon.png'  class = 'logHelp' onclick='helpScreen()' title = 'Help'></img>";
+	if(globals.remainingHoursDay == 1)
+		document.getElementById("Buttons").innerHTML += "    <span style = 'font-weight: bold'>   You Have Time To Make A Statment!</span>";
 	//document.getElementById("Buttons").innerHTML += "<button  class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
-	document.getElementById("gameInfo").innerHTML += "<h3 style = 'float: right'> Rival\'s Last Move: " + globals.candidates[1].lastMove + "</h3>";
+	document.getElementById("gameInfo").innerHTML += "<h3 style = 'float: right'> Your Last Move: " + globals.candidates[1].lastMove + "</h3>";
 	//document.getElementById("choices").innerHTML += "<br>";
     
    
@@ -1281,11 +1290,11 @@ function gameCycleEnd()
 	nextArea.innerHTML = "";
 
 	    if(globals.totalDays == 5)
-		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
+		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/day0.png' width = '300px'/>"
         else if(globals.totalDays == 7)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/day0.png' width = '300px'/>"
         else if(globals.totalDays == 9)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/day0.png' width = '300px'/>"
 	
 	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + globals.remainingHoursDay + "</h3><hr>";	votePercentage(1000,5);
 	var winner;
@@ -1319,7 +1328,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
 		document.getElementById("gameInfo").innerHTML += "<br><button onclick='nextSection("+help+");' style='float: right;'>How to Win</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<button float = 'left' class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<button float = 'left' class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
 		break;
 		case 2:
 		document.getElementById("gameInfo").innerHTML += "<h3>How to Win</h3><hr>";
@@ -1328,7 +1337,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>How To Play</button> <button onclick='nextSection("+help+");' style='float: right; text-decoration: underline;'>Statements</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
 		break;
 		case 3:
 		var term = 1;
@@ -1338,7 +1347,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>How to Win</button> <button onclick='nextSection("+help+");' style='float: right;'>Issues</button>";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
 		break;
 		case 4:
 		document.getElementById("gameInfo").innerHTML += "<h3>Issues</h3><hr>";
@@ -1347,7 +1356,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements</button> <button onclick='nextSection("+help+");' style='float: right;'>Student Events</button>";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
 		break;
 		case 5:
 		document.getElementById("gameInfo").innerHTML += "<h3>Student Functions</h3><hr>";
@@ -1356,16 +1365,16 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Issues</button> <button onclick='nextSection("+help+");' style='float: right;'>Population - Majors</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
 		break;
 		case 6:
 		document.getElementById("gameInfo").innerHTML += "<h3>Population - Majors</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Here are the majors: <br><img src = '../img/majors.png' /></p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Student Functions</button> <button onclick='nextSection("+help+");' style='float: right;'>Population - Social Events</button> ";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Student Functions</button> <button onclick='nextSection("+help+");' style='float: right;'>Population - Social Groups</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
 		break;
 		case 7:
 		document.getElementById("gameInfo").innerHTML += "<h3>Population - Social Groups</h3><hr>";
@@ -1374,7 +1383,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Population - Majors</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
 		break;
 		case 8:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
@@ -1383,7 +1392,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Population - Social Events</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling Reports</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
 		break;
 		case 9:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling Reports</h3><hr>";
@@ -1392,7 +1401,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='nextSection("+help+");' style='float: right;'>Trend Reports</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
 		break;
 		case 10:
 		document.getElementById("gameInfo").innerHTML += "<h3>Trend Reports</h3><hr>";
@@ -1401,7 +1410,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling Reports</button> <button onclick='nextSection("+help+");' style='float: right;'>Practice Area</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
 		break;
 		
 		case 11:
@@ -1412,7 +1421,7 @@ function tutorial (help)
 		if(!help)
 			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button> ";
 		else
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='map("+3+", false, false)' style='float: right;'>Try Polling</button> <br> <br> <button class = 'logHelpEndTutorial' onclick= 'userAction()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='map("+3+", false, false)' style='float: right;'>Try Polling</button> <br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
 			
 		break;
 	}
@@ -1458,11 +1467,11 @@ function map(state, isFirst, isFree){
 	else if(isFree == false && isFirst == false && state !=2 )
     {
         if(globals.totalDays == 5)
-		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
+		    document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayfive/"+globals.dayCycleImage[6-globals.days] +".png' width = '300px'/>"
         else if(globals.totalDays == 7)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/dayseven/"+globals.dayCycleImage[8-globals.days] +".png' width = '300px'/>"
         else if(globals.totalDays == 9)
-            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+globals.dayCycleImage[globals.days-1] +".png' width = '300px'/>"
+            document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: left; margin-top:8px'>Days Remaining</h3><img src = '../../img/daynine/"+globals.dayCycleImage[10-globals.days] +".png' width = '300px'/>"
             
 	document.getElementById("playerInfo").innerHTML += "<h3 style = 'float: right; margin-top:8px'>  Remaining Hours Today:   " + globals.remainingHoursDay + "</h3><hr>";	}
 	if(state == 1||state == 2){
@@ -1490,7 +1499,7 @@ function map(state, isFirst, isFree){
 	for(x =0; x< buttonLabels.length; x++){
 		document.getElementById("location").options.add(new Option(buttonLabels[x],x));
 	}
-	document.getElementById("questionArea").innerHTML += "<label>Sample Size: </label><select id = 'sample' class = 'sampleOptions totalTimeTracker'><br></select><br><label>Time Spent: </label><select id = 'timeSpent' class = 'sampleOptions'></select><hr>";
+	document.getElementById("questionArea").innerHTML += "<label>Sample Size: </label><select id = 'sample' class = 'sampleOptions totalTimeTracker'><br></select><br><!--<label>Time Spent: </label>--><select id = 'timeSpent' class = 'sampleOptions'></select><hr>";
 	globals.back = false;
 	if(state != 0 || globals.remainingHoursDay>= 3 )
 	{
@@ -1513,7 +1522,10 @@ function map(state, isFirst, isFree){
 
 			document.getElementById("timeSpent").options.add(new Option("1 Hour", 20));
 		if(globals.remainingHoursDay> 5 )
+		{
 				document.getElementById("timeSpent").options.add(new Option("2 Hours", 40));
+				document.getElementById("timeSpent").style.display = "none";
+		}
 		//if(globals.remainingHoursDay> 7 )
 		//		document.getElementById("timeSpent").options.add(new Option("4 Hours", 60));
 		//if(globals.remainingHoursDay> 9 )
@@ -1560,24 +1572,25 @@ function map(state, isFirst, isFree){
 	else
 	{
 		document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph' style = 'display:none'></p><br>";
-		addMoreQuestions();
-		addMoreQuestions();
 	}
+	addMoreQuestions();
+	addMoreQuestions();
+		
 	//Displays the screen for this event
-	document.getElementById("questionArea").innerHTML += "<p id = 'duplicateParagraph'></p><br><button class = 'logEventPoll' onclick = 'pollResults("+state+"," +isFirst+", " +isFree+")'> Submit Poll </button><button id = 'moreQuestionButton'> Add More Questions </button><br>";
+	document.getElementById("questionArea").innerHTML += "<p id = 'duplicateParagraph'></p><br><button class = 'logEventPoll' onclick = 'pollResults("+state+"," +isFirst+", " +isFree+")'> Submit Poll </button><br>";
 	
 	if(state == 1){
-		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='actualSessionStart(true)'> Start the Game </button>";
+		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='chooseDiff()'> Start the Game </button>";
 	}
 	else if (state == 2){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='startPractice()'> Back to Practice Area </button>";
 	}
 	else if(state == 3)
 	{
-		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='userAction()'> Return to Game </button>";
+		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='hourChecker()'> Return to Game </button>";
 	}
 	else if(isFirst == true){
-		document.getElementById("questionArea").innerHTML += "<br> <hr><button onclick = 'chooseDiff()'> Make your Initial Statement on an Issue </button>";
+		document.getElementById("questionArea").innerHTML += "<br> <hr><button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
 	}
 	else{
 		if(!isFree)
@@ -1585,7 +1598,7 @@ function map(state, isFirst, isFree){
 		else if(state != 1)
 			{
 				//console.log(state,isFirst, isFree);
-				document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='userAction()' > Choose Not to Take the Poll  </button>";
+				document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='hourChecker()' > Choose Not to Take the Poll  </button>";
 			}
 	}
 
@@ -2024,8 +2037,9 @@ function statement(){
 
 		document.getElementById("posneg").options.add(new Option('Positive', 0))
 		document.getElementById("posneg").options.add(new Option('Negative', 1))
+		document.getElementById("event").innerHTML += "<p>Time Required: 1 Hour</p>";
 		document.getElementById("event").innerHTML += "<br> <button type='button' onclick='statementCalc()' > Make Statement </button>";
-		document.getElementById("next").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
+		document.getElementById("next").innerHTML += " <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
 		document.getElementById("next").style = "display:block";
 
 }
@@ -2075,8 +2089,11 @@ function practiceGame(id){
 	globals.candidates = globals.fakeCandidateHolder;
 	document.getElementById("event").style = "display:block";
 	document.getElementById("event").innerHTML += "<canvas id='myCanvas' width='900px' height = '500px'></canvas><br>";
+	document.getElementById("event").style.height = "500px";
 	globals.c=document.getElementById("myCanvas");
 	globals.ctx = globals.c.getContext("2d");
+    document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to Practice Area</button>";
+	document.getElementById("next").style.display = "block";
 
 
 	globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
@@ -2265,13 +2282,12 @@ function statementCalcOtherCandidate(x){
 	}
 	globals.candidates[x].lastMove = "Statement";
 }
-
-//Displays the result of a poll immediately after it end and then saves the report for later viewing
-function pollResults(state, isFirst, isFree)
+// Loops through the current questions and checks for duplicates
+function dupChecker()
 {
-	var bias = document.getElementById('location').value;
-	
 	var duplicate = false;
+	var dup1;
+	var dup2;
 	var pollChoices = [];
 	for(var i = 0; i<6 ;i++)
 	{
@@ -2315,6 +2331,8 @@ function pollResults(state, isFirst, isFree)
 				if(val1 == val2)
 				{
 					duplicate = true;
+					dup1 = i;
+					dup2 = j;
 				}
 			}
 		}
@@ -2322,8 +2340,80 @@ function pollResults(state, isFirst, isFree)
 
 	if(duplicate)
     {
-
 		document.getElementById("duplicateParagraph").innerHTML = "Duplicate Question Detected"
+		document.getElementById("duplicateParagraph").style.display = "block";
+		document.getElementById("poll"+dup1+"").style.color = "red";
+		document.getElementById("poll"+dup2+"").style.color = "red";
+	}
+}
+//Displays the result of a poll immediately after it end and then saves the report for later viewing
+function pollResults(state, isFirst, isFree)
+{
+	var bias = document.getElementById('location').value;
+	
+	var duplicate = false;
+	var dup1;
+	var dup2;
+	var pollChoices = [];
+	for(var i = 0; i<6 ;i++)
+	{
+		var selectedQuestion = document.getElementById("poll"+i+"");
+		if(selectedQuestion.options[selectedQuestion.selectedIndex].value != "")
+		{
+			var pollVal = selectedQuestion.options[selectedQuestion.selectedIndex].value;
+
+
+			if(pollVal == 'issue'||pollVal == 'candFame'||pollVal == 'candTrust'){
+				//grab the sub question
+				var selectedSubQuestion = document.getElementById('subpoll' + i + '');
+				var subValue = selectedSubQuestion.value;
+				pollVal = pollVal + subValue;
+			}
+			pollChoices.push(pollVal);	
+		}
+	}
+
+
+	for (var i=0; i< pollChoices.length;i++)
+	{
+		if(pollChoices[i] == "candFamePlayer"){
+			pollChoices[i] = "fame";
+		}
+		else if (pollChoices[i] == "candTrustPlayer"){
+			pollChoices[i] = "playTrust";
+		}
+	}
+
+	//Checks for duplicate questions
+	for (var i=0; i< pollChoices.length;i++)
+	{
+		for (var j=0; j< pollChoices.length;j++)
+		{
+			if(i!=j)
+			{
+				var val1 = pollChoices[i];
+				var val2 = pollChoices[j];
+
+				if(val1 == val2)
+				{
+					duplicate = true;
+					dup1 = i;
+					dup2 = j;
+				}
+			}
+		}
+	}
+
+	if(duplicate)
+    {
+		document.getElementById("duplicateParagraph").innerHTML = "Duplicate Question Detected"
+		document.getElementById("duplicateParagraph").style.display = "block";
+		document.getElementById("poll"+dup1+"").style.color = "red";
+		document.getElementById("poll"+dup2+"").style.color = "red";
+	}
+	else if(pollChoices.length < 2)
+	{
+		document.getElementById("duplicateParagraph").innerHTML = "Please Select 2 or More Questions"
 	}
     else
     {
@@ -2363,9 +2453,9 @@ function pollResults(state, isFirst, isFree)
             pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
         
             if(!isFirst)
-                document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
+                document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the User Action Area </button>";
             else
-                document.getElementById("next").innerHTML += "<button onclick = 'chooseDiff()'> Make your Initial Statement on an Issue </button>";
+                document.getElementById("next").innerHTML += "<button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
     
         }
 	}
@@ -2381,11 +2471,13 @@ function pollResults(state, isFirst, isFree)
 /* Helper Functions*/
 
 function addMoreQuestions(){
-	if(globals.qPollHolder< 6){
+	if(globals.qPollHolder <= 4){
 		qh2 = globals.qPollHolder + 1;
 		document.getElementById('poll' + globals.qPollHolder + '').style = "display:block";
 		document.getElementById('poll' + qh2 + '').style = "display:block";
 		globals.qPollHolder = globals.qPollHolder + 2;
+		if(globals.qPollHolder == 6 && document.getElementById("moreQuestionButton") != null)
+		document.getElementById("moreQuestionButton").style.display = "none";
 	}
 }
 
@@ -3032,7 +3124,11 @@ function reportViewer(id)
 	//pollChoices, tableArray2, sSize, graphData, graphLabels, review, state, isFree, isFirst
     console.log(globals.pastGraphData);
 	tableBuilder(globals.pastPollChoices[id],globals.pastPollResults[id],globals.pastPollSizes[id],globals.pastGraphData[id],globals.pastGraphLabels[id], 1, 0, false, false);
-	document.getElementById("next").innerHTML += "<button onclick = 'userAction()'> Return to the User Action Area </button>";
+	if(!globals.first)
+		document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the User Action Area </button>";
+	else
+		document.getElementById("next").innerHTML += "<button onclick = 'firstStatement()'> Return to Making Your First Statement </button>";
+	
 }
 
 //Calculates the results of each poll question from each student in the sample and stores them in an array
@@ -3251,7 +3347,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
                 break;
     
                 case "candFav":
-                    globals.tableArrays[2].push(globals.sample[j].results.win + " Score: " +globals.sample[j].results.winPer.toFixed(2));
+                    globals.tableArrays[2].push(globals.sample[j].results.win);
 					for(var k =0; k< globals.candidates.length-1;k++)
 					{
 						if(globals.sample[j].results.win == globals.candidates[k].name){
@@ -3262,7 +3358,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
     
                 case "candOpp":
                     ////console.log(globals.sample[j].results);
-                    globals.tableArrays[3].push(globals.sample[j].results.los + " Score: " +globals.sample[j].results.losPer.toFixed(2));
+                    globals.tableArrays[3].push(globals.sample[j].results.los);
 					for(var k =0; k< globals.candidates.length-1;k++)
 					{
 						if(globals.sample[j].results.los == globals.candidates[k].name){

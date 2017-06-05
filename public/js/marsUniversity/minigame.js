@@ -649,6 +649,7 @@ runningGame2.main =
 		//now init
 		runningGame2.main.gameStop = false;
 		runningGame2.main.player.picturenum = 0;
+		runningGame2.main.player.pictures = [],
 		runningGame2.main.scores.score = 0;	
 		runningGame2.main.areaNumber = -1;	
 		c.onmousedown = runningGame2.main.doMousedown;
@@ -850,7 +851,7 @@ runningGame2.main =
                     
 					ctx.fillStyle = '#000000'
 					var scoreText = runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " ";
-					var photosLeftText = runningGame2.main.player.picturenum + '/3 Photos Left'
+					var photosLeftText = runningGame2.main.player.picturenum + '/3 Photos Taken'
 				
 					ctx.drawImage(iconArray[runningGame2.main.demograph1num], 850,7,25,25);
 					ctx.fillText(scoreText, 810,27);
@@ -875,11 +876,11 @@ runningGame2.main =
 
 					ctx.fillStyle = '#000000'
 					var scoreText = runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " ";
-					var photosLeftText = runningGame2.main.player.picturenum + '/3 Photos Left'
+					var photosLeftText = runningGame2.main.player.picturenum + '/3 Photos Taken'
 				
 					ctx.drawImage(iconArray[runningGame2.main.demograph1num], 660,440,50,50);
 					ctx.fillText(scoreText, 620,470);
-					ctx.fillText(photosLeftText, 210,470);
+					ctx.fillText(photosLeftText, 190,470);
 					ctx.drawImage(backButton,10,440,150,50)
 
 					//student ID card
@@ -1475,7 +1476,7 @@ secretSticker.main =
             
 			ctx.fillStyle = '#000000'
 			var scoreText = secretSticker.main.takenDemograph1 + '/'+ secretSticker.main.requiredDemograph1 + " ";
-			var photosLeftText = secretSticker.main.player.picturenum + '/3 Photos Left'
+			var photosLeftText = secretSticker.main.postersLeft + '/5 Posters Left'
 			
 			ctx.drawImage(iconArray[secretSticker.main.demograph1num], 850,7,25,25);
 			ctx.fillText(scoreText, 810,27);

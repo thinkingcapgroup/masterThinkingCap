@@ -3,11 +3,13 @@ table, th, td {
     border: 1px solid black;
     border-collapse: collapse;
 }
-
 th, td {
     padding: 5px;
 }
-/*map & question divs*/
+tbody
+{
+	background-color: #ff7f0e
+}
 #mapArea{
   float:left;
   width:50%;
@@ -87,8 +89,8 @@ th, td {
 }
 /*chart stuff*/
 .chart div {
-  font: 10px sans-serif;
-  background-color: steelblue;
+  font: 12px sans-serif;
+  background-color: #ff7f0e;
   text-align: right;
   padding: 3px;
   margin: 1px;
@@ -127,5 +129,5 @@ canvas{
 }
 .axis text {
     font-family: Lato;
-    font-size: 13px;
+    font-size: 14px;
 }
