@@ -111,6 +111,9 @@ function splashScreen()
 
 function startAnimatic()
 {
+	globals.firstPoll = true;
+	globals.firstState = true;
+	
     //Shows the animatic
 	document.getElementById("gameInfo").innerHTML = "<p>Welcome to Mars University! <br></p> ";
     document.getElementById("gameInfo").innerHTML += "<center><video id = 'animatic' width='880' height='500' preload='auto' autoplay controls><source src='media/video/MascotAnimaticNEW.mov' type='video/mp4' ></video><br><button onclick = 'startCharacterSelect()'>Skip</button><center>";
@@ -143,7 +146,7 @@ function helpScreen()
 	globals.section = 1;
 	document.getElementById("playerInfo").style.display = "none";
 	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <!--<button onclick= 'openGlossary()'>Glossary Page</button>--> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><button onclick = 'helpfulIcons()'>Demographic Icons</button><br><button onclick = 'mapIcons()'>Map Buttons</button>"
-	document.getElementById("gameInfo").innerHTML += "<br><button onclick= 'quickReference()'>How to Win</button>"
+	document.getElementById("gameInfo").innerHTML += "<br><button onclick= 'quickReference()'>Statements and Functions</button>"
 	document.getElementById("gameInfo").innerHTML += "<br><button class = 'logHelpEnd' onclick= 'hourChecker()'>Return to User Action Area</button>"
 }
 
@@ -165,7 +168,7 @@ function showCandidates(){
 }
 
 function quickReference(){
-	document.getElementById("gameInfo").innerHTML = "<h1>How to Win</h1><br>";
+	document.getElementById("gameInfo").innerHTML = "<h1>Statements and Functions</h1><br>";
 	document.getElementById("gameInfo").innerHTML += "<spanp style = 'font-weight: bold'>Statements </span>";
 	document.getElementById("gameInfo").innerHTML += "<p>Statements are how you make your stance on an issue known.<br>When a member of the population can see that your stances on the issue match theirs they are more likely to vote for you.<br>Your statements can also affect public opinion of the issues.<br>Be careful not to change your stance on an issue a lot.<br>The population won't trust what you have to say if you aren't consistent.<br>It will take an hour to make a statement to the public.</p>";	
 	document.getElementById("gameInfo").innerHTML += "<span style = 'font-weight: bold'>Student Functions</span>";	
@@ -302,7 +305,6 @@ function startCharacterSelect(){
 
 	//draws on the canvas
 	drawOnCanvas(headSheet, bodySheet);
-
 }
 
 function drawOnCanvas(headsheet,bodysheet){
@@ -873,6 +875,8 @@ function practicePoll()
 //Sets up the buttons for the intital statement the player makes in the game.
 function firstStatement()
 {
+	globals.firstPoll = false;
+	saveGameState();
 	globals.first = false;
 	clearScreen();
     document.getElementById("holo").src = "../../img/openscreenlarge.png";
@@ -919,7 +923,8 @@ function setDiff(days)
 /*GAME CYCLE FUNCTIONS8*/
 function gameCycleStart(f)
 {
-
+	globals.firstPoll = false;
+	globals.firstState = false;
 	globals.turnCounter = 1
 	globals.playerCandidate.focus = globals.positions[f];
 	globals.playerCandidate.focusnum = f;
@@ -1013,8 +1018,8 @@ function userAction()
     
     
 	if(globals.remainingHoursDay == 1)
-		document.getElementById("Buttons").innerHTML += "    <span style = 'font-weight: bold'>   You Have Time To Make A Statment!</span>";
-	//document.getElementById("Buttons").innerHTML += "<button  class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
+		document.getElementById("eventInput").innerHTML += "   <br><span style = 'font-weight: bold'>   You Have Time To Make A Statment!</span>";
+	//document.getElementById("iconBar").innerHTML += "<button  class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
 	document.getElementById("gameInfo").innerHTML += "<h3 class='lastMove'> Your Last Move: " + globals.candidates[1].lastMove + "</h3>";
 	//document.getElementById("choices").innerHTML += "<br>";
     
@@ -1287,7 +1292,7 @@ function action()
 };
 
 //Subtracts from the remaining hours,
-function submitAction(id, eventHours)
+function submitAction(id, eventHours, Pos, Neg)
 {
 
 	//Subtracts hours from the remaining hours in the game
@@ -1357,9 +1362,17 @@ function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects
 
 	//Changes the player's score
 	scoreChanger(globals.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
-
-	//Checks to see if the game has reached it's end
-	hourChecker();
+	saveGameState();
+	clearScreen();
+	document.getElementById("event").innerHTML += "<h1 id= 'evRes'> You Positively Affected Your Fame With These Groups:";
+	for(var k =0; k<totalPosEffects.length;k++)
+	{
+		document.getElementById("evRes").innerHTML += " " + totalPosEffects[k];
+			if(k!=totalPosEffects.length - 1)
+			document.getElementById("evRes").innerHTML += ",";
+	}	
+	document.getElementById("evRes").innerHTML += "</h1>";
+	document.getElementById("event").innerHTML += "<br><button type='button' onclick='hourChecker()'> Return to User Action Area </button>";
 };
 
 //Ends the game
@@ -1400,12 +1413,12 @@ function tutorial (help)
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px;'>Hi, my name is Gui’De. I will help you find your way around Mars University. You’re a new student, and we need your help now. It’s time for the student president election and all the candidates won't do a good job. Are you interested in becoming president of the Student Council?</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
-		document.getElementById("gameInfo").innerHTML += "<br><button onclick='nextSection("+help+");' style='float: right;'>How to Win</button> ";
+		document.getElementById("gameInfo").innerHTML += "<br><button onclick='nextSection("+help+");' style='float: right;'>Statements and Functions</button> ";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<button float = 'left' class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
 		break;
 		case 2:
-		document.getElementById("gameInfo").innerHTML += "<h3>How to Win</h3><hr>";
+		document.getElementById("gameInfo").innerHTML += "<h3>Statements and Functions</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>You can win by doing three things: <br>-Statements<br>-Polling<br>-Student Functions</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
@@ -1419,7 +1432,7 @@ function tutorial (help)
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'><img src = '../img/menu/makeastatementiconNEW.png'><br>Statements are where you focus on the issues at school. You can make a positive or negative statement on the issue. Make sure to stay on topic.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>How to Win</button> <button onclick='nextSection("+help+");' style='float: right;'>Issues</button>";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements and Functions</button> <button onclick='nextSection("+help+");' style='float: right;'>Issues</button>";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
 		break;
@@ -1525,7 +1538,7 @@ function explainTerm(term, help){
 }
 
 function map(state, isFirst, isFree){
-    
+	saveGameState();
 	clearScreen();
     document.getElementById("holo").src = "../../img/openscreenlarge.png";
 	var prevHours = document.getElementById("playerInfo");
@@ -4285,7 +4298,7 @@ function backtoUA()
 {
 	globals.back = true;
 
-	userAction();
+	hourChecker();
 }
 
 function saveGameState()
@@ -4435,6 +4448,14 @@ function saveGameState()
     
 	//Saves Total Number of Days
 	globals.textContents+=globals.totalDays;
+	globals.textContents+="~";
+	
+	//Save FIrstPoll
+	globals.textContents+=globals.firstPoll.toString();
+	globals.textContents+="~";
+	
+	//Save FIrstState
+	globals.textContents+=globals.firstState.toString();
 	globals.textContents+="~";
 	
 	//post all that information
@@ -4612,11 +4633,39 @@ function loadGame()
 	
 	//Total Number of Days
 	globals.totalDays = parseInt(saveArray[11]);
+	
+	//Whether the First poll has been passed
+	if(saveArray[12] == "true")
+    {
+        globals.firstPoll = true;
+    }
+    else
+    {
+        globals.firstPoll = false;
+    }
+	
+	//Whether the First statement has been passed
+	if(saveArray[13] == "true")
+    {
+        globals.firstState = true;
+    }
+    else
+    {
+        globals.firstState = false;
+    }
     
 	globals.back=true;
 	saveState = "";
     preload(globals.events);
-	hourChecker();
+	if(globals.firstPoll)
+	{
+		bufferZone();
+	}
+	else if(globals.firstState)
+	{
+		firstStatement();
+	}
+	else{hourChecker();}
 
 }
 
