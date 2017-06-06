@@ -111,7 +111,9 @@ function helpScreen()
 	clearScreen();
 	globals.section = 1;
 	document.getElementById("playerInfo").style.display = "none";
-	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <!--<button onclick= 'openGlossary()'>Glossary Page</button>--> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><button onclick = 'helpfulIcons()'>Demographic Icons</button><br><button onclick = 'mapIcons()'>Map Buttons</button><br><button class = 'logHelpEnd' onclick= 'hourChecker()'>Return to User Action Area</button>"
+	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <!--<button onclick= 'openGlossary()'>Glossary Page</button>--> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><button onclick = 'helpfulIcons()'>Demographic Icons</button><br><button onclick = 'mapIcons()'>Map Buttons</button>"
+	document.getElementById("gameInfo").innerHTML += "<br><button onclick= 'quickReference()'>How to Win</button>"
+	document.getElementById("gameInfo").innerHTML += "<br><button class = 'logHelpEnd' onclick= 'hourChecker()'>Return to User Action Area</button>"
 }
 
 function helpfulIcons(){
@@ -128,6 +130,15 @@ function mapIcons(){
 
 function showCandidates(){
 	document.getElementById("gameInfo").innerHTML = "<p>Here's a reminder on the opposing candidates: </p>";	
+	document.getElementById("gameInfo").innerHTML += "<br><button onclick = 'helpScreen()'>Back to Main Help Screen</button> ";
+}
+
+function quickReference(){
+	document.getElementById("gameInfo").innerHTML = "<h1>How to Win</h1><br>";
+	document.getElementById("gameInfo").innerHTML += "<spanp style = 'font-weight: bold'>Statements </span>";
+	document.getElementById("gameInfo").innerHTML += "<p>Statements are how you make your stance on an issue known.<br>When a member of the population can see that your stances on the issue match theirs they are more likely to vote for you.<br>Your statements can also affect public opinion of the issues.<br>Be careful not to change your stance on an issue a lot.<br>The population won't trust what you have to say if you aren't consistent.<br>It will take an hour to make a statement to the public.</p>";	
+	document.getElementById("gameInfo").innerHTML += "<span style = 'font-weight: bold'>Student Functions</span>";	
+	document.getElementById("gameInfo").innerHTML += "<p>Student Functions are used to increase your fame with certain student populations.<br>By attending or hosting events all over campus you can become more well known.<br>Each of these functions is likely to draw in students from a certain major or social group and you can perform additional options to draw in more types of students.<br>Each of these functions should last 2 hours, but if you want to add an option it will cost an additional hour to prepare. </p>";	
 	document.getElementById("gameInfo").innerHTML += "<br><button onclick = 'helpScreen()'>Back to Main Help Screen</button> ";
 }
 
@@ -1361,7 +1372,7 @@ function tutorial (help)
 		case 4:
 		document.getElementById("gameInfo").innerHTML += "<h3>Issues</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Here are the issues: <br><img src = '../img/issues.png' /></p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'><img src = '../img/issues.png' /></p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements</button> <button onclick='nextSection("+help+");' style='float: right;'>Student Events</button>";
 		if(help)
