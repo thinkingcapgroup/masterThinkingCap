@@ -22,10 +22,10 @@ tbody
   height:500px;
 }
 
-#questionArea{
+/*#questionArea{
   float:right;
   width:35%;
-}
+}*/
 
 #poll2{
   display:none;
@@ -112,11 +112,14 @@ canvas{
 
 #leftDisplay{
     display: inline-flex;
+    width:40%;
+    
     
 }
 #rightDisplay{
     display: inline-flex;
     float:right;
+    width:55%;
 }
 
 .locationChoice{
