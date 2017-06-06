@@ -35,6 +35,7 @@ function startGame()
 	oReq.send();
     
     preload(globals.events);
+    
 }
 
 function preload(actions) {
@@ -42,6 +43,36 @@ function preload(actions) {
 		globals.images[i] = new Image()
 		globals.images[i].src = actions[i].path;
 	}
+}
+
+let areaChoices = [];
+
+function AreaChoice(name, id, labelX, labelY, coordinates, collisionRects){
+    this.name = name;
+    this.x = x;
+    this.y = y;
+    this.id = id;
+    this.coordinates = coordinates;
+    this.collisionRects = collisionRects;
+}
+
+function createAreas(){
+    //Create Gym Object
+    let coords = [
+        [360, 15],
+        [585, 15],
+        [585, 235],
+        [485, 235],
+        [485, 120],
+        [360, 120]
+    ];
+    let rects = [[360, 560],[120, 124]];
+    areaChoices.push(new AreaChoice("Gym", 1, 475, 50, coords, rects));
+    
+}
+
+function isPointInRect(pointX, pointY, rectX1, rectY1, rectX2, rectY2){
+    return ((pointX >= rectX1 && mouse.x <= rectX2) && (pointY >= rectY1 && pointY <= rectY2));
 }
 
 function updateTopBar(displayIcons){
@@ -901,9 +932,42 @@ function gameCycleStart(f)
 	hourChecker();
 };
 
+//Add events to the Location choice elements
+function addLocationEvents(){
+    globals.currentEvents = [];
+    
+    document.getElementById("CommonsChoice").innerHTML += "<h2>Commons</h2>";
+    document.getElementById("LabsChoice").innerHTML += "<h2>Labs</h2>";
+    document.getElementById("GymChoice").innerHTML += "<h2>Gym</h2>";
+    document.getElementById("LibraryChoice").innerHTML += "<h2>Library</h2>";
+    
+	//Adds events to the cooresponding section based on their effect
+	for(var i = 1;i<globals.events.length;i++)
+	{
+		globals.currentEvents.push(globals.events[i]);
+		var eventDescription =globals.events[i].name + " - " + globals.events[i].timeRequired;
+		var arrayPos = globals.events[i].id -1;
+        
+        //Add event to the location element that it is in
+        var locationName = globals.events[i].loc + "Choice";
+        document.getElementById(locationName).innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
+      
+	}
+    
+    document.getElementById("eventInput").innerHTML = "<button id = 'eventSelect' onclick='action()'>Perform Action</button>";
+}
+
 //Creates the area in which users decide what to do
 function userAction()
 {
+    console.log(globals.currentEvents);
+    
+    //If the events aren't loaded in, add them
+    if(!globals.currentEvents || !globals.currentEvents.length){
+        console.log("check");
+        addLocationEvents();
+    }
+    
     
     document.getElementById("holo").src = "../../img/openscreenlarge.png";
 	//Clear previous screen
@@ -921,7 +985,7 @@ function userAction()
 
 	//Build User Action Area buttons
     globals.isCurrentAreaHover = 0;
-    document.getElementById("map").innerHTML += "<canvas id='myCanvas' width='600px' height = '415px' style = 'position: relative; display: inline'></canvas>";
+    document.getElementById("map").innerHTML = "<canvas id='myCanvas' width='600px' height = '415px' style = 'position: relative; display: inline'></canvas>";
     var mapbackground = new Image();
     mapbackground.src = '../../img/map/mapMU600pxW.png';
     globals.c=document.getElementById("myCanvas");
@@ -935,7 +999,7 @@ function userAction()
 	if(globals.remainingHoursDay == 1)
 		document.getElementById("Buttons").innerHTML += "    <span style = 'font-weight: bold'>   You Have Time To Make A Statment!</span>";
 	//document.getElementById("Buttons").innerHTML += "<button  class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
-	document.getElementById("gameInfo").innerHTML += "<h3 style = 'float: right'> Your Last Move: " + globals.candidates[1].lastMove + "</h3>";
+	document.getElementById("gameInfo").innerHTML += "<h3 class='lastMove'> Your Last Move: " + globals.candidates[1].lastMove + "</h3>";
 	//document.getElementById("choices").innerHTML += "<br>";
     
    
@@ -949,35 +1013,25 @@ function userAction()
   
 	mapbackground.onload = drawMap(false);
     
-	globals.currentEvents = [];
-    document.getElementById("CommonsChoice").innerHTML += "<h2>Commons</h2>";
-    document.getElementById("LabChoice").innerHTML += "<h2>Labs</h2>";
-    document.getElementById("GymChoice").innerHTML += "<h2>Gym</h2>";
-    document.getElementById("LibraryChoice").innerHTML += "<h2>Library</h2>";
-	//Adds events to the cooresponding section based on their effect
-	for(var i = 1;i<globals.events.length;i++)
-	{
-		globals.currentEvents.push(globals.events[i]);
-		var eventDescription =globals.events[i].name + " - " + globals.events[i].timeRequired;
-		var arrayPos = globals.events[i].id -1;
-       switch(globals.events[i].loc)
-        {
-            case "Com":
-                document.getElementById("CommonsChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
-            break;
-            case "Lab":
-                document.getElementById("LabChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
-           break;
-            case "Gym":
-                document.getElementById("GymChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
-            break;
-            case "Lib":
-               document.getElementById("LibraryChoice").innerHTML += "<input type = 'radio' name = 'actionRadio' id = 'actionRadio"+i+"' value = " + arrayPos + ">" + eventDescription + " Hours<br>";
-            break;
-        }
-      
-	}
-	document.getElementById("eventInput").innerHTML += "<button id = 'eventSelect' onclick='action()'>Perform Action</button>";
+
+    
+    document.getElementById("LabsChoice").style.display = "none";
+    
+    //document.getElementById("GymChoice").innerHTML = "";
+    document.getElementById("GymChoice").style.display = "none";
+    
+   // document.getElementById("CommonsChoice").innerHTML = "";
+    document.getElementById("CommonsChoice").style.display = "block";
+    
+    //document.getElementById("LibraryChoice").innerHTML = "";
+    document.getElementById("LibraryChoice").style.display = "none";
+    
+   // document.getElementById("map").innerHTML = "";
+    document.getElementById("map").style.display = "block";
+    
+   //document.getElementById("eventInput").innerHTML = "";
+    document.getElementById("eventInput").style.display = "block";
+    
 	document.getElementById("actionRadio1").checked = true;
 
 	//Show changes to screen
@@ -1757,7 +1811,7 @@ function drawMap(poll)
 			//gym1
 			if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
                 document.getElementById("LibraryChoice").style = 'display:none';
-                document.getElementById("LabChoice").style = 'display:none';
+                document.getElementById("LabsChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:block';
                 document.getElementById("CommonsChoice").style = 'display:none';
                 globals.isCurrentAreaHover = 1;
@@ -1765,7 +1819,7 @@ function drawMap(poll)
 			//gym2
 			if((mouse.x >= 480 && mouse.x <=590 )&&(mouse.y >= 115 && mouse.y <= 235)){
                 document.getElementById("LibraryChoice").style = 'display:none';
-                document.getElementById("LabChoice").style = 'display:none';
+                document.getElementById("LabsChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:block';
                 document.getElementById("CommonsChoice").style = 'display:none';
                      globals.isCurrentAreaHover = 1;
@@ -1773,7 +1827,7 @@ function drawMap(poll)
 			//media 		globals.ctx.strokeRect(135,333,175,145);
 			if((mouse.x >= 90 && mouse.x <= 205)&&(mouse.y >= 275 && mouse.y <= 395)){
                 document.getElementById("LibraryChoice").style = 'display:none';
-                document.getElementById("LabChoice").style = 'display:none';
+                document.getElementById("LabsChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:none';
                 document.getElementById("CommonsChoice").style = 'display:block';
                      globals.isCurrentAreaHover = 0;
@@ -1782,7 +1836,7 @@ function drawMap(poll)
 			//labs1
 			if((mouse.x >= 150 && mouse.x <= 255)&&(mouse.y >= 15 && mouse.y <= 135)){
                 document.getElementById("LibraryChoice").style = 'display:none';
-                document.getElementById("LabChoice").style = 'display:block';
+                document.getElementById("LabsChoice").style = 'display:block';
                 document.getElementById("GymChoice").style = 'display:none';
                 document.getElementById("CommonsChoice").style = 'display:none';
                      globals.isCurrentAreaHover = 2;
@@ -1790,7 +1844,7 @@ function drawMap(poll)
 			//labs2
 			else if((mouse.x >= 180 && mouse.x <= 230)&&(mouse.y >= 135 && mouse.y <= 165)){
                 document.getElementById("LibraryChoice").style = 'display:none';
-                document.getElementById("LabChoice").style = 'display:block';
+                document.getElementById("LabsChoice").style = 'display:block';
                 document.getElementById("GymChoice").style = 'display:none';
                 document.getElementById("CommonsChoice").style = 'display:none';
                      globals.isCurrentAreaHover = 2;
@@ -1801,7 +1855,7 @@ function drawMap(poll)
 			//library 	globals.ctx.strokeRect(600,330,280,155);
 			if((mouse.x >= 400 && mouse.x <= 590)&&(mouse.y >= 275 && mouse.y <= 400)){
                 document.getElementById("LibraryChoice").style = 'display:block';
-                document.getElementById("LabChoice").style = 'display:none';
+                document.getElementById("LabsChoice").style = 'display:none';
                 document.getElementById("GymChoice").style = 'display:none';
                 document.getElementById("CommonsChoice").style = 'display:none';
                      globals.isCurrentAreaHover = 3;
@@ -1922,6 +1976,9 @@ function drawMap(poll)
             //draw icon
 
             globals.ctx.drawImage(libraryIcon, 435,270,113,75)
+        
+        
+            globals.ctx.fillRect(435, 270, 10, 10);
             globals.ctx.drawImage(gymIcon, 475,50,113,75)
             globals.ctx.drawImage(commonsicon, 90,285,113,75)
             if(globals.isPoll){
@@ -3082,7 +3139,25 @@ function clearScreen()
 	document.getElementById('next').innerHTML = "";
 
 	gameOutput.innerHTML = "";
-	prevChoices.innerHTML = "<div id = 'Buttons' style = 'display:block;'><div id = 'Header' style = 'display:block;'> </div></div><div id = 'LabChoice' style = 'display:none;'></div><div id = 'GymChoice' style = 'display:none;'></div><div id = 'CommonsChoice' style = 'display:block;'> </div><div id = 'LibraryChoice' style = 'display:none;'></div><div id = 'map' style = 'display:block;'></div><div id = 'eventInput' style = 'display:block;'></div>";
+    
+    
+    //Hide all area choices
+    document.getElementById("LabsChoice").style.display = "none";
+    
+    document.getElementById("GymChoice").style.display = "none";
+
+    document.getElementById("CommonsChoice").style.display = "none";
+    
+    //document.getElementById("LibraryChoice").innerHTML = "";
+    document.getElementById("LibraryChoice").style.display = "none";
+    
+   // document.getElementById("map").innerHTML = "";
+    document.getElementById("map").style.display = "none";
+    
+   //document.getElementById("eventInput").innerHTML = "";
+    document.getElementById("eventInput").style.display = "none";
+    
+	//prevChoices.innerHTML = "<div id = 'Header' style = 'display:block;'> </div></div><div id = 'LabChoice' style = 'display:none;'></div><div id = 'GymChoice' style = 'display:none;'></div><div id = 'CommonsChoice' style = 'display:block;'> </div><div id = 'LibraryChoice' style = 'display:none;'></div><div id = 'map' style = 'display:block;'></div><div id = 'eventInput' style = 'display:block;'></div>";
 	prevEvent.innerHTML = "";
 	prevTable.innerHTML = "<table id = 'tab' class='sortable'><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
 }
