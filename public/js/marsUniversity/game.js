@@ -46,7 +46,7 @@ function preload(actions) {
 
 function updateTopBar(displayIcons){
     
-    document.getElementById("playerInfo").innerHTML += "<div id = 'topBar'></div>"
+    document.getElementById("playerInfo").innerHTML = "<div id = 'topBar'></div>"
     
     //Add icons
     document.getElementById("topBar").innerHTML += "<div id='iconBar'></div>";
@@ -123,6 +123,11 @@ function mapIcons(){
 	document.getElementById("gameInfo").innerHTML += "<img src = '../../img/menu/makeastatementiconNEW.png'/> Make a Statement <br>";
 	document.getElementById("gameInfo").innerHTML += "<img src = '../../img/menu/trendreport.png'/> View the Trend Reports <br>";
 	document.getElementById("gameInfo").innerHTML += "<img src = '../../img/menu/helpicon.png'/> Help Menu <br></div><png>";
+	document.getElementById("gameInfo").innerHTML += "<br><button onclick = 'helpScreen()'>Back to Main Help Screen</button> ";
+}
+
+function showCandidates(){
+	document.getElementById("gameInfo").innerHTML = "<p>Here's a reminder on the opposing candidates: </p>";	
 	document.getElementById("gameInfo").innerHTML += "<br><button onclick = 'helpScreen()'>Back to Main Help Screen</button> ";
 }
 
@@ -760,7 +765,7 @@ function actualSessionStart(isFromTut){
 	globals.candidates.push(globals.opponentCandidate);
 	
 	//Create Issue Candidates
-	var issueCand1 = new CandidateCreate("Martian Dog");
+	var issueCand1 = new CandidateCreate("Boof");
 	issueCand1.focus = globals.positions[0];
 	issueCand1.focusnum = 0;
 	chooseRank(issueCand1,globals.chosenCandRanks,true);
@@ -770,12 +775,12 @@ function actualSessionStart(isFromTut){
 	issueCand2.focusnum = 1;
 	chooseRank(issueCand2,globals.chosenCandRanks,true);
 	globals.candidates.push(issueCand2);
-	var issueCand3 = new CandidateCreate("Clamps");
+	var issueCand3 = new CandidateCreate("C1AMP");
 	issueCand3.focus = globals.positions[2];
 	issueCand3.focusnum = 2;
 	chooseRank(issueCand3,globals.chosenCandRanks,true);
 	globals.candidates.push(issueCand3);
-	var issueCand4 = new CandidateCreate("Martian Scientist");
+	var issueCand4 = new CandidateCreate("Simon");
 	issueCand4.focus = globals.positions[3];
 	issueCand4.focusnum = 3;
 	chooseRank(issueCand4,globals.chosenCandRanks,true);
@@ -1105,12 +1110,16 @@ function action()
 				var totalText = "";
 				if( (eventHours + parseInt(chosenEvent.options[i].extraTime)) <= globals.remainingHoursDay)
 				{
+					if(i == 0)
+					{
+						document.getElementById("event").innerHTML += "<span style = 'font-weight: bold' > Additional Options: <br></span>";
+					}
 					var posText ="";
 					var negText = "";
 					if(chosenEvent.options[i].posEffects != [])
 					{
 						var effects = chosenEvent.options[i].posEffects.split(',');
-						posText =  " -  Positive Effects: ";
+						posText =  " -  Extra Positive Effects: ";
 						for (var j =0; j< effects.length;j++)
 						{
 							switch(effects[j])
@@ -1154,7 +1163,7 @@ function action()
 					if(chosenEvent.options[i].negEffects != [])
 					{
 						var negEffects = chosenEvent.options[i].negEffects.split(',');
-						negText =  " -  Negative Effects: ";
+						negText =  " -  Extra Negative Effects: ";
 						for (var j =0; j< negEffects.length;j++)
 						{
 							switch(negEffects[j])
@@ -1370,7 +1379,7 @@ function tutorial (help)
 		case 6:
 		document.getElementById("gameInfo").innerHTML += "<h3>Population - Majors</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Here are the majors: <br><img src = '../img/majors.png' /></p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Student Functions</button> <button onclick='nextSection("+help+");' style='float: right;'>Population - Social Groups</button> ";
 		if(help)
@@ -1379,7 +1388,7 @@ function tutorial (help)
 		case 7:
 		document.getElementById("gameInfo").innerHTML += "<h3>Population - Social Groups</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Here are the social groups: <br><img src = '../img/interests.png' /></p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Population - Majors</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling</button> ";
 		if(help)
@@ -1416,7 +1425,7 @@ function tutorial (help)
 		case 11:
 		document.getElementById("gameInfo").innerHTML += "<h3>Practice Area</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>And that’s it. I said polls were important, so I've created a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data is not real and does not represent the actual students. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>And that’s it. I said polls were important, so I've created a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data is not real and does not represent the actual students or candidates. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		if(!help)
 			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button> ";
@@ -5096,7 +5105,7 @@ function hourChecker()
 		{
 			globals.days++;
 			globals.remainingHoursDay = 12;
-			map(0, false, true);
+			dayPollBuffer();
 		}
 		else
 		{
@@ -5118,6 +5127,14 @@ function hourChecker()
 	}
 }
 
+function dayPollBuffer()
+{
+	clearScreen();
+	updateTopBar();
+    document.getElementById("holo").src = "../../img/openscreenlarge.png";
+    document.getElementById("gameInfo").innerHTML += "<h1>End of Day Poll</h1> <br><p>Phew! After a hard day of campaigning the current electoral office will conduct a poll for each candidate. <br>You just have to fill out the questions and decide how many people they'll talk to.<br> It wont take any time on our part!</p>";
+    document.getElementById("gameInfo").innerHTML += "<button onclick='map("+0+","+false+","+true+")'>Take Your End of Day Poll</button>";
+}
 window.onload = startGame();
 
 /* Console Disabling Code */
