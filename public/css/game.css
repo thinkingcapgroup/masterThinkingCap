@@ -51,42 +51,6 @@ tbody
 {
      margin: 70px 150px 100px 80px;
 }
-#QuadChoice
-{
-    float: right;
-    width:35%;
-}
-#CommonsChoice
-{
-    display:block;
-    float: right;
-    width:35%;
-}
-#LabChoice
-{
-    float: right;
-    width:35%;
-}
-#LibraryChoice
-{
-    float: right;
-    width:35%;
-}
-#GymChoice
-{
-    float: right;
-    width:35%;
-}
-#MediaChoice
-{
-    float: right;
-    width:35%;
-}
-#eventSelect
-{
-    float: right;
-    width:35%;
-}
 /*chart stuff*/
 .chart div {
   font: 12px sans-serif;
@@ -130,4 +94,34 @@ canvas{
 .axis text {
     font-family: Lato;
     font-size: 14px;
+}
+
+#topBar{
+    background-color:orange;
+    margin-top:.3em;
+    display: inline-flex;
+    width:100%;
+    justify-content: space-between;
+}
+#iconBar{
+
+}
+#iconBar img{
+    padding-right: .2em;
+}
+
+#leftDisplay{
+    display: inline-flex;
+    
+}
+#rightDisplay{
+    display: inline-flex;
+    float:right;
+}
+
+.locationChoice{
+    
+}
+.locationChoice h2 {
+    
 }
