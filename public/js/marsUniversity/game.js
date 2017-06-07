@@ -235,6 +235,7 @@ function helpScreen()
 	globals.section = 1;
 	document.getElementById("playerInfo").style.display = "none";
 	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <!--<button onclick= 'openGlossary()'>Glossary Page</button>--> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><button onclick = 'helpfulIcons()'>Demographic Icons</button><br><button onclick = 'mapIcons()'>Map Buttons</button>"
+	//document.getElementById("gameInfo").innerHTML += "<br><button onclick= 'showCandidates()'>Candidate Information</button>"
 	document.getElementById("gameInfo").innerHTML += "<br><button onclick= 'quickReference()'>Statements and Functions</button>"
 	document.getElementById("gameInfo").innerHTML += "<br><button class = 'logHelpEnd' onclick= 'hourChecker()'>Return to User Action Area</button>"
 }
@@ -252,7 +253,13 @@ function mapIcons(){
 }
 
 function showCandidates(){
-	document.getElementById("gameInfo").innerHTML = "<p>Here's a reminder on the opposing candidates: </p>";	
+	document.getElementById("gameInfo").innerHTML = "<h1>Rival Candidate</h1>";	
+	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/karma.png'> <br>";
+	document.getElementById("gameInfo").innerHTML += "<h1>Issue Candidates</h1>";
+	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/karma.png'> ";
+	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/karma.png'> ";
+	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/karma.png'> ";
+	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/karma.png'> ";
 	document.getElementById("gameInfo").innerHTML += "<br><button onclick = 'helpScreen()'>Back to Main Help Screen</button> ";
 }
 
