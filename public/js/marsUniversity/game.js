@@ -1452,7 +1452,8 @@ function gameCycleEnd()
 
     //Display Updated Top Bar
     updateTopBar();
-    
+    votePercentage(1000, 5);
+	
 	var winner;
 	var winvotes = 0;
 	globals.ranking = globals.candidates.slice();
