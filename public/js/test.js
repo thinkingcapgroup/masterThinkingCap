@@ -46,7 +46,7 @@ function showResults()
         switch(testID)
         {
             case 'pre':
-            $.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: playerResults[j], testId: testID, confidence: playerConfidence[j] });
+            $.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: playerResults[j], testId: testID, confidence: playerConfidence[j]});
             document.getElementById("index-section").innerHTML = "<h2> Test Submitted </h2> <br><br><a class = 'btn double remove' href='/dashboard'>Choose Module</a>";
             break;
             case 'post':
@@ -60,7 +60,7 @@ function showResults()
 function showDemographics()
 {
 	document.getElementById("index-section").innerHTML = "";
-    for( var i =0; i < demographics.length; i++)
+    for( var i =1; i < demographics.length; i++)
 	{
         var demoNum = questions.length + i;
         document.getElementById("index-section").innerHTML += "<h1 class='question'>"+ demographics[i].question+"</h1>";
@@ -104,7 +104,7 @@ function showDemographics()
 function checkDemographics()
 {
 	complete = true;
-	for( var i = 0; i < demographics.length; i++)
+	for( var i = 1; i < demographics.length; i++)
 	{
         var demoNum = questions.length + i;
         switch(demographics[i].type)
@@ -142,7 +142,7 @@ function checkDemographics()
 }
 function submitDemographics()
 {
-    var _name = document.getElementById('q'+ (questions.length + 0) + 'a').value; 
+    var _name = "N/A"; 
     var _age = document.getElementById('q'+ (questions.length + 1) + 'a').value; 
     var _year = document.getElementById('q'+ (questions.length + 2) + 'a').value; 
     var radios = document.getElementsByName('q'+ (questions.length + 3));
@@ -248,8 +248,26 @@ function start()
 	oReq.send();
 	
 }
+$(document).on('change','.consent',function(){
+	checkConsent();
+});
+function checkConsent()
+{
+	if(	document.getElementById("name").value != "")
+	{
+		if(document.getElementById("date").value != "")
+		{
+			if(document.getElementById("stuID").value != "")
+			{
+				document.getElementById("postConsent").style.display = "block";
+			}
+		}
+	}
+}
+
 function  buildTests (type)
 {
+    $.post('/testArea/recordConsent', {name: document.getElementById("name").value, date: document.getElementById("date").value, stuID: document.getElementById("stuID").value});
     $.post('/testArea/newTestSession', {});
     document.getElementById('sectionHolder').style.backgroundColor = 'white'
 	document.getElementById("index-section").innerHTML = "";
