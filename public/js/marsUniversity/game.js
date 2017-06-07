@@ -1,5 +1,6 @@
 
 var saveState;
+let mapBackground;
 //starts the game
 function startGame()
 {
@@ -21,7 +22,9 @@ function startGame()
 	//whatever other things we have to do when initiaKarmaing the game here
 	var date = Date.now();
 
-
+    mapBackground = new Image();
+    mapBackground.src = '../../img/map/mapMU600pxW.png';
+    
 	//Gets the questions and events from the Json
 	var Json;
 	var oReq = new XMLHttpRequest();
@@ -36,6 +39,7 @@ function startGame()
     
     preload(globals.events);
     
+    createAreas();
 }
 
 function preload(actions) {
@@ -45,18 +49,26 @@ function preload(actions) {
 	}
 }
 
-let areaChoices = [];
+const areaChoices = {};
 
-function AreaChoice(name, id, labelX, labelY, coordinates, collisionRects){
+function MapArea(name, id, labelX, labelY, coordinates, collisionRects){
     this.name = name;
-    this.x = x;
-    this.y = y;
+    this.labelX = labelX;
+    this.labelY = labelY;
     this.id = id;
     this.coordinates = coordinates;
     this.collisionRects = collisionRects;
 }
 
-function createAreas(){
+function Rectangle(x1, x2, y1, y2){
+    this.x1 = x1;
+    this.x2 = x2;
+    this.y1 = y1;
+    this.y2 = y2;
+}
+
+function createAreas(){    
+    
     //Create Gym Object
     let coords = [
         [360, 15],
@@ -66,13 +78,81 @@ function createAreas(){
         [485, 120],
         [360, 120]
     ];
-    let rects = [[360, 560],[120, 124]];
-    areaChoices.push(new AreaChoice("Gym", 1, 475, 50, coords, rects));
     
+    let rects = [new Rectangle(360, 585, 15, 120), new Rectangle(480, 590, 115, 235)];
+    areaChoices["Gym"] = new MapArea("Gym", 1, 475, 50, coords, rects);
+    
+    //Create Labs
+    coords = [
+        [148, 15],
+        [255, 15],
+        [255, 135],
+        [226, 135],
+        [226, 165],
+        [180, 165],
+        [180, 135],
+        [148, 135]
+    ];
+    rects = [new Rectangle(145, 255, 15, 135), new Rectangle(180, 230, 135, 165)];
+    areaChoices["Labs"] = new MapArea("Labs", 2, 145, 30, coords, rects);
+    
+    //Create Commons
+    coords = [
+        [90, 275],
+        [207, 275],
+        [207, 397],
+        [90, 397]
+    ];
+    
+    rects = [new Rectangle(90, 205, 275, 395)];
+    areaChoices["Commons"] = new MapArea("Commons", 3, 90, 285, coords, rects);
+    
+    //Create Library
+    coords = [
+        [400, 275],
+        [588, 275],
+        [588, 399],
+        [400, 399]
+    ];
+    
+    rects = [new Rectangle(400, 590, 255, 400)];
+    areaChoices["Library"] = new MapArea("Library", 4, 435, 270, coords, rects);
+    
+    //Create Quad
+    coords = [
+        [135, 190],
+        [305, 190],
+        [305, 246],
+        [135, 246]
+    ];
+    
+    rects = [new Rectangle(135, 300, 190, 250)];
+    areaChoices["Quad"] = new MapArea("Quad", 0, 160, 160, coords, rects);
 }
 
-function isPointInRect(pointX, pointY, rectX1, rectY1, rectX2, rectY2){
-    return ((pointX >= rectX1 && mouse.x <= rectX2) && (pointY >= rectY1 && pointY <= rectY2));
+function isPointInRect(pointX, pointY, rect){
+    return ((pointX >= rect.x1 && pointX <= rect.x2) && (pointY >= rect.y1 && pointY <= rect.y2));
+}
+
+function isPointInArea(pointX, pointY, mapArea){
+    
+    //If one of the area rectangles contains the point, return true
+    for(let i = 0; i < mapArea.collisionRects.length; i++){
+        if(isPointInRect(pointX, pointY, mapArea.collisionRects[i])){
+            return true;
+        }
+    }
+    return false;
+}
+
+function drawAreaPath(mapArea){
+    
+    globals.ctx.beginPath();
+    globals.ctx.moveTo(mapArea.coordinates[0][0], mapArea.coordinates[0][1]);
+    for(let i = 1; i < mapArea.coordinates.length; i++){
+        globals.ctx.lineTo(mapArea.coordinates[i][0], mapArea.coordinates[i][1]);
+    }
+    globals.ctx.closePath();
 }
 
 function updateTopBar(displayIcons){
@@ -182,7 +262,7 @@ function pollMenu()
     clearScreen();
     if(globals.remainingHoursDay >=3)
     {
-        document.getElementById("gameInfo").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' onclick='map("+0+",false,false)'> Take A Poll </button><br><br>";
+        document.getElementById("gameInfo").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' onclick='drawPoll("+0+",false,false)'> Take A Poll </button><br><br>";
         if(globals.pastPollResults.length > 0)
             document.getElementById("gameInfo").innerHTML += "<h2> Previous Poll Results</h2>";
     }
@@ -837,7 +917,7 @@ function actualSessionStart(isFromTut){
         clearScreen();
         document.getElementById("holo").src = "../../img/openscreenlarge.png";
         document.getElementById("gameInfo").innerHTML += "<h1>First Poll</h1> <br><p>Ready to start your Campaign at Mars U? It's time to get that initial data from the Student Government. Let them know what questions you would like to know the answers to.</p>";
-        document.getElementById("gameInfo").innerHTML += "<button onclick='map("+0+","+true+","+true+")'>Take Your First Poll</button>";
+        document.getElementById("gameInfo").innerHTML += "<button onclick='drawPoll("+0+","+true+","+true+")'>Take Your First Poll</button>";
     }
 //takes the player into a poll with fake candidates to test out polling
 function practicePoll()
@@ -869,7 +949,7 @@ function practicePoll()
 	globals.candidates.push(issueCand1);
 
 	
-	map(2,false,false);
+	drawPoll(2,false,false);
 }
 
 //Sets up the buttons for the intital statement the player makes in the game.
@@ -1005,10 +1085,9 @@ function userAction()
     
 
 	//Build User Action Area buttons
-    globals.isCurrentAreaHover = 0;
+    globals.isCurrentAreaHover = areaChoices["Commons"].id;
+    
     document.getElementById("map").innerHTML = "<canvas id='myCanvas' width='600px' height = '415px' style = 'position: relative; display: inline'></canvas>";
-    var mapbackground = new Image();
-    mapbackground.src = '../../img/map/mapMU600pxW.png';
     globals.c=document.getElementById("myCanvas");
 	globals.ctx = globals.c.getContext("2d");
     globals.ctx.fillStyle = '#FFFFFF'
@@ -1031,26 +1110,16 @@ function userAction()
 	globals.c.onmousedown = doMousedownMain;
 	globals.c.onmousemove = doMouseOver;
     
-  
-	mapbackground.onload = drawMap(false);
+    
+	drawMap(false);
     
 
     
     document.getElementById("LabsChoice").style.display = "none";
-    
-    //document.getElementById("GymChoice").innerHTML = "";
     document.getElementById("GymChoice").style.display = "none";
-    
-   // document.getElementById("CommonsChoice").innerHTML = "";
     document.getElementById("CommonsChoice").style.display = "block";
-    
-    //document.getElementById("LibraryChoice").innerHTML = "";
     document.getElementById("LibraryChoice").style.display = "none";
-    
-   // document.getElementById("map").innerHTML = "";
     document.getElementById("map").style.display = "block";
-    
-   //document.getElementById("eventInput").innerHTML = "";
     document.getElementById("eventInput").style.display = "block";
     
 	document.getElementById("actionRadio1").checked = true;
@@ -1506,9 +1575,9 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>And that’s it. I said polls were important, so I've created a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data is not real and does not represent the actual students or candidates. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		if(!help)
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='map("+1+", false, false)' style='float: right;'>Try Polling</button> ";
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='drawPoll("+1+", false, false)' style='float: right;'>Try Polling</button> ";
 		else
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='map("+3+", false, false)' style='float: right;'>Try Polling</button> <br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='drawPoll("+3+", false, false)' style='float: right;'>Try Polling</button> <br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
 			
 		break;
 	}
@@ -1537,16 +1606,13 @@ function explainTerm(term, help){
 
 }
 
-function map(state, isFirst, isFree){
+
+function drawPoll(state, isFirst, isFree){
 	saveGameState();
 	clearScreen();
     document.getElementById("holo").src = "../../img/openscreenlarge.png";
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
-   
-
-        var mapbackground = new Image();
-        mapbackground.src = '../../img/map/mapMU600pxW.png';
     
 	if( isFree == false && isFirst == false && state ==1){
 
@@ -1565,17 +1631,14 @@ function map(state, isFirst, isFree){
 	var timeForPoll = returnTotalPollTime(20,0);
     
 	globals.qPollHolder = 2;
+    
 	document.getElementById("event").style = "display:block";
-    document.getElementById("event").innerHTML += "<h4>Select an area where you wish to poll.</h4>";
-    document.getElementById("event").innerHTML += "<div id = 'mapArea'><canvas id='myCanvas' width='600px' height = '415px' style = 'position: relative;'></canvas></div><div id = 'questionArea'></div>";
-    globals.c=document.getElementById("myCanvas");
-    globals.ctx = globals.c.getContext("2d");
-    globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
-    globals.c.onmousedown = doMousedown;
-    globals.c.onmousemove = doMouseOver;
+    document.getElementById("event").innerHTML += "<h4>Select an area where you wish to poll.</h4><div id = 'questionArea'></div>";
+    document.getElementById("map").style.display = "block";
     
     //Waits for the map to load before drawing on the canvas
-    mapbackground.onload = drawMap(true);
+    drawMap(true);
+    
 	document.getElementById("questionArea").innerHTML +="<h4>Population & Sample</h4><br>";
 	var buttonLabels = ["Quad", "Gym", "Lab", "Commons", "Library"];
 	document.getElementById("questionArea").innerHTML += "<label>Location: </label><select id = 'location'></select><br>";
@@ -1696,100 +1759,18 @@ function map(state, isFirst, isFree){
 //Draws lines on the map around the buildings
 function drawMap(poll)
 {
-
-	globals.isPoll = poll
-	//map icons
-	var libraryIcon = new Image();
-	libraryIcon.src = '../img/map/libraryicon.png';
-	var quadIcon = new Image();
-	quadIcon.src = '../img/map/icon.png';
-	var gymIcon = new Image();
-	gymIcon.src = '../img/map/gymicon.png';
-	var commonsicon = new Image();
-	commonsicon.src = '../img/map/commonsIcon.png';
-	var labIcon = new Image();
-	labIcon.src = '../img/map/labicon.png';
-
-    var mapbackground = new Image();
-    mapbackground.src = '../../img/map/mapMU600pxW.png';
-
-	//peopleicons
-	var tuitionIcon = new Image();
-	tuitionIcon.src = '../img/icons/tuitionsquare.png';
-	var sportsIcon = new Image();
-	sportsIcon.src = '../img/icons/sportssquare.png';
-	var researchIcon = new Image();
-	researchIcon.src = '../img/icons/researchsquare.png';
-	var socialIcon = new Image();
-	socialIcon.src = '../img/icons/socialsquare.png';
-	var medicalIcon = new Image();
-	medicalIcon.src = '../img/icons/medicalsquare.png';
+	globals.isPoll = poll;
     
     globals.c=document.getElementById("myCanvas");
 	globals.ctx = globals.c.getContext("2d");
     
-
-	mapbackground.onload = function(){
-			  globals.ctx.drawImage(mapbackground, 0,0,600,414);
-			  	globals.ctx.strokeStyle = '#00FFFF';
-	globals.ctx.fillStyle = 'rgba(0,255,255,0.5)';
-	globals.ctx.lineWidth = 3;
-	
-	//stroke areas for gym
-	globals.ctx.beginPath();
-        globals.ctx.moveTo(360,15);
-        globals.ctx.lineTo(585,15);
-        globals.ctx.lineTo(585,235);
-        globals.ctx.lineTo(485,235);
-        globals.ctx.lineTo(485,120);
-        globals.ctx.lineTo(360,120);
-	globals.ctx.closePath();
-	globals.ctx.stroke();
-    
-	//stroke labs
-	globals.ctx.beginPath();
-	globals.ctx.moveTo(150,15);
-	globals.ctx.lineTo(255,15);
-	globals.ctx.lineTo(255,135);
-	globals.ctx.lineTo(226,135);
-	globals.ctx.lineTo(226,165);
-	globals.ctx.lineTo(180,165);
-	globals.ctx.lineTo(180,135);
-	globals.ctx.lineTo(150,135);
-	globals.ctx.closePath();
-	globals.ctx.stroke();
-    
-	
-	//quad
-	if(globals.isPoll)
-		globals.ctx.strokeRect(135,190,170,56);
-    
-	//library
-	globals.ctx.strokeRect(400,275,188,124);
-    
-
-    
-	//media
-	globals.ctx.strokeRect(90,275,117,122);
-	
-	//draw icon
-
-	    globals.ctx.drawImage(libraryIcon, 435,270,113,75)
-        globals.ctx.drawImage(gymIcon, 475,50,113,75)
-        globals.ctx.drawImage(commonsicon, 90,285,113,75)
-        globals.ctx.drawImage(labIcon, 145,30,113,75)
-            if(globals.isPoll){
-
-			globals.ctx.drawImage(quadIcon, 160,160,113,75) 
-			}
-   
-		}
-
+    drawMapAreas();
+    drawMapIcons();
 
 }
 
 //Sets the clickable zones on the map for polling
- function doMousedown(c,e)
+ function doMousedownPoll(c,e)
 	{
 		var mouse = globals.canvasMouse;
 		//check if the area is clickable
@@ -1836,64 +1817,45 @@ function drawMap(poll)
 			}
     }
     
-//Sets the clickable zones on the map forthe user action area
+//Sets the clickable zones on the map for the user action area
  function doMousedownMain(c,e)
 	{
 		var mouse = globals.canvasMouse;
-		//check if the area is clickable
-			//gym1
-			if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
-                document.getElementById("LibraryChoice").style = 'display:none';
-                document.getElementById("LabsChoice").style = 'display:none';
-                document.getElementById("GymChoice").style = 'display:block';
-                document.getElementById("CommonsChoice").style = 'display:none';
-                globals.isCurrentAreaHover = 1;
-			}
-			//gym2
-			if((mouse.x >= 480 && mouse.x <=590 )&&(mouse.y >= 115 && mouse.y <= 235)){
-                document.getElementById("LibraryChoice").style = 'display:none';
-                document.getElementById("LabsChoice").style = 'display:none';
-                document.getElementById("GymChoice").style = 'display:block';
-                document.getElementById("CommonsChoice").style = 'display:none';
-                     globals.isCurrentAreaHover = 1;
-			}
-			//media 		globals.ctx.strokeRect(135,333,175,145);
-			if((mouse.x >= 90 && mouse.x <= 205)&&(mouse.y >= 275 && mouse.y <= 395)){
-                document.getElementById("LibraryChoice").style = 'display:none';
-                document.getElementById("LabsChoice").style = 'display:none';
-                document.getElementById("GymChoice").style = 'display:none';
-                document.getElementById("CommonsChoice").style = 'display:block';
-                     globals.isCurrentAreaHover = 0;
-			}
-		
-			//labs1
-			if((mouse.x >= 150 && mouse.x <= 255)&&(mouse.y >= 15 && mouse.y <= 135)){
-                document.getElementById("LibraryChoice").style = 'display:none';
-                document.getElementById("LabsChoice").style = 'display:block';
-                document.getElementById("GymChoice").style = 'display:none';
-                document.getElementById("CommonsChoice").style = 'display:none';
-                     globals.isCurrentAreaHover = 2;
-			}
-			//labs2
-			else if((mouse.x >= 180 && mouse.x <= 230)&&(mouse.y >= 135 && mouse.y <= 165)){
-                document.getElementById("LibraryChoice").style = 'display:none';
-                document.getElementById("LabsChoice").style = 'display:block';
-                document.getElementById("GymChoice").style = 'display:none';
-                document.getElementById("CommonsChoice").style = 'display:none';
-                     globals.isCurrentAreaHover = 2;
-			}
-
-			//coffee shop 
-			
-			//library 	globals.ctx.strokeRect(600,330,280,155);
-			if((mouse.x >= 400 && mouse.x <= 590)&&(mouse.y >= 275 && mouse.y <= 400)){
-                document.getElementById("LibraryChoice").style = 'display:block';
-                document.getElementById("LabsChoice").style = 'display:none';
-                document.getElementById("GymChoice").style = 'display:none';
-                document.getElementById("CommonsChoice").style = 'display:none';
-                     globals.isCurrentAreaHover = 3;
-			}
+        
+        //Loop through map areas
+        for(let key in areaChoices){
+            let mapArea = areaChoices[key];
+            
+            //Only check for quad icon during Polling
+            if(mapArea.name != "Quad" || globals.isPoll){
+                
+                if(isPointInArea(mouse.x, mouse.y, mapArea)){
+                    
+                    //If it's during a poll, update the input value
+                    if(globals.isPoll){
+                        document.getElementById("location").value = mapArea.id;
+                    }
+                    //Otherwise display the selected choice element
+                    else{
+                        //Hide all Choice Elements
+                        document.getElementById("GymChoice").style.display = 'none';
+                        document.getElementById("LibraryChoice").style.display = 'none';
+                        document.getElementById("LabsChoice").style.display = 'none';
+                        document.getElementById("CommonsChoice").style.display = 'none';
+                        
+                        //Display only the selected area
+                        document.getElementById(mapArea.name+"Choice").style.display = 'block';
+                    }
+                    
+                    globals.isCurrentAreaHover = mapArea.id;
+                    
+                    //Redraw screen with new outline
+                    doMouseOver();
+                }
+            }
+        }
     }
+
 //Fills the zone over the building that the mouse if hovering over
 	function doMouseOver(c,e){
 
@@ -1903,210 +1865,71 @@ function drawMap(poll)
 		var mouse = globals.canvasMouse;
         //console.log(mouse);
 		globals.ctx.fillStyle = 'rgba(0,255,255,0.5)';
-        var mapbackground = new Image();
-        mapbackground.src = '../../img/map/map.png';
-        globals.ctx.drawImage(mapbackground, 0,0,450,250);
-
-
-		//check if the area is clickable
-			//quad 		globals.ctx.strokeRect(208,235,243,60);
-						
-			//gym1
-			if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
-                
-                strokeAreas();
-                globals.ctx.beginPath();
-                globals.ctx.moveTo(360,15);
-                globals.ctx.lineTo(585,15);
-                globals.ctx.lineTo(585,235);
-                globals.ctx.lineTo(485,235);
-                globals.ctx.lineTo(485,120);
-                globals.ctx.lineTo(360,120);
-				globals.ctx.closePath();
-                globals.ctx.fill();
-			}
-			//gym2
-			else if((mouse.x >= 480 && mouse.x <= 590)&&(mouse.y >= 115 && mouse.y <= 235)){
-                strokeAreas();
-                globals.ctx.beginPath();
-                globals.ctx.moveTo(360,15);
-                globals.ctx.lineTo(585,15);
-                globals.ctx.lineTo(585,235);
-                globals.ctx.lineTo(485,235);
-                globals.ctx.lineTo(485,120);
-                globals.ctx.lineTo(360,120);
-				globals.ctx.closePath();
-                globals.ctx.fill();
-			}
-			//media 		globals.ctx.strokeRect(135,333,175,145);
-			else if((mouse.x >= 90 && mouse.x <= 205)&&(mouse.y >= 275 && mouse.y <= 395)){
-                
-               strokeAreas();
-                globals.ctx.fillRect(90,275,117,122);
-			}
-		
-			//labs1
-			else if((mouse.x >= 145 && mouse.x <= 255)&&(mouse.y >= 15 && mouse.y <= 135)){
-                
-                strokeAreas();
-					globals.ctx.beginPath();
-                    globals.ctx.moveTo(150,15);
-                    globals.ctx.lineTo(255,15);
-                    globals.ctx.lineTo(255,135);
-                    globals.ctx.lineTo(226,135);
-                    globals.ctx.lineTo(226,165);
-                    globals.ctx.lineTo(180,165);
-                    globals.ctx.lineTo(180,135);
-                    globals.ctx.lineTo(150,135);
-					globals.ctx.closePath();
-                    globals.ctx.fill();
-			}
-			//labs2
-			else if((mouse.x >= 180 && mouse.x <= 230)&&(mouse.y >= 135 && mouse.y <= 165)){
-                
-                strokeAreas();   
-					globals.ctx.beginPath();
-                    globals.ctx.moveTo(145,15);
-                    globals.ctx.lineTo(255,15);
-                    globals.ctx.lineTo(255,135);
-                    globals.ctx.lineTo(226,135);
-                    globals.ctx.lineTo(226,165);
-                    globals.ctx.lineTo(180,165);
-                    globals.ctx.lineTo(180,135);
-                    globals.ctx.lineTo(145,135);
-					globals.ctx.closePath();
-                    globals.ctx.fill();
-			}
-
-			//coffee shop 
-		
-			//library 	globals.ctx.strokeRect(600,330,280,155);
-			else if((mouse.x >= 400 && mouse.x <= 590)&&(mouse.y >= 255 && mouse.y <= 400)){
-                
-               strokeAreas();
-                
-                globals.ctx.fillRect(400,275,188,124);
-			}
-            else
-            {
-                strokeAreas();
-            }
-    
-            //map icons
-            var libraryIcon = new Image();
-            libraryIcon.src = '../img/map/libraryicon.png';
-       
-            var gymIcon = new Image();
-            gymIcon.src = '../img/map/gymicon.png';
-            var commonsicon = new Image();
-            commonsicon.src = '../img/map/commonsIcon.png';
-            var labIcon = new Image();
-            labIcon.src = '../img/map/labicon.png';
-            quadIcon = new Image();
-			quadIcon.src = '../img/map/icon.png';
-     		
+        
+        drawMapAreas();
+        
+        //Draw Hover shapes
+        
+		//Loop through map areas
+        for(let key in areaChoices){
+            let mapArea = areaChoices[key];
             
-            //draw icon
-
-            globals.ctx.drawImage(libraryIcon, 435,270,113,75)
+            //Only check for quad icon during Polling
+            if(mapArea.name != "Quad" || globals.isPoll){
+                
+                if(isPointInArea(mouse.x, mouse.y, mapArea)){
+                    drawAreaPath(mapArea);
+                    globals.ctx.fill();
+                }
+            }
+        }
         
-        
-            globals.ctx.fillRect(435, 270, 10, 10);
-            globals.ctx.drawImage(gymIcon, 475,50,113,75)
-            globals.ctx.drawImage(commonsicon, 90,285,113,75)
-            if(globals.isPoll){
-            	if(globals.isCurrentAreaHover  == 5){
-        			globals.ctx.lineWidth = 6;
-        			globals.ctx.strokeStyle = '#FFFF00';
-        		}	
-
-            	if((mouse.x >= 135 && mouse.x <= 300)&&(mouse.y >= 190 && mouse.y <= 250)){ 
-             
-                globals.ctx.fillRect(135,190,170,56); 
-      			} 
-            globals.ctx.strokeRect(135,190,170,56);
-			globals.ctx.drawImage(quadIcon, 160,160,113,75) 
-
-			}
-            globals.ctx.drawImage(labIcon, 145,30,113,75)
-          
+        drawMapIcons();
 	}
     
 
     //Draws lines on the map around the buildings
-    function strokeAreas()
+    function drawMapAreas()
     {
         
-        globals.c=document.getElementById("myCanvas");
-        globals.ctx = globals.c.getContext("2d");
-		var mouse = globals.canvasMouse;
-		globals.ctx.fillStyle = 'rgba(0,255,255,0.5)';
+        globals.ctx.drawImage(mapBackground, 0,0,600,414);
+        
         globals.ctx.strokeStyle = '#00FFFF';
         globals.ctx.lineWidth = 3;
-        var mapbackground = new Image();
-        mapbackground.src = '../../img/map/mapMU600pxW.png';
-        globals.ctx.drawImage(mapbackground, 0,0,600,414);
         
-          if(globals.isCurrentAreaHover  == 1){
-          	globals.ctx.strokeStyle = '#FFFF00';
-        	globals.ctx.lineWidth = 6;
-        }
-        //stroke areas for gym
-        globals.ctx.beginPath();
-        globals.ctx.moveTo(360,15);
-        globals.ctx.lineTo(585,15);
-        globals.ctx.lineTo(585,235);
-        globals.ctx.lineTo(485,235);
-        globals.ctx.lineTo(485,120);
-        globals.ctx.lineTo(360,120);
-        globals.ctx.closePath();
-        globals.ctx.stroke();
-
-        globals.ctx.lineWidth = 3;
-              globals.ctx.strokeStyle = '#00FFFF';
         
+        //Draw outlines of map areas
+        for(let key in areaChoices){
+            globals.ctx.save();
+            let mapArea = areaChoices[key];
 
-          if(globals.isCurrentAreaHover  == 2){
-          	globals.ctx.strokeStyle = '#FFFF00';
-        	globals.ctx.lineWidth = 6;
+            //Only draw the quad icon during Polling
+            if(mapArea.name != "Quad" || globals.isPoll){
+                
+                if(globals.isCurrentAreaHover == mapArea.id){
+                    globals.ctx.strokeStyle = '#FFFF00';
+        	        globals.ctx.lineWidth = 6;
+                }
+                drawAreaPath(mapArea);
+                globals.ctx.stroke();
+            }
+            globals.ctx.restore();
         }
-        //stroke labs
-        globals.ctx.beginPath();
-        globals.ctx.moveTo(150,15);
-        globals.ctx.lineTo(255,15);
-        globals.ctx.lineTo(255,135);
-        globals.ctx.lineTo(226,135);
-        globals.ctx.lineTo(226,165);
-        globals.ctx.lineTo(180,165);
-        globals.ctx.lineTo(180,135);
-        globals.ctx.lineTo(150,135);
-        globals.ctx.closePath();
-        globals.ctx.stroke();
-        globals.ctx.lineWidth = 3;
-
-        globals.ctx.strokeStyle = '#00FFFF';
- 
-          if(globals.isCurrentAreaHover  == 3){
-          	globals.ctx.strokeStyle = '#FFFF00';
-        	globals.ctx.lineWidth = 6;
-        }
-        //library
-        globals.ctx.strokeRect(400,275,188,124);
-        globals.ctx.strokeStyle = '#00FFFF';
-
-        globals.ctx.lineWidth = 3;
-        if(globals.isCurrentAreaHover  == 0){
-        	globals.ctx.lineWidth = 6;
-        	globals.ctx.strokeStyle = '#FFFF00';
-        }
-        
-        //media
-  
-        globals.ctx.strokeRect(90,275,117,122);
-        globals.ctx.lineWidth = 3;
-              globals.ctx.strokeStyle = '#00FFFF';
 
     }
+function drawMapIcons(){
+    
+    //Draw area icons
+    for(let key in areaChoices){
+        let mapArea = areaChoices[key];
+        //Only draw the quad icon during Polling
+        if(mapArea.name != "Quad" || globals.isPoll){
+            let areaIcon = new Image();
+            areaIcon.src = '../img/map/icons/'+mapArea.name+'Icon.png';
+            globals.ctx.drawImage(areaIcon, mapArea.labelX, mapArea.labelY,113,75)
+        }
+    }
+}
     
 //makes the statement screen
 function statement(){
@@ -2514,19 +2337,19 @@ function pollResults(state, isFirst, isFree)
     
         if(pollChoices.length < 2)
         {
-            document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'map("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
+            document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'drawPoll("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
         }
         else if(duplicate)
         {
-            document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'map("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
+            document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'drawPoll("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
         }
         else if(!pollTimeCheck(sampleSize, pollChoices) && state == 0)
         {
-            document.getElementById("gameInfo").innerHTML += "<p> You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.</p>  <button onclick = 'map("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
+            document.getElementById("gameInfo").innerHTML += "<p> You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.</p>  <button onclick = 'drawPoll("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
         }
         else if(state == 1){
             pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
-            document.getElementById("next").innerHTML += "<button onclick = 'map("+1+",false,false)'> Return to Tutorial Poll</button>";
+            document.getElementById("next").innerHTML += "<button onclick = 'drawPoll("+1+",false,false)'> Return to Tutorial Poll</button>";
             
         }
         else if(state == 2)
@@ -4215,7 +4038,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 	}
 		
 	if(state == 1){
-		document.getElementById('event').innerHTML += "<button onclick = 'map("+1+",false,false)'>Back to Start</button>" ;
+		document.getElementById('event').innerHTML += "<button onclick = 'drawPoll("+1+",false,false)'>Back to Start</button>" ;
 	}
 
 }
@@ -5268,7 +5091,7 @@ function dayPollBuffer()
 	updateTopBar();
     document.getElementById("holo").src = "../../img/openscreenlarge.png";
     document.getElementById("gameInfo").innerHTML += "<h1>End of Day Poll</h1> <br><p>Phew! After a hard day of campaigning the current electoral office will conduct a poll for each candidate. <br>You just have to fill out the questions and decide how many people they'll talk to.<br> It wont take any time on our part!</p>";
-    document.getElementById("gameInfo").innerHTML += "<button onclick='map("+0+","+false+","+true+")'>Take Your End of Day Poll</button>";
+    document.getElementById("gameInfo").innerHTML += "<button onclick='drawPoll("+0+","+false+","+true+")'>Take Your End of Day Poll</button>";
 }
 window.onload = startGame();
 
