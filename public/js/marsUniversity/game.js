@@ -42,6 +42,15 @@ function startGame()
     createAreas();
 }
 
+const POLL_STATE = {
+    TUTORIAL: 1,
+    PRACTICE_AREA: 2,
+    IN_GAME_PRACTICE: 3,
+    END_OF_DAY: 0,
+    IN_GAME: 5,
+    FIRST: 4
+}
+
 function preload(actions) {
 	for (i = 1; i < actions.length; i++) {
 		globals.images[i] = new Image()
@@ -1645,22 +1654,12 @@ function drawPoll(state, isFirst, isFree){
     
 	document.getElementById("questionArea").innerHTML +="<h4>Population & Sample</h4><br>";
 	var buttonLabels = ["Quad", "Gym", "Lab", "Commons", "Library"];
+    
 	document.getElementById("questionArea").innerHTML += "<label>Location: </label><select id = 'location'></select><br>";
 	for(x =0; x< buttonLabels.length; x++){
 		document.getElementById("location").options.add(new Option(buttonLabels[x],x));
 	}
     
-    document.getElementById("location").addEventListener("click", printTest);
-    //Set onchange event for the dropdown
-    document.getElementById("location").onchange = printTest;/*function(){
-        console.log("location changed!");
-        //Update highlighted area
-        globals.isCurrentAreaHover = document.getElementById("location").value;
-        
-        //Redraw map
-        drawMapAreas();
-        drawMapIcons();
-    }*/
     
 	document.getElementById("questionArea").innerHTML += "<label>Sample Size: </label><select id = 'sample' class = 'sampleOptions totalTimeTracker'><br></select><br><!--<label>Time Spent: </label>--><select id = 'timeSpent' class = 'sampleOptions'></select><hr>";
 	globals.back = false;
@@ -1668,32 +1667,11 @@ function drawPoll(state, isFirst, isFree){
 	{
 
 		document.getElementById("sample").options.add(new Option("Sample 20 Students", 20));
-		if(globals.remainingHoursDay> 5 )
+		
+        //If there's enough time to sample more students, add the option
+        if(globals.remainingHoursDay> 5 ){
 			document.getElementById("sample").options.add(new Option("Sample 40 Students", 40));
-		//if(globals.remainingHoursDay> 7 )
-		//	document.getElementById("sample").options.add(new Option("Sample 60 Students", 60));
-		//if(globals.remainingHoursDay> 9 )
-		//	document.getElementById("sample").options.add(new Option("Sample 80 Students", 80));
-
-		//	document.getElementById("rooms").options.add(new Option("1 Room", 20));
-		//if(globals.remainingHoursDay> 5 )
-		//	document.getElementById("rooms").options.add(new Option("2 Rooms", 40));
-		//if(globals.remainingHoursDay> 7 )
-		//	document.getElementById("rooms").options.add(new Option("3 Rooms", 60));
-		//if(globals.remainingHoursDay> 9 )
-		//	document.getElementById("rooms").options.add(new Option("4 Rooms", 80));
-
-			document.getElementById("timeSpent").options.add(new Option("1 Hour", 20));
-		if(globals.remainingHoursDay> 5 )
-		{
-				document.getElementById("timeSpent").options.add(new Option("2 Hours", 40));
-				document.getElementById("timeSpent").style.display = "none";
-		}
-		//if(globals.remainingHoursDay> 7 )
-		//		document.getElementById("timeSpent").options.add(new Option("4 Hours", 60));
-		//if(globals.remainingHoursDay> 9 )
-		//		document.getElementById("timeSpent").options.add(new Option("8 Hours", 80));
-
+        }
 
 		document.getElementById("questions").innerHTML += "<h4> Poll Questions Every set of one or two questions you add will equal an hour. </h4> <br>";
 		//Populates the questions based on the JSON File
@@ -1728,10 +1706,13 @@ function drawPoll(state, isFirst, isFree){
 	{
 		document.getElementById("event").innerHTML += "<h4> You do not have enough time remaining to take a poll.</h4>";
 	}
+    
+    //If the poll takes time, display the time it will take
 	if(!isFree)
 	{
 		document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph'>Total Time: "+ timeForPoll +" Hours</p>";
 	}
+    //Otherwise hide the "amount of time" paragraph
 	else
 	{
 		document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph' style = 'display:none'></p><br>";
@@ -1742,22 +1723,30 @@ function drawPoll(state, isFirst, isFree){
 	//Displays the screen for this event
 	document.getElementById("questionArea").innerHTML += "<p id = 'duplicateParagraph'></p><br><button class = 'logEventPoll' onclick = 'pollResults("+state+"," +isFirst+", " +isFree+")'> Submit Poll </button><br>";
 	
+    //Tutorial's practice poll
 	if(state == 1){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='chooseDiff()'> Start the Game </button>";
 	}
+    //Poll within Practice Area
 	else if (state == 2){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='startPractice()'> Back to Practice Area </button>";
 	}
+    //Poll when you retake the tutorial from within the main game
 	else if(state == 3)
 	{
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='hourChecker()'> Return to Game </button>";
 	}
+    //First poll in the game
 	else if(isFirst == true){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
 	}
+    //If it's within normal gameplay
 	else{
-		if(!isFree)
+        //If the player is choosing to take a poll
+		if(!isFree){
 			document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
+        }
+        //End of the day free poll
 		else if(state != 1)
 			{
 				//console.log(state,isFirst, isFree);
@@ -1767,12 +1756,21 @@ function drawPoll(state, isFirst, isFree){
 
 	document.getElementById("questionArea").style.display = "block";
 	document.getElementById("next").style.display = "block";
+    
+    //Set event listeners last, after all elements have been loaded
+    //Set onchange event for the location dropdown
+    document.getElementById("location").onchange = function(){
+        globals.isCurrentAreaHover = document.getElementById("location").value;
+        
+        //Redraw map
+        drawMapAreas();
+        drawMapIcons();
+    }
 
 //	document.getElementById("moreQuestionButton").addEventListener("click", function(){
 //			addMoreQuestions();
 //	});
     
-    document.getElementById("location").addEventListener("click", printTest);
 }
 
 //Draws lines on the map around the buildings
