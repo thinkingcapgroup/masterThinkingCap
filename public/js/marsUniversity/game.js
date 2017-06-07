@@ -1536,7 +1536,7 @@ function tutorial (help)
 		case 6:
 		document.getElementById("gameInfo").innerHTML += "<h3>Population - Majors</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'><img src = '../img/majors.png' /></p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Student Functions</button> <button onclick='nextSection("+help+");' style='float: right;'>Population - Social Groups</button> ";
 		if(help)
@@ -1545,7 +1545,7 @@ function tutorial (help)
 		case 7:
 		document.getElementById("gameInfo").innerHTML += "<h3>Population - Social Groups</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'><img src = '../img/interests.png' /></p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Population - Majors</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling</button> ";
 		if(help)
@@ -3655,18 +3655,20 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 
 					case "fame":
 								var cell = row.insertCell(i);
-								cell.innerHTML = parseFloat(tableArray2[7][h]).toFixed(2);
 								if(parseFloat(tableArray2[7][h]).toFixed(2) <= 0.33)
 									{
-										cell.innerHTML = "Candidate Unknown Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+										cell.innerHTML = "Candidate Unknown";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[7][h]).toFixed(2)>0.33 && parseFloat(tableArray2[7][h]).toFixed(2)<0.66)
 									{
-										cell.innerHTML = "Aware of Candidate Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+										cell.innerHTML = "Aware of Candidate";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
 									}
 									else
 									{
-										cell.innerHTML = "Candidate Known: " + parseFloat(tableArray2[7][h]).toFixed(2);
+										cell.innerHTML = "Candidate Known";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
 									}
 					break;
 
@@ -3674,15 +3676,18 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var cell = row.insertCell(i);
 								if(parseFloat(tableArray2[8][h]).toFixed(2) >= 0.66)
 									{
-										cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Not Trustworthy";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.33 && parseFloat(tableArray2[8][h]).toFixed(2)<0.66)
 									{
-										cell.innerHTML = "Sort Of Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Sort Of Trustworthy";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else
 									{
-										cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML = "Very Trustworthy";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 					break;
 				}
@@ -3696,15 +3701,18 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									var cell = row.insertCell(i);
 									if(tableArray2[9][h] <= -2)
 									{
-										cell.innerHTML = "Issue Disliked Score: " + parseFloat(tableArray2[9][h]);
+										cell.innerHTML = "Issue Disliked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
 									else if(tableArray2[9][h]>-2 && tableArray2[9][h]<2)
 									{
-										cell.innerHTML = "Issue Neutral Score: " + parseFloat(tableArray2[9][h]);
+										cell.innerHTML = "Issue Neutral";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
 									else
 									{
-										cell.innerHTML = "Issue Liked Score: " + parseFloat(tableArray2[9][h]);
+										cell.innerHTML = "Issue Liked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
 							break;
 
@@ -3712,15 +3720,18 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									var cell = row.insertCell(i);
 									if(tableArray2[10][h] <= -2)
 									{
-										cell.innerHTML = "Issue Disliked Score: " + parseFloat(tableArray2[10][h]);
+										cell.innerHTML = "Issue Disliked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
 									}
 									else if(tableArray2[10][h]>-2 && tableArray2[10][h]<2)
 									{
-										cell.innerHTML = "Issue Neutral Score: " + parseFloat(tableArray2[10][h]);
+										cell.innerHTML = "Issue Neutral";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
 									}
 									else
 									{
-										cell.innerHTML = "Issue Liked Score: " + parseFloat(tableArray2[10][h]);
+										cell.innerHTML = "Issue Liked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
 									}
 							break;
 
@@ -3729,15 +3740,18 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									var cell = row.insertCell(i);
 									if(tableArray2[12][h] <= -2)
 									{
-										cell.innerHTML = "Issue Disliked Score: " + parseFloat(tableArray2[12][h]);
+										cell.innerHTML = "Issue Disliked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
 									}
 									else if(tableArray2[12][h]>-2 && tableArray2[12][h]<2)
 									{
-										cell.innerHTML = "Issue Neutral Score: " + parseFloat(tableArray2[12][h]);
+										cell.innerHTML = "Issue Neutral";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
 									}
 									else
 									{
-										cell.innerHTML = "Issue Liked Score: " + parseFloat(tableArray2[12][h]);
+										cell.innerHTML = "Issue Liked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
 									}
 							break;
 
@@ -3745,15 +3759,18 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 									var cell = row.insertCell(i);
 									if(tableArray2[13][h] <= -2)
 									{
-										cell.innerHTML = "Issue Disliked Score: " + parseFloat(tableArray2[13][h]);
+										cell.innerHTML = "Issue Disliked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
 									}
 									else if(tableArray2[13][h]>-2 && tableArray2[13][h]<2)
 									{
-										cell.innerHTML = "Issue Neutral Score: " + parseFloat(tableArray2[13][h]);
+										cell.innerHTML = "Issue Neutral";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
 									}
 									else
 									{
-										cell.innerHTML = "Issue Liked Score: " + parseFloat(tableArray2[13][h]);
+										cell.innerHTML = "Issue Liked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
 									}
 							break;
 						}
@@ -3771,15 +3788,18 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var counter = canCounter;
 									if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
 									{
-										cell.innerHTML = "Candidate Unknown Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+										cell.innerHTML = "Candidate Unknown";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 									{
-										cell.innerHTML = "Aware of Candidate Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+										cell.innerHTML = "Aware of Candidate";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 									}
 									else
 									{
-										cell.innerHTML = "Candidate Known: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+										cell.innerHTML = "Candidate Known:";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 									}
 					}
 						canCounter++;
@@ -3792,15 +3812,18 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 								var counter = canCounter;
 								if(parseFloat(tableArray2[counter][h]).toFixed(2) >= 0.66)
 								{
-									cell.innerHTML = "Not Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Not Trustworthy";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 								{
-									cell.innerHTML = "Sort Of Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Sort Of Trustworthy";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else
 								{
-									cell.innerHTML = "Very Trustworthy Score: " + parseFloat(tableArray2[counter][h]).toFixed(2);
+									cell.innerHTML = "Very Trustworthy";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}		
 					}
 
