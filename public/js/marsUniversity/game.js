@@ -1097,7 +1097,7 @@ function userAction()
     
     
 	if(globals.remainingHoursDay == 1)
-		document.getElementById("eventInput").innerHTML += "   <br><span style = 'font-weight: bold'>   You Have Time To Make A Statment!</span>";
+		document.getElementById("infoText").innerHTML += "   <br><span style = 'font-weight: bold'>   You Have Time To Make A Statment!</span>";
 	//document.getElementById("iconBar").innerHTML += "<button  class='logEventEnd' onclick='gameCycleEnd()'> Skip to the End </button><br>";
 	document.getElementById("gameInfo").innerHTML += "<h3 class='lastMove'> Your Last Move: " + globals.candidates[1].lastMove + "</h3>";
 	//document.getElementById("choices").innerHTML += "<br>";
@@ -1606,6 +1606,9 @@ function explainTerm(term, help){
 
 }
 
+function printTest(){
+    console.log("Print test");
+}
 
 function drawPoll(state, isFirst, isFree){
 	saveGameState();
@@ -1645,6 +1648,19 @@ function drawPoll(state, isFirst, isFree){
 	for(x =0; x< buttonLabels.length; x++){
 		document.getElementById("location").options.add(new Option(buttonLabels[x],x));
 	}
+    
+    document.getElementById("location").addEventListener("click", printTest);
+    //Set onchange event for the dropdown
+    document.getElementById("location").onchange = printTest;/*function(){
+        console.log("location changed!");
+        //Update highlighted area
+        globals.isCurrentAreaHover = document.getElementById("location").value;
+        
+        //Redraw map
+        drawMapAreas();
+        drawMapIcons();
+    }*/
+    
 	document.getElementById("questionArea").innerHTML += "<label>Sample Size: </label><select id = 'sample' class = 'sampleOptions totalTimeTracker'><br></select><br><!--<label>Time Spent: </label>--><select id = 'timeSpent' class = 'sampleOptions'></select><hr>";
 	globals.back = false;
 	if(state != 0 || globals.remainingHoursDay>= 3 )
@@ -1751,9 +1767,11 @@ function drawPoll(state, isFirst, isFree){
 	document.getElementById("questionArea").style.display = "block";
 	document.getElementById("next").style.display = "block";
 
-	document.getElementById("moreQuestionButton").addEventListener("click", function(){
-			addMoreQuestions();
-	});
+//	document.getElementById("moreQuestionButton").addEventListener("click", function(){
+//			addMoreQuestions();
+//	});
+    
+    document.getElementById("location").addEventListener("click", printTest);
 }
 
 //Draws lines on the map around the buildings
@@ -1761,8 +1779,14 @@ function drawMap(poll)
 {
 	globals.isPoll = poll;
     
+    document.getElementById("map").innerHTML = "<canvas id='myCanvas' width='600px' height = '415px' style = 'position: relative; display: inline'></canvas>";
     globals.c=document.getElementById("myCanvas");
-	globals.ctx = globals.c.getContext("2d");
+    globals.ctx = globals.c.getContext("2d");
+    
+    var mouse = globals.canvasMouse;
+	globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
+	globals.c.onmousedown = doMousedownMain;
+	globals.c.onmousemove = doMouseOver;
     
     drawMapAreas();
     drawMapIcons();
@@ -3012,6 +3036,8 @@ function clearScreen()
     
    //document.getElementById("eventInput").innerHTML = "";
     document.getElementById("eventInput").style.display = "none";
+    
+    document.getElementById('infoText').innerHTML = "";
     
 	//prevChoices.innerHTML = "<div id = 'Header' style = 'display:block;'> </div></div><div id = 'LabChoice' style = 'display:none;'></div><div id = 'GymChoice' style = 'display:none;'></div><div id = 'CommonsChoice' style = 'display:block;'> </div><div id = 'LibraryChoice' style = 'display:none;'></div><div id = 'map' style = 'display:block;'></div><div id = 'eventInput' style = 'display:block;'></div>";
 	prevEvent.innerHTML = "";
