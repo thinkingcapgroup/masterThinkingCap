@@ -2549,7 +2549,9 @@ runningGame4.main = {
 				ctx.drawImage(textArray[runningGame4.main.resultText], arrayofWidths[runningGame4.main.resultText][0], arrayofWidths[runningGame4.main.resultText][1],arrayofWidths[runningGame4.main.resultText][2],arrayofWidths[runningGame4.main.resultText][3]);
 			}
 		}
-
+		ctx.fillStyle = "white";
+		ctx.fillText("Score: " + runningGame4.main.scores.score, 10, 17);
+		ctx.fillText("Round " + (parseInt(runningGame4.main.round) +1),820,17);
 	},
 
 
