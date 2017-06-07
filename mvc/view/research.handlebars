@@ -30,7 +30,8 @@
         <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 2)'>Post Test</a></li>
         <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 3)'>Demographics</a></li>
         <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 4)'>Video</a></li>
-        <!--<li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 5)'>Options</a></li>-->
+        <li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 5)'>Consent</a></li>
+        <!--<li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 6)'>Options</a></li>-->
         <!--<li><a href = '#' class = 'tablinks' onclick = 'tabChange(event, 4)'>User Database</a></li>-->
       </ul>
      
@@ -421,7 +422,7 @@
 
      {{#if isVideoEmpty}}
       <section id='report4' class='empty-state-section tabcontent active'>
-       <h2 class='empty-state-header'>No Video Data Found</h2>
+       <h2 class='empty-state-header'>No Consent Data Found</h2>
       </section>
 
       {{else}}
@@ -471,7 +472,54 @@
         </div>
       {{/if}}
     </section>
-	<section id='report5' class = 'tabcontent active'>
+	
+     {{#if isConsentEmpty}}
+      <section id='report5' class='empty-state-section tabcontent active'>
+       <h2 class='empty-state-header'>No Consent Form Data Found</h2>
+      </section>
+
+      {{else}}
+      <section id='report5' class = 'tabcontent active'>
+      <br>
+      <h2 id = 'Title'>Consent Page</h2>   
+      <h2><a href = 'research/makeConsentExcel' id = 'download' target="_blank">Download</a></h2>
+      <div id = "resTable">
+        <table class='table'>
+          <tr class='table-row-heading'>
+            <th class='table-column-title'>
+              User ID
+            </th>
+            <th class='table-column-title'>
+              Name
+            </th>
+            <th class='table-column-title'>
+              Date
+            </th>
+            <th class='table-column-title'>
+              Student ID
+            </th>     
+          </tr>
+          {{#each researchArray8}}          
+          <tr class='table-row' id = {{id}}>
+            <td class='table-cell' id = 'subject'>
+              {{userId}}
+            </td>
+            <td class='table-cell'>
+              {{name}}
+            </td>   
+            <td class='table-cell'>
+              {{date}}
+            </td>        
+            <td class='table-cell'>
+              {{studentID}}
+              </td>        
+          </tr>
+          {{/each}}
+        </table>
+        </div>
+      {{/if}}
+    </section>
+	<section id='report6' class = 'tabcontent active'>
       <br>
       <h2 id = 'Title'>Options</h2><br>
       <h3 >Delete Save Data All Users</h3><br>

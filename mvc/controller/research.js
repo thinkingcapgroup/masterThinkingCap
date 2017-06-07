@@ -23,6 +23,7 @@ var express = require('express'),
     emptyState3 = false;
     emptyState4 = false;
     emptyState5 = false;
+    emptyState6 = false;
     isAdmin = false;
 
 
@@ -208,6 +209,37 @@ router.get('/makePostTestExcel', function (req, res) {
     // Otherwise
     else {
      var file = __dirname + '/../../upload/allPostTestData.xlsx'
+      res.download(file, function (err) {
+       if (err) {
+           console.log("Error");
+           console.log(err);
+       } else {
+           console.log("Success");
+
+       }
+   });
+    }
+ });
+
+  // End response
+
+});
+
+router.get('/makeConsentExcel', function (req, res) {
+  // TextFile Saving
+
+  //fs.writeFile('saveFile/userSave.txt', stringTem, function (err)
+  //{});
+
+  //Database Saving
+  require('../model/researchArea/makeConsentExcel.js')(req, consArray, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+     var file = __dirname + '/../../upload/consentData.xlsx'
       res.download(file, function (err) {
        if (err) {
            console.log("Error");
@@ -552,6 +584,39 @@ function getDemographicArray(req,res){
             {
                 // Set the model's bugReports to recieved data
                 demoArray = b;
+                getConsentArray(req,res);
+            }
+    });
+
+}
+function getConsentArray(req,res){
+
+  require('../model/researchArea/getAllConsentData.js')(req, function(err, b) 
+        {
+        
+            if (err) 
+            {
+            // If there where no bug reports
+            if (err === 'No Research Data found!') 
+            {
+            // Set model to emptyState
+              emptyState6 = true;
+                renderResearch(req,res)
+            }
+            // Otherwise
+            else 
+            {
+            // Show user the error message
+            errorNotifications.push(err);
+            }
+        
+            console.error(err);
+            }
+            // Otherwise bug reports were found
+            else 
+            {
+                // Set the model's bugReports to recieved data
+                consArray = b;
                 renderResearch(req,res)
             }
     });
@@ -578,11 +643,13 @@ function renderResearch (req, res) {
   model.researchArray5 = preTotalArray;
   model.researchArray6 = postTotalArray;
   model.researchArray7 = videoArray;
+  model.researchArray8 = consArray;
   model.isModuleEmpty = emptyState
   model.isTestingEmpty = emptyState2
   model.isSummaryEmpty = emptyState3
   model.isDemographicsEmpty = emptyState4
   model.isVideoEmpty = emptyState5
+  model.isConsentEmpty = emptyState6
   model.isAdmin = isAdmin
 
   console.log(model.isDemographicsEmpty)
