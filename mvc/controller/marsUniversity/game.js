@@ -104,12 +104,12 @@ router.post('/loggerHelp', auth, function (req, res, next) {
       date =moment().format('MMMM Do YYYY, h:mm:ss a'),
       // Concatenate information
       stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + date + "-" +username +"-" + gameID;
-
-   var passingObject = {userID: id, username: username, action: type, description: event, date: dateString, gameSession: gameID }
+	
 
      var timestamp = new Date().toISOString()
     var x = timestamp.split('-')
     var dateString =  moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC"
+   var passingObject = {userID: id, username: username, action: type, description: event, date: dateString, gameSession: gameID }
 
 
       require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
