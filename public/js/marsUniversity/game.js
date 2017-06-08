@@ -42,7 +42,7 @@ function startGame()
     createAreas();
 }
 
-const POLL_STATE = {
+const POLL_STATES = {
     TUTORIAL: 1,
     PRACTICE_AREA: 2,
     IN_GAME_PRACTICE: 3,
@@ -271,7 +271,7 @@ function pollMenu()
     clearScreen();
     if(globals.remainingHoursDay >=3)
     {
-        document.getElementById("gameInfo").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' onclick='drawPoll("+0+",false,false)'> Take A Poll </button><br><br>";
+        document.getElementById("gameInfo").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' onclick='drawPoll("+POLL_STATES.IN_GAME+", false)'> Take A Poll </button><br><br>";
         if(globals.pastPollResults.length > 0)
             document.getElementById("gameInfo").innerHTML += "<h2> Previous Poll Results</h2>";
     }
@@ -926,7 +926,7 @@ function actualSessionStart(isFromTut){
         clearScreen();
         document.getElementById("holo").src = "../../img/openscreenlarge.png";
         document.getElementById("gameInfo").innerHTML += "<h1>First Poll</h1> <br><p>Ready to start your Campaign at Mars U? It's time to get that initial data from the Student Government. Let them know what questions you would like to know the answers to.</p>";
-        document.getElementById("gameInfo").innerHTML += "<button onclick='drawPoll("+0+","+true+","+true+")'>Take Your First Poll</button>";
+        document.getElementById("gameInfo").innerHTML += "<button onclick='drawPoll("+POLL_STATES.FIRST+", true)'>Take Your First Poll</button>";
     }
 //takes the player into a poll with fake candidates to test out polling
 function practicePoll()
@@ -958,7 +958,7 @@ function practicePoll()
 	globals.candidates.push(issueCand1);
 
 	
-	drawPoll(2,false,false);
+	drawPoll(POLL_STATES.PRACTICE_AREA, false);
 }
 
 //Sets up the buttons for the intital statement the player makes in the game.
@@ -1584,9 +1584,9 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>And that’s it. I said polls were important, so I've created a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data is not real and does not represent the actual students or candidates. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		if(!help)
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='drawPoll("+1+", false, false)' style='float: right;'>Try Polling</button> ";
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='drawPoll("+POLL_STATES.TUTORIAL+", false)' style='float: right;'>Try Polling</button> ";
 		else
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='drawPoll("+3+", false, false)' style='float: right;'>Try Polling</button> <br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='drawPoll("+POLL_STATES.IN_GAME_PRACTICE+", true)' style='float: right;'>Try Polling</button> <br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
 			
 		break;
 	}
@@ -1619,23 +1619,23 @@ function printTest(){
     console.log("Print test");
 }
 
-function drawPoll(state, isFirst, isFree){
+function drawPoll(state, isFree){
 	saveGameState();
 	clearScreen();
     document.getElementById("holo").src = "../../img/openscreenlarge.png";
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
     
-	if( isFree == false && isFirst == false && state ==1){
-
-	}
-	else if(isFree == false && isFirst == false && state !=2 )
+	
+	if(POLL_STATES.IN_GAME)
     {
         //Display Updated Top Bar
         updateTopBar();    
     }
     
-	if(state == 1||state == 2){
+    //If the poll is in the tutorial or practice area
+    //It uses fake candidate data
+	if(state == POLL_STATES.TUTORIAL || state == POLL_STATES.PRACTICE_AREA){
 		globals.currentCandidateArrayHolder = globals.candidates;
 		globals.candidates = globals.fakeCandidateHolder;
 	}
@@ -1660,15 +1660,17 @@ function drawPoll(state, isFirst, isFree){
 	}
     
     
-	document.getElementById("questionArea").innerHTML += "<label>Sample Size: </label><select id = 'sample' class = 'sampleOptions totalTimeTracker'><br></select><br><!--<label>Time Spent: </label>--><select id = 'timeSpent' class = 'sampleOptions'></select><hr>";
+	document.getElementById("questionArea").innerHTML += "<label>Sample Size: </label><select id = 'sample' class = 'sampleOptions totalTimeTracker'><br></select><br><!--<label>Time Spent: </label><select id = 'timeSpent' class = 'sampleOptions'></select>--><hr>";
 	globals.back = false;
-	if(state != 0 || globals.remainingHoursDay>= 3 )
+    
+    //If it's a free poll or if there's enough time
+	if(isFree || globals.remainingHoursDay>= 3 )
 	{
 
 		document.getElementById("sample").options.add(new Option("Sample 20 Students", 20));
 		
         //If there's enough time to sample more students, add the option
-        if(globals.remainingHoursDay> 5 ){
+        if(isFree || globals.remainingHoursDay > 5 ){
 			document.getElementById("sample").options.add(new Option("Sample 40 Students", 40));
         }
 
@@ -1679,22 +1681,35 @@ function drawPoll(state, isFirst, isFree){
 			var none = "";
 			document.getElementById("questionArea").innerHTML += " <select class = 'pollQ totalTimeTracker' id =\"poll"+i+ "\"> </select> ";
 			document.getElementById("questionArea").innerHTML += " <select class = 'subPollQ' style = 'display:none' id =\"subpoll"+i+ "\"> </select> ";
-			document.getElementById("poll"+i+"").options.add(new Option("None", none));
+            
+            let noneOption = new Option("None", none);
+            noneOption.setAttribute("class", "defaultOption")
+			document.getElementById("poll"+i+"").options.add(noneOption);
+            
 			for(var j = 0; j<globals.questions.length; j++)
 			{
-				if(!isFirst || state ==2)
+                //If this is not the first poll
+				if(state =! POLL_STATES.FIRST)
 				{
+                    //Only provide questions 0-3 and 9-11
 					if (j < 4 || j > 8)
 					{
-						document.getElementById("poll"+i+"").options.add(new Option(globals.questions[j].question, globals.questions[j].value));
+                        let option = new Option(globals.questions[j].question, globals.questions[j].value);
+                        option.setAttribute("class", "defaultOption");
+						//document.getElementById("poll"+i+"").options.add(new Option(globals.questions[j].question, globals.questions[j].value));
+                        document.getElementById("poll"+i+"").options.add(option);
 					
 					}
 				}
 				else
 				{
+                    //Only provide questions 0-3 and 10-11
 					if (j < 4 || j > 9)
 					{
-						document.getElementById("poll"+i+"").options.add(new Option(globals.questions[j].question, globals.questions[j].value));
+						let option = new Option(globals.questions[j].question, globals.questions[j].value);
+                        option.className = "defaultOption";
+						//document.getElementById("poll"+i+"").options.add(new Option(globals.questions[j].question, globals.questions[j].value));
+                        document.getElementById("poll"+i+"").options.add(option);
 					
 					}
 				}
@@ -1706,7 +1721,7 @@ function drawPoll(state, isFirst, isFree){
 		document.getElementById("event").innerHTML += "<h4> You do not have enough time remaining to take a poll.</h4>";
 	}
     
-    //If the poll takes time, display the time it will take
+    //If the poll is not free, display the time it will take
 	if(!isFree)
 	{
 		document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph'>Total Time: "+ timeForPoll +" Hours</p>";
@@ -1720,38 +1735,33 @@ function drawPoll(state, isFirst, isFree){
 	addMoreQuestions();
 		
 	//Displays the screen for this event
-	document.getElementById("questionArea").innerHTML += "<p id = 'duplicateParagraph'></p><br><button class = 'logEventPoll' onclick = 'pollResults("+state+"," +isFirst+", " +isFree+")'> Submit Poll </button><br>";
+	document.getElementById("questionArea").innerHTML += "<p id = 'duplicateParagraph'></p><br><button class = 'logEventPoll' onclick = 'pollResults("+state+", " +isFree+")'> Submit Poll </button><br>";
 	
     //Tutorial's practice poll
-	if(state == 1){
+	if(state == POLL_STATES.TUTORIAL){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='chooseDiff()'> Start the Game </button>";
 	}
     //Poll within Practice Area
-	else if (state == 2){
+	else if (state == POLL_STATES.PRACTICE_AREA){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='startPractice()'> Back to Practice Area </button>";
 	}
     //Poll when you retake the tutorial from within the main game
-	else if(state == 3)
+	else if(state == POLL_STATES.IN_GAME_PRACTICE)
 	{
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button type='button' onclick='hourChecker()'> Return to Game </button>";
 	}
     //First poll in the game
-	else if(isFirst == true){
+	else if(state == POLL_STATES.FIRST){
 		document.getElementById("questionArea").innerHTML += "<br> <hr><button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
 	}
-    //If it's within normal gameplay
-	else{
-        //If the player is choosing to take a poll
-		if(!isFree){
-			document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
-        }
-        //End of the day free poll
-		else if(state != 1)
-			{
-				//console.log(state,isFirst, isFree);
-				document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='hourChecker()' > Choose Not to Take the Poll  </button>";
-			}
-	}
+    //End of day poll
+	else if(state == POLL_STATES.END_OF_DAY){
+        document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='hourChecker()' > Choose Not to Take the Poll  </button>";
+    }
+    //It's a poll the user has chosen to take
+    else if(state == POLL_STATES.IN_GAME){
+        document.getElementById("questionArea").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
+    }
 
 	document.getElementById("questionArea").style.display = "block";
 	document.getElementById("next").style.display = "block";
@@ -2213,72 +2223,112 @@ function statementCalcOtherCandidate(x){
 	}
 	globals.candidates[x].lastMove = "Statement";
 }
+
+function resetQuestions(){
+    //Set all selects and options to default styling
+    //Loop through all questions
+    for(let i = 0; i < 6; i++){
+        let question = document.getElementById("poll"+i+"");
+        question.style.color = "black";
+
+        //Enable all options
+        for(let j = 0; j < question.options.length; j++){
+            question.options[j].disabled = false;
+        }
+        
+        let subQuestion = document.getElementById("subpoll"+i+"");
+        
+        if(subQuestion){
+            subQuestion.style.color = "black";
+
+            //Enable all options
+            for(let j = 0; j < subQuestion.options.length; j++){
+                subQuestion.options[j].disabled = false;
+            }
+        }
+        
+    }
+}
+
+
 // Loops through the current questions and checks for duplicates
 function dupChecker()
 {
+    
+    console.log("dup checker");
 	var duplicate = false;
 	var dup1;
 	var dup2;
 	var pollChoices = [];
+    
+    let questionIndex;
+    //let subQuestionIndex;
+    
+    
+    resetQuestions();
+    
 	for(var i = 0; i<6 ;i++)
 	{
+        let subQuestionIndex;
+        
 		var selectedQuestion = document.getElementById("poll"+i+"");
-		if(selectedQuestion.options[selectedQuestion.selectedIndex].value != "")
+		if(selectedQuestion.value != "")
 		{
-			var pollVal = selectedQuestion.options[selectedQuestion.selectedIndex].value;
-
+			var pollVal = selectedQuestion.value;
 
 			if(pollVal == 'issue'||pollVal == 'candFame'||pollVal == 'candTrust'){
 				//grab the sub question
 				var selectedSubQuestion = document.getElementById('subpoll' + i + '');
 				var subValue = selectedSubQuestion.value;
-				pollVal = pollVal + subValue;
+                
+                if(subValue != ""){
+                    subQuestionIndex = selectedSubQuestion.selectedIndex;
+                    pollVal = pollVal +","+ subValue; 
+                }
+                else{
+                    pollVal = subValue;
+                }
 			}
-			pollChoices.push(pollVal);	
+            if(pollVal){
+                pollChoices.push(pollVal);
+            
+                questionIndex = selectedQuestion.selectedIndex;
+                
+                //Make the option in all other dropdowns red
+                for(var j = 0; j < 6; j++){
+                    //If it's not the same dropdown
+                    if(j != i){
+                        let question = document.getElementById("poll"+j+"");
+
+                        //If the poll value involves a subquestion
+                        if(subQuestionIndex != null && subQuestionIndex > -1){
+                            console.log("is subquestion");
+                            //If it's the same question
+                            if(questionIndex == question.selectedIndex){
+                                //Highlight the sub question
+                                let subQuestion = document.getElementById("subpoll"+j+"");
+                                //subQuestion.options[subQuestionIndex].setAttribute("class", "duplicateOption3")
+                                subQuestion.options[subQuestionIndex].disabled = true;
+                            }
+                        }
+                        else{
+
+                            //if(question.indexOf())
+                            //question.options[questionIndex].setAttribute("class", "duplicateOption2")
+                            question.options[questionIndex].disabled = true;
+                        }
+
+                    }
+                }
+            }
+
+   
 		}
-	}
-
-
-	for (var i=0; i< pollChoices.length;i++)
-	{
-		if(pollChoices[i] == "candFamePlayer"){
-			pollChoices[i] = "fame";
-		}
-		else if (pollChoices[i] == "candTrustPlayer"){
-			pollChoices[i] = "playTrust";
-		}
-	}
-
-	//Checks for duplicate questions
-	for (var i=0; i< pollChoices.length;i++)
-	{
-		for (var j=0; j< pollChoices.length;j++)
-		{
-			if(i!=j)
-			{
-				var val1 = pollChoices[i];
-				var val2 = pollChoices[j];
-
-				if(val1 == val2)
-				{
-					duplicate = true;
-					dup1 = i;
-					dup2 = j;
-				}
-			}
-		}
-	}
-
-	if(duplicate)
-    {
-		document.getElementById("duplicateParagraph").innerHTML = "Duplicate Question Detected"
-		document.getElementById("duplicateParagraph").style.display = "block";
-		document.getElementById("poll"+dup1+"").style.color = "red";
-		document.getElementById("poll"+dup2+"").style.color = "red";
+        
 	}
 }
 //Displays the result of a poll immediately after it end and then saves the report for later viewing
-function pollResults(state, isFirst, isFree)
+function pollResults(state, isFree)
 {
 	var bias = document.getElementById('location').value;
 	
@@ -2339,8 +2389,12 @@ function pollResults(state, isFirst, isFree)
     {
 		document.getElementById("duplicateParagraph").innerHTML = "Duplicate Question Detected"
 		document.getElementById("duplicateParagraph").style.display = "block";
-		document.getElementById("poll"+dup1+"").style.color = "red";
-		document.getElementById("poll"+dup2+"").style.color = "red";
+        
+        let question1 = document.getElementById("poll"+dup1+"");
+        let question2 = document.getElementById("poll"+dup2+"");
+        
+		question1.options[question1.selectedIndex].style.color = "red";
+		question2.options[question2.selectedIndex].style.color = "red";
 	}
 	else if(pollChoices.length < 2)
 	{
@@ -2359,31 +2413,31 @@ function pollResults(state, isFirst, isFree)
     
         if(pollChoices.length < 2)
         {
-            document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'drawPoll("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
+            document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'drawPoll("+state+","+isFree+ ")'> Reselect Poll Questions </button>";
         }
         else if(duplicate)
         {
-            document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'drawPoll("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
+            document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'drawPoll("+state+","+isFree+ ")'> Reselect Poll Questions </button>";
         }
-        else if(!pollTimeCheck(sampleSize, pollChoices) && state == 0)
+        else if(!pollTimeCheck(sampleSize, pollChoices) && !isFree)
         {
-            document.getElementById("gameInfo").innerHTML += "<p> You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.</p>  <button onclick = 'drawPoll("+state+"," +isFirst+","+isFree+ ")'> Reselect Poll Questions </button>";
+            document.getElementById("gameInfo").innerHTML += "<p> You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.</p>  <button onclick = 'drawPoll("+state+","+isFree+ ")'> Reselect Poll Questions </button>";
         }
-        else if(state == 1){
-            pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
-            document.getElementById("next").innerHTML += "<button onclick = 'drawPoll("+1+",false,false)'> Return to Tutorial Poll</button>";
+        else if(state == POLL_STATES.TUTORIAL){
+            pollCalc(pollChoices, sampleSize, bias, state, isFree);
+            document.getElementById("next").innerHTML += "<button onclick = 'drawPoll("+state+",false)'> Return to Tutorial Poll</button>";
             
         }
-        else if(state == 2)
+        else if(state == POLL_STATES.PRACTICE_AREA)
         {
-            pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
+            pollCalc(pollChoices, sampleSize, bias, state, isFree);
             document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to Practice Area</button>";
         }
         else 
         {
-            pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst);
+            pollCalc(pollChoices, sampleSize, bias, state, isFree);
         
-            if(!isFirst)
+            if(state != POLL_STATES.FIRST)
                 document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the User Action Area </button>";
             else
                 document.getElementById("next").innerHTML += "<button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
@@ -3072,7 +3126,7 @@ function reportViewer(id)
 	clearScreen();
 	document.getElementById("next").style.display = "block";
 
-	//pollChoices, tableArray2, sSize, graphData, graphLabels, review, state, isFree, isFirst
+	//pollChoices, tableArray2, sSize, graphData, graphLabels, review, state, isFree
     console.log(globals.pastGraphData);
 	tableBuilder(globals.pastPollChoices[id],globals.pastPollResults[id],globals.pastPollSizes[id],globals.pastGraphData[id],globals.pastGraphLabels[id], 1, 0, false, false);
 	if(!globals.first)
@@ -3083,7 +3137,7 @@ function reportViewer(id)
 }
 
 //Calculates the results of each poll question from each student in the sample and stores them in an array
-function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
+function pollCalc(pollChoices, sampleSize, bias, state, isFree)
 {	
     //Adds the data for Major and Social Group to the graph and label arrays
 	globals.graphData = [];
@@ -3208,7 +3262,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
 			globals.graphData[1][3]++;
 		}
 		
-		if(isFirst && j ==0)
+		if(state == POLL_STATES.FIRST && j ==0)
 		{
 			globals.candidates.splice(0,0,new CandidateCreate(""));
 		}
@@ -3459,16 +3513,16 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFirst)
         }
 	}
 	var reviewFlag = false;
-	if(state == 1){
+	if(state == POLL_STATES.TUTORIAL){
 		reviewFlag = true;
 	}
 	
 	////console.log(globals.tableArrays);
-	tableBuilder(pollChoices, globals.tableArrays, sampleSize, globals.graphData, pollLabelArray, reviewFlag, state, isFree, isFirst);
+	tableBuilder(pollChoices, globals.tableArrays, sampleSize, globals.graphData, pollLabelArray, reviewFlag, state, isFree);
 }
 
 //Builds a table by looping through the Array created by pollCalc and putting each value into a cell.
-function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, review, state, isFree, isFirst)
+function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, review, state, isFree)
 {
     //Choose the size of the holopad 
     if(pollChoices.length < 3)
@@ -4040,14 +4094,14 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
         } 
 	}
 	
-		if(isFirst)
+		if(state == POLL_STATES.FIRST)
 		{
 			globals.candidates.splice(0,1);
 		}
 	document.getElementById('table').style.display = 'none';
-	if (state == 1){
+	if (state == POLL_STATES.TUTORIAL){
 		review = true;
-
+        document.getElementById('event').innerHTML += "<button onclick = 'drawPoll("+state+",false)'>Back to Start</button>" ;
 	}
 	if(!review)
 	{
@@ -4059,10 +4113,6 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, r
 		globals.tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
 		if(!isFree)
 			pollTime(sSize, pollChoices);
-	}
-		
-	if(state == 1){
-		document.getElementById('event').innerHTML += "<button onclick = 'drawPoll("+1+",false,false)'>Back to Start</button>" ;
 	}
 
 }
@@ -5115,7 +5165,7 @@ function dayPollBuffer()
 	updateTopBar();
     document.getElementById("holo").src = "../../img/openscreenlarge.png";
     document.getElementById("gameInfo").innerHTML += "<h1>End of Day Poll</h1> <br><p>Phew! After a hard day of campaigning the current electoral office will conduct a poll for each candidate. <br>You just have to fill out the questions and decide how many people they'll talk to.<br> It wont take any time on our part!</p>";
-    document.getElementById("gameInfo").innerHTML += "<button onclick='drawPoll("+0+","+false+","+true+")'>Take Your End of Day Poll</button>";
+    document.getElementById("gameInfo").innerHTML += "<button onclick='drawPoll("+POLL_STATES.END_OF_DAY+",true)'>Take Your End of Day Poll</button>";
 }
 window.onload = startGame();
 

@@ -92,7 +92,7 @@ $(document).on('change', '.totalTimeTracker', function(){
 $(document).on('change', '.sampleOptions', function(){
   var optionIndex = $(this).val();
   document.getElementById('sample').value = optionIndex;
-  document.getElementById('timeSpent').value = optionIndex;
+  //document.getElementById('timeSpent').value = optionIndex;
 })
 
 $(document).on('change', '.pollQ', function(){
@@ -101,31 +101,44 @@ $(document).on('change', '.pollQ', function(){
   var subQuestion = "subpoll" + place;
   if(document.getElementById(pollThing).value == "issue" || document.getElementById(pollThing).value == "candFame" || document.getElementById(pollThing).value == "candTrust"){
        document.getElementById(subQuestion).style = "display:block";
-
+      
+      $('#' + subQuestion).empty();
+      
+      let noneOption = new Option("None", "");
+      noneOption.setAttribute("class", "defaultSubOption");
+      document.getElementById(subQuestion).options.add(noneOption);
+      
       if(document.getElementById(pollThing).value == "issue"){
-
-         $('#' + subQuestion).empty();
+        
+          
+       
+        
         for(var x = 0; x < 4; x++){
-            document.getElementById(subQuestion).options.add(new Option(globals.positions[x], globals.positionsLower[x]));
+            let newOption = new Option(globals.positions[x], globals.positionsLower[x]);
+            newOption.setAttribute("class", "defaultSubOption");
+            document.getElementById(subQuestion).options.add(newOption);
         }
       }
       if(document.getElementById(pollThing).value == "candFame" || document.getElementById(pollThing).value == "candTrust" ){
-
-        $('#' + subQuestion).empty();
-    
+          
         for(var x = 0; x < globals.candidates.length; x++){
+            let newOption;
             if(x == 0 && globals.candidates[0].name != "Karma"){
-              document.getElementById(subQuestion).options.add(new Option(globals.candidates[x].name, "Player"));
+              newOption = new Option(globals.candidates[x].name, "Player");
             }               
-            else{document.getElementById(subQuestion).options.add(new Option(globals.candidates[x].name, globals.candidates[x].name));
+            else{
+                newOption = new Option(globals.candidates[x].name, globals.candidates[x].name);
             }
+            
+            newOption.setAttribute("class", "defaultSubOption");
+            document.getElementById(subQuestion).options.add(newOption);
         }
       }
   }
   else{
     document.getElementById(subQuestion).style = "display:none"
   }
-})
+});
 
 $(document).on('change','.pollQ', function(){
       var quest = $(this).val();
@@ -152,6 +165,21 @@ $(document).on('change','.pollQ',function(){
       document.getElementById("poll4").style.color = "black"
 	  if(document.getElementById("poll5") != null)
       document.getElementById("poll5").style.color = "black"
+      document.getElementById("duplicateParagraph").style.display = "none"
+	  dupChecker();
+ });
+
+$(document).on('change','.subPollQ',function(){
+      document.getElementById("subpoll0").style.color = "black"
+      document.getElementById("subpoll1").style.color = "black"
+	  if(document.getElementById("subpoll2") != null)
+      document.getElementById("subpoll2").style.color = "black"
+	  if(document.getElementById("subpoll3") != null)
+      document.getElementById("subpoll3").style.color = "black"
+	  if(document.getElementById("subpoll4") != null)
+      document.getElementById("subpoll4").style.color = "black"
+	  if(document.getElementById("subpoll5") != null)
+      document.getElementById("subpoll5").style.color = "black"
       document.getElementById("duplicateParagraph").style.display = "none"
 	  dupChecker();
  });
