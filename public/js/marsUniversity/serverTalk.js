@@ -63,25 +63,45 @@ $(document).on('click','.logHelpEndTutorial', function(req, res, next){
  });
 
 $(document).on('change', '.totalTimeTracker', function(){
+  
+  //If it's a pollQ, it needs to update subquestions first
+  if($(this).is('.pollQ')){
+      var pollThing =$(this).attr('id');
+      pollOnchange(pollThing);
+  }
+  
   var samp = document.getElementById('sample').value;
   var qLength = 0;
   for (var x = 0; x < 6; x++){
     var qpVar = document.getElementById('poll'+x+'').value;
-
+    
+    theQuestionBools[x] = false;
+      
+    //If the question isn't empty
     if(qpVar != ""){
-      theQuestionBools[x] = true;
-    }
-    else{
-      theQuestionBools[x] = false;
+        //If there's a subquestion involved
+        //Aka if the subpoll element has options
+        if(document.getElementById('subpoll'+x+'').options.length){
+            //If the subquestion isn't empty
+            if(document.getElementById('subpoll'+x+'').value != ""){
+                theQuestionBools[x] = true;
+                qLength++;
+            }
+        }
+        else{
+            theQuestionBools[x] = true;
+            qLength++;
+        }
+
     }
   }
 
-  for (var y = 0; y < 6; y++){
-    if(theQuestionBools[y] == true){
-      qLength++;
-
-    }
-  }
+//  for (var y = 0; y < 6; y++){
+//    if(theQuestionBools[y] == true){
+//      qLength++;
+//
+//    }
+//  }
 
   var timeHolder = returnTotalPollTime(samp, qLength);
 
@@ -95,9 +115,8 @@ $(document).on('change', '.sampleOptions', function(){
   //document.getElementById('timeSpent').value = optionIndex;
 })
 
-$(document).on('change', '.pollQ', function(){
-  var pollThing =$(this).attr('id');
-  var place = pollThing.charAt(4);
+function pollOnchange(pollThing){
+    var place = pollThing.charAt(4);
   var subQuestion = "subpoll" + place;
   if(document.getElementById(pollThing).value == "issue" || document.getElementById(pollThing).value == "candFame" || document.getElementById(pollThing).value == "candTrust"){
        document.getElementById(subQuestion).style = "display:block";
@@ -138,6 +157,14 @@ $(document).on('change', '.pollQ', function(){
   else{
     document.getElementById(subQuestion).style = "display:none"
   }
+}
+
+$(document).on('change', '.pollQ', function(){
+    console.log("pollQ change");
+    
+  var pollThing =$(this).attr('id');
+    pollOnchange(pollThing);
+
 });
 
 $(document).on('change','.pollQ', function(){
