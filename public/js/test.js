@@ -47,7 +47,7 @@ function showResults()
         {
             case 'pre':
             $.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: playerResults[j], testId: testID, confidence: playerConfidence[j]});
-            document.getElementById("index-section").innerHTML = "<h2> Test Submitted </h2> <br><br><a class = 'btn double remove' href='/dashboard'>Choose Module</a>";
+            document.getElementById("index-section").innerHTML = "<h2> Test Submitted </h2> <br><br><a class = 'btn double remove' href='/marsUniversity'>Choose Module</a>";
             break;
             case 'post':
             postTest = true;
@@ -203,7 +203,7 @@ function submitDemographics()
     {
         $.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: playerResults[j], testId: testID, confidence: playerConfidence[j]  });
     }
-    document.getElementById("index-section").innerHTML = "<h2> Test Submitted </h2><br><br><a class = 'btn double remove' href='/dashboard'>Choose Module</a>";
+    document.getElementById("index-section").innerHTML = "<h2> Test Submitted </h2><br><br><a class = 'btn double remove' href='/marsUniversity'>Choose Module</a>";
 }
 function submitAnswers()
 {

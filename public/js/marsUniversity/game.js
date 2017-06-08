@@ -881,7 +881,7 @@ function startOtherCandidates(heads,body){
 	globals.playerCandidate.bodyType = globals.bodyTypeArray[body.bodyArrayHolder];
 
 	document.getElementById("gameInfo").innerHTML = "<h1>What's Happening</h1>"
-	document.getElementById("gameInfo").innerHTML += "<p>You are competing against Karma the Chameleon and 4 other candidates for the potion of Student Council President. Karma is new student just like you, they call her the Chameleon, because she copies the people she is running against.... and also because, she is a Chameleon. The current student government will give you, a candidate, some information about the students at MarsU.</p>"
+	document.getElementById("gameInfo").innerHTML += "<p>You are competing against Karma the Chameleon and 4 other candidates for the position of Student Council President. Karma is new student just like you, they call her the Chameleon, because she copies the people she is running against.... and also because, she is a Chameleon. The current student government will give you, a candidate, some information about the students at MarsU.</p>"
 	document.getElementById("gameInfo").innerHTML += "<p>Do you wish to start the tutorial?</p>"
 	document.getElementById("gameInfo").innerHTML += "<button onclick='tutorial("+false+")'>Yes</button><button onclick='chooseDiff()'>No</button>";
 
@@ -2279,7 +2279,7 @@ function dupChecker()
 
 	if(duplicate)
     {
-		document.getElementById("duplicateParagraph").innerHTML = "Duplicate Question Detected"
+		document.getElementById("duplicateParagraph").innerHTML = "You’re asking the same question more than once! Fix this to continue the poll."
 		document.getElementById("duplicateParagraph").style.display = "block";
 		document.getElementById("poll"+dup1+"").style.color = "red";
 		document.getElementById("poll"+dup2+"").style.color = "red";
@@ -2345,7 +2345,7 @@ function pollResults(state, isFirst, isFree)
 
 	if(duplicate)
     {
-		document.getElementById("duplicateParagraph").innerHTML = "Duplicate Question Detected"
+		document.getElementById("duplicateParagraph").innerHTML = "You’re asking the same question more than once! Fix this to continue the poll."
 		document.getElementById("duplicateParagraph").style.display = "block";
 		document.getElementById("poll"+dup1+"").style.color = "red";
 		document.getElementById("poll"+dup2+"").style.color = "red";

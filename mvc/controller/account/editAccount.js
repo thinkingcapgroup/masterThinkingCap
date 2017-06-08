@@ -108,10 +108,13 @@ router.post('/resetLog', auth, function (req, res, next) {
  */
 function renderEditAccount (req, res) {
   // Require the global app model
+    console.log("This is the User" +tempUserData.userId);
+    console.log("This is the User" +req.user.userId);
   var model = require('../../model/global/global')(req, res),
       getUserData = {
         column: 'userId',
-        value: tempUserData.userId
+        //value: tempUserData.userId
+        value: req.user.userId
       };
 
   model.content.pageTitle = 'Edit Account';
@@ -140,8 +143,10 @@ function renderEditAccount (req, res) {
           errorNotifications.push(err);
         }
         else {
+			console.log("CraP");
           tempUserData = u;
           model.userData = tempUserData;
+		console.log("This is the User" +tempUserData.userName);
         }
 
         model.errorNotifications = (errorNotifications) ? errorNotifications : null;

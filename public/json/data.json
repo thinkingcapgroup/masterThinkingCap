@@ -653,7 +653,7 @@
 		},
 		{
 			"question":"How much do you know this candidate? ", 
-			"labels":"Like, Neutral, Dislike",
+			"labels":"Well, Neutral, Not Well",
 			"graph":"0,0,0",
 			"id":"10",
 			"value":"candFame"
