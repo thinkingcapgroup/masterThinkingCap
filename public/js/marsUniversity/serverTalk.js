@@ -203,5 +203,5 @@ $(document).on('change','.filterChecklist', function(){
     var $lis = $('table tbody > tr').show();
   }
 
-
+document.body.scrollTop = document.documentElement.scrollTop = 0
  });
