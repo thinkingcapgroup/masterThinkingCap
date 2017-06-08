@@ -1591,6 +1591,10 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>And that’s it. I said polls were important, so I've created a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data is not real and does not represent the actual students or candidates. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		if(!help){
+            globals.remainingHoursDay = 12;
+            globals.days = 1;
+            console.log("tutorial poll");
+          
 			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='drawPoll("+POLL_STATES.TUTORIAL+", false)' style='float: right;'>Try Polling</button> ";
         }
 		else{
@@ -1684,6 +1688,8 @@ function drawPoll(state, isFree){
         }
 
 		document.getElementById("questions").innerHTML += "<h4> Poll Questions Every set of one or two questions you add will equal an hour. </h4> <br>";
+      
+        
 		//Populates the questions based on the JSON File
 		for(var i = 0; i<6 ;i++)
 		{
@@ -2366,6 +2372,9 @@ function pollResults(state, isFree)
                     pollChoices.push(pollVal);
                 }
 			}
+            else{
+              pollChoices.push(pollVal);
+            }
 				
 		}
 	}
@@ -2400,7 +2409,9 @@ function pollResults(state, isFree)
 			}
 		}
 	}
-    
+    var sample = document.getElementById("sample");
+    var sampleSize = parseFloat(sample.options[sample.selectedIndex].value);
+  
 	if(duplicate)
     {
         console.log("duplicate");
@@ -2415,55 +2426,42 @@ function pollResults(state, isFree)
 	}
 	else if(pollChoices.length < 2)
 	{
+       console.log("not enough questions: "+pollChoices.length);
 		document.getElementById("duplicateParagraph").innerHTML = "Please Select 2 or More Questions";
         document.getElementById("duplicateParagraph").style.display = "block";
 	}
     else if(!pollTimeCheck(sampleSize, pollChoices) && !isFree){
+      console.log("time check 1");
         document.getElementById("duplicateParagraph").innerHTML = "You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.";
         document.getElementById("duplicateParagraph").style.display = "block";
     }
+    //If the poll is sucessful
     else
     {
 		document.getElementById("event").style.display = "none";
-		var sample = document.getElementById("sample");
-        var sampleSize = parseFloat(sample.options[sample.selectedIndex].value);
 
         //Clear previous screen
         clearScreen();
         var nextArea = document.getElementById("next");
         nextArea.innerHTML = "";
+      
+        //Run poll
+        pollCalc(pollChoices, sampleSize, bias, state, isFree);
     
-        if(pollChoices.length < 2)
-        {
-            document.getElementById("gameInfo").innerHTML += "<p> You need at least 2 questions on your poll. \nPlease select questions to ask. </p> <button onclick = 'drawPoll("+state+","+isFree+ ")'> Reselect Poll Questions </button>";
-        }
-        else if(duplicate)
-        {
-            document.getElementById("gameInfo").innerHTML += "<p> You have at least two of the same questions on your poll. \nPlease select the questions again. </p> <button onclick = 'drawPoll("+state+","+isFree+ ")'> Reselect Poll Questions </button>";
-        }
-        else if(!pollTimeCheck(sampleSize, pollChoices) && !isFree)
-        {
-            document.getElementById("gameInfo").innerHTML += "<p> You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.</p>  <button onclick = 'drawPoll("+state+","+isFree+ ")'> Reselect Poll Questions </button>";
-        }
-        else if(state == POLL_STATES.TUTORIAL){
-            pollCalc(pollChoices, sampleSize, bias, state, isFree);
+        if(state == POLL_STATES.TUTORIAL){
             document.getElementById("next").innerHTML += "<button onclick = 'drawPoll("+state+",false)'> Return to Tutorial Poll</button>";
-            
         }
         else if(state == POLL_STATES.PRACTICE_AREA)
         {
-            pollCalc(pollChoices, sampleSize, bias, state, isFree);
             document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to Practice Area</button>";
         }
-        else 
+        else if(state == POLL_STATES.FIRST)
         {
-            pollCalc(pollChoices, sampleSize, bias, state, isFree);
-        
-            if(state != POLL_STATES.FIRST)
-                document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the User Action Area </button>";
-            else
-                document.getElementById("next").innerHTML += "<button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
+            document.getElementById("next").innerHTML += "<button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
     
+        }
+        else{
+            document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the User Action Area </button>";
         }
 	}
 
@@ -4176,6 +4174,7 @@ function changeData(dataButton)
 //Subtracts time required to take a poll based on both sample size and the number of questions
 function pollTime(sSize, pollQuestions)
 {
+  let timeRequired;
 	if(pollQuestions.length%2 == 0)
 	{
 		timeRequired = sSize/10 + (pollQuestions.length*.5);
@@ -4189,6 +4188,7 @@ function pollTime(sSize, pollQuestions)
 }
 
 function returnTotalPollTime(sSize, pollQuestions){
+  let timeRequired;
 	if(pollQuestions% 2 == 0)
 	{
 		timeRequired = sSize/10 + (pollQuestions*.5);
@@ -4202,6 +4202,8 @@ function returnTotalPollTime(sSize, pollQuestions){
 
 function pollTimeCheck(sSize, pollQuestions)
 {
+    let timeRequired;
+  
 	if(pollQuestions.length%2 == 0)
 	{
 		timeRequired = sSize/10 + (pollQuestions.length*.5);
@@ -4210,6 +4212,7 @@ function pollTimeCheck(sSize, pollQuestions)
 	{
 		timeRequired = sSize/10 + (pollQuestions.length*0.5) +0.5;
 	}
+  
 	return (timeRequired <= globals.remainingHoursDay);
 }
 
