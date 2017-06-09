@@ -1831,7 +1831,7 @@ function drawPoll(state, isFree, isFake){
 				else
 				{
                     //Only provide questions 0-3 and 10-11
-					if (j < 4 || j > 9)
+					if (j < 4 || j > 11)
 					{
 						let option = new Option(globals.questions[j].question, globals.questions[j].value);
                         option.className = "defaultOption";
@@ -1859,7 +1859,8 @@ function drawPoll(state, isFree, isFake){
 		document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph' style = 'display:none'></p><br>";
 	}
 	addMoreQuestions();
-	addMoreQuestions();
+	if(state != POLL_STATES.FIRST)
+	{addMoreQuestions();}
     
 		
 	//Displays the screen for this event
