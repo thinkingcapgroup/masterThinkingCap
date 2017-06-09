@@ -1535,7 +1535,6 @@ function tutorial (help)
 	switch(globals.section)
 	{
 		case 1:
-		
 		document.getElementById("gameInfo").innerHTML += "<h3>How To Play</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px;'>Hi, my name is Gui’De. I will help you find your way around Mars University. You’re a new student, and we need your help now. It’s time for the student president election and all the candidates won't do a good job. Are you interested in becoming president of the Student Council?</p>"
@@ -1639,6 +1638,7 @@ function tutorial (help)
 			
 		break;
 	}
+	document.getElementById("tutorialBubble").style.backgroundImage = "url('../img/tutbg.png')";
 }
 
 //Displays the next tutorial section
