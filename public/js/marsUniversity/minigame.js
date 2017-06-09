@@ -581,7 +581,7 @@ runningGame2.main =
 		researchIcon = new Image();
 		researchIcon.src = '../img/icons/researchsquare.png';
 		socialIcon = new Image();
-		socialIcon.src = '../img/icons/socialsquare.png';
+		socialIcon.src = '../img/icons/schoolevents.png';
 		medicalIcon = new Image();
 		medicalIcon.src = '../img/icons/medicalsquare.png';
 		//majoricons
@@ -896,8 +896,8 @@ runningGame2.main =
 						//draw head
 						ctx.drawImage(headIcons,154 * runningGame2.main.activeStudent.headID,0,154,172,runningGame2.main.activeStudent.x + 68,runningGame2.main.activeStudent.y-96,60,60)
 						//draw icon
-						ctx.drawImage(iconArray[runningGame2.main.activeStudent.interest],runningGame2.main.activeStudent.x + 207,runningGame2.main.activeStudent.y-52,37,37)
-						ctx.drawImage(majorIconArray[runningGame2.main.activeStudent.major],runningGame2.main.activeStudent.x + 142,runningGame2.main.activeStudent.y-52,37,37)
+						ctx.drawImage(iconArray[runningGame2.main.activeStudent.interest],runningGame2.main.activeStudent.x + 207,runningGame2.main.activeStudent.y-52,37,27)
+						ctx.drawImage(majorIconArray[runningGame2.main.activeStudent.major],runningGame2.main.activeStudent.x + 142,runningGame2.main.activeStudent.y-52,37,27)
 					}
 				}
 		
