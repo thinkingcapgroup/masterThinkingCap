@@ -51,6 +51,7 @@ const POLL_STATES = {
     FIRST: 4
 }
 
+
 function preload(actions) {
 	for (i = 1; i < actions.length; i++) {
 		globals.images[i] = new Image()
@@ -164,16 +165,17 @@ function drawAreaPath(mapArea){
     globals.ctx.closePath();
 }
 
-function updateTopBar(displayIcons){
-    
+function updateTopBar(currentScreen){
+  
     document.getElementById("playerInfo").innerHTML = "<div id = 'topBar'></div>"
-    
+  
     //Add icons
     document.getElementById("topBar").innerHTML += "<div id='iconBar'></div>";
-    document.getElementById("iconBar").innerHTML += "<img height = '50' src = '../img/menu/helpicon.png'  class = 'logHelp' onclick='helpScreen()' title = 'Help'></img>";
-    document.getElementById("iconBar").innerHTML += "<img height = '50' src = '../img/menu/takeapollicon.png'  onclick='pollMenu()' title = 'Polls'></img>";
-	document.getElementById("iconBar").innerHTML += "<img height = '50' src = '../img/menu/makeastatementiconNEW.png'  onclick='statement()' title = 'Statements'></img>";
-	document.getElementById("iconBar").innerHTML += "<img height = '50' src = '../img/menu/trendreport.png'  onclick='trendReportMenu()' title = 'Trend Reports'></img>";
+    document.getElementById("iconBar").innerHTML += "<img id='helpIcon' height = '50' src = '../img/menu/helpicon.png'  class = 'logHelp' title = 'Help'></img>";
+    document.getElementById("iconBar").innerHTML += "<img id='userActionIcon' height = '50' src = '../img/menu/mapicon.png' title = 'Event Map' onclick='userAction()'></img>";
+    document.getElementById("iconBar").innerHTML += "<img id='pollIcon' height = '50' src = '../img/menu/takeapollicon.png'  onclick='pollMenu()' title = 'Polls'></img>";
+	document.getElementById("iconBar").innerHTML += "<img id='statmentIcon' height = '50' src = '../img/menu/makeastatementiconNEW.png'  onclick='statement()' title = 'Statements'></img>";
+	document.getElementById("iconBar").innerHTML += "<img id='trendIcon' height = '50' src = '../img/menu/trendreport.png'  onclick='trendReportMenu()' title = 'Trend Reports'></img>";
     
     
     //Add the day bar for remaining days
@@ -188,6 +190,15 @@ function updateTopBar(displayIcons){
     document.getElementById("remainingHours").innerHTML += "<h2>"+globals.remainingHoursDay+"</h2>"	
     
 	 document.getElementById("playerInfo").innerHTML +="<hr style = 'clear: right;'>"
+  
+    //Putting onclick event at the bottom because it won't load otherwise
+    document.getElementById("helpIcon").onclick = function(){
+      console.log("check help");
+      helpScreen(currentScreen);
+      
+    }
+    
+    document.getElementById('topBar').style.display = "inline-flex";
 }
 
 /*GAME INTRO FUNCTIONS8*/
@@ -228,32 +239,58 @@ function startPractice()
 
 }
 
-function helpScreen()
+function helpScreen(previousScreen)
 {
     //Shows the Help screen 
 	clearScreen();
+  
+    //Show the top bar
+    document.getElementById('topBar').style.display = "inline-flex";
+  
 	globals.section = 1;
-	document.getElementById("playerInfo").style.display = "none";
-	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <!--<button onclick= 'openGlossary()'>Glossary Page</button>--> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><button onclick = 'helpfulIcons()'>Demographic Icons</button><br><button onclick = 'mapIcons()'>Map Buttons</button>"
-	document.getElementById("gameInfo").innerHTML += "<br><button onclick= 'quickReference()'>Statements and Functions</button>"
-	document.getElementById("gameInfo").innerHTML += "<br><button class = 'logHelpEnd' onclick= 'hourChecker()'>Return to User Action Area</button>"
+
+	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <button onclick= 'tutorial(true)'>Start the Tutorial</button> <br><button id='helpfulIconsBtn' >Demographic Icons</button><br><button id='mapIconsBtn'>Map Buttons</button>";
+	document.getElementById("gameInfo").innerHTML += "<br><button id='refBtn'>Statements and Functions</button>"
+	//document.getElementById("gameInfo").innerHTML += "<br><button class = 'logHelpEnd' onclick= 'hourChecker()'>Return to User Action Area</button>";
+    document.getElementById("gameInfo").innerHTML += "<br><button id='helpBack' class = 'logHelpEnd'>Back</button>";
+    
+    //Set onclick events
+    document.getElementById("helpBack").onclick = previousScreen;
+    document.getElementById("mapIconsBtn").onclick = function(){
+      mapIcons(previousScreen);
+    }
+    document.getElementById("refBtn").onclick = function(){
+      quickReference(previousScreen);
+    }
+    document.getElementById("helpfulIconsBtn").onclick = function(){
+      helpfulIcons(previousScreen);
+    }
 }
 
-function helpfulIcons(){
-	document.getElementById("gameInfo").innerHTML = "<p>Here's a reminder on icon images and what they represent: </p><br> <div><img src = '../../img/issues.png'/><img src = '../../img/interests.png'><img src = '../../img/majors.png'></div><br><button onclick = 'helpScreen()'>Back to Main Help Screen</button> ";
+function helpfulIcons(previousScreen){
+	document.getElementById("gameInfo").innerHTML = "<p>Here's a reminder on icon images and what they represent: </p><br> <div><img src = '../../img/issues.png'/><img src = '../../img/interests.png'><img src = '../../img/majors.png'></div><br><button id = 'backToHelp'>Back to Main Help Screen</button> ";
+    document.getElementById("backToHelp").onclick = function(){
+      helpScreen(previousScreen);
+    }
 }
-function mapIcons(){
+function mapIcons(previousScreen){
 	document.getElementById("gameInfo").innerHTML = "<p>Here's a reminder on icon images and what they represent: </p>";	
 	document.getElementById("gameInfo").innerHTML += "<p><div><img src = '../../img/menu/takeapollicon.png'/> Polling Menu";
 	document.getElementById("gameInfo").innerHTML += "<img src = '../../img/menu/makeastatementiconNEW.png'/> Make a Statement <br>";
 	document.getElementById("gameInfo").innerHTML += "<img src = '../../img/menu/trendreport.png'/> View the Trend Reports <br>";
 	document.getElementById("gameInfo").innerHTML += "<img src = '../../img/menu/helpicon.png'/> Help Menu <br></div><png>";
-	document.getElementById("gameInfo").innerHTML += "<br><button onclick = 'helpScreen()'>Back to Main Help Screen</button> ";
+	document.getElementById("gameInfo").innerHTML += "<br><button id = 'backToHelp'>Back to Main Help Screen</button> ";
+    document.getElementById("backToHelp").onclick = function(){
+      helpScreen(previousScreen);
+    }
 }
 
-function showCandidates(){
+function showCandidates(previousScreen){
 	document.getElementById("gameInfo").innerHTML = "<p>Here's a reminder on the opposing candidates: </p>";	
-	document.getElementById("gameInfo").innerHTML += "<br><button onclick = 'helpScreen()'>Back to Main Help Screen</button> ";
+	document.getElementById("gameInfo").innerHTML += "<br><button id = 'backToHelp'>Back to Main Help Screen</button> ";
+    document.getElementById("backToHelp").onclick = function(){
+      helpScreen(previousScreen);
+    }
 }
 
 function quickReference(){
@@ -262,13 +299,18 @@ function quickReference(){
 	document.getElementById("gameInfo").innerHTML += "<p>Statements are how you make your stance on an issue known.<br>When a member of the population can see that your stances on the issue match theirs they are more likely to vote for you.<br>Your statements can also affect public opinion of the issues.<br>Be careful not to change your stance on an issue a lot.<br>The population won't trust what you have to say if you aren't consistent.<br>It will take an hour to make a statement to the public.</p>";	
 	document.getElementById("gameInfo").innerHTML += "<span style = 'font-weight: bold'>Student Functions</span>";	
 	document.getElementById("gameInfo").innerHTML += "<p>Student Functions are used to increase your fame with certain student populations.<br>By attending or hosting events all over campus you can become more well known.<br>Each of these functions is likely to draw in students from a certain major or social group and you can perform additional options to draw in more types of students.<br>Each of these functions should last 2 hours, but if you want to add an option it will cost an additional hour to prepare. </p>";	
-	document.getElementById("gameInfo").innerHTML += "<br><button onclick = 'helpScreen()'>Back to Main Help Screen</button> ";
+	document.getElementById("gameInfo").innerHTML += "<br><button id = 'backToHelp'>Back to Main Help Screen</button> ";
+    document.getElementById("backToHelp").onclick = function(){
+      helpScreen(previousScreen);
+    }
 }
 
 function pollMenu()
 {
     //Shows the Poll Menu
     clearScreen();
+    updateTopBar(pollMenu);
+  
     if(globals.remainingHoursDay >=3)
     {
         document.getElementById("gameInfo").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' onclick='drawPoll("+POLL_STATES.IN_GAME+", false)'> Take A Poll </button><br><br>";
@@ -294,8 +336,11 @@ function trendReportMenu()
 {
     //Sets up the trend report menu
 	clearScreen();
+  
+    updateTopBar(trendReportMenu);
+    
 	var currentTrendReports = [];
-	document.getElementById("playerInfo").style.display = "none";
+	//document.getElementById("playerInfo").style.display = "none";
 	document.getElementById("gameInfo").innerHTML = "<div id= 'reportButtons' > <h1> Trend Reports</h1> <hr><br><div><h2> General</h2><button onclick= 'trendReporter(`issFav`)' class = 'trendButton' id = 'issFav' disabled>Favored Issue Report</button><button onclick= 'trendReporter(`issOpp`)' class = 'trendButton' id = 'issOpp' disabled>Opposed Issue Report</button><button onclick= 'trendReporter(`candFav`)' class = 'trendButton' id = 'candFav' disabled>Favored Candidate Report</button><button onclick= 'trendReporter(`candOpp`)' class = 'trendButton' id = 'candOpp' disabled>Opposed Candidate Report</button></div><br><div><h2> Support For Issues</h2><button onclick= 'trendReporter(`issuetuition`)' class = 'trendButton' id = 'issuetuition' disabled>Lowering Tuition Report</button><button onclick= 'trendReporter(`issuebudget`)' class = 'trendButton' id = 'issuebudget' disabled>Increse Budget Report</button><button onclick= 'trendReporter(`issuefunctions`)' class = 'trendButton' id = 'issuefunctions' disabled>More School Functions Report</button><button onclick= 'trendReporter(`issuemedical`)' class = 'trendButton' id = 'issuemedical'  disabled>Improve Medical Services</button></div><br><div id = 'candReportsFame'><h2>Candidate Stats - Fame</h2></div><br><div id = 'candReportsTrust'><h2>Candidate Stats - Trust</h2></div>"
     document.getElementById("candReportsFame").innerHTML += "<button onclick= 'trendReporter(`fame`)' class = 'trendButton' id = 'fame' disabled>Fame - " + globals.candidates[0].name +"</button>"
     
@@ -347,7 +392,8 @@ function openGlossary()
 {
     //Shows the glossary
 	clearScreen();
-	document.getElementById("playerInfo").style.display = "none";
+	document.getElementById("topBar").style.display = "block";
+  
 	document.getElementById("gameInfo").innerHTML = "<h1> Glossary</h1> <hr> <ul style='list-style-type:none'><li>Data: Specific Information about a group of people or objects.</li> <li>Population: The Data for ALL people or objects. </li> <li>Sample: The Data that is measured, counted, or designated as a category for SELECTED people or objects.</li>  </ul> <button onclick= 'hourChecker()'>Return to User Action Area</button>"
 }
 
@@ -926,7 +972,7 @@ function actualSessionStart(isFromTut){
     function bufferZone()
     {
         clearScreen();
-        document.getElementById("holo").src = "../../img/openscreenlarge.png";
+
         document.getElementById("gameInfo").innerHTML += "<h1>First Poll</h1> <br><p>Ready to start your Campaign at Mars U? It's time to get that initial data from the Student Government. Let them know what questions you would like to know the answers to.</p>";
         document.getElementById("gameInfo").innerHTML += "<button onclick='drawPoll("+POLL_STATES.FIRST+", true)'>Take Your First Poll</button>";
     }
@@ -972,7 +1018,8 @@ function firstStatement()
 	saveGameState();
 	globals.first = false;
 	clearScreen();
-    document.getElementById("holo").src = "../../img/openscreenlarge.png";
+
+  
 	document.getElementById("gameInfo").innerHTML = "<h1>First Positive Statement</h1>"
 	document.getElementById("gameInfo").innerHTML += "<p>It's Time to Make Your First Statement to the Mars U Population! <br>Pick an Issue Below that You Would Like to Support!</p>"
 	for (var x=0; x < globals.positions.length; x++){
@@ -994,7 +1041,7 @@ function firstReport()
 function chooseDiff()
 {
 	clearScreen();
-    document.getElementById("holo").src = "../../img/openscreenlarge.png";
+
 	document.getElementById("gameInfo").innerHTML = "<h1>Choose Your Difficulty</h1><br>";
     document.getElementById("gameInfo").innerHTML += "<button onclick = setDiff("+9+")> Easy</button>";
     document.getElementById("gameInfo").innerHTML += "<p> In Easy Mode You Have 9 Days to Win the Election.</p>";
@@ -1044,7 +1091,7 @@ function gameCycleStart(f)
 	globals.candidates.splice(0,0,globals.playerCandidate);
 	
     //Display Updated Top Bar
-    updateTopBar();
+    //updateTopBar(this);
     
 	hourChecker();
 };
@@ -1086,14 +1133,8 @@ function userAction()
     }
     
     
-    document.getElementById("holo").src = "../../img/openscreenlarge.png";
 	//Clear previous screen
 	clearScreen();
-	document.getElementById("playerInfo").style.display = "block";
-	var prevHours = document.getElementById("playerInfo");
-	var nextArea = document.getElementById("next");
-	prevHours.innerHTML = "";
-	nextArea.innerHTML = "";
 
 	if(!globals.back){
 		saveGameState();
@@ -1101,7 +1142,11 @@ function userAction()
     
 
 	//Build User Action Area buttons
-    globals.isCurrentAreaHover = areaChoices["Commons"].id;
+    //If the hover isn't set, or if it's set to "Quad"
+    if(globals.isCurrentAreaHover < 1){
+      globals.isCurrentAreaHover = areaChoices["Commons"].id;
+    }
+
     
     document.getElementById("map").innerHTML = "<canvas id='myCanvas' width='600px' height = '415px' style = 'position: relative; display: inline'></canvas>";
     globals.c=document.getElementById("myCanvas");
@@ -1109,8 +1154,8 @@ function userAction()
     globals.ctx.fillStyle = '#FFFFFF'
     
     //Display Updated Top Bar
-    updateTopBar();
-    
+    updateTopBar(userAction);
+    document.getElementById('topBar').style.display = "inline-flex";
     
 	if(globals.remainingHoursDay == 1)
 		document.getElementById("infoText").innerHTML += "   <br><span style = 'font-weight: bold'>   You Have Time To Make A Statment!</span>";
@@ -1129,12 +1174,21 @@ function userAction()
     
 	drawMap(false);
     
+    for(let key in areaChoices){
+      //If the area is currently selected, display the radio buttons
+      if(areaChoices[key].id == globals.isCurrentAreaHover){
+        document.getElementById(areaChoices[key].name+"Choice").style.display = "block";
+      }
+      else{
+        //There is no element for quad choices
+        if(areaChoices[key].name != "Quad"){
+          document.getElementById(areaChoices[key].name+"Choice").style.display = "none";
+        }
 
+      }
+    }
     
-    document.getElementById("LabsChoice").style.display = "none";
-    document.getElementById("GymChoice").style.display = "none";
-    document.getElementById("CommonsChoice").style.display = "block";
-    document.getElementById("LibraryChoice").style.display = "none";
+    
     document.getElementById("map").style.display = "block";
     document.getElementById("eventInput").style.display = "block";
     
@@ -1148,7 +1202,9 @@ function action()
 {
 	//Clear previous screen
 	var choice = $('input[name="actionRadio"]:checked').val();
-	clearScreen();
+	
+    clearScreen();
+    updateTopBar(action);
 
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
@@ -1465,9 +1521,6 @@ function gameCycleEnd()
 {
 	//Clear previous screen
 	clearScreen();
-
-    //Display Updated Top Bar
-    updateTopBar();
     
 	var winner;
 	var winvotes = 0;
@@ -1635,20 +1688,17 @@ function drawPoll(state, isFree){
     
 	saveGameState();
 	clearScreen();
-    document.getElementById("holo").src = "../../img/openscreenlarge.png";
-	var prevHours = document.getElementById("playerInfo");
-	prevHours.innerHTML = "";
-    
 	
-	if(POLL_STATES.IN_GAME)
+	if(state == POLL_STATES.IN_GAME)
     {
         //Display Updated Top Bar
-        updateTopBar();    
+        updateTopBar(pollMenu);
+        document.getElementById('topBar').style.display = "inline-flex";
     }
     
     //If the poll is in the tutorial or practice area
     //It uses fake candidate data
-	if(state == POLL_STATES.TUTORIAL || state == POLL_STATES.PRACTICE_AREA){
+	if(state == POLL_STATES.TUTORIAL || state == POLL_STATES.PRACTICE_AREA || state == POLL_STATES.IN_GAME_PRACTICE){
 		globals.currentCandidateArrayHolder = globals.candidates;
 		globals.candidates = globals.fakeCandidateHolder;
 	}
@@ -1665,7 +1715,7 @@ function drawPoll(state, isFree){
     drawMap(true);
     
 	document.getElementById("questionArea").innerHTML +="<h4>Population & Sample</h4><br>";
-	var buttonLabels = ["Quad", "Gym", "Lab", "Commons", "Library"];
+	var buttonLabels = ["Quad", "Gym", "Labs", "Commons", "Library"];
     
 	document.getElementById("questionArea").innerHTML += "<label>Location: </label><select id = 'location'></select><br>";
 	for(x =0; x< buttonLabels.length; x++){
@@ -1983,8 +2033,11 @@ function drawMapIcons(){
     
 //makes the statement screen
 function statement(){
+    
 	globals.back = false;
 	clearScreen();
+  
+      updateTopBar(statement);
 		document.getElementById("event").style.display = "block";
 		document.getElementById("event").innerHTML += "<h4>People want to know how you feel on certain issues. Time to make a statement!</h4>";
 		document.getElementById("event").innerHTML += " <select id = 'statements'> </select> ";
@@ -3083,7 +3136,8 @@ function fameCalc(cand, student)
 //Clears the previous screen
 function clearScreen()
 {
-
+    document.getElementById("holo").src = "../../img/holopad-topbar.png";
+  
 	var gameOutput = document.getElementById("gameInfo");
 	var prevChoices = document.getElementById("choices");
 	var prevEvent = document.getElementById("event");
@@ -3092,6 +3146,9 @@ function clearScreen()
 
 	gameOutput.innerHTML = "";
     
+    if(document.getElementById('topBar')){
+        document.getElementById('topBar').style.display = "none";
+    }
     
     //Hide all area choices
     document.getElementById("LabsChoice").style.display = "none";
@@ -3149,8 +3206,10 @@ function reportViewer(id)
 	//pollChoices, tableArray2, sSize, graphData, graphLabels, review, state, isFree
     console.log(globals.pastGraphData);
 	tableBuilder(globals.pastPollChoices[id],globals.pastPollResults[id],globals.pastPollSizes[id],globals.pastGraphData[id],globals.pastGraphLabels[id], 1, 0, false, false);
-	if(!globals.first)
+	if(!globals.first){
+        updateTopBar(pollMenu);
 		document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the User Action Area </button>";
+    }
 	else
 		document.getElementById("next").innerHTML += "<button onclick = 'firstStatement()'> Return to Making Your First Statement </button>";
 	
@@ -3533,7 +3592,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree)
         }
 	}
 	var reviewFlag = false;
-	if(state == POLL_STATES.TUTORIAL){
+	if(state == POLL_STATES.TUTORIAL || state == POLL_STATES.IN_GAME_PRACTICE || state == POLL_STATES.PRACTICE_AREA){
 		reviewFlag = true;
 	}
 	
@@ -5187,8 +5246,7 @@ function hourChecker()
 function dayPollBuffer()
 {
 	clearScreen();
-	updateTopBar();
-    document.getElementById("holo").src = "../../img/openscreenlarge.png";
+
     document.getElementById("gameInfo").innerHTML += "<h1>End of Day Poll</h1> <br><p>Phew! After a hard day of campaigning the current electoral office will conduct a poll for each candidate. <br>You just have to fill out the questions and decide how many people they'll talk to.<br> It wont take any time on our part!</p>";
     document.getElementById("gameInfo").innerHTML += "<button onclick='drawPoll("+POLL_STATES.END_OF_DAY+",true)'>Take Your End of Day Poll</button>";
 }
