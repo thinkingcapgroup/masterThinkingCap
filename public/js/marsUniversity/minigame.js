@@ -551,7 +551,9 @@ runningGame2.main =
 		headIcons = new Image();
 		headIcons.src = '../img/spriteheadlong.png';
 		instruction = new Image();
-		instruction.src = '../img/minigame2/instruction.png'
+		instruction.src = '../img/minigame2/instruction1.png'
+		instruction2 = new Image();
+		instruction2.src = '../img/minigame2/instruction2.png'
 
 		//map icons
 		libraryIcon = new Image();
@@ -745,6 +747,10 @@ runningGame2.main =
 			ctx.drawImage(titleScreen,0,0,c.width,c.height)
 		else if (runningGame2.main.areaNumber == -2){
 			ctx.drawImage(instruction,0,0,c.width,c.height)
+			ctx.drawImage(backButton,35,420,190,60)
+		}
+		else if (runningGame2.main.areaNumber == -3){
+			ctx.drawImage(instruction2,0,0,c.width,c.height)
 			ctx.drawImage(backButton,35,420,190,60)
 		}
 
@@ -997,6 +1003,12 @@ runningGame2.main =
 			runningGame2.main.areaNumber--;
 		}
 		else if(runningGame2.main.areaNumber == -2 && (mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225) ){
+			runningGame2.main.areaNumber++;
+		}
+		else if(runningGame2.main.areaNumber == -2 && (mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 666 && mouse.x <=856) ){
+			runningGame2.main.areaNumber--;
+		}
+		else if(runningGame2.main.areaNumber == -3 && (mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225) ){
 			runningGame2.main.areaNumber++;
 		}
 
