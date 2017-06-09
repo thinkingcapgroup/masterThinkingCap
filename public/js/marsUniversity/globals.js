@@ -8,7 +8,7 @@ globals =
     graphData:[],
     lastMinigame:0, 
     isPoll:false,
-    isCurrentAreaHover:-1,
+    isCurrentAreaHover:0,
     first: false,
     firstPoll: false,
 	firstState: false,

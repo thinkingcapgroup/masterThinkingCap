@@ -44,17 +44,12 @@ tbody
 }
 #holo 
 {
-    z-index: -2; 
+    z-index: -1; 
     position: absolute;
-    width:100%;
-    min-width:920px;
 }
 #gameContents
 {
-    margin-top: 70px;
-    margin-bottom: 100px;
-    margin-right: 7%;
-    margin-left: 4%;
+     margin: 70px 150px 100px 80px;
 }
 /*chart stuff*/
 .chart div {
@@ -90,18 +85,6 @@ canvas{
 #mapCanvas{
   position: relative;
   margin: auto;
-  float:right;
-  
-}
-#myCanvas{
-  position: relative;
-  margin: auto;
-  float:right;
-  
-}
-#map{
-  overflow:hidden;
-  width:100%;
 }
 .axis path {
     fill: none;
@@ -120,10 +103,6 @@ canvas{
     width:100%;
     justify-content: space-between;
 }
-#userAction{
-  display: inline-flex;
-  width:100%;
-}
 #iconBar{
 
 }
@@ -134,19 +113,13 @@ canvas{
 #leftDisplay{
     display: inline-flex;
     width:40%;
-    float:left;
-    margin-right: 1em;
-    padding:1em;
+    
+    
 }
 #rightDisplay{
     display: inline-flex;
     float:right;
-    width: 55%;
-    min-width: 520px;
-}
-.mapContainer{
-  width:100%;
-  min-width:520px;
+    width:55%;
 }
 
 .locationChoice{
@@ -154,84 +127,4 @@ canvas{
 }
 .locationChoice h2 {
     
-}
-
-.duplicateOption{
-    color:red;
-}
-.duplicateOption2{
-    color:pink;
-}
-.duplicateOption3{
-    color:yellow;
-}
-.defaultOption{
-    background-color: white;
-    border: 2px solid #167083;
-    
-    border-radius: 7px 7px 7px 7px;
-    -moz-border-radius: 7px 7px 7px 7px;
-    -webkit-border-radius: 7px 7px 7px 7px;
-}
-.defaultSubOption{
-    color:black;
-}
-
-select.pollQ{
-    background-color: #e3e0df;
-    border: 2px solid #167083;
-    
-    border-radius: 7px 7px 7px 7px;
-    -moz-border-radius: 7px 7px 7px 7px;
-    -webkit-border-radius: 7px 7px 7px 7px;
-    
-    margin-top:.4em;
-}
-select.subPollQ{
-    background-color: #cacaca;
-    border: 2px solid #167083;
-    
-    border-radius: 7px 7px 7px 7px;
-    -moz-border-radius: 7px 7px 7px 7px;
-    -webkit-border-radius: 7px 7px 7px 7px;
-    
-    margin-top: .1em;
-}
-select.pollQ:focus{
-    outline:none;
-    border-color: white;
-}
-select.subPollQ:focus{
-    outline:none;
-    border-color: white;
-}
-
-select option:disabled.defaultOption{
-    /*background-color: grey;*/
-}
-select option:disabled.defaultSubOption{
-    background-color: yellow;
-}
-#gameArea{
-  max-width: 1200px;
-  min-width: 1010px;
-}
-#playerInfo{
-  width:100%;
-}
-#holo-corner{
-  position: absolute;
-  z-index: -1;
-  right:0;
-  margin-top:-16px;
-}
-
-@media(max-width: 1200px){
-  #holo-corner{
-    left: -190px;
-    right:auto;
-  }
-  #holo{
-    width:1010px;
-  }
 }
