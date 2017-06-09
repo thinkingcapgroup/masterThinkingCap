@@ -604,6 +604,8 @@ runningGame2.main =
 		gymbg.src = '../img/minigame2/photobombgymbg.png';
 		libbg = new Image();
 		libbg.src = '../img/minigame2/Librarusnapshotbg.png';
+		labsbg = new Image();
+		labsbg.src = '../img/minigame2/labsbg.png';
 
 
 		//get people assets
@@ -761,10 +763,9 @@ runningGame2.main =
                 case 2:
                 ctx.drawImage(gymbg, 0,0,900,500);
                 break;
-                //case 3:
-                //ctx.fillStyle = '#FFFFFF';
-                //ctx.drawImage(labWall, 0,0,900,500);            
-                //break;
+                case 3:
+                ctx.drawImage(labsbg, 0,0,900,500);            
+                break;
                 case 4:
                 ctx.fillStyle = '#FFFFFF';
                 ctx.drawImage(cafebg, 0,0,900,500);

@@ -235,7 +235,7 @@ function helpScreen()
 	globals.section = 1;
 	document.getElementById("playerInfo").style.display = "none";
 	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <!--<button onclick= 'openGlossary()'>Glossary Page</button>--> <button onclick= 'tutorial("+true+")'>Start the Tutorial</button> <br><button onclick = 'helpfulIcons()'>Demographic Icons</button><br><button onclick = 'mapIcons()'>Map Buttons</button>"
-	//document.getElementById("gameInfo").innerHTML += "<br><button onclick= 'showCandidates()'>Candidate Information</button>"
+	document.getElementById("gameInfo").innerHTML += "<br><button onclick= 'showCandidates()'>Candidate Information</button>"
 	document.getElementById("gameInfo").innerHTML += "<br><button onclick= 'quickReference()'>Statements and Functions</button>"
 	document.getElementById("gameInfo").innerHTML += "<br><button class = 'logHelpEnd' onclick= 'hourChecker()'>Return to User Action Area</button>"
 }
@@ -256,10 +256,10 @@ function showCandidates(){
 	document.getElementById("gameInfo").innerHTML = "<h1>Rival Candidate</h1>";	
 	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/karma.png'> <br>";
 	document.getElementById("gameInfo").innerHTML += "<h1>Issue Candidates</h1>";
-	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/karma.png'> ";
-	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/karma.png'> ";
-	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/karma.png'> ";
-	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/karma.png'> ";
+	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/simon.png'> ";
+	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/zrapp.png'> ";
+	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/boof.png'> ";
+	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/clamp.png'> ";
 	document.getElementById("gameInfo").innerHTML += "<br><button onclick = 'helpScreen()'>Back to Main Help Screen</button> ";
 }
 
@@ -1449,14 +1449,55 @@ function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects
 	scoreChanger(globals.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
 	saveGameState();
 	clearScreen();
-	document.getElementById("event").innerHTML += "<h1 id= 'evRes'> You Positively Affected Your Fame With These Groups:";
-	for(var k =0; k<totalPosEffects.length;k++)
+	document.getElementById("event").innerHTML += "<h1 id= 'evRes'> You Positively Affected Your Fame With These Groups: ";
+	var posText = ""; 
+	for (var i =0; i< totalPosEffects.length;i++)
 	{
-		document.getElementById("evRes").innerHTML += " " + totalPosEffects[k];
-			if(k!=totalPosEffects.length - 1)
-			document.getElementById("evRes").innerHTML += ",";
-	}	
+		switch(totalPosEffects[i])
+		{
+		
+			case "Arts":
+				posText += "Arts Major";
+			break;
+		
+			case "Bus":
+				posText += "Business Major";
+			break;
+			case "Law":
+				posText += "Law Major";
+			break;
+			case "Tech":
+				posText += "Technology Major";
+			break;
+		
+			case "Soc":
+				posText += "Socialite Group";
+		
+			break;
+			case "Read":
+				posText += "Reader Group";
+		
+			break;
+			case "Gam":
+				posText += "Gamer Group";
+		
+			break;
+			case "Ath":
+				posText += "Athlete Group";
+		
+			break;
+		}
+		if(i != totalPosEffects.length-1)
+		{
+			posText += ", ";
+		}
+		else{
+			posText += " ";
+		}
+	}
+	document.getElementById("evRes").innerHTML += posText;	
 	document.getElementById("evRes").innerHTML += "</h1>";
+	document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 	document.getElementById("event").innerHTML += "<br><button type='button' onclick='hourChecker()'> Return to User Action Area </button>";
 };
 
@@ -4728,21 +4769,21 @@ function gameResults(scores, tutorial)
 			}
 		}
 		if(scores.score <= scores.tier1)
-		{
-			posText += " " + "<br> By a score of "+0.1+"</h1>";
+		{			
 			document.getElementById("event").innerHTML = posText;
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 			scoreChanger(globals.candidates[0], 0.1,pos,[]);
 		}
 		else if(scores.score <= scores.tier2 && scores.score >scores.tier1)
 		{
-			posText += " " + "<br> By a score of "+0.2+"</h1>";
 			document.getElementById("event").innerHTML = posText;
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 			scoreChanger(globals.candidates[0], 0.2,pos,[]);
 		}
 		else if(scores.score <= scores.tier3 && scores.score >scores.tier2)
 		{
-			posText += " " + "<br> By a score of "+0.3+"</h1>";
 			document.getElementById("event").innerHTML = posText;
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 			scoreChanger(globals.candidates[0], 0.3,pos,[]);
 		}
 		else if(scores.score > scores.tier3)
@@ -4751,12 +4792,13 @@ function gameResults(scores, tutorial)
 				scores.score = scores.tier4;
 			var x = .3 + (.01*(scores.score-scores.tier3));
 			x = x.toFixed(2);
-			posText += " " + "<br> By a score of "+x+"</h1>";
 			document.getElementById("event").innerHTML = posText;
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 			scoreChanger(globals.candidates[0], x,pos,[]);
 		}
 		else{
 			document.getElementById("event").innerHTML = posText;
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 			scoreChanger(globals.candidates[0], (scores * .1),pos,[]);
 		}
 		
@@ -4768,6 +4810,7 @@ function gameResults(scores, tutorial)
 	{
 		var posText =  "<h4>You completed the minigame with a score of "+ (scores.score) + ".</h4>"; 
 		document.getElementById("event").innerHTML = posText;
+		document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 		document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to the Practice Screen </button>";
 	}
 	document.getElementById("next").style.display = "block";
