@@ -1141,6 +1141,8 @@ function addLocationEvents(){
 //Creates the area in which users decide what to do
 function userAction()
 {
+	
+	globals.practice = false;
     //Make sure users are using the correct candidate data
     //Extra fix for the fake data polling bug
     globals.candidates = globals.currentCandidateArrayHolder;
