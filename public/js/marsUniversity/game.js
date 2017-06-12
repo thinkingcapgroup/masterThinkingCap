@@ -256,7 +256,7 @@ function helpScreen(previousScreen)
 	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <button onclick= 'tutorial(true)'>Start the Tutorial</button> <br><button id='helpfulIconsBtn' >Demographic Icons</button><br><button id='mapIconsBtn'>Map Buttons</button>";
 	document.getElementById("gameInfo").innerHTML += "<br><button id='refBtn'>Statements and Functions</button>"
 	document.getElementById("gameInfo").innerHTML += "<br><button onclick= 'showCandidates()'>Candidate Information</button>"
-	//document.getElementById("gameInfo").innerHTML += "<br><button class = 'logHelpEnd' onclick= 'hourChecker()'>Return to User Action Area</button>";
+	//document.getElementById("gameInfo").innerHTML += "<br><button class = 'logHelpEnd' onclick= 'hourChecker()'>Return to Game Map</button>";
     document.getElementById("gameInfo").innerHTML += "<br><button id='helpBack' class = 'logHelpEnd'>Back</button>";
     
     //Set onclick events
@@ -283,7 +283,7 @@ function mapIcons(previousScreen){
 	document.getElementById("gameInfo").innerHTML += "<p><div><img src = '../../img/menu/takeapollicon.png'/> Polling Menu";
 	document.getElementById("gameInfo").innerHTML += "<img src = '../../img/menu/makeastatementiconNEW.png'/> Make a Statement <br>";
 	document.getElementById("gameInfo").innerHTML += "<img src = '../../img/menu/trendreport.png'/> View the Trend Reports <br>";
-	document.getElementById("gameInfo").innerHTML += "<img src = '../../img/menu/helpicon.png'/> Help Menu <br></div><png>";
+	document.getElementById("gameInfo").innerHTML += "<img src = '../../img/menu/helpicon.png'/> Help & Quick Reference Menu <br></div><png>";
 	document.getElementById("gameInfo").innerHTML += "<br><button id = 'backToHelp'>Back to Main Help Screen</button> ";
     document.getElementById("backToHelp").onclick = function(){
       helpScreen(previousScreen);
@@ -342,7 +342,7 @@ function pollMenu()
 		globals.num = i+1;
 		document.getElementById("gameInfo").innerHTML += "<button type='button' onclick='reportViewer("+i+")' >View Poll "+ globals.num +" Result </button>";
     }
-     document.getElementById("gameInfo").innerHTML += "<br><br><button onclick= 'hourChecker()'>Return to User Action Area</button>";
+     document.getElementById("gameInfo").innerHTML += "<br><br><button onclick= 'hourChecker()'>Return to Game Map</button>";
 }
 function trendReportMenu()
 {
@@ -397,7 +397,7 @@ function trendReportMenu()
     }
    	 document.getElementById("gameInfo").innerHTML += "<br>"
      document.getElementById("gameInfo").innerHTML += "<button id ='buttonViewer' style = 'display:none'>Choose Another Trend Report</button>";
-     document.getElementById("gameInfo").innerHTML += "<button onclick= 'hourChecker()'>Return to User Action Area</button>";
+     document.getElementById("gameInfo").innerHTML += "<button onclick= 'hourChecker()'>Return to Game Map</button>";
 }
 
 function openGlossary()
@@ -406,7 +406,7 @@ function openGlossary()
 	clearScreen();
 	document.getElementById("topBar").style.display = "block";
   
-	document.getElementById("gameInfo").innerHTML = "<h1> Glossary</h1> <hr> <ul style='list-style-type:none'><li>Data: Specific Information about a group of people or objects.</li> <li>Population: The Data for ALL people or objects. </li> <li>Sample: The Data that is measured, counted, or designated as a category for SELECTED people or objects.</li>  </ul> <button onclick= 'hourChecker()'>Return to User Action Area</button>"
+	document.getElementById("gameInfo").innerHTML = "<h1> Glossary</h1> <hr> <ul style='list-style-type:none'><li>Data: Specific Information about a group of people or objects.</li> <li>Population: The Data for ALL people or objects. </li> <li>Sample: The Data that is measured, counted, or designated as a category for SELECTED people or objects.</li>  </ul> <button onclick= 'hourChecker()'>Return to Game Map</button>"
 }
 
 function startCharacterSelect(){
@@ -1176,7 +1176,7 @@ function userAction()
 	}
     
 
-	//Build User Action Area buttons
+	//Build Game Map buttons
     //If the hover isn't set, or if it's set to "Quad"
     if(globals.isCurrentAreaHover < 1){
       globals.isCurrentAreaHover = areaChoices["Commons"].id;
@@ -1458,7 +1458,7 @@ function action()
 	}
 	else
 	{
-		document.getElementById("event").innerHTML += "<h4> You dont have the enough time left to do the selected action. \n Return to the User Action area to select another action or end the game.</h4>";
+		document.getElementById("event").innerHTML += "<h4> You dont have the enough time left to do the selected action. \n Return to the Game Map to select another action or end the game.</h4>";
 	}
 
 
@@ -1589,7 +1589,7 @@ function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects
 	document.getElementById("evRes").innerHTML += posText;	
 	document.getElementById("evRes").innerHTML += "</h1>";
 	document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-	document.getElementById("event").innerHTML += "<br><button type='button' onclick='hourChecker()'> Return to User Action Area </button>";
+	document.getElementById("event").innerHTML += "<br><button type='button' onclick='hourChecker()'> Return to Game Map </button>";
 };
 
 //Ends the game
@@ -1629,7 +1629,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
 		document.getElementById("gameInfo").innerHTML += "<button onclick='nextSection("+help+");' style='float: right;'>Statements and Functions</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<button float = 'left' class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<button float = 'left' class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
 		break;
 		case 2:
 		document.getElementById("gameInfo").innerHTML += "<h3>Statements and Functions</h3><hr>";
@@ -1638,7 +1638,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>How To Play</button> <button onclick='nextSection("+help+");' style='float: right; text-decoration: underline;'>Statements</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
 		break;
 		case 3:
 		var term = 1;
@@ -1648,7 +1648,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements and Functions</button> <button onclick='nextSection("+help+");' style='float: right;'>Issues</button>";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
 		break;
 		case 4:
 		document.getElementById("gameInfo").innerHTML += "<h3>Issues</h3><hr>";
@@ -1657,7 +1657,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements</button> <button onclick='nextSection("+help+");' style='float: right;'>Student Events</button>";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
 		break;
 		case 5:
 		document.getElementById("gameInfo").innerHTML += "<h3>Student Functions</h3><hr>";
@@ -1666,7 +1666,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Issues</button> <button onclick='nextSection("+help+");' style='float: right;'>Population - Majors</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
 		break;
 		case 6:
 		document.getElementById("gameInfo").innerHTML += "<h3>Population - Majors</h3><hr>";
@@ -1675,7 +1675,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Student Functions</button> <button onclick='nextSection("+help+");' style='float: right;'>Population - Social Groups</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
 		break;
 		case 7:
 		document.getElementById("gameInfo").innerHTML += "<h3>Population - Social Groups</h3><hr>";
@@ -1684,7 +1684,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Population - Majors</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
 		break;
 		case 8:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3><hr>";
@@ -1693,7 +1693,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Population - Social Events</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling Reports</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
 		break;
 		case 9:
 		document.getElementById("gameInfo").innerHTML += "<h3>Polling Reports</h3><hr>";
@@ -1702,7 +1702,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='nextSection("+help+");' style='float: right;'>Trend Reports</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
 		break;
 		case 10:
 		document.getElementById("gameInfo").innerHTML += "<h3>Trend Reports</h3><hr>";
@@ -1711,7 +1711,7 @@ function tutorial (help)
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
 		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling Reports</button> <button onclick='nextSection("+help+");' style='float: right;'>Practice Area</button> ";
 		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
 		break;
 		
 		case 11:
@@ -1727,7 +1727,7 @@ function tutorial (help)
 			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='drawPoll("+POLL_STATES.TUTORIAL+", false, true)' style='float: right;'>Try Polling</button> ";
         }
 		else{
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='drawPoll("+POLL_STATES.IN_GAME_PRACTICE+", true, true)' style='float: right;'>Try Polling</button> <br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
+			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='drawPoll("+POLL_STATES.IN_GAME_PRACTICE+", true, true)' style='float: right;'>Try Polling</button> <br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
         }
 		break;
 	}
@@ -1994,7 +1994,7 @@ function drawMap(poll)
 			}
     }
     
-//Sets the clickable zones on the map for the user action area
+//Sets the clickable zones on the map for the Game Map
  function doMousedownMain(c,e)
 	{
 		var mouse = globals.canvasMouse;
@@ -2368,7 +2368,7 @@ function statementResults(statement, statmentValue)
 			break;
 		}
 	}
-	document.getElementById("event").innerHTML += "<button onclick='hourChecker()'>Return to the User Action Area</button>";
+	document.getElementById("event").innerHTML += "<button onclick='hourChecker()'>Return to the Game Map</button>";
 }
 //repeats the statement at a lowered effect for Karma
 function statementCalcOtherCandidate(x){
@@ -2628,7 +2628,7 @@ function pollResults(state, isFree, isFake)
     
         }
         else{
-            document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the User Action Area </button>";
+            document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the Game Map </button>";
         }
 	}
 
@@ -3331,7 +3331,7 @@ function reportViewer(id)
 	tableBuilder(globals.pastPollChoices[id],globals.pastPollResults[id],globals.pastPollSizes[id],globals.pastGraphData[id],globals.pastGraphLabels[id], 1, 0, false, false);
 	if(!globals.first){
         updateTopBar(pollMenu);
-		document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the User Action Area </button>";
+		document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the Game Map </button>";
     }
 	else
 		document.getElementById("next").innerHTML += "<button onclick = 'firstStatement()'> Return to Making Your First Statement </button>";
@@ -5047,7 +5047,7 @@ function gameResults(scores, tutorial)
 		
 			saveGameState();
      	$.post('/game/loggerMinigame', {minigameID: globals.lastMinigame, score: scoreToLog, module: '1', session: globals.gameSession });
-			document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the User Action Area </button>";
+			document.getElementById("next").innerHTML += "<button onclick = 'hourChecker()'> Return to the Game Map </button>";
 	}
 	else
 	{

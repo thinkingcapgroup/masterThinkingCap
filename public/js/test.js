@@ -260,6 +260,7 @@ function checkConsent()
 			if(document.getElementById("stuID").value != "")
 			{
 				document.getElementById("postConsent").style.display = "block";
+				document.getElementById("postConsentPrompt").style.display = "none";
 			}
 		}
 	}
