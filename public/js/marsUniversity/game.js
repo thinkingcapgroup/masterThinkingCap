@@ -3347,7 +3347,9 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 	globals.graphData.push(globals.questions[4].graph.split(','));
 	//globals.graphData.push(globals.questions[5].graph.split(','));
 	globals.graphData.push(globals.questions[6].graph.split(','));
-
+	
+	globals.tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
+	
 	var pollLabelArray = [];
 	pollLabelArray.push(globals.questions[4].labels.split(','));
 	//pollLabelArray.push(globals.questions[5].labels.split(','));
