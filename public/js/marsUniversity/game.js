@@ -1,6 +1,7 @@
 
 var saveState;
 let mapBackground;
+let myTemplate;
 //starts the game
 function startGame()
 {
@@ -92,7 +93,7 @@ function createAreas(){
     ];
     
     let rects = [new Rectangle(360, 585, 15, 120), new Rectangle(480, 590, 115, 235)];
-    areaChoices["Gym"] = new MapArea("Gym", 1, 475, 50, coords, rects);
+    areaChoices["Gym"] = new MapArea("Gym", 2, 475, 50, coords, rects);
     
     //Create Labs
     coords = [
@@ -106,7 +107,7 @@ function createAreas(){
         [148, 135]
     ];
     rects = [new Rectangle(145, 255, 15, 135), new Rectangle(180, 230, 135, 165)];
-    areaChoices["Labs"] = new MapArea("Labs", 2, 145, 30, coords, rects);
+    areaChoices["Labs"] = new MapArea("Labs", 3, 145, 30, coords, rects);
     
     //Create Commons
     coords = [
@@ -117,7 +118,7 @@ function createAreas(){
     ];
     
     rects = [new Rectangle(90, 205, 275, 395)];
-    areaChoices["Commons"] = new MapArea("Commons", 3, 90, 285, coords, rects);
+    areaChoices["Commons"] = new MapArea("Commons", 1, 90, 285, coords, rects);
     
     //Create Library
     coords = [
@@ -206,6 +207,7 @@ function updateTopBar(currentScreen){
 /*GAME INTRO FUNCTIONS8*/
 function splashScreen()
 {
+    console.log("test now");
     //Shows the title screen
 	clearScreen();
 	document.getElementById("gameInfo").innerHTML = "<div id = 'intro' style = 'text-align:center; '><br><h1 >Welcome to Mars University! </h1><br><a onclick = 'startAnimatic()' id='index-link' class = 'btn double remove' >New Game</a><br><br><a onclick = 'loadGame()' id='index-link' class = 'btn double remove'>Continue</a><br><br><a onclick = 'startPractice()' id='index-link' class = 'btn double remove'>Practice</a></div>";
@@ -288,7 +290,7 @@ function mapIcons(previousScreen){
     }
 }
 
-function showCandidates(){
+function showCandidates(previousScreen){
 	document.getElementById("gameInfo").innerHTML = "<h1>Rival Candidate</h1>";	
 	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/karma.png'> <br>";
 	document.getElementById("gameInfo").innerHTML += "<h1>Issue Candidates</h1>";
@@ -303,7 +305,7 @@ function showCandidates(){
     }
 }
 
-function quickReference(){
+function quickReference(previousScreen){
 	document.getElementById("gameInfo").innerHTML = "<h1>Statements and Functions</h1><br>";
 	document.getElementById("gameInfo").innerHTML += "<spanp style = 'font-weight: bold'>Statements </span>";
 	document.getElementById("gameInfo").innerHTML += "<p>Statements are how you make your stance on an issue known.<br>When a member of the population can see that your stances on the issue match theirs they are more likely to vote for you.<br>Your statements can also affect public opinion of the issues.<br>Be careful not to change your stance on an issue a lot.<br>The population won't trust what you have to say if you aren't consistent.<br>It will take an hour to make a statement to the public.</p>";	
@@ -1143,6 +1145,17 @@ function userAction()
 {
 	
 	globals.practice = false;
+   
+    /*var template = $('#test-template').html();
+    console.log(template);
+    var context = { "name" : "Madison", "occupation" : "person" };
+  
+    var templateScript = Handlebars.compile(template);
+    var html = templateScript(context);
+    console.log(html);
+  
+    $("#templateTest").append(html);*/
+  
     //Make sure users are using the correct candidate data
     //Extra fix for the fake data polling bug
     globals.candidates = globals.currentCandidateArrayHolder;
@@ -1778,12 +1791,12 @@ function drawPoll(state, isFree, isFake){
     drawMap(true);
     
 	document.getElementById("questionArea").innerHTML +="<h4>Population & Sample</h4><br>";
-	var buttonLabels = ["Quad", "Gym", "Labs", "Commons", "Library"];
     
 	document.getElementById("questionArea").innerHTML += "<label>Location: </label><select id = 'location'></select><br>";
-	for(x =0; x< buttonLabels.length; x++){
-		document.getElementById("location").options.add(new Option(buttonLabels[x],x));
-	}
+
+    for(let key in areaChoices){
+      document.getElementById("location").options.add(new Option(areaChoices[key].name,areaChoices[key].id));
+    }
     
     
 	document.getElementById("questionArea").innerHTML += "<label>Sample Size: </label><select id = 'sample' class = 'sampleOptions totalTimeTracker'><br></select><br><!--<label>Time Spent: </label><select id = 'timeSpent' class = 'sampleOptions'></select>--><hr>";
@@ -3041,9 +3054,12 @@ function createSample(x, bias)
 function getScores(x, bias){
 
 	var groupRandom;
+    
+    //Lower bias so that it matches group indices
+    bias--;
 
-	if(bias > 0){
-		var coinFlip = Math.floor(Math.random())
+	if(bias > -1){
+		var coinFlip = Math.floor(Math.random()*2);
 		if(coinFlip == 1){
 					groupRandom = bias;
 
@@ -3060,6 +3076,7 @@ function getScores(x, bias){
 	else{
 		groupRandom = Math.floor(Math.random()* 4);
 	}
+    
 	var majorRandom = Math.floor(Math.random()* 4);
 	var ath =0;
 	var res = 0;
@@ -3072,6 +3089,12 @@ function getScores(x, bias){
 	event =  (((globals.groupIssues[groupRandom][6]) + (Math.floor(Math.random() * (globals.groupIssues[groupRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((globals.majorIssues[majorRandom][6]) + (Math.floor(Math.random() * (globals.groupIssues[majorRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) ;
 	med =  (((globals.groupIssues[groupRandom][8]) + (Math.floor(Math.random() * (globals.groupIssues[groupRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((globals.majorIssues[majorRandom][8]) + (Math.floor(Math.random() * (globals.groupIssues[majorRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
 
+    //SCORE calculated by (group issue + variable) + (major issue + variable)  + (class issue + variable)
+    let groupIssue = (((globals.groupIssues[groupRandom][0]) + (Math.floor(Math.random() * (globals.groupIssues[groupRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+    let majorIssue = (((globals.majorIssues[majorRandom][0]) + (Math.floor(Math.random() * (globals.groupIssues[majorRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
+	
+    tuit =  groupIssue + majorIssue; 
+  
 	 tuit = tuit/2;
      bud = bud/2;
      event = event/2;
@@ -3408,6 +3431,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 	}
     //Creates the sample for the poll
 	votePercentage(sampleSize, bias);
+  
     console.log(globals.candidates);
 	//Gets the results of each question and pushes them into the proper sectionof table arrays
 	for(var j=0;j<globals.sample.length;j++)
