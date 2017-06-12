@@ -116,7 +116,10 @@ $(document).on('change', '.pollQ', function(){
         for(var x = 0; x < globals.candidates.length; x++){
             if(x == 0 && globals.candidates[0].name != "Karma"){
               document.getElementById(subQuestion).options.add(new Option(globals.candidates[x].name, "Player"));
-            }               
+            } 
+			else if(x == 0 && globals.candidates[0].name == "Karma"){
+              document.getElementById(subQuestion).options.add(new Option("None", globals.candidates[x].name));
+            }  	
             else{document.getElementById(subQuestion).options.add(new Option(globals.candidates[x].name, globals.candidates[x].name));
             }
         }

@@ -11,6 +11,8 @@ function startGame()
     fakeCandidateOther = new CandidateCreate('Candidate2');
     fakeCandidateYou.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
     fakeCandidateOther.fame = [1,1,1,1,1,1,1,1];
+    fakeCandidateYou.issueScore = [1.5,0.5,1.5,0.5];
+    fakeCandidateOther.issueScore = [1,1,1,1];
     globals.spriteHead.src = "../img/spritehead.png";
     globals.heads.src="../img/spritehead.png";
     globals.thinBody.src="../img/thinSpritesheet.png";
@@ -253,6 +255,7 @@ function helpScreen(previousScreen)
 
 	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <button onclick= 'tutorial(true)'>Start the Tutorial</button> <br><button id='helpfulIconsBtn' >Demographic Icons</button><br><button id='mapIconsBtn'>Map Buttons</button>";
 	document.getElementById("gameInfo").innerHTML += "<br><button id='refBtn'>Statements and Functions</button>"
+	document.getElementById("gameInfo").innerHTML += "<br><button onclick= 'showCandidates()'>Candidate Information</button>"
 	//document.getElementById("gameInfo").innerHTML += "<br><button class = 'logHelpEnd' onclick= 'hourChecker()'>Return to User Action Area</button>";
     document.getElementById("gameInfo").innerHTML += "<br><button id='helpBack' class = 'logHelpEnd'>Back</button>";
     
@@ -291,11 +294,11 @@ function showCandidates(previousScreen){
 	document.getElementById("gameInfo").innerHTML = "<h1>Rival Candidate</h1>";	
 	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/karma.png'> <br>";
 	document.getElementById("gameInfo").innerHTML += "<h1>Issue Candidates</h1>";
-	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/karma.png'> ";
-	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/karma.png'> ";
-	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/karma.png'> ";
-	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/karma.png'> ";
-	
+	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/simon.png'> ";
+	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/zrapp.png'> ";
+	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/boof.png'> ";
+	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/clamp.png'> ";
+
     document.getElementById("gameInfo").innerHTML += "<br><button id = 'backToHelp'>Back to Main Help Screen</button> ";
     document.getElementById("backToHelp").onclick = function(){
       helpScreen(previousScreen);
@@ -1535,14 +1538,55 @@ function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects
 	scoreChanger(globals.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
 	saveGameState();
 	clearScreen();
-	document.getElementById("event").innerHTML += "<h1 id= 'evRes'> You Positively Affected Your Fame With These Groups:";
-	for(var k =0; k<totalPosEffects.length;k++)
+	document.getElementById("event").innerHTML += "<h1 id= 'evRes'> You Positively Affected Your Fame With These Groups: ";
+	var posText = ""; 
+	for (var i =0; i< totalPosEffects.length;i++)
 	{
-		document.getElementById("evRes").innerHTML += " " + totalPosEffects[k];
-			if(k!=totalPosEffects.length - 1)
-			document.getElementById("evRes").innerHTML += ",";
-	}	
+		switch(totalPosEffects[i])
+		{
+		
+			case "Arts":
+				posText += "Arts Major";
+			break;
+		
+			case "Bus":
+				posText += "Business Major";
+			break;
+			case "Law":
+				posText += "Law Major";
+			break;
+			case "Tech":
+				posText += "Technology Major";
+			break;
+		
+			case "Soc":
+				posText += "Socialite Group";
+		
+			break;
+			case "Read":
+				posText += "Reader Group";
+		
+			break;
+			case "Gam":
+				posText += "Gamer Group";
+		
+			break;
+			case "Ath":
+				posText += "Athlete Group";
+		
+			break;
+		}
+		if(i != totalPosEffects.length-1)
+		{
+			posText += ", ";
+		}
+		else{
+			posText += " ";
+		}
+	}
+	document.getElementById("evRes").innerHTML += posText;	
 	document.getElementById("evRes").innerHTML += "</h1>";
+	document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 	document.getElementById("event").innerHTML += "<br><button type='button' onclick='hourChecker()'> Return to User Action Area </button>";
 };
 
@@ -1577,7 +1621,6 @@ function tutorial (help)
 	switch(globals.section)
 	{
 		case 1:
-		
 		document.getElementById("gameInfo").innerHTML += "<h3>How To Play</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px;'>Hi, my name is Gui’De. I will help you find your way around Mars University. You’re a new student, and we need your help now. It’s time for the student president election and all the candidates won't do a good job. Are you interested in becoming president of the Student Council?</p>"
@@ -1686,6 +1729,7 @@ function tutorial (help)
         }
 		break;
 	}
+	document.getElementById("tutorialBubble").style.backgroundImage = "url('../img/tutbg.png')";
 }
 
 //Displays the next tutorial section
@@ -1800,7 +1844,7 @@ function drawPoll(state, isFree, isFake){
 				else
 				{
                     //Only provide questions 0-3 and 10-11
-					if (j < 4 || j > 9)
+					if (j < 4 || j > 11)
 					{
 						let option = new Option(globals.questions[j].question, globals.questions[j].value);
                         option.className = "defaultOption";
@@ -1828,7 +1872,8 @@ function drawPoll(state, isFree, isFake){
 		document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph' style = 'display:none'></p><br>";
 	}
 	addMoreQuestions();
-	addMoreQuestions();
+	if(state != POLL_STATES.FIRST)
+	{addMoreQuestions();}
     
 		
 	//Displays the screen for this event
@@ -3100,8 +3145,8 @@ function votePercentage(sampleSize, bias)
 				lowPercentage = candWinPer;
 				loser = globals.candidates[j].name;
 			}
-
 		}
+			console.log("Current Winner" + winner + " Current Loser" + loser)
 		////console.log("Student #" +i);
 		////console.log("Winner: " + winner + " Vote Percentage: "+ winPercentage);
 		////console.log("Loser: " + loser + " Vote Percentage: "+ lowPercentage);
@@ -3382,10 +3427,10 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 			globals.graphData[1][3]++;
 		}
 		
-		if(state == POLL_STATES.FIRST && j ==0)
-		{
-			globals.candidates.splice(0,0,new CandidateCreate(""));
-		}
+		//if(state == POLL_STATES.FIRST && j ==0)
+		//{
+		//	globals.candidates.splice(0,0,new CandidateCreate(""));
+		//}
         for(var i = 0; i < pollChoices.length ;i++)
         {
             //console.log(i)
@@ -3472,24 +3517,50 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                 break;
     
                 case "candFav":
+				if(globals.candidates.length==2)
+				{
                     globals.tableArrays[2].push(globals.sample[j].results.win);
-					for(var k =0; k< globals.candidates.length-1;k++)
+					for(var k =0; k< globals.candidates.length;k++)
 					{
 						if(globals.sample[j].results.win == globals.candidates[k].name){
 							globals.graphData[i+2][k]++;
 						}
 					}
+				}
+				else
+				{
+                    globals.tableArrays[2].push(globals.sample[j].results.win);
+					for(var k =0; k< globals.candidates.length;k++)
+					{
+						console.log()
+						if(globals.sample[j].results.win == globals.candidates[k].name){
+							globals.graphData[i+2][k]++;
+						}
+					}
+				}
                 break;
     
                 case "candOpp":
-                    ////console.log(globals.sample[j].results);
+				if(globals.candidates.length==2)
+				{
                     globals.tableArrays[3].push(globals.sample[j].results.los);
-					for(var k =0; k< globals.candidates.length-1;k++)
+					for(var k =0; k< globals.candidates.length;k++)
 					{
 						if(globals.sample[j].results.los == globals.candidates[k].name){
 							globals.graphData[i+2][k]++;
 						}
 					}
+				}
+				else
+				{
+                    globals.tableArrays[3].push(globals.sample[j].results.los);
+					for(var k =0; k< globals.candidates.length;k++)
+					{
+						if(globals.sample[j].results.los == globals.candidates[k].name){
+							globals.graphData[i+2][k]++;
+						}
+					}
+				}
                 break;
     
     
@@ -4233,10 +4304,10 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
         } 
 	}
 	
-		if(state == POLL_STATES.FIRST)
-		{
-			globals.candidates.splice(0,1);
-		}
+		//if(state == POLL_STATES.FIRST)
+		//{
+		//	globals.candidates.splice(0,1);
+		//}
 	document.getElementById('table').style.display = 'none';
 	if (state == POLL_STATES.TUTORIAL){
         document.getElementById('event').innerHTML += "<button onclick = 'drawPoll("+state+",false, true)'>Back to Start</button>" ;
@@ -4900,21 +4971,21 @@ function gameResults(scores, tutorial)
 			}
 		}
 		if(scores.score <= scores.tier1)
-		{
-			posText += " " + "<br> By a score of "+0.1+"</h1>";
+		{			
 			document.getElementById("event").innerHTML = posText;
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 			scoreChanger(globals.candidates[0], 0.1,pos,[]);
 		}
 		else if(scores.score <= scores.tier2 && scores.score >scores.tier1)
 		{
-			posText += " " + "<br> By a score of "+0.2+"</h1>";
 			document.getElementById("event").innerHTML = posText;
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 			scoreChanger(globals.candidates[0], 0.2,pos,[]);
 		}
 		else if(scores.score <= scores.tier3 && scores.score >scores.tier2)
 		{
-			posText += " " + "<br> By a score of "+0.3+"</h1>";
 			document.getElementById("event").innerHTML = posText;
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 			scoreChanger(globals.candidates[0], 0.3,pos,[]);
 		}
 		else if(scores.score > scores.tier3)
@@ -4923,12 +4994,13 @@ function gameResults(scores, tutorial)
 				scores.score = scores.tier4;
 			var x = .3 + (.01*(scores.score-scores.tier3));
 			x = x.toFixed(2);
-			posText += " " + "<br> By a score of "+x+"</h1>";
 			document.getElementById("event").innerHTML = posText;
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 			scoreChanger(globals.candidates[0], x,pos,[]);
 		}
 		else{
 			document.getElementById("event").innerHTML = posText;
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 			scoreChanger(globals.candidates[0], (scores * .1),pos,[]);
 		}
 		
@@ -4940,6 +5012,7 @@ function gameResults(scores, tutorial)
 	{
 		var posText =  "<h4>You completed the minigame with a score of "+ (scores.score) + ".</h4>"; 
 		document.getElementById("event").innerHTML = posText;
+		document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 		document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to the Practice Screen </button>";
 	}
 	document.getElementById("next").style.display = "block";

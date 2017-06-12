@@ -551,7 +551,9 @@ runningGame2.main =
 		headIcons = new Image();
 		headIcons.src = '../img/spriteheadlong.png';
 		instruction = new Image();
-		instruction.src = '../img/minigame2/instruction.png'
+		instruction.src = '../img/minigame2/instruction1.png'
+		instruction2 = new Image();
+		instruction2.src = '../img/minigame2/instruction2.png'
 
 		//map icons
 		libraryIcon = new Image();
@@ -579,7 +581,7 @@ runningGame2.main =
 		researchIcon = new Image();
 		researchIcon.src = '../img/icons/researchsquare.png';
 		socialIcon = new Image();
-		socialIcon.src = '../img/icons/socialsquare.png';
+		socialIcon.src = '../img/icons/schoolevents.png';
 		medicalIcon = new Image();
 		medicalIcon.src = '../img/icons/medicalsquare.png';
 		//majoricons
@@ -604,6 +606,8 @@ runningGame2.main =
 		gymbg.src = '../img/minigame2/photobombgymbg.png';
 		libbg = new Image();
 		libbg.src = '../img/minigame2/Librarusnapshotbg.png';
+		labsbg = new Image();
+		labsbg.src = '../img/minigame2/labsbg.png';
 
 
 		//get people assets
@@ -745,6 +749,10 @@ runningGame2.main =
 			ctx.drawImage(instruction,0,0,c.width,c.height)
 			ctx.drawImage(backButton,35,420,190,60)
 		}
+		else if (runningGame2.main.areaNumber == -3){
+			ctx.drawImage(instruction2,0,0,c.width,c.height)
+			ctx.drawImage(backButton,35,420,190,60)
+		}
 
 		else if(!runningGame2.main.inArea && runningGame2.main.areaNumber>=0)
 		{
@@ -761,10 +769,9 @@ runningGame2.main =
                 case 2:
                 ctx.drawImage(gymbg, 0,0,900,500);
                 break;
-                //case 3:
-                //ctx.fillStyle = '#FFFFFF';
-                //ctx.drawImage(labWall, 0,0,900,500);            
-                //break;
+                case 3:
+                ctx.drawImage(labsbg, 0,0,900,500);            
+                break;
                 case 4:
                 ctx.fillStyle = '#FFFFFF';
                 ctx.drawImage(cafebg, 0,0,900,500);
@@ -889,8 +896,8 @@ runningGame2.main =
 						//draw head
 						ctx.drawImage(headIcons,154 * runningGame2.main.activeStudent.headID,0,154,172,runningGame2.main.activeStudent.x + 68,runningGame2.main.activeStudent.y-96,60,60)
 						//draw icon
-						ctx.drawImage(iconArray[runningGame2.main.activeStudent.interest],runningGame2.main.activeStudent.x + 207,runningGame2.main.activeStudent.y-52,37,37)
-						ctx.drawImage(majorIconArray[runningGame2.main.activeStudent.major],runningGame2.main.activeStudent.x + 142,runningGame2.main.activeStudent.y-52,37,37)
+						ctx.drawImage(iconArray[runningGame2.main.activeStudent.interest],runningGame2.main.activeStudent.x + 207,runningGame2.main.activeStudent.y-52,37,27)
+						ctx.drawImage(majorIconArray[runningGame2.main.activeStudent.major],runningGame2.main.activeStudent.x + 142,runningGame2.main.activeStudent.y-52,37,27)
 					}
 				}
 		
@@ -996,6 +1003,12 @@ runningGame2.main =
 			runningGame2.main.areaNumber--;
 		}
 		else if(runningGame2.main.areaNumber == -2 && (mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225) ){
+			runningGame2.main.areaNumber++;
+		}
+		else if(runningGame2.main.areaNumber == -2 && (mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 666 && mouse.x <=856) ){
+			runningGame2.main.areaNumber--;
+		}
+		else if(runningGame2.main.areaNumber == -3 && (mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225) ){
 			runningGame2.main.areaNumber++;
 		}
 
