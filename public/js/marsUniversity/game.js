@@ -1761,12 +1761,14 @@ function printTest(){
 
 function drawPoll(state, isFree, isFake){
     
-	saveGameState();
 	clearScreen();
   
     if(isFake){
       globals.currentCandidateArrayHolder = globals.candidates;
       globals.candidates = globals.fakeCandidateHolder;
+    }
+    else{
+      saveGameState();
     }
 	
 	if(state == POLL_STATES.IN_GAME)
