@@ -1610,9 +1610,9 @@ function tutorial (help)
 		case 1:
 		document.getElementById("gameInfo").innerHTML += "<h3>How To Play</h3><hr>";
 		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px;'>Hi, my name is Gui’De. I will help you find your way around Mars University. You’re a new student, and we need your help now. It’s time for the student president election and all the candidates won't do a good job. Are you interested in becoming president of the Student Council?</p>"
+		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px;'>Hi, my name is Gui’De. I will help you find your way around Mars University. You’re a new student, and we need your help now. It’s time for the student president election and all the candidates won't do a good job. You should run for president of the Student Council!</p>"
 		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
-		document.getElementById("gameInfo").innerHTML += "<br><button onclick='nextSection("+help+");' style='float: right;'>Statements and Functions</button> ";
+		document.getElementById("gameInfo").innerHTML += "<button onclick='nextSection("+help+");' style='float: right;'>Statements and Functions</button> ";
 		if(help)
 			document.getElementById("gameInfo").innerHTML += "<button float = 'left' class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to User Action Area</button>";
 		break;
@@ -2284,38 +2284,75 @@ function statementCalc()
 		globals.remainingHoursDay--;
 		statementCalcOtherCandidate(1);
 	}
-    statementResults(currentStatement);
+    statementResults(currentStatement, currentPosNeg);
 }
 
 
 
-function statementResults(statement)
+function statementResults(statement, statmentValue)
 {
     clearScreen();
     var state = parseInt(statement); 
-    switch(state)
-    {
-        case 0:
-        //tuitPos
-		document.getElementById("event").style.display = "block";
-		document.getElementById("event").innerHTML += "<h4>You made a great speech on lowering tuition</h4>";
-        break;
-        case 1:
-        //budPos
-		document.getElementById("event").style.display = "block";
-		document.getElementById("event").innerHTML += "<h4>You made a great speech on increasing the budget</h4>";
-        break;
-        case 2:
-        //funcPos
-		document.getElementById("event").style.display = "block";
-		document.getElementById("event").innerHTML += "<h4>You made a great speech on having more school functions</h4>";
-        break;
-        case 3:
-        //medPos
-		document.getElementById("event").style.display = "block";
-		document.getElementById("event").innerHTML += "<h4>You made a great speech on improving medical services</h4>";
-        break;
-    }
+	if(statmentValue == 0)
+	{
+		switch(state)
+		{
+			case 0:
+			//tuitPos
+			document.getElementById("event").style.display = "block";
+			document.getElementById("event").innerHTML += "<h4>You made a great speech on lowering tuition</h4><img width = '600' src = '../img/statement/tuitPos.png> ";
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/statement/tuitPos.png'> ";
+			break;
+			case 1:
+			//budPos
+			document.getElementById("event").style.display = "block";
+			document.getElementById("event").innerHTML += "<h4>You made a great speech on increasing the budget</h4>";
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/statement/budPos.png'> ";
+			break;
+			case 2:
+			//funcPos
+			document.getElementById("event").style.display = "block";
+			document.getElementById("event").innerHTML += "<h4>You made a great speech on having more school functions</h4>";
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/statement/funcPos.png'> ";
+			break;
+			case 3:
+			//medPos
+			document.getElementById("event").style.display = "block";
+			document.getElementById("event").innerHTML += "<h4>You made a great speech on improving medical services</h4>";
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/statement/medPos.png'> ";
+			break;
+		}
+	}
+	else 
+	{
+		switch(state)
+		{
+			case 0:
+			//tuitPos
+			document.getElementById("event").style.display = "block";
+			document.getElementById("event").innerHTML += "<h4>You made a great speech against lowering tuition</h4>";
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/statement/tuitNeg.png'> ";
+			break;
+			case 1:
+			//budPos
+			document.getElementById("event").style.display = "block";
+			document.getElementById("event").innerHTML += "<h4>You made a great speech against increasing the budget</h4>";
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/statement/budNeg.png'> ";
+			break;
+			case 2:
+			//funcPos
+			document.getElementById("event").style.display = "block";
+			document.getElementById("event").innerHTML += "<h4>You made a great speech against having more school functions</h4>";
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/statement/funcNeg.png'> ";
+			break;
+			case 3:
+			//medPos
+			document.getElementById("event").style.display = "block";
+			document.getElementById("event").innerHTML += "<h4>You made a great speech against improving medical services</h4>";
+			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/statement/medNeg.png'> ";
+			break;
+		}
+	}
 	document.getElementById("event").innerHTML += "<button onclick='hourChecker()'>Return to the User Action Area</button>";
 }
 //repeats the statement at a lowered effect for Karma
@@ -4902,7 +4939,7 @@ function gameResults(scores, tutorial)
 		globals.remainingHoursDay-=1;
 		var pos = chosenEvent.groupPos.split(',');
 		//console.log(pos);
-		var posText =  "<h4>You completed the minigame with a score of "+scores.score+" <br>Which will increase your fame with these groups: ";
+		var posText =  "<h4>You completed the minigame with a score of "+scores.score+" <br>You increased your popularity with these groups: ";
 		for (var i =0; i< pos.length;i++){
 			switch(pos[i])
 			{
