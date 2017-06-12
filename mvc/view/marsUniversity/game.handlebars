@@ -3,16 +3,19 @@
     <header class='thinking-cap-header'>
       <h1 class='thinking-cap-title'>{{content.appTitle}}</h1>
     </header>
-    <section>
+<section>
 <div id = "gameArea" >
   <img id = 'holo' src = '../../img/holopad-topbar.png' width = '1200' height = '738' >
   <br>
   <img id = 'holo-corner' src = '../../img/holopad-corner.png' width = '1200' height = '738' >
-  <div id = gameContents>
+  <div id="contentContainer">
+  <div id = "gameContents">
   <div id = "playerInfo">
       <div id="remainingHours"></div>
       <div id="remainingDays"></div>
   </div>
+  
+  <div id="lowerContent">
   <div id = "gameInfo">
 	<div id = "intro" style = "text-align:center; ">
 		<br>
@@ -32,6 +35,7 @@
 	</div>
     
   </div>
+  
   
   <div id = "questions" style = "display:none;">
   <br>
@@ -72,34 +76,38 @@
         <div id = "event" style = "display:none;">
     
         </div>
+            <div id = "next" style = "display:none;">
+        </div>
+      
     </div>
     <div id="rightDisplay">
+        <div id = "table" style = "display:none;">
+          <table id = "tab" class="sortable">
+          <thead id="tableHead">
+
+          </thead>
+          <tbody id="pollTable">
+          </tbody>
+          </table>
+        </div>
         <div class = "mapContainer">
           <div id = "map" style = "display:none;">
 
           </div>
         </div>
+
     </div>
     
     
     
     
-    <div id = "table" style = "display:none;">
-      <table id = "tab" class="sortable">
-      <thead id="tableHead">
-      
-      </thead>
-      <tbody id="pollTable">
-      </tbody>
-      </table>
-    </div>
+
     
-    <div id = "next" style = "display:none;">
-    </div>
+
     </div>
   </div>
+  </div>
 </div>
-<div id="templateTest">
 </div>
 <!-- 
   <p>First let's have your candidate pick their focus </p>
@@ -110,3 +118,5 @@
   <button onclick = 'gameCycleStart(4)'>Better Medical Services</button>
   -->
 </section>
+</article>
+</main>
