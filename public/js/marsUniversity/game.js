@@ -154,15 +154,50 @@ function createTutorialPages(){
   let content = "<p>Hi, my name is Gui’De. I will help you find your way around Mars University. You’re a new student, and we need your help now. It’s time for the student president election and all the candidates won't do a good job. You should run for president of the Student Council!</p>";
   tutorialPages.push(new TutorialPage(title, content, ""));
   
+  //Areas
+  title = "Areas";
+  content = "<p>Lets Take a Tour of the school! There are five main places on the Mars U Campus. Each area attracts different people to them.</p>";
+  let image = '../img/menu/makeastatementiconNEW.png';
+  tutorialPages.push(new TutorialPage(title, content, ""));
+  
+  //Areas
+  title = "Areas - Bias";
+  content = "<p>Here is where everybody can be found! <br> Commons: Socialites and Arts Majors <br> Library: Readers and Law Majors<br> Gym: Athletes and Business Majors <br> Labs: Gamers and Technology Majors</p>";
+  image = '../img/menu/makeastatementiconNEW.png';
+  tutorialPages.push(new TutorialPage(title, content, ""));
+  
+  //Candidates
+  title = "Candidates";
+  content = "<p>Like in any election you'll have some comptetition. There are five other people running for prresisdent at Mars U.</p>";
+  image = '../img/menu/makeastatementiconNEW.png';
+  tutorialPages.push(new TutorialPage(title, content, ""));
+  
+  //Candidates
+  title = "Candidates - Issue Candidates";
+  content = "<p>There are four candidates who don't do much campaigning. We call them the issue candidates. They're pretty well know and liked around campus so they think they don't need to campaign. Here are the Candidates in there issues. <br>Simon: Improve Medical Services <br> Zrapp: Increase the Budget <br> Boof: Lower Tuition <br> C1AMP: More School Functions</p>";
+  image = '../img/menu/makeastatementiconNEW.png';
+  tutorialPages.push(new TutorialPage(title, content, ""));
+  
+  //Candidates
+  title = "Candidates - Karma";
+  content = "<p>The final candidate also transferred in recently. Karma the Chameleon is a charismatic, but untrustworthy candidate. People like her, but they have noticed that she seems to copy the statements of other candidates.</p>";
+  image = '../img/menu/makeastatementiconNEW.png';
+  tutorialPages.push(new TutorialPage(title, content, ""));
+  
   //Statements and Functions
   title = "Statements and Functions";
-  content = "<p>You can win by doing three things: <br>-Statements<br>-Polling<br>-Student Functions</p>";
+  content = "<p>You can win by doing three things: <br>-Statements<br>-Polling<br>-Student Functions <br> You have 12 hours in a day and everything you do takes time.</p>";
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Statements
   title = "Statements";
-  content = "<p>Statements are where you focus on the issues at school. You can make a positive or negative statement on the issue. Make sure to stay on topic.</p>";
-  let image = '../img/menu/makeastatementiconNEW.png';
+  content = "<p>Statements are where you focus on the issues at school. Statements can change the way people feel about the issues. They also tell the population how you feel about the issues.</p>";
+  image = '../img/menu/makeastatementiconNEW.png';
+  tutorialPages.push(new TutorialPage(title, content, image));
+  
+  //Statements
+  title = "Statements Continued";
+  content = "<p>People are more likely to vote for you if they agree with you on the issues. Be sure to stick to one stance on each issue, because people won't like it if they can't trust you. Statements take an hour to prepare and perform.</p>";
   tutorialPages.push(new TutorialPage(title, content, image));
   
   //Issues
@@ -173,6 +208,11 @@ function createTutorialPages(){
   //Student Functions
   title = "Student Functions";
   content = "<p>Student Functions are how you get to know the population. Becoming more famous among groups to help get you elected.</p>";
+  tutorialPages.push(new TutorialPage(title, content, ""));
+  
+  //Student Functions
+  title = "Student Functions";
+  content = "<p>Functions take a couple hours to set up and you can add an option to that if you like, but it will take an extra hour. Functions can't be held in the quad according to the Univerity Guidelines.</p>";
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Population - Majors
@@ -187,18 +227,33 @@ function createTutorialPages(){
   
   //Polling
   title = "Polling";
-  content = "<p>The last thing is Polling. You can see how the population feels about the candidates.You take polls in different areas which will have different biases. You can ask questions about issues, student groups, or the candidates. </p>";
+  content = "<p>With polls you can see how the populations around the school feel about the candidates, and issues. You take polls in different areas which will have different biases. Polls take time to conduct, but the current student government will conduct one for you at the end of each day. These will help you see your effect on the population.</p>";
   image = '../img/menu/takeapollicon.png';
   tutorialPages.push(new TutorialPage(title, content, image));
 		
+  //Polling Results
+  title = "Polling Results";
+  content = "<p>After you  take a poll you are given the results from a sample of students. By looking at these results you can determine what moves you should make next. Poll Results can be viewed in 3 ways: Bar Graphs, Pie Graphs and a Table.</p>";
+  tutorialPages.push(new TutorialPage(title, content, ""));
+  
+  //Polling Results
+  title = "Polling Results - Graphs";
+  content = "<p> The Bar and Pie Graphs are for looking at more general data. Each Graph is attributed to a question. There you can see how many students answered each result in a question.</p>";
+  tutorialPages.push(new TutorialPage(title, content, ""));
+  
+  //Polling Results
+  title = "Polling Results - Table";
+  content = "<p> The table is for when you want specific data. In the table you can see how each person who took the sample responded to all the questions. You can even filter by majors, or social groups. So if you only want results from athletes then you can just view those.</p>";
+  tutorialPages.push(new TutorialPage(title, content, ""));
+  
   //Polling Reports
-  title = "Polling Reports";
-  content = "<p>Student Functions are how you get to know the population. Becoming more famous among groups to help get you elected.</p>";
+  title = "Old Polling Reports";
+  content = "<p>Poll Results are saved for you after you take them so you can go back and view them at the poll menu whenever you like.</p>";
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Trend Reports
   title = "Trend Reports"
-  content = "<p>If you ask the same question more than once, it will appear on the trend report. A place where you can see the summary of all the graphs for that question.</p>";
+  content = "<p>If you ask the same question more than once, it will appear on the trend report. A place where you can see the summary of all the graphs for that question. This is great for looking quickly at how public opinion has changed. </p>";
   image = '../img/menu/trendreport.png';
   tutorialPages.push(new TutorialPage(title, content, image));
   
@@ -1331,7 +1386,7 @@ function userAction()
     document.getElementById("map").style.display = "block";
     document.getElementById("eventInput").style.display = "block";
     
-	document.getElementById("actionRadio1").checked = true;
+	//document.getElementById("actionRadio1").checked = true;
 
 	//Show changes to screen
 	document.getElementById("choices").style.display = "block";
@@ -1341,236 +1396,243 @@ function action()
 {
 	//Clear previous screen
 	var choice = $('input[name="actionRadio"]:checked').val();
-	
-    clearScreen();
-    updateTopBar(action);
-
-	var nextArea = document.getElementById("next");
-	nextArea.innerHTML = "";
-	chosenEvent = globals.events[choice];
-	//console.log(chosenEvent);
-	globals.back = false;
-
-	//document.getElementById("choices").innerHTML += "<button type='button' onclick='userAction()' >View Poll "+ num +" Result </button>";
-	if(globals.remainingHoursDay >= chosenEvent.timeRequired)
+	if(choice != undefined)
 	{
+		clearScreen();
+		updateTopBar(action);
+	
+		var nextArea = document.getElementById("next");
+		nextArea.innerHTML = "";
 		chosenEvent = globals.events[choice];
-
-		if(chosenEvent.type=="smallEvent")
+		//console.log(chosenEvent);
+		globals.back = false;
+		
+		//document.getElementById("choices").innerHTML += "<button type='button' onclick='userAction()' >View Poll "+ num +" Result </button>";
+		if(globals.remainingHoursDay >= chosenEvent.timeRequired)
 		{
-            
-            document.getElementById("eventImg").innerHTML += "<center><img src = '' id = 'eventbg' height = '350'   > </img></center>";
-            document.getElementById("eventbg").src = chosenEvent.path;
-			//Creates the screen for the event
-			var eventHours = parseInt(chosenEvent.timeRequired);
-			document.getElementById("eventInfo").innerHTML += "<h4>" + chosenEvent.text + " </h4>";
-            
-
-			if(chosenEvent.groupPos != [])
+			chosenEvent = globals.events[choice];
+	
+			if(chosenEvent.type=="smallEvent")
 			{
-				var effects = chosenEvent.groupPos.split(',');
-				var posText =  "<h4> These Groups will be affected positively: ";
-				for (var i =0; i< effects.length;i++)
+				
+				document.getElementById("eventImg").innerHTML += "<center><img src = '' id = 'eventbg' height = '350'   > </img></center>";
+				document.getElementById("eventbg").src = chosenEvent.path;
+				//Creates the screen for the event
+				var eventHours = parseInt(chosenEvent.timeRequired);
+				document.getElementById("eventInfo").innerHTML += "<h4>" + chosenEvent.text + " </h4>";
+				
+	
+				if(chosenEvent.groupPos != [])
 				{
-				switch(effects[i])
-				{
-					case "Arts":
-						posText += "Arts Major";
-					break;
-					case "Bus":
-						posText += "Business Major";
-					break;
-					case "Law":
-						posText += "Law Major";
-					break;
-					case "Tech":
-						posText += "Technology Major";
-					break;
-
-					case "Gam":
-						posText += "Gamer Group";
-					break;
-					case "Soc":
-						posText += "Socialite Group";
-					break;
-					case "Read":
-						posText += "Reader Group";
-					break;
-					case "Ath":
-						posText += "Athlete Group";
-					break;
-				}
-				if(i != effects.length-1)
-				{
-					posText += ", ";
-				}
-				else{
-					posText += " ";
-				}
-			}
-				document.getElementById("eventInfo").innerHTML += posText+ " </h4>";
-			}
-			if(chosenEvent.groupNeg != [])
-			{
-				var negEffects = chosenEvent.groupNeg.split(',');
-				var negText =  "<h4> These Groups will be affected negatively: ";
-				for (var i =0; i< negEffects.length;i++)
-				{
-				switch(negEffects[i])
-				{
-					case "Arts":
-						posText += "Arts Major";
-					break;
-					case "Bus":
-						posText += "Business Major";
-					break;
-					case "Law":
-						posText += "Law Major";
-					break;
-					case "Tech":
-						posText += "Technology Major";
-					break;
-
-					case "Gam":
-						posText += "Gamer Group";
-					break;
-					case "Soc":
-						posText += "Socialite Group";
-					break;
-					case "Read":
-						posText += "Reader Group";
-					break;
-					case "Ath":
-						posText += "Athlete Group";
-					break;
-				}
-				if(i != negEffects.length-1)
-				{
-					negText += ", ";
-				}
-				else{
-					negText += " ";
-				}
-			}
-				document.getElementById("eventInfo").innerHTML += negText+ " </h4>";
-			}
-            
-			for(var i =0; i<chosenEvent.options.length; i++)
-			{
-				var totalText = "";
-				if( (eventHours + parseInt(chosenEvent.options[i].extraTime)) <= globals.remainingHoursDay)
-				{
-					if(i == 0)
+					var effects = chosenEvent.groupPos.split(',');
+					var posText =  "<h4> These Groups will be affected positively: ";
+					for (var i =0; i< effects.length;i++)
 					{
-						document.getElementById("eventInfo").innerHTML += "<span style = 'font-weight: bold' > Additional Options: <br></span>";
+					switch(effects[i])
+					{
+						case "Arts":
+							posText += "Arts Major";
+						break;
+						case "Bus":
+							posText += "Business Major";
+						break;
+						case "Law":
+							posText += "Law Major";
+						break;
+						case "Tech":
+							posText += "Technology Major";
+						break;
+	
+						case "Gam":
+							posText += "Gamer Group";
+						break;
+						case "Soc":
+							posText += "Socialite Group";
+						break;
+						case "Read":
+							posText += "Reader Group";
+						break;
+						case "Ath":
+							posText += "Athlete Group";
+						break;
 					}
-					var posText ="";
-					var negText = "";
-					if(chosenEvent.options[i].posEffects != [])
+					if(i != effects.length-1)
 					{
-						var effects = chosenEvent.options[i].posEffects.split(',');
-						posText =  " -  Extra Positive Effects: ";
-						for (var j =0; j< effects.length;j++)
+						posText += ", ";
+					}
+					else{
+						posText += " ";
+					}
+				}
+					document.getElementById("eventInfo").innerHTML += posText+ " </h4>";
+				}
+				if(chosenEvent.groupNeg != [])
+				{
+					var negEffects = chosenEvent.groupNeg.split(',');
+					var negText =  "<h4> These Groups will be affected negatively: ";
+					for (var i =0; i< negEffects.length;i++)
+					{
+					switch(negEffects[i])
+					{
+						case "Arts":
+							posText += "Arts Major";
+						break;
+						case "Bus":
+							posText += "Business Major";
+						break;
+						case "Law":
+							posText += "Law Major";
+						break;
+						case "Tech":
+							posText += "Technology Major";
+						break;
+	
+						case "Gam":
+							posText += "Gamer Group";
+						break;
+						case "Soc":
+							posText += "Socialite Group";
+						break;
+						case "Read":
+							posText += "Reader Group";
+						break;
+						case "Ath":
+							posText += "Athlete Group";
+						break;
+					}
+					if(i != negEffects.length-1)
+					{
+						negText += ", ";
+					}
+					else{
+						negText += " ";
+					}
+				}
+					document.getElementById("eventInfo").innerHTML += negText+ " </h4>";
+				}
+				
+				for(var i =0; i<chosenEvent.options.length; i++)
+				{
+					var totalText = "";
+					if( (eventHours + parseInt(chosenEvent.options[i].extraTime)) <= globals.remainingHoursDay)
+					{
+						if(i == 0)
 						{
-							switch(effects[j])
+							document.getElementById("eventInfo").innerHTML += "<br><span style = 'font-weight: bold' > Additional Options: <br></span>";
+							document.getElementById("eventInfo").innerHTML += "<input type='radio' name = 'option' id = 'none' checked>None<br>";
+	
+						}
+						var posText ="";
+						var negText = "";
+						if(chosenEvent.options[i].posEffects != [])
+						{
+							var effects = chosenEvent.options[i].posEffects.split(',');
+							posText =  " -  Extra Positive Effects: ";
+							for (var j =0; j< effects.length;j++)
 							{
-                                case "Arts":
-                                    posText += "Arts Major";
-                                break;
-                                case "Bus":
-                                    posText += "Business Major";
-                                break;
-                                case "Law":
-                                    posText += "Law Major";
-                                break;
-                                case "Tech":
-                                    posText += "Technology Major";
-                                break;
-            
-                                case "Gam":
-                                    posText += "Gamer Group";
-                                break;
-                                case "Soc":
-                                    posText += "Socialite Group";
-                                break;
-                                case "Read":
-                                    posText += "Reader Group";
-                                break;
-                                case "Ath":
-                                    posText += "Athlete Group";
-                                break;
-							}
-							if(j != effects.length-1)
-							{
-								posText += ", ";
-							}
-							else{
-								posText += " ";
+								switch(effects[j])
+								{
+									case "Arts":
+										posText += "Arts Major";
+									break;
+									case "Bus":
+										posText += "Business Major";
+									break;
+									case "Law":
+										posText += "Law Major";
+									break;
+									case "Tech":
+										posText += "Technology Major";
+									break;
+				
+									case "Gam":
+										posText += "Gamer Group";
+									break;
+									case "Soc":
+										posText += "Socialite Group";
+									break;
+									case "Read":
+										posText += "Reader Group";
+									break;
+									case "Ath":
+										posText += "Athlete Group";
+									break;
+								}
+								if(j != effects.length-1)
+								{
+									posText += ", ";
+								}
+								else{
+									posText += " ";
+								}
 							}
 						}
-					}
-					totalText += posText;
-					if(chosenEvent.options[i].negEffects != [])
-					{
-						var negEffects = chosenEvent.options[i].negEffects.split(',');
-						negText =  " -  Extra Negative Effects: ";
-						for (var j =0; j< negEffects.length;j++)
+						totalText += posText;
+						if(chosenEvent.options[i].negEffects != [])
 						{
-							switch(negEffects[j])
+							var negEffects = chosenEvent.options[i].negEffects.split(',');
+							negText =  " -  Extra Negative Effects: ";
+							for (var j =0; j< negEffects.length;j++)
 							{
-                                case "Arts":
-                                    posText += "Arts Major";
-                                break;
-                                case "Bus":
-                                    posText += "Business Major";
-                                break;
-                                case "Law":
-                                    posText += "Law Major";
-                                break;
-                                case "Tech":
-                                    posText += "Technology Major";
-                                break;
-            
-                                case "Gam":
-                                    posText += "Gamer Group";
-                                break;
-                                case "Soc":
-                                    posText += "Socialite Group";
-                                break;
-                                case "Read":
-                                    posText += "Reader Group";
-                                break;
-                                case "Ath":
-                                    posText += "Athlete Group";
-                                break;
-							}
-							if(j != negEffects.length-1)
-							{
-								negText += ", ";
-							}
-							else{
-								negText += " ";
+								switch(negEffects[j])
+								{
+									case "Arts":
+										posText += "Arts Major";
+									break;
+									case "Bus":
+										posText += "Business Major";
+									break;
+									case "Law":
+										posText += "Law Major";
+									break;
+									case "Tech":
+										posText += "Technology Major";
+									break;
+				
+									case "Gam":
+										posText += "Gamer Group";
+									break;
+									case "Soc":
+										posText += "Socialite Group";
+									break;
+									case "Read":
+										posText += "Reader Group";
+									break;
+									case "Ath":
+										posText += "Athlete Group";
+									break;
+								}
+								if(j != negEffects.length-1)
+								{
+									negText += ", ";
+								}
+								else{
+									negText += " ";
+								}
 							}
 						}
+						totalText += negText;
+						document.getElementById("eventInfo").innerHTML += "<input type='radio' name = 'option' id = " + chosenEvent.options[i].optionID + ">" + chosenEvent.options[i].optionName + " - 3 Hours Total" +totalText+"<br> ";
 					}
-					totalText += negText;
-					document.getElementById("eventInfo").innerHTML += "<input type='radio' name = 'option' id = " + chosenEvent.options[i].optionID + ">" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours" +totalText+"<br> ";
 				}
 			}
+		document.getElementById("eventInfo").innerHTML += "<br> <button type='button' class='logEvent' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
 		}
-	document.getElementById("eventInfo").innerHTML += "<br> <button type='button' class='logEvent' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
-	}
+		else
+		{
+			document.getElementById("eventInfo").innerHTML += "<h4> You dont have the enough time left to do the selected action. \n Return to the Game Map to select another action or end the game.</h4>";
+		}
+
+		document.getElementById("eventInfo").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
+	
+		//Show changes to screen
+		document.getElementById("eventInfo").style.display = "block";
+		document.getElementById("eventImg").style.display = "block";
+		}
 	else
 	{
-		document.getElementById("eventInfo").innerHTML += "<h4> You dont have the enough time left to do the selected action. \n Return to the Game Map to select another action or end the game.</h4>";
+			document.getElementById("infoText").innerHTML = "<h4>You must select an event first!</h4>";
 	}
-
-
-	document.getElementById("eventInfo").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
-  
-	//Show changes to screen
-	document.getElementById("eventInfo").style.display = "block";
-    document.getElementById("eventImg").style.display = "block";
 };
 
 //Subtracts from the remaining hours,
