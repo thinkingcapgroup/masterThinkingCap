@@ -8,6 +8,12 @@ let splashScreenView;
 
 let loadProgress = 0;
 
+let tutorialPages = [];
+
+$(document).ready(function(){
+  startGame();
+})
+
 //starts the game
 function startGame()
 {
@@ -50,6 +56,7 @@ function startGame()
     //preloadUI();  
   
     createAreas();
+    createTutorialPages();
     
     loadViews(50);
     preloadImages(54);
@@ -58,7 +65,10 @@ function startGame()
 const views = {
   topBar: "",
   splashScreen: "",
-  practice: ""
+  practice: "",
+  help: "",
+  tutorial: "",
+  trendMenu:""
 };
 const images = {
   Map: '../../img/map/mapMU600pxW.png',
@@ -84,6 +94,7 @@ function preloadImages(totalLoadPercent){
 }
 
 function loadViews(totalLoadPercent){
+
   
   const viewNames = Object.keys(views);
   let loadPercent = totalLoadPercent / viewNames.length;
@@ -97,6 +108,13 @@ function loadViews(totalLoadPercent){
       updateLoadBar(loadPercent);
       }, 'html');
   }
+  
+  Handlebars.registerHelper('ifEquals', function(value1, value2, options) {
+    if(value1 === value2) {
+      return options.fn(this);
+    }
+    return options.inverse(this);
+  });
 }
 
 function testP(){
@@ -119,6 +137,84 @@ function updateLoadBar(amount){
   
   if(document.getElementById("loadBar")){
     document.getElementById("loadBar").value = loadProgress;
+  }
+}
+
+function TutorialPage(title, content, image){
+  this.title = title;
+  this.content = content;
+  this.image = image;
+  this.previous = "Previous";
+  this.next = "Next";
+}
+
+function createTutorialPages(){
+  //Page 1: How To Play
+  let title = "How To Play";
+  let content = "<p>Hi, my name is Gui’De. I will help you find your way around Mars University. You’re a new student, and we need your help now. It’s time for the student president election and all the candidates won't do a good job. You should run for president of the Student Council!</p>";
+  tutorialPages.push(new TutorialPage(title, content, ""));
+  
+  //Statements and Functions
+  title = "Statements and Functions";
+  content = "<p>You can win by doing three things: <br>-Statements<br>-Polling<br>-Student Functions</p>";
+  tutorialPages.push(new TutorialPage(title, content, ""));
+  
+  //Statements
+  title = "Statements";
+  content = "<p>Statements are where you focus on the issues at school. You can make a positive or negative statement on the issue. Make sure to stay on topic.</p>";
+  let image = '../img/menu/makeastatementiconNEW.png';
+  tutorialPages.push(new TutorialPage(title, content, image));
+  
+  //Issues
+  title = "Issues";
+  image = '../img/issues.png';
+  tutorialPages.push(new TutorialPage(title, "", image));
+
+  //Student Functions
+  title = "Student Functions";
+  content = "<p>Student Functions are how you get to know the population. Becoming more famous among groups to help get you elected.</p>";
+  tutorialPages.push(new TutorialPage(title, content, ""));
+  
+  //Population - Majors
+  title = "Population - Majors";
+  image = '../img/majors.png';
+  tutorialPages.push(new TutorialPage(title, "", image));
+  
+  //Population - Social Groups
+  title = "Population - Social Groups";
+  image = '../img/interests.png';
+  tutorialPages.push(new TutorialPage(title, "", image));
+  
+  //Polling
+  title = "Polling";
+  content = "<p>The last thing is Polling. You can see how the population feels about the candidates.You take polls in different areas which will have different biases. You can ask questions about issues, student groups, or the candidates. </p>";
+  image = '../img/menu/takeapollicon.png';
+  tutorialPages.push(new TutorialPage(title, content, image));
+		
+  //Polling Reports
+  title = "Polling Reports";
+  content = "<p>Student Functions are how you get to know the population. Becoming more famous among groups to help get you elected.</p>";
+  tutorialPages.push(new TutorialPage(title, content, ""));
+  
+  //Trend Reports
+  title = "Trend Reports"
+  content = "<p>If you ask the same question more than once, it will appear on the trend report. A place where you can see the summary of all the graphs for that question.</p>";
+  image = '../img/menu/trendreport.png';
+  tutorialPages.push(new TutorialPage(title, content, image));
+  
+  //Practice Area
+  title = "Practice Area";
+  content = "<p>And that’s it. I said polls were important, so I've created a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data is not real and does not represent the actual students or candidates. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>";
+  tutorialPages.push(new TutorialPage(title, content, ""));
+  
+  //Set previous and nexts
+  for(let i = 0; i < tutorialPages.length; i++){
+    if(i > 0){
+      tutorialPages[i].previous = tutorialPages[i-1].title;
+    }
+    if(i < tutorialPages.length - 1){
+      tutorialPages[i].next = tutorialPages[i+1].title;
+    }
   }
 }
 
@@ -312,69 +408,27 @@ function helpScreen(previousScreen)
     document.getElementById('topBar').style.display = "inline-flex";
   
 	globals.section = 1;
-
-	document.getElementById("gameInfo").innerHTML = "<h1> Help</h1> <hr> <button onclick= 'tutorial(true)'>Start the Tutorial</button> <br><button id='helpfulIconsBtn' >Demographic Icons</button><br><button id='mapIconsBtn'>Map Buttons</button>";
-	document.getElementById("gameInfo").innerHTML += "<br><button id='refBtn'>Statements and Functions</button>"
-	document.getElementById("gameInfo").innerHTML += "<br><button onclick= 'showCandidates()'>Candidate Information</button>"
-	//document.getElementById("gameInfo").innerHTML += "<br><button class = 'logHelpEnd' onclick= 'hourChecker()'>Return to Game Map</button>";
-    document.getElementById("gameInfo").innerHTML += "<br><button id='helpBack' class = 'logHelpEnd'>Back</button>";
     
-    //Set onclick events
+    document.getElementById("gameInfo").innerHTML = views["help"]({});
     document.getElementById("helpBack").onclick = previousScreen;
-    document.getElementById("mapIconsBtn").onclick = function(){
-      mapIcons(previousScreen);
-    }
-    document.getElementById("refBtn").onclick = function(){
-      quickReference(previousScreen);
-    }
-    document.getElementById("helpfulIconsBtn").onclick = function(){
-      helpfulIcons(previousScreen);
-    }
+    
 }
 
-function helpfulIcons(previousScreen){
-	document.getElementById("gameInfo").innerHTML = "<p>Here's a reminder on icon images and what they represent: </p><br> <div><img src = '../../img/issues.png'/><img src = '../../img/interests.png'><img src = '../../img/majors.png'></div><br><button id = 'backToHelp'>Back to Main Help Screen</button> ";
-    document.getElementById("backToHelp").onclick = function(){
-      helpScreen(previousScreen);
-    }
-}
-function mapIcons(previousScreen){
-	document.getElementById("gameInfo").innerHTML = "<p>Here's a reminder on icon images and what they represent: </p>";	
-	document.getElementById("gameInfo").innerHTML += "<p><div><img src = '../../img/menu/takeapollicon.png'/> Polling Menu";
-	document.getElementById("gameInfo").innerHTML += "<img src = '../../img/menu/makeastatementiconNEW.png'/> Make a Statement <br>";
-	document.getElementById("gameInfo").innerHTML += "<img src = '../../img/menu/trendreport.png'/> View the Trend Reports <br>";
-	document.getElementById("gameInfo").innerHTML += "<img src = '../../img/menu/helpicon.png'/> Help & Quick Reference Menu <br></div><png>";
-	document.getElementById("gameInfo").innerHTML += "<br><button id = 'backToHelp'>Back to Main Help Screen</button> ";
-    document.getElementById("backToHelp").onclick = function(){
-      helpScreen(previousScreen);
-    }
+function backToHelp(){
+  document.getElementById('mapIcons').style.display = 'none';
+  document.getElementById('helpfulIcons').style.display = 'none';
+  document.getElementById('quickReference').style.display = 'none';
+  document.getElementById('showCandidates').style.display = 'none';
+  document.getElementById('backToHelp').style.display = 'none';
+  
+  document.getElementById('mainHelp').style.display = 'block';
 }
 
-function showCandidates(previousScreen){
-	document.getElementById("gameInfo").innerHTML = "<h1>Rival Candidate</h1>";	
-	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/karma.png'> <br>";
-	document.getElementById("gameInfo").innerHTML += "<h1>Issue Candidates</h1>";
-	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/simon.png'> ";
-	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/zrapp.png'> ";
-	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/boof.png'> ";
-	document.getElementById("gameInfo").innerHTML += "<img width='400' src = '../../img/candidates/clamp.png'> ";
-
-    document.getElementById("gameInfo").innerHTML += "<br><button id = 'backToHelp'>Back to Main Help Screen</button> ";
-    document.getElementById("backToHelp").onclick = function(){
-      helpScreen(previousScreen);
-    }
-}
-
-function quickReference(previousScreen){
-	document.getElementById("gameInfo").innerHTML = "<h1>Statements and Functions</h1><br>";
-	document.getElementById("gameInfo").innerHTML += "<spanp style = 'font-weight: bold'>Statements </span>";
-	document.getElementById("gameInfo").innerHTML += "<p>Statements are how you make your stance on an issue known.<br>When a member of the population can see that your stances on the issue match theirs they are more likely to vote for you.<br>Your statements can also affect public opinion of the issues.<br>Be careful not to change your stance on an issue a lot.<br>The population won't trust what you have to say if you aren't consistent.<br>It will take an hour to make a statement to the public.</p>";	
-	document.getElementById("gameInfo").innerHTML += "<span style = 'font-weight: bold'>Student Functions</span>";	
-	document.getElementById("gameInfo").innerHTML += "<p>Student Functions are used to increase your fame with certain student populations.<br>By attending or hosting events all over campus you can become more well known.<br>Each of these functions is likely to draw in students from a certain major or social group and you can perform additional options to draw in more types of students.<br>Each of these functions should last 2 hours, but if you want to add an option it will cost an additional hour to prepare. </p>";	
-	document.getElementById("gameInfo").innerHTML += "<br><button id = 'backToHelp'>Back to Main Help Screen</button> ";
-    document.getElementById("backToHelp").onclick = function(){
-      helpScreen(previousScreen);
-    }
+function displayHelpPage(elementId){
+  document.getElementById(elementId).style.display = 'block';
+  document.getElementById('backToHelp').style.display = 'block';
+  
+  document.getElementById('mainHelp').style.display = 'none';
 }
 
 function pollMenu()
@@ -410,10 +464,11 @@ function trendReportMenu()
 	clearScreen();
   
     updateTopBar(trendReportMenu);
+    document.getElementById("gameInfo").innerHTML = views["trendMenu"]({"candidates": globals.candidates});
     
 	var currentTrendReports = [];
 	//document.getElementById("playerInfo").style.display = "none";
-	document.getElementById("gameInfo").innerHTML = "<div id= 'reportButtons' > <h1> Trend Reports</h1><br><div><h2> General</h2><button onclick= 'trendReporter(`issFav`)' class = 'trendButton' id = 'issFav' disabled>Favored Issue Report</button><button onclick= 'trendReporter(`issOpp`)' class = 'trendButton' id = 'issOpp' disabled>Opposed Issue Report</button><button onclick= 'trendReporter(`candFav`)' class = 'trendButton' id = 'candFav' disabled>Favored Candidate Report</button><button onclick= 'trendReporter(`candOpp`)' class = 'trendButton' id = 'candOpp' disabled>Opposed Candidate Report</button></div><br><div><h2> Support For Issues</h2><button onclick= 'trendReporter(`issuetuition`)' class = 'trendButton' id = 'issuetuition' disabled>Lowering Tuition Report</button><button onclick= 'trendReporter(`issuebudget`)' class = 'trendButton' id = 'issuebudget' disabled>Increse Budget Report</button><button onclick= 'trendReporter(`issuefunctions`)' class = 'trendButton' id = 'issuefunctions' disabled>More School Functions Report</button><button onclick= 'trendReporter(`issuemedical`)' class = 'trendButton' id = 'issuemedical'  disabled>Improve Medical Services</button></div><br><div id = 'candReportsFame'><h2>Candidate Stats - Fame</h2></div><br><div id = 'candReportsTrust'><h2>Candidate Stats - Trust</h2></div>"
+	/*document.getElementById("gameInfo").innerHTML = "<div id= 'reportButtons' > <h1> Trend Reports</h1><br><div><h2> General</h2><button onclick= 'trendReporter(`issFav`)' class = 'trendButton' id = 'issFav' disabled>Favored Issue Report</button><button onclick= 'trendReporter(`issOpp`)' class = 'trendButton' id = 'issOpp' disabled>Opposed Issue Report</button><button onclick= 'trendReporter(`candFav`)' class = 'trendButton' id = 'candFav' disabled>Favored Candidate Report</button><button onclick= 'trendReporter(`candOpp`)' class = 'trendButton' id = 'candOpp' disabled>Opposed Candidate Report</button></div><br><div><h2> Support For Issues</h2><button onclick= 'trendReporter(`issuetuition`)' class = 'trendButton' id = 'issuetuition' disabled>Lowering Tuition Report</button><button onclick= 'trendReporter(`issuebudget`)' class = 'trendButton' id = 'issuebudget' disabled>Increse Budget Report</button><button onclick= 'trendReporter(`issuefunctions`)' class = 'trendButton' id = 'issuefunctions' disabled>More School Functions Report</button><button onclick= 'trendReporter(`issuemedical`)' class = 'trendButton' id = 'issuemedical'  disabled>Improve Medical Services</button></div><br><div id = 'candReportsFame'><h2>Candidate Stats - Fame</h2></div><br><div id = 'candReportsTrust'><h2>Candidate Stats - Trust</h2></div>"
     document.getElementById("candReportsFame").innerHTML += "<button onclick= 'trendReporter(`fame`)' class = 'trendButton' id = 'fame' disabled>Fame - " + globals.candidates[0].name +"</button>"
     
     //Disables the buttons that cooresponds to polls that havent been taken yet.
@@ -427,7 +482,7 @@ function trendReportMenu()
 	{
         var method = "candTrust" + globals.candidates[k].name;
         document.getElementById("candReportsTrust").innerHTML += "<button onclick= 'trendReporter(`"+method+"`)' class = 'trendButton' id = '"+method+"' disabled>Trust - " + globals.candidates[k].name +"</button>";
-	}
+	}*/
 
 
      document.getElementById("gameInfo").innerHTML += "</div><br> <div id = 'trendArea' style = 'display:none'> <svg id='visualisation' width='800' height='450'><path id='segments-line' /><path id='gap-line' /><text font-family='sans-serif' font-size='20px'>Blah</text></svg> </div>";
@@ -1118,11 +1173,11 @@ function chooseDiff()
 	clearScreen();
 
 	document.getElementById("gameInfo").innerHTML = "<h1>Choose Your Difficulty</h1><br>";
-    document.getElementById("gameInfo").innerHTML += "<button onclick = setDiff("+9+")> Easy</button>";
+    document.getElementById("gameInfo").innerHTML += "<button onclick = setDiff(9)> Easy</button>";
     document.getElementById("gameInfo").innerHTML += "<p> In Easy Mode You Have 9 Days to Win the Election.</p>";
-    document.getElementById("gameInfo").innerHTML += "<button onclick = setDiff("+7+")> Normal</button>";
+    document.getElementById("gameInfo").innerHTML += "<button onclick = setDiff(7)> Normal</button>";
     document.getElementById("gameInfo").innerHTML += "<p> In Normal Mode You Have 7 Days to Win the Election.</p>";
-    document.getElementById("gameInfo").innerHTML += "<button onclick = setDiff("+5+")> Hard</button>";
+    document.getElementById("gameInfo").innerHTML += "<button onclick = setDiff(5)> Hard</button>";
     document.getElementById("gameInfo").innerHTML += "<p> In Hard Mode You Have 5 Days to Win the Election.</p>";
 }
 
@@ -1665,138 +1720,41 @@ function gameCycleEnd()
 };
 
 
+
 /*Special Action Pages*/
 function tutorial (help)
 {
 	document.getElementById("gameInfo").innerHTML ="";
-	var tutBUttonClicked = false; 
-	//console.log(globals.section +' tutorial')
-	switch(globals.section)
-	{
-		case 1:
-		document.getElementById("gameInfo").innerHTML += "<h3>How To Play</h3>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px;'>Hi, my name is Gui’De. I will help you find your way around Mars University. You’re a new student, and we need your help now. It’s time for the student president election and all the candidates won't do a good job. You should run for president of the Student Council!</p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
-		document.getElementById("gameInfo").innerHTML += "<button onclick='nextSection("+help+");' style='float: right;'>Statements and Functions</button> ";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<button float = 'left' class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
-		break;
-		case 2:
-		document.getElementById("gameInfo").innerHTML += "<h3>Statements and Functions</h3>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>You can win by doing three things: <br>-Statements<br>-Polling<br>-Student Functions</p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>How To Play</button> <button onclick='nextSection("+help+");' style='float: right; text-decoration: underline;'>Statements</button> ";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
-		break;
-		case 3:
-		var term = 1;
-		document.getElementById("gameInfo").innerHTML += "<h3>Statements</h3>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'><img src = '../img/menu/makeastatementiconNEW.png'><br>Statements are where you focus on the issues at school. You can make a positive or negative statement on the issue. Make sure to stay on topic.</p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements and Functions</button> <button onclick='nextSection("+help+");' style='float: right;'>Issues</button>";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
-		break;
-		case 4:
-		document.getElementById("gameInfo").innerHTML += "<h3>Issues</h3>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'><img src = '../img/issues.png' /></p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Statements</button> <button onclick='nextSection("+help+");' style='float: right;'>Student Events</button>";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
-		break;
-		case 5:
-		document.getElementById("gameInfo").innerHTML += "<h3>Student Functions</h3>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>Student Functions is how you get to know the population. Becoming more famous among groups to help get you elected.</p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Issues</button> <button onclick='nextSection("+help+");' style='float: right;'>Population - Majors</button> ";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
-		break;
-		case 6:
-		document.getElementById("gameInfo").innerHTML += "<h3>Population - Majors</h3>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'><img src = '../img/majors.png' /></p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Student Functions</button> <button onclick='nextSection("+help+");' style='float: right;'>Population - Social Groups</button> ";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
-		break;
-		case 7:
-		document.getElementById("gameInfo").innerHTML += "<h3>Population - Social Groups</h3>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'><img src = '../img/interests.png' /></p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Population - Majors</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling</button> ";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
-		break;
-		case 8:
-		document.getElementById("gameInfo").innerHTML += "<h3>Polling</h3>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'><img src = '../img/menu/takeapollicon.png'><br>The last thing is Polling. You can see how the population feels about the candidates.You take polls in different areas which will have different biases. You can ask questions about issues, student groups, or the candidates. </p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Population - Social Events</button> <button onclick='nextSection("+help+");' style='float: right;'>Polling Reports</button> ";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
-		break;
-		case 9:
-		document.getElementById("gameInfo").innerHTML += "<h3>Polling Reports</h3>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>You can go back and look at the previous polls in the poll area at any time. </p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling</button> <button onclick='nextSection("+help+");' style='float: right;'>Trend Reports</button> ";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
-		break;
-		case 10:
-		document.getElementById("gameInfo").innerHTML += "<h3>Trend Reports</h3>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'><img src = '../img/menu/trendreport.png'><br>If you ask the same question more than once, it will appear on the trend report. A place where you can see the summary of all the graphs for that question.</p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Polling Reports</button> <button onclick='nextSection("+help+");' style='float: right;'>Practice Area</button> ";
-		if(help)
-			document.getElementById("gameInfo").innerHTML += "<br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
-		break;
-		
-		case 11:
-		document.getElementById("gameInfo").innerHTML += "<h3>Practice Area</h3>";
-		document.getElementById("gameInfo").innerHTML += "<div id = 'tutorialBubble'></div>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/speechbubble.png'/><p style='position:absolute;top:0; left:0; margin:10px; width:250px'>And that’s it. I said polls were important, so I've created a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data is not real and does not represent the actual students or candidates. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>"
-		document.getElementById("tutorialBubble").innerHTML += "<img src = '../img/mascotstill.png' style = 'position:absolute; left:400'/>"	
-		if(!help){
-            globals.remainingHoursDay = 12;
-            globals.days = 1;
-            console.log("tutorial poll");
-          
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='drawPoll("+POLL_STATES.TUTORIAL+", false, true)' style='float: right;'>Try Polling</button> ";
-        }
-		else{
-			document.getElementById("gameInfo").innerHTML += "<button onclick='lastSection("+help+");' style='float: left;'>Time</button> <button onclick='drawPoll("+POLL_STATES.IN_GAME_PRACTICE+", true, true)' style='float: right;'>Try Polling</button> <br> <br> <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>";
-        }
-		break;
-	}
-	document.getElementById("tutorialBubble").style.backgroundImage = "url('../img/tutbg.png')";
+    showTutorialPage(0, help);
 }
 
-//Displays the next tutorial section
-function nextSection(help)
-{
-	globals.section++; 
-	tutorial(help);
+function showTutorialPage(currentPage, help){
+    let context = {"tutorialPages":tutorialPages, "currentPage":currentPage, "isHelp":help};
+    document.getElementById("gameInfo").innerHTML = views["tutorial"](context);
+    console.log('tutorial page');
 }
 
-//Displays the last tutorial section
-function lastSection(help)
+function nextSection(currentPage, help)
 {
-	globals.section--; 
-	tutorial(help);
+  if(currentPage < tutorialPages.length-1){
+    showTutorialPage(currentPage+1,help);
+  }
+  else{
+    if(!help){
+      globals.remainingHoursDay = 12;
+      globals.days = 1;
+      drawPoll(POLL_STATES.TUTORIAL, false, true);
+    }
+    else{
+      drawPoll(POLL_STATES.IN_GAME_PRACTICE, true, true);
+    }
+  }
+	
+}
+
+function lastSection(currentPage, help)
+{
+  showTutorialPage(currentPage-1, help);
 }
 
 //ELaborates on a highlighted term when clicked
@@ -5486,7 +5444,7 @@ function dayPollBuffer()
     document.getElementById("gameInfo").innerHTML += "<h1>End of Day Poll</h1> <br><p>Phew! After a hard day of campaigning the current electoral office will conduct a poll for each candidate. <br>You just have to fill out the questions and decide how many people they'll talk to.<br> It wont take any time on our part!</p>";
     document.getElementById("gameInfo").innerHTML += "<button onclick='drawPoll("+POLL_STATES.END_OF_DAY+",true, false)'>Take Your End of Day Poll</button>";
 }
-window.onload = startGame();
+//window.onload = startGame();
 
 /* Console Disabling Code */
 

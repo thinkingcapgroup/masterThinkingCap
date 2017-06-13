@@ -1,19 +1,38 @@
-<div id="topBar">
-    <div id="iconBar">
-      <img id='userActionIcon' height = '50' src = '../img/menu/mapicon.png' title = 'Event Map' onclick='userAction()'>
-      <img id='pollIcon' height = '50' src = '../img/menu/takeapollicon.png'  onclick='pollMenu()' title = 'Polls'>
-      <img id='statementIcon' height = '50' src = '../img/menu/makeastatementiconNEW.png'  onclick='statement()' title = 'Statements'>
-      <img id='trendIcon' height = '50' src = '../img/menu/trendreport.png'  onclick='trendReportMenu()' title = 'Trend Reports'>
+{{#each tutorialPages}}
+  {{#ifEquals ../currentPage @index}}
+    <h1>CurrentPage: {{../currentPage}} Index: {{@index}}</h1>
+    <h3>{{this.title}}</h3>
+    <div id='tutorialBubble' style="backgroundImage: url('../img/tutbg.png')">
+      <img src = '../img/speechbubble.png'>
+      <div style='position:absolute;top:0; left:0; margin:10px; width:250px;'>
+        {{#if this.image}}
+          <img src='{{this.image}}'>
+        {{/if}}
+        
+        {{{this.content}}}
+        
+      </div>
+      <img src = '../img/mascotstill.png' style = 'position:absolute; left:400'>
     </div>
-    <div id='remainingDays'>
-      <h3>Days Remaining</h3>
-      <img src = '../../img/day{{totalDays}}/day{{dayCycle}}.png' width = '300px'>
-    </div>
-    <div id='remainingHours'>
-      <h3>Hours Remaining Today</h3>
-      <h2>{{remainingHours}}</h2>
-    </div>
-    <div id="helpContainer">
-      <img id='helpIcon' height = '50' src = '../img/menu/helpicon.png'  class = 'logHelp' title = 'Help'>
-    </div>
-</div>
+      {{#unless @first}}
+        <button onclick='lastSection({{../currentPage}}, {{../isHelp}})' style="float:left;">{{this.previous}}</button> 
+      {{/unless}}
+
+      <button onclick='nextSection({{../currentPage}}, {{../isHelp}})' style="float:right;">
+      {{#if @last}}
+        {{#if isHelp}}
+          Try Polling
+        {{else}}
+          Try Polling
+        {{/if}}
+      {{else}}
+        {{this.next}}
+      {{/if}}
+      </button>
+  {{/ifEquals}}
+{{/each}}
+
+{{#if isHelp}}
+  <br><br>
+  <button class = 'logHelpEndTutorial' onclick= 'hourChecker()'>Return to Game Map</button>
+{{/if}}

@@ -1,19 +1,60 @@
-<div id="topBar">
-    <div id="iconBar">
-      <img id='userActionIcon' height = '50' src = '../img/menu/mapicon.png' title = 'Event Map' onclick='userAction()'>
-      <img id='pollIcon' height = '50' src = '../img/menu/takeapollicon.png'  onclick='pollMenu()' title = 'Polls'>
-      <img id='statementIcon' height = '50' src = '../img/menu/makeastatementiconNEW.png'  onclick='statement()' title = 'Statements'>
-      <img id='trendIcon' height = '50' src = '../img/menu/trendreport.png'  onclick='trendReportMenu()' title = 'Trend Reports'>
-    </div>
-    <div id='remainingDays'>
-      <h3>Days Remaining</h3>
-      <img src = '../../img/day{{totalDays}}/day{{dayCycle}}.png' width = '300px'>
-    </div>
-    <div id='remainingHours'>
-      <h3>Hours Remaining Today</h3>
-      <h2>{{remainingHours}}</h2>
-    </div>
-    <div id="helpContainer">
-      <img id='helpIcon' height = '50' src = '../img/menu/helpicon.png'  class = 'logHelp' title = 'Help'>
-    </div>
+<div id="mainHelp">
+  <h1>Help</h1> 
+  <button onclick= 'tutorial(true)'>Start the Tutorial</button> 
+  <button onclick='displayHelpPage("helpfulIcons")'>Demographic Icons</button>
+  <button onclick='displayHelpPage("mapIcons")'>Map Buttons</button>
+  <button onclick='displayHelpPage("quickReference")'>Statements and Functions</button>
+  <button onclick='displayHelpPage("showCandidates")'>Candidate Information</button>
+  <button id='helpBack' class = 'logHelpEnd'>Back</button>
 </div>
+
+<div id='helpfulIcons' style="display:none;">
+  <p>
+    Here's a reminder on icon images and what they represent: 
+  </p><br> 
+  <div>
+    <img src = '../../img/issues.png'/>
+    <img src = '../../img/interests.png'>
+    <img src = '../../img/majors.png'>
+  </div><br>
+</div>
+
+<div id='mapIcons' style="display:none;">
+  <p>Here's a reminder on icon images and what they represent: </p>
+  <p>
+  <div>
+    <img src = '../../img/menu/takeapollicon.png'> Polling Menu
+    <img src = '../../img/menu/makeastatementiconNEW.png'/> Make a Statement <br>
+    <img src = '../../img/menu/trendreport.png'/> View the Trend Reports <br>
+    <img src = '../../img/menu/helpicon.png'/> Help and Quick Reference Menu <br>
+  </div>
+</div>
+
+<div id='showCandidates' style="display:none;">
+  <h1>Rival Candidate</h1>
+  <img width='400' src = '../../img/candidates/karma.png'> <br>
+  <h1>Issue Candidates</h1>
+  <img width='400' src = '../../img/candidates/simon.png'>
+  <img width='400' src = '../../img/candidates/zrapp.png'> 
+  <img width='400' src = '../../img/candidates/boof.png'> 
+  <img width='400' src = '../../img/candidates/clamp.png'> 
+</div>
+
+<div id='quickReference' style="display:none;">
+  <h1>Statements and Functions</h1><br>
+  <span style = 'font-weight: bold'>Statements </span>
+  <p>
+    Statements are how you make your stance on an issue known.<br>When a member of the population can see that your stances on the issue match theirs they are more likely to vote for you.<br>Your statements can also affect public opinion of the issues.
+    <br>Be careful not to change your stance on an issue a lot.<br>The population won't trust what you have to say if you aren't consistent.<br>It will take an hour to make a statement to the public.
+  </p>
+  <span style = 'font-weight: bold'>Student Functions</span>
+  <p>
+    Student Functions are used to increase your fame with certain student populations.<br>By attending or hosting events all over campus you can become more well known.<br>Each of these functions is likely to draw in students from a certain major or social group and you can perform additional options to draw in more types of students.<br>Each of these functions should last 2 hours, but if you want to add an option it will cost an additional hour to prepare. 
+  </p>
+</div>
+
+<button id="backToHelp" onclick='backToHelp()' style="display:none;">Back To Main Help Screen</button>
+  
+
+
+
