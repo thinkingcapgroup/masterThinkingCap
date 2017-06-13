@@ -259,3 +259,22 @@ select option:disabled.defaultSubOption{
     width:1010px;
   }
 }
+
+progress::-webkit-progress-value {
+  transition:width .5s linear
+}
+progress[value] {
+   -webkit-appearance: none;
+  width: 300px;
+  height: 30px;
+}
+#loadBar{
+  width:50%;
+}
+#loadContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:400px;
+  flex-direction: column;
+}

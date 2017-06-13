@@ -2,6 +2,12 @@
 var saveState;
 let mapBackground;
 let myTemplate;
+
+let topBarView;
+let splashScreenView;
+
+let loadProgress = 0;
+
 //starts the game
 function startGame()
 {
@@ -41,9 +47,80 @@ function startGame()
 	oReq.send();
     
     preload(globals.events);
-    
+    //preloadUI();  
+  
     createAreas();
+    
+    loadViews(50);
+    preloadImages(54);
 }
+
+const views = {
+  topBar: "",
+  splashScreen: ""
+};
+const images = {
+  Map: '../../img/map/mapMU600pxW.png',
+  CommonsIcon: '../../img/map/icons/CommonsIcon.png',
+  GymIcon: '../../img/map/icons/GymIcon.png',
+  LabsIcon: '../../img/map/icons/LabsIcon.png',
+  LibraryIcon: '../../img/map/icons/LibraryIcon.png',
+  QuadIcon: '../../img/map/icons/QuadIcon.png'
+};
+
+function preloadImages(totalLoadPercent){
+  const imageNames = Object.keys(images);
+  let loadPercent = totalLoadPercent / imageNames.length;
+  for(let i = 0; i < imageNames.length; i++){
+    let image = new Image();
+    image.onload = function(){
+      
+      images[imageNames[i]] = image;
+      updateLoadBar(loadPercent);
+    }
+    image.src = images[imageNames[i]];
+  }
+}
+
+function loadViews(totalLoadPercent){
+  
+  const viewNames = Object.keys(views);
+  let loadPercent = totalLoadPercent / viewNames.length;
+  
+  for(let i = 0; i < viewNames.length; i++){
+    let viewName = viewNames[i];
+    
+    //Load in each view template
+    $.get('/views/'+viewName+'.handlebars', function(data) {
+      views[viewName] = Handlebars.compile(data);
+      updateLoadBar(loadPercent);
+      }, 'html');
+  }
+}
+
+function testP(){
+  updateLoadBar(10);
+}
+
+let loadComplete = false;
+
+function updateLoadBar(amount){
+  loadProgress += amount;
+  
+  if(loadProgress >= 100 && !loadComplete){
+    loadComplete = true;
+    setTimeout(function(){
+      document.getElementById("gameInfo").innerHTML = views["splashScreen"]({});
+      document.getElementById("loadContainer").style.display = 'none';
+    }, 1000)
+
+  }
+  
+  if(document.getElementById("loadBar")){
+    document.getElementById("loadBar").value = loadProgress;
+  }
+}
+
 
 const POLL_STATES = {
     TUTORIAL: 1,
@@ -57,7 +134,7 @@ const POLL_STATES = {
 
 function preload(actions) {
 	for (i = 1; i < actions.length; i++) {
-		globals.images[i] = new Image()
+		globals.images[i] = new Image();
 		globals.images[i].src = actions[i].path;
 	}
 }
@@ -170,28 +247,12 @@ function drawAreaPath(mapArea){
 
 function updateTopBar(currentScreen){
   
-    document.getElementById("playerInfo").innerHTML = "<div id = 'topBar'></div>"
-  
-    //Add icons
-    document.getElementById("topBar").innerHTML += "<div id='iconBar'></div>";
-    document.getElementById("iconBar").innerHTML += "<img id='helpIcon' height = '50' src = '../img/menu/helpicon.png'  class = 'logHelp' title = 'Help'></img>";
-    document.getElementById("iconBar").innerHTML += "<img id='userActionIcon' height = '50' src = '../img/menu/mapicon.png' title = 'Event Map' onclick='userAction()'></img>";
-    document.getElementById("iconBar").innerHTML += "<img id='pollIcon' height = '50' src = '../img/menu/takeapollicon.png'  onclick='pollMenu()' title = 'Polls'></img>";
-	document.getElementById("iconBar").innerHTML += "<img id='statmentIcon' height = '50' src = '../img/menu/makeastatementiconNEW.png'  onclick='statement()' title = 'Statements'></img>";
-	document.getElementById("iconBar").innerHTML += "<img id='trendIcon' height = '50' src = '../img/menu/trendreport.png'  onclick='trendReportMenu()' title = 'Trend Reports'></img>";
-    
-    
-    //Add the day bar for remaining days
     var dayCycleIndex = (globals.totalDays + 1) - globals.days;
-    document.getElementById("topBar").innerHTML += "<div id='remainingDays'></div>";
-    document.getElementById("remainingDays").innerHTML += "<h3>Days Remaining</h3>";
-    document.getElementById("remainingDays").innerHTML += "<img src = '../../img/day"+globals.totalDays+"/day"+dayCycleIndex +".png' width = '300px'/></div>";
-    
-    //Add container for remaining hours
-    document.getElementById("topBar").innerHTML += "<div id='remainingHours'></div>";
-    document.getElementById("remainingHours").innerHTML += "<h3>Hours Remaining Today:</h3>";
-    document.getElementById("remainingHours").innerHTML += "<h2>"+globals.remainingHoursDay+"</h2>"	
-    
+    var context = { "totalDays" : globals.totalDays, "dayCycle" : dayCycleIndex, "remainingHours":globals.remainingHoursDay };
+    var html = views["topBar"](context);
+  
+    //$("#templateTest").append(html);
+    document.getElementById("playerInfo").innerHTML = html;
   
     //Putting onclick event at the bottom because it won't load otherwise
     document.getElementById("helpIcon").onclick = function(){
@@ -206,10 +267,9 @@ function updateTopBar(currentScreen){
 /*GAME INTRO FUNCTIONS8*/
 function splashScreen()
 {
-    console.log("test now");
     //Shows the title screen
 	clearScreen();
-	document.getElementById("gameInfo").innerHTML = "<div id = 'intro' style = 'text-align:center; '><br><h1 >Welcome to Mars University! </h1><br><a onclick = 'startAnimatic()' id='index-link' class = 'btn double remove' >New Game</a><br><br><a onclick = 'loadGame()' id='index-link' class = 'btn double remove'>Continue</a><br><br><a onclick = 'startPractice()' id='index-link' class = 'btn double remove'>Practice</a></div>";
+	document.getElementById("gameInfo").innerHTML = views["splashScreen"]({});
 }
 
 function startAnimatic()
@@ -238,7 +298,7 @@ function startPractice()
 	clearScreen();
 	globals.practice = true;
 	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Fun Run</a><br><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Photobomb</a><a onclick = 'practiceGame(3)' id='index-link' class = 'btn double remove'>Secret Sticker</a><br><a onclick = 'practiceGame(4)' id='index-link' class = 'btn double remove'>Mean Moves</a><a onclick = 'practiceGame(5)' id='index-link' class = 'btn double remove'>T-Shirt Canon</a></div> <br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>"; 
-	document.getElementById("event").style.height = "10px";
+	document.getElementById("eventInfo").style.height = "10px";
 
 }
 
@@ -1143,16 +1203,6 @@ function userAction()
 {
 	
 	globals.practice = false;
-   
-    /*var template = $('#test-template').html();
-    console.log(template);
-    var context = { "name" : "Madison", "occupation" : "person" };
-  
-    var templateScript = Handlebars.compile(template);
-    var html = templateScript(context);
-    console.log(html);
-  
-    $("#templateTest").append(html);*/
   
     //Make sure users are using the correct candidate data
     //Extra fix for the fake data polling bug
@@ -1253,11 +1303,11 @@ function action()
 		if(chosenEvent.type=="smallEvent")
 		{
             
-            document.getElementById("event").innerHTML += "<center><img src = '' id = 'eventbg' height = '350'   > </img></center>";
+            document.getElementById("eventImg").innerHTML += "<center><img src = '' id = 'eventbg' height = '350'   > </img></center>";
             document.getElementById("eventbg").src = chosenEvent.path;
 			//Creates the screen for the event
 			var eventHours = parseInt(chosenEvent.timeRequired);
-			document.getElementById("event").innerHTML += "<h4>" + chosenEvent.text + " </h4>";
+			document.getElementById("eventInfo").innerHTML += "<h4>" + chosenEvent.text + " </h4>";
             
 
 			if(chosenEvent.groupPos != [])
@@ -1302,7 +1352,7 @@ function action()
 					posText += " ";
 				}
 			}
-				document.getElementById("event").innerHTML += posText+ " </h4>";
+				document.getElementById("eventInfo").innerHTML += posText+ " </h4>";
 			}
 			if(chosenEvent.groupNeg != [])
 			{
@@ -1346,7 +1396,7 @@ function action()
 					negText += " ";
 				}
 			}
-				document.getElementById("event").innerHTML += negText+ " </h4>";
+				document.getElementById("eventInfo").innerHTML += negText+ " </h4>";
 			}
             
 			for(var i =0; i<chosenEvent.options.length; i++)
@@ -1356,7 +1406,7 @@ function action()
 				{
 					if(i == 0)
 					{
-						document.getElementById("event").innerHTML += "<span style = 'font-weight: bold' > Additional Options: <br></span>";
+						document.getElementById("eventInfo").innerHTML += "<span style = 'font-weight: bold' > Additional Options: <br></span>";
 					}
 					var posText ="";
 					var negText = "";
@@ -1448,21 +1498,23 @@ function action()
 						}
 					}
 					totalText += negText;
-					document.getElementById("event").innerHTML += "<input type='radio' name = 'option' id = " + chosenEvent.options[i].optionID + ">" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours" +totalText+"<br> ";
+					document.getElementById("eventInfo").innerHTML += "<input type='radio' name = 'option' id = " + chosenEvent.options[i].optionID + ">" + chosenEvent.options[i].optionName + " - " + chosenEvent.options[i].extraTime +" Additional Hours" +totalText+"<br> ";
 				}
 			}
 		}
-	document.getElementById("event").innerHTML += "<br> <button type='button' class='logEvent' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
+	document.getElementById("eventInfo").innerHTML += "<br> <button type='button' class='logEvent' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
 	}
 	else
 	{
-		document.getElementById("event").innerHTML += "<h4> You dont have the enough time left to do the selected action. \n Return to the Game Map to select another action or end the game.</h4>";
+		document.getElementById("eventInfo").innerHTML += "<h4> You dont have the enough time left to do the selected action. \n Return to the Game Map to select another action or end the game.</h4>";
 	}
 
 
-	document.getElementById("event").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
+	document.getElementById("eventInfo").innerHTML += "<br> <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
+  
 	//Show changes to screen
-	document.getElementById("event").style.display = "block";
+	document.getElementById("eventInfo").style.display = "block";
+    document.getElementById("eventImg").style.display = "block";
 };
 
 //Subtracts from the remaining hours,
@@ -1538,7 +1590,7 @@ function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects
 	scoreChanger(globals.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
 	saveGameState();
 	clearScreen();
-	document.getElementById("event").innerHTML += "<h1 id= 'evRes'> You Positively Affected Your Fame With These Groups: ";
+	document.getElementById("eventInfo").innerHTML += "<h1 id= 'evRes'> You Positively Affected Your Fame With These Groups: ";
 	var posText = ""; 
 	for (var i =0; i< totalPosEffects.length;i++)
 	{
@@ -1586,8 +1638,8 @@ function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects
 	}
 	document.getElementById("evRes").innerHTML += posText;	
 	document.getElementById("evRes").innerHTML += "</h1>";
-	document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-	document.getElementById("event").innerHTML += "<br><button type='button' onclick='hourChecker()'> Return to Game Map </button>";
+	document.getElementById("eventImg").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
+	document.getElementById("eventInfo").innerHTML += "<br><button type='button' onclick='hourChecker()'> Return to Game Map </button>";
 };
 
 //Ends the game
@@ -1783,8 +1835,8 @@ function drawPoll(state, isFree, isFake){
     
 	globals.qPollHolder = 2;
     
-	document.getElementById("event").style = "display:block";
-    document.getElementById("event").innerHTML += "<h4>Select an area where you wish to poll.</h4><div id = 'questionArea'></div>";
+	document.getElementById("eventInfo").style = "display:block;";
+    document.getElementById("eventInfo").innerHTML += "<h4>Select an area where you wish to poll.</h4><div id = 'questionArea'></div>";
     document.getElementById("map").style.display = "block";
     
     //Waits for the map to load before drawing on the canvas
@@ -1860,7 +1912,7 @@ function drawPoll(state, isFree, isFake){
 	}
 	else
 	{
-		document.getElementById("event").innerHTML += "<h4> You do not have enough time remaining to take a poll.</h4>";
+		document.getElementById("eventInfo").innerHTML += "<h4> You do not have enough time remaining to take a poll.</h4>";
 	}
     
     //If the poll is not free, display the time it will take
@@ -2069,7 +2121,7 @@ function drawMap(poll)
     function drawMapAreas()
     {
         
-        globals.ctx.drawImage(mapBackground, 0,0,600,414);
+        globals.ctx.drawImage(images["Map"], 0,0,600,414);
         
         globals.ctx.strokeStyle = '#00FFFF';
         globals.ctx.lineWidth = 3;
@@ -2101,8 +2153,7 @@ function drawMapIcons(){
         let mapArea = areaChoices[key];
         //Only draw the quad icon during Polling
         if(mapArea.name != "Quad" || globals.isPoll){
-            let areaIcon = new Image();
-            areaIcon.src = '../img/map/icons/'+mapArea.name+'Icon.png';
+            let areaIcon = images[mapArea.name+"Icon"];
             globals.ctx.drawImage(areaIcon, mapArea.labelX, mapArea.labelY,113,75)
         }
     }
@@ -2115,10 +2166,10 @@ function statement(){
 	clearScreen();
   
       updateTopBar(statement);
-		document.getElementById("event").style.display = "block";
-		document.getElementById("event").innerHTML += "<h4>People want to know how you feel on certain issues. Time to make a statement!</h4>";
-		document.getElementById("event").innerHTML += " <select id = 'statements'> </select> ";
-		document.getElementById("event").innerHTML += " <select id = 'posneg'> </select> ";
+		document.getElementById("eventInfo").style.display = "block";
+		document.getElementById("eventInfo").innerHTML += "<h4>People want to know how you feel on certain issues. Time to make a statement!</h4>";
+		document.getElementById("eventInfo").innerHTML += " <select id = 'statements'> </select> ";
+		document.getElementById("eventInfo").innerHTML += " <select id = 'posneg'> </select> ";
 
 		for(var x = 0; x < globals.positions.length; x++){
 			document.getElementById("statements").options.add(new Option(globals.positions[x], x))
@@ -2126,8 +2177,8 @@ function statement(){
 
 		document.getElementById("posneg").options.add(new Option('Positive', 0))
 		document.getElementById("posneg").options.add(new Option('Negative', 1))
-		document.getElementById("event").innerHTML += "<p>Time Required: 1 Hour</p>";
-		document.getElementById("event").innerHTML += "<br> <button type='button' onclick='statementCalc()' > Make Statement </button>";
+		document.getElementById("eventInfo").innerHTML += "<p>Time Required: 1 Hour</p>";
+		document.getElementById("eventInfo").innerHTML += "<br> <button type='button' onclick='statementCalc()' > Make Statement </button>";
 		document.getElementById("next").innerHTML += " <button type='button' onclick='backtoUA()' > Choose a Different Action </button>";
 		document.getElementById("next").style = "display:block";
 
@@ -2141,7 +2192,7 @@ function minigamePlayer(id){
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 
-	document.getElementById("event").innerHTML += "<div id = 'centerCanvas'><canvas id='myCanvas' width='880px' height = '500px' style = 'margin: 0 auto;'></canvas></div><br>";
+	document.getElementById("eventInfo").innerHTML += "<div id = 'centerCanvas'><canvas id='myCanvas' width='880px' height = '500px' style = 'margin: 0 auto;'></canvas></div><br>";
 	globals.c=document.getElementById("myCanvas");
 	globals.ctx = globals.c.getContext("2d");
 
@@ -2174,9 +2225,9 @@ function practiceGame(id){
 	var nextArea = document.getElementById("next");
 	nextArea.innerHTML = "";
 	
-	document.getElementById("event").style = "display:block";
-	document.getElementById("event").innerHTML += "<canvas id='myCanvas' width='900px' height = '500px'></canvas><br>";
-	document.getElementById("event").style.height = "500px";
+	document.getElementById("eventInfo").style = "display:block";
+	document.getElementById("eventInfo").innerHTML += "<canvas id='myCanvas' width='900px' height = '500px'></canvas><br>";
+	document.getElementById("eventInfo").style.height = "500px";
 	globals.c=document.getElementById("myCanvas");
 	globals.ctx = globals.c.getContext("2d");
     document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to Practice Area</button>";
@@ -2314,27 +2365,27 @@ function statementResults(statement, statmentValue)
 		{
 			case 0:
 			//tuitPos
-			document.getElementById("event").style.display = "block";
-			document.getElementById("event").innerHTML += "<h4>You made a great speech on lowering tuition</h4><img width = '600' src = '../img/statement/tuitPos.png> ";
-			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/statement/tuitPos.png'> ";
+			document.getElementById("eventInfo").style.display = "block";
+			document.getElementById("eventInfo").innerHTML += "<h4>You made a great speech on lowering tuition</h4><img width = '600' src = '../img/statement/tuitPos.png> ";
+			document.getElementById("eventInfo").innerHTML += "<img width = '600' src = '../img/statement/tuitPos.png'> ";
 			break;
 			case 1:
 			//budPos
-			document.getElementById("event").style.display = "block";
-			document.getElementById("event").innerHTML += "<h4>You made a great speech on increasing the budget</h4>";
-			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/statement/budPos.png'> ";
+			document.getElementById("eventInfo").style.display = "block";
+			document.getElementById("eventInfo").innerHTML += "<h4>You made a great speech on increasing the budget</h4>";
+			document.getElementById("eventInfo").innerHTML += "<img width = '600' src = '../img/statement/budPos.png'> ";
 			break;
 			case 2:
 			//funcPos
-			document.getElementById("event").style.display = "block";
-			document.getElementById("event").innerHTML += "<h4>You made a great speech on having more school functions</h4>";
-			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/statement/funcPos.png'> ";
+			document.getElementById("eventInfo").style.display = "block";
+			document.getElementById("eventInfo").innerHTML += "<h4>You made a great speech on having more school functions</h4>";
+			document.getElementById("eventInfo").innerHTML += "<img width = '600' src = '../img/statement/funcPos.png'> ";
 			break;
 			case 3:
 			//medPos
-			document.getElementById("event").style.display = "block";
-			document.getElementById("event").innerHTML += "<h4>You made a great speech on improving medical services</h4>";
-			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/statement/medPos.png'> ";
+			document.getElementById("eventInfo").style.display = "block";
+			document.getElementById("eventInfo").innerHTML += "<h4>You made a great speech on improving medical services</h4>";
+			document.getElementById("eventInfo").innerHTML += "<img width = '600' src = '../img/statement/medPos.png'> ";
 			break;
 		}
 	}
@@ -2344,31 +2395,31 @@ function statementResults(statement, statmentValue)
 		{
 			case 0:
 			//tuitPos
-			document.getElementById("event").style.display = "block";
-			document.getElementById("event").innerHTML += "<h4>You made a great speech against lowering tuition</h4>";
-			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/statement/tuitNeg.png'> ";
+			document.getElementById("eventInfo").style.display = "block";
+			document.getElementById("eventInfo").innerHTML += "<h4>You made a great speech against lowering tuition</h4>";
+			document.getElementById("eventInfo").innerHTML += "<img width = '600' src = '../img/statement/tuitNeg.png'> ";
 			break;
 			case 1:
 			//budPos
-			document.getElementById("event").style.display = "block";
-			document.getElementById("event").innerHTML += "<h4>You made a great speech against increasing the budget</h4>";
-			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/statement/budNeg.png'> ";
+			document.getElementById("eventInfo").style.display = "block";
+			document.getElementById("eventInfo").innerHTML += "<h4>You made a great speech against increasing the budget</h4>";
+			document.getElementById("eventInfo").innerHTML += "<img width = '600' src = '../img/statement/budNeg.png'> ";
 			break;
 			case 2:
 			//funcPos
-			document.getElementById("event").style.display = "block";
-			document.getElementById("event").innerHTML += "<h4>You made a great speech against having more school functions</h4>";
-			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/statement/funcNeg.png'> ";
+			document.getElementById("eventInfo").style.display = "block";
+			document.getElementById("eventInfo").innerHTML += "<h4>You made a great speech against having more school functions</h4>";
+			document.getElementById("eventInfo").innerHTML += "<img width = '600' src = '../img/statement/funcNeg.png'> ";
 			break;
 			case 3:
 			//medPos
-			document.getElementById("event").style.display = "block";
-			document.getElementById("event").innerHTML += "<h4>You made a great speech against improving medical services</h4>";
-			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/statement/medNeg.png'> ";
+			document.getElementById("eventInfo").style.display = "block";
+			document.getElementById("eventInfo").innerHTML += "<h4>You made a great speech against improving medical services</h4>";
+			document.getElementById("eventInfo").innerHTML += "<img width = '600' src = '../img/statement/medNeg.png'> ";
 			break;
 		}
 	}
-	document.getElementById("event").innerHTML += "<button onclick='hourChecker()'>Return to the Game Map</button>";
+	document.getElementById("eventInfo").innerHTML += "<button onclick='hourChecker()'>Return to the Game Map</button>";
 }
 //repeats the statement at a lowered effect for Karma
 function statementCalcOtherCandidate(x){
@@ -2605,7 +2656,7 @@ function pollResults(state, isFree, isFake)
     //If the poll is sucessful
     else
     {
-		document.getElementById("event").style.display = "none";
+		document.getElementById("eventInfo").style.display = "none";
 
         //Clear previous screen
         clearScreen();
@@ -3264,7 +3315,7 @@ function clearScreen()
   
 	var gameOutput = document.getElementById("gameInfo");
 	var prevChoices = document.getElementById("choices");
-	var prevEvent = document.getElementById("event");
+	var prevEvent = document.getElementById("eventInfo");
 	var prevTable = document.getElementById("table");
 	document.getElementById('next').innerHTML = "";
 
@@ -3294,6 +3345,7 @@ function clearScreen()
     
 	//prevChoices.innerHTML = "<div id = 'Header' style = 'display:block;'> </div></div><div id = 'LabChoice' style = 'display:none;'></div><div id = 'GymChoice' style = 'display:none;'></div><div id = 'CommonsChoice' style = 'display:block;'> </div><div id = 'LibraryChoice' style = 'display:none;'></div><div id = 'map' style = 'display:block;'></div><div id = 'eventInput' style = 'display:block;'></div>";
 	prevEvent.innerHTML = "";
+    document.getElementById("eventImg").innerHTML = "";
 	prevTable.innerHTML = "<table id = 'tab' class='sortable'><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
 }
 
@@ -4351,7 +4403,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 		//}
 	document.getElementById('table').style.display = 'none';
 	if (state == POLL_STATES.TUTORIAL){
-        document.getElementById('event').innerHTML += "<button onclick = 'drawPoll("+state+",false, true)'>Back to Start</button>" ;
+        document.getElementById('eventInfo').innerHTML += "<button onclick = 'drawPoll("+state+",false, true)'>Back to Start</button>" ;
 	}
 	if(!isFake)
 	{
@@ -5013,20 +5065,20 @@ function gameResults(scores, tutorial)
 		}
 		if(scores.score <= scores.tier1)
 		{			
-			document.getElementById("event").innerHTML = posText;
-			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
+			document.getElementById("eventInfo").innerHTML = posText;
+			document.getElementById("eventInfo").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 			scoreChanger(globals.candidates[0], 0.1,pos,[]);
 		}
 		else if(scores.score <= scores.tier2 && scores.score >scores.tier1)
 		{
-			document.getElementById("event").innerHTML = posText;
-			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
+			document.getElementById("eventInfo").innerHTML = posText;
+			document.getElementById("eventInfo").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 			scoreChanger(globals.candidates[0], 0.2,pos,[]);
 		}
 		else if(scores.score <= scores.tier3 && scores.score >scores.tier2)
 		{
-			document.getElementById("event").innerHTML = posText;
-			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
+			document.getElementById("eventInfo").innerHTML = posText;
+			document.getElementById("eventInfo").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 			scoreChanger(globals.candidates[0], 0.3,pos,[]);
 		}
 		else if(scores.score > scores.tier3)
@@ -5035,13 +5087,13 @@ function gameResults(scores, tutorial)
 				scores.score = scores.tier4;
 			var x = .3 + (.01*(scores.score-scores.tier3));
 			x = x.toFixed(2);
-			document.getElementById("event").innerHTML = posText;
-			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
+			document.getElementById("eventInfo").innerHTML = posText;
+			document.getElementById("eventInfo").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 			scoreChanger(globals.candidates[0], x,pos,[]);
 		}
 		else{
-			document.getElementById("event").innerHTML = posText;
-			document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
+			document.getElementById("eventInfo").innerHTML = posText;
+			document.getElementById("eventInfo").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 			scoreChanger(globals.candidates[0], (scores * .1),pos,[]);
 		}
 		
@@ -5052,8 +5104,8 @@ function gameResults(scores, tutorial)
 	else
 	{
 		var posText =  "<h4>You completed the minigame with a score of "+ (scores.score) + ".</h4>"; 
-		document.getElementById("event").innerHTML = posText;
-		document.getElementById("event").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
+		document.getElementById("eventInfo").innerHTML = posText;
+		document.getElementById("eventInfo").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 		document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to the Practice Screen </button>";
 	}
 	document.getElementById("next").style.display = "block";

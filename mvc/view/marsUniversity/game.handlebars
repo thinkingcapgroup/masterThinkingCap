@@ -10,30 +10,19 @@
   <img id = 'holo-corner' src = '../../img/holopad-corner.png' width = '1200' height = '738' >
   <div id="contentContainer">
   <div id = "gameContents">
+
   <div id = "playerInfo">
       <div id="remainingHours"></div>
       <div id="remainingDays"></div>
   </div>
   
   <div id="lowerContent">
+    <div id="loadContainer">
+      <h2>Loading Game...</h2>
+      <progress id="loadBar" value="0" max="100"></progress>
+    </div>
   <div id = "gameInfo">
-	<div id = "intro" style = "text-align:center; ">
-		<br>
-		<h1 style = " font-size: 250%;">Welcome to Mars University! </h1>
-		<br>
-	
-		<a onclick = "startAnimatic()" ><img src = '../../img/sitebuttons/newgame.png' /></a>
-		<br>
-		<br>
-		<a onclick = "loadGame()"><img src = '../../img/sitebuttons/continuebutton.png' /></a>
-		<br>
-		<br>
-		<a onclick = "startPractice()"><img src = '../../img/sitebuttons/practicebutton.png' /></a>
-		<br>
-		<br>
-        <h2> Please Use Mozilla Firefox or Google Chrome to play this game.</h2>
-	</div>
-    
+
   </div>
   
   
@@ -72,15 +61,17 @@
             <div id = "eventInput" style = "display:none;">
 
             </div>
+
         </div>
-        <div id = "event" style = "display:none;">
-    
+        <div id = "eventInfo" style = "display:none;">
         </div>
-            <div id = "next" style = "display:none;">
-        </div>
+
       
     </div>
     <div id="rightDisplay">
+        <div id = "eventImg" style = "display:none;">
+    
+        </div>
         <div id = "table" style = "display:none;">
           <table id = "tab" class="sortable">
           <thead id="tableHead">
@@ -96,6 +87,9 @@
           </div>
         </div>
 
+    </div>
+    
+    <div id = "next" style = "display:none;">
     </div>
     
     
@@ -120,3 +114,5 @@
 </section>
 </article>
 </main>
+
+<div id="templateTest"></div>
