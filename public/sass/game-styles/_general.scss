@@ -1,0 +1,139 @@
+body{font-family:'Helvetica Neue'} 
+
+#holo 
+{
+    z-index: -2; 
+    position: absolute;
+    width:100%;
+    min-width:920px;
+    display: none;
+}
+#contentContainer
+{
+    background-color: #90e7f2;
+    padding:1em;
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px 6px #539ca2;
+    border: 1px solid #70c5cd;  
+  
+    margin-top: 45px;
+    margin-bottom: 100px;
+    margin-right: 4.5%;
+    margin-left: 4%;
+}
+#lowerContent{
+  padding: 1em;
+  background-color: #6bd0e2;
+  box-shadow: inset 0px 0px 60px 15px #90e7f2, 0px 0px 10px 1px #8fe6f0;
+  border-radius:10px;
+  min-height: 570px;
+}
+#gameContents
+{
+    border-radius: 10px;
+    border: 5px solid #65c5da;
+    background-color: #65c5da;
+    min-height: 600px;
+}
+#mapArea{
+  float:left;
+  width:50%;
+}
+
+#tutorialBubble{
+  position: relative; 
+  border: 2px solid black; 
+  overflow:hidden; 
+  height:500px;
+}
+
+#topBar{
+    margin-top:.3em;
+    display: inline-flex;
+    width:100%;
+    justify-content: space-between;
+}
+#userAction{
+  display: inline-flex;
+  width:100%;
+}
+#iconBar img{
+    padding-right: .2em;
+}
+
+#leftDisplay{
+    display: inline-flex;
+    width:40%;
+    float:left;
+    margin-right: 1em;
+    padding:1em;
+}
+#rightDisplay{
+    display: inline-flex;
+    float:right;
+    width: 55%;
+    min-width: 520px;
+}
+.mapContainer{
+  width:100%;
+  min-width:520px;
+}
+
+.locationChoice{
+    
+}
+.locationChoice h2 {
+    
+}
+
+#gameArea{
+  max-width: 1200px;
+  min-width: 1010px;
+}
+#playerInfo{
+  width:100%;
+  padding:.2em;
+  background-color: #65c5da;
+}
+#holo-corner{
+  position: absolute;
+  z-index: 3;
+  right:0;
+  margin-top:-16px;
+  pointer-events:none;
+}
+
+@media(max-width: 1200px){
+  #holo-corner{
+    left: -190px;
+    right:auto;
+  }
+  #holo{
+    width:1010px;
+  }
+}
+
+progress::-webkit-progress-value {
+  transition:width .5s linear
+}
+progress[value] {
+   -webkit-appearance: none;
+  width: 300px;
+  height: 30px;
+}
+#loadBar{
+  width:50%;
+}
+#loadContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:400px;
+  flex-direction: column;
+}
+#practice{
+  text-align: center;
+}
+.practiceBtn{
+  display:block;
+}

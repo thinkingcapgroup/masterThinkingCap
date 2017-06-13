@@ -1,0 +1,72 @@
+.duplicateOption{
+    color:red;
+}
+.duplicateOption2{
+    color:pink;
+}
+.duplicateOption3{
+    color:yellow;
+}
+.defaultOption{
+    background-color: white;
+    border: 2px solid #167083;
+    
+    border-radius: 7px 7px 7px 7px;
+    -moz-border-radius: 7px 7px 7px 7px;
+    -webkit-border-radius: 7px 7px 7px 7px;
+}
+.defaultSubOption{
+    color:black;
+}
+
+select.pollQ{
+    background-color: #e3e0df;
+    border: 2px solid #167083;
+    
+    border-radius: 7px 7px 7px 7px;
+    -moz-border-radius: 7px 7px 7px 7px;
+    -webkit-border-radius: 7px 7px 7px 7px;
+    
+    margin-top:.4em;
+}
+select.subPollQ{
+    background-color: #cacaca;
+    border: 2px solid #167083;
+    
+    border-radius: 7px 7px 7px 7px;
+    -moz-border-radius: 7px 7px 7px 7px;
+    -webkit-border-radius: 7px 7px 7px 7px;
+    
+    margin-top: .1em;
+}
+select.pollQ:focus{
+    outline:none;
+    border-color: white;
+}
+select.subPollQ:focus{
+    outline:none;
+    border-color: white;
+}
+
+select option:disabled.defaultOption{
+    /*background-color: grey;*/
+}
+select option:disabled.defaultSubOption{
+    background-color: yellow;
+}
+
+#poll2{
+  display:none;
+}
+
+#poll3{
+  display:none;
+}
+
+#poll4{
+  display:none;
+}
+
+#poll5{
+  display:none;
+}

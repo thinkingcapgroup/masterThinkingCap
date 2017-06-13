@@ -1,0 +1,30 @@
+#centerCanvas{
+  text-align: center;
+   margin: auto;
+}
+
+canvas{
+   position: absolute;
+ 
+   
+    left: 0;
+    right: 0;
+    margin:auto;
+}
+
+#mapCanvas{
+  position: relative;
+  margin: auto;
+  float:right;
+  
+}
+#myCanvas{
+  position: relative;
+  margin: auto;
+  float:right;
+  
+}
+#map{
+  overflow:hidden;
+  width:100%;
+}

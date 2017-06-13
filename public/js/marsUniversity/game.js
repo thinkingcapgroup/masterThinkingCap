@@ -57,7 +57,8 @@ function startGame()
 
 const views = {
   topBar: "",
-  splashScreen: ""
+  splashScreen: "",
+  practice: ""
 };
 const images = {
   Map: '../../img/map/mapMU600pxW.png',
@@ -297,7 +298,7 @@ function startPractice()
     // Shows the practice screen menu
 	clearScreen();
 	globals.practice = true;
-	document.getElementById("gameInfo").innerHTML = "<div id = 'practice' style = 'text-align:center; '><br><h1 >Practice</h1><br><a onclick = 'practicePoll()' id='index-link' class = 'btn double remove'>Polling Tutorial</a><br><a onclick = 'practiceGame(1)' id='index-link' class = 'btn double remove'>Fun Run</a><br><a onclick = 'practiceGame(2)' id='index-link' class = 'btn double remove'>Photobomb</a><a onclick = 'practiceGame(3)' id='index-link' class = 'btn double remove'>Secret Sticker</a><br><a onclick = 'practiceGame(4)' id='index-link' class = 'btn double remove'>Mean Moves</a><a onclick = 'practiceGame(5)' id='index-link' class = 'btn double remove'>T-Shirt Canon</a></div> <br><a onclick = 'splashScreen()' id='index-link' class = 'btn double remove'>Return to Start Menu</a>"; 
+	document.getElementById("gameInfo").innerHTML = views["practice"]({}); 
 	document.getElementById("eventInfo").style.height = "10px";
 
 }
@@ -4770,7 +4771,7 @@ function loadGame()
 		globals.candidates.push(cand);
 	}
     
-    console.log("um plz load this?");
+
     //Set the currentCandidateArrayHolder to the right data
     globals.currentCandidateArrayHolder = globals.candidates;
 

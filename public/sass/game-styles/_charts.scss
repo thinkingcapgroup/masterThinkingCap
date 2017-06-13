@@ -1,0 +1,19 @@
+/*chart stuff*/
+.chart div {
+  font: 12px sans-serif;
+  background-color: #ff7f0e;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: black;
+}
+
+.axis path {
+    fill: none;
+    stroke: #777;
+    shape-rendering: crispEdges;
+}
+.axis text {
+    font-family: Lato;
+    font-size: 14px;
+}
