@@ -3123,7 +3123,7 @@ function getScores(x, bias){
 	else{
 		groupRandom = Math.floor(Math.random()* 4);
 	}
-    
+    console.log(groupRandom)
 	var majorRandom = Math.floor(Math.random()* 4);
 	var ath =0;
 	var res = 0;
