@@ -92,7 +92,7 @@
 			"id":"5"
 		},
 		{
-			"question":"<img src='..//img//tests//C&N-1.png'> <br>Which letter A-E identifies the numerical variable(s)?", 
+			"question":" A professor of international studies is supervising four students. Information about the students is in the table. <br> <img src='..//img//tests//C&N-1.png'> <br>Which letter A-E identifies the numerical variable(s)?", 
 			"type": "category",
 			"random":"no",
 			"answers":
