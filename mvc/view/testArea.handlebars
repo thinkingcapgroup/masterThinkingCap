@@ -5,6 +5,7 @@
     </header>
         <div id = 'sectionHolder'>
   <section id='index-section' class = 'testing' style = 'background-color:white'>
+	<span id = 'consentForms' style ='display:none'>
 	<h1>Request to Participate in Research</h1>
 	<p>We invite you to take part in our research project.  Our team is conducting a collaborative project designed to identify statistical concepts that are a struggle for deaf and hard of hearing students and to create strategies to help students better understand these topics.</p>
 	<p>We are now investigating how learning tools using these communication enhance student learning.  For this study, an identification number will be generated and assigned to any data that is associated with you. Researchers at Rochester Institute of Technology will be the only ones with a list that matches identification numbers with participant names. Data will be kept confidential unless release is legally compelled.</p>
@@ -22,18 +23,22 @@
 	<h1>PROVIDE CONSENT BELOW</h1>
 	<p>The study has been discussed with me and all my questions have been answered. I may direct additional questions regarding study specifics to the investigators. I agree to provide additional information and acknowledge the researchers’ obligation to provide me with a copy of this consent form if signed by me.</p>
 	<p>I am providing my RIT student identification number so that the researchers may use additional information from my student files such as my standardized test scores and identified disability (if applicable).  I understand this information will be used only for research purposes. Data will be kept confidential unless release is legally compelled. </p>
+	
 	<h2>Name</h2>
 	<input type='text' class = "consent" name='name' value='' id='name'>	
 	<h2>Date</h2>
 	<input type='text' class = "consent" name='date' value='' id='date'>
 	<h2>Student ID</h2>
 	<input type='text' class = "consent" name='stuID' value='' id='stuID'>
-	
+	<span id = 'postConsent' style ='display:none'>
+		<a class = 'btn double remove' onclick = "buildTests('pre')"> Start Pre-Test </a>
+	</span>
 	<span id = 'postConsentPrompt' style ='display:block'>
 	<a class = 'btn double remove' > Choose Test </a>
 	</span>
-	<span id = 'postConsent' style ='display:none'>
-	<a class = 'btn double remove' onclick = "buildTests('pre')"> Start Pre-Test </a>
+	</span>
+	<span id = 'testChoice' style ='display:block'>
+	<a class = 'btn double remove' onclick = "preTestConsent()"> Start Pre-Test </a>
 	<a class = 'btn double remove' onclick = "buildTests('post')"> Start Post Test </a>
 	</span>
         <section style = "text-transform: none" id = "population"></section>

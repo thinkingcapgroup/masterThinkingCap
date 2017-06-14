@@ -25,7 +25,11 @@ function checkAnswers()
 		document.getElementById("warning").style.display = "block";
 	}
 }
-
+function preTestConsent()
+{
+		document.getElementById("consentForms").style.display = "block";
+		document.getElementById("testChoice").style.display = "none";
+}
 function showResults()
 {
 	document.getElementById("index-section").innerHTML = "";

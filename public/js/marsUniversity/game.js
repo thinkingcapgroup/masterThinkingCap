@@ -410,7 +410,7 @@ function updateTopBar(currentScreen){
   
     //Putting onclick event at the bottom because it won't load otherwise
     document.getElementById("helpIcon").onclick = function(){
-      console.log("check help");
+      //console.log("check help");
       helpScreen(currentScreen);
       
     }
@@ -1197,7 +1197,7 @@ function practicePoll()
 //Sets up the buttons for the intital statement the player makes in the game.
 function firstStatement()
 {
-    console.log("first statement");
+    //console.log("first statement");
     
 	globals.firstPoll = false;
 	saveGameState();
@@ -1248,7 +1248,7 @@ function setDiff(days)
 /*GAME CYCLE FUNCTIONS8*/
 function gameCycleStart(f)
 {
-    console.log("gameCycleStart");
+    //console.log("gameCycleStart");
     
     
 	globals.firstPoll = false;
@@ -1324,7 +1324,7 @@ function userAction()
 
       //If the events aren't loaded in, add them
       if(!globals.currentEvents || !globals.currentEvents.length){
-          console.log("check");
+          //console.log("check");
           addLocationEvents();
       }
 
@@ -1833,7 +1833,7 @@ function explainTerm(term, help){
 }
 
 function printTest(){
-    console.log("Print test");
+    //console.log("Print test");
 }
 
 function drawPoll(state, isFree, isFake){
@@ -1950,9 +1950,10 @@ function drawPoll(state, isFree, isFake){
 	{
 		document.getElementById("questionArea").innerHTML += "<br> <p id = 'timeParagraph' style = 'display:none'></p><br>";
 	}
-	addMoreQuestions();
-	if(state != POLL_STATES.FIRST)
-	{addMoreQuestions();}
+	if(state == POLL_STATES.FIRST || globals.remainingHoursDay >= 4 )
+		addMoreQuestions();
+	if(state != POLL_STATES.FIRST && globals.remainingHoursDay >= 5)
+		{addMoreQuestions();}
     
 		
 	//Displays the screen for this event
@@ -2221,7 +2222,7 @@ function minigamePlayer(id){
 
 
 	globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
-	console.log(id);
+	//console.log(id);
 	switch(id)
 	{
 		case 1:
@@ -2535,7 +2536,7 @@ function dupChecker()
 
                         //If the poll value involves a subquestion
                         if(subQuestionIndex != null && subQuestionIndex > -1){
-                            console.log("is subquestion");
+                            //console.log("is subquestion");
                             //If it's the same question
                             if(questionIndex == question.selectedIndex){
                                 //Highlight the sub question
@@ -2641,12 +2642,12 @@ function pollResults(state, isFree, isFake)
 	}
 	else if(pollChoices.length < 2)
 	{
-       console.log("not enough questions: "+pollChoices.length);
+       //console.log("not enough questions: "+pollChoices.length);
 		document.getElementById("duplicateParagraph").innerHTML = "Please Select 2 or More Questions";
         document.getElementById("duplicateParagraph").style.display = "block";
 	}
     else if(!pollTimeCheck(sampleSize, pollChoices) && !isFree){
-      console.log("time check 1");
+      //console.log("time check 1");
         document.getElementById("duplicateParagraph").innerHTML = "You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.";
         document.getElementById("duplicateParagraph").style.display = "block";
     }
@@ -3231,7 +3232,7 @@ function votePercentage(sampleSize, bias)
 				loser = globals.candidates[j].name;
 			}
 		}
-			console.log("Current Winner" + winner + " Current Loser" + loser)
+			//console.log("Current Winner" + winner + " Current Loser" + loser)
 		////console.log("Student #" +i);
 		////console.log("Winner: " + winner + " Vote Percentage: "+ winPercentage);
 		////console.log("Loser: " + loser + " Vote Percentage: "+ lowPercentage);
@@ -3482,7 +3483,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
     //Creates the sample for the poll
 	votePercentage(sampleSize, bias);
   
-    console.log(globals.candidates);
+    //console.log(globals.candidates);
 	//Gets the results of each question and pushes them into the proper sectionof table arrays
 	for(var j=0;j<globals.sample.length;j++)
 	{
@@ -3621,7 +3622,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                     globals.tableArrays[2].push(globals.sample[j].results.win);
 					for(var k =0; k< globals.candidates.length;k++)
 					{
-						console.log()
+						//console.log()
 						if(globals.sample[j].results.win == globals.candidates[k].name){
 							globals.graphData[i+2][k]++;
 						}
@@ -4323,8 +4324,8 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
         var dataset =  [];
         for (var k = 0; k < graphData[i].length; k++)
         {	
-			console.log(graphLabels);
-			console.log(graphData);
+			//console.log(graphLabels);
+			//console.log(graphData);
 			if(graphLabels[i][k] != "undefined-NaN")
             dataset.push ({label: graphLabels[i][k], count: graphData[i][k]})
 		}
@@ -4871,8 +4872,8 @@ function getSession(gameOver)
 {
 	//Takes the Whole data and splits it into sections
 	var saveArray = saveState.split("~");
-	console.log(saveArray[9])
-	console.log(saveArray[9] !=[] && saveArray[9] != "NaN" && saveArray[9] != undefined && saveArray[9] != "")
+	//console.log(saveArray[9])
+	//console.log(saveArray[9] !=[] && saveArray[9] != "NaN" && saveArray[9] != undefined && saveArray[9] != "")
 
 	if(!globals.gameOver){
     	//console.log(saveArray[9] == "NaN")
