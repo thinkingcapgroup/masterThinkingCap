@@ -17,88 +17,81 @@
   </div>
   
   <div id="lowerContent">
-    <div id="loadContainer">
-      <h2>Loading Game...</h2>
-      <progress id="loadBar" value="0" max="100"></progress>
+      <div id="loadContainer">
+        <h2>Loading Game...</h2>
+        <progress id="loadBar" value="0" max="100"></progress>
+      </div>
+
+    <div id = "centerDisplay">
+
     </div>
-  <div id = "gameInfo">
 
-  </div>
-  
-  
-  <div id = "questions" style = "display:none;">
-  <br>
-    <p>What percentage of the sample is for you? <input type = "text" id = "q1">%</p>
-    <p>What percentage of the sample is neutral towards you? <input type = "text" id = "q2">%</p>
-    <p>What percentage of the samplenext is against you? <input type = "text" id = "q3">%</p>
-    <p>What percentage of the population is the sample? <input type = "text" id = "q4">%</p>
-    <button id = "answerButton" >Submit Answers</button>
-  
-  
-  </div>
-  
-  <div id = "userAction">
-    <div id="leftDisplay">
+    <div id = "userAction">
+      <div class="column-container">
+        <div class="leftDisplay">
 
-        <div id = "choices" style = "display:none;">
-            <h3 id="infoText"></h3>
-            <div id = "LabsChoice" style = "display:none;">
+            <div id = "choices" style = "display:none;">
+                <h3 id="infoText"></h3>
+                <div id = "LabsChoice" style = "display:none;">
 
-            </div>
-            <div id = "GymChoice" style = "display:none;">
+                </div>
+                <div id = "GymChoice" style = "display:none;">
 
-            </div>
-            <div id = "CommonsChoice" style = "display:none;">
+                </div>
+                <div id = "CommonsChoice" style = "display:none;">
+
+                </div>
+                <div id = "CafeChoice" style = "display:none;">
+
+                </div>
+                <div id = "LibraryChoice" style = "display:none;">
+
+                </div>
+
+                <div id = "eventInput" style = "display:none;">
+
+                </div>
 
             </div>
-            <div id = "CafeChoice" style = "display:none;">
-
-            </div>
-            <div id = "LibraryChoice" style = "display:none;">
-
+            <div id = "eventInfo" style = "display:none;">
             </div>
 
-            <div id = "eventInput" style = "display:none;">
 
+        </div>
+        <div class="rightDisplay">
+            <div id = "eventImg" style = "display:none;">
+
+            </div>
+            <div id = "table" class="pollTable" style = "display:none;">
+              <table id = "tab" class="sortable">
+              <thead id="tableHead">
+
+              </thead>
+              <tbody id="pollTable">
+              </tbody>
+              </table>
+            </div>
+            <div class = "mapContainer">
+              <div id = "map" style = "display:none;">
+
+              </div>
             </div>
 
         </div>
-        <div id = "eventInfo" style = "display:none;">
-        </div>
+      </div>
 
-      
-    </div>
-    <div id="rightDisplay">
-        <div id = "eventImg" style = "display:none;">
-    
-        </div>
-        <div id = "table" style = "display:none;">
-          <table id = "tab" class="sortable">
-          <thead id="tableHead">
+      <div id = "next">
+      </div>
+      <div id = "back">
+      </div>
 
-          </thead>
-          <tbody id="pollTable">
-          </tbody>
-          </table>
-        </div>
-        <div class = "mapContainer">
-          <div id = "map" style = "display:none;">
 
-          </div>
-        </div>
 
-    </div>
-    
-    <div id = "next" style = "display:none;">
-    </div>
-    
-    
-    
-    
 
-    
 
-    </div>
+
+
+      </div>
   </div>
   </div>
 </div>
