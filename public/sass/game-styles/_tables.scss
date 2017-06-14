@@ -1,11 +1,11 @@
-table, th, td {
+.pollTable table, .pollTable th, .pollTable td {
     border: 1px solid black;
     border-collapse: collapse;
 }
-th, td {
+.pollTable th, .pollTable td {
     padding: 5px;
 }
-tbody
+.pollTable tbody
 {
 	background-color: #ff7f0e
 }

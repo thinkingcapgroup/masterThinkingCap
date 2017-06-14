@@ -28,6 +28,10 @@ body{font-family:'Helvetica Neue'}
   border-radius:10px;
   min-height: 570px;
 }
+.column-container{
+  display:inline-flex;
+  width:100%;
+}
 #gameContents
 {
     border-radius: 10px;
@@ -54,23 +58,20 @@ body{font-family:'Helvetica Neue'}
     justify-content: space-between;
 }
 #userAction{
-  display: inline-flex;
   width:100%;
 }
 #iconBar img{
     padding-right: .2em;
 }
 
-#leftDisplay{
+.leftDisplay{
     display: inline-flex;
     width:40%;
-    float:left;
     margin-right: 1em;
     padding:1em;
 }
-#rightDisplay{
+.rightDisplay{
     display: inline-flex;
-    float:right;
     width: 55%;
     min-width: 520px;
 }

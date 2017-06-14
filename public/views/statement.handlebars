@@ -1,0 +1,11 @@
+<h4>People want to know how you feel on certain issues. Why not make a statement?</h4>
+<p>Time Required: 1 Hour</p>
+<select id = 'statements'> 
+  {{#each issues}}
+    <option value='{{@index}}'>{{this}}</option>
+  {{/each}}
+</select>
+<select id = 'posneg'> 
+  <option value="0">Positive</option>
+  <option value="1">Negative</option>
+</select>
