@@ -2,12 +2,36 @@
   <div class="leftDisplay">
     <div class="creation-container">
       <h1>Character Creation</h1>
-      <button class = 'live' id ='headbutton'>Heads</button>
-      <button class = 'live' id ='racebutton'>Race</button>
-      <button id ='clothingbutton'>Gender</button>
-      <button id ='bodybutton'>BodyType</button><br>
-      <label>Candidate Name: </label><input id='charName' type='text' value = 'Val'/><br>
-      <button id='candidateCre'>Create Candidate</button><br>
+      
+      <div class="creationChoice">
+        <label>Candidate Name: </label><input id='charName' type='text' value = 'Val'/>
+      </div>
+      
+      <div class="creationChoice">
+        <button id="raceBack" class="leftArrow" onclick="raceChange(-1)"></button>
+        <h4 id="raceType">Martian</h4>
+        <button class="rightArrow" id="raceNext" onclick="raceChange(1)"></button>
+      </div>
+      
+      <div class="creationChoice">
+        <button id="headBack" class="leftArrow" onclick="headChange(-1)"></button>
+        <h4 id="headType">Head 1</h4>
+        <button id="headNext" class="rightArrow" onclick="headChange(1)"></button>
+      </div>
+
+      <div class="creationChoice">
+        <button id="bodyBack" class="leftArrow" onclick="bodyChange(-1)"></button>
+        <h4 id="bodyType">Small</h4>
+        <button id="bodyNext" class="rightArrow" onclick="bodyChange(1)"></button>
+      </div>
+
+      <div class="creationChoice">
+        <button id="clothingBack" class="leftArrow" onclick="clothingChange(-1)"></button>
+        <h4 id="clothingType">Straight</h4>
+        <button id="clothingNext" class="rightArrow" onclick="clothingChange(1)"></button>
+      </div>
+
+      <button id='candidateCre' onclick='startOtherCandidates()'>Create Candidate</button>
     </div>
   </div>
   <div class="rightDisplay">

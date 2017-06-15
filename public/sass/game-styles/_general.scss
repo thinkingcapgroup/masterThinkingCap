@@ -1,4 +1,8 @@
-body{font-family:'Helvetica Neue'} 
+body{font-family:'Open Sans';} 
+
+#game h1, #game h2, #game h3, #game h4{
+  font-family: 'Varela Round', sans-serif;
+}
 
 #holo 
 {
@@ -66,13 +70,12 @@ body{font-family:'Helvetica Neue'}
 
 .leftDisplay{
     display: inline-flex;
-    width:40%;
+    width:37%;
     margin-right: 1em;
     padding:1em;
 }
 .rightDisplay{
-    display: inline-flex;
-    width: 55%;
+    width: 62%;
     min-width: 520px;
 }
 .mapContainer{
@@ -85,6 +88,13 @@ body{font-family:'Helvetica Neue'}
 }
 .locationChoice h2 {
     
+}
+
+#eventImg, #eventbg{
+  width:100%;
+}
+#eventbg, .resolutionImg{
+  border-radius:10px;
 }
 
 #gameArea{

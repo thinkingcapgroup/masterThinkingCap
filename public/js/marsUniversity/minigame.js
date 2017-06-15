@@ -2161,17 +2161,25 @@ runningGame4.main = {
 		instruction2.src = '../img/minigame4/instruction2.png'
 
 		if(globals.practice){
+                console.log("PRACTICE GAME");
 				runningGame4.main.player.headnum = 0;
-				runningGame4.main.player.facenum = 0;
+				runningGame4.main.player.racenum = 0;
 				runningGame4.main.player.gendernum = 0;
 				runningGame4.main.player.bodynum = 0;
 		}
 			else{
+                    console.log("playerCandidate game Name: "+globals.playerCandidate.name);
+                  console.log("playerCandidate game HeadNum: "+globals.playerCandidate.headNum);
+                console.log("playerCandidate game BodyNum: "+globals.playerCandidate.bodyTypeNum);
+                console.log("playerCandidate game raceNum: "+globals.playerCandidate.raceNum);
+              
 				runningGame4.main.player.headnum = globals.playerCandidate.headNum;
-				runningGame4.main.player.facenum = globals.playerCandidate.faceNum;
+				runningGame4.main.player.racenum = globals.playerCandidate.raceNum;
 				runningGame4.main.player.gendernum = globals.playerCandidate.genderNum;
 				runningGame4.main.player.bodynum = globals.playerCandidate.bodyTypeNum;
 			}
+      
+      
 		//words
 		getReady = new Image();
 		getReady.src = '../img/minigame4/getready.png';
@@ -2372,12 +2380,29 @@ runningGame4.main = {
 			//nb f m
 			widthArray = [[280,289,280], [325,289,289],[352,352,352],[289,289,289]]
 			//bodyTypeArray [body][gender][movetype][movefram][x/y]
+      
+      
+            let bodyNum = globals.playerCandidate.bodyTypeNum;
+            let genderNum = globals.playerCandidate.genderNum;
+            let headNum = globals.playerCandidate.headNum;
+            let raceNum = globals.playerCandidate.raceNum;
+      
+            console.log("Correct Body: "+bodyNum+" current body: "+runningGame4.main.player.gendernum);
+            console.log("Correct Gender: "+genderNum+" current Gender: "+runningGame4.main.player.gendernum);
+            console.log("Correct Head: "+headNum+" current Head: "+runningGame4.main.player.headnum);
+            console.log("Correct Race: "+raceNum+" current Race: "+runningGame4.main.player.racenum);
+            
 			if(runningGame4.main.player.bodynum ==3){
-					ctx.drawImage(danceSheetArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum],((widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum]*3) * runningGame4.main.lastClick) + (widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum]* runningGame4.main.playerDancingFrame),0,widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum],468,390,200,110,200);
-			  		ctx.drawImage(headSheet,154 * ((6 * runningGame4.main.player.racenum) + runningGame4.main.player.headnum),0,153,172,413,193,59,67)
+                    
+                    
+                    ctx.drawImage(danceSheetArray[bodyNum][runningGame4.main.player.gendernum],((widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum]*3) * runningGame4.main.lastClick) + (widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum]* runningGame4.main.playerDancingFrame),0,widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum],468,390,200,110,200);
+			  		
+              
+                    ctx.drawImage(headSheet,154 * ((6 * runningGame4.main.player.racenum) + runningGame4.main.player.headnum),0,153,172,413,193,59,67);
 			}
 				else{
 					ctx.drawImage(headSheet,154 * ((6 * runningGame4.main.player.racenum) + runningGame4.main.player.headnum),0,153,172,arrayOfHeadCoords[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum][runningGame4.main.lastClick][runningGame4.main.playerDancingFrame][0],arrayOfHeadCoords[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum][runningGame4.main.lastClick][runningGame4.main.playerDancingFrame][1],59,67)
+                  
 					ctx.drawImage(danceSheetArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum],((widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum]*3) * runningGame4.main.lastClick) + (widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum]* runningGame4.main.playerDancingFrame),0,widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum],468,390,200,110,200);
 			  	
 				}
@@ -2388,6 +2413,7 @@ runningGame4.main = {
 			stu2 = [[[714,209],[712,209],[708,207]],[[719,208],[714,214],[712,214]],[[718,208],[714,214],[736,214]],[[722,207],[714,214],[703,214]]]
 
 			ctx.drawImage(headSheet,154.6 * 0,0,154.6,172,stu1[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][0],stu1[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][1],59.6,62)
+      
 			ctx.drawImage(headSheet,154.6 * 0,0,154.6,172,stu2[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][0],stu2[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][1],59.6,62)
 
 			//other students dont care

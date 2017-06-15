@@ -19,8 +19,8 @@ globals =
     pastPollSizes:[],
     pastGraphData:[],
     pastGraphLabels:[],
-    raceArray:["Android", "Human", "Martian"],
-    genderArray:["Non-Binary", "Female", "Male"],
+    lifeformArray:["Android", "Human", "Martian"],
+    bodyShapeArray:["Straight", "Curvy", "Broad"],
     bodyTypeArray:["Thin", "Medium", "Plus", "HoverChair"],
     back:false,
     num:1,
@@ -111,7 +111,10 @@ globals =
     
     population:1000,
     canvasMouse: "",
-    images:new Array(30)
+    images:new Array(30),
+    playerCandidate: null,
+    opponentCandidate: null,
+    playerImg:new Image()
 }
     
     

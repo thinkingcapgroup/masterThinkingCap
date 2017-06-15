@@ -9,6 +9,8 @@ let splashScreenView;
 let loadProgress = 0;
 
 let tutorialPages = [];
+let headSheet;
+let bodySheet;
 
 $(document).ready(function(){
   startGame();
@@ -583,29 +585,30 @@ function openGlossary()
   
 }
 
+
+
 function startCharacterSelect(){
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
  	getSession(globals.gameOver);
 	resetGame();
-  
     
-  
     document.getElementById("centerDisplay").innerHTML = views["characterSelect"]({});
   
 
 	globals.c=document.getElementById("myCanvas");
 	//creates a sprite for the headsheets
-	var headSheet = new Sprite({context: globals.c.getContext("2d"), width: 155, height: 171, image: globals.heads});
-	var bodySheet = new Sprite({context: globals.c.getContext("2d"), width: 164, height: 343, image: globals.thinBody});
+	headSheet = new Sprite({context: globals.c.getContext("2d"), width: 155, height: 171, image: globals.heads});
+	bodySheet = new Sprite({context: globals.c.getContext("2d"), width: 164, height: 343, image: globals.thinBody});
 
 	//sets up all the buttons for changing the canvas
-	document.getElementById("headbutton").addEventListener("click", function(){
-			right(headSheet)
+	/*document.getElementById("headbutton").addEventListener("click", function(){
+			headChange(headSheet)
 			drawOnCanvas(headSheet, bodySheet);
+            
 	});
 	document.getElementById("racebutton").addEventListener("click", function(){
-			race(headSheet);
+			raceChange(headSheet);
 			drawOnCanvas(headSheet, bodySheet);
 	});
 	document.getElementById("clothingbutton").addEventListener("click", function(){
@@ -614,10 +617,7 @@ function startCharacterSelect(){
 	});
 	document.getElementById("bodybutton").addEventListener("click", function(){
 			bodyChange(headSheet, bodySheet);
-	});
-	document.getElementById("candidateCre").addEventListener("click", function(){
-				startOtherCandidates(headSheet, bodySheet);
-	});
+	});*/
 
 	//draws on the canvas
 	drawOnCanvas(headSheet, bodySheet);
@@ -625,10 +625,15 @@ function startCharacterSelect(){
 
 function drawOnCanvas(headsheet,bodysheet){
 	//clear the canvas
-	globals.c = document.getElementById("myCanvas");
-	globals.ctx = globals.c.getContext("2d")
+	//globals.c = document.getElementById("myCanvas");
+	//globals.ctx = globals.c.getContext("2d")
+    
+  
+    let ctx = bodysheet.context;
+    let canvas = ctx.canvas;
 	//clears everything
-	globals.ctx.clearRect(0,0,globals.c.width,globals.c.height);
+	//globals.ctx.clearRect(0,0,globals.c.width,globals.c.height);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 	//draw the body
 	drawBody(bodysheet);
 	//draws the head
@@ -987,34 +992,52 @@ function fixHeadCord(heads, body){
 }
 
 //changes gender
-function clothingChange(bodySheet){
-	bodySheet.updateClothing();
+function clothingChange(amount){
+    bodySheet.updateClothing(amount);
+    drawOnCanvas(headSheet,bodySheet);
+  
+    let shapeOptions = globals.bodyShapeArray;
+    document.getElementById("clothingType").innerHTML = shapeOptions[bodySheet.frameIndexClothing];
 }
 
 //changes head
-function right(heads){
-	heads.update();
+function headChange(amount){
+	headSheet.update(amount);
+    drawOnCanvas(headSheet,bodySheet);
+    
+    document.getElementById("headType").innerHTML = "Head "+(headSheet.frameIndex+1);
 }
 
 //changes race
-function race(heads){
-	heads.raceUpdate();
+function raceChange(amount){
+	headSheet.raceUpdate(amount);
+    drawOnCanvas(headSheet,bodySheet);
+  
+    let lifeformOptions = globals.lifeformArray;
+    document.getElementById("raceType").innerHTML = lifeformOptions[headSheet.frameIndexRace];
 }
 
 //changes the body type
-function bodyChange(headsheet, body){
-	body.bodyArrayHolder++;
-	var z = body.bodyArrayHolder;
-	if(z > 3){
-		body.bodyArrayHolder = 0;
-		z=0;
+function bodyChange(amount){
+  
+	bodySheet.bodyArrayHolder+= amount;
+	if(bodySheet.bodyArrayHolder > 3){
+      bodySheet.bodyArrayHolder = 0;
 	}
-	headsheet.bodyArrayHolder = z;
+    else if(bodySheet.bodyArrayHolder < 0){
+      bodySheet.bodyArrayHolder = 3;
+    }
+  
+    let z = bodySheet.bodyArrayHolder;
+	headSheet.bodyArrayHolder = z;
 
-	body.image = globals.imgArrayBody[z];
-	body.width = globals.imgArrayBodyWidth[z];
-	body.height = globals.imgArrayBodyHeight[z];
-	drawOnCanvas(headsheet,body)
+	bodySheet.image = globals.imgArrayBody[z];
+	bodySheet.width = globals.imgArrayBodyWidth[z];
+	bodySheet.height = globals.imgArrayBodyHeight[z];
+    drawOnCanvas(headSheet,bodySheet);
+  
+    let bodyTypeOptions = globals.bodyTypeArray;
+    document.getElementById("bodyType").innerHTML = bodyTypeOptions[bodySheet.bodyArrayHolder];
 }
 
 //sprite function
@@ -1025,7 +1048,7 @@ function Sprite(options){
 	that.height = options.height;
 	that.image = options.image;
 	that.frameIndex = 0,
-	that.frameIndexRace = 0,
+	that.frameIndexRace = 2,
 	that.frameIndexClothing = 0,
 	that.bodyArrayHolder = 0,
 	that.isMale = 0,
@@ -1061,28 +1084,38 @@ function Sprite(options){
            that.height);
     };
 
-    that.update = function(){
-    	that.frameIndex += 1;
+    that.update = function(amount){
+    	that.frameIndex += amount;
     	if (that.frameIndex > 5){
     		that.frameIndex = 0;
     	}
+        else if(that.frameIndex < 0){
+          that.frameIndex = 5;
+        }
 
     };
 
-     that.updateClothing = function(){
-    	that.frameIndexClothing += 1;
+     that.updateClothing = function(amount){
+    	that.frameIndexClothing += amount;
     	if (that.frameIndexClothing > 2){
     		that.frameIndexClothing = 0;
     	}
+       else if(that.frameIndexClothing < 0){
+         that.frameIndexClothing = 2;
+       }
 
     };
 
 
-    that.raceUpdate = function(){
-    	that.frameIndexRace += 1;
+    that.raceUpdate = function(amount){
+    	that.frameIndexRace += amount;
     	if (that.frameIndexRace > 2){
     		that.frameIndexRace = 0;
     	}
+        else if(that.frameIndexRace < 0){
+          that.frameIndexRace = 2;
+        }
+        
     	that.height = globals.imgArrayHeadHeight[that.frameIndexRace];
     };
 
@@ -1090,16 +1123,19 @@ function Sprite(options){
 }
 
 //Creates the player candidate
-function startOtherCandidates(heads,body){
+function startOtherCandidates(){
 	globals.playerCandidate.name = document.getElementById("charName").value;
-	globals.playerCandidate.raceNum = heads.frameIndexRace;
-	globals.playerCandidate.genderNum = body.frameIndexClothing;
-	globals.playerCandidate.bodyTypeNum = body.bodyArrayHolder;
-	globals.playerCandidate.headNum = heads.frameIndex
-	globals.playerCandidate.race = globals.raceArray[heads.frameIndexRace];
-	globals.playerCandidate.gender = globals.genderArray[body.frameIndexClothing];
-	globals.playerCandidate.bodyType = globals.bodyTypeArray[body.bodyArrayHolder];
-
+	globals.playerCandidate.raceNum = headSheet.frameIndexRace;
+	globals.playerCandidate.genderNum = bodySheet.frameIndexClothing;
+	globals.playerCandidate.bodyTypeNum = bodySheet.bodyArrayHolder;
+	globals.playerCandidate.headNum = headSheet.frameIndex;
+	globals.playerCandidate.race = globals.lifeformArray[headSheet.frameIndexRace];
+	globals.playerCandidate.gender = globals.bodyShapeArray[bodySheet.frameIndexClothing];
+	globals.playerCandidate.bodyType = globals.bodyTypeArray[bodySheet.bodyArrayHolder];
+  
+    
+    globals.playerImg = document.getElementById("myCanvas").toDataURL("image/png");
+  
 	document.getElementById("centerDisplay").innerHTML = "<h1>What's Happening</h1>"
 	document.getElementById("centerDisplay").innerHTML += "<p>You are competing against Karma the Chameleon and 4 other candidates for the position of Student Council President. Karma is new student just like you, they call her the Chameleon, because she copies the people she is running against.... and also because, she is a Chameleon. The current student government will give you, a candidate, some information about the students at MarsU.</p>"
 	document.getElementById("centerDisplay").innerHTML += "<p>Do you wish to start the tutorial?</p>"
@@ -1312,6 +1348,7 @@ function addLocationEvents(){
 //Creates the area in which users decide what to do
 function userAction()
 {
+  
 	if(hourChecker()){
     
     
@@ -1418,8 +1455,10 @@ function action()
 			if(chosenEvent.type=="smallEvent")
 			{
 				
-				document.getElementById("eventImg").innerHTML += "<center><img src = '' id = 'eventbg' height = '350'   > </img></center>";
+				document.getElementById("eventImg").innerHTML += "<img src = '' id = 'eventbg' width = '600'   > </img>";
 				document.getElementById("eventbg").src = chosenEvent.path;
+              
+              
 				//Creates the screen for the event
 				var eventHours = parseInt(chosenEvent.timeRequired);
 				document.getElementById("eventInfo").innerHTML += "<h4>" + chosenEvent.text + " </h4>";
@@ -1861,6 +1900,9 @@ function drawPoll(state, isFree, isFake){
 	globals.qPollHolder = 2;
     
 	document.getElementById("eventInfo").style = "display:block;";
+    if(!isFree){
+      document.getElementById("eventInfo").innerHTML += "<h4> Poll Questions Every set of one or two questions you add will equal an hour. </h4> <br>";
+    }
     document.getElementById("eventInfo").innerHTML += "<h4>Select an area where you wish to poll.</h4><div id = 'questionArea'></div>";
     document.getElementById("map").style.display = "block";
     
@@ -1875,14 +1917,13 @@ function drawPoll(state, isFree, isFake){
       document.getElementById("location").options.add(new Option(areaChoices[key].name,areaChoices[key].id));
     }
     
-    
-	document.getElementById("questionArea").innerHTML += "<label>Sample Size: </label><select id = 'sample' class = 'sampleOptions totalTimeTracker'><br></select><br><!--<label>Time Spent: </label><select id = 'timeSpent' class = 'sampleOptions'></select>-->";
+	document.getElementById("questionArea").innerHTML += "<label>Sample Size: </label><select id = 'sample' class = 'sampleOptions totalTimeTracker'><br></select><br>";
 	globals.back = false;
     
     //If it's a free poll or if there's enough time
 	if(isFree || globals.remainingHoursDay>= 3 )
 	{
-
+        
 		document.getElementById("sample").options.add(new Option("Sample 20 Students", 20));
 		
         //If there's enough time to sample more students, add the option
@@ -1890,7 +1931,7 @@ function drawPoll(state, isFree, isFake){
 			document.getElementById("sample").options.add(new Option("Sample 40 Students", 40));
         }
 
-		document.getElementById("questionArea").innerHTML += "<h4> Poll Questions Every set of one or two questions you add will equal an hour. </h4> <br>";
+
       
         
 		//Populates the questions based on the JSON File
@@ -2023,53 +2064,6 @@ function drawMap(poll)
 
 }
 
-//Sets the clickable zones on the map for polling
- function doMousedownPoll(c,e)
-	{
-		var mouse = globals.canvasMouse;
-		//check if the area is clickable
-			//quad 		globals.ctx.strokeRect(208,235,243,60);
-			if((mouse.x >= 135 && mouse.x <= 300)&&(mouse.y >= 190 && mouse.y <= 250)){
-                document.getElementById("location").value = 0;
-                  globals.isCurrentAreaHover = 5;
-			}
-			
-			//gym1
-			if((mouse.x >= 360 && mouse.x <= 585)&&(mouse.y >= 15 && mouse.y <= 120)){
-                document.getElementById("location").value = 1;
-                globals.isCurrentAreaHover = 1;
-
-			}
-			//gym2
-			if((mouse.x >= 480 && mouse.x <=590 )&&(mouse.y >= 115 && mouse.y <= 235)){
-                document.getElementById("location").value = 1;
-                  globals.isCurrentAreaHover = 1;
-			}
-			//media 		globals.ctx.strokeRect(135,333,175,145);
-			if((mouse.x >= 90 && mouse.x <= 205)&&(mouse.y >= 275 && mouse.y <= 395)){
-                document.getElementById("location").value = 3;
-                  globals.isCurrentAreaHover = 0;
-			}
-		
-			//labs1
-			if((mouse.x >= 150 && mouse.x <= 255)&&(mouse.y >= 15 && mouse.y <= 135)){
-                document.getElementById("location").value = 2;
-                  globals.isCurrentAreaHover = 2;
-			}
-			//labs2
-			else if((mouse.x >= 180 && mouse.x <= 230)&&(mouse.y >= 225 && mouse.y <= 395)){
-                document.getElementById("location").value = 2;
-                  globals.isCurrentAreaHover = 2;
-			}
-
-			//coffee shop 
-			
-			//library 	globals.ctx.strokeRect(600,330,280,155);
-			if((mouse.x >= 400 && mouse.x <= 590)&&(mouse.y >= 275 && mouse.y <= 400)){
-                document.getElementById("location").value = 4;
-                  globals.isCurrentAreaHover = 3;
-			}
-    }
     
 //Sets the clickable zones on the map for the Game Map
  function doMousedownMain(c,e)
@@ -3136,11 +3130,6 @@ function getScores(x, bias){
 	event =  (((globals.groupIssues[groupRandom][6]) + (Math.floor(Math.random() * (globals.groupIssues[groupRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((globals.majorIssues[majorRandom][6]) + (Math.floor(Math.random() * (globals.groupIssues[majorRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) ;
 	med =  (((globals.groupIssues[groupRandom][8]) + (Math.floor(Math.random() * (globals.groupIssues[groupRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((globals.majorIssues[majorRandom][8]) + (Math.floor(Math.random() * (globals.groupIssues[majorRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
 
-    //SCORE calculated by (group issue + variable) + (major issue + variable)  + (class issue + variable)
-    let groupIssue = (((globals.groupIssues[groupRandom][0]) + (Math.floor(Math.random() * (globals.groupIssues[groupRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-    let majorIssue = (((globals.majorIssues[majorRandom][0]) + (Math.floor(Math.random() * (globals.groupIssues[majorRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	
-    tuit =  groupIssue + majorIssue; 
   
 	 tuit = tuit/2;
      bud = bud/2;
@@ -3152,7 +3141,11 @@ function getScores(x, bias){
      event = event.toFixed(2);
      med = med.toFixed(2);
 
-
+    console.log("Tuition: "+tuit);
+    console.log("Budget: "+bud);
+    console.log("Event: "+event);
+    console.log("Med:"+med);
+  
 	var returnArray = [groupRandom, majorRandom, tuit, bud, event, med];
 	return returnArray;
 }
@@ -4757,6 +4750,9 @@ function loadGame()
 
     //Set the currentCandidateArrayHolder to the right data
     globals.currentCandidateArrayHolder = globals.candidates;
+    
+    //Set player candidate
+    globals.playerCandidate = globals.candidates[0];
 
 	//console.log(candAtts);
 
@@ -4855,6 +4851,20 @@ function loadGame()
 	globals.back=true;
 	saveState = "";
     preload(globals.events);
+  
+    
+    let canvas = document.createElement('canvas');
+    let ctx = canvas.getContext('2d');
+  
+    //Create player Image
+    headSheet = new Sprite({context: ctx, width: 155, height: 171, image: globals.heads});
+	bodySheet = new Sprite({context: ctx, width: 164, height: 343, image: globals.thinBody});
+
+	//draws on the canvas
+	drawOnCanvas(headSheet, bodySheet);
+  
+    globals.playerImg = canvas.toDataURL("image/png");
+    
 	if(globals.firstPoll)
 	{
 		bufferZone();
@@ -4946,6 +4956,8 @@ function chooseRank(candidate, chosenRanks, issueCand)
 	
 	//Decides the opponents focus which cannot be the same as the player
 	var oppRank = Math.floor(Math.random()*(4-chosenRanks.length));
+    
+  
 	switch(globals.oppChoice[oppRank])
 	{
 		case 0:
