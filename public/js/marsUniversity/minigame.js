@@ -1177,9 +1177,9 @@ secretSticker.main =
         titleScreen = new Image();
 		titleScreen.src = '../img/minigame3/titlescreen.png';
 		instruction = new Image();
-		instruction.src = '../img/minigame3/instruction2.png'
+		instruction.src = '../img/minigame3/instruction1.png'
 		instruction2 = new Image();
-		instruction2.src = '../img/minigame3/instruction1.png'
+		instruction2.src = '../img/minigame3/instruction2.png'
 
         //map icons
         libraryIcon = new Image();

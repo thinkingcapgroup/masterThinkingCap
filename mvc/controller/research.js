@@ -11,6 +11,7 @@ var express = require('express'),
     var demoArray = [];
     var preTotalArray = [];
     var postTotalArray = [];
+    var consArray = [];
     var errorNotifications = [];
     var flag = false;
     var asyncTasks = [];
@@ -568,7 +569,7 @@ function getDemographicArray(req,res){
             {
             // Set model to emptyState
               emptyState5 = true;
-                renderResearch(req,res)
+			  getConsentArray(req,res)
             }
             // Otherwise
             else 
