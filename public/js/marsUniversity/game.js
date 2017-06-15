@@ -371,7 +371,7 @@ function createAreas(){
     ];
     
     rects = [new Rectangle(135, 300, 190, 250)];
-    areaChoices["Quad"] = new MapArea("Quad", 0, 160, 160, coords, rects);
+    areaChoices["Quad"] = new MapArea("Quad", -1, 160, 160, coords, rects);
 }
 
 function isPointInRect(pointX, pointY, rect){
@@ -1434,29 +1434,29 @@ function action()
 					switch(effects[i])
 					{
 						case "Arts":
-							posText += "Arts Major";
+							posText += "Arts Major <img width = '30' src = '../img/icons/artisticon.png'>";
 						break;
 						case "Bus":
-							posText += "Business Major";
+							posText += "Business Major <img width = '30' src = '../img/icons/businessicon.png'>";
 						break;
 						case "Law":
-							posText += "Law Major";
+							posText += "Law Major <img width = '30' src = '../img/icons/lawicon.png'>";
 						break;
 						case "Tech":
-							posText += "Technology Major";
+							posText += "Technology Major <img width = '30' src = '../img/icons/techicon.png'>";
 						break;
 	
 						case "Gam":
-							posText += "Gamer Group";
+							posText += "Gamer Group <img width = '30' src = '../img/icons/gamericon.png'>";
 						break;
 						case "Soc":
-							posText += "Socialite Group";
+							posText += "Socialite Group <img width = '30' src = '../img/icons/socialsquare.png'>";
 						break;
 						case "Read":
-							posText += "Reader Group";
+							posText += "Reader Group <img width = '30' src = '../img/icons/readericon.png'>";
 						break;
 						case "Ath":
-							posText += "Athlete Group";
+							posText += "Athlete Group <img width = '30' src = '../img/icons/sportssquare.png'>";
 						break;
 					}
 					if(i != effects.length-1)
@@ -1478,29 +1478,29 @@ function action()
 					switch(negEffects[i])
 					{
 						case "Arts":
-							posText += "Arts Major";
+							negText += "Arts Major <img width = '30' src = '../img/icons/artisticon.png'>";
 						break;
 						case "Bus":
-							posText += "Business Major";
+							negText += "Business Major <img width = '30' src = '../img/icons/businessicon.png'>";
 						break;
 						case "Law":
-							posText += "Law Major";
+							negText += "Law Major <img width = '30' src = '../img/icons/lawicon.png'>";
 						break;
 						case "Tech":
-							posText += "Technology Major";
+							negText += "Technology Major <img width = '30' src = '../img/icons/techicon.png'>";
 						break;
 	
 						case "Gam":
-							posText += "Gamer Group";
+							negText += "Gamer Group <img width = '30' src = '../img/icons/gamericon.png'>";
 						break;
 						case "Soc":
-							posText += "Socialite Group";
+							negText += "Socialite Group <img width = '30' src = '../img/icons/socialsquare.png'>";
 						break;
 						case "Read":
-							posText += "Reader Group";
+							negText += "Reader Group <img width = '30' src = '../img/icons/readericon.png'>";
 						break;
 						case "Ath":
-							posText += "Athlete Group";
+							negText += "Athlete Group <img width = '30' src = '../img/icons/sportssquare.png'>";
 						break;
 					}
 					if(i != negEffects.length-1)
@@ -1536,29 +1536,29 @@ function action()
 								switch(effects[j])
 								{
 									case "Arts":
-										posText += "Arts Major";
+										posText += "Arts Major <img width = '30' src = '../img/icons/artisticon.png'>";
 									break;
 									case "Bus":
-										posText += "Business Major";
+										posText += "Business Major <img width = '30' src = '../img/icons/businessicon.png'>";
 									break;
 									case "Law":
-										posText += "Law Major";
+										posText += "Law Major <img width = '30' src = '../img/icons/lawicon.png'>";
 									break;
 									case "Tech":
-										posText += "Technology Major";
+										posText += "Technology Major <img width = '30' src = '../img/icons/techicon.png'>";
 									break;
 				
 									case "Gam":
-										posText += "Gamer Group";
+										posText += "Gamer Group <img width = '30' src = '../img/icons/gamericon.png'>";
 									break;
 									case "Soc":
-										posText += "Socialite Group";
+										posText += "Socialite Group <img width = '30' src = '../img/icons/socialsquare.png'>";
 									break;
 									case "Read":
-										posText += "Reader Group";
+										posText += "Reader Group <img width = '30' src = '../img/icons/readericon.png'>";
 									break;
 									case "Ath":
-										posText += "Athlete Group";
+										posText += "Athlete Group <img width = '30' src = '../img/icons/sportssquare.png'>";
 									break;
 								}
 								if(j != effects.length-1)
@@ -1580,29 +1580,29 @@ function action()
 								switch(negEffects[j])
 								{
 									case "Arts":
-										posText += "Arts Major";
+										negText += "Arts Major <img width = '30' src = '../img/icons/artisticon.png'>";
 									break;
 									case "Bus":
-										posText += "Business Major";
+										negText += "Business Major <img width = '30' src = '../img/icons/businessicon.png'>";
 									break;
 									case "Law":
-										posText += "Law Major";
+										negText += "Law Major <img width = '30' src = '../img/icons/lawicon.png'>";
 									break;
 									case "Tech":
-										posText += "Technology Major";
+										negText += "Technology Major <img width = '30' src = '../img/icons/techicon.png'>";
 									break;
 				
 									case "Gam":
-										posText += "Gamer Group";
+										negText += "Gamer Group <img width = '30' src = '../img/icons/gamericon.png'>";
 									break;
 									case "Soc":
-										posText += "Socialite Group";
+										negText += "Socialite Group <img width = '30' src = '../img/icons/socialsquare.png'>";
 									break;
 									case "Read":
-										posText += "Reader Group";
+										negText += "Reader Group <img width = '30' src = '../img/icons/readericon.png'>";
 									break;
 									case "Ath":
-										posText += "Athlete Group";
+										negText += "Athlete Group <img width = '30' src = '../img/icons/sportssquare.png'>";
 									break;
 								}
 								if(j != negEffects.length-1)
@@ -1720,33 +1720,33 @@ function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects
 		{
 		
 			case "Arts":
-				posText += "Arts Major";
+				posText += "Arts Major <img width = '30' src = '../img/icons/artisticon.png'>";
 			break;
 		
 			case "Bus":
-				posText += "Business Major";
+				posText += "Business Major <img width = '30' src = '../img/icons/businessicon.png'>";
 			break;
 			case "Law":
-				posText += "Law Major";
+				posText += "Law Major <img width = '30' src = '../img/icons/lawicon.png'>";
 			break;
 			case "Tech":
-				posText += "Technology Major";
+				posText += "Technology Major <img width = '30' src = '../img/icons/techicon.png'>";
 			break;
 		
 			case "Soc":
-				posText += "Socialite Group";
+				posText += "Socialite Group <img width = '30' src = '../img/icons/gamericon.png'>";
 		
 			break;
 			case "Read":
-				posText += "Reader Group";
+				posText += "Reader Group <img width = '30' src = '../img/icons/socialsquare.png'>";
 		
 			break;
 			case "Gam":
-				posText += "Gamer Group";
+				posText += "Gamer Group <img width = '30' src = '../img/icons/readericon.png'>";
 		
 			break;
 			case "Ath":
-				posText += "Athlete Group";
+				posText += "Athlete Group <img width = '30' src = '../img/icons/sportssquare.png'>";
 		
 			break;
 		}
@@ -1770,7 +1770,7 @@ function gameCycleEnd()
 {
 	//Clear previous screen
 	clearScreen();
-    votePercentage(1000, 5);
+    votePercentage(1000, -1);
 
 	var winner;
 	var winvotes = 0;
@@ -3975,17 +3975,17 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 								if(parseFloat(tableArray2[7][h]).toFixed(2) <= 0.33)
 									{
 										cell.innerHTML = "Candidate Unknown";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[7][h]).toFixed(2)>0.33 && parseFloat(tableArray2[7][h]).toFixed(2)<0.66)
 									{
 										cell.innerHTML = "Aware of Candidate";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
 									}
 									else
 									{
 										cell.innerHTML = "Candidate Known";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
 									}
 					break;
 
@@ -3994,17 +3994,17 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 								if(parseFloat(tableArray2[8][h]).toFixed(2) >= 0.66)
 									{
 										cell.innerHTML = "Not Trustworthy";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.33 && parseFloat(tableArray2[8][h]).toFixed(2)<0.66)
 									{
 										cell.innerHTML = "Sort Of Trustworthy";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else
 									{
 										cell.innerHTML = "Very Trustworthy";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 					break;
 				}
@@ -4019,17 +4019,17 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 									if(tableArray2[9][h] <= -2)
 									{
 										cell.innerHTML = "Issue Disliked";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
 									else if(tableArray2[9][h]>-2 && tableArray2[9][h]<2)
 									{
 										cell.innerHTML = "Issue Neutral";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
 									else
 									{
 										cell.innerHTML = "Issue Liked";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
 							break;
 
@@ -4038,17 +4038,17 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 									if(tableArray2[10][h] <= -2)
 									{
 										cell.innerHTML = "Issue Disliked";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
 									}
 									else if(tableArray2[10][h]>-2 && tableArray2[10][h]<2)
 									{
 										cell.innerHTML = "Issue Neutral";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
 									}
 									else
 									{
 										cell.innerHTML = "Issue Liked";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
 									}
 							break;
 
@@ -4058,17 +4058,17 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 									if(tableArray2[12][h] <= -2)
 									{
 										cell.innerHTML = "Issue Disliked";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
 									}
 									else if(tableArray2[12][h]>-2 && tableArray2[12][h]<2)
 									{
 										cell.innerHTML = "Issue Neutral";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
 									}
 									else
 									{
 										cell.innerHTML = "Issue Liked";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
 									}
 							break;
 
@@ -4077,17 +4077,17 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 									if(tableArray2[13][h] <= -2)
 									{
 										cell.innerHTML = "Issue Disliked";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
 									}
 									else if(tableArray2[13][h]>-2 && tableArray2[13][h]<2)
 									{
 										cell.innerHTML = "Issue Neutral";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
 									}
 									else
 									{
 										cell.innerHTML = "Issue Liked";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
+										cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
 									}
 							break;
 						}
@@ -4106,17 +4106,17 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 									if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
 									{
 										cell.innerHTML = "Candidate Unknown";
-										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+										cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 									{
 										cell.innerHTML = "Aware of Candidate";
-										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+										cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 									}
 									else
 									{
 										cell.innerHTML = "Candidate Known:";
-										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+										cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 									}
 					}
 						canCounter++;
@@ -4130,17 +4130,17 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 								if(parseFloat(tableArray2[counter][h]).toFixed(2) >= 0.66)
 								{
 									cell.innerHTML = "Not Trustworthy";
-										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+										cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 								{
 									cell.innerHTML = "Sort Of Trustworthy";
-										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+										cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else
 								{
 									cell.innerHTML = "Very Trustworthy";
-										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+										cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}		
 					}
 
