@@ -108,8 +108,6 @@ router.post('/resetLog', auth, function (req, res, next) {
  */
 function renderEditAccount (req, res) {
   // Require the global app model
-    console.log("This is the User" +tempUserData.userId);
-    console.log("This is the User" +req.user.userId);
   var model = require('../../model/global/global')(req, res),
       getUserData = {
         column: 'userId',
@@ -130,23 +128,21 @@ function renderEditAccount (req, res) {
       model.userRoles = r;
     }
 
-    if (tempUserData.userName) {
-      model.errorNotifications = (errorNotifications) ? errorNotifications : null;
-      model.successNotifications = (successNotifications) ? successNotifications : null;
-      model.userData = tempUserData;
-      // Render /edituser using the 'editUser' view and model
-      res.render('account/editAccount', model);
-    }
-    else {
+    //if (tempUserData.userName) {
+    //  model.errorNotifications = (errorNotifications) ? errorNotifications : null;
+    //  model.successNotifications = (successNotifications) ? successNotifications : null;
+    //  model.userData = tempUserData;
+    //  // Render /edituser using the 'editUser' view and model
+    //  res.render('account/editAccount', model);
+    //}
+    //else {
       require('../../model/users/getUserByColumn')(req, getUserData, function (err, u) {
         if (err) {
           errorNotifications.push(err);
         }
         else {
-			console.log("CraP");
           tempUserData = u;
           model.userData = tempUserData;
-		console.log("This is the User" +tempUserData.userName);
         }
 
         model.errorNotifications = (errorNotifications) ? errorNotifications : null;
@@ -155,7 +151,7 @@ function renderEditAccount (req, res) {
         // Render /editaccount using the 'editAccount' view and model
         res.render('account/editAccount', model);
       });
-    }
+    //}
   });
 }
 

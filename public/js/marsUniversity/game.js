@@ -3976,17 +3976,17 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 								if(parseFloat(tableArray2[7][h]).toFixed(2) <= 0.33)
 									{
 										cell.innerHTML = "Candidate Unknown";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[7][h]).toFixed(2)>0.33 && parseFloat(tableArray2[7][h]).toFixed(2)<0.66)
 									{
 										cell.innerHTML = "Aware of Candidate";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
 									}
 									else
 									{
 										cell.innerHTML = "Candidate Known";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
 									}
 					break;
 
@@ -3995,17 +3995,17 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 								if(parseFloat(tableArray2[8][h]).toFixed(2) >= 0.66)
 									{
 										cell.innerHTML = "Not Trustworthy";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.33 && parseFloat(tableArray2[8][h]).toFixed(2)<0.66)
 									{
 										cell.innerHTML = "Sort Of Trustworthy";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else
 									{
 										cell.innerHTML = "Very Trustworthy";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 					break;
 				}
@@ -4020,17 +4020,17 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 									if(tableArray2[9][h] <= -2)
 									{
 										cell.innerHTML = "Issue Disliked";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
 									else if(tableArray2[9][h]>-2 && tableArray2[9][h]<2)
 									{
 										cell.innerHTML = "Issue Neutral";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
 									else
 									{
 										cell.innerHTML = "Issue Liked";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
 							break;
 
@@ -4039,17 +4039,17 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 									if(tableArray2[10][h] <= -2)
 									{
 										cell.innerHTML = "Issue Disliked";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
 									}
 									else if(tableArray2[10][h]>-2 && tableArray2[10][h]<2)
 									{
 										cell.innerHTML = "Issue Neutral";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
 									}
 									else
 									{
 										cell.innerHTML = "Issue Liked";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
 									}
 							break;
 
@@ -4059,17 +4059,17 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 									if(tableArray2[12][h] <= -2)
 									{
 										cell.innerHTML = "Issue Disliked";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
 									}
 									else if(tableArray2[12][h]>-2 && tableArray2[12][h]<2)
 									{
 										cell.innerHTML = "Issue Neutral";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
 									}
 									else
 									{
 										cell.innerHTML = "Issue Liked";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
 									}
 							break;
 
@@ -4078,17 +4078,17 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 									if(tableArray2[13][h] <= -2)
 									{
 										cell.innerHTML = "Issue Disliked";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
 									}
 									else if(tableArray2[13][h]>-2 && tableArray2[13][h]<2)
 									{
 										cell.innerHTML = "Issue Neutral";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
 									}
 									else
 									{
 										cell.innerHTML = "Issue Liked";
-										cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
 									}
 							break;
 						}
