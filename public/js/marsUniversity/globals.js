@@ -9,6 +9,7 @@ globals =
     lastMinigame:0, 
     isPoll:false,
     isCurrentAreaHover:0,
+	inGame: false,
     first: false,
     firstPoll: false,
 	firstState: false,

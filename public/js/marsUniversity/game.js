@@ -460,6 +460,7 @@ function startPractice()
 
 function helpScreen(previousScreen)
 {
+	globals.practice = true;
     //Shows the Help screen 
 	clearScreen();
   
@@ -1278,6 +1279,7 @@ function setDiff(days)
 	globals.startHours = days*12; 
     globals.remainingHoursTotal = globals.startHours;
     globals.totalDays = days;
+    globals.inGame = true;
     actualSessionStart(false);
 }
 
@@ -2246,8 +2248,14 @@ function practiceGame(id){
 	document.getElementById("eventInfo").style.height = "500px";
 	globals.c=document.getElementById("myCanvas");
 	globals.ctx = globals.c.getContext("2d");
-    document.getElementById("back").innerHTML += "<button onclick = 'startPractice()'> Back to Practice Area</button>";
-
+	if(globals.inGame)
+	{
+		document.getElementById("back").innerHTML += "<button onclick = 'helpScreen(userAction)'> Back to Help Menu</button>";
+	}
+	else
+	{
+		document.getElementById("back").innerHTML += "<button onclick = 'startPractice()'> Back to Practice Area</button>";
+	}
 
 	globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
 	switch(id)
@@ -4864,7 +4872,7 @@ function loadGame()
 	drawOnCanvas(headSheet, bodySheet);
   
     globals.playerImg = canvas.toDataURL("image/png");
-    
+    globals.inGame = true;
 	if(globals.firstPoll)
 	{
 		bufferZone();
@@ -5099,9 +5107,14 @@ function gameResults(scores, tutorial)
 	}
 	else
 	{
-		var posText =  "<h4>You completed the minigame with a score of "+ (scores.score) + ".</h4>"; 
+		var posText =  "<h4>You completed the minigame with a score of "+ (scores.score) + ". <br>If you had trouble with this minigame you can replay it to practice in the help menu without using your time.</h4>"; 
 		document.getElementById("eventInfo").innerHTML = posText;
 		document.getElementById("eventInfo").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
+		if(globals.inGame)
+		{
+					document.getElementById("next").innerHTML += "<button onclick = 'helpScreen(userAction)'> Return to the Practice Screen </button>";
+		}
+		else
 		document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to the Practice Screen </button>";
 	}
 }

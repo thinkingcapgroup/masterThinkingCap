@@ -1853,28 +1853,26 @@ secretSticker.main =
     doMouseUp: function()
     {
         var mouse = globals.canvasMouse;
-        if(secretSticker.main.areaNumber != 0 && secretSticker.main.areaNumber <6)
+        if(secretSticker.main.areaNumber != 0 && secretSticker.main.areaNumber <6 && secretSticker.main.drag)
         {
-            secretSticker.main.drag = false;
-           
-            for(var i =0; i<secretSticker.main.areas[secretSticker.main.areaNumber].students.length; i++)
-            {
-            		checkx = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].x;
-            		checky = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].y;
-            	 if ((mouse.x >= checkx && mouse.x <=checkx + 100) && (mouse.y >= checky && mouse.y <=checky + 150))
-                {
-                    if(!secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions.stickered)
-                    {
-                    	
-                        if (secretSticker.main.activeID == secretSticker.main.demograph1num)
-                        {						
-                            secretSticker.main.takenDemograph1++;
-                            secretSticker.main.scores.score++;				
-                        }
-                        secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].stickered = true;
-                    }
-                }
-            }
+			for(var i =0; i<secretSticker.main.areas[secretSticker.main.areaNumber].students.length; i++)
+			{
+					checkx = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].x;
+					checky = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].y;
+				if ((mouse.x >= checkx && mouse.x <=checkx + 100) && (mouse.y >= checky && mouse.y <=checky + 150))
+				{
+					if(secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].stickered == false)
+					{
+						if (secretSticker.main.activeID == secretSticker.main.demograph1num)
+						{		
+							secretSticker.main.takenDemograph1++;
+							secretSticker.main.scores.score++;				
+						}
+						secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].stickered = true;
+					}
+				}
+			}
+			secretSticker.main.drag = false;
         }
     },
     
