@@ -117,7 +117,8 @@ globals =
     images:new Array(30),
     playerCandidate: null,
     opponentCandidate: null,
-    playerImg:new Image()
+    playerImg:new Image(),
+    eventsLoaded:false
 }
     
     

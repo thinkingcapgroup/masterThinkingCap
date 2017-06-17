@@ -4,15 +4,7 @@ body{font-family:'Open Sans';}
   font-family: 'Varela Round', sans-serif;
 }
 
-#holo 
-{
-    z-index: -2; 
-    position: absolute;
-    width:100%;
-    min-width:920px;
-    display: none;
-}
-#contentContainer
+#holopad
 {
     background-color: #90e7f2;
     padding:1em;
@@ -32,8 +24,7 @@ body{font-family:'Open Sans';}
   border-radius:10px;
   min-height: 570px;
 }
-.column-container{
-  display:inline-flex;
+#contentContainer{
   width:100%;
 }
 #gameContents
@@ -67,14 +58,27 @@ body{font-family:'Open Sans';}
 #iconBar img{
     padding-right: .2em;
 }
-
-.leftDisplay{
-    display: inline-flex;
-    width:37%;
+#mainContent{
+    /*display: inline-flex; */
     margin-right: 1em;
     padding:1em;
+    background-color: #93dfef;
+    border-radius: 10px;
 }
-.rightDisplay{
+
+.columns{
+  display:inline-flex;
+}
+.rows{
+  display:block;
+}
+.left{
+  width:37%;
+}
+.center{
+  width:100%;
+}
+.right{
     width: 62%;
     min-width: 520px;
 }
@@ -88,6 +92,65 @@ body{font-family:'Open Sans';}
 }
 .locationChoice h2 {
     
+}
+.eventChoices{
+  width:100%;
+}
+.eventChoices button{
+  padding: 1em;
+  display:block;
+  margin:auto;
+  margin-top: 1em;
+  width:250px;
+}
+
+.primaryBtn{
+  background-color: $light-orange;
+  outline: none;
+  border: 2px solid $orange;
+  border-radius: 10px;
+  font-size: 110%;
+  font-family: 'Open Sans';
+  font-weight: 600;
+  display:block;
+}
+
+#back button{
+  background-color: #3e8e9f;
+  outline: none;
+  border: 2px solid #c4f4fe;
+  border-radius: 10px;
+  font-size: 110%;
+  color: #c4f4fe;
+  font-family: 'Open Sans';
+  font-weight: 600;
+}
+
+#back button:hover{
+  background-color: #054d5c;
+}
+
+.otherBtn{
+  background-color: lightgray;
+  outline: none;
+  border: 2px solid #167083;
+  border-radius: 10px;
+  font-size: 100%;
+  font-family: 'Open Sans';
+  font-weight: 600;
+}
+
+button.otherBtn:hover{
+  background-color: white;
+}
+
+button.primaryBtn:hover{
+  background-color: $gold;
+  border: 2px solid $light-orange;
+}
+span.timeSpan{
+  color: $dark-blue;
+  font-size:90%;
 }
 
 #eventImg, #eventbg{
@@ -110,7 +173,7 @@ body{font-family:'Open Sans';}
   position: absolute;
   z-index: 3;
   right:0;
-  margin-top:-16px;
+  margin-top:-60px;
   pointer-events:none;
 }
 
