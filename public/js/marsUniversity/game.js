@@ -2004,10 +2004,12 @@ function drawPoll(state, isFree, isFake){
 	
     //Tutorial's practice poll
 	if(state == POLL_STATES.TUTORIAL){
+		document.getElementById("next").innerHTML += "<br> <button type='button' onclick=tutorial("+false+")'>Return to Tutorial </button>";
 		document.getElementById("next").innerHTML += "<br> <button type='button' onclick='chooseDiff()'> Start the Game </button>";
 	}
     //Poll within Practice Area
 	else if (state == POLL_STATES.PRACTICE_AREA){
+		document.getElementById("next").innerHTML += "<br> <button type='button' onclick=tutorial("+true+")'>Return to Tutorial </button>";
 		document.getElementById("back").innerHTML += "<br> <button type='button' onclick='startPractice()'> Back to Practice Area </button>";
 	}
     //Poll when you retake the tutorial from within the main game
