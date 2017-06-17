@@ -5,10 +5,8 @@
     </header>
 <section>
 <div id = "gameArea" >
-  <img id = 'holo' src = '../../img/holopad-topbar.png' width = '1200' height = '738' >
-  <br>
   <img id = 'holo-corner' src = '../../img/holopad-corner.png' width = '1200' height = '738' >
-  <div id="contentContainer">
+  <div id="holopad">
   <div id = "gameContents">
 
   <div id = "playerInfo">
@@ -27,9 +25,8 @@
     </div>
 
     <div id = "userAction">
-      <div class="column-container">
-        <div class="leftDisplay">
-
+      <div id="contentContainer" class="columns">
+        <div id="mainContent" class="left">
             <div id = "choices" style = "display:none;">
                 <h3 id="infoText"></h3>
                 <div id = "LabsChoice" style = "display:none;">
@@ -53,12 +50,13 @@
                 </div>
 
             </div>
-            <div id = "eventInfo" style = "display:none;">
+            <div id = "eventInfo">
             </div>
+            
 
 
         </div>
-        <div class="rightDisplay">
+        <div id="visualContent" class="right">
             <div id = "eventImg" style = "display:none;">
 
             </div>

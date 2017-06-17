@@ -1,0 +1,62 @@
+<div id="questionArea">
+  {{#if isFree}}
+    <h4>Every set of two questions you ask will add an hour</h4>
+  {{/if}}
+  
+  <h4>Select an area where you want to poll</h4>
+  <h4>Population and Sample</h4>
+  
+  <label for="location">Location</label>
+  <select id="location">
+    {{!Create an option for each mapArea}}
+    {{#each areas}}
+      {{! If this is the option for quad, make it the default selected}}
+      {{#ifEquals this.name "Quad"}}
+          <option value="{{this.id}}" selected>{{this.name}}</option>
+      {{! Otherwise create a normal option}}
+      {{else}}
+          <option value="{{this.id}}">{{this.name}}</option>
+      {{/ifEquals}}
+    {{/each}}
+  </select>
+  <label for="sample">Sample Size: </label>
+  <select id = 'sample' class = 'sampleOptions totalTimeTracker'>
+    <option value="20">Sample 20 Students</option>
+
+    {{!If there's enough time to take a larger poll, create that option}}
+    {{#if allow40}}
+    <option value="40">Sample 40 Students</option>
+    {{/if}}
+  </select>
+  
+  {{! If there's enough time to take a poll}}
+  {{#if enoughTime}}
+    {{! Create dropdowns as many times as numQuestions}}
+    {{#repeat numQuestions}}
+      <select class = 'totalTimeTracker pollQ' id ="poll{{@index}}">
+        <option value="" class="defaultOption">None</option>
+
+        {{!Add each question in the questions list}}
+        {{#each questions}}
+        <option class="defaultOption" value="{{this.value}}">{{this.question}}</option>
+        {{/each}}
+      </select>
+      <select class = 'subPollQ totalTimeTracker' style = 'display:none' id="subpoll{{@index}}">
+      </select>
+    {{/repeat}}
+    
+    {{#if free}}
+      <p id='timeParagraph' style='display:none;'></p>
+    {{else}}
+      <p id='timeParagraph'>Total Time: 2 Hours</p>
+    {{/if}}
+
+    <p id='duplicateParagraph'></p>
+
+    <button class='logEventPoll' onclick='pollResults({{state}}, {{free}}, {{fake}})'>Submit Poll</button>
+    
+  {{! Otherwise tell the player}}
+  {{else}}
+    <h4> You do not have enough time remaining to take a poll.</h4>
+  {{/if}}
+</div>
