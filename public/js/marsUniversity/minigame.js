@@ -271,15 +271,15 @@ runningGame.main =
 	
 	doMousedown: function(c, e)
 	{ 
-	//console.log(globals.canvasMouse);
+	////CONSOLE.LOG(globals.canvasMouse);
 		var mouse = globals.canvasMouse;
 		runningGame.main.laneChanger(mouse, c, globals.ctx );
 	},
 
 	laneChanger: function (mouse,c,ctx)
 	{
-		//console.log(runningGame.main.lanes);
-		//console.log(mouse, runningGame.main.instruction);
+		////CONSOLE.LOG(runningGame.main.lanes);
+		////CONSOLE.LOG(mouse, runningGame.main.instruction);
 		if(!runningGame.main.instruction){
 		for(var i=0; i < runningGame.main.lanes.length; i++)
 		{
@@ -288,15 +288,15 @@ runningGame.main =
 				runningGame.main.player.x = ((runningGame.main.lanes[i].left+runningGame.main.lanes[i].right)/2 - 25);
 				if(i==0)
 				{
-					//console.log("1");
+					////CONSOLE.LOG("1");
 				}
 				else if(i==1)
 				{
-					//console.log("2");
+					////CONSOLE.LOG("2");
 				}
 				else if(i==2)
 				{
-					//console.log("3");
+					////CONSOLE.LOG("3");
 				}
 			}
 		}
@@ -373,7 +373,7 @@ runningGame.main =
 			});
 		}
 
-		//console.log(runningGame.main.enemies);
+		////CONSOLE.LOG(runningGame.main.enemies);
 	},
 
 	coinGenerator: function ()
@@ -930,7 +930,7 @@ runningGame2.main =
 
 	doMousedown: function(c, e)
 	{ 
-		//console.log(globals.canvasMouse);
+		////CONSOLE.LOG(globals.canvasMouse);
 		var mouse = globals.canvasMouse;
 		var update = false
 
@@ -1640,7 +1640,7 @@ secretSticker.main =
 
     doMousedown: function(c, e)
     { 
-        //console.log(globals.canvasMouse);
+        ////CONSOLE.LOG(globals.canvasMouse);
         var mouse = globals.canvasMouse;
 
         //check if the area is clickable
@@ -1770,7 +1770,7 @@ secretSticker.main =
 
             if((mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225))
             {
-            	 console.log('hey')
+            	 //CONSOLE.LOG('hey')
                 secretSticker.main.areaNumber = 9;
             }
             else if ((mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 666 && mouse.x <=856)){
@@ -1880,7 +1880,7 @@ secretSticker.main =
     {
 
         var posterCount = posterNum*2;
-        //console.log(posterCount)
+        ////CONSOLE.LOG(posterCount)
         createSample(posterCount, secretSticker.main.areaNumber-1);
         secretSticker.main.areas[secretSticker.main.areaNumber].students = [];
         globals.sample.forEach(function(element, i) 
@@ -2159,17 +2159,17 @@ runningGame4.main = {
 		instruction2.src = '../img/minigame4/instruction2.png'
 
 		if(globals.practice){
-                console.log("PRACTICE GAME");
+                //CONSOLE.LOG("PRACTICE GAME");
 				runningGame4.main.player.headnum = 0;
 				runningGame4.main.player.racenum = 0;
 				runningGame4.main.player.gendernum = 0;
 				runningGame4.main.player.bodynum = 0;
 		}
 			else{
-                    console.log("playerCandidate game Name: "+globals.playerCandidate.name);
-                  console.log("playerCandidate game HeadNum: "+globals.playerCandidate.headNum);
-                console.log("playerCandidate game BodyNum: "+globals.playerCandidate.bodyTypeNum);
-                console.log("playerCandidate game raceNum: "+globals.playerCandidate.raceNum);
+                    //CONSOLE.LOG("playerCandidate game Name: "+globals.playerCandidate.name);
+                  //CONSOLE.LOG("playerCandidate game HeadNum: "+globals.playerCandidate.headNum);
+                //CONSOLE.LOG("playerCandidate game BodyNum: "+globals.playerCandidate.bodyTypeNum);
+                //CONSOLE.LOG("playerCandidate game raceNum: "+globals.playerCandidate.raceNum);
               
 				runningGame4.main.player.headnum = globals.playerCandidate.headNum;
 				runningGame4.main.player.racenum = globals.playerCandidate.raceNum;
@@ -2313,7 +2313,7 @@ runningGame4.main = {
 			runningGame4.main.endOfRound();
 		}
 		else{
-			//console.log('END GAME')
+			////CONSOLE.LOG('END GAME')
 			
 			gameResults(runningGame4.main.scores, globals.practice)
 		}
@@ -2385,10 +2385,10 @@ runningGame4.main = {
             let headNum = globals.playerCandidate.headNum;
             let raceNum = globals.playerCandidate.raceNum;
       
-            console.log("Correct Body: "+bodyNum+" current body: "+runningGame4.main.player.gendernum);
-            console.log("Correct Gender: "+genderNum+" current Gender: "+runningGame4.main.player.gendernum);
-            console.log("Correct Head: "+headNum+" current Head: "+runningGame4.main.player.headnum);
-            console.log("Correct Race: "+raceNum+" current Race: "+runningGame4.main.player.racenum);
+            //CONSOLE.LOG("Correct Body: "+bodyNum+" current body: "+runningGame4.main.player.gendernum);
+            //CONSOLE.LOG("Correct Gender: "+genderNum+" current Gender: "+runningGame4.main.player.gendernum);
+            //CONSOLE.LOG("Correct Head: "+headNum+" current Head: "+runningGame4.main.player.headnum);
+            //CONSOLE.LOG("Correct Race: "+raceNum+" current Race: "+runningGame4.main.player.racenum);
             
 			if(runningGame4.main.player.bodynum ==3){
                     
@@ -2603,7 +2603,7 @@ runningGame4.main = {
 		runningGame4.main.danceOrder[1] = Math.floor(Math.random() * 4);
 		runningGame4.main.danceOrder[2] = Math.floor(Math.random() * 4);
 		runningGame4.main.danceOrder[3] = Math.floor(Math.random() * 4);
-		//console.log(runningGame4.main.danceOrder);
+		////CONSOLE.LOG(runningGame4.main.danceOrder);
 	},
 
 	danceMoveCheck: function(clicked){
@@ -2779,7 +2779,7 @@ runningGame4.main = {
 
 	promptChecker: function(prompt,x){
 		var groupPop = runningGame4.main.groups[x]
-		//console.log(groupPop)
+		////CONSOLE.LOG(groupPop)
 		switch(prompt){
 			case 0:			
 				var minArray = Math.min.apply(groupPop, runningGame4.main.groups);		

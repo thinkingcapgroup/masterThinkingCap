@@ -440,7 +440,7 @@ function updateTopBar(currentScreen){
   
     //Putting onclick event at the bottom because it won't load otherwise
     document.getElementById("helpIcon").onclick = function(){
-      //console.log("check help");
+      ////CONSOLE.LOG("check help");
       helpScreen(currentScreen);
       
     }
@@ -1158,7 +1158,7 @@ function actualSessionStart(isFromTut){
 	//Decides the opponents focus which cannot be the same as the player
 	globals.opponentCandidate.fame = [1,1,1,1,1,1,1,1];
 	globals.opponentCandidate.consMod = 0;
-	////console.log(oppFocus);
+	//////CONSOLE.LOG(oppFocus);
 	chooseIssue(globals.opponentCandidate,[],1,false);
 	globals.candidates.push(globals.opponentCandidate);
 	
@@ -1214,7 +1214,7 @@ function practicePoll()
 	//Decides the opponents focus which cannot be the same as the player
 	globals.opponentCandidate.fame = [1,1,1,1,1,1,1,1];
 	globals.opponentCandidate.consMod = 0;
-	////console.log(oppFocus);
+	//////CONSOLE.LOG(oppFocus);
 	chooseIssue(globals.opponentCandidate,[],1,false);
 	globals.candidates.push(globals.opponentCandidate);
 	
@@ -1233,7 +1233,7 @@ function practicePoll()
 //Sets up the buttons for the intital statement the player makes in the game.
 function firstStatement()
 {
-    //console.log("first statement");
+    ////CONSOLE.LOG("first statement");
     
 	globals.firstPoll = false;
 	saveGameState();
@@ -1285,7 +1285,7 @@ function setDiff(days)
 /*GAME CYCLE FUNCTIONS8*/
 function gameCycleStart(f)
 {
-    //console.log("gameCycleStart");
+    ////CONSOLE.LOG("gameCycleStart");
     
     
 	globals.firstPoll = false;
@@ -1420,7 +1420,7 @@ function action(choice)
 		var nextArea = document.getElementById("next");
 		nextArea.innerHTML = "";
 		chosenEvent = globals.events[choice];
-		//console.log(chosenEvent);
+		////CONSOLE.LOG(chosenEvent);
 		globals.back = false;
 		
       
@@ -1718,7 +1718,7 @@ function submitAction(id, eventHours, Pos, Neg)
 
 function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
 {
-	//console.log(globals.remainingHoursTotal)
+	////CONSOLE.LOG(globals.remainingHoursTotal)
 	globals.remainingHoursTotal-= eventHours;
 	globals.remainingHoursDay-= eventHours;
 
@@ -1851,7 +1851,7 @@ function explainTerm(term, help){
 }
 
 function printTest(){
-    //console.log("Print test");
+    ////CONSOLE.LOG("Print test");
 }
 
 function drawPoll(state, isFree, isFake){
@@ -1897,14 +1897,14 @@ function drawPoll(state, isFree, isFake){
 			{
               if (j < lowerLimit || j > upperStart)
               {
-                  console.log("pushing");
+                  //CONSOLE.LOG("pushing");
                   pollQuestions.push(globals.questions[j]);
 
               }	
 			}
 		
 	}
-    console.log("pollQuestions length "+pollQuestions.length);
+    //CONSOLE.LOG("pollQuestions length "+pollQuestions.length);
   
     let context = {
       state: state, 
@@ -2032,7 +2032,7 @@ function drawMap(poll)
         globals.c=document.getElementById("myCanvas");
         globals.ctx = globals.c.getContext("2d");
 		var mouse = globals.canvasMouse;
-        //console.log(mouse);
+        ////CONSOLE.LOG(mouse);
 		globals.ctx.fillStyle = 'rgba(0,255,255,0.5)';
         
         drawMapAreas();
@@ -2127,7 +2127,7 @@ function minigamePlayer(id){
 
 
 	globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
-	//console.log(id);
+	////CONSOLE.LOG(id);
 	switch(id)
 	{
 		case 1:
@@ -2446,7 +2446,7 @@ function dupChecker()
 
                         //If the poll value involves a subquestion
                         if(subQuestionIndex != null && subQuestionIndex > -1){
-                            //console.log("is subquestion");
+                            ////CONSOLE.LOG("is subquestion");
                             //If it's the same question
                             if(questionIndex == question.selectedIndex){
                                 //Highlight the sub question
@@ -2552,12 +2552,12 @@ function pollResults(state, isFree, isFake)
 	}
 	else if(pollChoices.length < 2)
 	{
-       //console.log("not enough questions: "+pollChoices.length);
+       ////CONSOLE.LOG("not enough questions: "+pollChoices.length);
 		document.getElementById("duplicateParagraph").innerHTML = "Please Select 2 or More Questions";
         document.getElementById("duplicateParagraph").style.display = "block";
 	}
     else if(!pollTimeCheck(sampleSize, pollChoices) && !isFree){
-      //console.log("time check 1");
+      ////CONSOLE.LOG("time check 1");
         document.getElementById("duplicateParagraph").innerHTML = "You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.";
         document.getElementById("duplicateParagraph").style.display = "block";
     }
@@ -2612,8 +2612,8 @@ function addMoreQuestions(){
 function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 {
 
-	////console.log(candidate.issueScore);
-	////console.log(scoreInc);
+	//////CONSOLE.LOG(candidate.issueScore);
+	//////CONSOLE.LOG(scoreInc);
 	for(var i=0;i<groupPos.length;i++)
 	{
 
@@ -2941,7 +2941,7 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 				break;
 
 		}
-	////console.log(globals.candidates[0].issueScore);
+	//////CONSOLE.LOG(globals.candidates[0].issueScore);
 	}
 }
 
@@ -3031,7 +3031,7 @@ function getScores(x, bias){
 	else{
 		groupRandom = Math.floor(Math.random()* 4);
 	}
-    console.log(groupRandom)
+    //CONSOLE.LOG(groupRandom)
 	var majorRandom = Math.floor(Math.random()* 4);
 	var ath =0;
 	var res = 0;
@@ -3055,10 +3055,10 @@ function getScores(x, bias){
      event = event.toFixed(2);
      med = med.toFixed(2);
 
-    console.log("Tuition: "+tuit);
-    console.log("Budget: "+bud);
-    console.log("Event: "+event);
-    console.log("Med:"+med);
+    //CONSOLE.LOG("Tuition: "+tuit);
+    //CONSOLE.LOG("Budget: "+bud);
+    //CONSOLE.LOG("Event: "+event);
+    //CONSOLE.LOG("Med:"+med);
   
 	var returnArray = [groupRandom, majorRandom, tuit, bud, event, med];
 	return returnArray;
@@ -3067,7 +3067,7 @@ function getScores(x, bias){
 //Calculates the candidate who would recieve the vote for each student 
 function votePercentage(sampleSize, bias)
 {
-	////console.log(candidates);
+	//////CONSOLE.LOG(candidates);
 	createSample(sampleSize, bias);
 	var finalWinner = "";
 	for(var i=0;i<globals.candidates.length; i++)
@@ -3083,10 +3083,10 @@ function votePercentage(sampleSize, bias)
 		for(var j=0;j<globals.candidates.length; j++)
 		{
 
-			////console.log(globals.sample[i]);
+			//////CONSOLE.LOG(globals.sample[i]);
 			var fame = 0;
 			fame = fameCalc(globals.candidates[j], globals.sample[i]);
-			////console.log(globals.candidates[j].name +" Fame: "+ fame);
+			//////CONSOLE.LOG(globals.candidates[j].name +" Fame: "+ fame);
 			if(j != 1)
 			{
 				var issues = parseFloat(globals.sample[i].tuitionScore) * parseFloat(globals.candidates[j].issueScore[0])
@@ -3103,8 +3103,8 @@ function votePercentage(sampleSize, bias)
 				issues += parseFloat(globals.sample[i].medicalScore)  * parseFloat(globals.candidates[j].issueScore[3])
 				issues = issues/4;
 			}
-			////console.log(globals.candidates[j].name +" Issue Score: "+ issues);
-			//console.log(globals.candidates[j].name + " Issues:"  + issues)
+			//////CONSOLE.LOG(globals.candidates[j].name +" Issue Score: "+ issues);
+			////CONSOLE.LOG(globals.candidates[j].name + " Issues:"  + issues)
 			if(globals.candidates[j].name != "Karma")
 			{
 				var candWinPer = 10*Math.pow(fame*issues,2) - globals.candidates[j].consMod;
@@ -3123,8 +3123,8 @@ function votePercentage(sampleSize, bias)
 			
 			
 			
-			////console.log(globals.candidates[j].name +" Win Percentage: "+ candWinPer);
-			////console.log("");
+			//////CONSOLE.LOG(globals.candidates[j].name +" Win Percentage: "+ candWinPer);
+			//////CONSOLE.LOG("");
 
 
 			if(candWinPer > winPercentage|| winPercentage ==0)
@@ -3139,11 +3139,11 @@ function votePercentage(sampleSize, bias)
 				loser = globals.candidates[j].name;
 			}
 		}
-			//console.log("Current Winner" + winner + " Current Loser" + loser)
-		////console.log("Student #" +i);
-		////console.log("Winner: " + winner + " Vote Percentage: "+ winPercentage);
-		////console.log("Loser: " + loser + " Vote Percentage: "+ lowPercentage);
-		////console.log("");
+			////CONSOLE.LOG("Current Winner" + winner + " Current Loser" + loser)
+		//////CONSOLE.LOG("Student #" +i);
+		//////CONSOLE.LOG("Winner: " + winner + " Vote Percentage: "+ winPercentage);
+		//////CONSOLE.LOG("Loser: " + loser + " Vote Percentage: "+ lowPercentage);
+		//////CONSOLE.LOG("");
 		globals.sample[i].results.winPer = winPercentage;
 		globals.sample[i].results.losPer = lowPercentage;
 		globals.sample[i].results.win = winner;
@@ -3269,7 +3269,7 @@ function reportViewer(id)
 	clearScreen();
 
 	//pollChoices, tableArray2, sSize, graphData, graphLabels, review, state, isFree
-    console.log(globals.pastGraphData);
+    //CONSOLE.LOG(globals.pastGraphData);
 	tableBuilder(globals.pastPollChoices[id],globals.pastPollResults[id],globals.pastPollSizes[id],globals.pastGraphData[id],globals.pastGraphLabels[id], 1, 0, false, false);
 	if(!globals.first){
         updateTopBar(pollMenu);
@@ -3376,7 +3376,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
     //Creates the sample for the poll
 	votePercentage(sampleSize, bias);
   
-    //console.log(globals.candidates);
+    ////CONSOLE.LOG(globals.candidates);
 	//Gets the results of each question and pushes them into the proper sectionof table arrays
 	for(var j=0;j<globals.sample.length;j++)
 	{
@@ -3416,7 +3416,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 		//}
         for(var i = 0; i < pollChoices.length ;i++)
         {
-            //console.log(i)
+            ////CONSOLE.LOG(i)
             switch(pollChoices[i])
             {
                 case "issFav":
@@ -3515,7 +3515,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                     globals.tableArrays[2].push(globals.sample[j].results.win);
 					for(var k =0; k< globals.candidates.length;k++)
 					{
-						//console.log()
+						////CONSOLE.LOG()
 						if(globals.sample[j].results.win == globals.candidates[k].name){
 							globals.graphData[i+2][k]++;
 						}
@@ -3687,14 +3687,14 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
         }
 	}
 	
-	////console.log(globals.tableArrays);
+	//////CONSOLE.LOG(globals.tableArrays);
 	tableBuilder(pollChoices, globals.tableArrays, sampleSize, globals.graphData, pollLabelArray, isFake, state, isFree);
 }
 
 //Builds a table by looping through the Array created by pollCalc and putting each value into a cell.
 function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, isFake, state, isFree)
 {   
-	//console.log(tableArray2);
+	////CONSOLE.LOG(tableArray2);
 	var rowCounter = 0;
 	var cellCounter = 0;
 	var graphQuestions = [];
@@ -3809,7 +3809,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 			{
 				if(pollChoices[h] == "candTrust" + globals.candidates[k].name)
 				{
-					////console.log(h);
+					//////CONSOLE.LOG(h);
 						var cell = headRow.insertCell(h);
 						var candInfo = globals.tableHeaders[11] + globals.candidates[k].name;
 						cell.innerHTML = candInfo;
@@ -3999,17 +3999,17 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 									if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
 									{
 										cell.innerHTML = "Candidate Unknown";
-										cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 									{
 										cell.innerHTML = "Aware of Candidate";
-										cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 									}
 									else
 									{
 										cell.innerHTML = "Candidate Known:";
-										cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 									}
 					}
 						canCounter++;
@@ -4023,17 +4023,17 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 								if(parseFloat(tableArray2[counter][h]).toFixed(2) >= 0.66)
 								{
 									cell.innerHTML = "Not Trustworthy";
-										cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
 								{
 									cell.innerHTML = "Sort Of Trustworthy";
-										cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else
 								{
 									cell.innerHTML = "Very Trustworthy";
-										cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}		
 					}
 
@@ -4088,7 +4088,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 		}
     }
 	
-	////console.log(graphQuestions);
+	//////CONSOLE.LOG(graphQuestions);
 	for(var u =0; u < graphQuestions.length; u++){		
 		document.getElementById("q"+u+"text").innerHTML = "";
 	}
@@ -4183,13 +4183,13 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 			}
 		}
 		
-		////console.log("Question "+graphQuestions[i] + " has a length of: " + graphData[i].length);
-		////console.log(graphData[questionNum]);
+		//////CONSOLE.LOG("Question "+graphQuestions[i] + " has a length of: " + graphData[i].length);
+		//////CONSOLE.LOG(graphData[questionNum]);
         
         //GRAPH DATA BUG: for stefen
         for (var j = 0; j < graphData[i].length; j++)
         {
-			////console.log(globals.graphData[questionNum], " AT ", questions[qID].question)					
+			//////CONSOLE.LOG(globals.graphData[questionNum], " AT ", questions[qID].question)					
 			data2[j]=graphData[i][j];
 		}
 
@@ -4208,7 +4208,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 		.text(function(d) 
 		{
 			var zid = graphLabels[i][dataCounter] + "-" + d;
-			////console.log(zid);
+			//////CONSOLE.LOG(zid);
 			dataCounter++;
 	
 			return zid; 
@@ -4217,12 +4217,12 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
         var dataset =  [];
         for (var k = 0; k < graphData[i].length; k++)
         {	
-			//console.log(graphLabels);
-			//console.log(graphData);
+			////CONSOLE.LOG(graphLabels);
+			////CONSOLE.LOG(graphData);
 			if(graphLabels[i][k] != "undefined-NaN")
             dataset.push ({label: graphLabels[i][k], count: graphData[i][k]})
 		}
-        //console.log(dataset)
+        ////CONSOLE.LOG(dataset)
         
         //Creates the pie charts based on the questions
         var width = 120;
@@ -4512,7 +4512,7 @@ function saveGameState()
 		if(i!=globals.pastGraphLabels.length-1)
 			globals.textContents+="_";
 	}
-	////console.log(globals.pastGraphLabels);
+	//////CONSOLE.LOG(globals.pastGraphLabels);
 	globals.textContents+="~";
 	
 	//Save globals.remainingHoursDay
@@ -4553,7 +4553,7 @@ function loadGame()
 {
 	//Takes the Whole data and splits it into sections
 	var saveArray = saveState.split("~");
-	////console.log(saveArray);
+	//////CONSOLE.LOG(saveArray);
 	
 	//Past Poll Choices Section
 	if(saveArray[0] != [])
@@ -4654,7 +4654,7 @@ function loadGame()
     //Set player candidate
     globals.playerCandidate = globals.candidates[0];
 
-	//console.log(candAtts);
+	////CONSOLE.LOG(candAtts);
 
 	//Remaining Hours Section
 	globals.remainingHoursTotal = parseInt(saveArray[4]);
@@ -4663,10 +4663,10 @@ function loadGame()
 
 	var graph = [];
 	var multiGraphData = saveArray[5].split("_");
-	////console.log(multiGraphData);
+	//////CONSOLE.LOG(multiGraphData);
 	for(var z = 0; z < multiGraphData.length; z++){
 		var questionData = multiGraphData[z].split("*");
-		////console.log(questionData);
+		//////CONSOLE.LOG(questionData);
 		for(var y = 0; y < questionData.length; y++){
 			var holderHolder = questionData[y].split(",")
 			var holdArray = [];
@@ -4675,7 +4675,7 @@ function loadGame()
 			}
 		graph.push(holdArray);
 		}
-		////console.log(graph);
+		//////CONSOLE.LOG(graph);
 	globals.pastGraphData.push(graph);	
 	graph = [];
 	}
@@ -4701,7 +4701,7 @@ function loadGame()
 				}
 			}
 			globals.pastGraphLabels.push(pglResults);
-			////console.log(pglResults);
+			//////CONSOLE.LOG(pglResults);
 		}
 	}
 
@@ -4782,11 +4782,11 @@ function getSession(gameOver)
 {
 	//Takes the Whole data and splits it into sections
 	var saveArray = saveState.split("~");
-	//console.log(saveArray[9])
-	//console.log(saveArray[9] !=[] && saveArray[9] != "NaN" && saveArray[9] != undefined && saveArray[9] != "")
+	////CONSOLE.LOG(saveArray[9])
+	////CONSOLE.LOG(saveArray[9] !=[] && saveArray[9] != "NaN" && saveArray[9] != undefined && saveArray[9] != "")
 
 	if(!globals.gameOver){
-    	//console.log(saveArray[9] == "NaN")
+    	////CONSOLE.LOG(saveArray[9] == "NaN")
     	if(saveArray[9] !=[] && saveArray[9] != "NaN" && saveArray[9] != undefined && saveArray[9] != "")
     	{
         	globals.gameSession = parseInt(saveArray[9]) + 1;
@@ -4914,7 +4914,7 @@ function gameResults(scores, tutorial)
 		globals.remainingHoursTotal-=1;
 		globals.remainingHoursDay-=1;
 		var pos = chosenEvent.groupPos.split(',');
-		//console.log(pos);
+		////CONSOLE.LOG(pos);
 		var posText =  "<h4>You completed the minigame with a score of "+scores.score+" <br>You increased your popularity with these groups: ";
 		for (var i =0; i< pos.length;i++){
 			switch(pos[i])
@@ -5066,7 +5066,7 @@ function trendReporter(category)
                             globals.candidates.forEach(function(element2)
                             {
                             	answers.push(element2.name);
-                            	//console.log(answers);
+                            	////CONSOLE.LOG(answers);
                             });
                         }
                     }
@@ -5302,7 +5302,7 @@ function trendReporter(category)
             .style("fill", 'orange')
             .text(data4[0].key);
         }
-        //console.log(data5)
+        ////CONSOLE.LOG(data5)
         if(data5.length > 0)
         {
         	
@@ -5393,9 +5393,9 @@ function dayPollBuffer()
 /* Console Disabling Code */
 
 //Disable Console Logging
-//window.//console.log = function(){
+//window.////CONSOLE.LOG = function(){
 //    console.error('The ability to view the console is disabled for security purposes.');
-//    window.//console.log = function() {
+//    window.////CONSOLE.LOG = function() {
 //        return false;
 //    }
 //}
@@ -5411,7 +5411,7 @@ var i = 0;
 function showWarningAndThrow() {
     if (!i) {
         setTimeout(function () {
-            //console.log("%cWarning message", "font: 2em sans-serif; color: yellow; background-color: red;");
+            ////CONSOLE.LOG("%cWarning message", "font: 2em sans-serif; color: yellow; background-color: red;");
         }, 1);
         i = 1;
     }
