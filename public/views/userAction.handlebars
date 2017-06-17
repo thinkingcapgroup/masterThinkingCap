@@ -1,18 +1,16 @@
 
-{{#if timeLeft}}
-
-
 {{#each mapAreas}}
   {{#ifNotEquals this.name "Quad"}}
   <div class="eventChoices" id='{{this.name}}Choice' style="display:none">
     <h2>{{this.name}}</h2>
-    {{#each this.events}}
-      <button class='primaryBtn' onclick = 'action({{this.id}})'>{{this.name}}<span class='timeSpan'> {{this.timeRequired}} Hours)</span></button>
-    {{/each}}
+    {{#if ../timeLeft}}
+      {{#each this.events}}
+        <button class='primaryBtn' onclick = 'action({{this.id}})'>{{this.name}}<span class='timeSpan'> ({{this.timeRequired}} Hours)</span></button>
+      {{/each}}
+    {{else}}
+      <h3>You don't have enough time to do any more events. But, you do have time to make a statement!</h3>
+    {{/if}}
   </div>
   {{/ifNotEquals}}
 {{/each}}
 
-{{else}}
-  <h3>You don't have enough time to do any more events. But, you do have time to make a statement!</h3>
-{{/if}}

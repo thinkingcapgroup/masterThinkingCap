@@ -1,3 +1,4 @@
+<div id='tutorial' style='text-align:left;'>
 {{#each tutorialPages}}
   {{#ifEquals ../currentPage @index}}
     <h3>{{this.title}}</h3>
@@ -30,6 +31,7 @@
       </button>
   {{/ifEquals}}
 {{/each}}
+</div>
 
 {{#if isHelp}}
   <br><br>
