@@ -246,7 +246,7 @@ function createTutorialPages(){
   tutorialPages.push(new TutorialPage(title, content, image));
   
   //Statements
-  title = "Statements Continued";
+  title = "Statements - Continued";
   content = "<p>People are more likely to vote for you if they agree with you on the issues. Be sure to stick to one stance on each issue, because people won't like it if they can't trust you. Statements take an hour to prepare and perform.</p>";
   tutorialPages.push(new TutorialPage(title, content, image));
   
@@ -277,7 +277,13 @@ function createTutorialPages(){
   
   //Polling
   title = "Polling";
-  content = "<p>With polls you can see how the populations around the school feel about the candidates, and issues. You take polls in different areas which will have different biases. Polls take time to conduct, but the current student government will conduct one for you at the end of each day. These will help you see your effect on the population.</p>";
+  content = "<p>With polls you can see how the populations around the school feel about the candidates, and issues. You take polls in different areas which will have different biases.</p>";
+  image = '../img/menu/takeapollicon.png';
+  tutorialPages.push(new TutorialPage(title, content, image));
+  
+  //Polling
+  title = "Polling - Continued";
+  content = "<p> Polls take time to conduct, but the current student government will conduct one for you at the end of each day. These will help you see your effect on the population.</p>";
   image = '../img/menu/takeapollicon.png';
   tutorialPages.push(new TutorialPage(title, content, image));
 		
@@ -309,7 +315,7 @@ function createTutorialPages(){
   
   //Practice Area
   title = "Practice Area";
-  content = "<p>And that’s it. I said polls were important, so I've created a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data is not real and does not represent the actual students or candidates. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>";
+  content = "<p>And that’s it. I said polls were important, so I've created a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data does not represent the actual students or candidates. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>";
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Set previous and nexts
@@ -1974,7 +1980,7 @@ function drawPoll(state, isFree, isFake){
     //Tutorial's practice poll
 	if(state == POLL_STATES.TUTORIAL){
 		document.getElementById("next").innerHTML += "<br> <button class='primaryBtn' type='button' onclick='chooseDiff()'> Start the Game </button>";
-		document.getElementById("back").innerHTML = "<button type='button' onclick=tutorial("+false+")'>Return to Tutorial </button>";
+		document.getElementById("back").innerHTML = "<button type='button' onclick='tutorial("+false+")'>Return to Tutorial </button>";
 	}
     //Poll within Practice Area
 	else if (state == POLL_STATES.PRACTICE_AREA){
@@ -3800,9 +3806,11 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 	var headRow = tableHead.insertRow(0);
 	
 	
+		//console.log("in");
 	//Makes the table headers based on the chose questions
 	for(var h = 0; h < pollChoices.length; h++)
 	{
+		console.log(graphData);
 		if(pollChoices[h] != null)
 		{
 			if(h==0)
@@ -4281,11 +4289,14 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 		//////CONSOLE.LOG("Question "+graphQuestions[i] + " has a length of: " + graphData[i].length);
 		//////CONSOLE.LOG(graphData[questionNum]);
         
-        //GRAPH DATA BUG: for stefen
-        for (var j = 0; j < graphData[i].length; j++)
-        {
-			//////CONSOLE.LOG(globals.graphData[questionNum], " AT ", questions[qID].question)					
-			data2[j]=graphData[i][j];
+		if(graphData[i] != null)
+		{
+			//GRAPH DATA BUG: for stefen
+			for (var j = 0; j < graphData[i].length; j++)
+			{
+				//////CONSOLE.LOG(globals.graphData[questionNum], " AT ", questions[qID].question)					
+				data2[j]=graphData[i][j];
+			}
 		}
 
         //Creates the bar graphs based on the questions
@@ -4852,10 +4863,24 @@ function loadGame()
     canvas.width = 500;
     canvas.height = 555;
     let ctx = canvas.getContext('2d');
+  
+
     
     //Create player Image
     headSheet = new Sprite({context: ctx, width: 155, height: 171, image: globals.heads});
+    headSheet.frameIndex = globals.playerCandidate.headNum;
+    headSheet.frameIndexRace = globals.playerCandidate.raceNum;
+    
 	bodySheet = new Sprite({context: ctx, width: 164, height: 343, image: globals.thinBody});
+    bodySheet.bodyArrayHolder = globals.playerCandidate.bodyTypeNum;
+    bodySheet.frameIndexClothing = globals.playerCandidate.genderNum;
+  
+    let temp = bodySheet.bodyArrayHolder;
+	headSheet.bodyArrayHolder = temp;
+
+	bodySheet.image = globals.imgArrayBody[temp];
+	bodySheet.width = globals.imgArrayBodyWidth[temp];
+	bodySheet.height = globals.imgArrayBodyHeight[temp];
 
 	//draws on the canvas
 	drawOnCanvas(headSheet, bodySheet);
@@ -5140,6 +5165,7 @@ function trendReporter(category)
     
     for(var i =0; i< globals.pastPollChoices.length;i++)
     {
+		var limit = false;
         tempGraphData = [];
         globals.pastGraphData[i].forEach(function(e)
         {
@@ -5149,6 +5175,11 @@ function trendReporter(category)
         //removes the first 2 answers from each pastGraph data
         tempGraphData.splice(0,2);
         
+		if(globals.pastPollSizes[i] = 40)
+		{
+			limit=true;
+		}
+		
         //GOes through each question choesn by the player
         for(var j =0; j< globals.pastPollChoices[i].length; j++)
         {
@@ -5187,16 +5218,20 @@ function trendReporter(category)
                 //For each answer to the current question pushes the count of people who had this answer into a cooresponding array
                 for (var k =0; k< tempGraphData[j].length; k++)
                 {
-
+					var countAlt;
                     switch(k)
                     {
                         case 0:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
                         data0.push(
                         {
-                            count:(tempGraphData[j][k]/tempGraphTotal) * 100,
+							count: countAlt,
                             poll: i,
                             key: answers[k]
-
+							
                         });
 
                         //data0.splice(i,1,
@@ -5206,52 +5241,76 @@ function trendReporter(category)
                         //});
                         break;
                         case 1:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
                         data1.push(
                         {
-                            count: (tempGraphData[j][k]/tempGraphTotal) * 100,
+                            count: countAlt,
                             poll: i,
                             key: answers[k]
                         });
                      
                         break;
                         case 2:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
                         data2.push(
                         {
-                            count: (tempGraphData[j][k]/tempGraphTotal) * 100,
+                            count: countAlt,
                             poll: i,
                             key: answers[k]
                         });
                        
                         break;
                         case 3:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
                         data3.push(
                         {
-                            count:(tempGraphData[j][k]/tempGraphTotal) * 100,
+                            count: countAlt,
                             poll: i,
                             key: answers[k]
                         });
                      
                         break;
                         case 4:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
                         data4.push(
                         {
-                            count:(tempGraphData[j][k]/tempGraphTotal) * 100,
+                            count: countAlt,
                             poll: i,
                             key: answers[k]
                         });
                         break;
                         case 5:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
                         data5.push(
                         {
-                            count:(tempGraphData[j][k]/tempGraphTotal) * 100,
+                            count: countAlt,
                             poll: i,
                             key: answers[k]
                         });
                         break;
                         case 6:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
                         data6.push(
                         {
-                            count:(tempGraphData[j][k]/tempGraphTotal) * 100,
+                            count: countAlt,
                             poll: i,
                             key: answers[k]
                         });

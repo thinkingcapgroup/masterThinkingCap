@@ -857,11 +857,11 @@ runningGame2.main =
 					ctx.drawImage(labIcon, 230,25,150,100)
                     
 					ctx.fillStyle = '#000000'
-					var scoreText = runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " ";
+					var scoreText = "Target Group:     " + runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " ";
 					var photosLeftText = runningGame2.main.player.picturenum + '/3 Photos Taken'
 				
-					ctx.drawImage(iconArray[runningGame2.main.demograph1num], 850,7,25,25);
-					ctx.fillText(scoreText, 810,27);
+					ctx.drawImage(iconArray[runningGame2.main.demograph1num], 805,7,25,25);
+					ctx.fillText(scoreText, 650,27);
 					ctx.fillText(photosLeftText, 19,27);
 				}
 				if(runningGame2.main.areaNumber>0){
@@ -882,11 +882,11 @@ runningGame2.main =
 		
 
 					ctx.fillStyle = '#000000'
-					var scoreText = runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " ";
+					var scoreText = "Target Group:         " + runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " ";
 					var photosLeftText = runningGame2.main.player.picturenum + '/3 Photos Taken'
 				
-					ctx.drawImage(iconArray[runningGame2.main.demograph1num], 660,440,50,50);
-					ctx.fillText(scoreText, 620,470);
+					ctx.drawImage(iconArray[runningGame2.main.demograph1num], 690,440,50,50);
+					ctx.fillText(scoreText, 530,470);
 					ctx.fillText(photosLeftText, 190,470);
 					ctx.drawImage(backButton,10,440,150,50)
 
@@ -1488,11 +1488,11 @@ secretSticker.main =
             ctx.drawImage(labIcon, 230,25,150,100)
             
 			ctx.fillStyle = '#000000'
-			var scoreText = secretSticker.main.takenDemograph1 + '/'+ secretSticker.main.requiredDemograph1 + " ";
+			var scoreText = "Target Group:     " + secretSticker.main.takenDemograph1 + '/'+ secretSticker.main.requiredDemograph1 + " ";
 			var photosLeftText = secretSticker.main.postersLeft + '/5 Posters Left'
 			
-			ctx.drawImage(iconArray[secretSticker.main.demograph1num], 850,7,25,25);
-			ctx.fillText(scoreText, 810,27);
+			ctx.drawImage(iconArray[secretSticker.main.demograph1num], 805,7,25,25);
+			ctx.fillText(scoreText, 650,27);
 			ctx.fillText(photosLeftText, 19,27);
 	}
        
@@ -1554,11 +1554,11 @@ secretSticker.main =
             ctx.drawImage(blueBar,0,430,c.width,70)
 
             ctx.fillStyle = '#000000'
-            var scoreText = secretSticker.main.takenDemograph1 + '/'+ secretSticker.main.requiredDemograph1 + "";
+            var scoreText = "Target Group:         " + secretSticker.main.takenDemograph1 + '/'+ secretSticker.main.requiredDemograph1 + "";
             var photosLeftText = secretSticker.main.postersLeft + '/5 Posters Left'
             ctx.fillText(scoreText,530,470);
             ctx.fillText(photosLeftText, 210,470);
-            ctx.drawImage(interestArray[secretSticker.main.demograph1num], 580,440,50,50)
+            ctx.drawImage(interestArray[secretSticker.main.demograph1num], 690,440,50,50)
 
 
 
@@ -2588,7 +2588,7 @@ runningGame4.main = {
 		}
 		ctx.fillStyle = "white";
 		ctx.fillText("Score: " + runningGame4.main.scores.score, 10, 17);
-		ctx.fillText("Round " + (parseInt(runningGame4.main.round) +1),820,17);
+		ctx.fillText("Round " + (parseInt(runningGame4.main.round) +1),810,17);
 	},
 
 
