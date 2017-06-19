@@ -270,7 +270,13 @@ function createTutorialPages(){
   
   //Polling
   title = "Polling";
-  content = "<p>With polls you can see how the populations around the school feel about the candidates, and issues. You take polls in different areas which will have different biases. Polls take time to conduct, but the current student government will conduct one for you at the end of each day. These will help you see your effect on the population.</p>";
+  content = "<p>With polls you can see how the populations around the school feel about the candidates, and issues. You take polls in different areas which will have different biases.</p>";
+  image = '../img/menu/takeapollicon.png';
+  tutorialPages.push(new TutorialPage(title, content, image));
+  
+  //Polling
+  title = "Polling - Continued";
+  content = "<p> Polls take time to conduct, but the current student government will conduct one for you at the end of each day. These will help you see your effect on the population.</p>";
   image = '../img/menu/takeapollicon.png';
   tutorialPages.push(new TutorialPage(title, content, image));
 		
@@ -302,7 +308,7 @@ function createTutorialPages(){
   
   //Practice Area
   title = "Practice Area";
-  content = "<p>And that’s it. I said polls were important, so I've created a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data is not real and does not represent the actual students or candidates. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>";
+  content = "<p>And that’s it. I said polls were important, so I've created a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data does not represent the actual students or candidates. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>";
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Set previous and nexts
@@ -1967,7 +1973,7 @@ function drawPoll(state, isFree, isFake){
     //Tutorial's practice poll
 	if(state == POLL_STATES.TUTORIAL){
 		document.getElementById("next").innerHTML += "<br> <button class='primaryBtn' type='button' onclick='chooseDiff()'> Start the Game </button>";
-		document.getElementById("back").innerHTML = "<button type='button' onclick=tutorial("+false+")'>Return to Tutorial </button>";
+		document.getElementById("back").innerHTML = "<button type='button' onclick='tutorial("+false+")'>Return to Tutorial </button>";
 	}
     //Poll within Practice Area
 	else if (state == POLL_STATES.PRACTICE_AREA){
@@ -2380,7 +2386,7 @@ function statementResults(statement, statementValue)
     //ctx.scale(-1, 1);
     ctx.save();
     ctx.scale(-1, 1)
-    ctx.drawImage(playerImg, 40, -25, -250, 278);
+    //ctx.drawImage(playerImg, 40, -25, -250, 278);
     ctx.restore();  
   
   
@@ -3844,14 +3850,14 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 
 						case "issuefunctions":
 							var cell = headRow.insertCell(h);
-							var posInfo = globals.tableHeaders[9] + globals.positions[3];
+							var posInfo = globals.tableHeaders[9] + globals.positions[2];
 							cell.innerHTML = posInfo;
 							graphQuestions.push("issuefunctions");
 						break;
 
 						case "issuemedical":
 							var cell = headRow.insertCell(h);
-							var posInfo = globals.tableHeaders[9] + globals.positions[4];
+							var posInfo = globals.tableHeaders[9] + globals.positions[3];
 							cell.innerHTML = posInfo;
 							graphQuestions.push("issuemedical");
 						break;
@@ -4249,11 +4255,14 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 		//////CONSOLE.LOG("Question "+graphQuestions[i] + " has a length of: " + graphData[i].length);
 		//////CONSOLE.LOG(graphData[questionNum]);
         
-        //GRAPH DATA BUG: for stefen
-        for (var j = 0; j < graphData[i].length; j++)
-        {
-			//////CONSOLE.LOG(globals.graphData[questionNum], " AT ", questions[qID].question)					
-			data2[j]=graphData[i][j];
+		if(graphData[i] != null)
+		{
+			//GRAPH DATA BUG: for stefen
+			for (var j = 0; j < graphData[i].length; j++)
+			{
+				//////CONSOLE.LOG(globals.graphData[questionNum], " AT ", questions[qID].question)					
+				data2[j]=graphData[i][j];
+			}
 		}
 
         //Creates the bar graphs based on the questions
