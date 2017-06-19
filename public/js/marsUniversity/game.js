@@ -239,7 +239,7 @@ function createTutorialPages(){
   tutorialPages.push(new TutorialPage(title, content, image));
   
   //Statements
-  title = "Statements Continued";
+  title = "Statements - Continued";
   content = "<p>People are more likely to vote for you if they agree with you on the issues. Be sure to stick to one stance on each issue, because people won't like it if they can't trust you. Statements take an hour to prepare and perform.</p>";
   tutorialPages.push(new TutorialPage(title, content, image));
   
@@ -5119,6 +5119,7 @@ function trendReporter(category)
     
     for(var i =0; i< globals.pastPollChoices.length;i++)
     {
+		var limit = false;
         tempGraphData = [];
         globals.pastGraphData[i].forEach(function(e)
         {
@@ -5128,6 +5129,11 @@ function trendReporter(category)
         //removes the first 2 answers from each pastGraph data
         tempGraphData.splice(0,2);
         
+		if(globals.pastPollSizes[i] = 40)
+		{
+			limit=true;
+		}
+		
         //GOes through each question choesn by the player
         for(var j =0; j< globals.pastPollChoices[i].length; j++)
         {
@@ -5166,16 +5172,20 @@ function trendReporter(category)
                 //For each answer to the current question pushes the count of people who had this answer into a cooresponding array
                 for (var k =0; k< tempGraphData[j].length; k++)
                 {
-
+					var countAlt;
                     switch(k)
                     {
                         case 0:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
                         data0.push(
                         {
-                            count:(tempGraphData[j][k]/tempGraphTotal) * 100,
+							count: countAlt,
                             poll: i,
                             key: answers[k]
-
+							
                         });
 
                         //data0.splice(i,1,
@@ -5185,52 +5195,76 @@ function trendReporter(category)
                         //});
                         break;
                         case 1:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
                         data1.push(
                         {
-                            count: (tempGraphData[j][k]/tempGraphTotal) * 100,
+                            count: countAlt,
                             poll: i,
                             key: answers[k]
                         });
                      
                         break;
                         case 2:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
                         data2.push(
                         {
-                            count: (tempGraphData[j][k]/tempGraphTotal) * 100,
+                            count: countAlt,
                             poll: i,
                             key: answers[k]
                         });
                        
                         break;
                         case 3:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
                         data3.push(
                         {
-                            count:(tempGraphData[j][k]/tempGraphTotal) * 100,
+                            count: countAlt,
                             poll: i,
                             key: answers[k]
                         });
                      
                         break;
                         case 4:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
                         data4.push(
                         {
-                            count:(tempGraphData[j][k]/tempGraphTotal) * 100,
+                            count: countAlt,
                             poll: i,
                             key: answers[k]
                         });
                         break;
                         case 5:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
                         data5.push(
                         {
-                            count:(tempGraphData[j][k]/tempGraphTotal) * 100,
+                            count: countAlt,
                             poll: i,
                             key: answers[k]
                         });
                         break;
                         case 6:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
                         data6.push(
                         {
-                            count:(tempGraphData[j][k]/tempGraphTotal) * 100,
+                            count: countAlt,
                             poll: i,
                             key: answers[k]
                         });
