@@ -90,8 +90,15 @@ const images = {
   medNeg: '../../img/statement/medNeg.png',
   medPos: '../../img/statement/medPos.png',
   tuitPos: '../../img/statement/tuitPos.png',
-  tuitNeg: '../../img/statement/tuitNeg.png'
-  
+  tuitNeg: '../../img/statement/tuitNeg.png',
+  tuitionIcon: '../../img/icons/tuitionIcon.png',
+  budgetIcon: '../../img/icons/budgeticon.png',
+  medicalIcon: '../../img/icons/medicalIcon.png',
+  functionsIcon: '../../img/icons/functionsIcon.png',
+  negIcon: '../../img/icons/negIcon.png',
+  posIcon: '../../img/icons/posIcon.png',
+  statementBackground: '../../img/statement/statementBackground.png',
+  statementPodium: '../../img/statement/statementPodium.png'
 };
 
 function preloadImages(totalLoadPercent){
@@ -2338,33 +2345,37 @@ function statementResults(statement, statementValue)
   
     if(statementValue == 0){
       stance = "in favor of";
-      imgStance = "Pos";
+      imgStance = "pos";
     }
     else{
       stance = "against";
-      imgStance = "Neg";
+      imgStance = "neg";
     }
     
     switch(state){
       case 0:
         issue = "lowering tuition";
-        imgIssue = "tuit";
+        imgIssue = "tuition";
         break;
       case 1:
         issue = "increasing the budget";
-        imgIssue = "bud";
+        imgIssue = "budget";
         break;
       case 2:
         issue = "having more school functions";
-        imgIssue = "func";
+        imgIssue = "functions";
         break;
       case 3:
         issue = "improving medical services";
-        imgIssue = "med";
+        imgIssue = "medical";
         break;
     }
   
-    let statementImg = images[imgIssue+imgStance];
+    let effectImg = images[imgStance+"Icon"];
+    let issueImg = images[imgIssue+"Icon"];
+    //let statementImg = images[imgIssue+imgStance];
+    let statementBackground = images["statementBackground"];
+    let statementPodium = images["statementPodium"];
   
     let playerImg = images["playerImg"];
   
@@ -2372,17 +2383,24 @@ function statementResults(statement, statementValue)
     tempCanvas.width = 600;
     tempCanvas.height = 338;
     let ctx = tempCanvas.getContext('2d');
-    ctx.drawImage(statementImg, 0, 0, 600, 338);
-  
-    
+    ctx.drawImage(statementBackground, 0, 0, 600, 338);
   
     //ctx.translate(50, 400 + 50)
     //ctx.scale(-1, 1);
     ctx.save();
     ctx.scale(-1, 1)
     ctx.drawImage(playerImg, 40, -25, -250, 278);
-    ctx.restore();  
+    ctx.restore();
+    
+    ctx.drawImage(statementPodium, 0, 0, 600, 338);
   
+    ctx.save();
+    ctx.fillStyle = "#93dfef";
+    ctx.fillRect(300, 30, 230, 280);
+    ctx.restore();
+  
+    ctx.drawImage(effectImg, 315, 30, 200, 200);
+    ctx.drawImage(issueImg, 365, 190, 100, 100);
   
     let finalImg = tempCanvas.toDataURL("image/png");
   
@@ -3094,6 +3112,7 @@ function getScores(x, bias){
 	else{
 		groupRandom = Math.floor(Math.random()* 4);
 	}
+  
     //CONSOLE.LOG(groupRandom)
 	var majorRandom = Math.floor(Math.random()* 4);
 	var ath =0;
@@ -3194,12 +3213,14 @@ function votePercentage(sampleSize, bias)
 			{
 				winPercentage = candWinPer;
 				winner = globals.candidates[j].name;
+                console.log("Winner: "+winner);
 			}
 
 			if(candWinPer < lowPercentage || lowPercentage ==0)
 			{
 				lowPercentage = candWinPer;
 				loser = globals.candidates[j].name;
+                console.log("Loser: "+loser);
 			}
 		}
 			////CONSOLE.LOG("Current Winner" + winner + " Current Loser" + loser)
@@ -3211,6 +3232,7 @@ function votePercentage(sampleSize, bias)
 		globals.sample[i].results.losPer = lowPercentage;
 		globals.sample[i].results.win = winner;
 		globals.sample[i].results.los = loser;
+      
 		for(var k=0;k<globals.candidates.length; k++)
 		{
 			if(globals.candidates[k].name == winner)
@@ -3366,27 +3388,27 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 		switch(pollChoices[i])
 		{
 			case "candFav":
-			var array =[];
-			var array2 =[];
-			for(var j =0; j < globals.candidates.length;j++ )
-			{
-				array.push(0);
-				array2.push(globals.candidates[j].name);
-			}
-			globals.graphData.push(array);
-			pollLabelArray.push(array2);
-			break;
+              var array =[];
+              var array2 =[];
+              for(var j =0; j < globals.candidates.length;j++ )
+              {
+                  array.push(0);
+                  array2.push(globals.candidates[j].name);
+              }
+              globals.graphData.push(array);
+              pollLabelArray.push(array2);
+              break;
 			case "candOpp":
-			var array =[];
-			var array2 =[];
-			for(var j =0; j < globals.candidates.length;j++ )
-			{
-				array.push(0);
-				array2.push(globals.candidates[j].name);
-			}
-			globals.graphData.push(array);
-			pollLabelArray.push(array2);
-			break;
+              var array =[];
+              var array2 =[];
+              for(var j =0; j < globals.candidates.length;j++ )
+              {
+                  array.push(0);
+                  array2.push(globals.candidates[j].name);
+              }
+              globals.graphData.push(array);
+              pollLabelArray.push(array2);
+              break;
 			default:
 				for(var j =0; j < globals.questions.length; j++)
 				{
@@ -3394,6 +3416,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 					{
 						globals.graphData.push(globals.questions[j].graph.split(','));
 						pollLabelArray.push(globals.questions[j].labels.split(','));
+                        console.log("check match");
 					}
 					else
 					{
@@ -3408,7 +3431,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 								}
 							}
 						}
-						if(globals.questions[j].value == "candFame")
+						else if(globals.questions[j].value == "candFame")
 						{
 							for(var k =0; k< globals.candidates.length; k++)
 							{
@@ -3419,7 +3442,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 								}
 							}
 						}
-						if(globals.questions[j].value == "candTrust")
+						else if(globals.questions[j].value == "candTrust")
 						{
 							for(var k =0; k< globals.candidates.length; k++)
 							{
@@ -3430,6 +3453,9 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 								}
 							}
 						}
+                        else{
+                          console.log("Question has no match and was not added");
+                        }
 					}
 				}
 			break;
@@ -3505,22 +3531,22 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                         fav = globals.sample[j].medicalScore;
                         var favName = "Medical";
                     }
-                globals.tableArrays[0].push(favName);
-                //find if fave
-                if(favName == "Tuition"){
-                    globals.graphData[i+2][0]++;
-                }
-                else if(favName == "Budget"){
-                    globals.graphData[i+2][1]++;
-                }
-                else if(favName == "Functions"){
-                    globals.graphData[i+2][2]++;
-                }
-                else if(favName == "Medical"){
-                    globals.graphData[i+2][3]++;
-                }
+                    globals.tableArrays[0].push(favName);
+                    //find if fave
+                    if(favName == "Tuition"){
+                        globals.graphData[i+2][0]++;
+                    }
+                    else if(favName == "Budget"){
+                        globals.graphData[i+2][1]++;
+                    }
+                    else if(favName == "Functions"){
+                        globals.graphData[i+2][2]++;
+                    }
+                    else if(favName == "Medical"){
+                        globals.graphData[i+2][3]++;
+                    }
     
-                break;
+                    break;
     
                 case "issOpp":
                     var opp =0;
@@ -3545,69 +3571,69 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                         opp = globals.sample[j].medicalScore;
                         var oppName = "Medical";
                     }
-                globals.tableArrays[1].push(oppName);
-                //find if oppe
-                if(oppName == "Tuition"){
-                    globals.graphData[i+2][0]++;
-                }
-                else if(oppName == "Budget"){
-                    globals.graphData[i+2][1]++;
-                }
-                else if(oppName == "Functions"){
-                    globals.graphData[i+2][2]++;
-                }
-                else if(oppName == "Medical"){
-                    globals.graphData[i+2][3]++;
-                }
-    
-                break;
+                    globals.tableArrays[1].push(oppName);
+                    //find if oppe
+                    if(oppName == "Tuition"){
+                        globals.graphData[i+2][0]++;
+                    }
+                    else if(oppName == "Budget"){
+                        globals.graphData[i+2][1]++;
+                    }
+                    else if(oppName == "Functions"){
+                        globals.graphData[i+2][2]++;
+                    }
+                    else if(oppName == "Medical"){
+                        globals.graphData[i+2][3]++;
+                    }
+
+                    break;
     
                 case "candFav":
-				if(globals.candidates.length==2)
-				{
-                    globals.tableArrays[2].push(globals.sample[j].results.win);
-					for(var k =0; k< globals.candidates.length;k++)
-					{
-						if(globals.sample[j].results.win == globals.candidates[k].name){
-							globals.graphData[i+2][k]++;
-						}
-					}
-				}
-				else
-				{
-                    globals.tableArrays[2].push(globals.sample[j].results.win);
-					for(var k =0; k< globals.candidates.length;k++)
-					{
-						////CONSOLE.LOG()
-						if(globals.sample[j].results.win == globals.candidates[k].name){
-							globals.graphData[i+2][k]++;
-						}
-					}
-				}
-                break;
+                    if(globals.candidates.length==2)
+                    {
+                        globals.tableArrays[2].push(globals.sample[j].results.win);
+                        for(var k =0; k< globals.candidates.length;k++)
+                        {
+                            if(globals.sample[j].results.win == globals.candidates[k].name){
+                                globals.graphData[i+2][k]++;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        globals.tableArrays[2].push(globals.sample[j].results.win);
+                        for(var k =0; k< globals.candidates.length;k++)
+                        {
+                            ////CONSOLE.LOG()
+                            if(globals.sample[j].results.win == globals.candidates[k].name){
+                                globals.graphData[i+2][k]++;
+                            }
+                        }
+                    }
+                    break;
     
                 case "candOpp":
-				if(globals.candidates.length==2)
-				{
-                    globals.tableArrays[3].push(globals.sample[j].results.los);
-					for(var k =0; k< globals.candidates.length;k++)
-					{
-						if(globals.sample[j].results.los == globals.candidates[k].name){
-							globals.graphData[i+2][k]++;
-						}
-					}
-				}
-				else
-				{
-                    globals.tableArrays[3].push(globals.sample[j].results.los);
-					for(var k =0; k< globals.candidates.length;k++)
-					{
-						if(globals.sample[j].results.los == globals.candidates[k].name){
-							globals.graphData[i+2][k]++;
-						}
-					}
-				}
-                break;
+                    if(globals.candidates.length==2)
+                    {
+                        globals.tableArrays[3].push(globals.sample[j].results.los);
+                        for(var k =0; k< globals.candidates.length;k++)
+                        {
+                            if(globals.sample[j].results.los == globals.candidates[k].name){
+                                globals.graphData[i+2][k]++;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        globals.tableArrays[3].push(globals.sample[j].results.los);
+                        for(var k =0; k< globals.candidates.length;k++)
+                        {
+                            if(globals.sample[j].results.los == globals.candidates[k].name){
+                                globals.graphData[i+2][k]++;
+                            }
+                        }
+                    }
+                    break;
     
     
     
@@ -3623,7 +3649,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                     else{
                         globals.graphData[i+2][2]++;
                     }
-                break;
+                    break;
     
                 case "playTrust":
                     globals.tableArrays[8].push(globals.candidates[0].consMod);
@@ -3637,7 +3663,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                     else{
                         globals.graphData[i+2][0]++;
                     }
-                break;
+                    break;
     
             }
             for(var k = 0;k<globals.positions.length;k++)
@@ -3757,6 +3783,12 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 //Builds a table by looping through the Array created by pollCalc and putting each value into a cell.
 function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, isFake, state, isFree)
 {   
+    console.log("graph data start");
+    for(let i = 0; i < graphData.length; i++){
+      console.log(graphLabels[i]+" "+graphData[i]);
+    }
+  console.log("graph data end");
+  
 	////CONSOLE.LOG(tableArray2);
 	var rowCounter = 0;
 	var cellCounter = 0;
