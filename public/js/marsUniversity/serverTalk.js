@@ -161,7 +161,7 @@ function pollOnchange(pollThing){
 }
 
 $(document).on('change', '.pollQ', function(){
-    console.log("pollQ change");
+    //console.log("pollQ change");
     
   var pollThing =$(this).attr('id');
     pollOnchange(pollThing);

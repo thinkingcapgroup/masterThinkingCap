@@ -3774,9 +3774,11 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 	var headRow = tableHead.insertRow(0);
 	
 	
+		//console.log("in");
 	//Makes the table headers based on the chose questions
 	for(var h = 0; h < pollChoices.length; h++)
 	{
+		console.log(graphData);
 		if(pollChoices[h] != null)
 		{
 			if(h==0)
