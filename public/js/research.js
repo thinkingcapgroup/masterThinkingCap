@@ -38,7 +38,7 @@ function deleteSaves()
 	if(document.getElementById("deletecheck1").checked == true && document.getElementById("deletecheck2").value == "DELETE54321")
 	{
 		console.log("Hey");
-		//$.post('/research/reset');
+		$.post('/research/reset');
 	}
 	else
 	{
