@@ -3844,14 +3844,14 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 
 						case "issuefunctions":
 							var cell = headRow.insertCell(h);
-							var posInfo = globals.tableHeaders[9] + globals.positions[3];
+							var posInfo = globals.tableHeaders[9] + globals.positions[2];
 							cell.innerHTML = posInfo;
 							graphQuestions.push("issuefunctions");
 						break;
 
 						case "issuemedical":
 							var cell = headRow.insertCell(h);
-							var posInfo = globals.tableHeaders[9] + globals.positions[4];
+							var posInfo = globals.tableHeaders[9] + globals.positions[3];
 							cell.innerHTML = posInfo;
 							graphQuestions.push("issuemedical");
 						break;
