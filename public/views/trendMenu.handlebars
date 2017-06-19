@@ -1,0 +1,37 @@
+<div id= 'reportButtons' > 
+  <h2> Trend Reports</h2><br>
+  <div>
+    <h3> General</h3>
+    <button onclick= 'trendReporter(`issFav`)' class = 'trendButton otherBtn' id = 'issFav' disabled>Favored Issue Report</button>
+    <button onclick= 'trendReporter(`issOpp`)' class = 'trendButton otherBtn' id = 'issOpp' disabled>Opposed Issue Report</button>
+    <button onclick= 'trendReporter(`candFav`)' class = 'trendButton otherBtn' id = 'candFav' disabled>Favored Candidate Report</button>
+    <button onclick= 'trendReporter(`candOpp`)' class = 'trendButton otherBtn' id = 'candOpp' disabled>Opposed Candidate Report</button>
+  </div>
+  <br>
+  <div>
+    <h3> Support For Issues</h3>
+    <button onclick= 'trendReporter(`issuetuition`)' class = 'trendButton otherBtn' id = 'issuetuition' disabled>Lowering Tuition Report</button>
+    <button onclick= 'trendReporter(`issuebudget`)' class = 'trendButton otherBtn' id = 'issuebudget' disabled>Increse Budget Report</button>
+    <button onclick= 'trendReporter(`issuefunctions`)' class = 'trendButton otherBtn' id = 'issuefunctions' disabled>More School Functions Report</button>
+    <button onclick= 'trendReporter(`issuemedical`)' class = 'trendButton otherBtn' id = 'issuemedical'  disabled>Improve Medical Services</button>
+  </div><br>
+  <div id = 'candReportsFame'>
+    <h3>Candidate Stats - Fame</h3>
+    {{#each candidates}}
+      {{#if @first}}
+        <button onclick= 'trendReporter("fame")' class = 'trendButton otherBtn' id = 'fame' disabled>Fame - {{this.name}}</button>
+      {{else}}
+        <button onclick= 'trendReporter("candFame{{this.name}}")' class = 'trendButton otherBtn' id = 'candFame{{this.name}}' disabled>Fame - {{this.name}}</button>
+      {{/if}}
+    {{/each}}
+  </div><br>
+  <div id = 'candReportsTrust'>
+    <h3>Candidate Stats - Trust</h3>
+    {{#each candidates}}
+      {{#if @first}}
+        <button onclick= 'trendReporter("playTrust")' class = 'trendButton otherBtn' id = 'playTrust' disabled>Trust - {{this.name}}</button>
+      {{else}}
+        <button onclick= 'trendReporter("candTrust{{this.name}}")' class = 'trendButton otherBtn' id = 'candTrust{{this.name}}' disabled>Trust - {{this.name}}</button>
+      {{/if}}
+    {{/each}}
+  </div>

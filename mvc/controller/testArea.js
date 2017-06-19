@@ -57,6 +57,30 @@ router.post('/recordDemo', auth, function (req, res, next)
   res.end();
 });
 
+router.post('/recordConsent', auth, function (req, res, next) 
+{
+  // Get user id
+  var id = req.user.userId,
+  nameText = req.body.name, 
+  dateText = req.body.date, 
+  IDText = req.body.stuID;
+  var passingObject = {userId: id, name: nameText, date: dateText, stuID: IDText}
+
+
+  require('../model/testArea/consent.js')(req, passingObject, function(err, success) {
+  // If there was an error
+  if (err) {
+    console.error(err);
+  }
+  // Otherwise
+  else {
+  }
+  });
+ 
+  // End response
+  res.end();
+});
+
 router.post('/recordTest', auth, function (req, res, next) 
 {
   // Get user id
@@ -84,9 +108,10 @@ router.post('/recordTest', auth, function (req, res, next)
     timeSpent = timeSpent / 1000
     var minutes = Math.floor(timeSpent / 60);
     var seconds = Math.floor(timeSpent - minutes * 60);
+	var playerConsent = "Yes";
 
     time = minutes + " minutes and " + seconds + " seconds"
-      var passingObject2 = {userId: id, startTime: startTime, endTime: endTime, timeSpent: time, testId: test, correctTotal:correctTotal}
+      var passingObject2 = {userId: id, startTime: startTime, endTime: endTime, timeSpent: time, testId: test, correctTotal:correctTotal, consent: playerConsent}
 
      require('../model/testArea/testTime.js')(req, passingObject2, function(err, success) {
     // If there was an error

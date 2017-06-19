@@ -1,0 +1,19 @@
+.pollTable table, .pollTable th, .pollTable td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+.pollTable th, .pollTable td {
+    padding: 5px;
+}
+.pollTable tbody
+{
+	background-color: #ff7f0e
+}
+
+/* Sortable tables */
+table.sortable thead {
+    background-color:#eee;
+    color:#666666;
+    font-weight: bold;
+    cursor: default;
+}

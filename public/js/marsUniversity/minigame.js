@@ -271,15 +271,15 @@ runningGame.main =
 	
 	doMousedown: function(c, e)
 	{ 
-	//console.log(globals.canvasMouse);
+	////CONSOLE.LOG(globals.canvasMouse);
 		var mouse = globals.canvasMouse;
 		runningGame.main.laneChanger(mouse, c, globals.ctx );
 	},
 
 	laneChanger: function (mouse,c,ctx)
 	{
-		//console.log(runningGame.main.lanes);
-		//console.log(mouse, runningGame.main.instruction);
+		////CONSOLE.LOG(runningGame.main.lanes);
+		////CONSOLE.LOG(mouse, runningGame.main.instruction);
 		if(!runningGame.main.instruction){
 		for(var i=0; i < runningGame.main.lanes.length; i++)
 		{
@@ -288,15 +288,15 @@ runningGame.main =
 				runningGame.main.player.x = ((runningGame.main.lanes[i].left+runningGame.main.lanes[i].right)/2 - 25);
 				if(i==0)
 				{
-					//console.log("1");
+					////CONSOLE.LOG("1");
 				}
 				else if(i==1)
 				{
-					//console.log("2");
+					////CONSOLE.LOG("2");
 				}
 				else if(i==2)
 				{
-					//console.log("3");
+					////CONSOLE.LOG("3");
 				}
 			}
 		}
@@ -373,7 +373,7 @@ runningGame.main =
 			});
 		}
 
-		//console.log(runningGame.main.enemies);
+		////CONSOLE.LOG(runningGame.main.enemies);
 	},
 
 	coinGenerator: function ()
@@ -551,7 +551,9 @@ runningGame2.main =
 		headIcons = new Image();
 		headIcons.src = '../img/spriteheadlong.png';
 		instruction = new Image();
-		instruction.src = '../img/minigame2/instruction.png'
+		instruction.src = '../img/minigame2/instruction1.png'
+		instruction2 = new Image();
+		instruction2.src = '../img/minigame2/instruction2.png'
 
 		//map icons
 		libraryIcon = new Image();
@@ -579,7 +581,7 @@ runningGame2.main =
 		researchIcon = new Image();
 		researchIcon.src = '../img/icons/researchsquare.png';
 		socialIcon = new Image();
-		socialIcon.src = '../img/icons/socialsquare.png';
+		socialIcon.src = '../img/icons/schoolevents.png';
 		medicalIcon = new Image();
 		medicalIcon.src = '../img/icons/medicalsquare.png';
 		//majoricons
@@ -604,6 +606,8 @@ runningGame2.main =
 		gymbg.src = '../img/minigame2/photobombgymbg.png';
 		libbg = new Image();
 		libbg.src = '../img/minigame2/Librarusnapshotbg.png';
+		labsbg = new Image();
+		labsbg.src = '../img/minigame2/labsbg.png';
 
 
 		//get people assets
@@ -649,6 +653,7 @@ runningGame2.main =
 		//now init
 		runningGame2.main.gameStop = false;
 		runningGame2.main.player.picturenum = 0;
+		runningGame2.main.player.pictures = [],
 		runningGame2.main.scores.score = 0;	
 		runningGame2.main.areaNumber = -1;	
 		c.onmousedown = runningGame2.main.doMousedown;
@@ -744,6 +749,10 @@ runningGame2.main =
 			ctx.drawImage(instruction,0,0,c.width,c.height)
 			ctx.drawImage(backButton,35,420,190,60)
 		}
+		else if (runningGame2.main.areaNumber == -3){
+			ctx.drawImage(instruction2,0,0,c.width,c.height)
+			ctx.drawImage(backButton,35,420,190,60)
+		}
 
 		else if(!runningGame2.main.inArea && runningGame2.main.areaNumber>=0)
 		{
@@ -760,10 +769,9 @@ runningGame2.main =
                 case 2:
                 ctx.drawImage(gymbg, 0,0,900,500);
                 break;
-                //case 3:
-                //ctx.fillStyle = '#FFFFFF';
-                //ctx.drawImage(labWall, 0,0,900,500);            
-                //break;
+                case 3:
+                ctx.drawImage(labsbg, 0,0,900,500);            
+                break;
                 case 4:
                 ctx.fillStyle = '#FFFFFF';
                 ctx.drawImage(cafebg, 0,0,900,500);
@@ -850,7 +858,7 @@ runningGame2.main =
                     
 					ctx.fillStyle = '#000000'
 					var scoreText = runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " ";
-					var photosLeftText = runningGame2.main.player.picturenum + '/3 Photos Left'
+					var photosLeftText = runningGame2.main.player.picturenum + '/3 Photos Taken'
 				
 					ctx.drawImage(iconArray[runningGame2.main.demograph1num], 850,7,25,25);
 					ctx.fillText(scoreText, 810,27);
@@ -875,11 +883,11 @@ runningGame2.main =
 
 					ctx.fillStyle = '#000000'
 					var scoreText = runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " ";
-					var photosLeftText = runningGame2.main.player.picturenum + '/3 Photos Left'
+					var photosLeftText = runningGame2.main.player.picturenum + '/3 Photos Taken'
 				
 					ctx.drawImage(iconArray[runningGame2.main.demograph1num], 660,440,50,50);
 					ctx.fillText(scoreText, 620,470);
-					ctx.fillText(photosLeftText, 210,470);
+					ctx.fillText(photosLeftText, 190,470);
 					ctx.drawImage(backButton,10,440,150,50)
 
 					//student ID card
@@ -888,8 +896,8 @@ runningGame2.main =
 						//draw head
 						ctx.drawImage(headIcons,154 * runningGame2.main.activeStudent.headID,0,154,172,runningGame2.main.activeStudent.x + 68,runningGame2.main.activeStudent.y-96,60,60)
 						//draw icon
-						ctx.drawImage(iconArray[runningGame2.main.activeStudent.interest],runningGame2.main.activeStudent.x + 207,runningGame2.main.activeStudent.y-52,37,37)
-						ctx.drawImage(majorIconArray[runningGame2.main.activeStudent.major],runningGame2.main.activeStudent.x + 142,runningGame2.main.activeStudent.y-52,37,37)
+						ctx.drawImage(iconArray[runningGame2.main.activeStudent.interest],runningGame2.main.activeStudent.x + 207,runningGame2.main.activeStudent.y-52,37,27)
+						ctx.drawImage(majorIconArray[runningGame2.main.activeStudent.major],runningGame2.main.activeStudent.x + 142,runningGame2.main.activeStudent.y-52,37,27)
 					}
 				}
 		
@@ -922,7 +930,7 @@ runningGame2.main =
 
 	doMousedown: function(c, e)
 	{ 
-		//console.log(globals.canvasMouse);
+		////CONSOLE.LOG(globals.canvasMouse);
 		var mouse = globals.canvasMouse;
 		var update = false
 
@@ -995,6 +1003,12 @@ runningGame2.main =
 			runningGame2.main.areaNumber--;
 		}
 		else if(runningGame2.main.areaNumber == -2 && (mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225) ){
+			runningGame2.main.areaNumber++;
+		}
+		else if(runningGame2.main.areaNumber == -2 && (mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 666 && mouse.x <=856) ){
+			runningGame2.main.areaNumber--;
+		}
+		else if(runningGame2.main.areaNumber == -3 && (mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225) ){
 			runningGame2.main.areaNumber++;
 		}
 
@@ -1163,9 +1177,9 @@ secretSticker.main =
         titleScreen = new Image();
 		titleScreen.src = '../img/minigame3/titlescreen.png';
 		instruction = new Image();
-		instruction.src = '../img/minigame3/instruction2.png'
+		instruction.src = '../img/minigame3/instruction1.png'
 		instruction2 = new Image();
-		instruction2.src = '../img/minigame3/instruction1.png'
+		instruction2.src = '../img/minigame3/instruction2.png'
 
         //map icons
         libraryIcon = new Image();
@@ -1475,7 +1489,7 @@ secretSticker.main =
             
 			ctx.fillStyle = '#000000'
 			var scoreText = secretSticker.main.takenDemograph1 + '/'+ secretSticker.main.requiredDemograph1 + " ";
-			var photosLeftText = secretSticker.main.player.picturenum + '/3 Photos Left'
+			var photosLeftText = secretSticker.main.postersLeft + '/5 Posters Left'
 			
 			ctx.drawImage(iconArray[secretSticker.main.demograph1num], 850,7,25,25);
 			ctx.fillText(scoreText, 810,27);
@@ -1626,7 +1640,7 @@ secretSticker.main =
 
     doMousedown: function(c, e)
     { 
-        //console.log(globals.canvasMouse);
+        ////CONSOLE.LOG(globals.canvasMouse);
         var mouse = globals.canvasMouse;
 
         //check if the area is clickable
@@ -1756,7 +1770,7 @@ secretSticker.main =
 
             if((mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 35 && mouse.x <=225))
             {
-            	 console.log('hey')
+            	 //CONSOLE.LOG('hey')
                 secretSticker.main.areaNumber = 9;
             }
             else if ((mouse.y >=420 && mouse.y <= 726) && (mouse.x >= 666 && mouse.x <=856)){
@@ -1839,28 +1853,26 @@ secretSticker.main =
     doMouseUp: function()
     {
         var mouse = globals.canvasMouse;
-        if(secretSticker.main.areaNumber != 0 && secretSticker.main.areaNumber <6)
+        if(secretSticker.main.areaNumber != 0 && secretSticker.main.areaNumber <6 && secretSticker.main.drag)
         {
-            secretSticker.main.drag = false;
-           
-            for(var i =0; i<secretSticker.main.areas[secretSticker.main.areaNumber].students.length; i++)
-            {
-            		checkx = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].x;
-            		checky = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].y;
-            	 if ((mouse.x >= checkx && mouse.x <=checkx + 100) && (mouse.y >= checky && mouse.y <=checky + 150))
-                {
-                    if(!secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions.stickered)
-                    {
-                    	
-                        if (secretSticker.main.activeID == secretSticker.main.demograph1num)
-                        {						
-                            secretSticker.main.takenDemograph1++;
-                            secretSticker.main.scores.score++;				
-                        }
-                        secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].stickered = true;
-                    }
-                }
-            }
+			for(var i =0; i<secretSticker.main.areas[secretSticker.main.areaNumber].students.length; i++)
+			{
+					checkx = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].x;
+					checky = secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].y;
+				if ((mouse.x >= checkx && mouse.x <=checkx + 100) && (mouse.y >= checky && mouse.y <=checky + 150))
+				{
+					if(secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].stickered == false)
+					{
+						if (secretSticker.main.activeID == secretSticker.main.demograph1num)
+						{		
+							secretSticker.main.takenDemograph1++;
+							secretSticker.main.scores.score++;				
+						}
+						secretSticker.main.areas[secretSticker.main.areaNumber].studentPositions[i].stickered = true;
+					}
+				}
+			}
+			secretSticker.main.drag = false;
         }
     },
     
@@ -1868,7 +1880,7 @@ secretSticker.main =
     {
 
         var posterCount = posterNum*2;
-        //console.log(posterCount)
+        ////CONSOLE.LOG(posterCount)
         createSample(posterCount, secretSticker.main.areaNumber-1);
         secretSticker.main.areas[secretSticker.main.areaNumber].students = [];
         globals.sample.forEach(function(element, i) 
@@ -2147,17 +2159,25 @@ runningGame4.main = {
 		instruction2.src = '../img/minigame4/instruction2.png'
 
 		if(globals.practice){
+                //CONSOLE.LOG("PRACTICE GAME");
 				runningGame4.main.player.headnum = 0;
-				runningGame4.main.player.facenum = 0;
+				runningGame4.main.player.racenum = 0;
 				runningGame4.main.player.gendernum = 0;
 				runningGame4.main.player.bodynum = 0;
 		}
 			else{
+                    //CONSOLE.LOG("playerCandidate game Name: "+globals.playerCandidate.name);
+                  //CONSOLE.LOG("playerCandidate game HeadNum: "+globals.playerCandidate.headNum);
+                //CONSOLE.LOG("playerCandidate game BodyNum: "+globals.playerCandidate.bodyTypeNum);
+                //CONSOLE.LOG("playerCandidate game raceNum: "+globals.playerCandidate.raceNum);
+              
 				runningGame4.main.player.headnum = globals.playerCandidate.headNum;
-				runningGame4.main.player.facenum = globals.playerCandidate.faceNum;
+				runningGame4.main.player.racenum = globals.playerCandidate.raceNum;
 				runningGame4.main.player.gendernum = globals.playerCandidate.genderNum;
 				runningGame4.main.player.bodynum = globals.playerCandidate.bodyTypeNum;
 			}
+      
+      
 		//words
 		getReady = new Image();
 		getReady.src = '../img/minigame4/getready.png';
@@ -2293,7 +2313,7 @@ runningGame4.main = {
 			runningGame4.main.endOfRound();
 		}
 		else{
-			//console.log('END GAME')
+			////CONSOLE.LOG('END GAME')
 			
 			gameResults(runningGame4.main.scores, globals.practice)
 		}
@@ -2358,12 +2378,29 @@ runningGame4.main = {
 			//nb f m
 			widthArray = [[280,289,280], [325,289,289],[352,352,352],[289,289,289]]
 			//bodyTypeArray [body][gender][movetype][movefram][x/y]
+      
+      
+            let bodyNum = globals.playerCandidate.bodyTypeNum;
+            let genderNum = globals.playerCandidate.genderNum;
+            let headNum = globals.playerCandidate.headNum;
+            let raceNum = globals.playerCandidate.raceNum;
+      
+            //CONSOLE.LOG("Correct Body: "+bodyNum+" current body: "+runningGame4.main.player.gendernum);
+            //CONSOLE.LOG("Correct Gender: "+genderNum+" current Gender: "+runningGame4.main.player.gendernum);
+            //CONSOLE.LOG("Correct Head: "+headNum+" current Head: "+runningGame4.main.player.headnum);
+            //CONSOLE.LOG("Correct Race: "+raceNum+" current Race: "+runningGame4.main.player.racenum);
+            
 			if(runningGame4.main.player.bodynum ==3){
-					ctx.drawImage(danceSheetArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum],((widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum]*3) * runningGame4.main.lastClick) + (widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum]* runningGame4.main.playerDancingFrame),0,widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum],468,390,200,110,200);
-			  		ctx.drawImage(headSheet,154 * ((6 * runningGame4.main.player.racenum) + runningGame4.main.player.headnum),0,153,172,413,193,59,67)
+                    
+                    
+                    ctx.drawImage(danceSheetArray[bodyNum][runningGame4.main.player.gendernum],((widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum]*3) * runningGame4.main.lastClick) + (widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum]* runningGame4.main.playerDancingFrame),0,widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum],468,390,200,110,200);
+			  		
+              
+                    ctx.drawImage(headSheet,154 * ((6 * runningGame4.main.player.racenum) + runningGame4.main.player.headnum),0,153,172,413,193,59,67);
 			}
 				else{
 					ctx.drawImage(headSheet,154 * ((6 * runningGame4.main.player.racenum) + runningGame4.main.player.headnum),0,153,172,arrayOfHeadCoords[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum][runningGame4.main.lastClick][runningGame4.main.playerDancingFrame][0],arrayOfHeadCoords[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum][runningGame4.main.lastClick][runningGame4.main.playerDancingFrame][1],59,67)
+                  
 					ctx.drawImage(danceSheetArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum],((widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum]*3) * runningGame4.main.lastClick) + (widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum]* runningGame4.main.playerDancingFrame),0,widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum],468,390,200,110,200);
 			  	
 				}
@@ -2374,6 +2411,7 @@ runningGame4.main = {
 			stu2 = [[[714,209],[712,209],[708,207]],[[719,208],[714,214],[712,214]],[[718,208],[714,214],[736,214]],[[722,207],[714,214],[703,214]]]
 
 			ctx.drawImage(headSheet,154.6 * 0,0,154.6,172,stu1[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][0],stu1[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][1],59.6,62)
+      
 			ctx.drawImage(headSheet,154.6 * 0,0,154.6,172,stu2[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][0],stu2[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][1],59.6,62)
 
 			//other students dont care
@@ -2548,7 +2586,9 @@ runningGame4.main = {
 				ctx.drawImage(textArray[runningGame4.main.resultText], arrayofWidths[runningGame4.main.resultText][0], arrayofWidths[runningGame4.main.resultText][1],arrayofWidths[runningGame4.main.resultText][2],arrayofWidths[runningGame4.main.resultText][3]);
 			}
 		}
-
+		ctx.fillStyle = "white";
+		ctx.fillText("Score: " + runningGame4.main.scores.score, 10, 17);
+		ctx.fillText("Round " + (parseInt(runningGame4.main.round) +1),820,17);
 	},
 
 
@@ -2563,7 +2603,7 @@ runningGame4.main = {
 		runningGame4.main.danceOrder[1] = Math.floor(Math.random() * 4);
 		runningGame4.main.danceOrder[2] = Math.floor(Math.random() * 4);
 		runningGame4.main.danceOrder[3] = Math.floor(Math.random() * 4);
-		//console.log(runningGame4.main.danceOrder);
+		////CONSOLE.LOG(runningGame4.main.danceOrder);
 	},
 
 	danceMoveCheck: function(clicked){
@@ -2739,7 +2779,7 @@ runningGame4.main = {
 
 	promptChecker: function(prompt,x){
 		var groupPop = runningGame4.main.groups[x]
-		//console.log(groupPop)
+		////CONSOLE.LOG(groupPop)
 		switch(prompt){
 			case 0:			
 				var minArray = Math.min.apply(groupPop, runningGame4.main.groups);		

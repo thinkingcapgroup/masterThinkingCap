@@ -111,7 +111,8 @@ function renderEditAccount (req, res) {
   var model = require('../../model/global/global')(req, res),
       getUserData = {
         column: 'userId',
-        value: tempUserData.userId
+        //value: tempUserData.userId
+        value: req.user.userId
       };
 
   model.content.pageTitle = 'Edit Account';
@@ -127,14 +128,14 @@ function renderEditAccount (req, res) {
       model.userRoles = r;
     }
 
-    if (tempUserData.userName) {
-      model.errorNotifications = (errorNotifications) ? errorNotifications : null;
-      model.successNotifications = (successNotifications) ? successNotifications : null;
-      model.userData = tempUserData;
-      // Render /edituser using the 'editUser' view and model
-      res.render('account/editAccount', model);
-    }
-    else {
+    //if (tempUserData.userName) {
+    //  model.errorNotifications = (errorNotifications) ? errorNotifications : null;
+    //  model.successNotifications = (successNotifications) ? successNotifications : null;
+    //  model.userData = tempUserData;
+    //  // Render /edituser using the 'editUser' view and model
+    //  res.render('account/editAccount', model);
+    //}
+    //else {
       require('../../model/users/getUserByColumn')(req, getUserData, function (err, u) {
         if (err) {
           errorNotifications.push(err);
@@ -150,7 +151,7 @@ function renderEditAccount (req, res) {
         // Render /editaccount using the 'editAccount' view and model
         res.render('account/editAccount', model);
       });
-    }
+    //}
   });
 }
 

@@ -1,0 +1,261 @@
+#game {font-family:'Open Sans';} 
+
+#game h1, #game h2, #game h3, #game h4{
+  font-family: 'Varela Round', sans-serif;
+}
+
+#game h4{
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+#game h3{
+  color: $dark-aqua;
+}
+
+#centerDisplay{
+  text-align: center;
+}
+
+#holopad
+{
+    background-color: #90e7f2;
+    padding:1em;
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px 6px #539ca2;
+    border: 1px solid #70c5cd;  
+  
+    margin-top: 45px;
+    margin-bottom: 100px;
+    margin-right: 4.5%;
+    margin-left: 4%;
+}
+#lowerContent{
+  padding: 1em;
+  background-color: #6bd0e2;
+  box-shadow: inset 0px 0px 60px 15px #90e7f2, 0px 0px 10px 1px #8fe6f0;
+  border-radius:10px;
+  min-height: 570px;
+}
+#contentContainer{
+  width:100%;
+}
+#gameContents
+{
+    border-radius: 10px;
+    border: 5px solid #65c5da;
+    background-color: #65c5da;
+    min-height: 600px;
+}
+#mapArea{
+  float:left;
+  width:50%;
+}
+
+#tutorialBubble{
+  position: relative; 
+  border: 2px solid black; 
+  overflow:hidden; 
+  height:500px;
+}
+
+#topBar{
+    margin-top:.3em;
+    display: inline-flex;
+    width:100%;
+    justify-content: space-between;
+}
+#userAction{
+  width:100%;
+}
+#iconBar img{
+    padding-right: .2em;
+}
+#mainContent{
+    display: none;
+    margin-right: 1em;
+    padding:1em;
+    background-color: #93dfef;
+    border-radius: 10px;
+}
+
+.columns{
+  display:inline-flex;
+}
+.rows{
+  display:block;
+}
+.left{
+  width:37%;
+  display: block !important;
+}
+.center{
+  width:100%;
+  display: block !important;
+}
+.right{
+    width: 62%;
+    min-width: 520px;
+}
+.mapContainer{
+  width:100%;
+  min-width:520px;
+}
+
+.locationChoice{
+    
+}
+.locationChoice h2 {
+    
+}
+.eventChoices{
+  width:100%;
+}
+.eventChoices button{
+  padding: .6em;
+  display:block;
+  margin:auto;
+  margin-top: 1em;
+  width:250px;
+}
+
+.primaryBtn, .otherBtn{
+  padding: .4em;
+}
+
+button.primaryBtn{
+  background-color: $light-orange;
+  border: 2px solid $orange;
+  border-radius: 10px;
+  font-size: 110%;
+  display:block;
+}
+
+#back button{
+  background-color: #3e8e9f;
+  border: 2px solid #c4f4fe;
+  border-radius: 10px;
+  font-size: 110%;
+  color: #c4f4fe;
+}
+
+#game button {
+  margin-top:1em;
+  margin-bottom:1em;
+  outline: none;
+  font-family: 'Open Sans';
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#back button:hover{
+  background-color: #054d5c;
+}
+
+button.otherBtn{
+  background-color: #dde1e2;
+  border: 2px solid #167083;
+  border-radius: 10px;
+  font-size: 100%;
+}
+
+button.otherBtn:hover:enabled{
+  background-color: #eff5f7;
+}
+
+button.primaryBtn:hover{
+  background-color: $gold;
+  border: 2px solid $light-orange;
+}
+span.timeSpan{
+  color: $dark-blue;
+  font-size:90%;
+}
+
+#eventImg, #eventbg{
+  width:100%;
+}
+#eventbg, .resolutionImg{
+  border-radius:10px;
+}
+.effectsHeader{
+  display: inline-flex;
+  align-items: center;
+  margin: 1em;
+  justify-content: space-between;
+}
+.effectsHeader h3{
+  margin-right: .6em;
+}
+
+#gameArea{
+  max-width: 1200px;
+  min-width: 1010px;
+}
+#playerInfo{
+  width:100%;
+  padding:.2em;
+  background-color: #65c5da;
+}
+#holo-corner{
+  position: absolute;
+  z-index: 3;
+  right:0;
+  margin-top:-60px;
+  pointer-events:none;
+}
+
+@media(max-width: 1200px){
+  #holo-corner{
+    left: -190px;
+    right:auto;
+  }
+  #holo{
+    width:1010px;
+  }
+}
+
+progress::-webkit-progress-value {
+  transition:width .5s linear
+}
+progress[value] {
+   -webkit-appearance: none;
+  width: 300px;
+  height: 30px;
+}
+#loadBar{
+  width:50%;
+}
+#loadContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:400px;
+  flex-direction: column;
+}
+#practice{
+  text-align: center;
+}
+.practiceBtn{
+  display:block;
+}
+
+#game input, #game select{
+    background-color: #effcff;
+    border: 2px solid #167083;
+    
+    font-family: 'Open Sans', sans-serif;
+    font-size: 90%;
+    
+    border-radius: 7px 7px 7px 7px;
+    -moz-border-radius: 7px 7px 7px 7px;
+    -webkit-border-radius: 7px 7px 7px 7px;
+    
+    margin-top:.4em;
+}
+#game input:focus, #game select:focus{
+    outline:none;
+    border-color: #c4f8ff;
+}
+#topBar img{
+  cursor:pointer;
+}

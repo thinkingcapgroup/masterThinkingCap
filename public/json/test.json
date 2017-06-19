@@ -24,7 +24,7 @@
 			[
 				"The parking time collected for the 150 students",
 				"All faculty, staff, and students who park at RIT.",
-				"The parking time for all students that park at RIT.",
+				"The parking time for all students who park at RIT.",
 				"Students who park at RIT between 9am and 10am on Wednesdays.",
 				"A and B"
 			],
@@ -47,7 +47,7 @@
 			"id":"2"
 		},
 		{
-			"question":"This year at Mars University, the total number of students is 1400 students. Among the students there are 380 humans, 600 Martians, and  420 'aliens' from other planets. Choose the letter A-E below that is a random sample of Mars University students.", 
+			"question":"Mars University has a total of 1400 students. Among the students there are 380 humans, 440 aliens and 580 Martians. Which letter A-E is an example of a random sample of Mars University students?", 
 			"type": "population",
 			"random":"yes",
 			"answers":
@@ -92,7 +92,7 @@
 			"id":"5"
 		},
 		{
-			"question":"<img src='..//img//tests//C&N-1.png'> <br>Which letter A-E identifies the numerical variable(s)?", 
+			"question":" A professor of international studies is supervising four students. Information about the students is in the table. <br> <img src='..//img//tests//C&N-1.png'> <br>Which letter A-E identifies the numerical variable(s)?", 
 			"type": "category",
 			"random":"no",
 			"answers":
@@ -128,7 +128,7 @@
 			"answers":
 			[
 				"Randomly select and interview fifty males and fifty female RIT professors",
-				"Interview professors who eat lunch at the faculty club",
+				"Interview professors who eat lunch at Gracies dining hall.",
 				"Interview all of the professors in five randomly selected departments",
 				"Randomly select professors who have filed complaints and interview those selected",
 				"A and C"
@@ -197,7 +197,7 @@
 			"id":"12"
 		},
 		{
-			"question":"<img src='..//img//tests//M&SD-2.png'><br>Which letter A-E is correct ?", 
+			"question":"Use the story and the dotplots to answer this question: We can compare baseball players Sammy Sosa and Barry Bonds by their batting averages.<br><img src='..//img//tests//M&SD-2.png'><br>Which letter A-E is correct ?", 
 			"type": "mean",
 			"random":"no",
 			"answers":
@@ -212,7 +212,7 @@
 			"id":"13"
 		},
 		{
-			"question":"<img src='..//img//tests//M&SD-3.png'><br> Which letter A-E is correct ?", 
+			"question":"Use the story and the graph to answer this question:  For Type A lightbulbs, the lifetime has μ = 3000 hours and σ = 200 hours. While for Type B lightbulbs, μ = 3000 hours and σ = 250 hours. <br><img src='..//img//tests//M&SD-3.png'><br> Which letter A-E is correct ?", 
 			"type": "mean",
 			"random":"no",
 			"answers":
@@ -287,7 +287,7 @@
 			"id":"18"
 		},
 		{
-			"question":"<img src='..//img//tests//P&P-2.png'> <br>What percentage of the students do NOT travel to school by car?", 
+			"question":"<img src='..//img//tests//P&P-2.png'> <br>What proportion of the students do NOT travel to school by car?", 
 			"type": "percentage",
 			"random":"yes",
 			"answers":

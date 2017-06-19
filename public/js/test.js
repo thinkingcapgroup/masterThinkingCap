@@ -6,6 +6,7 @@ var playerDemographicss =[];
 var playerConfidence = [];
 var testID;
 var postTest = false;
+var confidencetouched = [];
 
 function checkAnswers()
 {
@@ -13,7 +14,30 @@ function checkAnswers()
 	for( var i =0; i < playerAnswers.length; i++)
 	{
 		if(playerAnswers[i] == "")
-				complete = false;
+		{
+			complete = false;
+			var currentQuestion = "question" +i+"";
+			document.getElementById(currentQuestion).style.border = "thick solid";
+			document.getElementById(currentQuestion).style.borderColor = "red";
+		}
+		else
+		{
+			var currentConf = "question"+i+"";
+			document.getElementById(currentConf).style.borderColor = "transparent";
+		}
+		if(!confidencetouched[i])
+		{
+			complete = false;
+			var currentConf = "rightCol"+i+"";
+			document.getElementById(currentConf).style.border = "thick solid";
+			document.getElementById(currentConf).style.borderColor = "red";
+			
+		}
+		else
+		{
+			var currentConf = "rightCol"+i+"";
+			document.getElementById(currentConf).style.borderColor = "transparent";
+		}
 	}
 	if(complete)
 	{
@@ -25,7 +49,11 @@ function checkAnswers()
 		document.getElementById("warning").style.display = "block";
 	}
 }
-
+function preTestConsent()
+{
+		document.getElementById("consentForms").style.display = "block";
+		document.getElementById("testChoice").style.display = "none";
+}
 function showResults()
 {
 	document.getElementById("index-section").innerHTML = "";
@@ -46,8 +74,8 @@ function showResults()
         switch(testID)
         {
             case 'pre':
-            $.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: playerResults[j], testId: testID, confidence: playerConfidence[j] });
-            document.getElementById("index-section").innerHTML = "<h2> Test Submitted </h2> <br><br><a class = 'btn double remove' href='/dashboard'>Choose Module</a>";
+            $.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: playerResults[j], testId: testID, confidence: playerConfidence[j]});
+            document.getElementById("index-section").innerHTML = "<h2> Test Submitted </h2> <br><br><a class = 'btn double remove' href='/marsUniversity'>Choose Module</a>";
             break;
             case 'post':
             postTest = true;
@@ -60,7 +88,7 @@ function showResults()
 function showDemographics()
 {
 	document.getElementById("index-section").innerHTML = "";
-    for( var i =0; i < demographics.length; i++)
+    for( var i =1; i < demographics.length; i++)
 	{
         var demoNum = questions.length + i;
         document.getElementById("index-section").innerHTML += "<h1 class='question'>"+ demographics[i].question+"</h1>";
@@ -104,7 +132,7 @@ function showDemographics()
 function checkDemographics()
 {
 	complete = true;
-	for( var i = 0; i < demographics.length; i++)
+	for( var i = 1; i < demographics.length; i++)
 	{
         var demoNum = questions.length + i;
         switch(demographics[i].type)
@@ -142,7 +170,7 @@ function checkDemographics()
 }
 function submitDemographics()
 {
-    var _name = document.getElementById('q'+ (questions.length + 0) + 'a').value; 
+    var _name = "N/A"; 
     var _age = document.getElementById('q'+ (questions.length + 1) + 'a').value; 
     var _year = document.getElementById('q'+ (questions.length + 2) + 'a').value; 
     var radios = document.getElementsByName('q'+ (questions.length + 3));
@@ -203,7 +231,7 @@ function submitDemographics()
     {
         $.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: playerResults[j], testId: testID, confidence: playerConfidence[j]  });
     }
-    document.getElementById("index-section").innerHTML = "<h2> Test Submitted </h2><br><br><a class = 'btn double remove' href='/dashboard'>Choose Module</a>";
+    document.getElementById("index-section").innerHTML = "<h2> Test Submitted </h2><br><br><a class = 'btn double remove' href='/marsUniversity'>Choose Module</a>";
 }
 function submitAnswers()
 {
@@ -227,7 +255,7 @@ function submitAnswers()
         playerConfidence.push(confAnswer)
     }
 
-    console.log(playerConfidence)
+    //console.log(playerConfidence)
     checkAnswers();
 }
 
@@ -248,8 +276,28 @@ function start()
 	oReq.send();
 	
 }
+$(document).on('change','.consent',function(){
+	checkConsent();
+});
+function checkConsent()
+{
+	if(	document.getElementById("name").value != "")
+	{
+		if(document.getElementById("date").value != "")
+		{
+			if(document.getElementById("stuID").value != "")
+			{
+				document.getElementById("postConsent").style.display = "block";
+				document.getElementById("postConsentPrompt").style.display = "none";
+			}
+		}
+	}
+}
+
 function  buildTests (type)
 {
+	document.body.scrollTop = document.documentElement.scrollTop = 0
+    $.post('/testArea/recordConsent', {name: document.getElementById("name").value, date: document.getElementById("date").value, stuID: document.getElementById("stuID").value});
     $.post('/testArea/newTestSession', {});
     document.getElementById('sectionHolder').style.backgroundColor = 'white'
 	document.getElementById("index-section").innerHTML = "";
@@ -268,9 +316,10 @@ function  buildTests (type)
 	for( var i =0; i < questions.length; i++)
 	{	
 		var questionNum = i + 1;
-		document.getElementById(questions[i].type).innerHTML += "<br><br><h1 class='question'>"+ questions[i].question+"</h1><br>";
-         document.getElementById(questions[i].type).innerHTML += "<div id = 'rightCol'><p>    Confidence: <br><i class='fa fa-frown-o fa-2x'></i> <input id = 'sliderValue"+i+"'type = 'range' min='1' max='10'  value = '5'> <i class='fa fa-smile-o fa-2x'></p></div>"
-        if(questions[i].random == "yes")
+		document.getElementById(questions[i].type).innerHTML += "<br><br><h1 class='question' id = 'question"+questions[i].id+"'>"+ questions[i].question+"</h1><br>";
+        document.getElementById(questions[i].type).innerHTML += "<div class = 'rightCol' id = 'rightCol"+i+"'><p>    Confidence: <br><i class='fa fa-frown-o fa-2x'></i> <input id = 'sliderValue"+i+"'type = 'range' min='1' max='10'  value = '5'> <i class='fa fa-smile-o fa-2x'></p></div>"
+        confidencetouched.push(false);
+		if(questions[i].random == "yes")
         {
             var answers = questions[i].answers.sort(function(a, b){return 0.5 - Math.random()});
         }
@@ -309,6 +358,14 @@ function  buildTests (type)
 	}
 	
 	document.getElementById("index-section").innerHTML += "</br></br><button onclick = 'submitAnswers()'> Submit Test </button>";
+	
+	for(let j =0; j < questions.length; j++)
+	{
+		var confidenceBar = "rightCol"+j+"";
+		document.getElementById(confidenceBar).onclick = function(){
+			confidencetouched[j] = true;
+		}
+	}
 }
 
 window.onload = start();

@@ -9,8 +9,10 @@ globals =
     lastMinigame:0, 
     isPoll:false,
     isCurrentAreaHover:0,
-    
-    
+	inGame: false,
+    first: false,
+    firstPoll: false,
+	firstState: false,
     tableHeaders:["Favored Issue", "Least Favored Issue", "Favored Candidate", "Least Favored Candidate", "Major", "Class", "Group", "Our Candidate's Fame", "Our Candidate's Trust", "Issue Support: ", "Candidate's Fame: ","Candidate's Trust: "],
     tableArrays:[[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]],
     pastPollChoices:[],
@@ -18,8 +20,8 @@ globals =
     pastPollSizes:[],
     pastGraphData:[],
     pastGraphLabels:[],
-    raceArray:["Android", "Human", "Martian"],
-    genderArray:["Non-Binary", "Female", "Male"],
+    lifeformArray:["Android", "Human", "Martian"],
+    bodyShapeArray:["Straight", "Curvy", "Broad"],
     bodyTypeArray:["Thin", "Medium", "Plus", "HoverChair"],
     back:false,
     num:1,
@@ -62,7 +64,8 @@ globals =
         "functions",
         "medical"
     ],
-    
+    //Socialite/athlete/gamer/reader
+    //Index orresponds with Area id
     groupIssues:
     [
         [2,2,2,1,0,3,1,1,-1,2],
@@ -79,7 +82,7 @@ globals =
         [-1,2,1,1,1,3,-2,1,3,1],
         [3,1,-1,1,3,1,0,4,0,2],
         [2,2,0,3,-2,2,2,2,2,1],
-        [0,3,0,4,-3,1,3,1,-2,1]
+        [0,3,0,4,-3,1,3,1,3,1]
     ],
     
     oppChoice:[],
@@ -111,7 +114,11 @@ globals =
     
     population:1000,
     canvasMouse: "",
-    images:new Array(30)
+    images:new Array(30),
+    playerCandidate: null,
+    opponentCandidate: null,
+    playerImg:new Image(),
+    eventsLoaded:false
 }
     
     
