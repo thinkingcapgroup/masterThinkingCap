@@ -526,6 +526,7 @@ runningGame2.main =
 	areaNumber: 0,
 	specialExist: false,
 	picturetaken: false,
+	cantTake: false,
 	inArea:false,	
 	hover: false,
 	scores: {
@@ -640,6 +641,8 @@ runningGame2.main =
 		backButton.src = '../img/backbutton.png'
 		cameraIcon = new Image();
 		cameraIcon.src = '../img/minigame3/cameraicon.png';
+		awesomePic = new Image();
+		awesomePic.src = '../img/AwesomePicture.png';
 
 		imgBArray = [[thinPeace1, thinPeace2, thinStrong], [medPeace1, medPeace2, medStrong], [plusPeace1, plusPeace2, plusStrong], [hoverPeace1, hoverPeace2, hoverStrong]]
 		iconArray = [tuitionIcon, researchIcon, socialIcon, medicalIcon];
@@ -725,14 +728,21 @@ runningGame2.main =
 			else if(runningGame2.main.picturetaken){
 			
 				runningGame2.main.picturetaken = false;
-				runningGame2.main.inArea = false;
-				runningGame2.main.areaNumber = 0;
+				runningGame2.main.cantTake = true;
+				setTimeout(runningGame2.main.returnAfterPicture, 1000);
 			}
 		}			
 		}
 		
 	},
-
+	
+	returnAfterPicture: function()
+	{
+		runningGame2.main.inArea = false;
+		runningGame2.main.areaNumber = 0;
+		runningGame2.main.cantTake = false;
+	},
+	
 	stopGame: function ()
 	{
 		runningGame2.main.stop=true;
@@ -899,11 +909,14 @@ runningGame2.main =
 						ctx.drawImage(iconArray[runningGame2.main.activeStudent.interest],runningGame2.main.activeStudent.x + 207,runningGame2.main.activeStudent.y-52,37,27)
 						ctx.drawImage(majorIconArray[runningGame2.main.activeStudent.major],runningGame2.main.activeStudent.x + 142,runningGame2.main.activeStudent.y-52,37,27)
 					}
+					if(runningGame2.main.cantTake)
+					{
+						ctx.drawImage(awesomePic,50,0,800,500);
+					}
 				}
 		
 					//draw the score
 		
-				
 		}
 	
 	},
@@ -981,7 +994,7 @@ runningGame2.main =
 				runningGame2.main.inArea = false;
 				update = true;
 			}
-			if((mouse.x >= 400 && mouse.x <= 500)&&(mouse.y >= 440 && mouse.y <= 490)){
+			if((mouse.x >= 400 && mouse.x <= 500)&&(mouse.y >= 440 && mouse.y <= 490) && !runningGame2.main.cantTake){
 				runningGame2.main.picturetaken = true;
 				update = true;
 				runningGame2.main.player.picturenum++;
@@ -991,8 +1004,7 @@ runningGame2.main =
 						runningGame2.main.takenDemograph1++;
 						runningGame2.main.scores.score++;				
 					}
-				
-					
+					runningGame2.main.cantTake = true;
 				});
 			}
 		}

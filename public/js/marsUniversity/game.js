@@ -5119,7 +5119,7 @@ function gameResults(scores, tutorial)
 		}
 		
 			saveGameState();
-     	$.post('/game/loggerMinigame', {minigameID: globals.lastMinigame, score: scoreToLog, module: '1', session: globals.gameSession });
+     	//$.post('/game/loggerMinigame', {minigameID: globals.lastMinigame, score: scoreToLog, module: '1', session: globals.gameSession });
 			document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'userAction()'> Return to the Game Map </button>";
 	}
 	else
