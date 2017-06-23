@@ -341,7 +341,7 @@ const POLL_STATES = {
 
 
 function preload(actions) {
-	for (i = 1; i < actions.length; i++) {
+	for (let i = 1; i < actions.length; i++) {
 		globals.images[i] = new Image();
 		globals.images[i].src = actions[i].path;
 	}
@@ -1451,7 +1451,7 @@ function action(choice)
 	
 		var nextArea = document.getElementById("next");
 		nextArea.innerHTML = "";
-		chosenEvent = globals.events[choice];
+		let chosenEvent = globals.events[choice];
 		////CONSOLE.LOG(chosenEvent);
 		globals.back = false;
 		
@@ -3126,6 +3126,7 @@ function getScores(x, bias){
 	var tuit = 0;
 	var med = 0;
 	var event = 0;
+    var bud = 0;
 	//SCORE calculated by (group issue + variable) + (major issue + variable)  + (class issue + variable)
 	tuit = (((globals.groupIssues[groupRandom][0]) + (Math.floor(Math.random() * (globals.groupIssues[groupRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((globals.majorIssues[majorRandom][0]) + (Math.floor(Math.random() * (globals.groupIssues[majorRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
 	bud =  (((globals.groupIssues[groupRandom][2]) + (Math.floor(Math.random() * (globals.groupIssues[groupRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((globals.majorIssues[majorRandom][2]) + (Math.floor(Math.random() * (globals.groupIssues[majorRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
@@ -3173,6 +3174,7 @@ function votePercentage(sampleSize, bias)
 
 			//////CONSOLE.LOG(globals.sample[i]);
 			var fame = 0;
+            
 			fame = fameCalc(globals.candidates[j], globals.sample[i]);
 			//////CONSOLE.LOG(globals.candidates[j].name +" Fame: "+ fame);
 			if(j != 1)
@@ -3219,14 +3221,12 @@ function votePercentage(sampleSize, bias)
 			{
 				winPercentage = candWinPer;
 				winner = globals.candidates[j].name;
-                console.log("Winner: "+winner);
 			}
 
 			if(candWinPer < lowPercentage || lowPercentage ==0)
 			{
 				lowPercentage = candWinPer;
 				loser = globals.candidates[j].name;
-                console.log("Loser: "+loser);
 			}
 		}
 			////CONSOLE.LOG("Current Winner" + winner + " Current Loser" + loser)
@@ -3359,9 +3359,8 @@ function reportViewer(id)
 {
 	clearScreen();
 
-	//pollChoices, tableArray2, sSize, graphData, graphLabels, review, state, isFree
-    //CONSOLE.LOG(globals.pastGraphData);
-	tableBuilder(globals.pastPollChoices[id],globals.pastPollResults[id],globals.pastPollSizes[id],globals.pastGraphData[id],globals.pastGraphLabels[id], 1, 0, false, false);
+  //pollChoices, tableArray2, sSize, graphData, graphLabels, isFake, state, isFree, isReview
+  tableBuilder(globals.pastPollChoices[id],globals.pastPollResults[id],globals.pastPollSizes[id],globals.pastGraphData[id],globals.pastGraphLabels[id], false, POLL_STATES.IN_GAME, true, true);
 	if(!globals.first){
         updateTopBar(pollMenu);
 		document.getElementById("back").innerHTML += "<button onclick = 'userAction()'>Back to Game Map</button>";
@@ -3376,10 +3375,10 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 {	
     
     //Adds the data for Major and Social Group to the graph and label arrays
-	globals.graphData = [];
-	globals.graphData.push(globals.questions[4].graph.split(','));
-	//globals.graphData.push(globals.questions[5].graph.split(','));
-	globals.graphData.push(globals.questions[6].graph.split(','));
+	let graphData = [];
+	graphData.push(globals.questions[4].graph.split(','));
+	//graphData.push(globals.questions[5].graph.split(','));
+	graphData.push(globals.questions[6].graph.split(','));
 	
 	globals.tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
 	
@@ -3401,7 +3400,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                   array.push(0);
                   array2.push(globals.candidates[j].name);
               }
-              globals.graphData.push(array);
+              graphData.push(array);
               pollLabelArray.push(array2);
               break;
 			case "candOpp":
@@ -3412,7 +3411,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                   array.push(0);
                   array2.push(globals.candidates[j].name);
               }
-              globals.graphData.push(array);
+              graphData.push(array);
               pollLabelArray.push(array2);
               break;
 			default:
@@ -3420,7 +3419,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 				{
 					if(pollChoices[i] == globals.questions[j].value)
 					{
-						globals.graphData.push(globals.questions[j].graph.split(','));
+						graphData.push(globals.questions[j].graph.split(','));
 						pollLabelArray.push(globals.questions[j].labels.split(','));
                         console.log("check match");
 					}
@@ -3432,7 +3431,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 							{
 								if(pollChoices[i] == "issue" + globals.positionsLower[k])
 								{
-									globals.graphData.push(globals.questions[j].graph.split(','));
+									graphData.push(globals.questions[j].graph.split(','));
 									pollLabelArray.push(globals.questions[j].labels.split(','));
 								}
 							}
@@ -3443,7 +3442,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 							{
 								if(pollChoices[i] == "candFame" + globals.candidates[k].name)
 								{
-									globals.graphData.push(globals.questions[j].graph.split(','));
+									graphData.push(globals.questions[j].graph.split(','));
 									pollLabelArray.push(globals.questions[j].labels.split(','));
 								}
 							}
@@ -3454,14 +3453,11 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 							{
 								if(pollChoices[i] == "candTrust" + globals.candidates[k].name)
 								{
-									globals.graphData.push(globals.questions[j].graph.split(','));
+									graphData.push(globals.questions[j].graph.split(','));
 									pollLabelArray.push(globals.questions[j].labels.split(','));
 								}
 							}
 						}
-                        else{
-                          console.log("Question has no match and was not added");
-                        }
 					}
 				}
 			break;
@@ -3478,31 +3474,31 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 		globals.tableArrays[4].push(globals.sample[j].major);
 		var majorHolder = globals.sample[j].major;
 		if(majorHolder == "business"){
-			globals.graphData[0][0]++;
+			graphData[0][0]++;
 		}
 		else if(majorHolder == "law"){
-			globals.graphData[0][1]++;
+			graphData[0][1]++;
 		}
 		else if(majorHolder == "tech"){
-			globals.graphData[0][2]++;
+			graphData[0][2]++;
 		}
 		else if(majorHolder == "arts"){
-			globals.graphData[0][3]++;
+			graphData[0][3]++;
 		}
 
 		globals.tableArrays[6].push(globals.sample[j].group);
 		var groupHolder = globals.sample[j].group;
 		if(groupHolder == "socialite"){
-			globals.graphData[1][0]++;
+			graphData[1][0]++;
 		}
 		else if(groupHolder == "athlete"){
-			globals.graphData[1][1]++;
+			graphData[1][1]++;
 		}
 		else if(groupHolder == "gamer"){
-			globals.graphData[1][2]++;
+			graphData[1][2]++;
 		}
 		else if(groupHolder == "reader"){
-			globals.graphData[1][3]++;
+			graphData[1][3]++;
 		}
 		
 		//if(state == POLL_STATES.FIRST && j ==0)
@@ -3540,16 +3536,16 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                     globals.tableArrays[0].push(favName);
                     //find if fave
                     if(favName == "Tuition"){
-                        globals.graphData[i+2][0]++;
+                        graphData[i+2][0]++;
                     }
                     else if(favName == "Budget"){
-                        globals.graphData[i+2][1]++;
+                        graphData[i+2][1]++;
                     }
                     else if(favName == "Functions"){
-                        globals.graphData[i+2][2]++;
+                        graphData[i+2][2]++;
                     }
                     else if(favName == "Medical"){
-                        globals.graphData[i+2][3]++;
+                        graphData[i+2][3]++;
                     }
     
                     break;
@@ -3580,16 +3576,16 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                     globals.tableArrays[1].push(oppName);
                     //find if oppe
                     if(oppName == "Tuition"){
-                        globals.graphData[i+2][0]++;
+                        graphData[i+2][0]++;
                     }
                     else if(oppName == "Budget"){
-                        globals.graphData[i+2][1]++;
+                        graphData[i+2][1]++;
                     }
                     else if(oppName == "Functions"){
-                        globals.graphData[i+2][2]++;
+                        graphData[i+2][2]++;
                     }
                     else if(oppName == "Medical"){
-                        globals.graphData[i+2][3]++;
+                        graphData[i+2][3]++;
                     }
 
                     break;
@@ -3601,7 +3597,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                         for(var k =0; k< globals.candidates.length;k++)
                         {
                             if(globals.sample[j].results.win == globals.candidates[k].name){
-                                globals.graphData[i+2][k]++;
+                                graphData[i+2][k]++;
                             }
                         }
                     }
@@ -3612,7 +3608,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                         {
                             ////CONSOLE.LOG()
                             if(globals.sample[j].results.win == globals.candidates[k].name){
-                                globals.graphData[i+2][k]++;
+                                graphData[i+2][k]++;
                             }
                         }
                     }
@@ -3625,7 +3621,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                         for(var k =0; k< globals.candidates.length;k++)
                         {
                             if(globals.sample[j].results.los == globals.candidates[k].name){
-                                globals.graphData[i+2][k]++;
+                                graphData[i+2][k]++;
                             }
                         }
                     }
@@ -3635,7 +3631,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                         for(var k =0; k< globals.candidates.length;k++)
                         {
                             if(globals.sample[j].results.los == globals.candidates[k].name){
-                                globals.graphData[i+2][k]++;
+                                graphData[i+2][k]++;
                             }
                         }
                     }
@@ -3647,13 +3643,13 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                     var playFame = fameCalc(globals.candidates[0],globals.sample[j]).toFixed(3);
                     globals.tableArrays[7].push(playFame);
                     if(playFame > 0.69){
-                        globals.graphData[i+2][0]++;
+                        graphData[i+2][0]++;
                     }
                     else if(playFame > 0.36){
-                        globals.graphData[i+2][1]++;
+                        graphData[i+2][1]++;
                     }
                     else{
-                        globals.graphData[i+2][2]++;
+                        graphData[i+2][2]++;
                     }
                     break;
     
@@ -3661,13 +3657,13 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                     globals.tableArrays[8].push(globals.candidates[0].consMod);
                     var playConst = globals.candidates[0].consMod;
                     if(playConst > 0.69){
-                        globals.graphData[i+2][2]++;
+                        graphData[i+2][2]++;
                     }
                     else if(playConst > 0.36){
-                        globals.graphData[i+2][1]++;
+                        graphData[i+2][1]++;
                     }
                     else{
-                        globals.graphData[i+2][0]++;
+                        graphData[i+2][0]++;
                     }
                     break;
     
@@ -3681,52 +3677,52 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                         case "issuetuition":
                             globals.tableArrays[9].push(parseFloat(globals.sample[j].tuitionScore).toFixed(2));
                             if(globals.sample[j].tuitionScore >=2){
-                                globals.graphData[i+2][0]++;
+                                graphData[i+2][0]++;
                             }
                             else if(globals.sample[j].tuitionScore >=-1){
-                                globals.graphData[i+2][1]++;
+                                graphData[i+2][1]++;
                             }
                             else{
-                                globals.graphData[i+2][2]++;
+                                graphData[i+2][2]++;
                             }
                         break;
     
                         case "issuebudget":
                             globals.tableArrays[10].push(parseFloat(globals.sample[j].budgetScore).toFixed(2));
                             if(globals.sample[j].budgetScore>=2){
-                                globals.graphData[i+2][0]++;
+                                graphData[i+2][0]++;
                             }
                             else if(globals.sample[j].budgetScore >=-1){
-                                globals.graphData[i+2][1]++;
+                                graphData[i+2][1]++;
                             }
                             else{
-                                globals.graphData[i+2][2]++;
+                                graphData[i+2][2]++;
                             }
                         break;
     
                         case "issuefunctions":
                             globals.tableArrays[12].push(parseFloat(globals.sample[j].functionScore).toFixed(2));
                             if(globals.sample[j].functionScore >=2){
-                                globals.graphData[i+2][0]++;
+                                graphData[i+2][0]++;
                             }
                             else if(globals.sample[j].functionScore >=-1){
-                                globals.graphData[i+2][1]++;
+                                graphData[i+2][1]++;
                             }
                             else{
-                                globals.graphData[i+2][2]++;
+                                graphData[i+2][2]++;
                             }
                         break;
     
                         case "issuemedical":
                             globals.tableArrays[13].push(parseFloat(globals.sample[j].medicalScore).toFixed(2));
                             if(globals.sample[j].medicalScore >=2){
-                                globals.graphData[i+2][0]++;
+                                graphData[i+2][0]++;
                             }
                             else if(globals.sample[j].medicalScore >=-1){
-                                globals.graphData[i+2][1]++;
+                                graphData[i+2][1]++;
                             }
                             else{
-                                globals.graphData[i+2][2]++;
+                                graphData[i+2][2]++;
                             }
                         break;
                     }
@@ -3743,13 +3739,13 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                     globals.tableArrays[candCounter].push(calcHolder);				
     
                     if(calcHolder> 0.66){
-                        globals.graphData[i+2][0]++;
+                        graphData[i+2][0]++;
                     }
                     else if(calcHolder > 0.33){
-                        globals.graphData[i+2][1]++;
+                        graphData[i+2][1]++;
                     }
                     else{
-                        globals.graphData[i+2][2]++;
+                        graphData[i+2][2]++;
                     }
     
     
@@ -3766,13 +3762,13 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                     globals.tableArrays[candCounter].push(globals.candidates[k].consMod);
     
                     if(globals.candidates[k].consMod> 0.66){
-                        globals.graphData[i+2][2]++;
+                        graphData[i+2][2]++;
                     }
                     else if(globals.candidates[k].consMod > 0.33){
-                        globals.graphData[i+2][1]++;
+                        graphData[i+2][1]++;
                     }
                     else{
-                        globals.graphData[i+2][0]++;
+                        graphData[i+2][0]++;
                     }
                 }
     
@@ -3783,17 +3779,23 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 	}
 	
 	//////CONSOLE.LOG(globals.tableArrays);
-	tableBuilder(pollChoices, globals.tableArrays, sampleSize, globals.graphData, pollLabelArray, isFake, state, isFree);
+	tableBuilder(pollChoices, globals.tableArrays, sampleSize, graphData, pollLabelArray, isFake, state, isFree, false);
 }
 
 //Builds a table by looping through the Array created by pollCalc and putting each value into a cell.
-function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, isFake, state, isFree)
+function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, isFake, state, isFree, isReview)
 {   
-    console.log("graph data start");
-    for(let i = 0; i < graphData.length; i++){
-      console.log(graphLabels[i]+" "+graphData[i]);
-    }
-  console.log("graph data end");
+    console.log("Poll choices: "+pollChoices);
+    console.log("Graph data: ");
+    console.log(graphData);
+    console.log("Graph labels: ");
+    console.log(graphLabels);
+  
+//    console.log("graph data start");
+//    for(let i = 0; i < graphData.length; i++){
+//      console.log(graphLabels[i]+" "+graphData[i]);
+//    }
+//  console.log("graph data end");
   
 	////CONSOLE.LOG(tableArray2);
 	var rowCounter = 0;
@@ -3805,12 +3807,12 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 	var tableHead = document.getElementById("tableHead");
 	var headRow = tableHead.insertRow(0);
 	
-	
+    console.log(graphData);
 		//console.log("in");
 	//Makes the table headers based on the chose questions
 	for(var h = 0; h < pollChoices.length; h++)
 	{
-		console.log(graphData);
+
 		if(pollChoices[h] != null)
 		{
 			if(h==0)
@@ -4196,7 +4198,8 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 		document.getElementById("q"+u+"text").innerHTML = "";
 	}
 
-
+    console.log("GraphQuestions: ")
+    console.log(graphQuestions);
 	for(var i = 0; i < graphQuestions.length; i++){
 
 		var counter = 0;
@@ -4294,10 +4297,13 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 			//GRAPH DATA BUG: for stefen
 			for (var j = 0; j < graphData[i].length; j++)
 			{
-				//////CONSOLE.LOG(globals.graphData[questionNum], " AT ", questions[qID].question)					
+				//////CONSOLE.LOG(graphData[questionNum], " AT ", questions[qID].question)					
 				data2[j]=graphData[i][j];
 			}
 		}
+        else{
+          console.log("Null data at: "+i);
+        }
 
         //Creates the bar graphs based on the questions
 		var dataCounter = 0;
@@ -4388,8 +4394,10 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 	if (state == POLL_STATES.TUTORIAL){
         document.getElementById('back').innerHTML += "<button onclick = 'drawPoll("+state+",false, true)'>Back to Start</button>" ;
 	}
-	if(!isFake)
+    //If the data isn't fake and it isn't a past poll report
+	if(!isFake && !isReview)
 	{
+        console.log("pushing");
 		globals.pastPollResults.push(tableArray2);
 		globals.pastPollSizes.push(sSize);
 		globals.pastPollChoices.push(pollChoices);
@@ -4399,7 +4407,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 		if(!isFree)
 			pollTime(sSize, pollChoices);
 	}
-    else{
+    else if(isFake){
       //Result the fake data back to normal
       globals.candidates = globals.currentCandidateArrayHolder;
     }
@@ -4659,7 +4667,7 @@ function loadGame()
 {
 	//Takes the Whole data and splits it into sections
 	var saveArray = saveState.split("~");
-	//////CONSOLE.LOG(saveArray);
+
 	
 	//Past Poll Choices Section
 	if(saveArray[0] != [])
@@ -5175,7 +5183,7 @@ function trendReporter(category)
         //removes the first 2 answers from each pastGraph data
         tempGraphData.splice(0,2);
         
-		if(globals.pastPollSizes[i] = 40)
+		if(globals.pastPollSizes[i] == 40)
 		{
 			limit=true;
 		}
