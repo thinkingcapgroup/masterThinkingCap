@@ -685,7 +685,7 @@ runningGame2.main =
 	
 			//double check player photos = the amount they need
 				//end game
-			if(runningGame2.main.player.picturenum > 2){
+			if(runningGame2.main.player.picturenum > 2 && !runningGame2.main.cantTake){
 				runningGame2.main.stopGame();
 			}
 
