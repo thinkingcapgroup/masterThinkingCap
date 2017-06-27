@@ -631,37 +631,37 @@
 		
 		{
 			"question":"How much do you know me?", 
-			"labels":"Well, Neutral, Not Well",
-			"graph":"0,0,0",
+			"labels":"Not At All, Not Well, Neutral, Well, Very Well",
+			"graph":"0,0,0,0,0",
 			"id":"7",
 			"value":"fame"
 		},
 		{
 			"question":"How good of a job do you think I will do? ", 
-			"labels":"Good, Neutral, Bad",
-			"graph":"0,0,0",
+			"labels":"Awful, Bad, Neutral, Good, Great",
+			"graph":"0,0,0,0,0",
 			"id":"8",
 			"value":"playTrust"
 		},
 
 		{
 			"question":"How do you feel about this issue?", 
-			"labels":"Like, Neutral, Dislike",
-			"graph":"0,0,0",
+			"labels":"Hate, Dislike, Neutral, Like, Love",
+			"graph":"0,0,0,0,0",
 			"id":"9",
 			"value":"issue"
 		},
 		{
 			"question":"How much do you know this candidate? ", 
-			"labels":"Well, Neutral, Not Well",
-			"graph":"0,0,0",
+			"labels":"Not At All, Not Well, Neutral, Well, Very Well",
+			"graph":"0,0,0,0,0",
 			"id":"10",
 			"value":"candFame"
 		},
 		{
 			"question":"How good of a job do you think this candidate will do? ", 
-			"labels":"Good, Neutral, Bad",
-			"graph":"0,0,0",
+			"labels":"Awful, Bad, Neutral, Good, Great",
+			"graph":"0,0,0,0,0",
 			"id":"11",
 			"value":"candTrust"
 		}

@@ -3642,29 +3642,51 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                 case "fame":
                     var playFame = fameCalc(globals.candidates[0],globals.sample[j]).toFixed(3);
                     globals.tableArrays[7].push(playFame);
-                    if(playFame > 0.69){
+					if(playFame <= 0.2)
+					{
                         graphData[i+2][0]++;
-                    }
-                    else if(playFame > 0.36){
+					}
+					else if(playFame>0.20 && playFame<0.41)
+					{
                         graphData[i+2][1]++;
-                    }
-                    else{
+					}
+					else if(playFame>0.40 && playFame<0.61)
+					{
                         graphData[i+2][2]++;
-                    }
+					}
+					else if(playFame>0.60 && playFame<0.81)
+					{
+                        graphData[i+2][3]++;
+					}
+					else
+					{
+                        graphData[i+2][4]++;
+					}
                     break;
     
                 case "playTrust":
                     globals.tableArrays[8].push(globals.candidates[0].consMod);
                     var playConst = globals.candidates[0].consMod;
-                    if(playConst > 0.69){
-                        graphData[i+2][2]++;
-                    }
-                    else if(playConst > 0.36){
-                        graphData[i+2][1]++;
-                    }
-                    else{
+					if(playConst <= 0.2)
+					{
                         graphData[i+2][0]++;
-                    }
+					}
+					else if(playConst>0.20 && playConst<0.41)
+					{
+                        graphData[i+2][1]++;
+					}
+					else if(playConst>0.40 && playConst<0.61)
+					{
+                        graphData[i+2][2]++;
+					}
+					else if(playConst>0.60 && playConst<0.81)
+					{
+                        graphData[i+2][3]++;
+					}
+					else
+					{
+                        graphData[i+2][4]++;
+					}
                     break;
     
             }
@@ -3676,54 +3698,98 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                     {
                         case "issuetuition":
                             globals.tableArrays[9].push(parseFloat(globals.sample[j].tuitionScore).toFixed(2));
-                            if(globals.sample[j].tuitionScore >=2){
+							if(globals.sample[j].tuitionScore <= -3)
+							{
                                 graphData[i+2][0]++;
-                            }
-                            else if(globals.sample[j].tuitionScore >=-1){
+							}
+							else if(globals.sample[j].tuitionScore>-3 && globals.sample[j].tuitionScore<-1)
+							{
                                 graphData[i+2][1]++;
-                            }
-                            else{
+							}
+							else if(globals.sample[j].tuitionScore>-1 && globals.sample[j].tuitionScore<1)
+							{
                                 graphData[i+2][2]++;
-                            }
+							}
+							else if(globals.sample[j].tuitionScore>1 && globals.sample[j].tuitionScore<3)
+							{
+                                graphData[i+2][3]++;
+							}
+							else
+							{
+                                graphData[i+2][4]++;
+							}
                         break;
     
                         case "issuebudget":
                             globals.tableArrays[10].push(parseFloat(globals.sample[j].budgetScore).toFixed(2));
-                            if(globals.sample[j].budgetScore>=2){
+							if(globals.sample[j].budgetScore <= -3)
+							{
                                 graphData[i+2][0]++;
-                            }
-                            else if(globals.sample[j].budgetScore >=-1){
+							}
+							else if(globals.sample[j].budgetScore>-3 && globals.sample[j].budgetScore<-1)
+							{
                                 graphData[i+2][1]++;
-                            }
-                            else{
+							}
+							else if(globals.sample[j].budgetScore>-1 && globals.sample[j].budgetScore<1)
+							{
                                 graphData[i+2][2]++;
-                            }
+							}
+							else if(globals.sample[j].budgetScore>1 && globals.sample[j].budgetScore<3)
+							{
+                                graphData[i+2][3]++;
+							}
+							else
+							{
+                                graphData[i+2][4]++;
+							}
                         break;
     
                         case "issuefunctions":
                             globals.tableArrays[12].push(parseFloat(globals.sample[j].functionScore).toFixed(2));
-                            if(globals.sample[j].functionScore >=2){
+							if(globals.sample[j].functionScore <= -3)
+							{
                                 graphData[i+2][0]++;
-                            }
-                            else if(globals.sample[j].functionScore >=-1){
+							}
+							else if(globals.sample[j].functionScore>-3 && globals.sample[j].functionScore<-1)
+							{
                                 graphData[i+2][1]++;
-                            }
-                            else{
+							}
+							else if(globals.sample[j].functionScore>-1 && globals.sample[j].functionScore<1)
+							{
                                 graphData[i+2][2]++;
-                            }
+							}
+							else if(globals.sample[j].functionScore>1 && globals.sample[j].functionScore<3)
+							{
+                                graphData[i+2][3]++;
+							}
+							else
+							{
+                                graphData[i+2][4]++;
+							}
                         break;
     
                         case "issuemedical":
                             globals.tableArrays[13].push(parseFloat(globals.sample[j].medicalScore).toFixed(2));
-                            if(globals.sample[j].medicalScore >=2){
+							if(globals.sample[j].medicalScore <= -3)
+							{
                                 graphData[i+2][0]++;
-                            }
-                            else if(globals.sample[j].medicalScore >=-1){
+							}
+							else if(globals.sample[j].medicalScore>-3 && globals.sample[j].medicalScore<-1)
+							{
                                 graphData[i+2][1]++;
-                            }
-                            else{
+							}
+							else if(globals.sample[j].medicalScore>-1 && globals.sample[j].medicalScore<1)
+							{
                                 graphData[i+2][2]++;
-                            }
+							}
+							else if(globals.sample[j].medicalScore>1 && globals.sample[j].medicalScore<3)
+							{
+                                graphData[i+2][3]++;
+							}
+							else
+							{
+                                graphData[i+2][4]++;
+							}
                         break;
                     }
                 }
@@ -3738,17 +3804,26 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                     
                     globals.tableArrays[candCounter].push(calcHolder);				
     
-                    if(calcHolder> 0.66){
+					if(calcHolder <= 0.2)
+					{
                         graphData[i+2][0]++;
-                    }
-                    else if(calcHolder > 0.33){
+					}
+					else if(calcHolder>0.20 && calcHolder<0.41)
+					{
                         graphData[i+2][1]++;
-                    }
-                    else{
+					}
+					else if(calcHolder>0.40 && calcHolder<0.61)
+					{
                         graphData[i+2][2]++;
-                    }
-    
-    
+					}
+					else if(calcHolder>0.60 && calcHolder<0.81)
+					{
+                        graphData[i+2][3]++;
+					}
+					else
+					{
+                        graphData[i+2][4]++;
+					}
                 }
     
     
@@ -3758,18 +3833,28 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
             {
                 if(pollChoices[i] == "candTrust" + globals.candidates[k].name)
                 {
-    
                     globals.tableArrays[candCounter].push(globals.candidates[k].consMod);
-    
-                    if(globals.candidates[k].consMod> 0.66){
-                        graphData[i+2][2]++;
-                    }
-                    else if(globals.candidates[k].consMod > 0.33){
-                        graphData[i+2][1]++;
-                    }
-                    else{
+					
+					if(globals.candidates[k].consMod <= 0.2)
+					{
                         graphData[i+2][0]++;
-                    }
+					}
+					else if(globals.candidates[k].consMod>0.20 && globals.candidates[k].consMod<0.41)
+					{
+                        graphData[i+2][1]++;
+					}
+					else if(globals.candidates[k].consMod>0.40 && globals.candidates[k].consMod<0.61)
+					{
+                        graphData[i+2][2]++;
+					}
+					else if(globals.candidates[k].consMod>0.60 && globals.candidates[k].consMod<0.81)
+					{
+                        graphData[i+2][3]++;
+					}
+					else
+					{
+                        graphData[i+2][4]++;
+					}
                 }
     
                 candCounter++;
@@ -3970,33 +4055,53 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 
 					case "fame":
 								var cell = row.insertCell(i);
-								if(parseFloat(tableArray2[7][h]).toFixed(2) <= 0.33)
-									{
-										cell.innerHTML = "Candidate Unknown";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
-									}
-									else if(parseFloat(tableArray2[7][h]).toFixed(2)>0.33 && parseFloat(tableArray2[7][h]).toFixed(2)<0.66)
-									{
-										cell.innerHTML = "Aware of Candidate";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
-									}
-									else
-									{
-										cell.innerHTML = "Candidate Known";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
-									}
+								if(parseFloat(tableArray2[7][h]).toFixed(2) <= 0.2)
+								{
+									cell.innerHTML = "Candidate Unknown";
+									//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+								}
+								else if(parseFloat(tableArray2[7][h]).toFixed(2)>0.20 && parseFloat(tableArray2[7][h]).toFixed(2)<0.41)
+								{
+									cell.innerHTML = "Slightly Aware of Candidate";
+									//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+								}
+								else if(parseFloat(tableArray2[7][h]).toFixed(2)>0.40 && parseFloat(tableArray2[7][h]).toFixed(2)<0.61)
+								{
+									cell.innerHTML = "Aware of Candidate";
+									//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+								}
+								else if(parseFloat(tableArray2[7][h]).toFixed(2)>0.60 && parseFloat(tableArray2[7][h]).toFixed(2)<0.81)
+								{
+									cell.innerHTML = "Very Aware of Candidate";
+									//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+								}
+								else
+								{
+									cell.innerHTML = "Candidate Known";
+									//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+								}
 					break;
 
 					case "playTrust":
 								var cell = row.insertCell(i);
-								if(parseFloat(tableArray2[8][h]).toFixed(2) >= 0.66)
+								if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.2)
 									{
 										cell.innerHTML = "Not Trustworthy";
 										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
-									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.33 && parseFloat(tableArray2[8][h]).toFixed(2)<0.66)
+									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.2 && parseFloat(tableArray2[8][h]).toFixed(2)<0.41)
+									{
+										cell.innerHTML = "Not Very Trustworthy";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+									}
+									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.4 && parseFloat(tableArray2[8][h]).toFixed(2)<0.61)
 									{
 										cell.innerHTML = "Sort Of Trustworthy";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+									}
+									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.6 && parseFloat(tableArray2[8][h]).toFixed(2)<0.81)
+									{
+										cell.innerHTML = "Fairly Trustworthy";
 										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else
@@ -4014,78 +4119,117 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 						{
 							case "issuetuition":
 									var cell = row.insertCell(i);
-									if(tableArray2[9][h] <= -2)
+									if(tableArray2[9][h] <= -3)
+									{
+										cell.innerHTML = "Issue Hated";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[9][h]>-3 && tableArray2[9][h]<-1)
 									{
 										cell.innerHTML = "Issue Disliked";
 										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
-									else if(tableArray2[9][h]>-2 && tableArray2[9][h]<2)
+									else if(tableArray2[9][h]>-1 && tableArray2[9][h]<1)
 									{
 										cell.innerHTML = "Issue Neutral";
 										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
-									else
+									else if(tableArray2[9][h]>1 && tableArray2[9][h]<3)
 									{
 										cell.innerHTML = "Issue Liked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else
+									{
+										cell.innerHTML = "Issue Loved";
 										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
 							break;
 
 							case "issuebudget":
 									var cell = row.insertCell(i);
-									if(tableArray2[10][h] <= -2)
+									if(tableArray2[10][h] <= -3)
+									{
+										cell.innerHTML = "Issue Hated";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[10][h]>-3 && tableArray2[10][h]<-1)
 									{
 										cell.innerHTML = "Issue Disliked";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
-									else if(tableArray2[10][h]>-2 && tableArray2[10][h]<2)
+									else if(tableArray2[10][h]>-1 && tableArray2[10][h]<1)
 									{
 										cell.innerHTML = "Issue Neutral";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[10][h]>1 && tableArray2[10][h]<3)
+									{
+										cell.innerHTML = "Issue Liked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
 									else
 									{
-										cell.innerHTML = "Issue Liked";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[10][h]).toFixed(2);
+										cell.innerHTML = "Issue Loved";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
 							break;
 
 
 							case "issuefunctions":
 									var cell = row.insertCell(i);
-									if(tableArray2[12][h] <= -2)
+									if(tableArray2[12][h] <= -3)
+									{
+										cell.innerHTML = "Issue Hated";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[12][h]>-3 && tableArray2[12][h]<-1)
 									{
 										cell.innerHTML = "Issue Disliked";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
-									else if(tableArray2[12][h]>-2 && tableArray2[12][h]<2)
+									else if(tableArray2[12][h]>-1 && tableArray2[12][h]<1)
 									{
 										cell.innerHTML = "Issue Neutral";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[12][h]>1 && tableArray2[12][h]<3)
+									{
+										cell.innerHTML = "Issue Liked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
 									else
 									{
-										cell.innerHTML = "Issue Liked";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[12][h]).toFixed(2);
+										cell.innerHTML = "Issue Loved";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
 							break;
 
 							case "issuemedical":
-									var cell = row.insertCell(i);
-									if(tableArray2[13][h] <= -2)
+									if(tableArray2[13][h] <= -3)
+									{
+										cell.innerHTML = "Issue Hated";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[13][h]>-3 && tableArray2[13][h]<-1)
 									{
 										cell.innerHTML = "Issue Disliked";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
-									else if(tableArray2[13][h]>-2 && tableArray2[13][h]<2)
+									else if(tableArray2[13][h]>-1 && tableArray2[13][h]<1)
 									{
 										cell.innerHTML = "Issue Neutral";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[13][h]>1 && tableArray2[13][h]<3)
+									{
+										cell.innerHTML = "Issue Liked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
 									else
 									{
-										cell.innerHTML = "Issue Liked";
-										//cell.innerHTML += "Score: " + parseFloat(tableArray2[13][h]).toFixed(2);
+										cell.innerHTML = "Issue Loved";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
 							break;
 						}
@@ -4094,26 +4238,35 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 
 
 				canCounter = 14;
-
 				for(var k = 1;k<globals.candidates.length;k++)
 				{
 					if(pollChoices[i] == "candFame" + globals.candidates[k].name)
 					{
 								var cell = row.insertCell(i);
 								var counter = canCounter;
-									if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.33)
+									if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.2)
 									{
 										cell.innerHTML = "Candidate Unknown";
 										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 									}
-									else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
+									else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.2 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.41)
+									{
+										cell.innerHTML = "Slightly Aware of Candidate";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+									}
+									else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.4 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.61)
 									{
 										cell.innerHTML = "Aware of Candidate";
 										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 									}
+									else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.6 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.81)
+									{
+										cell.innerHTML = "Very Aware of Candidate";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+									}
 									else
 									{
-										cell.innerHTML = "Candidate Known:";
+										cell.innerHTML = "Candidate Known";
 										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 									}
 					}
@@ -4125,14 +4278,24 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 					{
 								var cell = row.insertCell(i);
 								var counter = canCounter;
-								if(parseFloat(tableArray2[counter][h]).toFixed(2) >= 0.66)
+								if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.2)
 								{
 									cell.innerHTML = "Not Trustworthy";
 										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
-								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.33 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.66)
+								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.2 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.41)
+								{
+									cell.innerHTML = "Not Very Trustworthy";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+								}
+								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.4 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.61)
 								{
 									cell.innerHTML = "Sort Of Trustworthy";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+								}
+								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.6 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.81)
+								{
+									cell.innerHTML = "Fairly Trustworthy";
 										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else
@@ -4177,9 +4340,40 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 	document.getElementById('filterArea').innerHTML +='<br>'
 	document.getElementById('filterArea').style.display = "none";
 
+	makeGraphs(graphData, graphQuestions,graphLabels);
+		//if(state == POLL_STATES.FIRST)
+		//{
+		//	globals.candidates.splice(0,1);
+		//}
+	document.getElementById('table').style.display = 'none';
+	if (state == POLL_STATES.TUTORIAL){
+        document.getElementById('back').innerHTML += "<button onclick = 'drawPoll("+state+",false, true)'>Back to Start</button>" ;
+	}
+    //If the data isn't fake and it isn't a past poll report
+	if(!isFake && !isReview)
+	{
+        console.log("pushing");
+		globals.pastPollResults.push(tableArray2);
+		globals.pastPollSizes.push(sSize);
+		globals.pastPollChoices.push(pollChoices);
+		globals.pastGraphData.push(graphData);
+		globals.pastGraphLabels.push(graphLabels);
+		globals.tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
+		if(!isFree)
+			pollTime(sSize, pollChoices);
+	}
+    else if(isFake){
+      //Result the fake data back to normal
+      globals.candidates = globals.currentCandidateArrayHolder;
+    }
+
+}
+function makeGraphs(graphData, graphQuestions, graphLabels)
+{
+	document.getElementById("barChartDiv").innerHTML = "";
+	document.getElementById("pieChartDiv").innerHTML = "";
 	var counter = 0;
 	//graph dat table
-
 	for (var i=0;i<graphQuestions.length;i++)
 	{
 	document.getElementById("barChartDiv").innerHTML += "<div id = 'q"+i+"text'><br></div><div class = 'barChart"+i+" chart'></div>";
@@ -4385,35 +4579,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
         return a > 90 ? a - 180 : a;
         } 
 	}
-	
-		//if(state == POLL_STATES.FIRST)
-		//{
-		//	globals.candidates.splice(0,1);
-		//}
-	document.getElementById('table').style.display = 'none';
-	if (state == POLL_STATES.TUTORIAL){
-        document.getElementById('back').innerHTML += "<button onclick = 'drawPoll("+state+",false, true)'>Back to Start</button>" ;
-	}
-    //If the data isn't fake and it isn't a past poll report
-	if(!isFake && !isReview)
-	{
-        console.log("pushing");
-		globals.pastPollResults.push(tableArray2);
-		globals.pastPollSizes.push(sSize);
-		globals.pastPollChoices.push(pollChoices);
-		globals.pastGraphData.push(graphData);
-		globals.pastGraphLabels.push(graphLabels);
-		globals.tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
-		if(!isFree)
-			pollTime(sSize, pollChoices);
-	}
-    else if(isFake){
-      //Result the fake data back to normal
-      globals.candidates = globals.currentCandidateArrayHolder;
-    }
-
 }
-
 //Changes the way that data is represented on the poll results screen
 function changeData(dataButton)
 {
@@ -5547,6 +5713,36 @@ function hourChecker()
 	}
   return false;
 }
+
+
+function newGraphs(id, matchingMajor, matchingGroup)
+{
+	var studentResponses =[];
+	var canAdd = true;
+	for(var i=0; i <pastPollResults[id][4].length;i++)
+	{
+		if(pastPollResults[id][4][i] == matchingMajor)
+		{
+			studentResponses.push(i);
+		}
+	}
+	for(var i=0; i <pastPollResults[id][6].length;i++)
+	{
+		if(pastPollResults[id][6][i] == matchingGroup)
+		{
+			studentResponses.forEach(function(element)
+			{
+				if(pastPollResults[id][6][i] == element)
+				{
+					canAdd = false;
+				}
+			});
+			if(canAdd)
+			{studentResponses.push(i);}
+		}
+	}
+}
+
 
 function dayPollBuffer()
 {

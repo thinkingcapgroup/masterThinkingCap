@@ -118,7 +118,8 @@ globals =
     playerCandidate: null,
     opponentCandidate: null,
     playerImg:new Image(),
-    eventsLoaded:false
-}
+    eventsLoaded:false,
+	currentPoll: 0
+};
     
     
