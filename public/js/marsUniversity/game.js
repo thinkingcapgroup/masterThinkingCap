@@ -3591,50 +3591,26 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                     break;
     
                 case "candFav":
-                    if(globals.candidates.length==2)
+                    globals.tableArrays[2].push(globals.sample[j].results.win);
+                    for(var k =0; k< globals.candidates.length;k++)
                     {
-                        globals.tableArrays[2].push(globals.sample[j].results.win);
-                        for(var k =0; k< globals.candidates.length;k++)
-                        {
-                            if(globals.sample[j].results.win == globals.candidates[k].name){
-                                graphData[i+2][k]++;
-                            }
+                        ////CONSOLE.LOG()
+                        if(globals.sample[j].results.win == globals.candidates[k].name){
+                            graphData[i+2][k]++;
                         }
                     }
-                    else
-                    {
-                        globals.tableArrays[2].push(globals.sample[j].results.win);
-                        for(var k =0; k< globals.candidates.length;k++)
-                        {
-                            ////CONSOLE.LOG()
-                            if(globals.sample[j].results.win == globals.candidates[k].name){
-                                graphData[i+2][k]++;
-                            }
-                        }
-                    }
+                    
                     break;
     
                 case "candOpp":
-                    if(globals.candidates.length==2)
+                    globals.tableArrays[3].push(globals.sample[j].results.los);
+                    for(var k =0; k< globals.candidates.length;k++)
                     {
-                        globals.tableArrays[3].push(globals.sample[j].results.los);
-                        for(var k =0; k< globals.candidates.length;k++)
-                        {
-                            if(globals.sample[j].results.los == globals.candidates[k].name){
-                                graphData[i+2][k]++;
-                            }
+                        if(globals.sample[j].results.los == globals.candidates[k].name){
+                            graphData[i+2][k]++;
                         }
                     }
-                    else
-                    {
-                        globals.tableArrays[3].push(globals.sample[j].results.los);
-                        for(var k =0; k< globals.candidates.length;k++)
-                        {
-                            if(globals.sample[j].results.los == globals.candidates[k].name){
-                                graphData[i+2][k]++;
-                            }
-                        }
-                    }
+                    
                     break;
     
     
@@ -3913,7 +3889,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 					cell.innerHTML = globals.tableHeaders[0];
 					graphQuestions.push("issFav");
 				break;
-
+                
 				case "issOpp":
 						var cell = headRow.insertCell(h);
 						cell.innerHTML = globals.tableHeaders[1];
@@ -3951,8 +3927,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 
 				if(pollChoices[h] == "issue" + globals.positionsLower[k])
 				{
-
-					switch(pollChoices[h])
+                  switch(pollChoices[h])
 					{
 						case "issuetuition":
 							var cell = headRow.insertCell(h);
@@ -4033,6 +4008,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 			{
 				switch(pollChoices[i])
 				{
+                    
 					case "issFav":
 							var cell = row.insertCell(i);
 							cell.innerHTML = tableArray2[0][h];
@@ -4667,367 +4643,100 @@ function backtoUA()
 }
 
 function saveGameState()
-{
-	globals.textContents="";
-   //Save contents of globals.pastPollChoices into the text file
-	for(var i=0; i<globals.pastPollChoices.length;i++)
-	{
-		for(var j=0; j<globals.pastPollChoices[i].length;j++)
-		{
-				globals.textContents+= globals.pastPollChoices[i][j];
-				if(j!=globals.pastPollChoices[i].length-1)
-				globals.textContents+="*";
-		}
-		if(i!=globals.pastPollChoices.length-1)
-			globals.textContents+="_";
-	}
-	globals.textContents+="~";
-    //Save contents of globals.pastPollResults into the text file
-	for(var i=0; i<globals.pastPollResults.length;i++)
-	{
-		for(var j=0; j<globals.pastPollResults[i].length;j++)
-		{
-			globals.textContents+= globals.pastPollResults[i][j];
-				if(j!=globals.pastPollResults[i].length-1)
-				globals.textContents+="*";
-		}
-		if(i!=globals.pastPollResults.length-1)
-			globals.textContents+="_";
-	}
-	globals.textContents+="~";
-
-	// Save contents of globals.pastPollSizes   into the text file
-	for(var i=0; i<globals.pastPollSizes.length;i++)
-	{
-		globals.textContents+=globals.pastPollSizes[i];
-			if(i!=globals.pastPollSizes.length-1)
-				globals.textContents+="*";
-	}
-	globals.textContents+="~";
-	//Save globals.candidates array
-	for(var i=0; i<globals.candidates.length;i++)
-	{
-		globals.textContents+=globals.candidates[i].name;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].fame;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].issueScore;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].consMod;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].focus;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].focusnum;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].winChance;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].votes;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].correctAnswers;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].wrongAnswers;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].lastMove;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].raceNum;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].genderNum;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].bodyTypeNum;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].headNum;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].tuitPos;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].tuitNeg;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].budPos;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].budNeg;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].resPos;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].resNeg;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].medPos;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].medNeg;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].funcPos;
-			globals.textContents+="*";
-		globals.textContents+=globals.candidates[i].funcNeg;
-
-			if(i!=globals.candidates.length-1)
-				globals.textContents+="_";
-	}
-	globals.textContents+="~";
-
-	//Save globals.remainingHoursTotal
-	globals.textContents+=globals.remainingHoursTotal;
-	globals.textContents+="~";
-
-	//save graph data
-	for (var z =0; z < globals.pastGraphData.length; z++){
-		if(z !=0){
-			globals.textContents+="_";
-		}
-		for(var a = 0; a < globals.pastGraphData[z].length;a++){
-			globals.textContents+=globals.pastGraphData[z][a];
-			if(a != globals.pastGraphData[z].length -1){
-				globals.textContents+="*";
-			}
-		}
-	}
-	globals.textContents+="~";
-
-	//Save contents of globals.pastGraphLabels into the text file
-	for(var i=0; i<globals.pastGraphLabels.length;i++)
-	{
-		for(var j=0; j<globals.pastGraphLabels[i].length;j++)
-		{
-			globals.textContents+= globals.pastGraphLabels[i][j];
-				if(j!=globals.pastGraphLabels[i].length-1)
-				globals.textContents+="*";
-		}
-		if(i!=globals.pastGraphLabels.length-1)
-			globals.textContents+="_";
-	}
-	//////CONSOLE.LOG(globals.pastGraphLabels);
-	globals.textContents+="~";
-	
-	//Save globals.remainingHoursDay
-	globals.textContents+=globals.remainingHoursDay;
-	globals.textContents+="~";
-	
-	//Save days
-	globals.textContents+=globals.days;
-	globals.textContents+="~";
+{ 	
+    let saveJSON = new SaveFile();
+    //Stringify and escape special characters
+    let jsonString = JSON.stringify(saveJSON).escapeSpecialChars();
     
-	//Save GameSession
-	globals.textContents+=globals.gameSession;
-	globals.textContents+="~";
-    
-	//Save GameOver
-	globals.textContents+=globals.gameOver.toString();
-	globals.textContents+="~";
-    
-	//Saves Total Number of Days
-	globals.textContents+=globals.totalDays;
-	globals.textContents+="~";
-	
-	//Save FIrstPoll
-	globals.textContents+=globals.firstPoll.toString();
-	globals.textContents+="~";
-	
-	//Save FIrstState
-	globals.textContents+=globals.firstState.toString();
-	globals.textContents+="~";
-	
-	//post all that information
-	$.post('/game/saver', {saveData: globals.textContents});
+    //post all that information
+	$.post('/game/saver', {saveData: jsonString});
     
     
+}
+//Escapes special characters for JSON encoding
+String.prototype.escapeSpecialChars = function() {
+  return this.replace(/[\\]/g, '\\\\') //Back slash
+      .replace(/[\"]/g, '\\\"') //Double quote
+      .replace(/[\/]/g, '\\/') //Forward slash
+      .replace(/[\b]/g, '\\b') //Backspace
+      .replace(/[\f]/g, '\\f') //Form feed
+      .replace(/[\n]/g, '\\n') //New line
+      .replace(/[\r]/g, '\\r') //Carriage return
+      .replace(/[\t]/g, '\\t'); //Tab
+};
+
+//Decodes special characters
+String.prototype.decodeSpecialChars = function() {
+    return this.replace(/&quot;/g, '\"') //Double quote
+      .replace(/&gt;/g, '\>') //Forward slash
+      .replace(/&lt;/g, '\<') //Backspace
+      .replace(/&amp;/g, '&') //Form feed
+      .replace(/&#39;/g, "\'") //single quote
+      .replace(/&#x27;/g, "\'"); //single quote
+};
+
+function SaveFile(){
+  this.days = globals.days;
+  this.totalDays = globals.totalDays;
+  this.gameSession = globals.gameSession;
+  this.firstPoll = globals.firstPoll;
+  this.firstState = globals.firstState;
+  this.gameOver = globals.gameOver;
+  this.remainingHoursDay = globals.remainingHoursDay;
+  this.remainingHoursTotal = globals.remainingHoursTotal;
+  this.candidates = globals.candidates;
+  this.pastPollChoices = globals.pastPollChoices;
+  this.pastPollResults = globals.pastPollResults;
+  this.pastPollSizes = globals.pastPollSizes;
+  this.pastGraphData = globals.pastGraphData;
+  this.pastGraphLabels = globals.pastGraphLabels;
+}
+
+
+function loadSaveFile(){
+  
+  let jsonString = saveState;
+  //jsonString = jsonString.replace(/&quot;/g,'"');
+
+  let saveJSON = JSON.parse(jsonString.decodeSpecialChars());
+  
+  
+  globals.days = saveJSON.days;
+  globals.totalDays = saveJSON.totalDays;
+  globals.gameSession = saveJSON.gameSession;
+  globals.firstPoll = saveJSON.firstPoll;
+  globals.firstState = saveJSON.firstState;
+  globals.gameOver = saveJSON.gameOver;
+  globals.remainingHoursDay = saveJSON.remainingHoursDay;
+  globals.remainingHoursTotal = saveJSON.remainingHoursTotal;
+  globals.candidates = saveJSON.candidates;
+  globals.pastPollChoices = saveJSON.pastPollChoices;
+  globals.pastPollResults = saveJSON.pastPollResults;
+  globals.pastPollSizes = saveJSON.pastPollSizes;
+  globals.pastGraphData = saveJSON.pastGraphData;
+  globals.pastGraphLabels = saveJSON.pastGraphLabels;
+  
 }
 
 function loadGame()
 {
-	//Takes the Whole data and splits it into sections
-	var saveArray = saveState.split("~");
-
-	
-	//Past Poll Choices Section
-	if(saveArray[0] != [])
-	{
-		var ppcOuterArray = saveArray[0].split("_");
-		for(var i =0; i < ppcOuterArray.length; i++)
-		{
-			globals.pastPollChoices.push(ppcOuterArray[i].split("*"));
-		}
-	}
-
-	// Past Poll Results Section
-	if(saveArray[1] != [])
-	{
-		var pprOuterArray = saveArray[1].split("_");
-		for(var i =0; i < pprOuterArray.length; i++)
-		{
-			var pprResults =[];
-			var tempResults = pprOuterArray[i].split("*");
-			for(var j = 0; j< tempResults.length; j++)
-			{
-				if(tempResults[j] != "")
-				{
-					var currentResults = tempResults[j].split(",");
-					pprResults.push(currentResults);
-				}
-				else
-				{
-					pprResults.push([]);
-				}
-			}
-			globals.pastPollResults.push(pprResults);
-		}
-	}
-
-	//Past Poll Sizes Section
-	if(saveArray[2] != [])
-	{
-		var ppsArray = saveArray[2].split("_");
-		globals.pastPollSizes = ppsArray[0].split("*");
-	}
-
-	//Candidates Section
-	var candArray = saveArray[3].split("_");
-	var candAtts=[];
-	for( var i= 0; i < candArray.length; i++)
-	{
-		candAtts.push(candArray[i].split("*"));
-	}
-	for( var i= 0; i < candAtts.length; i++)
-	{
-		var cand = new CandidateCreate(candAtts[i][0]);
-		var tempfame = candAtts[i][1].split(",");
-		cand.fame =[];
-		for(var j =0; j< tempfame.length; j++)
-		{
-			cand.fame.push(parseFloat(tempfame[j]));
-		}
-		cand.issueScore = candAtts[i][2].split(",");		
-		var tempissue = candAtts[i][2].split(",");
-		cand.issueScore =[];
-		for(var j =0; j< tempissue.length; j++)
-		{
-			cand.issueScore.push(parseFloat(tempissue[j]));
-		}
-		cand.consMod = parseFloat(candAtts[i][3]);
-		cand.focus = candAtts[i][4];
-		cand.focusnum = parseInt(candAtts[i][5]);
-		cand.winChance = parseInt(candAtts[i][6]);
-		cand.votes = parseInt(candAtts[i][7]);
-		cand.correctAnswers = parseInt(candAtts[i][8]);
-		cand.wrongAnswers = parseInt(candAtts[i][9]);
-		cand.lastMove = candAtts[i][10];
-		cand.raceNum = parseInt(candAtts[i][11]);
-		cand.genderNum = parseInt(candAtts[i][12]);
-		cand.bodyTypeNum = parseInt(candAtts[i][13]);
-		cand.headNum = parseInt(candAtts[i][14]);
-		cand.tuitPos = parseInt(candAtts[i][15]);
-		cand.tuitNeg = parseInt(candAtts[i][16]);
-		cand.budPos = parseInt(candAtts[i][17]);
-		cand.budNeg = parseInt(candAtts[i][18]);
-		cand.resPos = parseInt(candAtts[i][19]);
-		cand.resNeg = parseInt(candAtts[i][20]);
-		cand.medPos = parseInt(candAtts[i][21]);
-		cand.medNeg = parseInt(candAtts[i][22]);
-		cand.funcPos = parseInt(candAtts[i][23]);
-		cand.funcNeg = parseInt(candAtts[i][24]);
-
-
-
-		globals.candidates.push(cand);
-	}
+    try{ 
+      loadSaveFile(); 
+    }
+    //If the save file doesn't work, have the player start a new game
+    catch(e){
+      console.log("File could not be loaded");
+      startAnimatic();
+      return 0;
+    }
+  
     
-
     //Set the currentCandidateArrayHolder to the right data
     globals.currentCandidateArrayHolder = globals.candidates;
     
     //Set player candidate
     globals.playerCandidate = globals.candidates[0];
-
-	////CONSOLE.LOG(candAtts);
-
-	//Remaining Hours Section
-	globals.remainingHoursTotal = parseInt(saveArray[4]);
-
-	//past graph saveData
-
-	var graph = [];
-	var multiGraphData = saveArray[5].split("_");
-	//////CONSOLE.LOG(multiGraphData);
-	for(var z = 0; z < multiGraphData.length; z++){
-		var questionData = multiGraphData[z].split("*");
-		//////CONSOLE.LOG(questionData);
-		for(var y = 0; y < questionData.length; y++){
-			var holderHolder = questionData[y].split(",")
-			var holdArray = [];
-			for(var x = 0; x < holderHolder.length; x++){
-				holdArray[x] = parseFloat(holderHolder[x]);
-			}
-		graph.push(holdArray);
-		}
-		//////CONSOLE.LOG(graph);
-	globals.pastGraphData.push(graph);	
-	graph = [];
-	}
-
-	// Past Graph Labels Section
-	if(saveArray[6] != [])
-	{
-		var pglOuterArray = saveArray[6].split("_");
-		for(var i =0; i < pglOuterArray.length; i++)
-		{
-			var pglResults =[];
-			var tempResults = pglOuterArray[i].split("*");
-			for(var j = 0; j< tempResults.length; j++)
-			{
-				if(tempResults[j] != "")
-				{
-					var currentResults = tempResults[j].split(",");
-					pglResults.push(currentResults);
-				}
-				else
-				{
-					pglResults.push([]);
-				}
-			}
-			globals.pastGraphLabels.push(pglResults);
-			//////CONSOLE.LOG(pglResults);
-		}
-	}
-
-	//Remaining Hours in the Day Section
-	globals.remainingHoursDay = parseInt(saveArray[7]);
-	
-	//Current Day Section
-	globals.days = parseInt(saveArray[8]);
-    
-	//Game Session Number
-	globals.gameSession = parseInt(saveArray[9]);
-
-    
-	//Game Over Boolean
-	if(saveArray[10] == "true")
-    {
-        globals.gameOver = true;
-    }
-    else
-    {
-        globals.gameOver = false;
-    }
-	
-	//Total Number of Days
-	globals.totalDays = parseInt(saveArray[11]);
-	
-	//Whether the First poll has been passed
-	if(saveArray[12] == "true")
-    {
-        globals.firstPoll = true;
-    }
-    else
-    {
-        globals.firstPoll = false;
-    }
-	
-	//Whether the First statement has been passed
-	if(saveArray[13] == "true")
-    {
-        globals.firstState = true;
-    }
-    else
-    {
-        globals.firstState = false;
-    }
-    
+  
 	globals.back=true;
 	saveState = "";
     preload(globals.events);
@@ -5080,15 +4789,30 @@ function loadGame()
 function getSession(gameOver)
 {
 	//Takes the Whole data and splits it into sections
-	var saveArray = saveState.split("~");
+	//var saveArray = saveState.split("~");
 	////CONSOLE.LOG(saveArray[9])
 	////CONSOLE.LOG(saveArray[9] !=[] && saveArray[9] != "NaN" && saveArray[9] != undefined && saveArray[9] != "")
-
+    
+    let gameSession = "";
+    try{
+      let saveJSON = JSON.parse(saveState);
+      gameSession = saveJSON.gameSession;
+    }
+    catch(e){
+      try{
+        var saveArray = saveState.split("~");
+        gameSession = saveArray[9];
+      }
+      catch(e){
+        console.log("JSON parsing failed");
+      }
+    }
+  
 	if(!globals.gameOver){
     	////CONSOLE.LOG(saveArray[9] == "NaN")
-    	if(saveArray[9] !=[] && saveArray[9] != "NaN" && saveArray[9] != undefined && saveArray[9] != "")
+    	if(gameSession !=[] && gameSession != "NaN" && gameSession != undefined && gameSession != "")
     	{
-        	globals.gameSession = parseInt(saveArray[9]) + 1;
+        	globals.gameSession = gameSession + 1;
         	globals.gameOver = false;
         	globals.endReset = false;
     	}
