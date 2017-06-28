@@ -1,0 +1,17 @@
+{
+	"studentTypes":
+	[
+		{
+			"name":"Business Majors", 
+			"id":"business",
+			"value":"issFav"
+		},
+		{
+			"name":"What issue are you most in opposition to?", 
+			"labels":"Tuition, Budgets, Functions,Medical",
+			"graph":"0,0,0,0",
+			"id":"1",
+			"value":"issOpp"
+		}
+	]
+}
