@@ -219,6 +219,28 @@ $(document).on('click','.logEventPoll', function(){
 
 
  });
+ $(document).on('change','.graphFilters', function()
+ {
+	 console.log(globals.currentPoll)
+	var major = document.getElementById("majorSelect").value;
+	var group = document.getElementById("groupSelect").value;
+	if(major != "None" && group != "None")
+	{
+		newGraphs(major, group, globals.pastPollChoices[globals.currentPoll], globals.pastPollResults[globals.currentPoll], globals.pastPollSizes[globals.currentPoll], globals.pastGraphData[globals.currentPoll], globals.pastGraphLabels[globals.currentPoll]);
+	}
+	else if(major != "None" && group == "None")
+	{
+		newGraphs(major, group, globals.pastPollChoices[globals.currentPoll], globals.pastPollResults[globals.currentPoll], globals.pastPollSizes[globals.currentPoll], globals.pastGraphData[globals.currentPoll], globals.pastGraphLabels[globals.currentPoll]);
+	}
+	else if(major == "None" && group != "None")
+	{
+		newGraphs(major, group, globals.pastPollChoices[globals.currentPoll], globals.pastPollResults[globals.currentPoll], globals.pastPollSizes[globals.currentPoll], globals.pastGraphData[globals.currentPoll], globals.pastGraphLabels[globals.currentPoll]);
+	}
+	else if(major == "None" && group == "None")
+	{
+		newGraphs(major, group, globals.pastPollChoices[globals.currentPoll], globals.pastPollResults[globals.currentPoll], globals.pastPollSizes[globals.currentPoll], globals.pastGraphData[globals.currentPoll], globals.pastGraphLabels[globals.currentPoll]);
+	}
+ });
 
 $(document).on('change','.filterChecklist', function(){
   var clearEverything = false;

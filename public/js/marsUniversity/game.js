@@ -3358,7 +3358,7 @@ function resetGame()
 function reportViewer(id)
 {
 	clearScreen();
-
+	globals.currentPoll = id;
   //pollChoices, tableArray2, sSize, graphData, graphLabels, isFake, state, isFree, isReview
   tableBuilder(globals.pastPollChoices[id],globals.pastPollResults[id],globals.pastPollSizes[id],globals.pastGraphData[id],globals.pastGraphLabels[id], false, POLL_STATES.IN_GAME, true, true);
 	if(!globals.first){
@@ -3846,17 +3846,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 //Builds a table by looping through the Array created by pollCalc and putting each value into a cell.
 function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, isFake, state, isFree, isReview)
 {   
-    console.log("Poll choices: "+pollChoices);
-    console.log("Graph data: ");
-    console.log(graphData);
-    console.log("Graph labels: ");
-    console.log(graphLabels);
-  
-//    console.log("graph data start");
-//    for(let i = 0; i < graphData.length; i++){
-//      console.log(graphLabels[i]+" "+graphData[i]);
-//    }
-//  console.log("graph data end");
+
   
 	////CONSOLE.LOG(tableArray2);
 	var rowCounter = 0;
@@ -3868,7 +3858,6 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 	var tableHead = document.getElementById("tableHead");
 	var headRow = tableHead.insertRow(0);
 	
-    console.log(graphData);
 		//console.log("in");
 	//Makes the table headers based on the chose questions
 	for(var h = 0; h < pollChoices.length; h++)
@@ -4288,13 +4277,13 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 		}
 
 		var cell = row.insertCell(0);
-		cell.innerHTML = tableArray2[4][h];
+		cell.innerHTML = capOption(tableArray2[4][h]);
 
 		//var cell = row.insertCell(1);
 		//cell.innerHTML = tableArray2[5][h];
 
 		var cell = row.insertCell(1);
-		cell.innerHTML = tableArray2[6][h];
+		cell.innerHTML = capOption(tableArray2[6][h]);
 	}
 	
 	
@@ -4302,6 +4291,36 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 	document.getElementById("next").innerHTML += "<div id = 'filterArea'></div>"
 	document.getElementById("centerDisplay").innerHTML += "<div id = 'barChartDiv' style = 'display:block'></div>";
 	document.getElementById("centerDisplay").innerHTML += "<div id = 'pieChartDiv' style = 'display:none'></div>";
+	document.getElementById("centerDisplay").innerHTML += "<div id = 'chartFilters' style = 'display:block'> Filters: </div>";
+	document.getElementById("chartFilters").innerHTML += "<br>Major: <select class = 'graphFilters' id = 'majorSelect'></select>   Social Group: <select class = 'graphFilters' id = 'groupSelect'></select>";
+	
+	var noneOp = document.createElement("option");
+	noneOp.text = "None";
+	noneOp.value = "None";
+	var noneOp2 = document.createElement("option");
+	noneOp2.text = "None";
+	noneOp2.value = "None";
+
+	var majors = document.getElementById('majorSelect');
+	majors.options.add(noneOp2);
+	for(var i =0; i<globals.majorList.length; i++)
+	{
+		var newOp = document.createElement("option");
+		newOp.text = capOption(globals.majorList[i]);
+		newOp.value = globals.majorList[i];
+		majors.options.add(newOp);
+	}
+	
+	var groups = document.getElementById('groupSelect');
+	groups.options.add(noneOp);
+	for(var i =0; i<globals.groupList.length; i++)
+	{
+		var newOp = document.createElement("option");
+		newOp.text = capOption(globals.groupList[i]);
+		newOp.value = globals.groupList[i];
+		groups.options.add(newOp);
+	}
+	
 	document.getElementById("next").innerHTML += "<button id = 'dataButton' class='otherBtn' onclick = 'changeData(1)'>Show Data Table</button>";
 	document.getElementById("next").innerHTML += "<button id = 'barButton' class='otherBtn' onclick = 'changeData(2)' style = 'display:none'>Show Bar Graphs</button>";
 	document.getElementById("next").innerHTML += "<button id = 'pieButton' class='otherBtn' onclick = 'changeData(3)'>Show Pie Graphs</button><br>";
@@ -4337,12 +4356,17 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 		globals.tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
 		if(!isFree)
 			pollTime(sSize, pollChoices);
+		globals.currentPoll = (globals.pastPollResults.length - 1);
 	}
     else if(isFake){
       //Result the fake data back to normal
       globals.candidates = globals.currentCandidateArrayHolder;
     }
 
+}
+function capOption(string) 
+{
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 function makeGraphs(graphData, graphQuestions, graphLabels)
 {
@@ -5439,32 +5463,374 @@ function hourChecker()
 }
 
 
-function newGraphs(id, matchingMajor, matchingGroup)
+function newGraphs(matchingMajor, matchingGroup, pollChoices, resultsArray, sSize, graphData, graphLabels)
 {
+	console.log(resultsArray)
 	var studentResponses =[];
 	var canAdd = true;
-	for(var i=0; i <pastPollResults[id][4].length;i++)
+	if(matchingMajor == "None" && matchingGroup== "None")
 	{
-		if(pastPollResults[id][4][i] == matchingMajor)
+		for(var i =0; i< sSize; i++)
 		{
 			studentResponses.push(i);
 		}
 	}
-	for(var i=0; i <pastPollResults[id][6].length;i++)
+	else
 	{
-		if(pastPollResults[id][6][i] == matchingGroup)
+		for(var i=0; i <resultsArray[4].length;i++)
 		{
-			studentResponses.forEach(function(element)
+			if(resultsArray[4][i] == matchingMajor)
 			{
-				if(pastPollResults[id][6][i] == element)
+				studentResponses.push(i);
+			}
+		}
+		for(var i=0; i <resultsArray[6].length;i++)
+		{
+			if(resultsArray[6][i] == matchingGroup)
+			{
+				studentResponses.forEach(function(element)
 				{
-					canAdd = false;
-				}
-			});
-			if(canAdd)
-			{studentResponses.push(i);}
+					if(resultsArray[6][i] == element)
+					{
+						canAdd = false;
+					}
+				});
+				if(canAdd)
+				{studentResponses.push(i);}
+			}
 		}
 	}
+	
+	var graphQuestions = pollChoices;
+	if(pollChoices[0] != "major")
+		graphQuestions.splice(0,0,"major","group");
+	
+	for(var i =0;i < graphData.length; i++)
+	{
+		for(var j =0;j < graphData[i].length; j++)
+		{
+			graphData[i][j]=0;
+		}
+	}
+	console.log(graphData);
+	for(var h = 0; h<sSize; h++)
+	{
+		var response = false;
+		studentResponses.forEach(function(element)
+			{
+				if(h == element)
+				{
+					response = true;
+				}
+			});
+		if(response)
+		{
+			var majorHolder = resultsArray[4][h];
+			if(majorHolder == "business"){
+				graphData[0][0]++;
+			}
+			else if(majorHolder == "law"){
+				graphData[0][1]++;
+			}
+			else if(majorHolder == "tech"){
+				graphData[0][2]++;
+			}
+			else if(majorHolder == "arts"){
+				graphData[0][3]++;
+			}
+				console.log ("i = " + 0)
+	
+			var groupHolder =  resultsArray[6][h];
+			if(groupHolder == "socialite"){
+				graphData[1][0]++;
+			}
+			else if(groupHolder == "athlete"){
+				graphData[1][1]++;
+			}
+			else if(groupHolder == "gamer"){
+				graphData[1][2]++;
+			}
+			else if(groupHolder == "reader"){
+				graphData[1][3]++;
+			}
+				console.log ("i = " + 1)
+			for(var i = 2; i < pollChoices.length+1;i++)
+			{
+				if(pollChoices[i] != null)
+				{
+					switch(pollChoices[i])
+					{
+						
+						case "issFav":
+							var favName = resultsArray[0][h];
+							if(favName == "Tuition"){
+								graphData[i][0]++;
+							}
+							else if(favName == "Budget"){
+								graphData[i][1]++;
+							}
+							else if(favName == "Functions"){
+								graphData[i][2]++;
+							}
+							else if(favName == "Medical"){
+								graphData[i][3]++;
+							}
+						break;
+	
+						case "issOpp":
+							var oppName = resultsArray[1][h];
+							if(oppName == "Tuition"){
+								graphData[i][0]++;
+							}
+							else if(oppName == "Budget"){
+								graphData[i][1]++;
+							}
+							else if(oppName == "Functions"){
+								graphData[i][2]++;
+							}
+							else if(oppName == "Medical"){
+								graphData[i][3]++;
+							}
+						break;
+	
+						case "candFav":
+							for(var k =0; k< globals.candidates.length;k++)
+							{
+								////CONSOLE.LOG()
+								if(resultsArray[2][h] == globals.candidates[k].name){
+									graphData[i][k]++;
+								}
+							}
+						break;
+	
+						case "candOpp":
+							for(var k =0; k< globals.candidates.length;k++)
+							{
+								////CONSOLE.LOG()
+								if(resultsArray[3][h] == globals.candidates[k].name){
+									graphData[i][k]++;
+								}
+							}
+						break;
+	
+						case "fame":
+							if(parseFloat(resultsArray[7][h]).toFixed(2) <= 0.2)
+							{
+								graphData[i][0]++;
+							}
+							else if(parseFloat(resultsArray[7][h]).toFixed(2)>0.20 && parseFloat(resultsArray[7][h]).toFixed(2)<0.41)
+							{
+								graphData[i][1]++;
+							}
+							else if(parseFloat(resultsArray[7][h]).toFixed(2)>0.40 && parseFloat(resultsArray[7][h]).toFixed(2)<0.61)
+							{
+								graphData[i][2]++;
+							}
+							else if(parseFloat(resultsArray[7][h]).toFixed(2)>0.60 && parseFloat(resultsArray[7][h]).toFixed(2)<0.81)
+							{
+								graphData[i][3]++;
+							}
+							else
+							{
+								graphData[i][4]++;
+							}
+						break;
+	
+						case "playTrust":
+							if(parseFloat(resultsArray[8][h]).toFixed(2) <= 0.2)
+							{
+								graphData[i][0]++;
+							}
+							else if(parseFloat(resultsArray[8][h]).toFixed(2)>0.2 && parseFloat(resultsArray[8][h]).toFixed(2)<0.41)
+							{
+								graphData[i][1]++;
+							}
+							else if(parseFloat(resultsArray[8][h]).toFixed(2)>0.4 && parseFloat(resultsArray[8][h]).toFixed(2)<0.61)
+							{
+								graphData[i][2]++;
+							}
+							else if(parseFloat(resultsArray[8][h]).toFixed(2)>0.6 && parseFloat(resultsArray[8][h]).toFixed(2)<0.81)
+							{
+								graphData[i][3]++;
+							}
+							else
+							{
+								graphData[i][4]++;
+							}
+						break;
+					}
+					for(var k = 0;k<globals.positions.length;k++)
+					{
+						if(pollChoices[i] == "issue" + globals.positionsLower[k])
+						{
+							switch(pollChoices[i])
+							{
+								case "issuetuition":
+									if(resultsArray[9][h] <= -3)
+									{
+										graphData[i][0]++;
+									}
+									else if(resultsArray[9][h]>-3 && resultsArray[9][h]<-1)
+									{
+										graphData[i][1]++;
+									}
+									else if(resultsArray[9][h]>-1 && resultsArray[9][h]<1)
+									{
+										graphData[i][2]++;
+									}
+									else if(resultsArray[9][h]>1 && resultsArray[9][h]<3)
+									{
+										graphData[i][3]++;
+									}
+									else
+									{
+										graphData[i][4]++;
+									}
+								break;
+	
+								case "issuebudget":
+									if(resultsArray[10][h] <= -3)
+									{
+										graphData[i][0]++;
+									}
+									else if(resultsArray[10][h]>-3 && resultsArray[10][h]<-1)
+									{
+										graphData[i][1]++;
+									}
+									else if(resultsArray[10][h]>-1 && resultsArray[10][h]<1)
+									{
+										graphData[i][2]++;
+									}
+									else if(resultsArray[10][h]>1 && resultsArray[10][h]<3)
+									{
+										graphData[i][3]++;
+									}
+									else
+									{
+										graphData[i][4]++;
+									}
+								break;
+	
+	
+								case "issuefunctions":
+									if(resultsArray[12][h] <= -3)
+									{
+										graphData[i][0]++;
+									}
+									else if(resultsArray[12][h]>-3 && resultsArray[12][h]<-1)
+									{
+										graphData[i][1]++;
+									}
+									else if(resultsArray[12][h]>-1 && resultsArray[12][h]<1)
+									{
+										graphData[i][2]++;
+									}
+									else if(resultsArray[12][h]>1 && resultsArray[12][h]<3)
+									{
+										graphData[i][3]++;
+									}
+									else
+									{
+										graphData[i][4]++;
+									}
+								break;
+	
+								case "issuemedical":
+									if(resultsArray[13][h] <= -3)
+									{
+										graphData[i][0]++;
+									}
+									else if(resultsArray[13][h]>-3 && resultsArray[13][h]<-1)
+									{
+										graphData[i][1]++;
+									}
+									else if(resultsArray[13][h]>-1 && resultsArray[13][h]<1)
+									{
+										graphData[i][2]++;
+									}
+									else if(resultsArray[13][h]>1 && resultsArray[13][h]<3)
+									{
+										graphData[i][3]++;
+									}
+									else
+									{
+										graphData[i][4]++;
+									}
+								break;
+							}
+						}
+					}
+	
+	
+					canCounter = 14;
+					for(var k = 1;k<globals.candidates.length;k++)
+					{
+						if(pollChoices[i] == "candFame" + globals.candidates[k].name)
+						{
+							var counter = canCounter;
+							if(parseFloat(resultsArray[counter][h]).toFixed(2) <= 0.2)
+							{
+								graphData[i][0]++;
+							}
+							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.2 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.41)
+							{
+								graphData[i][1]++;
+							}
+							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.4 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.61)
+							{
+								graphData[i][2]++;
+							}
+							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.6 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.81)
+							{
+								graphData[i][3]++;
+							}
+							else
+							{
+								graphData[i][4]++;
+							}
+						}
+						canCounter++;
+					}
+					for(var k = 1;k<globals.candidates.length;k++)
+					{
+						if(pollChoices[i] == "candTrust" + globals.candidates[k].name)
+						{
+							var counter = canCounter;
+							if(parseFloat(resultsArray[counter][h]).toFixed(2) <= 0.2)
+							{
+								graphData[i][0]++;
+							}
+							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.2 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.41)
+							{
+								graphData[i][1]++;
+							}
+							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.4 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.61)
+							{
+								graphData[i][2]++;
+							}
+							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.6 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.81)
+							{
+								graphData[i][3]++;
+							}
+							else
+							{
+								graphData[i][4]++;
+							}		
+						}
+						canCounter++;
+					}
+				}
+			}
+		}
+	}
+	
+	document.getElementById("centerDisplay").innerHTML += "<div id = 'barChartDiv' style = 'display:block'></div>";
+	document.getElementById("centerDisplay").innerHTML += "<div id = 'pieChartDiv' style = 'display:none'></div>";
+	
+	makeGraphs(graphData, graphQuestions, graphLabels);
+	document.getElementById("majorSelect").value = matchingMajor;
+	document.getElementById("groupSelect").value = matchingGroup;
+	document.getElementById('table').style.display = 'none';
 }
 
 
