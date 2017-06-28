@@ -224,22 +224,7 @@ $(document).on('click','.logEventPoll', function(){
 	 console.log(globals.currentPoll)
 	var major = document.getElementById("majorSelect").value;
 	var group = document.getElementById("groupSelect").value;
-	if(major != "None" && group != "None")
-	{
-		newGraphs(major, group, globals.pastPollChoices[globals.currentPoll], globals.pastPollResults[globals.currentPoll], globals.pastPollSizes[globals.currentPoll], globals.pastGraphData[globals.currentPoll], globals.pastGraphLabels[globals.currentPoll]);
-	}
-	else if(major != "None" && group == "None")
-	{
-		newGraphs(major, group, globals.pastPollChoices[globals.currentPoll], globals.pastPollResults[globals.currentPoll], globals.pastPollSizes[globals.currentPoll], globals.pastGraphData[globals.currentPoll], globals.pastGraphLabels[globals.currentPoll]);
-	}
-	else if(major == "None" && group != "None")
-	{
-		newGraphs(major, group, globals.pastPollChoices[globals.currentPoll], globals.pastPollResults[globals.currentPoll], globals.pastPollSizes[globals.currentPoll], globals.pastGraphData[globals.currentPoll], globals.pastGraphLabels[globals.currentPoll]);
-	}
-	else if(major == "None" && group == "None")
-	{
-		newGraphs(major, group, globals.pastPollChoices[globals.currentPoll], globals.pastPollResults[globals.currentPoll], globals.pastPollSizes[globals.currentPoll], globals.pastGraphData[globals.currentPoll], globals.pastGraphLabels[globals.currentPoll]);
-	}
+	newGraphs(major, group, globals.pastPollChoices[globals.currentPoll], globals.pastPollResults[globals.currentPoll], globals.pastPollSizes[globals.currentPoll], globals.pastGraphData[globals.currentPoll], globals.pastGraphLabels[globals.currentPoll], false);
  });
 
 $(document).on('change','.filterChecklist', function(){

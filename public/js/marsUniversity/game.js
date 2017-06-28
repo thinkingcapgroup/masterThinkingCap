@@ -3874,37 +3874,37 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 			switch(pollChoices[h])
 			{
 				case "issFav":
-					var cell = headRow.insertCell(h);
+					var cell = headRow.insertCell();
 					cell.innerHTML = globals.tableHeaders[0];
 					graphQuestions.push("issFav");
 				break;
                 
 				case "issOpp":
-						var cell = headRow.insertCell(h);
+						var cell = headRow.insertCell();
 						cell.innerHTML = globals.tableHeaders[1];
 						graphQuestions.push("issOpp");
 				break;
 
 				case "candFav":
-						var cell = headRow.insertCell(h);
+						var cell = headRow.insertCell();
 						cell.innerHTML = globals.tableHeaders[2];
 						graphQuestions.push("candFav");
 				break;
 
 				case "candOpp":
-						var cell = headRow.insertCell(h);
+						var cell = headRow.insertCell();
 						cell.innerHTML = globals.tableHeaders[3];
 						graphQuestions.push("candOpp");
 				break;
 
 				case "fame":
-						var cell = headRow.insertCell(h);
+						var cell = headRow.insertCell();
 						cell.innerHTML = globals.tableHeaders[7];
 						graphQuestions.push("fame");
 				break;
 
 				case "playTrust":
-						var cell = headRow.insertCell(h);
+						var cell = headRow.insertCell();
 						cell.innerHTML = globals.tableHeaders[8];
 						graphQuestions.push("playTrust");
 				break;
@@ -3919,7 +3919,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
                   switch(pollChoices[h])
 					{
 						case "issuetuition":
-							var cell = headRow.insertCell(h);
+							var cell = headRow.insertCell();
 							var posInfo = globals.tableHeaders[9] + globals.positions[0];
 							cell.innerHTML = posInfo;
 							graphQuestions.push("issuetuition");
@@ -3927,21 +3927,21 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 						break;
 
 						case "issuebudget":
-							var cell = headRow.insertCell(h);
+							var cell = headRow.insertCell();
 							var posInfo = globals.tableHeaders[9] + globals.positions[1];
 							cell.innerHTML = posInfo;
 							graphQuestions.push("issuebudget");
 						break;
 
 						case "issuefunctions":
-							var cell = headRow.insertCell(h);
+							var cell = headRow.insertCell();
 							var posInfo = globals.tableHeaders[9] + globals.positions[2];
 							cell.innerHTML = posInfo;
 							graphQuestions.push("issuefunctions");
 						break;
 
 						case "issuemedical":
-							var cell = headRow.insertCell(h);
+							var cell = headRow.insertCell();
 							var posInfo = globals.tableHeaders[9] + globals.positions[3];
 							cell.innerHTML = posInfo;
 							graphQuestions.push("issuemedical");
@@ -3953,7 +3953,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 			{
 				if(pollChoices[h] == "candFame" + globals.candidates[k].name)
 				{
-						var cell = headRow.insertCell(h);
+						var cell = headRow.insertCell();
 						var candInfo = globals.tableHeaders[10] + globals.candidates[k].name;
 						cell.innerHTML = candInfo;
 						graphQuestions.push("candFame" + globals.candidates[k].name);
@@ -3964,7 +3964,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 				if(pollChoices[h] == "candTrust" + globals.candidates[k].name)
 				{
 					//////CONSOLE.LOG(h);
-						var cell = headRow.insertCell(h);
+						var cell = headRow.insertCell();
 						var candInfo = globals.tableHeaders[11] + globals.candidates[k].name;
 						cell.innerHTML = candInfo;
 						graphQuestions.push("candTrust" + globals.candidates[k].name);
@@ -3999,27 +3999,27 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 				{
                     
 					case "issFav":
-							var cell = row.insertCell(i);
+							var cell = row.insertCell();
 							cell.innerHTML = tableArray2[0][h];
 					break;
 
 					case "issOpp":
-								var cell = row.insertCell(i);
+								var cell = row.insertCell();
 								cell.innerHTML = tableArray2[1][h];
 					break;
 
 					case "candFav":
-								var cell = row.insertCell(i);
+								var cell = row.insertCell();
 								cell.innerHTML = tableArray2[2][h];
 					break;
 
 					case "candOpp":
-								var cell = row.insertCell(i);
+								var cell = row.insertCell();
 								cell.innerHTML = tableArray2[3][h];
 					break;
 
 					case "fame":
-								var cell = row.insertCell(i);
+								var cell = row.insertCell();
 								if(parseFloat(tableArray2[7][h]).toFixed(2) <= 0.2)
 								{
 									cell.innerHTML = "Candidate Unknown";
@@ -4048,7 +4048,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 					break;
 
 					case "playTrust":
-								var cell = row.insertCell(i);
+								var cell = row.insertCell();
 								if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.2)
 									{
 										cell.innerHTML = "Not Trustworthy";
@@ -4083,7 +4083,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 						switch(pollChoices[i])
 						{
 							case "issuetuition":
-									var cell = row.insertCell(i);
+									var cell = row.insertCell();
 									if(tableArray2[9][h] <= -3)
 									{
 										cell.innerHTML = "Issue Hated";
@@ -4112,7 +4112,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 							break;
 
 							case "issuebudget":
-									var cell = row.insertCell(i);
+									var cell = row.insertCell();
 									if(tableArray2[10][h] <= -3)
 									{
 										cell.innerHTML = "Issue Hated";
@@ -4142,7 +4142,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 
 
 							case "issuefunctions":
-									var cell = row.insertCell(i);
+									var cell = row.insertCell();
 									if(tableArray2[12][h] <= -3)
 									{
 										cell.innerHTML = "Issue Hated";
@@ -4207,7 +4207,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 				{
 					if(pollChoices[i] == "candFame" + globals.candidates[k].name)
 					{
-								var cell = row.insertCell(i);
+								var cell = row.insertCell();
 								var counter = canCounter;
 									if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.2)
 									{
@@ -4241,7 +4241,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 				{
 					if(pollChoices[i] == "candTrust" + globals.candidates[k].name)
 					{
-								var cell = row.insertCell(i);
+								var cell = row.insertCell();
 								var counter = canCounter;
 								if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.2)
 								{
@@ -5463,9 +5463,8 @@ function hourChecker()
 }
 
 
-function newGraphs(matchingMajor, matchingGroup, pollChoices, resultsArray, sSize, graphData, graphLabels)
+function newGraphs(matchingMajor, matchingGroup, pollChoices, resultsArray, sSize, graphData, graphLabels, resetter)
 {
-	console.log(resultsArray)
 	var studentResponses =[];
 	var canAdd = true;
 	if(matchingMajor == "None" && matchingGroup== "None")
@@ -5824,13 +5823,17 @@ function newGraphs(matchingMajor, matchingGroup, pollChoices, resultsArray, sSiz
 		}
 	}
 	
-	document.getElementById("centerDisplay").innerHTML += "<div id = 'barChartDiv' style = 'display:block'></div>";
-	document.getElementById("centerDisplay").innerHTML += "<div id = 'pieChartDiv' style = 'display:none'></div>";
-	
-	makeGraphs(graphData, graphQuestions, graphLabels);
-	document.getElementById("majorSelect").value = matchingMajor;
-	document.getElementById("groupSelect").value = matchingGroup;
-	document.getElementById('table').style.display = 'none';
+	if(!resetter)
+	{
+		document.getElementById("centerDisplay").innerHTML += "<div id = 'barChartDiv' style = 'display:block'></div>";
+		document.getElementById("centerDisplay").innerHTML += "<div id = 'pieChartDiv' style = 'display:none'></div>";
+		
+		makeGraphs(graphData, graphQuestions, graphLabels);
+		document.getElementById("majorSelect").value = matchingMajor;
+		document.getElementById("groupSelect").value = matchingGroup;
+		document.getElementById('table').style.display = 'none';
+		newGraphs("None", "None", pollChoices, resultsArray, sSize, graphData, graphLabels, true)
+	}
 }
 
 
