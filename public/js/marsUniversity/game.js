@@ -87,6 +87,15 @@ function StudentBias(budgetMeanBias, budgetDeviationBias, medicalMeanBias, medic
   this.tuition = new BiasDistribution(tuitionMean, tuitionDeviation);
 }
 
+function StudentGroup(name, id, type, medical, budget, tuition, functions){
+  this.name = name;
+  this.type = type;
+  this.medical = medical;
+  this.budget = budget;
+  this.tuition = tuition;
+  this.functions = functions;
+}
+
 function loadGroupBiases(){
   let groupBiases = {};
   groupBiases["business"] = {
@@ -113,15 +122,65 @@ function loadGroupBiases(){
   return groupBiases;
 }
 
-function generateStudentBiases(){
-  let studentBiases = {};
-  let groupBiases = loadGroupBiases();
-  let keys = Object.keys(groupBiases);
-  for(let i = 0; i < keys.length; i++){
-    groupBias = groupBiases[keys[i]];
-    studentBiases[keys[i]] = new StudentBias(groupBias.budgetMeanBias, groupBias.budgetDeviationBias, groupBias.medicalMeanBias, groupBias.medicalDeviationBias, groupBias.functionsMeanBias, groupBias.functionsDeviationBias, groupBias.tuitionMeanBias, groupBias.tuitionDeviationBias);
+const studentTypes = {};
+
+function getBiasValue(bias, property, defaults, shortcuts){
+  //Check if the value is a string aka either a default or a shortcut
+  if(typeof(bias[property]) == "string" ){
+    
+    //If shortcuts were passed in and the value isn't "default"
+    //get that shortcut value from the list
+    if(shortcuts && bias[property] != "default"){
+      return shortcuts[bias[property]];
+    }
+    
+    //otherwise, return the default value
+    //Even if the value wasn't actually "default", returning the default is the best solution
+    return defaults[property];
   }
-  return studentBiases;
+  
+  //If it's a normal number, just return that
+  return bias[property];
+}
+
+function generateStudentBiases(){
+  let json;
+  var oReq = new XMLHttpRequest();
+  oReq.onload = function (e)
+      json = JSON.parse(this.responseText);
+      let studentTypes = json.studentTypes;
+      for(let i = 0; i < studentTypes.length){
+        let name = studentTypes
+        [i].name;
+        let id = studentTypes[i].id;
+        let type = studentTypes[i].type;
+        
+        let defaults = studentTypes[i].biasDefaults;
+        let meanShortcuts = studentTypes[i].meanShortcuts;
+        let deviationShortcuts = studentTypes[i].deviationShortcuts;
+        
+        let studentBiases = {};
+        let biasValues = studentTypes[i].biases;
+        for(let j = 0; j < biases.length; j++){
+          let issue = biases[i].issue;
+          let meanOfMean = getBiasValue(biases[i], "meanOfMean", defaults, meanShortcuts);
+          let deviationOfMean = getBiasValue(biases[i], "deviationOfMean", defaults);
+          let meanOfDeviation = getBiasValue(biases[i], "meanOfDeviation", defaults, deviationShortcuts);
+          let deviationOfDeviation = getBiasValue(biases[i], "deviationOfDeviation", defaults);
+          
+          
+          let biasMean = normalDistribution(meanOfMean, deviationOfMean);
+          let biasDeviation = normalDistribution(meanOfDeviation, deviationOfDeviation);
+          studentBiases[issue] = new BiasDistribution(biasMean, biasDeviation);
+        }
+        
+        globals.studentGroups[id] = new StudentGroup(name, id, type, studentBiases["medical"], studentBiases["budget"], studentBiases["tuition"], studentBiases["functions"]);
+        
+      }
+      
+    
+  oReq.open("get", "json/studentGroups.json", true);
+  oReq.send();
 }
 
 
