@@ -119,7 +119,9 @@ globals =
     opponentCandidate: null,
     playerImg:new Image(),
     eventsLoaded:false,
-	currentPoll: 0
-};
+    studentBiases: {},
+    studentGroups: {},
+    currentPoll: 0
+}
     
     

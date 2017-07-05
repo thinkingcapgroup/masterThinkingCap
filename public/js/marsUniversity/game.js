@@ -64,6 +64,126 @@ function startGame()
     preloadImages(54);
 }
 
+function BiasDistribution(mean, stdDeviation){
+    this.mean = mean;
+    this.stdDeviation = stdDeviation;
+    if(this.stdDeviation < 0) this.stdDeviation = 0;
+}
+function StudentBias(budgetMeanBias, budgetDeviationBias, medicalMeanBias, medicalDeviationBias, functionsMeanBias, functionsDeviationBias, tuitionMeanBias, tuitionDeviationBias){
+  let budgetMean = normalDistribution(budgetMeanBias.mean, budgetMeanBias.stdDeviation);
+  let budgetDeviation = normalDistribution(budgetDeviationBias.mean, budgetDeviationBias.stdDeviation);
+  this.budget = new BiasDistribution(budgetMean, budgetDeviation);
+
+  let medicalMean = normalDistribution(medicalMeanBias.mean, medicalMeanBias.stdDeviation);
+  let medicalDeviation = normalDistribution(medicalDeviationBias.mean, medicalDeviationBias.stdDeviation);
+  this.medical = new BiasDistribution(medicalMean, medicalDeviation);
+
+  let functionsMean = normalDistribution(functionsMeanBias.mean, functionsMeanBias.stdDeviation);
+  let functionsDeviation = normalDistribution(functionsDeviationBias.mean, functionsDeviationBias.stdDeviation);
+  this.functions = new BiasDistribution(functionsMean, functionsDeviation);
+
+  let tuitionMean = normalDistribution(tuitionMeanBias.mean, tuitionMeanBias.stdDeviation);
+  let tuitionDeviation = normalDistribution(tuitionDeviationBias.mean, tuitionDeviationBias.stdDeviation);
+  this.tuition = new BiasDistribution(tuitionMean, tuitionDeviation);
+}
+
+function StudentGroup(name, id, type, medical, budget, tuition, functions){
+  this.name = name;
+  this.type = type;
+  this.medical = medical;
+  this.budget = budget;
+  this.tuition = tuition;
+  this.functions = functions;
+}
+
+function loadGroupBiases(){
+  let groupBiases = {};
+  groupBiases["business"] = {
+    budgetMeanBias: new BiasDistribution(3, .4),
+    budgetDeviationBias: new BiasDistribution(2, .5),
+    medicalMeanBias: new BiasDistribution(-3, 2),
+    medicalDeviationBias: new BiasDistribution(3, .2),
+    functionsMeanBias: new BiasDistribution(3, .2),
+    functionsDeviationBias: new BiasDistribution(3, 1),
+    tuitionMeanBias: new BiasDistribution(1, 2),
+    tuitionDeviationBias: new BiasDistribution(1, 1)
+  };
+  groupBiases["socialite"] = {
+    budgetMeanBias: new BiasDistribution(0, .5),
+    budgetDeviationBias: new BiasDistribution(3, 1),
+    medicalMeanBias: new BiasDistribution(-3, 2),
+    medicalDeviationBias: new BiasDistribution(2, 1),
+    functionsMeanBias: new BiasDistribution(4, .2),
+    functionsDeviationBias: new BiasDistribution(3, 1),
+    tuitionMeanBias: new BiasDistribution(3, 2),
+    tuitionDeviationBias: new BiasDistribution(3, 1)
+  };
+  
+  return groupBiases;
+}
+
+const studentTypes = {};
+
+function getBiasValue(bias, property, defaults, shortcuts){
+  //Check if the value is a string aka either a default or a shortcut
+  if(typeof(bias[property]) == "string" ){
+    
+    //If shortcuts were passed in and the value isn't "default"
+    //get that shortcut value from the list
+    if(shortcuts && bias[property] != "default"){
+      return shortcuts[bias[property]];
+    }
+    
+    //otherwise, return the default value
+    //Even if the value wasn't actually "default", returning the default is the best solution
+    return defaults[property];
+  }
+  
+  //If it's a normal number, just return that
+  return bias[property];
+}
+
+function generateStudentBiases(){
+  let json;
+  var oReq = new XMLHttpRequest();
+  oReq.onload = function (e)
+      json = JSON.parse(this.responseText);
+      let studentTypes = json.studentTypes;
+      for(let i = 0; i < studentTypes.length){
+        let name = studentTypes
+        [i].name;
+        let id = studentTypes[i].id;
+        let type = studentTypes[i].type;
+        
+        let defaults = studentTypes[i].biasDefaults;
+        let meanShortcuts = studentTypes[i].meanShortcuts;
+        let deviationShortcuts = studentTypes[i].deviationShortcuts;
+        
+        let studentBiases = {};
+        let biasValues = studentTypes[i].biases;
+        for(let j = 0; j < biases.length; j++){
+          let issue = biases[i].issue;
+          let meanOfMean = getBiasValue(biases[i], "meanOfMean", defaults, meanShortcuts);
+          let deviationOfMean = getBiasValue(biases[i], "deviationOfMean", defaults);
+          let meanOfDeviation = getBiasValue(biases[i], "meanOfDeviation", defaults, deviationShortcuts);
+          let deviationOfDeviation = getBiasValue(biases[i], "deviationOfDeviation", defaults);
+          
+          
+          let biasMean = normalDistribution(meanOfMean, deviationOfMean);
+          let biasDeviation = normalDistribution(meanOfDeviation, deviationOfDeviation);
+          studentBiases[issue] = new BiasDistribution(biasMean, biasDeviation);
+        }
+        
+        globals.studentGroups[id] = new StudentGroup(name, id, type, studentBiases["medical"], studentBiases["budget"], studentBiases["tuition"], studentBiases["functions"]);
+        
+      }
+      
+    
+  oReq.open("get", "json/studentGroups.json", true);
+  oReq.send();
+}
+
+
 const views = {
   topBar: "",
   splashScreen: "",
@@ -1173,7 +1293,7 @@ function startOtherCandidates(){
 }
 
 //Sets the variables for game length and opposing candidates
-function actualSessionStart(isFromTut){
+function initNewGame(isFromTut){
 
     
 	var tutHolder = isFromTut
@@ -1183,6 +1303,9 @@ function actualSessionStart(isFromTut){
 	globals.sample = [];
 	globals.days = 1; 
 	globals.remainingHoursDay = 12; 
+  
+    //Generates the student biases for this game
+    globals.studentBiases = generateStudentBiases();
 	
 	//Decides the opponents focus which cannot be the same as the player
 	globals.opponentCandidate.fame = [1,1,1,1,1,1,1,1];
@@ -1217,9 +1340,9 @@ function actualSessionStart(isFromTut){
     globals.currentCandidateArrayHolder = globals.candidates;
   
 	//map(0,true,true);
-    bufferZone();
+    firstPollInfo();
 }
-function bufferZone()
+function firstPollInfo()
 {
     clearScreen();
     document.getElementById("mainContent").classList.add("center");
@@ -1311,7 +1434,7 @@ function setDiff(days)
     globals.remainingHoursTotal = globals.startHours;
     globals.totalDays = days;
     globals.inGame = true;
-    actualSessionStart(false);
+    initNewGame(false);
 }
 
 /*GAME CYCLE FUNCTIONS8*/
@@ -1895,10 +2018,6 @@ function explainTerm(term, help){
 	document.getElementById("centerDisplay").innerHTML += "<p>Term explination here....</p>"
 	document.getElementById("centerDisplay").innerHTML += "<button onclick = 'tutorial("+help+")'>Back</button>"
 
-}
-
-function printTest(){
-    ////CONSOLE.LOG("Print test");
 }
 
 function drawPoll(state, isFree, isFake){
@@ -2703,6 +2822,15 @@ function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
 	//////CONSOLE.LOG(scoreInc);
 	for(var i=0;i<groupPos.length;i++)
 	{
+        candidate.fame[groupPos[i]] += parseFloat(scoreInc);
+        if(candidate.fame[groupPos[i]] > 2)
+        {
+            candidate.fame[groupPos[i]] = 2;
+        }
+        if(candidate.fame[groupPos[i]] < .1)
+        {
+            candidate.fame[groupPos[i]] = .1;
+        }
 
 		switch (groupPos[i])
 		{
@@ -3121,7 +3249,28 @@ function getScores(x, bias){
   
     //CONSOLE.LOG(groupRandom)
 	var majorRandom = Math.floor(Math.random()* 4);
-	var ath =0;
+	
+    let major = majorList[majorRandom];
+    let group = group[groupRandom];
+  
+    let averageMean = (globals.studentBiases[major]["tuition"].mean + globals.studentBiases[group]["tuition"].mean) / 2;
+    let averageDeviation = (globals.studentBiases[major]["tuition"].stdDeviation + globals.studentBiases[group]["tuition"].stdDeviation) / 2;    
+    let tuition = normalDistribution(averageMean, averageDeviation);
+      
+    averageMean = (globals.studentBiases[major]["budget"].mean + globals.studentBiases[group]["budget"].mean) / 2;
+    averageDeviation = (globals.studentBiases[major]["budget"].stdDeviation + globals.studentBiases[group]["budget"].stdDeviation) / 2;
+    let budget = normalDistribution(averageMean, averageDeviation);
+      
+    averageMean = (globals.studentBiases[major]["functions"].mean + globals.studentBiases[group]["tuition"].mean) / 2;
+    averageDeviation = (globals.studentBiases[major]["functions"].stdDeviation + globals.studentBiases[group]["tuition"].stdDeviation) / 2;
+    let functions = normalDistribution(averageMean, averageDeviation);
+      
+    averageMean = (globals.studentBiases[major]["medical"].mean + globals.studentBiases[group]["medical"].mean) / 2;
+    averageDeviation = (globals.studentBiases[major]["medical"].stdDeviation + globals.studentBiases[group]["medical"].stdDeviation) / 2;
+    let medical = normalDistribution(averageMean, averageDeviation);
+    
+    /*
+    var ath =0;
 	var res = 0;
 	var tuit = 0;
 	var med = 0;
@@ -3137,19 +3286,14 @@ function getScores(x, bias){
 	 tuit = tuit/2;
      bud = bud/2;
      event = event/2;
-     med = med/2;
+     med = med/2;*/
 
-     tuit = tuit.toFixed(2);
-     bud = bud.toFixed(2);
-     event = event.toFixed(2);
-     med = med.toFixed(2);
-
-    //CONSOLE.LOG("Tuition: "+tuit);
-    //CONSOLE.LOG("Budget: "+bud);
-    //CONSOLE.LOG("Event: "+event);
-    //CONSOLE.LOG("Med:"+med);
+     tuition = tuition.toFixed(2);
+     budget = budget.toFixed(2);
+     functions = functions.toFixed(2);
+     medical = medical.toFixed(2);
   
-	var returnArray = [groupRandom, majorRandom, tuit, bud, event, med];
+	var returnArray = [groupRandom, majorRandom, tuition, budget, functions, medical];
 	return returnArray;
 }
 
@@ -4714,6 +4858,7 @@ function SaveFile(){
   this.pastPollSizes = globals.pastPollSizes;
   this.pastGraphData = globals.pastGraphData;
   this.pastGraphLabels = globals.pastGraphLabels;
+  this.studentBiases = globals.studentBiases;
 }
 
 
@@ -4799,7 +4944,7 @@ function loadGame()
     globals.inGame = true;
 	if(globals.firstPoll)
 	{
-		bufferZone();
+		firstPollInfo();
 	}
 	else if(globals.firstState)
 	{
@@ -5438,7 +5583,7 @@ function hourChecker()
 		{
 			globals.days++;
 			globals.remainingHoursDay = 12;
-			dayPollBuffer();
+			dayPollInfo();
 		}
 		else
 		{
