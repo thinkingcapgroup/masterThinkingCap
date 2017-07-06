@@ -227,7 +227,16 @@ const views = {
   statement:"",
   characterSelect: "",
   takePoll:"",
-  userAction: ""
+  userAction: "",
+  candidatesHelpPage: "",
+  functionsHelpPage: "",
+  graphsHelpPage: "",
+  mapHelpPage: "",
+  minigameHelpPage: "",
+  pollHelpPage: "",
+  statementsHelpPage: "",
+  studentsHelpPage: "",
+  trendsHelpPage: ""
 };
 const images = {
   Map: '../../img/map/mapMU600pxW.png',
@@ -769,9 +778,13 @@ function trendReportMenu()
      document.getElementById("back").innerHTML += "<button onclick= 'userAction()'>Back to Game Map</button>";
 }
 
-function chooseHelpPage()
+function chooseHelpPage(page)
 {
+	//Chooses the passed in page
+	document.getElementById("helpContent").innerHTML = views[page]({});
 	
+	//Display page after filling it.
+	displayHelpPage();
 }
 
 function openGlossary()
@@ -4777,6 +4790,7 @@ function changeData(dataButton)
 		document.getElementById('pieButton').style.display = 'inline';
 		document.getElementById('barButton').style.display = 'inline';
 		document.getElementById('dataButton').style.display = 'none';
+		document.getElementById('chartFilters').style.display = 'none';
 	}
 	else if (dataButton == 2)
     {
@@ -4787,6 +4801,7 @@ function changeData(dataButton)
 		document.getElementById('pieButton').style.display = 'inline';
 		document.getElementById('barButton').style.display = 'none';
 		document.getElementById('dataButton').style.display = 'inline';
+		document.getElementById('chartFilters').style.display = 'inline';
 	}
 	else if (dataButton == 3)
     {
@@ -4797,6 +4812,7 @@ function changeData(dataButton)
 		document.getElementById('pieButton').style.display = 'none';
 		document.getElementById('barButton').style.display = 'inline';
 		document.getElementById('dataButton').style.display = 'inline';
+		document.getElementById('chartFilters').style.display = 'inline';
 	}
 }
 

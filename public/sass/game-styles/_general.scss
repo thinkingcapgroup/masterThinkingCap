@@ -284,3 +284,30 @@ progress[value] {
     height: 90%;
     max-width: 760px
 }
+
+.help-screen-action 
+{
+    flex-basis: 100%;
+    margin-bottom: 0
+}
+
+@media only screen and (min-width: 760px) {
+    .help-screen-action {
+        flex-basis: 50%
+    }
+}
+
+.help-screen-action button {
+    background: none;
+    border: none;
+    width: 100%;
+    padding: 15px
+}
+#helpCancel {
+    background: #ea6153;
+    border-bottom-left-radius: 4px
+}
+
+#helpCancel:hover {
+    background: #e74c3c
+}
