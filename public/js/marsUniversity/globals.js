@@ -120,7 +120,11 @@ globals =
     playerImg:new Image(),
     eventsLoaded:false,
     studentBiases: {},
-    studentGroups: {}
+    studentTypes: {},
+    opinionLimits: {
+      "lowerLimit": -5,
+      "upperLimit": 5
+    }
 }
     
     
