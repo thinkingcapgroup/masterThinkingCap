@@ -259,3 +259,28 @@ progress[value] {
 #topBar img{
   cursor:pointer;
 }
+
+#helpPage:not(.hide) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background: rgba(31, 29, 32, 0.7)
+}
+
+#helpPage {
+    background: #f3f6fa;
+    border-radius: 4px;
+    position: absolute;
+    overflow: auto;
+    left: 50%;
+    top: 50%;
+    bottom: auto;
+    right: auto;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 90%;
+    max-width: 760px
+}

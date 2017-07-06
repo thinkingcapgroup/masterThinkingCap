@@ -121,7 +121,8 @@ globals =
     eventsLoaded:false,
     studentBiases: {},
     studentGroups: {},
-    currentPoll: 0
+    currentPoll: 0,
+	helpPage: ["Statement", "Polls", "Areas", "Candidates", "Functions", "Graphs", "Trends", "Students", "Map" ]
 }
     
     

@@ -736,6 +736,11 @@ function trendReportMenu()
      document.getElementById("back").innerHTML += "<button onclick= 'userAction()'>Back to Game Map</button>";
 }
 
+function chooseHelpPage()
+{
+	
+}
+
 function openGlossary()
 {
     //Shows the glossary
@@ -5990,6 +5995,18 @@ function dayPollBuffer()
     document.getElementById("mainContent").innerHTML = "<h1>End of Day Poll</h1> <br><p>Phew! After a hard day of campaigning the current electoral office will conduct a poll for each candidate. <br>You just have to fill out the questions and decide how many people they'll talk to.<br> It wont take any time on our part!</p>";
     document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='drawPoll("+POLL_STATES.END_OF_DAY+",true, false)'>Take Your End of Day Poll</button>";
 }
+
+
+  // Shows the bug report modal
+  function displayHelpPage () {
+    document.getElementById('helpPage').classList.remove('hide');
+  }
+
+  // Hides the bug report modal
+  function hideHelpPage () {
+    document.getElementById('helpPage').classList.add('hide');
+  }
+  
 //window.onload = startGame();
 
 /* Console Disabling Code */
