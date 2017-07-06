@@ -120,6 +120,11 @@ globals =
     playerImg:new Image(),
     eventsLoaded:false,
     studentBiases: {},
+    studentTypes: {},
+    opinionLimits: {
+      "lowerLimit": -5,
+      "upperLimit": 5
+    },
     studentGroups: {},
     currentPoll: 0,
 	helpPage: ["Statement", "Polls", "Areas", "Candidates", "Functions", "Graphs", "Trends", "Students", "Map" ]

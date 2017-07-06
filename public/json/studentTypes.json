@@ -1,0 +1,322 @@
+
+{
+    "opinionLimits":{
+      "lower": -5,
+      "upper": 5
+    },
+    "biasDefaults":{
+      "meanOfMean": 0,
+      "deviationOfMean": 0.2,
+      "meanOfDeviation": 1.6,
+      "deviationOfDeviation": 0.2
+    },
+    "meanOfMeanPresets": {
+      "neutral": 0,
+      "hate": -4,
+      "dislike": -2,
+      "like": 2,
+      "love": 4
+    },
+    "deviationOfMeanPresets":{
+      "usually": 0.2,
+      "often": 0.8,
+      "sometimes": 2.5,
+      "might": 3
+    },
+    "meanOfDeviationPresets": {
+      "narrowSpread": 1,
+      "averageSpread": 1.6,
+      "wideSpread": 2.5
+    },
+	"studentTypes":
+	[
+		{
+			"name":"Business", 
+			"id":"business",
+			"type":"major",
+            "biases":
+              [
+                {
+                  "issue": "budget",
+                  "meanOfMean": "like",
+                  "deviationOfMean": "usually",
+                  "meanOfDeviation": "narrowSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "tuition",
+                  "meanOfMean": "dislike",
+                  "deviationOfMean": "usually",
+                  "meanOfDeviation": "narrowSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "functions",
+                  "meanOfMean": "neutral",
+                  "deviationOfMean": "often",
+                  "meanOfDeviation": "wideSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "medical",
+                  "meanOfMean": "neutral",
+                  "deviationOfMean": "might",
+                  "meanOfDeviation": "averageSpread",
+                  "deviationOfDeviation": "default"
+                }
+              ]
+		},
+		{
+			"name":"Technology", 
+			"id":"tech",
+			"type":"major",
+            "biases":
+              [
+                {
+                  "issue": "medical",
+                  "meanOfMean": "like",
+                  "deviationOfMean": "usually",
+                  "meanOfDeviation": "narrowSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "functions",
+                  "meanOfMean": "dislike",
+                  "deviationOfMean": "usually",
+                  "meanOfDeviation": "narrowSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "tuition",
+                  "meanOfMean": "neutral",
+                  "deviationOfMean": "often",
+                  "meanOfDeviation": "wideSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "budget",
+                  "meanOfMean": "neutral",
+                  "deviationOfMean": "might",
+                  "meanOfDeviation": "averageSpread",
+                  "deviationOfDeviation": "default"
+                }
+              ]
+		},
+        {
+              "name":"Law", 
+              "id":"law",
+              "type":"major",
+              "biases":
+                [
+                  {
+                    "issue": "tuition",
+                    "meanOfMean": "like",
+                    "deviationOfMean": "usually",
+                    "meanOfDeviation": "narrowSpread",
+                    "deviationOfDeviation": "default"
+                  },
+                  {
+                    "issue": "medical",
+                    "meanOfMean": "dislike",
+                    "deviationOfMean": "usually",
+                    "meanOfDeviation": "narrowSpread",
+                    "deviationOfDeviation": "default"
+                  },
+                  {
+                    "issue": "budget",
+                    "meanOfMean": "neutral",
+                    "deviationOfMean": "often",
+                    "meanOfDeviation": "wideSpread",
+                    "deviationOfDeviation": "default"
+                  },
+                  {
+                    "issue": "functions",
+                    "meanOfMean": "neutral",
+                    "deviationOfMean": "might",
+                    "meanOfDeviation": "averageSpread",
+                    "deviationOfDeviation": "default"
+                  }
+                ]
+          },
+          {
+			"name":"Fine Arts", 
+			"id":"arts",
+			"type":"major",
+            "biases":
+              [
+                {
+                  "issue": "functions",
+                  "meanOfMean": "like",
+                  "deviationOfMean": "usually",
+                  "meanOfDeviation": "narrowSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "budget",
+                  "meanOfMean": "dislike",
+                  "deviationOfMean": "usually",
+                  "meanOfDeviation": "narrowSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "medical",
+                  "meanOfMean": "neutral",
+                  "deviationOfMean": "often",
+                  "meanOfDeviation": "wideSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "tuition",
+                  "meanOfMean": "neutral",
+                  "deviationOfMean": "might",
+                  "meanOfDeviation": "averageSpread",
+                  "deviationOfDeviation": "default"
+                }
+              ]
+		  },
+          {
+			"name":"Socialites", 
+			"id":"socialite",
+			"type":"group",
+            "biases":
+              [
+                {
+                  "issue": "functions",
+                  "meanOfMean": "like",
+                  "deviationOfMean": "usually",
+                  "meanOfDeviation": "narrowSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "tuition",
+                  "meanOfMean": "dislike",
+                  "deviationOfMean": "usually",
+                  "meanOfDeviation": "narrowSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "medical",
+                  "meanOfMean": "neutral",
+                  "deviationOfMean": "often",
+                  "meanOfDeviation": "wideSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "budget",
+                  "meanOfMean": "neutral",
+                  "deviationOfMean": "might",
+                  "meanOfDeviation": "averageSpread",
+                  "deviationOfDeviation": "default"
+                }
+              ]
+		  },
+        {
+			"name":"Athletes", 
+			"id":"athlete",
+			"type":"group",
+            "biases":
+              [
+                {
+                  "issue": "medical",
+                  "meanOfMean": "like",
+                  "deviationOfMean": "usually",
+                  "meanOfDeviation": "narrowSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "budget",
+                  "meanOfMean": "dislike",
+                  "deviationOfMean": "usually",
+                  "meanOfDeviation": "narrowSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "tuition",
+                  "meanOfMean": "neutral",
+                  "deviationOfMean": "often",
+                  "meanOfDeviation": "wideSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "functions",
+                  "meanOfMean": "neutral",
+                  "deviationOfMean": "might",
+                  "meanOfDeviation": "averageSpread",
+                  "deviationOfDeviation": "default"
+                }
+              ]
+		  },
+          {
+              "name":"Gamers", 
+              "id":"gamer",
+              "type":"group",
+              "biases":
+                [
+                  {
+                    "issue": "budget",
+                    "meanOfMean": "like",
+                    "deviationOfMean": "usually",
+                    "meanOfDeviation": "narrowSpread",
+                    "deviationOfDeviation": "default"
+                  },
+                  {
+                    "issue": "medical",
+                    "meanOfMean": "dislike",
+                    "deviationOfMean": "usually",
+                    "meanOfDeviation": "narrowSpread",
+                    "deviationOfDeviation": "default"
+                  },
+                  {
+                    "issue": "functions",
+                    "meanOfMean": "neutral",
+                    "deviationOfMean": "often",
+                    "meanOfDeviation": "wideSpread",
+                    "deviationOfDeviation": "default"
+                  },
+                  {
+                    "issue": "tuition",
+                    "meanOfMean": "neutral",
+                    "deviationOfMean": "might",
+                    "meanOfDeviation": "averageSpread",
+                    "deviationOfDeviation": "default"
+                  }
+                ]
+            },
+      {
+			"name":"Readers", 
+			"id":"reader",
+			"type":"group",
+            "biases":
+              [
+                {
+                  "issue": "tuition",
+                  "meanOfMean": "like",
+                  "deviationOfMean": "usually",
+                  "meanOfDeviation": "narrowSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "functions",
+                  "meanOfMean": "dislike",
+                  "deviationOfMean": "usually",
+                  "meanOfDeviation": "narrowSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "budget",
+                  "meanOfMean": "neutral",
+                  "deviationOfMean": "often",
+                  "meanOfDeviation": "wideSpread",
+                  "deviationOfDeviation": "default"
+                },
+                {
+                  "issue": "medical",
+                  "meanOfMean": "neutral",
+                  "deviationOfMean": "might",
+                  "meanOfDeviation": "averageSpread",
+                  "deviationOfDeviation": "default"
+                }
+              ]
+		  }
+	]
+}

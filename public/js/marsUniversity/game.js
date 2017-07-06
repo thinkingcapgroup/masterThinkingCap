@@ -69,26 +69,10 @@ function BiasDistribution(mean, stdDeviation){
     this.stdDeviation = stdDeviation;
     if(this.stdDeviation < 0) this.stdDeviation = 0;
 }
-function StudentBias(budgetMeanBias, budgetDeviationBias, medicalMeanBias, medicalDeviationBias, functionsMeanBias, functionsDeviationBias, tuitionMeanBias, tuitionDeviationBias){
-  let budgetMean = normalDistribution(budgetMeanBias.mean, budgetMeanBias.stdDeviation);
-  let budgetDeviation = normalDistribution(budgetDeviationBias.mean, budgetDeviationBias.stdDeviation);
-  this.budget = new BiasDistribution(budgetMean, budgetDeviation);
 
-  let medicalMean = normalDistribution(medicalMeanBias.mean, medicalMeanBias.stdDeviation);
-  let medicalDeviation = normalDistribution(medicalDeviationBias.mean, medicalDeviationBias.stdDeviation);
-  this.medical = new BiasDistribution(medicalMean, medicalDeviation);
-
-  let functionsMean = normalDistribution(functionsMeanBias.mean, functionsMeanBias.stdDeviation);
-  let functionsDeviation = normalDistribution(functionsDeviationBias.mean, functionsDeviationBias.stdDeviation);
-  this.functions = new BiasDistribution(functionsMean, functionsDeviation);
-
-  let tuitionMean = normalDistribution(tuitionMeanBias.mean, tuitionMeanBias.stdDeviation);
-  let tuitionDeviation = normalDistribution(tuitionDeviationBias.mean, tuitionDeviationBias.stdDeviation);
-  this.tuition = new BiasDistribution(tuitionMean, tuitionDeviation);
-}
-
-function StudentGroup(name, id, type, medical, budget, tuition, functions){
+function StudentType(name, id, type, medical, budget, tuition, functions){
   this.name = name;
+  this.id = id;
   this.type = type;
   this.medical = medical;
   this.budget = budget;
@@ -124,14 +108,14 @@ function loadGroupBiases(){
 
 const studentTypes = {};
 
-function getBiasValue(bias, property, defaults, shortcuts){
-  //Check if the value is a string aka either a default or a shortcut
+function getBiasValue(bias, property, defaults, presets){
+  //Check if the value is a string aka either a default or a preset
   if(typeof(bias[property]) == "string" ){
     
     //If shortcuts were passed in and the value isn't "default"
     //get that shortcut value from the list
-    if(shortcuts && bias[property] != "default"){
-      return shortcuts[bias[property]];
+    if(presets && bias[property] != "default"){
+      return presets[bias[property]];
     }
     
     //otherwise, return the default value
@@ -143,43 +127,92 @@ function getBiasValue(bias, property, defaults, shortcuts){
   return bias[property];
 }
 
+//Normal Distribution based off the Box-Muller Transform
+function normalDistribution (mu, sigma, lowerLimit, upperLimit) {
+    var u1 = Math.random();
+    var u2 = Math.random();
+  
+    //U1 will probably never be 0, but it COULD be. 
+    //Math.log(0) = infinity, so that would be very bad.
+    while(u1 == 0){
+      u1 = Math.random();
+    }
+
+    var z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(Math.PI*2 * u2);
+    var z1 = Math.sqrt(-2.0 * Math.log(u1)) * Math.sin(Math.PI*2 * u2);
+  
+    /*So basically the issue behind only using z0 or z1 is that Math.Random() doesn't include 1, so if you only use cosine the value is less likely to equal 0. If you only use sine, the value is less likely to equal 1. 
+    
+    On a unit circle, each cosine/sine value reoccurs twice. Cosine is .8777 at .5 rad and at -.5 rad and 1 at 0 rad and 2PI rad. That second one can't ever happen, since it requires u2 to equal 1. The Box Muller's solution is to change between cosine and sine, so that it lessens the flaw (I'm sure that to some extent, it still exists).
+    
+    In our implementation, the function is used for a lot of different cases, so using a static flip boolean isn't really a fix. We could pass in a lot of different flip booleans, but that'd be a lot of extra code and doesn't work for some situations. So, we are just doing a coin flip. It's kind of hacksy and is probably secretly biased, but it is unlikely that the minutia of variance and probability will actually affect gameplay.*/
+    
+    let value;
+    
+    if(Math.floor(Math.random() * 2) == 0){
+      value = z1 * sigma + mu;
+    }
+    else{
+      value = z0 * sigma + mu;
+    }
+  
+    //If the lower and upper limits were passed in 
+    if(lowerLimit && upperLimit){
+      //If the value is below or above the limits, regenerate a random value
+      if(value < lowerLimit || value > upperLimit){
+        return normalDistribution(mu, sigma, lowerLimit, upperLimit);
+      }
+    }
+    
+    return value;
+} 
+
 function generateStudentBiases(){
   let json;
   var oReq = new XMLHttpRequest();
-  oReq.onload = function (e)
+  oReq.onload = function (e){
       json = JSON.parse(this.responseText);
+      
+      globals.opinionLimits = json.opinionLimits;
+      let defaults = json.biasDefaults;
+      let meanOfMeanPresets = json.meanOfMeanPresets;
+      let deviationOfMeanPresets = json.deviationOfMeanPresets;
+      let meanOfDeviationPresets = json.meanOfDeviationPresets;
+    
       let studentTypes = json.studentTypes;
-      for(let i = 0; i < studentTypes.length){
-        let name = studentTypes
-        [i].name;
+      
+      for(let i = 0; i < studentTypes.length; i++){
+        let name = studentTypes[i].name;
         let id = studentTypes[i].id;
         let type = studentTypes[i].type;
-        
-        let defaults = studentTypes[i].biasDefaults;
-        let meanShortcuts = studentTypes[i].meanShortcuts;
-        let deviationShortcuts = studentTypes[i].deviationShortcuts;
+
         
         let studentBiases = {};
         let biasValues = studentTypes[i].biases;
-        for(let j = 0; j < biases.length; j++){
-          let issue = biases[i].issue;
-          let meanOfMean = getBiasValue(biases[i], "meanOfMean", defaults, meanShortcuts);
-          let deviationOfMean = getBiasValue(biases[i], "deviationOfMean", defaults);
-          let meanOfDeviation = getBiasValue(biases[i], "meanOfDeviation", defaults, deviationShortcuts);
-          let deviationOfDeviation = getBiasValue(biases[i], "deviationOfDeviation", defaults);
+        
+        for(let j = 0; j < biasValues.length; j++){
+          let issue = biasValues[j].issue;
+          let meanOfMean = getBiasValue(biasValues[j], "meanOfMean", defaults, meanOfMeanPresets);
+          let deviationOfMean = getBiasValue(biasValues[j], "deviationOfMean", defaults, deviationOfMeanPresets);
+          let meanOfDeviation = getBiasValue(biasValues[j], "meanOfDeviation", defaults, meanOfDeviationPresets);
+          let deviationOfDeviation = getBiasValue(biasValues[j], "deviationOfDeviation", defaults);
           
+          let lowerLimit = globals.opinionLimits.lowerLimit;
+          let upperLimit = globals.opinionLimits.upperLimit;
           
-          let biasMean = normalDistribution(meanOfMean, deviationOfMean);
+          let biasMean = normalDistribution(meanOfMean, deviationOfMean, lowerLimit, upperLimit);
           let biasDeviation = normalDistribution(meanOfDeviation, deviationOfDeviation);
           studentBiases[issue] = new BiasDistribution(biasMean, biasDeviation);
         }
-        
-        globals.studentGroups[id] = new StudentGroup(name, id, type, studentBiases["medical"], studentBiases["budget"], studentBiases["tuition"], studentBiases["functions"]);
+        globals.studentTypes[id] = new StudentType(name, id, type, studentBiases["medical"], studentBiases["budget"], studentBiases["tuition"], studentBiases["functions"]);
         
       }
+    
+      console.log(globals.studentTypes);
+  }
       
     
-  oReq.open("get", "json/studentGroups.json", true);
+  oReq.open("get", "json/studentTypes.json", true);
   oReq.send();
 }
 
@@ -1310,7 +1343,7 @@ function initNewGame(isFromTut){
 	globals.remainingHoursDay = 12; 
   
     //Generates the student biases for this game
-    globals.studentBiases = generateStudentBiases();
+    generateStudentBiases();
 	
 	//Decides the opponents focus which cannot be the same as the player
 	globals.opponentCandidate.fame = [1,1,1,1,1,1,1,1];
@@ -3255,24 +3288,27 @@ function getScores(x, bias){
     //CONSOLE.LOG(groupRandom)
 	var majorRandom = Math.floor(Math.random()* 4);
 	
-    let major = majorList[majorRandom];
-    let group = group[groupRandom];
+    let major = globals.majorList[majorRandom];
+    let group = globals.groupList[groupRandom];
   
-    let averageMean = (globals.studentBiases[major]["tuition"].mean + globals.studentBiases[group]["tuition"].mean) / 2;
-    let averageDeviation = (globals.studentBiases[major]["tuition"].stdDeviation + globals.studentBiases[group]["tuition"].stdDeviation) / 2;    
-    let tuition = normalDistribution(averageMean, averageDeviation);
+    let lowerLimit = globals.opinionLimits.lowerLimit;
+    let upperLimit = globals.opinionLimits.upperLimit;
+  
+    let averageMean = (globals.studentTypes[major]["tuition"].mean + globals.studentTypes[group]["tuition"].mean) / 2;
+    let averageDeviation = (globals.studentTypes[major]["tuition"].stdDeviation + globals.studentTypes[group]["tuition"].stdDeviation) / 2;    
+    let tuition = normalDistribution(averageMean, averageDeviation, lowerLimit, upperLimit);
       
-    averageMean = (globals.studentBiases[major]["budget"].mean + globals.studentBiases[group]["budget"].mean) / 2;
-    averageDeviation = (globals.studentBiases[major]["budget"].stdDeviation + globals.studentBiases[group]["budget"].stdDeviation) / 2;
-    let budget = normalDistribution(averageMean, averageDeviation);
+    averageMean = (globals.studentTypes[major]["budget"].mean + globals.studentTypes[group]["budget"].mean) / 2;
+    averageDeviation = (globals.studentTypes[major]["budget"].stdDeviation + globals.studentTypes[group]["budget"].stdDeviation) / 2;
+    let budget = normalDistribution(averageMean, averageDeviation, lowerLimit, upperLimit);
       
-    averageMean = (globals.studentBiases[major]["functions"].mean + globals.studentBiases[group]["tuition"].mean) / 2;
-    averageDeviation = (globals.studentBiases[major]["functions"].stdDeviation + globals.studentBiases[group]["tuition"].stdDeviation) / 2;
-    let functions = normalDistribution(averageMean, averageDeviation);
+    averageMean = (globals.studentTypes[major]["functions"].mean + globals.studentTypes[group]["tuition"].mean) / 2;
+    averageDeviation = (globals.studentTypes[major]["functions"].stdDeviation + globals.studentTypes[group]["tuition"].stdDeviation) / 2;
+    let functions = normalDistribution(averageMean, averageDeviation, lowerLimit, upperLimit);
       
-    averageMean = (globals.studentBiases[major]["medical"].mean + globals.studentBiases[group]["medical"].mean) / 2;
-    averageDeviation = (globals.studentBiases[major]["medical"].stdDeviation + globals.studentBiases[group]["medical"].stdDeviation) / 2;
-    let medical = normalDistribution(averageMean, averageDeviation);
+    averageMean = (globals.studentTypes[major]["medical"].mean + globals.studentTypes[group]["medical"].mean) / 2;
+    averageDeviation = (globals.studentTypes[major]["medical"].stdDeviation + globals.studentTypes[group]["medical"].stdDeviation) / 2;
+    let medical = normalDistribution(averageMean, averageDeviation, lowerLimit, upperLimit);
     
     /*
     var ath =0;
@@ -4229,8 +4265,10 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 				{
 					if(pollChoices[i] == "issue" + globals.positionsLower[k])
 					{
+                        let issueOpinion;
 						switch(pollChoices[i])
 						{
+                            
 							case "issuetuition":
 									var cell = row.insertCell();
 									if(tableArray2[9][h] <= -3)
@@ -4288,7 +4326,6 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
 									}
 							break;
-
 
 							case "issuefunctions":
 									var cell = row.insertCell();
@@ -4864,6 +4901,7 @@ function SaveFile(){
   this.pastGraphData = globals.pastGraphData;
   this.pastGraphLabels = globals.pastGraphLabels;
   this.studentBiases = globals.studentBiases;
+  this.studentTypes = globals.studentTypes;
 }
 
 
@@ -4889,6 +4927,9 @@ function loadSaveFile(){
   globals.pastPollSizes = saveJSON.pastPollSizes;
   globals.pastGraphData = saveJSON.pastGraphData;
   globals.pastGraphLabels = saveJSON.pastGraphLabels;
+  globals.studentTypes = saveJSON.studentTypes;
+  
+  console.log(globals.studentTypes);
   
 }
 
