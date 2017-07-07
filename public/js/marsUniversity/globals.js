@@ -133,6 +133,7 @@ globals =
     },
     studentGroups: {},
     currentPoll: 0,
+	loopable: false,
 	helpPage: ["Statement", "Polls", "Areas", "Candidates", "Functions", "Graphs", "Trends", "Students", "Map" ]
 }
     

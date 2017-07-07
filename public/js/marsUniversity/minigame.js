@@ -306,7 +306,7 @@ runningGame.main =
 		if(runningGame.main.instructionArea == 0 && (mouse.x >= 35 && mouse.x <=225) && (mouse.y >=420 && mouse.y <= 726)){
 			runningGame.main.instruction = false;
 
-				var c=document.getElementById("myCanvas");
+		 	c = globals.c;
 				var ctx = c.getContext("2d");
 
 			for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/15)
@@ -481,7 +481,7 @@ runningGame.main =
 	stopGame: function ()
 	{
 		runningGame.main.stop=true;
-		gameResults(runningGame.main.scores, globals.practice);
+		gameResults(runningGame.main.scores, globals.practice, globals.loopable);
 	},
 
 	calculateDeltaTime: function()
@@ -746,7 +746,7 @@ runningGame2.main =
 	stopGame: function ()
 	{
 		runningGame2.main.stop=true;
-		gameResults(runningGame2.main.scores, globals.practice);
+		gameResults(runningGame2.main.scores, globals.practice, globals.loopable);
 	},
 
 	draw: function(c,ctx)
@@ -1373,7 +1373,7 @@ secretSticker.main =
         {
             if(secretSticker.main.takenDemograph1 >= secretSticker.main.demograph1num)
                 secretSticker.main.score++;
-            gameResults(secretSticker.main.scores, globals.practice);
+            gameResults(secretSticker.main.scores, globals.practice, globals.loopable);
         }
     },
 
@@ -2327,7 +2327,7 @@ runningGame4.main = {
 		else{
 			////CONSOLE.LOG('END GAME')
 			
-			gameResults(runningGame4.main.scores, globals.practice)
+			gameResults(runningGame4.main.scores, globals.practice, globals.loopable)
 		}
 	},
 
@@ -2920,7 +2920,7 @@ tshirtCannon.main = {
     stop: function() 
     {
         tshirtCannon.main.gameStop=true;
-        gameResults(tshirtCannon.main.scores, globals.practice);
+        gameResults(tshirtCannon.main.scores, globals.practice, globals.loopable);
     },
 	update: function(c,ctx)
 	{
@@ -3152,7 +3152,7 @@ tshirtCannon.main = {
 			}
 
 
-		 	c = document.getElementById("myCanvas");
+		 	c = globals.c;
 			ctx = c.getContext("2d")
 			tshirtCannon.main.update(c,ctx)
 			
