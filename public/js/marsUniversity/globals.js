@@ -106,7 +106,6 @@ globals =
     turnCounter:0,
     population: 0,
     sample: [],
-    startHours: 0,
     remainingHoursTotal: 0,
     days: 0,
     totalDays: 0,
@@ -122,8 +121,15 @@ globals =
     studentBiases: {},
     studentTypes: {},
     opinionLimits: {
-      "lowerLimit": -5,
-      "upperLimit": 5
+      "LOWER_LIMIT": -4,
+      "UPPER_LIMIT": 4
+    },
+    opinionValues: {
+      NEUTRAL: 0,
+      LOVE: 3,
+      LIKE: 1,
+      DISLIKE: -1,
+      HATE: -3
     },
     studentGroups: {},
     currentPoll: 0,

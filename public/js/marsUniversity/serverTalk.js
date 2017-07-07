@@ -240,6 +240,7 @@ $(document).on('change','.filterChecklist', function(){
   }
 
   if(clearEverything){
+    console.log("clearing everything");
   var $lis = $('table tbody > tr').hide();
 
     $('input[type=checkbox]:checked').each(function(){

@@ -12,10 +12,10 @@
     },
     "meanOfMeanPresets": {
       "neutral": 0,
-      "hate": -4,
+      "hate": -3,
       "dislike": -2,
       "like": 2,
-      "love": 4
+      "love": 3
     },
     "deviationOfMeanPresets":{
       "usually": 0.2,

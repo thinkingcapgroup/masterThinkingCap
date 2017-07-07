@@ -16,6 +16,29 @@ $(document).ready(function(){
   startGame();
 })
 
+function GameObject(){
+  this.currentCandidates = [];
+  this.graphData = [];
+  this.days = 0;
+  this.totalDays = 0;
+  this.remainingHoursDay = 0;
+  this.remainingHoursTotal = 0;
+  
+  this.gameSession = globals.gameSession;
+  this.firstPoll = globals.firstPoll;
+  this.firstState = globals.firstState;
+  this.gameOver = globals.gameOver;
+
+  this.candidates = globals.candidates;
+  this.pastPollChoices = globals.pastPollChoices;
+  this.pastPollResults = globals.pastPollResults;
+  this.pastPollSizes = globals.pastPollSizes;
+  this.pastGraphData = globals.pastGraphData;
+  this.pastGraphLabels = globals.pastGraphLabels;
+  this.studentBiases = globals.studentBiases;
+  this.studentTypes = globals.studentTypes;
+}
+
 //starts the game
 function startGame()
 {
@@ -62,6 +85,10 @@ function startGame()
     
     loadViews(50);
     preloadImages(54);
+}
+
+function resetGame(){
+  
 }
 
 function BiasDistribution(mean, stdDeviation){
@@ -128,7 +155,7 @@ function getBiasValue(bias, property, defaults, presets){
 }
 
 //Normal Distribution based off the Box-Muller Transform
-function normalDistribution (mu, sigma, lowerLimit, upperLimit) {
+function normalDistribution (mu, sigma) {
     var u1 = Math.random();
     var u2 = Math.random();
   
@@ -147,24 +174,11 @@ function normalDistribution (mu, sigma, lowerLimit, upperLimit) {
     
     In our implementation, the function is used for a lot of different cases, so using a static flip boolean isn't really a fix. We could pass in a lot of different flip booleans, but that'd be a lot of extra code and doesn't work for some situations. So, we are just doing a coin flip. It's kind of hacksy and is probably secretly biased, but it is unlikely that the minutia of variance and probability will actually affect gameplay.*/
     
-    let value;
-    
     if(Math.floor(Math.random() * 2) == 0){
-      value = z1 * sigma + mu;
-    }
-    else{
-      value = z0 * sigma + mu;
-    }
-  
-    //If the lower and upper limits were passed in 
-    if(lowerLimit && upperLimit){
-      //If the value is below or above the limits, regenerate a random value
-      if(value < lowerLimit || value > upperLimit){
-        return normalDistribution(mu, sigma, lowerLimit, upperLimit);
-      }
+      return z1 * sigma + mu;
     }
     
-    return value;
+    return z0 * sigma + mu;
 } 
 
 function generateStudentBiases(){
@@ -173,7 +187,6 @@ function generateStudentBiases(){
   oReq.onload = function (e){
       json = JSON.parse(this.responseText);
       
-      globals.opinionLimits = json.opinionLimits;
       let defaults = json.biasDefaults;
       let meanOfMeanPresets = json.meanOfMeanPresets;
       let deviationOfMeanPresets = json.deviationOfMeanPresets;
@@ -197,10 +210,7 @@ function generateStudentBiases(){
           let meanOfDeviation = getBiasValue(biasValues[j], "meanOfDeviation", defaults, meanOfDeviationPresets);
           let deviationOfDeviation = getBiasValue(biasValues[j], "deviationOfDeviation", defaults);
           
-          let lowerLimit = globals.opinionLimits.lowerLimit;
-          let upperLimit = globals.opinionLimits.upperLimit;
-          
-          let biasMean = normalDistribution(meanOfMean, deviationOfMean, lowerLimit, upperLimit);
+          let biasMean = normalDistribution(meanOfMean, deviationOfMean);
           let biasDeviation = normalDistribution(meanOfDeviation, deviationOfDeviation);
           studentBiases[issue] = new BiasDistribution(biasMean, biasDeviation);
         }
@@ -667,6 +677,10 @@ function startPractice()
     // Shows the practice screen menu
 	clearScreen();
 	globals.practice = true;
+    
+    //Generate biases for this practice session
+    generateStudentBiases();
+  
 	document.getElementById("centerDisplay").innerHTML = views["practice"]({}); 
 
 }
@@ -1409,9 +1423,8 @@ function practicePoll()
 	globals.candidates = [];
 	
 	globals.population = 1000;
-	globals.sample = [];
-	globals.startHours = 84; 
-	globals.remainingHoursTotal = globals.startHours;
+	globals.sample = []; 
+	globals.remainingHoursTotal = 84;
 	globals.days = 1; 
 	globals.remainingHoursDay = 12; 
 	
@@ -1481,8 +1494,7 @@ function chooseDiff()
 //Sets the number of days and time remaining according to the players difficulty choice.
 function setDiff(days)
 {
-	globals.startHours = days*12; 
-    globals.remainingHoursTotal = globals.startHours;
+    globals.remainingHoursTotal = days*12;
     globals.totalDays = days;
     globals.inGame = true;
     initNewGame(false);
@@ -3304,43 +3316,21 @@ function getScores(x, bias){
     let major = globals.majorList[majorRandom];
     let group = globals.groupList[groupRandom];
   
-    let lowerLimit = globals.opinionLimits.lowerLimit;
-    let upperLimit = globals.opinionLimits.upperLimit;
-  
     let averageMean = (globals.studentTypes[major]["tuition"].mean + globals.studentTypes[group]["tuition"].mean) / 2;
     let averageDeviation = (globals.studentTypes[major]["tuition"].stdDeviation + globals.studentTypes[group]["tuition"].stdDeviation) / 2;    
-    let tuition = normalDistribution(averageMean, averageDeviation, lowerLimit, upperLimit);
+    let tuition = normalDistribution(averageMean, averageDeviation);
       
     averageMean = (globals.studentTypes[major]["budget"].mean + globals.studentTypes[group]["budget"].mean) / 2;
     averageDeviation = (globals.studentTypes[major]["budget"].stdDeviation + globals.studentTypes[group]["budget"].stdDeviation) / 2;
-    let budget = normalDistribution(averageMean, averageDeviation, lowerLimit, upperLimit);
+    let budget = normalDistribution(averageMean, averageDeviation);
       
     averageMean = (globals.studentTypes[major]["functions"].mean + globals.studentTypes[group]["tuition"].mean) / 2;
     averageDeviation = (globals.studentTypes[major]["functions"].stdDeviation + globals.studentTypes[group]["tuition"].stdDeviation) / 2;
-    let functions = normalDistribution(averageMean, averageDeviation, lowerLimit, upperLimit);
+    let functions = normalDistribution(averageMean, averageDeviation);
       
     averageMean = (globals.studentTypes[major]["medical"].mean + globals.studentTypes[group]["medical"].mean) / 2;
     averageDeviation = (globals.studentTypes[major]["medical"].stdDeviation + globals.studentTypes[group]["medical"].stdDeviation) / 2;
-    let medical = normalDistribution(averageMean, averageDeviation, lowerLimit, upperLimit);
-    
-    /*
-    var ath =0;
-	var res = 0;
-	var tuit = 0;
-	var med = 0;
-	var event = 0;
-    var bud = 0;
-	//SCORE calculated by (group issue + variable) + (major issue + variable)  + (class issue + variable)
-	tuit = (((globals.groupIssues[groupRandom][0]) + (Math.floor(Math.random() * (globals.groupIssues[groupRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((globals.majorIssues[majorRandom][0]) + (Math.floor(Math.random() * (globals.groupIssues[majorRandom][1]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	bud =  (((globals.groupIssues[groupRandom][2]) + (Math.floor(Math.random() * (globals.groupIssues[groupRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((globals.majorIssues[majorRandom][2]) + (Math.floor(Math.random() * (globals.groupIssues[majorRandom][3]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-	event =  (((globals.groupIssues[groupRandom][6]) + (Math.floor(Math.random() * (globals.groupIssues[groupRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((globals.majorIssues[majorRandom][6]) + (Math.floor(Math.random() * (globals.groupIssues[majorRandom][7]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) ;
-	med =  (((globals.groupIssues[groupRandom][8]) + (Math.floor(Math.random() * (globals.groupIssues[groupRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1)) + (((globals.majorIssues[majorRandom][8]) + (Math.floor(Math.random() * (globals.groupIssues[majorRandom][9]) ) )) * ( Math.random() < 0.5 ? -1 : 1));
-
-  
-	 tuit = tuit/2;
-     bud = bud/2;
-     event = event/2;
-     med = med/2;*/
+    let medical = normalDistribution(averageMean, averageDeviation);
 
      tuition = tuition.toFixed(2);
      budget = budget.toFixed(2);
@@ -3375,39 +3365,63 @@ function votePercentage(sampleSize, bias)
             
 			fame = fameCalc(globals.candidates[j], globals.sample[i]);
 			//////CONSOLE.LOG(globals.candidates[j].name +" Fame: "+ fame);
-			if(j != 1)
-			{
-				var issues = parseFloat(globals.sample[i].tuitionScore) * parseFloat(globals.candidates[j].issueScore[0])
+		    var issues = parseFloat(globals.sample[i].tuitionScore) * parseFloat(globals.candidates[j].issueScore[0])
 				issues += parseFloat(globals.sample[i].budgetScore) * parseFloat(globals.candidates[j].issueScore[1])
 				issues += parseFloat(globals.sample[i].functionScore)* parseFloat(globals.candidates[j].issueScore[2])
 				issues += parseFloat(globals.sample[i].medicalScore)  * parseFloat(globals.candidates[j].issueScore[3])
-				issues = issues/4;
-			}
-			else
+		  
+            issues = issues/4;
+
+            
+            
+			/*if(globals.candidates[j].name != "Karma")
 			{
-				var issues = parseFloat(globals.sample[i].tuitionScore) * parseFloat(globals.candidates[j].issueScore[0])
-				issues += parseFloat(globals.sample[i].budgetScore) * parseFloat(globals.candidates[j].issueScore[1])
-				issues += parseFloat(globals.sample[i].functionScore)* parseFloat(globals.candidates[j].issueScore[2])
-				issues += parseFloat(globals.sample[i].medicalScore)  * parseFloat(globals.candidates[j].issueScore[3])
-				issues = issues/4;
-			}
-			//////CONSOLE.LOG(globals.candidates[j].name +" Issue Score: "+ issues);
-			////CONSOLE.LOG(globals.candidates[j].name + " Issues:"  + issues)
-			if(globals.candidates[j].name != "Karma")
-			{
-				var candWinPer = 10*Math.pow(fame*issues,2) - globals.candidates[j].consMod;
+                if(issues < 0){
+                  candWinPer = -10*Math.pow(fame*issues,2) - globals.candidates[j].consMod;
+                }
+                else{
+                  candWinPer = 10*Math.pow(fame*issues,2) - globals.candidates[j].consMod;
+                }
 			}
 			else
 			{
                 if(globals.totalDays>5)
                 {
-                    var candWinPer = 10*0.4*issues;
+                    candWinPer = 10*0.4*issues;
                 }
                 else
                 {
-                    var candWinPer = 10*0.35*issues;
+                    candWinPer = 10*0.35*issues;
                 }
-			}
+			}*/
+          
+            let sign = 1;
+            let modifier = 10;
+            let consMod = globals.candidates[j].consMod;
+          
+          
+            //If their issues score is less than zero,
+            //Hold onto that so we can reapply it after Math.pow
+            if(issues < 0){
+              sign = -1;
+            }
+          
+            //If this is Karma, she has a lowered modifier
+            if(globals.candidates[j].name == "Karma")
+			{
+                //Multiple the modifier by (2/Number of total days)
+              //This makes karma's score lower when there are more days aka easier difficulty
+              modifier *= (2/globals.totalDays);
+              
+              //She is immune to fame, so set this to 1
+              fame = 1;
+            }
+          
+            //Multiple by the sign to restore the positive/negative
+            //Multiple by modifier to boost overall score
+            //Square to make the score more extreme
+            //Subtract the consistency modifier, which is boosted
+            let candWinPer = sign * modifier * Math.pow(fame * issues) - (100*consMod);
 			
 			
 			
@@ -3586,6 +3600,8 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 	pollLabelArray.push(globals.questions[6].labels.split(','));
     
     //Goes through each question selected, exapnds the size of graphData by one and pushes the label into the pollLabelArray
+  
+    console.log("Number of candidates: ");
 	for(var i =0; i<pollChoices.length;i++)
 	{
 		switch(pollChoices[i])
@@ -5711,11 +5727,14 @@ function newGraphs(matchingMajor, matchingGroup, pollChoices, resultsArray, sSiz
 	if(pollChoices[0] != "major")
 		graphQuestions.splice(0,0,"major","group");
 	
+    let filteredData = [];
 	for(var i =0;i < graphData.length; i++)
 	{
+        filteredData.push([]);
 		for(var j =0;j < graphData[i].length; j++)
 		{
 			graphData[i][j]=0;
+            filteredData[i].push(0);
 		}
 	}
 	console.log(graphData);
@@ -5733,31 +5752,31 @@ function newGraphs(matchingMajor, matchingGroup, pollChoices, resultsArray, sSiz
 		{
 			var majorHolder = resultsArray[4][h];
 			if(majorHolder == "business"){
-				graphData[0][0]++;
+				filteredData[0][0]++;
 			}
 			else if(majorHolder == "law"){
-				graphData[0][1]++;
+				filteredData[0][1]++;
 			}
 			else if(majorHolder == "tech"){
-				graphData[0][2]++;
+				filteredData[0][2]++;
 			}
 			else if(majorHolder == "arts"){
-				graphData[0][3]++;
+				filteredData[0][3]++;
 			}
 				console.log ("i = " + 0)
 	
 			var groupHolder =  resultsArray[6][h];
 			if(groupHolder == "socialite"){
-				graphData[1][0]++;
+				filteredData[1][0]++;
 			}
 			else if(groupHolder == "athlete"){
-				graphData[1][1]++;
+				filteredData[1][1]++;
 			}
 			else if(groupHolder == "gamer"){
-				graphData[1][2]++;
+				filteredData[1][2]++;
 			}
 			else if(groupHolder == "reader"){
-				graphData[1][3]++;
+				filteredData[1][3]++;
 			}
 				console.log ("i = " + 1)
 			for(var i = 2; i < pollChoices.length+1;i++)
@@ -5770,51 +5789,51 @@ function newGraphs(matchingMajor, matchingGroup, pollChoices, resultsArray, sSiz
 						case "issFav":
 							var favName = resultsArray[0][h];
 							if(favName == "Tuition"){
-								graphData[i][0]++;
+								filteredData[i][0]++;
 							}
 							else if(favName == "Budget"){
-								graphData[i][1]++;
+								filteredData[i][1]++;
 							}
 							else if(favName == "Functions"){
-								graphData[i][2]++;
+								filteredData[i][2]++;
 							}
 							else if(favName == "Medical"){
-								graphData[i][3]++;
+								filteredData[i][3]++;
 							}
 						break;
 	
 						case "issOpp":
 							var oppName = resultsArray[1][h];
 							if(oppName == "Tuition"){
-								graphData[i][0]++;
+								filteredData[i][0]++;
 							}
 							else if(oppName == "Budget"){
-								graphData[i][1]++;
+								filteredData[i][1]++;
 							}
 							else if(oppName == "Functions"){
-								graphData[i][2]++;
+								filteredData[i][2]++;
 							}
 							else if(oppName == "Medical"){
-								graphData[i][3]++;
+								filteredData[i][3]++;
 							}
 						break;
 	
 						case "candFav":
-							for(var k =0; k< globals.candidates.length;k++)
+							for(var k =0; k< globals.candidates[k].length;k++)
 							{
 								////CONSOLE.LOG()
 								if(resultsArray[2][h] == globals.candidates[k].name){
-									graphData[i][k]++;
+									filteredData[i][k]++;
 								}
 							}
 						break;
 	
 						case "candOpp":
-							for(var k =0; k< globals.candidates.length;k++)
+							for(var k =0; k< resultsArray[3].length;k++)
 							{
 								////CONSOLE.LOG()
 								if(resultsArray[3][h] == globals.candidates[k].name){
-									graphData[i][k]++;
+									filteredData[i][k]++;
 								}
 							}
 						break;
@@ -5822,46 +5841,46 @@ function newGraphs(matchingMajor, matchingGroup, pollChoices, resultsArray, sSiz
 						case "fame":
 							if(parseFloat(resultsArray[7][h]).toFixed(2) <= 0.2)
 							{
-								graphData[i][0]++;
+								filteredData[i][0]++;
 							}
 							else if(parseFloat(resultsArray[7][h]).toFixed(2)>0.20 && parseFloat(resultsArray[7][h]).toFixed(2)<0.41)
 							{
-								graphData[i][1]++;
+								filteredData[i][1]++;
 							}
 							else if(parseFloat(resultsArray[7][h]).toFixed(2)>0.40 && parseFloat(resultsArray[7][h]).toFixed(2)<0.61)
 							{
-								graphData[i][2]++;
+								filteredData[i][2]++;
 							}
 							else if(parseFloat(resultsArray[7][h]).toFixed(2)>0.60 && parseFloat(resultsArray[7][h]).toFixed(2)<0.81)
 							{
-								graphData[i][3]++;
+								filteredData[i][3]++;
 							}
 							else
 							{
-								graphData[i][4]++;
+								filteredData[i][4]++;
 							}
 						break;
 	
 						case "playTrust":
 							if(parseFloat(resultsArray[8][h]).toFixed(2) <= 0.2)
 							{
-								graphData[i][0]++;
+								filteredData[i][0]++;
 							}
 							else if(parseFloat(resultsArray[8][h]).toFixed(2)>0.2 && parseFloat(resultsArray[8][h]).toFixed(2)<0.41)
 							{
-								graphData[i][1]++;
+								filteredData[i][1]++;
 							}
 							else if(parseFloat(resultsArray[8][h]).toFixed(2)>0.4 && parseFloat(resultsArray[8][h]).toFixed(2)<0.61)
 							{
-								graphData[i][2]++;
+								filteredData[i][2]++;
 							}
 							else if(parseFloat(resultsArray[8][h]).toFixed(2)>0.6 && parseFloat(resultsArray[8][h]).toFixed(2)<0.81)
 							{
-								graphData[i][3]++;
+								filteredData[i][3]++;
 							}
 							else
 							{
-								graphData[i][4]++;
+								filteredData[i][4]++;
 							}
 						break;
 					}
@@ -5874,46 +5893,46 @@ function newGraphs(matchingMajor, matchingGroup, pollChoices, resultsArray, sSiz
 								case "issuetuition":
 									if(resultsArray[9][h] <= -3)
 									{
-										graphData[i][0]++;
+										filteredData[i][0]++;
 									}
 									else if(resultsArray[9][h]>-3 && resultsArray[9][h]<-1)
 									{
-										graphData[i][1]++;
+										filteredData[i][1]++;
 									}
 									else if(resultsArray[9][h]>-1 && resultsArray[9][h]<1)
 									{
-										graphData[i][2]++;
+										filteredData[i][2]++;
 									}
 									else if(resultsArray[9][h]>1 && resultsArray[9][h]<3)
 									{
-										graphData[i][3]++;
+										filteredData[i][3]++;
 									}
 									else
 									{
-										graphData[i][4]++;
+										filteredData[i][4]++;
 									}
 								break;
 	
 								case "issuebudget":
 									if(resultsArray[10][h] <= -3)
 									{
-										graphData[i][0]++;
+										filteredData[i][0]++;
 									}
 									else if(resultsArray[10][h]>-3 && resultsArray[10][h]<-1)
 									{
-										graphData[i][1]++;
+										filteredData[i][1]++;
 									}
 									else if(resultsArray[10][h]>-1 && resultsArray[10][h]<1)
 									{
-										graphData[i][2]++;
+										filteredData[i][2]++;
 									}
 									else if(resultsArray[10][h]>1 && resultsArray[10][h]<3)
 									{
-										graphData[i][3]++;
+										filteredData[i][3]++;
 									}
 									else
 									{
-										graphData[i][4]++;
+										filteredData[i][4]++;
 									}
 								break;
 	
@@ -5921,46 +5940,46 @@ function newGraphs(matchingMajor, matchingGroup, pollChoices, resultsArray, sSiz
 								case "issuefunctions":
 									if(resultsArray[12][h] <= -3)
 									{
-										graphData[i][0]++;
+										filteredData[i][0]++;
 									}
 									else if(resultsArray[12][h]>-3 && resultsArray[12][h]<-1)
 									{
-										graphData[i][1]++;
+										filteredData[i][1]++;
 									}
 									else if(resultsArray[12][h]>-1 && resultsArray[12][h]<1)
 									{
-										graphData[i][2]++;
+										filteredData[i][2]++;
 									}
 									else if(resultsArray[12][h]>1 && resultsArray[12][h]<3)
 									{
-										graphData[i][3]++;
+										filteredData[i][3]++;
 									}
 									else
 									{
-										graphData[i][4]++;
+										filteredData[i][4]++;
 									}
 								break;
 	
 								case "issuemedical":
 									if(resultsArray[13][h] <= -3)
 									{
-										graphData[i][0]++;
+										filteredData[i][0]++;
 									}
 									else if(resultsArray[13][h]>-3 && resultsArray[13][h]<-1)
 									{
-										graphData[i][1]++;
+										filteredData[i][1]++;
 									}
 									else if(resultsArray[13][h]>-1 && resultsArray[13][h]<1)
 									{
-										graphData[i][2]++;
+										filteredData[i][2]++;
 									}
 									else if(resultsArray[13][h]>1 && resultsArray[13][h]<3)
 									{
-										graphData[i][3]++;
+										filteredData[i][3]++;
 									}
 									else
 									{
-										graphData[i][4]++;
+										filteredData[i][4]++;
 									}
 								break;
 							}
@@ -5976,23 +5995,23 @@ function newGraphs(matchingMajor, matchingGroup, pollChoices, resultsArray, sSiz
 							var counter = canCounter;
 							if(parseFloat(resultsArray[counter][h]).toFixed(2) <= 0.2)
 							{
-								graphData[i][0]++;
+								filteredData[i][0]++;
 							}
 							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.2 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.41)
 							{
-								graphData[i][1]++;
+								filteredData[i][1]++;
 							}
 							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.4 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.61)
 							{
-								graphData[i][2]++;
+								filteredData[i][2]++;
 							}
 							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.6 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.81)
 							{
-								graphData[i][3]++;
+								filteredData[i][3]++;
 							}
 							else
 							{
-								graphData[i][4]++;
+								filteredData[i][4]++;
 							}
 						}
 						canCounter++;
@@ -6004,23 +6023,23 @@ function newGraphs(matchingMajor, matchingGroup, pollChoices, resultsArray, sSiz
 							var counter = canCounter;
 							if(parseFloat(resultsArray[counter][h]).toFixed(2) <= 0.2)
 							{
-								graphData[i][0]++;
+								filteredData[i][0]++;
 							}
 							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.2 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.41)
 							{
-								graphData[i][1]++;
+								filteredData[i][1]++;
 							}
 							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.4 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.61)
 							{
-								graphData[i][2]++;
+								filteredData[i][2]++;
 							}
 							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.6 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.81)
 							{
-								graphData[i][3]++;
+								filteredData[i][3]++;
 							}
 							else
 							{
-								graphData[i][4]++;
+								filteredData[i][4]++;
 							}		
 						}
 						canCounter++;
@@ -6035,11 +6054,11 @@ function newGraphs(matchingMajor, matchingGroup, pollChoices, resultsArray, sSiz
 		document.getElementById("centerDisplay").innerHTML += "<div id = 'barChartDiv' style = 'display:block'></div>";
 		document.getElementById("centerDisplay").innerHTML += "<div id = 'pieChartDiv' style = 'display:none'></div>";
 		
-		makeGraphs(graphData, graphQuestions, graphLabels);
+		makeGraphs(filteredData, graphQuestions, graphLabels);
 		document.getElementById("majorSelect").value = matchingMajor;
 		document.getElementById("groupSelect").value = matchingGroup;
 		document.getElementById('table').style.display = 'none';
-		newGraphs("None", "None", pollChoices, resultsArray, sSize, graphData, graphLabels, true)
+		//newGraphs("None", "None", pollChoices, resultsArray, sSize, graphData, graphLabels, true)
 	}
 }
 
