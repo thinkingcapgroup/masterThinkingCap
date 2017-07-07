@@ -741,7 +741,7 @@ function pollMenu()
     }
     else
     {
-        document.getElementById("mainContent").innerHTML += "<h2> Poll</h2> <button type='button' > Cannot Take a Poll </button>";
+        document.getElementById("mainContent").innerHTML += "<h2> Poll</h2> <button type='button' > Cannot Take a Poll </button> ";
         if(globals.pastPollResults.length > 0)
             document.getElementById("mainContent").innerHTML += "<h2> Previous Poll Results</h2>";
     }
@@ -752,6 +752,8 @@ function pollMenu()
 		globals.num = i+1;
 		document.getElementById("mainContent").innerHTML += "<button class='otherBtn' onclick='reportViewer("+i+")' >View Poll "+ globals.num +" Result </button>";
     }
+	document.getElementById("mainContent").innerHTML += "<button  onclick = 'chooseHelpPage(`pollHelpPage`)' >Help</button>";
+
     setBackToMapBtn();
 }
 function trendReportMenu()
@@ -794,6 +796,7 @@ function trendReportMenu()
    	 document.getElementById("mainContent").innerHTML += "<br>"
      document.getElementById("mainContent").innerHTML += "<button id ='buttonViewer' style = 'display:none'>Choose Another Trend Report</button>";
      document.getElementById("back").innerHTML += "<button onclick= 'userAction()'>Back to Game Map</button>";
+	 document.getElementById("mainContent").innerHTML += "<button  onclick = 'chooseHelpPage(`trendHelpPage`)' >Help</button>";
 }
 
 function chooseHelpPage(page)
@@ -1473,6 +1476,8 @@ function firstStatement()
 	{
 		document.getElementById("mainContent").innerHTML += "<p>Not Sure on What to Choose? Click Below!</p> <button class='otherBtn' type='button' onclick='firstReport()' >View The Results of the Poll You Just Took </button>";
 	}
+		document.getElementById("mainContent").innerHTML += "<button  onclick = 'chooseHelpPage(`statementsHelpPage`)' >Help</button>";
+
 }
 
 function firstReport()
@@ -1623,7 +1628,8 @@ function userAction()
     
     
     document.getElementById("map").style.display = "block";
-    
+    document.getElementById("mainContent").innerHTML += "<button  onclick = 'chooseHelpPage(`mapHelpPage`)' >Help</button>";
+
     }
 };
 
@@ -1861,7 +1867,7 @@ function action(choice)
 					}
 				}
 			}
-		document.getElementById("eventInfo").innerHTML += "<br> <button class='logEvent primaryBtn' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br>";
+		document.getElementById("eventInfo").innerHTML += "<br> <button class='logEvent primaryBtn' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br> <button  onclick = 'chooseHelpPage(`functionsHelpPage`)' >Help</button>";
 		}
 		else
 		{
@@ -2346,6 +2352,7 @@ function statement(){
   
     document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='statementCalc()' > Make Statement </button>";
     document.getElementById("back").innerHTML += "<button type='button' onclick='backtoUA()' >Back to Game Map</button>";
+	document.getElementById("mainContent").innerHTML += "<button  onclick = 'chooseHelpPage(`statementsHelpPage`)' >Help</button>";
 
 }
 
