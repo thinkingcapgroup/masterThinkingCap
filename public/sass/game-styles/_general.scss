@@ -259,8 +259,32 @@ progress[value] {
 #topBar img{
   cursor:pointer;
 }
+.help-section-button {
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.global-navigation .help-section-button {
+    display: flex
+}
+
+.help-section-button:hover {
+    cursor: pointer
+}
+
+.help-section-button:hover .help-section-icon {
+    transform: rotate(30deg)
+}
+
+.help-section-button .help-section-icon {
+    width: 32px;
+    height: 32px;
+    transition: transform .2s
+}
 
 #helpPage:not(.hide) {
+	overflow:scroll;
     position: fixed;
     top: 0;
     left: 0;
@@ -270,7 +294,7 @@ progress[value] {
     background: rgba(31, 29, 32, 0.7)
 }
 
-#helpPage {
+#help-section-form {
     background: #f3f6fa;
     border-radius: 4px;
     position: absolute;
@@ -282,32 +306,103 @@ progress[value] {
     transform: translate(-50%, -50%);
     width: 90%;
     height: 90%;
-    max-width: 760px
+    max-width: 1200px
 }
 
-.help-screen-action 
-{
+@media only screen and (min-width: 1200px) {
+    #help-section-form {
+        height: auto
+    }
+}
+
+#help-section-form #help-section-title {
+    text-align: center;
+    margin: 1em
+}
+
+#help-section-form #helpNavigation {
+    margin: 0 1em
+}
+
+#help-section-form #help-section-fields {
+    margin: 1em;
+    display: flex;
+    flex-direction: column
+}
+
+@media only screen and (min-width: 1200px) {
+    #help-section-form #help-section-fields {
+        flex-direction: row;
+        flex-wrap: wrap
+    }
+}
+
+#help-section-form .help-section-field {
+    flex-basis: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 15px
+}
+
+@media only screen and (min-width: 1200px) {
+    #help-section-form .help-section-field {
+        flex-basis: 50%
+    }
+    #help-section-form .help-section-field:last-of-type {
+        flex-basis: 100%
+    }
+}
+
+#help-section-form #help-section-subject,
+#help-section-form #help-section-categories,
+#help-section-form #help-section-description {
+    margin-top: 1em;
+    padding: 1em;
+    border: 1px solid #272727
+}
+
+#help-section-form #help-section-categories {
+    height: 100%
+}
+
+#help-section-form #help-section-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%
+}
+
+#help-section-form .help-section-action {
     flex-basis: 100%;
     margin-bottom: 0
 }
 
-@media only screen and (min-width: 760px) {
-    .help-screen-action {
+@media only screen and (min-width: 1200px) {
+    #help-section-form .help-section-action {
         flex-basis: 50%
     }
 }
 
-.help-screen-action button {
+#help-section-form .help-section-action button {
     background: none;
     border: none;
     width: 100%;
     padding: 15px
 }
-#helpCancel {
+
+#help-section-form #help-section-cancel-button {
     background: #ea6153;
     border-bottom-left-radius: 4px
 }
 
-#helpCancel:hover {
+#help-section-form #help-section-cancel-button:hover {
     background: #e74c3c
+}
+
+#help-section-form #help-section-submit-button {
+    background: #52d681;
+    border-bottom-right-radius: 4px
+}
+
+#help-section-form #help-section-submit-button:hover {
+    background: #2fc665
 }

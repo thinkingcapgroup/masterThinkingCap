@@ -1,10 +1,24 @@
 <div id='helpPage' class='hide'>
+  <div id='help-section-form'>
+    <h1 id='help-section-title'>Help Section</h1>
+    <div id = 'helpNavigation'>
+		<button class="otherBtn" onclick = 'chooseHelpPage("studentsHelpPage")' >Students</button>
+		<button class="otherBtn" onclick = 'chooseHelpPage("candidatesHelpPage")' >Candidates</button>
+		<button class="otherBtn" onclick = 'chooseHelpPage("mapHelpPage")' >Game Map</button>
+		<button class="otherBtn" onclick = 'chooseHelpPage("functionsHelpPage")' >Functions</button>
+		<button class="otherBtn" onclick = 'chooseHelpPage("statementsHelpPage")' >Statements</button>
+		<button class="otherBtn" onclick = 'chooseHelpPage("minigameHelpPage")' >Minigames</button>
+		<button class="otherBtn" onclick = 'chooseHelpPage("pollHelpPage")' >Polls</button>
+		<button class="otherBtn" onclick = 'chooseHelpPage("graphsHelpPage")' >Polling Results</button>
+		<button class="otherBtn" onclick = 'chooseHelpPage("trendsHelpPage")' >Reports</button>
+	</div>
     <div id = 'helpContent'>
 	
 	</div>
     <ul id='helpCancel'>
-      <li class='help-screen-action'>
-        <button id='help-screen-cancel-button' type='reset' name='cancelHelpScreen'>Cancel</button>
+      <li class='help-section-action'>
+        <button id='help-section-cancel-button' type='reset' name='cancelHelpScreen' onclick = 'hideHelpPage()'>Cancel</button>
       </li>
-	</ul>	  
+	</ul>
+  </div>
 </div>

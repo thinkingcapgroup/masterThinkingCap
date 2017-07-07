@@ -62,6 +62,7 @@ function startGame()
     
     loadViews(50);
     preloadImages(54);
+    generateStudentBiases();
 }
 
 function BiasDistribution(mean, stdDeviation){
@@ -368,110 +369,113 @@ function createTutorialPages(){
   
   //Areas
   title = "Areas";
-  content = "<p>Lets Take a Tour of the school! There are five main places on the Mars U Campus. Each area attracts different people to them.</p>";
+  content = "<p>Lets Take a Tour of the school! There are five main places on the Mars U Campus. Each area attracts different people to them.</p><button onclick = 'chooseHelpPage(`mapHelpPage`)'>Help</button>";
   let image = '../img/menu/makeastatementiconNEW.png';
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Areas
   title = "Areas - Bias";
-  content = "<p>Here is where everybody can be found! <br> Commons: Socialites and Arts Majors <br> Library: Readers and Law Majors<br> Gym: Athletes and Business Majors <br> Labs: Gamers and Technology Majors</p>";
+  content = "<p>Here is where everybody can be found! <br> Commons: Socialites and Arts Majors <br> Library: Readers and Law Majors<br> Gym: Athletes and Business Majors <br> Labs: Gamers and Technology Majors</p><button onclick = 'chooseHelpPage(`mapHelpPage`)'>Help</button>";
   image = '../img/menu/makeastatementiconNEW.png';
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Candidates
   title = "Candidates";
-  content = "<p>Like in any election you'll have some comptetition. There are five other people running for prresisdent at Mars U.</p>";
+  content = "<p>Like in any election you'll have some comptetition. There are five other people running for prresisdent at Mars U.</p> <button onclick = 'chooseHelpPage(`mapHelpPage`)'>Help</button>";
   image = '../img/menu/makeastatementiconNEW.png';
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Candidates
   title = "Candidates - Issue Candidates";
-  content = "<p>There are four candidates who don't do much campaigning. We call them the issue candidates. They're pretty well know and liked around campus so they think they don't need to campaign. Here are the Candidates in there issues. <br>Simon: Improve Medical Services <br> Zrapp: Increase the Budget <br> Boof: Lower Tuition <br> C1AMP: More School Functions</p>";
+  content = "<p>There are four candidates who don't do much campaigning. We call them the issue candidates. They're pretty well know and liked around campus so they think they don't need to campaign. Here are the Candidates in there issues. <br>Simon: Improve Medical Services <br> Zrapp: Increase the Budget <br> Boof: Lower Tuition <br> C1AMP: More School Functions</p> <button onclick = 'chooseHelpPage(`candidatesHelpPage`)'>Help</button>";
   image = '../img/menu/makeastatementiconNEW.png';
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Candidates
   title = "Candidates - Karma";
-  content = "<p>The final candidate also transferred in recently. Karma the Chameleon is a charismatic, but untrustworthy candidate. People like her, but they have noticed that she seems to copy the statements of other candidates.</p>";
+  content = "<p>The final candidate also transferred in recently. Karma the Chameleon is a charismatic, but untrustworthy candidate. People like her, but they have noticed that she seems to copy the statements of other candidates.</p><button onclick = 'chooseHelpPage(`candidatesHelpPage`)'>Help</button>";
   image = '../img/menu/makeastatementiconNEW.png';
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Statements and Functions
   title = "Statements and Functions";
-  content = "<p>You can win by doing three things: <br>-Statements<br>-Polling<br>-Student Functions <br> You have 12 hours in a day and everything you do takes time.</p>";
+  content = "<p>You can win by doing three things: <br>-Statements<br>-Polling<br>-Student Functions <br> You have 12 hours in a day and everything you do takes time.</p><button onclick = 'chooseHelpPage(`statementsHelpPage`)'>Help</button>";
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Statements
   title = "Statements";
-  content = "<p>Statements are where you focus on the issues at school. Statements can change the way people feel about the issues. They also tell the population how you feel about the issues.</p>";
+  content = "<p>Statements are where you focus on the issues at school. Statements can change the way people feel about the issues. They also tell the population how you feel about the issues.</p><button onclick = 'chooseHelpPage(`statementsHelpPage`)'>Help</button>";
   image = '../img/menu/makeastatementiconNEW.png';
   tutorialPages.push(new TutorialPage(title, content, image));
   
   //Statements
   title = "Statements - Continued";
-  content = "<p>People are more likely to vote for you if they agree with you on the issues. Be sure to stick to one stance on each issue, because people won't like it if they can't trust you. Statements take an hour to prepare and perform.</p>";
+  content = "<p>People are more likely to vote for you if they agree with you on the issues. Be sure to stick to one stance on each issue, because people won't like it if they can't trust you. Statements take an hour to prepare and perform.</p><button onclick = 'chooseHelpPage(`statementsHelpPage`)'>Help</button>";
   tutorialPages.push(new TutorialPage(title, content, image));
   
   //Issues
   title = "Issues";
   image = '../img/issues.png';
-  tutorialPages.push(new TutorialPage(title, "", image));
+  content = "<button onclick = 'chooseHelpPage(`statementsHelpPage`)'>Help</button>";
+  tutorialPages.push(new TutorialPage(title, content, image));
 
   //Student Functions
   title = "Student Functions";
-  content = "<p>Student Functions are how you get to know the population. Becoming more famous among groups to help get you elected.</p>";
+  content = "<p>Student Functions are how you get to know the population. Becoming more famous among groups to help get you elected.</p><button onclick = 'chooseHelpPage(`functionsHelpPage`)'>Help</button>";
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Student Functions
   title = "Student Functions";
-  content = "<p>Functions take a couple hours to set up and you can add an option to that if you like, but it will take an extra hour. Functions can't be held in the quad according to the Univerity Guidelines.</p>";
+  content = "<p>Functions take a couple hours to set up and you can add an option to that if you like, but it will take an extra hour. Functions can't be held in the quad according to the Univerity Guidelines.</p><button onclick = 'chooseHelpPage(`functionsHelpPage`)'>Help</button>";
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Population - Majors
   title = "Population - Majors";
   image = '../img/majors.png';
-  tutorialPages.push(new TutorialPage(title, "", image));
+  content = "<button onclick = 'chooseHelpPage(`studentsHelpPage`)'>Help</button>";
+  tutorialPages.push(new TutorialPage(title, content, image));
   
   //Population - Social Groups
   title = "Population - Social Groups";
   image = '../img/interests.png';
-  tutorialPages.push(new TutorialPage(title, "", image));
+  content = "<button onclick = 'chooseHelpPage(`studentsHelpPage`)'>Help</button>"
+  tutorialPages.push(new TutorialPage(title, content, image));
   
   //Polling
   title = "Polling";
-  content = "<p>With polls you can see how the populations around the school feel about the candidates, and issues. You take polls in different areas which will have different biases.</p>";
+  content = "<p>With polls you can see how the populations around the school feel about the candidates, and issues. You take polls in different areas which will have different biases.</p><button onclick = 'chooseHelpPage(`pollHelpPage`)'>Help</button>";
   image = '../img/menu/takeapollicon.png';
   tutorialPages.push(new TutorialPage(title, content, image));
   
   //Polling
   title = "Polling - Continued";
-  content = "<p> Polls take time to conduct, but the current student government will conduct one for you at the end of each day. These will help you see your effect on the population.</p>";
+  content = "<p> Polls take time to conduct, but the current student government will conduct one for you at the end of each day. These will help you see your effect on the population.</p><button onclick = 'chooseHelpPage(`pollHelpPage`)'>Help</button>";
   image = '../img/menu/takeapollicon.png';
   tutorialPages.push(new TutorialPage(title, content, image));
 		
   //Polling Results
   title = "Polling Results";
-  content = "<p>After you  take a poll you are given the results from a sample of students. By looking at these results you can determine what moves you should make next. Poll Results can be viewed in 3 ways: Bar Graphs, Pie Graphs and a Table.</p>";
+  content = "<p>After you  take a poll you are given the results from a sample of students. By looking at these results you can determine what moves you should make next. Poll Results can be viewed in 3 ways: Bar Graphs, Pie Graphs and a Table.</p><button onclick = 'chooseHelpPage(`graphsHelpPage`)'>Help</button>";
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Polling Results
   title = "Polling Results - Graphs";
-  content = "<p> The Bar and Pie Graphs are for looking at more general data. Each Graph is attributed to a question. There you can see how many students answered each result in a question.</p>";
+  content = "<p> The Bar and Pie Graphs are for looking at more general data. Each Graph is attributed to a question. There you can see how many students answered each result in a question.</p><button onclick = 'chooseHelpPage(`graphsHelpPage`)'>Help</button>";
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Polling Results
   title = "Polling Results - Table";
-  content = "<p> The table is for when you want specific data. In the table you can see how each person who took the sample responded to all the questions. You can even filter by majors, or social groups. So if you only want results from athletes then you can just view those.</p>";
+  content = "<p> The table is for when you want specific data. In the table you can see how each person who took the sample responded to all the questions. You can even filter by majors, or social groups. So if you only want results from athletes then you can just view those.</p><button onclick = 'chooseHelpPage(`graphsHelpPage`)'>Help</button>";
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Polling Reports
   title = "Old Polling Reports";
-  content = "<p>Poll Results are saved for you after you take them so you can go back and view them at the poll menu whenever you like.</p>";
+  content = "<p>Poll Results are saved for you after you take them so you can go back and view them at the poll menu whenever you like.</p><button onclick = 'chooseHelpPage(`graphsHelpPage`)'>Help</button>";
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Trend Reports
   title = "Trend Reports"
-  content = "<p>If you ask the same question more than once, it will appear on the trend report. A place where you can see the summary of all the graphs for that question. This is great for looking quickly at how public opinion has changed. </p>";
+  content = "<p>If you ask the same question more than once, it will appear on the trend report. A place where you can see the summary of all the graphs for that question. This is great for looking quickly at how public opinion has changed. </p><button onclick = 'chooseHelpPage(`trendsHelpPage`)'>Help</button>";
   image = '../img/menu/trendreport.png';
   tutorialPages.push(new TutorialPage(title, content, image));
   
@@ -782,7 +786,6 @@ function chooseHelpPage(page)
 {
 	//Chooses the passed in page
 	document.getElementById("helpContent").innerHTML = views[page]({});
-	
 	//Display page after filling it.
 	displayHelpPage();
 }
@@ -1357,6 +1360,7 @@ function initNewGame(isFromTut){
   
     //Generates the student biases for this game
     generateStudentBiases();
+    generateStudentBiases();
 	
 	//Decides the opponents focus which cannot be the same as the player
 	globals.opponentCandidate.fame = [1,1,1,1,1,1,1,1];
@@ -1545,7 +1549,7 @@ function userAction()
     //document.getElementById("gameContents").innerHTML += "<img src='"+globals.playerImg+"' style='display:none'>"
 	if(hourChecker()){
     
-    
+    globals.loopable = false;
       globals.practice = false;
 
       //Make sure users are using the correct candidate data
@@ -2404,6 +2408,103 @@ function practiceGame(id){
 	}	
 }
 
+function helpGame(id){
+	globals.loopable=true;
+	switch(id)
+	{
+		case 1:
+		document.getElementById("coffeerundemoplayer").style.height = '500px';
+			document.getElementById("coffeerundemoplayer").innerHTML = "<canvas id='myCanvas1' width='900px' height = '500px' style='float:none'></canvas><br>";
+			globals.c=document.getElementById("myCanvas1");
+		break;
+		case 2:
+		document.getElementById("photobombdemoplayer").style.height = '500px';
+			document.getElementById("photobombdemoplayer").innerHTML = "<canvas id='myCanvas2' width='900px' height = '500px' style='float:none'></canvas><br>";
+			globals.c=document.getElementById("myCanvas2");
+		break;
+		case 3:
+		document.getElementById("secretstickerdemoplayer").style.height = '500px';
+			document.getElementById("secretstickerdemoplayer").innerHTML = "<canvas id='myCanvas3' width='900px' height = '500px' style='float:none'></canvas><br>";
+			globals.c=document.getElementById("myCanvas3");
+		break;
+		case 4:
+		document.getElementById("meanmovesdemoplayer").style.height = '500px';
+			document.getElementById("meanmovesdemoplayer").innerHTML = "<canvas id='myCanvas4' width='900px' height = '500px' style='float:none'></canvas><br>";
+			globals.c=document.getElementById("myCanvas4");
+		break;
+		case 5:
+		document.getElementById("tshirtdemoplayer").style.height = '500px';
+			document.getElementById("tshirtdemoplayer").innerHTML = "<canvas id='myCanvas5' width='900px' height = '500px' style='float:none'></canvas><br>";
+			globals.c=document.getElementById("myCanvas5");
+		break;
+	}	
+	globals.ctx = globals.c.getContext("2d");
+	globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
+	switch(id)
+	{
+		case 1:
+		runningGame.main.init(globals.c,globals.ctx);
+		break;
+		case 2:
+		runningGame2.main.init(globals.c,globals.ctx);
+		break;
+		case 3:
+		secretSticker.main.init(globals.c,globals.ctx);
+		break;
+		case 4:
+		runningGame4.main.init(globals.c,globals.ctx);
+		break;
+		case 5:
+		tshirtCannon.main.init(globals.c,globals.ctx);
+		break;
+	}	
+}
+
+function showMiniHelp(id)
+{
+	switch(id)
+	{
+		case 1:
+		document.getElementById("coffeerundemo").style.display = "block"; 
+		document.getElementById("photobombdemo").style.display = "none"; 
+		document.getElementById("secretstickerdemo").style.display = "none"; 
+		document.getElementById("meanmovesdemo").style.display = "none"; 
+		document.getElementById("tshirtdemo").style.display = "none"; 
+		break;
+		case 2:
+		document.getElementById("photobombdemo").style.display = "block"; 
+		document.getElementById("secretstickerdemo").style.display = "none"; 
+		document.getElementById("meanmovesdemo").style.display = "none"; 
+		document.getElementById("tshirtdemo").style.display = "none"; 
+		document.getElementById("coffeerundemo").style.display = "none"; 
+		break;
+		break;
+		case 3:
+		document.getElementById("secretstickerdemo").style.display = "block"; 
+		document.getElementById("photobombdemo").style.display = "none"; 
+		document.getElementById("meanmovesdemo").style.display = "none"; 
+		document.getElementById("tshirtdemo").style.display = "none"; 
+		document.getElementById("coffeerundemo").style.display = "none"; 
+		break;
+		break;
+		case 4:
+		document.getElementById("meanmovesdemo").style.display = "block"; 
+		document.getElementById("photobombdemo").style.display = "none"; 
+		document.getElementById("secretstickerdemo").style.display = "none"; 
+		document.getElementById("tshirtdemo").style.display = "none"; 
+		document.getElementById("coffeerundemo").style.display = "none"; 
+		break;
+		break;
+		case 5:
+		document.getElementById("tshirtdemo").style.display = "block"; 
+		document.getElementById("photobombdemo").style.display = "none"; 
+		document.getElementById("secretstickerdemo").style.display = "none"; 
+		document.getElementById("meanmovesdemo").style.display = "none"; 
+		document.getElementById("coffeerundemo").style.display = "none"; 
+		break;
+		break;
+	}	
+}
 
 //calculated the effectiveness of your statement & consistancy modifier
 function statementCalc()
@@ -5158,110 +5259,117 @@ function getMousePos(canvas, evt)
 }
 
 //Shows the results of a minigame after it's completed
-function gameResults(scores, tutorial)
+function gameResults(scores, tutorial, loop)
 {
-	clearScreen();
-	var scoreToLog = scores.score;
-
-	if(!tutorial)
+	if(!loop)
 	{
-		globals.remainingHoursTotal-=1;
-		globals.remainingHoursDay-=1;
-		var pos = chosenEvent.groupPos.split(',');
-		////CONSOLE.LOG(pos);
-		var posText =  "<h4>You completed the minigame with a score of "+scores.score+" <br>You increased your popularity with these groups: ";
-		for (var i =0; i< pos.length;i++){
-			switch(pos[i])
-			{
-		
-				case "Arts":
-					posText += "Arts Major";
-				break;
-		
-				case "Bus":
-					posText += "Business Major";
-				break;
-				case "Law":
-					posText += "Law Major";
-				break;
-				case "Tech":
-					posText += "Technology Major";
-				break;
-		
-				case "Soc":
-					posText += "Socialite Group";
-		
-				break;
-				case "Read":
-					posText += "Reader Group";
-		
-				break;
-				case "Gam":
-					posText += "Gamer Group";
-		
-				break;
-				case "Ath":
-					posText += "Athlete Group";
-		
-				break;
+		clearScreen();
+		var scoreToLog = scores.score;
+		if(!tutorial)
+		{
+			globals.remainingHoursTotal-=1;
+			globals.remainingHoursDay-=1;
+			var pos = chosenEvent.groupPos.split(',');
+			////CONSOLE.LOG(pos);
+			var posText =  "<h4>You completed the minigame with a score of "+scores.score+" <br>You increased your popularity with these groups: ";
+			for (var i =0; i< pos.length;i++){
+				switch(pos[i])
+				{
+			
+					case "Arts":
+						posText += "Arts Major";
+					break;
+			
+					case "Bus":
+						posText += "Business Major";
+					break;
+					case "Law":
+						posText += "Law Major";
+					break;
+					case "Tech":
+						posText += "Technology Major";
+					break;
+			
+					case "Soc":
+						posText += "Socialite Group";
+			
+					break;
+					case "Read":
+						posText += "Reader Group";
+			
+					break;
+					case "Gam":
+						posText += "Gamer Group";
+			
+					break;
+					case "Ath":
+						posText += "Athlete Group";
+			
+					break;
+				}
+				if(i != pos.length-1)
+				{
+					posText += ", ";
+				}
+				else{
+					posText += " ";
+				}
 			}
-			if(i != pos.length-1)
+			posText += "<br>If you had trouble with this minigame you can replay it to practice in the help menu without using your time.</h4> <button  onclick = 'chooseHelpPage(`minigameHelpPage`)' >Help</button><br>";
+			if(scores.score <= scores.tier1)
+			{			
+				document.getElementById("centerDisplay").innerHTML = posText;
+				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
+				scoreChanger(globals.candidates[0], 0.1,pos,[]);
+			}
+			else if(scores.score <= scores.tier2 && scores.score >scores.tier1)
 			{
-				posText += ", ";
+				document.getElementById("centerDisplay").innerHTML = posText;
+				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
+				scoreChanger(globals.candidates[0], 0.2,pos,[]);
+			}
+			else if(scores.score <= scores.tier3 && scores.score >scores.tier2)
+			{
+				document.getElementById("centerDisplay").innerHTML = posText;
+				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
+				scoreChanger(globals.candidates[0], 0.3,pos,[]);
+			}
+			else if(scores.score > scores.tier3)
+			{
+				if( scores.score> scores.tier4)
+					scores.score = scores.tier4;
+				var x = .3 + (.01*(scores.score-scores.tier3));
+				x = x.toFixed(2);
+				document.getElementById("centerDisplay").innerHTML = posText;
+				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
+				scoreChanger(globals.candidates[0], x,pos,[]);
 			}
 			else{
-				posText += " ";
+				document.getElementById("centerDisplay").innerHTML = posText;
+				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
+				scoreChanger(globals.candidates[0], (scores * .1),pos,[]);
 			}
+			
+				saveGameState();
+			//$.post('/game/loggerMinigame', {minigameID: globals.lastMinigame, score: scoreToLog, module: '1', session: globals.gameSession });
+				document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'userAction()'> Return to the Game Map </button>";
 		}
-		if(scores.score <= scores.tier1)
-		{			
-			document.getElementById("centerDisplay").innerHTML = posText;
-			document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-			scoreChanger(globals.candidates[0], 0.1,pos,[]);
-		}
-		else if(scores.score <= scores.tier2 && scores.score >scores.tier1)
+		else
 		{
+			var posText =  "<h4>You completed the minigame with a score of "+ (scores.score) + ". <br>If you had trouble with this minigame you can replay it to practice in the help menu without using your time.</h4> <button  onclick = 'chooseHelpPage('minigameHelpPage')' >Minigames</button>"; 
 			document.getElementById("centerDisplay").innerHTML = posText;
 			document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-			scoreChanger(globals.candidates[0], 0.2,pos,[]);
+			if(globals.inGame)
+			{
+						document.getElementById("next").innerHTML += "<button onclick = 'helpScreen(userAction)'> Return to the Practice Screen </button>";
+			}
+			else
+			document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to the Practice Screen </button>";
 		}
-		else if(scores.score <= scores.tier3 && scores.score >scores.tier2)
-		{
-			document.getElementById("centerDisplay").innerHTML = posText;
-			document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-			scoreChanger(globals.candidates[0], 0.3,pos,[]);
-		}
-		else if(scores.score > scores.tier3)
-		{
-			if( scores.score> scores.tier4)
-				scores.score = scores.tier4;
-			var x = .3 + (.01*(scores.score-scores.tier3));
-			x = x.toFixed(2);
-			document.getElementById("centerDisplay").innerHTML = posText;
-			document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-			scoreChanger(globals.candidates[0], x,pos,[]);
-		}
-		else{
-			document.getElementById("centerDisplay").innerHTML = posText;
-			document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-			scoreChanger(globals.candidates[0], (scores * .1),pos,[]);
-		}
-		
-			saveGameState();
-     	//$.post('/game/loggerMinigame', {minigameID: globals.lastMinigame, score: scoreToLog, module: '1', session: globals.gameSession });
-			document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'userAction()'> Return to the Game Map </button>";
 	}
 	else
 	{
-		var posText =  "<h4>You completed the minigame with a score of "+ (scores.score) + ". <br>If you had trouble with this minigame you can replay it to practice in the help menu without using your time.</h4>"; 
-		document.getElementById("centerDisplay").innerHTML = posText;
-		document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-		if(globals.inGame)
-		{
-					document.getElementById("next").innerHTML += "<button onclick = 'helpScreen(userAction)'> Return to the Practice Screen </button>";
-		}
-		else
-		document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to the Practice Screen </button>";
+		globals.loopable = false;
 	}
 }
 
@@ -6061,6 +6169,7 @@ function dayPollBuffer()
 
   // Hides the bug report modal
   function hideHelpPage () {
+	  globals.loopable = false;
     document.getElementById('helpPage').classList.add('hide');
   }
   
