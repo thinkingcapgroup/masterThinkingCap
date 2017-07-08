@@ -403,7 +403,7 @@ function createTutorialPages(){
   
   //Candidates
   title = "Candidates - Karma";
-  content = "<p>The final candidate also transferred in recently. Karma the Chameleon is a charismatic, but untrustworthy candidate. People like her, but they have noticed that she seems to copy the statements of other candidates.</p><img src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`candidatesHelpPage`)'></img>";
+  content = "<p>The final candidate also transferred in recently. Karma the Chameleon is very charismatic, but isn't very well known. People like her, but they have noticed that she seems to copy the statements of other candidates.</p><img src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`candidatesHelpPage`)'></img>";
   image = '../img/menu/makeastatementiconNEW.png';
   tutorialPages.push(new TutorialPage(title, content, ""));
   
@@ -1374,7 +1374,6 @@ function initNewGame(isFromTut){
 	globals.sample = [];
 	globals.days = 1; 
 	globals.remainingHoursDay = 12; 
-  
     //Generates the student biases for this game
     generateStudentBiases();
 	
@@ -3954,11 +3953,11 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                     var playConst = globals.candidates[0].consMod;
 					if(playConst <= 0.2)
 					{
-                        graphData[i+2][0]++;
+                        graphData[i+2][4]++;
 					}
 					else if(playConst>0.20 && playConst<0.41)
 					{
-                        graphData[i+2][1]++;
+                        graphData[i+2][3]++;
 					}
 					else if(playConst>0.40 && playConst<0.61)
 					{
@@ -3966,11 +3965,11 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 					}
 					else if(playConst>0.60 && playConst<0.81)
 					{
-                        graphData[i+2][3]++;
+                        graphData[i+2][1]++;
 					}
 					else
 					{
-                        graphData[i+2][4]++;
+                        graphData[i+2][0]++;
 					}
                     break;
     
@@ -4122,11 +4121,11 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 					
 					if(globals.candidates[k].consMod <= 0.2)
 					{
-                        graphData[i+2][0]++;
+                        graphData[i+2][4]++;
 					}
 					else if(globals.candidates[k].consMod>0.20 && globals.candidates[k].consMod<0.41)
 					{
-                        graphData[i+2][1]++;
+                        graphData[i+2][3]++;
 					}
 					else if(globals.candidates[k].consMod>0.40 && globals.candidates[k].consMod<0.61)
 					{
@@ -4134,11 +4133,11 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 					}
 					else if(globals.candidates[k].consMod>0.60 && globals.candidates[k].consMod<0.81)
 					{
-                        graphData[i+2][3]++;
+                        graphData[i+2][1]++;
 					}
 					else
 					{
-                        graphData[i+2][4]++;
+                        graphData[i+2][0]++;
 					}
                 }
     
@@ -4360,12 +4359,12 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 								var cell = row.insertCell();
 								if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.2)
 									{
-										cell.innerHTML = "Very Urustworthy";
+										cell.innerHTML = "Very Trustworthy";
 										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.2 && parseFloat(tableArray2[8][h]).toFixed(2)<0.41)
 									{
-										cell.innerHTML = "Untrustworthy";
+										cell.innerHTML = "Fairly Trustworthy";
 										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.4 && parseFloat(tableArray2[8][h]).toFixed(2)<0.61)
@@ -4375,12 +4374,12 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 									}
 									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.6 && parseFloat(tableArray2[8][h]).toFixed(2)<0.81)
 									{
-										cell.innerHTML = "Fairly Trustworthy";
+										cell.innerHTML = "Untrustworthy";
 										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else
 									{
-										cell.innerHTML = "Very Trustworthy";
+										cell.innerHTML = "Very Untrustworthy";
 										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 					break;
@@ -4555,12 +4554,12 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 								var counter = canCounter;
 								if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.2)
 								{
-									cell.innerHTML = "Very Untrustworthy";
+									cell.innerHTML = "Very Trustworthy";
 										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.2 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.41)
 								{
-									cell.innerHTML = "Not Very Trustworthy";
+									cell.innerHTML = "Fairly Trustworthy";
 										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.4 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.61)
@@ -4570,12 +4569,12 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.6 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.81)
 								{
-									cell.innerHTML = "Fairly Trustworthy";
+									cell.innerHTML = "Untrustworthy";
 										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else
 								{
-									cell.innerHTML = "Very Trustworthy";
+									cell.innerHTML = "Very Untrustworthy";
 										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}		
 					}
@@ -5241,13 +5240,13 @@ function chooseRank(candidate, chosenRanks, issueCand)
 			candidate.issueScore[candidate.focusnum] = 2.5;
 		break;
 		case 3:
-			candidate.fame = [1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25];
+			candidate.fame = [1.35,1.35,1.35,1.35,1.35,1.35,1.35,1.35];
 			candidate.consMod = 0.45;
 			candidate.issueScore[candidate.focusnum] = 2.5;
 		break;
 		case 4:
 			candidate.fame = [1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25];
-			candidate.consMod = 0.50;
+			candidate.consMod = 0.45;
 			candidate.issueScore[candidate.focusnum] = 2.25;
 		break;
 	}
@@ -5755,7 +5754,6 @@ function trendReporter(category)
 //Checks whether or not the time is up in a day and if so advances it.
 function hourChecker()
 {
-
 	if (globals.days < globals.totalDays)
 	{
 
@@ -5763,7 +5761,7 @@ function hourChecker()
 		{
 			globals.days++;
 			globals.remainingHoursDay = 12;
-			dayPollInfo();
+			dayPollBuffer();
 		}
 		else
 		{
