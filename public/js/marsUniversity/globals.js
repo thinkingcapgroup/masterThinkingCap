@@ -22,7 +22,7 @@ globals =
     pastGraphLabels:[],
     lifeformArray:["Android", "Human", "Martian"],
     bodyShapeArray:["Straight", "Curvy", "Broad"],
-    bodyTypeArray:["Thin", "Medium", "Plus", "HoverChair"],
+    bodyTypeArray:["Slight", "Medium", "Full", "HoverChair"],
     back:false,
     num:1,
     textContents: "",

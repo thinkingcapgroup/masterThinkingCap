@@ -1374,10 +1374,11 @@ function initNewGame(isFromTut){
   
     //Generates the student biases for this game
     generateStudentBiases();
-    generateStudentBiases();
 	
 	//Decides the opponents focus which cannot be the same as the player
-	globals.opponentCandidate.fame = [1,1,1,1,1,1,1,1];
+    
+    opponentFame = (.05 * globals.totalDays);
+	globals.opponentCandidate.fame = [.7,.7,.7,.7,.7,.7,.7,.7];
 	globals.opponentCandidate.consMod = 0;
 	//////CONSOLE.LOG(oppFocus);
 	chooseIssue(globals.opponentCandidate,[],1,false);
@@ -1433,10 +1434,10 @@ function practicePoll()
 	globals.remainingHoursDay = 12; 
 	
 	//Decides the opponents focus which cannot be the same as the player
-	globals.opponentCandidate.fame = [1,1,1,1,1,1,1,1];
+	globals.opponentCandidate.fame = [.7,.7,.7,.7,.7,.7,.7,.7];
 	globals.opponentCandidate.consMod = 0;
 	//////CONSOLE.LOG(oppFocus);
-	chooseIssue(globals.opponentCandidate,[],1,false);
+	chooseIssue(globals.opponentCandidate,[],.7,false);
 	globals.candidates.push(globals.opponentCandidate);
 	
 	//Create Issue Candidates
@@ -2527,7 +2528,7 @@ function statementCalc()
 		var currentPosNeg = document.getElementById("posneg").value;
 		//if positive statement
 		if(currentPosNeg == 0){
-			globals.candidates[0].issueScore[currentStatement] += 0.2;
+			globals.candidates[0].issueScore[currentStatement] += 0.4;
 			if(currentStatement == 0){
 				globals.candidates[0].tuitPos += 1;
 			}
@@ -2544,7 +2545,7 @@ function statementCalc()
 		//if negative statement
 		else{
 		
-				globals.candidates[0].issueScore[currentStatement] -= 0.2;
+				globals.candidates[0].issueScore[currentStatement] -= 0.4;
 				if(currentStatement == 0){
 					globals.candidates[0].tuitNeg += 1;
 				}
@@ -2563,7 +2564,6 @@ function statementCalc()
 	
 		var tuitCond,
 			athCond,
-			resCond,
 			medCond,
 			eventCond;
 	
@@ -2583,14 +2583,6 @@ function statementCalc()
 			athCond = 0;
 		}
 	
-		if(globals.candidates[0].resPos>0 || globals.candidates[0].resNeg>0){
-			resCond = (Math.min(globals.candidates[0].resPos, globals.candidates[0].resNeg))/(globals.candidates[0].resPos+globals.candidates[0].resNeg);
-		}
-	
-		else{
-			resCond = 0;
-		}
-	
 		if(globals.candidates[0].medPos>0 || globals.candidates[0].medNeg>0){
 			medCond = (Math.min(globals.candidates[0].medPos, globals.candidates[0].medNeg))/(globals.candidates[0].medPos+globals.candidates[0].medNeg);
 		}
@@ -2605,7 +2597,7 @@ function statementCalc()
 			eventCond = 0;
 		}
 	
-		var condHolder = (tuitCond + athCond + resCond + medCond + eventCond)/5;
+		var condHolder = (tuitCond + athCond + medCond + eventCond)/4;
 		globals.candidates[0].consMod = condHolder;
 		//decrease 1 hour and continue back to user action
 		globals.remainingHoursTotal--;
@@ -3467,9 +3459,9 @@ function votePercentage(sampleSize, bias)
 			fame = fameCalc(globals.candidates[j], globals.sample[i]);
 			//////CONSOLE.LOG(globals.candidates[j].name +" Fame: "+ fame);
 		    var issues = parseFloat(globals.sample[i].tuitionScore) * parseFloat(globals.candidates[j].issueScore[0])
-				issues += parseFloat(globals.sample[i].budgetScore) * parseFloat(globals.candidates[j].issueScore[1])
-				issues += parseFloat(globals.sample[i].functionScore)* parseFloat(globals.candidates[j].issueScore[2])
-				issues += parseFloat(globals.sample[i].medicalScore)  * parseFloat(globals.candidates[j].issueScore[3])
+            issues += parseFloat(globals.sample[i].budgetScore) * parseFloat(globals.candidates[j].issueScore[1])
+		    issues += parseFloat(globals.sample[i].functionScore)* parseFloat(globals.candidates[j].issueScore[2])
+		    issues += parseFloat(globals.sample[i].medicalScore)  * parseFloat(globals.candidates[j].issueScore[3])
 		  
             issues = issues/4;
 
@@ -3497,7 +3489,6 @@ function votePercentage(sampleSize, bias)
 			}*/
           
             let sign = 1;
-            let modifier = 10;
             let consMod = globals.candidates[j].consMod;
           
           
@@ -3508,27 +3499,23 @@ function votePercentage(sampleSize, bias)
             }
           
             //If this is Karma, she has a lowered modifier
-            if(globals.candidates[j].name == "Karma")
+            /*if(globals.candidates[j].name == "Karma")
 			{
-                //Multiple the modifier by (2/Number of total days)
+              //Set Karma's fame to (2/Number of total days)
               //This makes karma's score lower when there are more days aka easier difficulty
-              modifier *= (2/globals.totalDays);
-              
-              //She is immune to fame, so set this to 1
-              fame = 1;
-            }
+              fame = (2/globals.totalDays);
+            }*/
+          
+            /*
+              Fame scale: 0 to 1
+              Consistency scale: 0 to .5
+            */
           
             //Multiple by the sign to restore the positive/negative
             //Multiple by modifier to boost overall score
             //Square to make the score more extreme
-            //Subtract the consistency modifier, which is boosted
-            let candWinPer = sign * modifier * Math.pow(fame * issues) - (100*consMod);
-			
-			
-			
-			//////CONSOLE.LOG(globals.candidates[j].name +" Win Percentage: "+ candWinPer);
-			//////CONSOLE.LOG("");
-
+            //Subtract the consistency modifier, which is boosted by a modifier of 8
+            let candWinPer = (sign * 10 * Math.pow(fame * issues, 2)) - (8*consMod);
 
 			if(candWinPer > winPercentage|| winPercentage ==0)
 			{
@@ -4366,12 +4353,12 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 								var cell = row.insertCell();
 								if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.2)
 									{
-										cell.innerHTML = "Not Trustworthy";
+										cell.innerHTML = "Very Urustworthy";
 										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.2 && parseFloat(tableArray2[8][h]).toFixed(2)<0.41)
 									{
-										cell.innerHTML = "Not Very Trustworthy";
+										cell.innerHTML = "Untrustworthy";
 										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
 									}
 									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.4 && parseFloat(tableArray2[8][h]).toFixed(2)<0.61)
@@ -4561,7 +4548,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 								var counter = canCounter;
 								if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.2)
 								{
-									cell.innerHTML = "Not Trustworthy";
+									cell.innerHTML = "Very Untrustworthy";
 										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
 								}
 								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.2 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.41)
@@ -5927,7 +5914,7 @@ function newGraphs(matchingMajor, matchingGroup, pollChoices, resultsArray, sSiz
 						break;
 	
 						case "candFav":
-							for(var k =0; k< globals.candidates[k].length;k++)
+							for(var k =0; k< globals.candidates.length;k++)
 							{
 								////CONSOLE.LOG()
 								if(resultsArray[2][h] == globals.candidates[k].name){
@@ -5937,7 +5924,7 @@ function newGraphs(matchingMajor, matchingGroup, pollChoices, resultsArray, sSiz
 						break;
 	
 						case "candOpp":
-							for(var k =0; k< resultsArray[3].length;k++)
+							for(var k =0; k< globals.candidates.length;k++)
 							{
 								////CONSOLE.LOG()
 								if(resultsArray[3][h] == globals.candidates[k].name){

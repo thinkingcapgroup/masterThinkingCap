@@ -659,8 +659,8 @@
 			"value":"candFame"
 		},
 		{
-			"question":"How good of a job do you think this candidate will do? ", 
-			"labels":"Awful, Bad, Neutral, Good, Great",
+			"question":"How trustworthy do you think this candidate is? ", 
+			"labels":"Very Untrustworthy, Untrustworthy, Sort of Trustworthy, Fairly Trustworthy, Very Trustworthy",
 			"graph":"0,0,0,0,0",
 			"id":"11",
 			"value":"candTrust"
