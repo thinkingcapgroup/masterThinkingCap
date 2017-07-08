@@ -489,9 +489,15 @@ function createTutorialPages(){
   image = '../img/menu/trendreport.png';
   tutorialPages.push(new TutorialPage(title, content, image));
   
+  //Help Pages
+  title = "Help Pages"
+  content = "<p>You can return here later or use the help button displayed above to open the help page related to the page you are currently on. From that page you can navigate through the help menu to any other help page or return to the page you were on. I've created when you have questions. </p>";
+  image = '../img/menu/QuestionICON.png';
+  tutorialPages.push(new TutorialPage(title, content, image));
+  
   //Practice Area
   title = "Practice Area";
-  content = "<p>And that’s it. I said polls were important, so I've created a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data does not represent the actual students or candidates. You can start your election at any time, and you can return here or go to one of the help pages I've created when you have questions.</p>";
+  content = "<p>After this tutorial you will enter a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data does not represent the actual students or candidates. You can start your election or return to the tutorial at any time.</p>";
   tutorialPages.push(new TutorialPage(title, content, ""));
   
   //Set previous and nexts
@@ -752,6 +758,7 @@ function pollMenu()
 		globals.num = i+1;
 		document.getElementById("mainContent").innerHTML += "<button class='otherBtn' onclick='reportViewer("+i+")' >View Poll "+ globals.num +" Result </button>";
     }
+	document.getElementById("mainContent").innerHTML += "<br>";
 	document.getElementById("mainContent").innerHTML += "<img src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`pollHelpPage`)' ></img>";
 
     setBackToMapBtn();
@@ -2151,6 +2158,7 @@ function drawPoll(state, isFree, isFake){
       fake: isFake,
       areas: areaChoices,
       allow40: (isFree || globals.remainingHoursDay > 5),
+      allow80: (isFree || globals.remainingHoursDay >= 9),
       numQuestions: 6,
       questions: pollQuestions,
       enoughTime: enoughTime
@@ -4630,9 +4638,9 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 		groups.options.add(newOp);
 	}
 	
-	document.getElementById("next").innerHTML += "<button id = 'dataButton' class='otherBtn' onclick = 'changeData(1)'>Show Data Table</button>";
 	document.getElementById("next").innerHTML += "<button id = 'barButton' class='otherBtn' onclick = 'changeData(2)' style = 'display:none'>Show Bar Graphs</button>";
-	document.getElementById("next").innerHTML += "<button id = 'pieButton' class='otherBtn' onclick = 'changeData(3)'>Show Pie Graphs</button><br>";
+	document.getElementById("next").innerHTML += "<button id = 'pieButton' class='otherBtn' onclick = 'changeData(3)'>Show Pie Graphs</button>";
+	document.getElementById("next").innerHTML += "<button id = 'dataButton' class='otherBtn' onclick = 'changeData(1)'>Show Data Table</button><br>";
 	for (var x = 0; x < globals.groupList.length; x++){
 		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ globals.groupList[x] +"'> "+ globals.groupList[x] +" ";
 	}
