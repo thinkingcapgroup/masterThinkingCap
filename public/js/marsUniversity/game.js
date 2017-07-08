@@ -1381,7 +1381,7 @@ function initNewGame(isFromTut){
 	//Decides the opponents focus which cannot be the same as the player
     
     opponentFame = (.05 * globals.totalDays);
-	globals.opponentCandidate.fame = [.7,.7,.7,.7,.7,.7,.7,.7];
+	globals.opponentCandidate.fame = [1.2,1.2,1.2,1.2,1.2,1.2,1.2,1.2];
 	globals.opponentCandidate.consMod = 0;
 	//////CONSOLE.LOG(oppFocus);
 	chooseIssue(globals.opponentCandidate,[],1,false);
@@ -2535,7 +2535,7 @@ function statementCalc()
 		var currentPosNeg = document.getElementById("posneg").value;
 		//if positive statement
 		if(currentPosNeg == 0){
-			globals.candidates[0].issueScore[currentStatement] += 0.4;
+			globals.candidates[0].issueScore[currentStatement] += 0.3;
 			if(currentStatement == 0){
 				globals.candidates[0].tuitPos += 1;
 			}
@@ -2552,7 +2552,7 @@ function statementCalc()
 		//if negative statement
 		else{
 		
-				globals.candidates[0].issueScore[currentStatement] -= 0.4;
+				globals.candidates[0].issueScore[currentStatement] -= 0.3;
 				if(currentStatement == 0){
 					globals.candidates[0].tuitNeg += 1;
 				}
