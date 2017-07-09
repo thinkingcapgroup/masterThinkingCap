@@ -391,7 +391,7 @@ function createTutorialPages(){
   
   //Candidates
   title = "Candidates";
-  content = "<p>Like in any election you'll have some comptetition. There are five other people running for prresisdent at Mars U.</p> <img src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`mapHelpPage`)'></img>";
+  content = "<p>Like in any election you'll have some comptetition. There are five other people running for presisdent at Mars U.</p>";
   image = '../img/menu/makeastatementiconNEW.png';
   tutorialPages.push(new TutorialPage(title, content, ""));
   
