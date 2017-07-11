@@ -1,11 +1,30 @@
-<div id= 'reportButtons' > 
-  <h2> Trend Reports</h2><br>
+<h2>{{player.name}}'s Page</h2>
+
+<div style="width: 100%; display: flex;">
+<div style="float:left; width: 60%">
+  <img src = '{{playerImg.src}}' title="Your Candidate">
+</div>
+<div style="float:right; width: 35%">
+  <h3>Your Stances</h3>
+  <h4>Statements <span style="color:green;">IN FAVOR OF</span> Lowering Tuition: {{player.tuitPos}}</h4>
+  <h4>Statements <span style="color:red;">AGAINST</span> Lowering Tuition: {{player.tuitNeg}}</h4>
+  <h4>Statements <span style="color:green;">IN FAVOR OF</span> Increasing Budget: {{player.budPos}}</h4>
+  <h4>Statements <span style="color:red;">AGAINST</span> Increasing Budget: {{player.budNeg}}</h4>
+  <h4>Statements <span style="color:green;">IN FAVOR OF</span> Having More School Functions: {{player.funcPos}}</h4>
+  <h4>Statements <span style="color:red;">AGAINST</span> Having More School Functions: {{player.funcNeg}}</h4>
+  <h4>Statements <span style="color:green;">IN FAVOR OF</span> Improving Medical Services: {{player.medPos}}</h4>
+  <h4>Statements <span style="color:red;">AGAINST</span> Improving Medical Service: {{player.medNeg}}</h4>
+</div>
+</div>
+
+<div id= 'pastData' > 
   <div>
-    <h3> General</h3>    
-	<button onclick= 'pollMenu()'>Your Polls</button>
+    <h3>Past Poll Results</h3>    
+	<button onclick= 'pollMenu()'>View Past Polls</button>
   </div>
   <br>
   <div>
-    <h3> Reports</h3>
-    <button onclick= 'trendReportMenu()'>Lowering Tuition Report</button>
+    <h3>Compiled Candidate and Issue Reports</h3>
+    <button onclick= 'trendReportMenu()'>View Reports</button>
     </div><br>
+</div>

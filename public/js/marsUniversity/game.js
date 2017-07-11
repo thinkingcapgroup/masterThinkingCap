@@ -247,7 +247,8 @@ const views = {
   pollHelpPage: "",
   statementsHelpPage: "",
   studentsHelpPage: "",
-  trendsHelpPage: ""
+  trendsHelpPage: "",
+  myDataMenu: "",
 };
 const images = {
   Map: '../../img/map/mapMU600pxW.png',
@@ -271,7 +272,8 @@ const images = {
   negIcon: '../../img/icons/negIcon.png',
   posIcon: '../../img/icons/posIcon.png',
   statementBackground: '../../img/statement/statementBackground.png',
-  statementPodium: '../../img/statement/statementPodium.png'
+  statementPodium: '../../img/statement/statementPodium.png',
+  emptyIcon: '../../img/menu/emptyICON.png'
 };
 
 function preloadImages(totalLoadPercent){
@@ -638,7 +640,7 @@ function drawAreaPath(mapArea){
 function updateTopBar(currentScreen){
   
     var dayCycleIndex = (globals.totalDays + 1) - globals.days;
-    var context = { "totalDays" : globals.totalDays, "dayCycle" : dayCycleIndex, "remainingHours":globals.remainingHoursDay };
+    var context = { "totalDays" : globals.totalDays, "dayCycle" : dayCycleIndex, "remainingHours":globals.remainingHoursDay, "playerHeadImg": images["playerHeadImg"]};
     var html = views["topBar"](context);
   
     //$("#templateTest").append(html);
@@ -804,6 +806,17 @@ function trendReportMenu()
      document.getElementById("mainContent").innerHTML += "<button id ='buttonViewer' style = 'display:none'>Choose Another Trend Report</button>";
      document.getElementById("back").innerHTML += "<button onclick= 'userAction()'>Back to Game Map</button>";
 	 document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`trendHelpPage`)' ></img>";
+}
+function myDataMenu()
+{
+    //Sets up the trend report menu
+	clearScreen();
+    document.getElementById("mainContent").classList.add("center");
+    updateTopBar(trendReportMenu);
+    hourChecker();
+    
+    document.getElementById("mainContent").innerHTML = views["myDataMenu"]({"playerImg": images["playerImg"], "player": globals.playerCandidate});
+  
 }
 
 function chooseHelpPage(page)
@@ -1356,9 +1369,7 @@ function startOtherCandidates(){
 	globals.playerCandidate.gender = globals.bodyShapeArray[bodySheet.frameIndexClothing];
 	globals.playerCandidate.bodyType = globals.bodyTypeArray[bodySheet.bodyArrayHolder];
   
-    let image = new Image();
-    image.src = document.getElementById("myCanvas").toDataURL("image/png");
-    images["playerImg"] = image;
+    generatePlayerImages();
   
     clearScreen();
     document.getElementById("mainContent").classList.add("center");
@@ -5091,7 +5102,7 @@ function loadGame()
     preload(globals.events);
   
     
-    let canvas = document.createElement('canvas');
+    /*let canvas = document.createElement('canvas');
     canvas.width = 500;
     canvas.height = 555;
     let ctx = canvas.getContext('2d');
@@ -5119,7 +5130,9 @@ function loadGame()
   
     let image = new Image();
     image.src = canvas.toDataURL("image/png");
-    images["playerImg"] = image;
+    images["playerImg"] = image;*/
+  
+    generatePlayerImages();
   
     globals.inGame = true;
 	if(globals.firstPoll)
@@ -5132,6 +5145,61 @@ function loadGame()
 	}
 	else{userAction();}
 
+}
+
+function generatePlayerImages(){
+    let canvas = document.createElement('canvas');
+    canvas.width = 500;
+    canvas.height = 555;
+    let ctx = canvas.getContext('2d');
+  
+    //Create player Image
+    headSheet = new Sprite({context: ctx, width: 155, height: 171, image: globals.heads});
+    headSheet.frameIndex = globals.playerCandidate.headNum;
+    headSheet.frameIndexRace = globals.playerCandidate.raceNum;
+    
+	bodySheet = new Sprite({context: ctx, width: 164, height: 343, image: globals.thinBody});
+    bodySheet.bodyArrayHolder = globals.playerCandidate.bodyTypeNum;
+    bodySheet.frameIndexClothing = globals.playerCandidate.genderNum;
+  
+    let temp = bodySheet.bodyArrayHolder;
+	headSheet.bodyArrayHolder = temp;
+
+	bodySheet.image = globals.imgArrayBody[temp];
+	bodySheet.width = globals.imgArrayBodyWidth[temp];
+	bodySheet.height = globals.imgArrayBodyHeight[temp];
+
+	//draws on the canvas
+	drawOnCanvas(headSheet, bodySheet);
+    
+    //Save full size, full body Player image
+    let image = new Image();
+    image.src = canvas.toDataURL("image/png");
+    images["playerImg"] = image;
+    
+    //Clear canvas
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+  
+    let scale = .3;
+    let headWidth = 150; //Width of individual head image
+    let headHeight = 160; //Height of individual head image
+    canvas.width = 99; //Width of original blank icon image 
+    canvas.height = 100; //Height of original blank icon image 
+    
+    //Draw button background
+    ctx.drawImage(images["emptyIcon"],0,0);
+  
+    //Draw scaled down player head for MyData
+    ctx.save();
+    //Scale the head to fit the button, subtracting for extra padding
+    ctx.scale((canvas.width - 8) / headWidth, (canvas.height - 8) / headHeight)
+    headSheet.render(0,0);
+    ctx.restore();
+  
+    //Save Player head
+    image = new Image();
+    image.src = canvas.toDataURL("image/png");
+    images["playerHeadImg"] = image;
 }
 
 //Updates the Game Session
