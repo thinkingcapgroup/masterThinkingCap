@@ -1,12 +1,15 @@
-<main id='index'>
+</main>
+<main id='testVideo'>
   <article class='wrapper'>
     <header class='thinking-cap-header'>
       <h1 class='thinking-cap-title'>{{content.appTitle}}</h1>
     </header>
-    <section id='index-section'>
-      <h1 id='index-title'>Welcome</h1>
-      <a id='index-link' href='/login' class='btn double remove'>Proceed</a>
-    </section>
+    <div>
+        <video width="320" height="240" controls>
+			<source src="media/video/Jack.mp4" type="video/mp4">
+			Your browser does not support the video tag.
+		</video> 
+    </div>
     <footer id='footer'>
       <ul id='reference-links'>
         <li>
@@ -18,9 +21,6 @@
         <li>
           <a href='/credits'>Credits</a>
         </li>
-        <!--<li>
-          <a href='/testVideo'>Test Video</a>
-        </li>-->
       </ul>
     </footer>
   </article>
