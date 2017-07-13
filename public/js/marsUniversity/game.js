@@ -42,10 +42,10 @@ function GameObject(){
 //starts the game
 function startGame()
 {
-    globals.playerCandidate= new CandidateCreate("ph");
-    globals.opponentCandidate= new CandidateCreate("Karma");
-    fakeCandidateYou = new CandidateCreate('Candidate1');
-    fakeCandidateOther = new CandidateCreate('Candidate2');
+    globals.playerCandidate= new Candidate("ph");
+    globals.opponentCandidate= new Candidate("Karma");
+    fakeCandidateYou = new Candidate('Candidate1');
+    fakeCandidateOther = new Candidate('Candidate2');
     fakeCandidateYou.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
     fakeCandidateOther.fame = [1,1,1,1,1,1,1,1];
     fakeCandidateYou.issueScore = [1.5,0.5,1.5,0.5];
@@ -756,7 +756,7 @@ function pollMenu()
 	for(var i=0; i<globals.pastPollResults.length;i++)
 	{
 		globals.num = i+1;
-		document.getElementById("mainContent").innerHTML += "<button class='otherBtn' onclick='reportViewer("+i+")' >View Poll "+ globals.num +" Result </button>";
+		document.getElementById("mainContent").innerHTML += "<button class='otherBtn' onclick='viewPollResult("+i+")' >View Poll "+ globals.num +" Result </button>";
     }
 	document.getElementById("mainContent").innerHTML += "<br>";
 	document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`pollHelpPage`)' ></img>";
@@ -1394,22 +1394,22 @@ function initNewGame(isFromTut){
 	globals.candidates.push(globals.opponentCandidate);
 	
 	//Create Issue Candidates
-	var issueCand1 = new CandidateCreate("Boof");
+	var issueCand1 = new Candidate("Boof");
 	issueCand1.focus = globals.positions[0];
 	issueCand1.focusnum = 0;
 	chooseRank(issueCand1,globals.chosenCandRanks,true);
 	globals.candidates.push(issueCand1);
-	var issueCand2 = new CandidateCreate("Zrap Bannigan");
+	var issueCand2 = new Candidate("Zrap Bannigan");
 	issueCand2.focus = globals.positions[1];
 	issueCand2.focusnum = 1;
 	chooseRank(issueCand2,globals.chosenCandRanks,true);
 	globals.candidates.push(issueCand2);
-	var issueCand3 = new CandidateCreate("C1AMP");
+	var issueCand3 = new Candidate("C1AMP");
 	issueCand3.focus = globals.positions[2];
 	issueCand3.focusnum = 2;
 	chooseRank(issueCand3,globals.chosenCandRanks,true);
 	globals.candidates.push(issueCand3);
-	var issueCand4 = new CandidateCreate("Simon");
+	var issueCand4 = new Candidate("Simon");
 	issueCand4.focus = globals.positions[3];
 	issueCand4.focusnum = 3;
 	chooseRank(issueCand4,globals.chosenCandRanks,true);
@@ -1430,7 +1430,7 @@ function firstPollInfo()
     document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='drawPoll("+POLL_STATES.FIRST+", true, false)'>Take Your First Poll</button>";
 }
 //takes the player into a poll with fake candidates to test out polling
-function practicePoll()
+function setupPracticePoll()
 {
 	
 
@@ -1450,7 +1450,7 @@ function practicePoll()
 	globals.candidates.push(globals.opponentCandidate);
 	
 	//Create Issue Candidates
-	var issueCand1 = new CandidateCreate("Zrap Bannigan");
+	var issueCand1 = new Candidate("Zrap Bannigan");
 	var oppRank = Math.floor(Math.random()*4);
 	issueCand1.focus = globals.positions[oppRank];
 	issueCand1.focusnum = oppRank;
@@ -1490,7 +1490,7 @@ function firstStatement()
 function firstReport()
 {
 	globals.first = true;
-	reportViewer(0);
+	viewPollResult(0);
 }
 //Prompts the player to choose a difficulty setting for the game
 function chooseDiff()
@@ -1640,7 +1640,7 @@ function userAction()
     }
 };
 
-function action(choice)
+function chooseEvent(choice)
 {
 	//Clear previous screen
 	//var choice = $('input[name="actionRadio"]:checked').val();
@@ -1874,7 +1874,7 @@ function action(choice)
 					}
 				}
 			}
-		document.getElementById("eventInfo").innerHTML += "<br> <button class='logEvent primaryBtn' id='"+choice+"' onclick='submitAction(" + choice + "," + eventHours + ")' > Perform Event </button><br> <img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'   onclick = 'chooseHelpPage(`functionsHelpPage`)' ></img>";
+		document.getElementById("eventInfo").innerHTML += "<br> <button class='logEvent primaryBtn' id='"+choice+"' onclick='submitEvent(" + choice + "," + eventHours + ")' > Perform Event </button><br> <img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'   onclick = 'chooseHelpPage(`functionsHelpPage`)' ></img>";
 		}
 		else
 		{
@@ -1892,7 +1892,7 @@ function action(choice)
 };
 
 //Subtracts from the remaining hours,
-function submitAction(id, eventHours, Pos, Neg)
+function submitEvent(id, eventHours, Pos, Neg)
 {
 
 	//Subtracts hours from the remaining hours in the game
@@ -1942,17 +1942,17 @@ function submitAction(id, eventHours, Pos, Neg)
 		{
 			globals.remainingHoursTotal-= eventHours;
 			globals.remainingHoursDay-= eventHours;
-			scoreChanger(globals.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
+			calcEventScore(globals.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
 			minigamePlayer(parseInt(loaderNum));
 		}
 		else
-			actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects);
+			eventResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects);
 	}
 		else
-			actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects);
+			eventResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects);
 }
 
-function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
+function eventResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
 {
 	////CONSOLE.LOG(globals.remainingHoursTotal)
 	globals.remainingHoursTotal-= eventHours;
@@ -1961,7 +1961,7 @@ function actionResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects
 	globals.candidates[1].lastMove = chosenEvent.name;
 
 	//Changes the player's score
-	scoreChanger(globals.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
+	calcEventScore(globals.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
 	saveGameState();
 	clearScreen();
     updateTopBar(userAction);
@@ -2985,7 +2985,7 @@ function addMoreQuestions(){
 }
 
 //Takes in an Arrays of Groups to affect with the score increase, and parses through each adding the specified increase in score
-function scoreChanger(candidate, scoreInc, groupPos, groupNeg)
+function calcEventScore(candidate, scoreInc, groupPos, groupNeg)
 {
 
 	//////CONSOLE.LOG(candidate.issueScore);
@@ -3351,7 +3351,7 @@ function Student(group, major, tuitionScore, budgetScore, functionScore, medical
 }
 
 //used for making Player Candidate & Opponent Candidate
-function CandidateCreate(name){
+function Candidate(name){
 	this.name = name;
 	this.fame= [0,0,0,0,0,0,0,0];
 	this.issueScore= [0,0,0,0];
@@ -3658,8 +3658,8 @@ function resetGame()
 	globals.candidates=[];
 	globals.chosenCandRanks = [];
 	globals.currentEvents = [];
-	globals.playerCandidate = new CandidateCreate("ph");
-	globals.opponentCandidate = new CandidateCreate("Karma");
+	globals.playerCandidate = new Candidate("ph");
+	globals.opponentCandidate = new Candidate("Karma");
   	if(globals.gameOver)
     {
         globals.gameSession++; 
@@ -3669,7 +3669,7 @@ function resetGame()
 }
 
 //Allows you to view previous polls at any time.
-function reportViewer(id)
+function viewPollResult(id)
 {
 	clearScreen();
 	globals.currentPoll = id;
@@ -3819,7 +3819,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 		
 		//if(state == POLL_STATES.FIRST && j ==0)
 		//{
-		//	globals.candidates.splice(0,0,new CandidateCreate(""));
+		//	globals.candidates.splice(0,0,new Candidate(""));
 		//}
         for(var i = 0; i < pollChoices.length ;i++)
         {
@@ -4638,9 +4638,9 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 		groups.options.add(newOp);
 	}
 	
-	document.getElementById("next").innerHTML += "<button id = 'barButton' class='otherBtn' onclick = 'changeData(2)' style = 'display:none'>Show Bar Graphs</button>";
-	document.getElementById("next").innerHTML += "<button id = 'pieButton' class='otherBtn' onclick = 'changeData(3)'>Show Pie Graphs</button>";
-	document.getElementById("next").innerHTML += "<button id = 'dataButton' class='otherBtn' onclick = 'changeData(1)'>Show Data Table</button><br>";
+	document.getElementById("next").innerHTML += "<button id = 'barButton' class='otherBtn' onclick = 'changeDataDisplay(2)' style = 'display:none'>Show Bar Graphs</button>";
+	document.getElementById("next").innerHTML += "<button id = 'pieButton' class='otherBtn' onclick = 'changeDataDisplay(3)'>Show Pie Graphs</button>";
+	document.getElementById("next").innerHTML += "<button id = 'dataButton' class='otherBtn' onclick = 'changeDataDisplay(1)'>Show Data Table</button><br>";
 	for (var x = 0; x < globals.groupList.length; x++){
 		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ globals.groupList[x] +"'> "+ globals.groupList[x] +" ";
 	}
@@ -4898,7 +4898,7 @@ function makeGraphs(graphData, graphQuestions, graphLabels)
 	}
 }
 //Changes the way that data is represented on the poll results screen
-function changeData(dataButton)
+function changeDataDisplay(dataButton)
 {
 	if(dataButton == 1){
 		document.getElementById('table').style.display = 'block';
@@ -5276,7 +5276,7 @@ function getMousePos(canvas, evt)
 }
 
 //Shows the results of a minigame after it's completed
-function gameResults(scores, tutorial, loop)
+function minigameResults(scores, tutorial, loop)
 {
 	if(!loop)
 	{
@@ -5337,19 +5337,19 @@ function gameResults(scores, tutorial, loop)
 			{			
 				document.getElementById("centerDisplay").innerHTML = posText;
 				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-				scoreChanger(globals.candidates[0], 0.1,pos,[]);
+				calcEventScore(globals.candidates[0], 0.1,pos,[]);
 			}
 			else if(scores.score <= scores.tier2 && scores.score >scores.tier1)
 			{
 				document.getElementById("centerDisplay").innerHTML = posText;
 				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-				scoreChanger(globals.candidates[0], 0.2,pos,[]);
+				calcEventScore(globals.candidates[0], 0.2,pos,[]);
 			}
 			else if(scores.score <= scores.tier3 && scores.score >scores.tier2)
 			{
 				document.getElementById("centerDisplay").innerHTML = posText;
 				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-				scoreChanger(globals.candidates[0], 0.3,pos,[]);
+				calcEventScore(globals.candidates[0], 0.3,pos,[]);
 			}
 			else if(scores.score > scores.tier3)
 			{
@@ -5359,12 +5359,12 @@ function gameResults(scores, tutorial, loop)
 				x = x.toFixed(2);
 				document.getElementById("centerDisplay").innerHTML = posText;
 				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-				scoreChanger(globals.candidates[0], x,pos,[]);
+				calcEventScore(globals.candidates[0], x,pos,[]);
 			}
 			else{
 				document.getElementById("centerDisplay").innerHTML = posText;
 				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-				scoreChanger(globals.candidates[0], (scores * .1),pos,[]);
+				calcEventScore(globals.candidates[0], (scores * .1),pos,[]);
 			}
 			
 				saveGameState();
@@ -5391,7 +5391,7 @@ function gameResults(scores, tutorial, loop)
 }
 
 //Creates a trend report based on past polls
-function trendReporter(category)
+function createTrendReport(category)
 {
    
     document.getElementById('buttonViewer').style = 'display:block';
@@ -5794,7 +5794,7 @@ function hourChecker()
 }
 
 
-function newGraphs(matchingMajor, matchingGroup, pollChoices, resultsArray, sSize, graphData, graphLabels, resetter)
+function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray, sSize, graphData, graphLabels, resetter)
 {
 	var studentResponses =[];
 	var canAdd = true;
@@ -6166,7 +6166,7 @@ function newGraphs(matchingMajor, matchingGroup, pollChoices, resultsArray, sSiz
 		document.getElementById("majorSelect").value = matchingMajor;
 		document.getElementById("groupSelect").value = matchingGroup;
 		document.getElementById('table').style.display = 'none';
-		//newGraphs("None", "None", pollChoices, resultsArray, sSize, graphData, graphLabels, true)
+		//filterGraphData("None", "None", pollChoices, resultsArray, sSize, graphData, graphLabels, true)
 	}
 }
 

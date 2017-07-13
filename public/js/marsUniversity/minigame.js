@@ -481,7 +481,7 @@ runningGame.main =
 	stopGame: function ()
 	{
 		runningGame.main.stop=true;
-		gameResults(runningGame.main.scores, globals.practice, globals.loopable);
+		minigameResults(runningGame.main.scores, globals.practice, globals.loopable);
 	},
 
 	calculateDeltaTime: function()
@@ -746,7 +746,7 @@ runningGame2.main =
 	stopGame: function ()
 	{
 		runningGame2.main.stop=true;
-		gameResults(runningGame2.main.scores, globals.practice, globals.loopable);
+		minigameResults(runningGame2.main.scores, globals.practice, globals.loopable);
 	},
 
 	draw: function(c,ctx)
@@ -1373,7 +1373,7 @@ secretSticker.main =
         {
             if(secretSticker.main.takenDemograph1 >= secretSticker.main.demograph1num)
                 secretSticker.main.score++;
-            gameResults(secretSticker.main.scores, globals.practice, globals.loopable);
+            minigameResults(secretSticker.main.scores, globals.practice, globals.loopable);
         }
     },
 
@@ -2327,7 +2327,7 @@ runningGame4.main = {
 		else{
 			////CONSOLE.LOG('END GAME')
 			
-			gameResults(runningGame4.main.scores, globals.practice, globals.loopable)
+			minigameResults(runningGame4.main.scores, globals.practice, globals.loopable)
 		}
 	},
 
@@ -2920,7 +2920,7 @@ tshirtCannon.main = {
     stop: function() 
     {
         tshirtCannon.main.gameStop=true;
-        gameResults(tshirtCannon.main.scores, globals.practice, globals.loopable);
+        minigameResults(tshirtCannon.main.scores, globals.practice, globals.loopable);
     },
 	update: function(c,ctx)
 	{

@@ -5,7 +5,7 @@
     <h2>{{this.name}}</h2>
     {{#if ../timeLeft}}
       {{#each this.events}}
-        <button class='primaryBtn' onclick = 'action({{this.id}})'>{{this.name}}<span class='timeSpan'> ({{this.timeRequired}} Hours)</span></button>
+        <button class='primaryBtn' onclick = 'chooseEvent({{this.id}})'>{{this.name}}<span class='timeSpan'> ({{this.timeRequired}} Hours)</span></button>
       {{/each}}
     {{else}}
       <h3>You don't have enough time to do any more events. But, you do have time to make a statement!</h3>
