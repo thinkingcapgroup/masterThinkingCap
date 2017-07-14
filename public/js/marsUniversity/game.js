@@ -4591,39 +4591,45 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 	document.getElementById("next").innerHTML += "<div id = 'filterArea'></div>"
 	document.getElementById("centerDisplay").innerHTML += "<div id = 'barChartDiv' style = 'display:block'></div>";
 	document.getElementById("centerDisplay").innerHTML += "<div id = 'pieChartDiv' style = 'display:none'></div>";
-	document.getElementById("centerDisplay").innerHTML += "<div id = 'chartFilters' style = 'display:block'> Filters: </div>";
-	document.getElementById("chartFilters").innerHTML += "<br>Major: <select class = 'graphFilters' id = 'majorSelect'></select>   Social Group: <select class = 'graphFilters' id = 'groupSelect'></select>";
-	
-	var noneOp = document.createElement("option");
-	noneOp.text = "None";
-	noneOp.value = "None";
-	var noneOp2 = document.createElement("option");
-	noneOp2.text = "None";
-	noneOp2.value = "None";
+    
+  
+    //Only display the filters if this isn't fake data
+    //Quick fix for a bug when changing filter options
+    if(!isFake){
+      document.getElementById("centerDisplay").innerHTML += "<div id = 'chartFilters' style = 'display:block'> Filters: </div>";
+      document.getElementById("chartFilters").innerHTML += "<br>Major: <select class = 'graphFilters' id = 'majorSelect'></select>   Social Group: <select class = 'graphFilters' id = 'groupSelect'></select>";
 
-	var majors = document.getElementById('majorSelect');
-	majors.options.add(noneOp2);
-	for(var i =0; i<globals.majorList.length; i++)
-	{
-		var newOp = document.createElement("option");
-		newOp.text = capitalStr(globals.majorList[i]);
-		newOp.value = globals.majorList[i];
-		majors.options.add(newOp);
-	}
+      var noneOp = document.createElement("option");
+      noneOp.text = "None";
+      noneOp.value = "None";
+      var noneOp2 = document.createElement("option");
+      noneOp2.text = "None";
+      noneOp2.value = "None";
+
+      var majors = document.getElementById('majorSelect');
+      majors.options.add(noneOp2);
+      for(var i =0; i<globals.majorList.length; i++)
+      {
+          var newOp = document.createElement("option");
+          newOp.text = capitalStr(globals.majorList[i]);
+          newOp.value = globals.majorList[i];
+          majors.options.add(newOp);
+      }
+
+      var groups = document.getElementById('groupSelect');
+      groups.options.add(noneOp);
+      for(var i =0; i<globals.groupList.length; i++)
+      {
+          var newOp = document.createElement("option");
+          newOp.text = capitalStr(globals.groupList[i]);
+          newOp.value = globals.groupList[i];
+          groups.options.add(newOp);
+      }
+    }
 	
-	var groups = document.getElementById('groupSelect');
-	groups.options.add(noneOp);
-	for(var i =0; i<globals.groupList.length; i++)
-	{
-		var newOp = document.createElement("option");
-		newOp.text = capitalStr(globals.groupList[i]);
-		newOp.value = globals.groupList[i];
-		groups.options.add(newOp);
-	}
-	
-	document.getElementById("next").innerHTML += "<button id = 'barButton' class='otherBtn' onclick = 'changeDataDisplay(2)' style = 'display:none'>Show Bar Graphs</button>";
-	document.getElementById("next").innerHTML += "<button id = 'pieButton' class='otherBtn' onclick = 'changeDataDisplay(3)'>Show Pie Graphs</button>";
-	document.getElementById("next").innerHTML += "<button id = 'dataButton' class='otherBtn' onclick = 'changeDataDisplay(1)'>Show Data Table</button><br>";
+	document.getElementById("next").innerHTML += "<button id = 'barButton' class='otherBtn' onclick = 'changeDataDisplay(2,"+isFake+")' style = 'display:none'>Show Bar Graphs</button>";
+	document.getElementById("next").innerHTML += "<button id = 'pieButton' class='otherBtn' onclick = 'changeDataDisplay(3,"+isFake+")'>Show Pie Graphs</button>";
+	document.getElementById("next").innerHTML += "<button id = 'dataButton' class='otherBtn' onclick = 'changeDataDisplay(1,"+isFake+")'>Show Data Table</button><br>";
 	for (var x = 0; x < globals.groupList.length; x++){
 		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ globals.groupList[x] +"'> "+ globals.groupList[x] +" ";
 	}
@@ -4877,7 +4883,7 @@ function makeGraphs(graphData, graphQuestions, graphLabels)
 	}
 }
 //Changes the way that data is represented on the poll results screen
-function changeDataDisplay(dataButton)
+function changeDataDisplay(dataButton, isFake)
 {
 	if(dataButton == 1){
 		document.getElementById('table').style.display = 'block';
@@ -4887,7 +4893,10 @@ function changeDataDisplay(dataButton)
 		document.getElementById('pieButton').style.display = 'inline';
 		document.getElementById('barButton').style.display = 'inline';
 		document.getElementById('dataButton').style.display = 'none';
-		document.getElementById('chartFilters').style.display = 'none';
+        
+        if(!isFake){
+          document.getElementById('chartFilters').style.display = 'none';
+        }
 	}
 	else if (dataButton == 2)
     {
@@ -4898,7 +4907,10 @@ function changeDataDisplay(dataButton)
 		document.getElementById('pieButton').style.display = 'inline';
 		document.getElementById('barButton').style.display = 'none';
 		document.getElementById('dataButton').style.display = 'inline';
-		document.getElementById('chartFilters').style.display = 'inline';
+		
+        if(!isFake){
+          document.getElementById('chartFilters').style.display = 'inline';
+        }
 	}
 	else if (dataButton == 3)
     {
@@ -4909,7 +4921,10 @@ function changeDataDisplay(dataButton)
 		document.getElementById('pieButton').style.display = 'none';
 		document.getElementById('barButton').style.display = 'inline';
 		document.getElementById('dataButton').style.display = 'inline';
-		document.getElementById('chartFilters').style.display = 'inline';
+		
+        if(!isFake){
+          document.getElementById('chartFilters').style.display = 'inline';
+        }
 	}
 }
 
