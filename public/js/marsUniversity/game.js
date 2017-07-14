@@ -1479,7 +1479,7 @@ function firstStatement()
 	}
 	if(globals.pastPollResults.length !=0)
 	{
-		document.getElementById("mainContent").innerHTML += "<p>Not Sure on What to Choose? Click Below!</p> <button class='otherBtn' type='button' onclick='viewPollResult(0, true)' >View The Results of the Poll You Just Took </button>";
+		document.getElementById("mainContent").innerHTML += "<p>Not Sure on What to Choose? Click Below!</p> <button class='otherBtn' type='button' onclick='viewPollResult(0, true)' >View The Results of the Poll You Just Took </button><br>";
 	}
 		document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`statementsHelpPage`)' ></img>";
 
@@ -2176,7 +2176,7 @@ function drawPoll(state, isFree, isFake){
 	}
     //End of day poll
 	else if(state == POLL_STATES.END_OF_DAY){
-      
+		document.getElementById("sample").value = "80";
         document.getElementById("next").innerHTML += "<br> <button class='otherBtn' type='button' onclick='eventMenu()' > Choose Not to Take the Poll  </button>";
     }
     //It's a poll the user has chosen to take or [oll when you retake the tutorial from within the main game
