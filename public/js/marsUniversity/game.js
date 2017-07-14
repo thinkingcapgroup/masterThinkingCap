@@ -4470,6 +4470,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 							break;
 
 							case "issuemedical":
+                                    var cell = row.insertCell();
 									if(tableArray2[13][h] <= -3)
 									{
 										cell.innerHTML = "Issue Hated";
@@ -4504,8 +4505,10 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 				canCounter = 14;
 				for(var k = 1;k<globals.candidates.length;k++)
 				{
+
 					if(pollChoices[i] == "candFame" + globals.candidates[k].name)
 					{
+
 								var cell = row.insertCell();
 								var counter = canCounter;
 									if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.2)
@@ -4574,7 +4577,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 				}
 			}
 		}
-
+        
 		var cell = row.insertCell(0);
 		cell.innerHTML = capitalStr(tableArray2[4][h]);
 
