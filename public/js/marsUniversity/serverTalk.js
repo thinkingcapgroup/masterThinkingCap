@@ -245,7 +245,7 @@ $(document).on('change','.filterChecklist', function(){
 
     $('input[type=checkbox]:checked').each(function(){
         var box = $(this);
-        var attrCheck = capOption(box.attr('rel'));
+        var attrCheck = capitalStr(box.attr('rel'));
         var flag;
 
          $('table > tbody > tr').each(function() {

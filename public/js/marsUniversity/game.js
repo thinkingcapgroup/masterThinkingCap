@@ -77,7 +77,7 @@ function startGame()
 	oReq.open("get", "json/data.json", true);
 	oReq.send();
     
-    preload(globals.events);
+    preloadEventImages(globals.events);
     //preloadUI();  
   
     createAreas();
@@ -340,10 +340,10 @@ function testP(){
 }
 
 function setBackToMapBtn(){
-  document.getElementById("back").innerHTML = "<button onclick= 'userAction()'>Back to Game Map</button>";
+  document.getElementById("back").innerHTML = "<button onclick= 'eventMenu()'>Back to Game Map</button>";
 }
 function setReturnToMapBtn(){
-  document.getElementById("next").innerHTML = "<button onclick= 'userAction()'>Return to Game Map</button>";
+  document.getElementById("next").innerHTML = "<button onclick= 'eventMenu()'>Return to Game Map</button>";
 }
 
 let loadComplete = false;
@@ -524,7 +524,7 @@ const POLL_STATES = {
 }
 
 
-function preload(actions) {
+function preloadEventImages(actions) {
 	for (let i = 1; i < actions.length; i++) {
 		globals.images[i] = new Image();
 		globals.images[i].src = actions[i].path;
@@ -657,7 +657,7 @@ function updateTopBar(currentScreen){
 }
 
 /*GAME INTRO FUNCTIONS8*/
-function splashScreen()
+function mainMenu()
 {
     //Shows the title screen
 	clearScreen();
@@ -684,7 +684,7 @@ function startAnimatic()
   
 }
 
-function startPractice()
+function practiceMenu()
 {
     // Shows the practice screen menu
 	clearScreen();
@@ -723,13 +723,6 @@ function backToHelp(){
   document.getElementById('backToHelp').style.display = 'none';
   
   document.getElementById('mainHelp').style.display = 'block';
-}
-
-function displayHelpPage(elementId){
-  document.getElementById(elementId).style.display = 'block';
-  document.getElementById('backToHelp').style.display = 'block';
-  
-  document.getElementById('mainHelp').style.display = 'none';
 }
 
 function pollMenu()
@@ -804,7 +797,7 @@ function trendReportMenu()
     }
    	 document.getElementById("mainContent").innerHTML += "<br>"
      document.getElementById("mainContent").innerHTML += "<button id ='buttonViewer' style = 'display:none'>Choose Another Trend Report</button>";
-     document.getElementById("back").innerHTML += "<button onclick= 'userAction()'>Back to Game Map</button>";
+     document.getElementById("back").innerHTML += "<button onclick= 'eventMenu()'>Back to Game Map</button>";
 	 document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`trendHelpPage`)' ></img>";
 }
 function myDataMenu()
@@ -825,16 +818,6 @@ function chooseHelpPage(page)
 	document.getElementById("helpContent").innerHTML = views[page]({});
 	//Display page after filling it.
 	displayHelpPage();
-}
-
-function openGlossary()
-{
-    //Shows the glossary
-	clearScreen();
-	document.getElementById("topBar").style.display = "block";
-  
-	document.getElementById("centerDisplay").innerHTML = "<h1> Glossary</h1> <hr> <ul style='list-style-type:none'><li>Data: Specific Information about a group of people or objects.</li> <li>Population: The Data for ALL people or objects. </li> <li>Sample: The Data that is measured, counted, or designated as a category for SELECTED people or objects.</li>  </ul> <button onclick= 'userAction()'>Return to Game Map</button>"
-  
 }
 
 
@@ -1359,7 +1342,7 @@ function Sprite(options){
 }
 
 //Creates the player candidate
-function startOtherCandidates(){
+function createCharacter(){
 	globals.playerCandidate.name = document.getElementById("charName").value;
 	globals.playerCandidate.raceNum = headSheet.frameIndexRace;
 	globals.playerCandidate.genderNum = bodySheet.frameIndexClothing;
@@ -1370,15 +1353,19 @@ function startOtherCandidates(){
 	globals.playerCandidate.bodyType = globals.bodyTypeArray[bodySheet.bodyArrayHolder];
   
     generatePlayerImages();
-  
+    
+    tutorialChoice();
+}
+
+//Let the player choose whether to do the tutorial
+function tutorialChoice(){
     clearScreen();
     document.getElementById("mainContent").classList.add("center");
     
 	document.getElementById("mainContent").innerHTML = "<h1>What's Happening</h1>"
 	document.getElementById("mainContent").innerHTML += "<p>You are competing against Karma the Chameleon and 4 other candidates for the position of Student Council President. Karma is new student just like you, they call her the Chameleon, because she copies the people she is running against.... and also because, she is a Chameleon. The current student government will give you, a candidate, some information about the students at MarsU.</p>"
 	document.getElementById("mainContent").innerHTML += "<p>Do you wish to start the tutorial?</p>"
-	document.getElementById("mainContent").innerHTML += "<div style='display:inline-flex' ><button class='primaryBtn' onclick='tutorial("+false+")'>Yes</button><button class='primaryBtn' onclick='chooseDiff()'>No</button></div>";
-
+	document.getElementById("mainContent").innerHTML += "<div style='display:inline-flex' ><button class='primaryBtn' onclick='tutorial("+false+")'>Yes</button><button class='primaryBtn' onclick='chooseDiff()'>No</button></div>"
 }
 
 //Sets the variables for game length and opposing candidates
@@ -1401,29 +1388,29 @@ function initNewGame(isFromTut){
 	globals.opponentCandidate.fame = [1.2,1.2,1.2,1.2,1.2,1.2,1.2,1.2];
 	globals.opponentCandidate.consMod = 0;
 	//////CONSOLE.LOG(oppFocus);
-	chooseIssue(globals.opponentCandidate,[],1,false);
+	assignIssue(globals.opponentCandidate,[],1,false);
 	globals.candidates.push(globals.opponentCandidate);
 	
 	//Create Issue Candidates
 	var issueCand1 = new Candidate("Boof");
 	issueCand1.focus = globals.positions[0];
 	issueCand1.focusnum = 0;
-	chooseRank(issueCand1,globals.chosenCandRanks,true);
+	assignRank(issueCand1,globals.chosenCandRanks,true);
 	globals.candidates.push(issueCand1);
 	var issueCand2 = new Candidate("Zrap Bannigan");
 	issueCand2.focus = globals.positions[1];
 	issueCand2.focusnum = 1;
-	chooseRank(issueCand2,globals.chosenCandRanks,true);
+	assignRank(issueCand2,globals.chosenCandRanks,true);
 	globals.candidates.push(issueCand2);
 	var issueCand3 = new Candidate("C1AMP");
 	issueCand3.focus = globals.positions[2];
 	issueCand3.focusnum = 2;
-	chooseRank(issueCand3,globals.chosenCandRanks,true);
+	assignRank(issueCand3,globals.chosenCandRanks,true);
 	globals.candidates.push(issueCand3);
 	var issueCand4 = new Candidate("Simon");
 	issueCand4.focus = globals.positions[3];
 	issueCand4.focusnum = 3;
-	chooseRank(issueCand4,globals.chosenCandRanks,true);
+	assignRank(issueCand4,globals.chosenCandRanks,true);
 	globals.candidates.push(issueCand4);	
   
     //Set the currentCandidateArrayHolder to the right data
@@ -1457,7 +1444,7 @@ function setupPracticePoll()
 	globals.opponentCandidate.fame = [.7,.7,.7,.7,.7,.7,.7,.7];
 	globals.opponentCandidate.consMod = 0;
 	//////CONSOLE.LOG(oppFocus);
-	chooseIssue(globals.opponentCandidate,[],.7,false);
+	assignIssue(globals.opponentCandidate,[],.7,false);
 	globals.candidates.push(globals.opponentCandidate);
 	
 	//Create Issue Candidates
@@ -1465,7 +1452,7 @@ function setupPracticePoll()
 	var oppRank = Math.floor(Math.random()*4);
 	issueCand1.focus = globals.positions[oppRank];
 	issueCand1.focusnum = oppRank;
-	chooseRank(issueCand1,globals.chosenCandRanks,true);
+	assignRank(issueCand1,globals.chosenCandRanks,true);
 	globals.candidates.push(issueCand1);
 
 	
@@ -1478,7 +1465,7 @@ function firstStatement()
     ////CONSOLE.LOG("first statement");
     
 	globals.firstPoll = false;
-	saveGameState();
+	saveGame();
 	globals.first = false;
 	clearScreen();
     document.getElementById("mainContent").classList.add("center");
@@ -1488,20 +1475,14 @@ function firstStatement()
 	document.getElementById("mainContent").innerHTML += "<p>It's Time to Make Your First Statement to the Mars U Population! <br>Pick an Issue Below that You Would Like to Support!</p>"
 	for (var x=0; x < globals.positions.length; x++){
 
-	document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick = 'gameCycleStart("+x+")'>"+ globals.positions[x]+"</button>"
+	 document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick = 'calcFirstStatement("+x+")'>"+ globals.positions[x]+"</button>"
 	}
 	if(globals.pastPollResults.length !=0)
 	{
-		document.getElementById("mainContent").innerHTML += "<p>Not Sure on What to Choose? Click Below!</p> <button class='otherBtn' type='button' onclick='firstReport()' >View The Results of the Poll You Just Took </button>";
+		document.getElementById("mainContent").innerHTML += "<p>Not Sure on What to Choose? Click Below!</p> <button class='otherBtn' type='button' onclick='viewPollResult(0, true)' >View The Results of the Poll You Just Took </button>";
 	}
 		document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`statementsHelpPage`)' ></img>";
 
-}
-
-function firstReport()
-{
-	globals.first = true;
-	viewPollResult(0);
 }
 //Prompts the player to choose a difficulty setting for the game
 function chooseDiff()
@@ -1528,9 +1509,9 @@ function setDiff(days)
 }
 
 /*GAME CYCLE FUNCTIONS8*/
-function gameCycleStart(f)
+function calcFirstStatement(f)
 {
-    ////CONSOLE.LOG("gameCycleStart");
+    ////CONSOLE.LOG("calcFirstStatement");
     
     
 	globals.firstPoll = false;
@@ -1563,7 +1544,7 @@ function gameCycleStart(f)
     //Hold onto correct candidates
     globals.currentCandidateArrayHolder = globals.candidates;
     
-	userAction();
+	eventMenu();
 };
 
 //Add events to the Location choice elements
@@ -1579,7 +1560,7 @@ function addLocationEvents(){
 }
 
 //Creates the area in which users decide what to do
-function userAction()
+function eventMenu()
 {
     //document.getElementById("gameContents").innerHTML += "<img src='"+globals.playerImg+"' style='display:none'>"
 	if(hourChecker()){
@@ -1598,7 +1579,7 @@ function userAction()
 	  document.getElementById("mainContent").classList.add("left");
       
       if(!globals.back){
-          saveGameState();
+          saveGame();
       }
 
 
@@ -1615,7 +1596,7 @@ function userAction()
       globals.ctx.fillStyle = '#FFFFFF'
 
       //Display Updated Top Bar
-      updateTopBar(userAction);
+      updateTopBar(eventMenu);
       document.getElementById('topBar').style.display = "inline-flex";
       
       let timeLeft = true;
@@ -1638,11 +1619,11 @@ function userAction()
 
 
       globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
-      globals.c.onmousedown = doMousedownMain;
-      globals.c.onmousemove = doMouseOver;
+      globals.c.onmousedown = doMousedownMap;
+      globals.c.onmousemove = doMouseoverMap;
 
 
-      drawMap(false);
+      setupMap(false);
     
     
     document.getElementById("map").style.display = "block";
@@ -1661,7 +1642,7 @@ function chooseEvent(choice)
         choice--;
       
 		clearScreen();
-		updateTopBar(userAction);
+		updateTopBar(eventMenu);
 	
 		var nextArea = document.getElementById("next");
 		nextArea.innerHTML = "";
@@ -1891,7 +1872,7 @@ function chooseEvent(choice)
 		{
 			document.getElementById("eventInfo").innerHTML += "<h4> You dont have the enough time left to do the selected action. \n Return to the Game Map to select another action or end the game.</h4>";
 		}
-		document.getElementById("back").innerHTML += "<button type='button' onclick='backtoUA()' >Back to Game Map</button>";
+		document.getElementById("back").innerHTML += "<button type='button' onclick='eventMenu()' >Back to Game Map</button>";
   
 		//Show changes to screen
         document.getElementById("eventImg").style.display = "block";
@@ -1973,9 +1954,9 @@ function eventResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
 
 	//Changes the player's score
 	calcEventScore(globals.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
-	saveGameState();
+	saveGame();
 	clearScreen();
-    updateTopBar(userAction);
+    updateTopBar(eventMenu);
     
 	document.getElementById("centerDisplay").innerHTML += "<div id= 'evRes'><h2>You Positively Affected Your Fame With These Groups: </h2></div>";
 	var posText = ""; 
@@ -2041,11 +2022,11 @@ function eventResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
     
 	document.getElementById("centerDisplay").innerHTML += "<img class='resolutionImg' width = '600' src = '"+finalImg+"'> </img>";
   
-    document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick= 'userAction()'>Return to Game Map</button>";
+    document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick= 'eventMenu()'>Return to Game Map</button>";
 };
 
 //Ends the game
-function gameCycleEnd()
+function endGame()
 {
 	//Clear previous screen
 	clearScreen();
@@ -2102,15 +2083,6 @@ function lastSection(currentPage, help)
   showTutorialPage(currentPage-1, help);
 }
 
-//ELaborates on a highlighted term when clicked
-function explainTerm(term, help){
-	document.getElementById("centerDisplay").innerHTML ="";
-	document.getElementById("centerDisplay").innerHTML += "<h3>Term ID: "+term+"</h3><hr>";
-	document.getElementById("centerDisplay").innerHTML += "<p>Term explination here....</p>"
-	document.getElementById("centerDisplay").innerHTML += "<button onclick = 'tutorial("+help+")'>Back</button>"
-
-}
-
 function drawPoll(state, isFree, isFake){
     
 	clearScreen();
@@ -2122,7 +2094,7 @@ function drawPoll(state, isFree, isFake){
       globals.candidates = globals.fakeCandidateHolder;
     }
     else{
-      saveGameState();
+      saveGame();
     }
 	
 	if(state == POLL_STATES.IN_GAME)
@@ -2178,7 +2150,7 @@ function drawPoll(state, isFree, isFake){
     document.getElementById("mainContent").innerHTML = views["takePoll"](context);
     document.getElementById('map').style.display = "block";
     globals.isCurrentAreaHover = areaChoices["Quad"].id;
-    drawMap(true);
+    setupMap(true);
   
     if(state == POLL_STATES.FIRST || globals.remainingHoursDay >= 4 )
 		addMoreQuestions();
@@ -2196,7 +2168,7 @@ function drawPoll(state, isFree, isFake){
     //Poll within Practice Area
 	else if (state == POLL_STATES.PRACTICE_AREA){
 		document.getElementById("next").innerHTML += "<br> <button type='button' onclick=tutorial("+true+")'>Return to Tutorial </button>";
-		document.getElementById("back").innerHTML += "<br> <button type='button' onclick='startPractice()'> Back to Practice Area </button>";
+		document.getElementById("back").innerHTML += "<br> <button type='button' onclick='practiceMenu()'> Back to Practice Area </button>";
 	}
     //First poll in the game
 	else if(state == POLL_STATES.FIRST){
@@ -2205,7 +2177,7 @@ function drawPoll(state, isFree, isFake){
     //End of day poll
 	else if(state == POLL_STATES.END_OF_DAY){
       
-        document.getElementById("next").innerHTML += "<br> <button class='otherBtn' type='button' onclick='userAction()' > Choose Not to Take the Poll  </button>";
+        document.getElementById("next").innerHTML += "<br> <button class='otherBtn' type='button' onclick='eventMenu()' > Choose Not to Take the Poll  </button>";
     }
     //It's a poll the user has chosen to take or [oll when you retake the tutorial from within the main game
     else if(state == POLL_STATES.IN_GAME || state == POLL_STATES.IN_GAME_PRACTICE){
@@ -2225,7 +2197,7 @@ function drawPoll(state, isFree, isFake){
 }
 
 //Draws lines on the map around the buildings
-function drawMap(poll)
+function setupMap(poll)
 {
 	globals.isPoll = poll;
     
@@ -2235,8 +2207,8 @@ function drawMap(poll)
     
     var mouse = globals.canvasMouse;
 	globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
-	globals.c.onmousedown = doMousedownMain;
-	globals.c.onmousemove = doMouseOver;
+	globals.c.onmousedown = doMousedownMap;
+	globals.c.onmousemove = doMouseoverMap;
     
     drawMapAreas();
     drawMapIcons();
@@ -2245,7 +2217,7 @@ function drawMap(poll)
 
     
 //Sets the clickable zones on the map for the Game Map
- function doMousedownMain(c,e)
+ function doMousedownMap(c,e)
 	{
 		var mouse = globals.canvasMouse;
         
@@ -2277,14 +2249,14 @@ function drawMap(poll)
                     globals.isCurrentAreaHover = mapArea.id;
                     
                     //Redraw screen with new outline
-                    doMouseOver();
+                    doMouseoverMap();
                 }
             }
         }
     }
 
 //Fills the zone over the building that the mouse if hovering over
-	function doMouseOver(c,e){
+	function doMouseoverMap(c,e){
 
 
         globals.c=document.getElementById("myCanvas");
@@ -2358,19 +2330,19 @@ function drawMapIcons(){
 }
     
 //makes the statement screen
-function statement(){
+function statementMenu(){
     
 	globals.back = false;
 	clearScreen();
     document.getElementById("mainContent").classList.add("center");
   
-    updateTopBar(statement);
+    updateTopBar(statementMenu);
     hourChecker();
     
     document.getElementById("mainContent").innerHTML = views["statement"]({"issues":globals.positions});
   
     document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='statementCalc()' > Make Statement </button>";
-    document.getElementById("back").innerHTML += "<button type='button' onclick='backtoUA()' >Back to Game Map</button>";
+    document.getElementById("back").innerHTML += "<button type='button' onclick='eventMenu()' >Back to Game Map</button>";
 	document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`statementsHelpPage`)' ></img>";
 
 }
@@ -2418,11 +2390,11 @@ function practiceGame(id){
 	globals.ctx = globals.c.getContext("2d");
 	if(globals.inGame)
 	{
-		document.getElementById("back").innerHTML += "<button onclick = 'helpScreen(userAction)'> Back to Help Menu</button>";
+		document.getElementById("back").innerHTML += "<button onclick = 'helpScreen(eventMenu)'> Back to Help Menu</button>";
 	}
 	else
 	{
-		document.getElementById("back").innerHTML += "<button onclick = 'startPractice()'> Back to Practice Area</button>";
+		document.getElementById("back").innerHTML += "<button onclick = 'practiceMenu()'> Back to Practice Area</button>";
 	}
 
 	globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
@@ -2446,7 +2418,7 @@ function practiceGame(id){
 	}	
 }
 
-function helpGame(id){
+function helpMinigamePlayer(id){
 	globals.loopable=true;
 	switch(id)
 	{
@@ -2637,10 +2609,10 @@ function statementCalc()
 function statementResults(statement, statementValue)
 {
     clearScreen();
-    updateTopBar(statement);
+    updateTopBar(statementMenu);
   
     if(!globals.back){
-        saveGameState();
+        saveGame();
     }
     var state = parseInt(statement); 
     
@@ -2714,7 +2686,7 @@ function statementResults(statement, statementValue)
     document.getElementById("centerDisplay").innerHTML += "<h2 style='margin-bottom: 1em;'>You made a great speech "+stance+" "+issue+"</h2>";
     document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '"+finalImg+"'> ";
   
-	document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick='userAction()'>Return to the Game Map</button>";
+	document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick='eventMenu()'>Return to the Game Map</button>";
 }
 //repeats the statement at a lowered effect for Karma
 function statementCalcOtherCandidate(x){
@@ -2962,7 +2934,7 @@ function pollResults(state, isFree, isFake)
         }
         else if(state == POLL_STATES.PRACTICE_AREA)
         {
-            document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to Practice Area</button>";
+            document.getElementById("next").innerHTML += "<button onclick = 'practiceMenu()'> Return to Practice Area</button>";
         }
         else if(state == POLL_STATES.FIRST)
         {
@@ -2970,7 +2942,7 @@ function pollResults(state, isFree, isFake)
     
         }
         else{
-            document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'userAction()'> Return to the Game Map </button>";
+            document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'eventMenu()'> Return to the Game Map </button>";
         }
 	}
 
@@ -3680,15 +3652,15 @@ function resetGame()
 }
 
 //Allows you to view previous polls at any time.
-function viewPollResult(id)
+function viewPollResult(id, isFirst)
 {
 	clearScreen();
 	globals.currentPoll = id;
   //pollChoices, tableArray2, sSize, graphData, graphLabels, isFake, state, isFree, isReview
   tableBuilder(globals.pastPollChoices[id],globals.pastPollResults[id],globals.pastPollSizes[id],globals.pastGraphData[id],globals.pastGraphLabels[id], false, POLL_STATES.IN_GAME, true, true);
-	if(!globals.first){
+	if(!isFirst){
         updateTopBar(pollMenu);
-		document.getElementById("back").innerHTML += "<button onclick = 'userAction()'>Back to Game Map</button>";
+		document.getElementById("back").innerHTML += "<button onclick = 'eventMenu()'>Back to Game Map</button>";
     }
 	else
 		document.getElementById("back").innerHTML += "<button onclick = 'firstStatement()'> Back to Making Your First Statement </button>";
@@ -4605,13 +4577,13 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 		}
 
 		var cell = row.insertCell(0);
-		cell.innerHTML = capOption(tableArray2[4][h]);
+		cell.innerHTML = capitalStr(tableArray2[4][h]);
 
 		//var cell = row.insertCell(1);
 		//cell.innerHTML = tableArray2[5][h];
 
 		var cell = row.insertCell(1);
-		cell.innerHTML = capOption(tableArray2[6][h]);
+		cell.innerHTML = capitalStr(tableArray2[6][h]);
 	}
 	
 	
@@ -4634,7 +4606,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 	for(var i =0; i<globals.majorList.length; i++)
 	{
 		var newOp = document.createElement("option");
-		newOp.text = capOption(globals.majorList[i]);
+		newOp.text = capitalStr(globals.majorList[i]);
 		newOp.value = globals.majorList[i];
 		majors.options.add(newOp);
 	}
@@ -4644,7 +4616,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 	for(var i =0; i<globals.groupList.length; i++)
 	{
 		var newOp = document.createElement("option");
-		newOp.text = capOption(globals.groupList[i]);
+		newOp.text = capitalStr(globals.groupList[i]);
 		newOp.value = globals.groupList[i];
 		groups.options.add(newOp);
 	}
@@ -4692,7 +4664,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
     }
 
 }
-function capOption(string) 
+function capitalStr(string) 
 {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -4902,10 +4874,6 @@ function makeGraphs(graphData, graphQuestions, graphLabels)
         .style("font", "bold 12px Arial")
         .text(function(d) { return d.data.label + "-" +d.data.count; });
         
-        function angle(d) {
-        var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
-        return a > 90 ? a - 180 : a;
-        } 
 	}
 }
 //Changes the way that data is represented on the poll results screen
@@ -4990,14 +4958,7 @@ function pollTimeCheck(sSize, pollQuestions)
 	return (timeRequired <= globals.remainingHoursDay);
 }
 
-function backtoUA()
-{
-	globals.back = true;
-
-	userAction();
-}
-
-function saveGameState()
+function saveGame()
 { 	
     let saveJSON = new SaveFile();
     //Stringify and escape special characters
@@ -5099,7 +5060,7 @@ function loadGame()
   
 	globals.back=true;
 	saveState = "";
-    preload(globals.events);
+    preloadEventImages(globals.events);
   
     
     /*let canvas = document.createElement('canvas');
@@ -5143,7 +5104,7 @@ function loadGame()
 	{
 		firstStatement();
 	}
-	else{userAction();}
+	else{eventMenu();}
 
 }
 
@@ -5245,7 +5206,7 @@ function getSession(gameOver)
 /* Back Button Prevention code */
 
 //Chooses what issue each candidate represents
-function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
+function assignIssue(candidate, chosenIssues, issueVal, issueCand)
 {
 	var counter;
 	globals.oppChoice=[0,1,2,3];
@@ -5283,7 +5244,7 @@ function chooseIssue(candidate, chosenIssues, issueVal, issueCand)
 }
 
 //Chooses how well the candidate ranks
-function chooseRank(candidate, chosenRanks, issueCand)
+function assignRank(candidate, chosenRanks, issueCand)
 {
 	var counter;
 	globals.oppChoice=[0,1,2,3];
@@ -5435,9 +5396,9 @@ function minigameResults(scores, tutorial, loop)
 				calcEventScore(globals.candidates[0], (scores * .1),pos,[]);
 			}
 			
-				saveGameState();
+			saveGame();
 			$.post('/game/loggerMinigame', {minigameID: globals.lastMinigame, score: scoreToLog, module: '1', session: globals.gameSession });
-				document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'userAction()'> Return to the Game Map </button>";
+				document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'eventMenu()'> Return to the Game Map </button>";
 		}
 		else
 		{
@@ -5446,10 +5407,10 @@ function minigameResults(scores, tutorial, loop)
 			document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 			if(globals.inGame)
 			{
-						document.getElementById("next").innerHTML += "<button onclick = 'helpScreen(userAction)'> Return to the Practice Screen </button>";
+						document.getElementById("next").innerHTML += "<button onclick = 'helpScreen(eventMenu)'> Return to the Practice Screen </button>";
 			}
 			else
-			document.getElementById("next").innerHTML += "<button onclick = 'startPractice()'> Return to the Practice Screen </button>";
+			document.getElementById("next").innerHTML += "<button onclick = 'practiceMenu()'> Return to the Practice Screen </button>";
 		}
 	}
 	else
@@ -5837,11 +5798,11 @@ function hourChecker()
 		{
 			globals.days++;
 			globals.remainingHoursDay = 12;
-			dayPollBuffer();
+			dayPollInfo();
 		}
 		else
 		{
-			saveGameState();
+			saveGame();
             return true;
             
 		}
@@ -5850,11 +5811,11 @@ function hourChecker()
 	{
 		if(globals.remainingHoursTotal<1)
 		{
-			gameCycleEnd();
+			endGame();
 		}
 		else
 		{
-			saveGameState();
+			saveGame();
             return true;
 		}
 	}
@@ -6239,7 +6200,7 @@ function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray
 }
 
 
-function dayPollBuffer()
+function dayPollInfo()
 {
 	clearScreen();
     document.getElementById("mainContent").classList.add("center");
