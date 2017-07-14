@@ -730,86 +730,93 @@ function pollMenu()
 {
     //Shows the Poll Menu
     clearScreen();
-    updateTopBar(pollMenu);
-    hourChecker();
-  
-    document.getElementById("mainContent").classList.add("center");
-  
-    if(globals.remainingHoursDay >=3)
-    {
-        document.getElementById("mainContent").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' class='primaryBtn' onclick='drawPoll("+POLL_STATES.IN_GAME+", false, false)'> Take A Poll </button><br><br>";
-        if(globals.pastPollResults.length > 0)
-            document.getElementById("mainContent").innerHTML += "<h2> Previous Poll Results</h2>";
-    }
-    else
-    {
-        document.getElementById("mainContent").innerHTML += "<h2> Poll</h2> <button type='button' > Cannot Take a Poll </button> ";
-        if(globals.pastPollResults.length > 0)
-            document.getElementById("mainContent").innerHTML += "<h2> Previous Poll Results</h2>";
-    }
     
-    //Adds buttons for each poll that has been taken already
-	for(var i=0; i<globals.pastPollResults.length;i++)
-	{
-		globals.num = i+1;
-		document.getElementById("mainContent").innerHTML += "<button class='otherBtn' onclick='viewPollResult("+i+")' >View Poll "+ globals.num +" Result </button>";
-    }
-	document.getElementById("mainContent").innerHTML += "<br>";
-	document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`pollHelpPage`)' ></img>";
+    if(hourChecker()){
+      updateTopBar(pollMenu);
+      document.getElementById("mainContent").classList.add("center");
 
-    setBackToMapBtn();
+      if(globals.remainingHoursDay >=3)
+      {
+          document.getElementById("mainContent").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' class='primaryBtn' onclick='drawPoll("+POLL_STATES.IN_GAME+", false, false)'> Take A Poll </button><br><br>";
+          if(globals.pastPollResults.length > 0)
+              document.getElementById("mainContent").innerHTML += "<h2> Previous Poll Results</h2>";
+      }
+      else
+      {
+          document.getElementById("mainContent").innerHTML += "<h2> Poll</h2> <button type='button' > Cannot Take a Poll </button> ";
+          if(globals.pastPollResults.length > 0)
+              document.getElementById("mainContent").innerHTML += "<h2> Previous Poll Results</h2>";
+      }
+
+      //Adds buttons for each poll that has been taken already
+      for(var i=0; i<globals.pastPollResults.length;i++)
+      {
+          globals.num = i+1;
+          document.getElementById("mainContent").innerHTML += "<button class='otherBtn' onclick='viewPollResult("+i+")' >View Poll "+ globals.num +" Result </button>";
+      }
+      document.getElementById("mainContent").innerHTML += "<br>";
+      document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`pollHelpPage`)' ></img>";
+
+      setBackToMapBtn();
+    }
 }
 function trendReportMenu()
 {
     //Sets up the trend report menu
 	clearScreen();
-    document.getElementById("mainContent").classList.add("center");
-    updateTopBar(trendReportMenu);
-    hourChecker();
-    
-    document.getElementById("mainContent").innerHTML = views["trendMenu"]({"candidates": globals.candidates});
-    
-	var currentTrendReports = [];
+  
+    if(hourChecker()){
+      document.getElementById("mainContent").classList.add("center");
+      updateTopBar(trendReportMenu);
 
 
-     document.getElementById("mainContent").innerHTML += "</div><br> <div id = 'trendArea' style = 'display:none'> <svg id='visualisation' width='800' height='450'><path id='segments-line' /><path id='gap-line' /><text font-family='sans-serif' font-size='20px'>Blah</text></svg> </div>";
-      for(var x =0; x < globals.pastPollChoices.length; x++){
-      	for(var y = 0; y < globals.pastPollChoices[x].length; y++){
-      		if(currentTrendReports.includes(globals.pastPollChoices[x][y])){
+      document.getElementById("mainContent").innerHTML = views["trendMenu"]({"candidates": globals.candidates});
 
-      		}
-      		else{
-      			currentTrendReports.push(globals.pastPollChoices[x][y])
-      		}
-      	}
+      var currentTrendReports = [];
+
+
+       document.getElementById("mainContent").innerHTML += "</div><br> <div id = 'trendArea' style = 'display:none'> <svg id='visualisation' width='800' height='450'><path id='segments-line' /><path id='gap-line' /><text font-family='sans-serif' font-size='20px'>Blah</text></svg> </div>";
+        for(var x =0; x < globals.pastPollChoices.length; x++){
+          for(var y = 0; y < globals.pastPollChoices[x].length; y++){
+              if(currentTrendReports.includes(globals.pastPollChoices[x][y])){
+
+              }
+              else{
+                  currentTrendReports.push(globals.pastPollChoices[x][y])
+              }
+          }
+        }
+      var thing;
+      var buttonHolder = document.getElementsByClassName('trendButton')
+
+      for(var x = 0; x < buttonHolder.length; x++){
+          var idName = buttonHolder[x].getAttribute('id');   
+
+          for(var y =0; y < currentTrendReports.length; y++){
+
+              if(currentTrendReports[y] == idName){    	
+                  document.getElementById(idName).disabled = false;
+              }
+          }
       }
-    var thing;
-    var buttonHolder = document.getElementsByClassName('trendButton')
-
-    for(var x = 0; x < buttonHolder.length; x++){
-    	var idName = buttonHolder[x].getAttribute('id');   
-    
-    	for(var y =0; y < currentTrendReports.length; y++){
-    	
-    		if(currentTrendReports[y] == idName){    	
-    			document.getElementById(idName).disabled = false;
-    		}
-    	}
+       document.getElementById("mainContent").innerHTML += "<br>"
+       document.getElementById("mainContent").innerHTML += "<button id ='buttonViewer' style = 'display:none'>Choose Another Trend Report</button>";
+       document.getElementById("back").innerHTML += "<button onclick= 'eventMenu()'>Back to Game Map</button>";
+       document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`trendHelpPage`)' ></img>";
     }
-   	 document.getElementById("mainContent").innerHTML += "<br>"
-     document.getElementById("mainContent").innerHTML += "<button id ='buttonViewer' style = 'display:none'>Choose Another Trend Report</button>";
-     document.getElementById("back").innerHTML += "<button onclick= 'eventMenu()'>Back to Game Map</button>";
-	 document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`trendHelpPage`)' ></img>";
 }
 function myDataMenu()
 {
     //Sets up the trend report menu
 	clearScreen();
-    document.getElementById("mainContent").classList.add("center");
-    updateTopBar(myDataMenu);
-    hourChecker();
-    
-    document.getElementById("mainContent").innerHTML = views["myDataMenu"]({"playerImg": images["playerImg"], "player": globals.playerCandidate});
+  
+    if(hourChecker()){
+      document.getElementById("mainContent").classList.add("center");
+      updateTopBar(myDataMenu);
+
+
+      document.getElementById("mainContent").innerHTML = views["myDataMenu"]({"playerImg": images["playerImg"], "player": globals.playerCandidate});
+    }
   
 }
 
@@ -2334,16 +2341,18 @@ function statementMenu(){
     
 	globals.back = false;
 	clearScreen();
-    document.getElementById("mainContent").classList.add("center");
-  
-    updateTopBar(statementMenu);
-    hourChecker();
     
-    document.getElementById("mainContent").innerHTML = views["statement"]({"issues":globals.positions});
-  
-    document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='statementCalc()' > Make Statement </button>";
-    document.getElementById("back").innerHTML += "<button type='button' onclick='eventMenu()' >Back to Game Map</button>";
-	document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`statementsHelpPage`)' ></img>";
+    
+    if(hourChecker()){
+      document.getElementById("mainContent").classList.add("center");
+      updateTopBar(statementMenu);
+      
+      document.getElementById("mainContent").innerHTML = views["statement"]({"issues":globals.positions});
+
+      document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='statementCalc()' > Make Statement </button>";
+      document.getElementById("back").innerHTML += "<button type='button' onclick='eventMenu()' >Back to Game Map</button>";
+      document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`statementsHelpPage`)' ></img>";
+    }
 
 }
 
