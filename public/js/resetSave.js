@@ -1,6 +1,6 @@
   
 function deleteSave()
 {
-	$.post('/editaccount/reset');
-	$.post('/editaccount/resetLog');
+	//$.post('/editaccount/reset');
+	//$.post('/editaccount/resetLog');
 }
