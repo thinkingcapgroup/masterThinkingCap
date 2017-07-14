@@ -659,6 +659,7 @@ function updateTopBar(currentScreen){
 /*GAME INTRO FUNCTIONS8*/
 function mainMenu()
 {
+	emergencyStop();
     //Shows the title screen
 	clearScreen();
 	document.getElementById("centerDisplay").innerHTML = views["splashScreen"]({});
@@ -4145,7 +4146,6 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 //Builds a table by looping through the Array created by pollCalc and putting each value into a cell.
 function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, isFake, state, isFree, isReview)
 {   
-
   
 	////CONSOLE.LOG(tableArray2);
 	var rowCounter = 0;
@@ -5417,7 +5417,7 @@ function minigameResults(scores, tutorial, loop)
 		}
 		else
 		{
-			var posText =  "<h4>You completed the minigame with a score of "+ (scores.score) + ". <br>If you had trouble with this minigame you can replay it to practice in the help menu without using your time.</h4> <button  onclick = 'chooseHelpPage('minigameHelpPage')' >Minigames</button>"; 
+			var posText =  "<h4>You completed the minigame with a score of "+ (scores.score) + ". <br>If you had trouble with this minigame you can replay it to practice in the help menu without using your time.</h4> "; 
 			document.getElementById("centerDisplay").innerHTML = posText;
 			document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 			if(globals.inGame)

@@ -32,6 +32,10 @@ runningGame.main =
 		tier4: 20
 	},
 	stop: false,
+	stoppingMethod: function()
+	{
+		
+	},
 	
 
 
@@ -317,7 +321,7 @@ runningGame.main =
 			{setTimeout(runningGame.main.increaseSpeed, i);}
 			for(var i =0; i< runningGame.main.playTime; i +=runningGame.main.playTime/runningGame.main.time)
 			{setTimeout(runningGame.main.timer, i);}
-			setTimeout(runningGame.main.stopGame, runningGame.main.playTime);
+			runningGame.main.stoppingMethod = setTimeout(runningGame.main.stopGame, runningGame.main.playTime);
 
 				runningGame.main.update(c,ctx);
 			}
@@ -2850,7 +2854,10 @@ tshirtCannon.main = {
 		tier3: 15,
 		tier4: 20
 	},
-
+	stoppingMethod: function()
+	{
+		
+	},
 
 	init: function(c,ctx){
 		ctx.restore;
@@ -3145,7 +3152,7 @@ tshirtCannon.main = {
 			for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/20){
 				setTimeout(tshirtCannon.main.peopleGenerator, i);
 			}
-			setTimeout(tshirtCannon.main.stop, tshirtCannon.main.playTime);
+			tshirtCannon.main.stoppingMethod =  setTimeout(tshirtCannon.main.stop, tshirtCannon.main.playTime);
 	        
 			for(var i =0; i< tshirtCannon.main.playTime; i +=tshirtCannon.main.playTime/tshirtCannon.main.time){
 				setTimeout(tshirtCannon.main.timer, i);
@@ -3182,4 +3189,10 @@ tshirtCannon.main = {
 		tshirtCannon.main.time--;
 	}
     
+}
+
+function emergencyStop()
+{
+	clearTimeout(runningGame.main.stoppingMethod);
+	clearTimeout(tshirtCannon.main.stoppingMethod);
 }
