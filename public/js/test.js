@@ -74,7 +74,7 @@ function showResults()
         switch(testID)
         {
             case 'pre':
-            $.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: playerResults[j], testId: testID, confidence: playerConfidence[j]});
+            //$.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: playerResults[j], testId: testID, confidence: playerConfidence[j]});
             document.getElementById("index-section").innerHTML = "<h2> Test Submitted </h2> <br><br><a class = 'btn double remove' href='/marsUniversity'>Choose Module</a>";
             break;
             case 'post':
@@ -226,10 +226,10 @@ function submitDemographics()
     console.log(_classTaken);
     console.log(_ethnicity);
     console.log(_language);
-    $.post('/testArea/recordDemo', {name: _name, age: _age, year: _year, classTaken: _classTaken, gender: _gender, hearingStatus: _hearingStatus, ethnicity: _ethnicity, language: _language});
+    //$.post('/testArea/recordDemo', {name: _name, age: _age, year: _year, classTaken: _classTaken, gender: _gender, hearingStatus: _hearingStatus, ethnicity: _ethnicity, language: _language});
     for(var j =0; j < questions.length;j++)
     {
-        $.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: playerResults[j], testId: testID, confidence: playerConfidence[j]  });
+        //$.post('/testArea/recordTest', {questionID: j, studentAnswer: playerAnswers[j], isCorrect: playerResults[j], testId: testID, confidence: playerConfidence[j]  });
     }
     document.getElementById("index-section").innerHTML = "<h2> Test Submitted </h2><br><br><a class = 'btn double remove' href='/marsUniversity'>Choose Module</a>";
 }
@@ -297,8 +297,8 @@ function checkConsent()
 function  buildTests (type)
 {
 	document.body.scrollTop = document.documentElement.scrollTop = 0
-    $.post('/testArea/recordConsent', {name: document.getElementById("name").value, date: document.getElementById("date").value, stuID: document.getElementById("stuID").value});
-    $.post('/testArea/newTestSession', {});
+    //$.post('/testArea/recordConsent', {name: document.getElementById("name").value, date: document.getElementById("date").value, stuID: document.getElementById("stuID").value});
+    //$.post('/testArea/newTestSession', {});
     document.getElementById('sectionHolder').style.backgroundColor = 'white'
 	document.getElementById("index-section").innerHTML = "";
     testID = type;

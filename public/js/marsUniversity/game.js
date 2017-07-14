@@ -4991,7 +4991,7 @@ function saveGame()
     let jsonString = JSON.stringify(saveJSON).escapeSpecialChars();
     
     //post all that information
-	$.post('/game/saver', {saveData: jsonString});
+	////$.post('/game/saver', {saveData: jsonString});
     
     
 }
@@ -5423,7 +5423,7 @@ function minigameResults(scores, tutorial, loop)
 			}
 			
 			saveGame();
-			$.post('/game/loggerMinigame', {minigameID: globals.lastMinigame, score: scoreToLog, module: '1', session: globals.gameSession });
+			////$.post('/game/loggerMinigame', {minigameID: globals.lastMinigame, score: scoreToLog, module: '1', session: globals.gameSession });
 				document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'eventMenu()'> Return to the Game Map </button>";
 		}
 		else
