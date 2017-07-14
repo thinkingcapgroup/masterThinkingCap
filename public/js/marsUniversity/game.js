@@ -806,7 +806,7 @@ function myDataMenu()
     //Sets up the trend report menu
 	clearScreen();
     document.getElementById("mainContent").classList.add("center");
-    updateTopBar(trendReportMenu);
+    updateTopBar(myDataMenu);
     hourChecker();
     
     document.getElementById("mainContent").innerHTML = views["myDataMenu"]({"playerImg": images["playerImg"], "player": globals.playerCandidate});
@@ -2168,7 +2168,6 @@ function drawPoll(state, isFree, isFake){
 	}
     //Poll within Practice Area
 	else if (state == POLL_STATES.PRACTICE_AREA){
-		document.getElementById("next").innerHTML += "<br> <button type='button' onclick=tutorial("+true+")'>Return to Tutorial </button>";
 		document.getElementById("back").innerHTML += "<br> <button type='button' onclick='practiceMenu()'> Back to Practice Area </button>";
 	}
     //First poll in the game
@@ -2935,11 +2934,11 @@ function pollResults(state, isFree, isFake)
         }
         else if(state == POLL_STATES.PRACTICE_AREA)
         {
-            document.getElementById("next").innerHTML += "<button onclick = 'practiceMenu()'> Return to Practice Area</button>";
+            document.getElementById("back").innerHTML += "<button onclick = 'practiceMenu()'> Return to Practice Area</button>";
         }
         else if(state == POLL_STATES.FIRST)
         {
-            document.getElementById("next").innerHTML += "<button onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
+            document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
     
         }
         else{
@@ -4471,6 +4470,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 							break;
 
 							case "issuemedical":
+                                    var cell = row.insertCell();
 									if(tableArray2[13][h] <= -3)
 									{
 										cell.innerHTML = "Issue Hated";
@@ -4505,8 +4505,10 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 				canCounter = 14;
 				for(var k = 1;k<globals.candidates.length;k++)
 				{
+
 					if(pollChoices[i] == "candFame" + globals.candidates[k].name)
 					{
+
 								var cell = row.insertCell();
 								var counter = canCounter;
 									if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.2)
@@ -4575,7 +4577,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 				}
 			}
 		}
-
+        
 		var cell = row.insertCell(0);
 		cell.innerHTML = capitalStr(tableArray2[4][h]);
 
