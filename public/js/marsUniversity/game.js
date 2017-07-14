@@ -710,7 +710,7 @@ function helpScreen(previousScreen)
 	globals.section = 1;
     
     document.getElementById("mainContent").innerHTML = views["help"]({});
-    document.getElementById("back").innerHTML = "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' id='helpBack' class = 'logHelpEnd'>Exit </img>";
+    document.getElementById("back").innerHTML = "<button class = 'logHelp' id='helpBack' class = 'logHelpEnd'>Exit </button>";
     document.getElementById("helpBack").onclick = previousScreen;
     
 }
@@ -5870,7 +5870,6 @@ function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray
         filteredData.push([]);
 		for(var j =0;j < graphData[i].length; j++)
 		{
-			graphData[i][j]=0;
             filteredData[i].push(0);
 		}
 	}

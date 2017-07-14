@@ -305,15 +305,11 @@ progress[value] {
     right: auto;
     transform: translate(-50%, -50%);
     width: 90%;
-    height: 90%;
-    max-width: 1200px
+    height: auto;
+    max-width: 1200px;
+    max-height: 900px
 }
 
-@media only screen and (min-width: 1200px) {
-    #help-section-form {
-        height: auto
-    }
-}
 
 #help-section-form #help-section-title {
     text-align: center;
