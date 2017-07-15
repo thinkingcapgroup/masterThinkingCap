@@ -88,10 +88,6 @@ function startGame()
     generateStudentBiases();
 }
 
-function resetGame(){
-  
-}
-
 function BiasDistribution(mean, stdDeviation){
     this.mean = mean;
     this.stdDeviation = stdDeviation;
@@ -1444,7 +1440,6 @@ function setupPracticePoll()
 	
 	globals.population = 1000;
 	globals.sample = []; 
-	globals.remainingHoursTotal = 84;
 	globals.days = 1; 
 	globals.remainingHoursDay = 12; 
 	
@@ -1510,7 +1505,6 @@ function chooseDiff()
 //Sets the number of days and time remaining according to the players difficulty choice.
 function setDiff(days)
 {
-    globals.remainingHoursTotal = days*12;
     globals.totalDays = days;
     globals.inGame = true;
     initNewGame(false);
@@ -1586,9 +1580,8 @@ function eventMenu()
       document.getElementById("contentContainer").classList.add("columns")
 	  document.getElementById("mainContent").classList.add("left");
       
-      if(!globals.back){
-          saveGame();
-      }
+      saveGame();
+      
 
 
       //Build Game Map buttons
@@ -1655,8 +1648,6 @@ function chooseEvent(choice)
 		var nextArea = document.getElementById("next");
 		nextArea.innerHTML = "";
 		let chosenEvent = globals.events[choice];
-		////CONSOLE.LOG(chosenEvent);
-		globals.back = false;
 		
       
 		if(globals.remainingHoursDay >= chosenEvent.timeRequired)
@@ -1940,7 +1931,6 @@ function submitEvent(id, eventHours, Pos, Neg)
 		
 		if(playGame)
 		{
-			globals.remainingHoursTotal-= eventHours;
 			globals.remainingHoursDay-= eventHours;
 			calcEventScore(globals.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
 			minigamePlayer(parseInt(loaderNum));
@@ -1954,8 +1944,6 @@ function submitEvent(id, eventHours, Pos, Neg)
 
 function eventResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
 {
-	////CONSOLE.LOG(globals.remainingHoursTotal)
-	globals.remainingHoursTotal-= eventHours;
 	globals.remainingHoursDay-= eventHours;
 
 	globals.candidates[1].lastMove = chosenEvent.name;
@@ -2339,7 +2327,6 @@ function drawMapIcons(){
 //makes the statement screen
 function statementMenu(){
     
-	globals.back = false;
 	clearScreen();
     
     
@@ -2606,7 +2593,6 @@ function statementCalc()
 		var condHolder = (tuitCond + athCond + medCond + eventCond)/4;
 		globals.candidates[0].consMod = condHolder;
 		//decrease 1 hour and continue back to user action
-		globals.remainingHoursTotal--;
 		globals.remainingHoursDay--;
 		statementCalcOtherCandidate(1);
 	}
@@ -2620,9 +2606,9 @@ function statementResults(statement, statementValue)
     clearScreen();
     updateTopBar(statementMenu);
   
-    if(!globals.back){
-        saveGame();
-    }
+    
+    saveGame();
+    
     var state = parseInt(statement); 
     
     let issue;
@@ -4951,7 +4937,6 @@ function pollTime(sSize, pollQuestions)
 	{
 		timeRequired = sSize/10 + (pollQuestions.length*0.5) +0.5;
 	}
-	globals.remainingHoursTotal -= timeRequired;
 	globals.remainingHoursDay -= timeRequired;
 }
 
@@ -4991,7 +4976,7 @@ function saveGame()
     let jsonString = JSON.stringify(saveJSON).escapeSpecialChars();
     
     //post all that information
-	////$.post('/game/saver', {saveData: jsonString});
+	$.post('/game/saver', {saveData: jsonString});
     
     
 }
@@ -5025,7 +5010,6 @@ function SaveFile(){
   this.firstState = globals.firstState;
   this.gameOver = globals.gameOver;
   this.remainingHoursDay = globals.remainingHoursDay;
-  this.remainingHoursTotal = globals.remainingHoursTotal;
   this.candidates = globals.candidates;
   this.pastPollChoices = globals.pastPollChoices;
   this.pastPollResults = globals.pastPollResults;
@@ -5052,7 +5036,6 @@ function loadSaveFile(){
   globals.firstState = saveJSON.firstState;
   globals.gameOver = saveJSON.gameOver;
   globals.remainingHoursDay = saveJSON.remainingHoursDay;
-  globals.remainingHoursTotal = saveJSON.remainingHoursTotal;
   globals.candidates = saveJSON.candidates;
   globals.pastPollChoices = saveJSON.pastPollChoices;
   globals.pastPollResults = saveJSON.pastPollResults;
@@ -5084,7 +5067,6 @@ function loadGame()
     //Set player candidate
     globals.playerCandidate = globals.candidates[0];
   
-	globals.back=true;
 	saveState = "";
     preloadEventImages(globals.events);
   
@@ -5339,7 +5321,6 @@ function minigameResults(scores, tutorial, loop)
 		var scoreToLog = scores.score;
 		if(!tutorial)
 		{
-			globals.remainingHoursTotal-=1;
 			globals.remainingHoursDay-=1;
 			var pos = chosenEvent.groupPos.split(',');
 			////CONSOLE.LOG(pos);
@@ -5814,38 +5795,30 @@ function createTrendReport(category)
     document.getElementById('reportButtons').style = 'display:none';
 }
 
-//Checks whether or not the time is up in a day and if so advances it.
+//Returns whether there are hours left in the current day
+//If there are not, it advances the day
 function hourChecker()
 {
-	if (globals.days < globals.totalDays)
-	{
-
-		if(globals.remainingHoursDay < 1)
-		{
-			globals.days++;
-			globals.remainingHoursDay = 12;
-			dayPollInfo();
-		}
-		else
-		{
-			saveGame();
-            return true;
-            
-		}
-	}
-	else
-	{
-		if(globals.remainingHoursTotal<1)
-		{
-			endGame();
-		}
-		else
-		{
-			saveGame();
-            return true;
-		}
-	}
-  return false;
+    //Always save the game
+    saveGame()
+  
+    //If the current day is over
+    if(globals.remainingHoursDay < 1){
+      //If this isn't the last day, show the end of day poll
+      if(globals.days < globals.totalDays){
+        globals.days++;
+        globals.remainingHoursDay = 12;
+        dayPollInfo();
+      }
+      //Otherwise the game ends
+      else{
+        endGame();
+      }
+      return false;
+    }
+  
+  //Return that there are hours left in the current day
+  return true;
 }
 
 

@@ -106,7 +106,6 @@ globals =
     turnCounter:0,
     population: 0,
     sample: [],
-    remainingHoursTotal: 0,
     days: 0,
     totalDays: 0,
     remainingHoursDay: 0,
