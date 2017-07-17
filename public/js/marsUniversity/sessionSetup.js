@@ -1,3 +1,5 @@
+let loadProgress = 0;
+
 const views = {
   topBar: "",
   splashScreen: "",

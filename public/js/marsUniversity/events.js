@@ -884,3 +884,41 @@ function minigamePlayer(id){
 		break;
 	}	
 }
+
+function practiceGame(id){
+		//Clear previous screen
+	clearScreen();
+	
+	document.getElementById("centerDisplay").innerHTML += "<canvas id='myCanvas' width='900px' height = '500px' style='float:none'></canvas><br>";
+
+	globals.c=document.getElementById("myCanvas");
+	globals.ctx = globals.c.getContext("2d");
+	if(globals.inGame)
+	{
+		document.getElementById("back").innerHTML += "<button onclick = 'helpScreen(eventMenu)'> Back to Help Menu</button>";
+	}
+	else
+	{
+		document.getElementById("back").innerHTML += "<button onclick = 'practiceMenu()'> Back to Practice Area</button>";
+	}
+
+	globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
+	switch(id)
+	{
+		case 1:
+		runningGame.main.init(globals.c,globals.ctx);
+		break;
+		case 2:
+		runningGame2.main.init(globals.c,globals.ctx);
+		break;
+		case 3:
+		secretSticker.main.init(globals.c,globals.ctx);
+		break;
+		case 4:
+		runningGame4.main.init(globals.c,globals.ctx);
+		break;
+		case 5:
+		tshirtCannon.main.init(globals.c,globals.ctx);
+		break;
+	}	
+}

@@ -1,13 +1,17 @@
 var theJSONEvents = []
 var theQuestionBools = [];
 
+const POLL_STATES = {
+    TUTORIAL: 1,
+    PRACTICE_AREA: 2,
+    IN_GAME_PRACTICE: 3,
+    END_OF_DAY: 0,
+    IN_GAME: 5,
+    FIRST: 4
+}
+
 $(document).on('change', '.totalTimeTracker', function(){
   
-  //If it's a pollQ, it needs to update subquestions first
-  if($(this).is('.pollQ')){
-      var pollThing =$(this).attr('id');
-      pollOnchange(pollThing);
-  }
   
   var samp = document.getElementById('sample').value;
   var qLength = 0;
@@ -48,37 +52,34 @@ $(document).on('change', '.totalTimeTracker', function(){
 
 })
 
-$(document).on('change', '.sampleOptions', function(){
-  var optionIndex = $(this).val();
-  document.getElementById('sample').value = optionIndex;
-  //document.getElementById('timeSpent').value = optionIndex;
-})
-
-function pollOnchange(pollThing){
-    var place = pollThing.charAt(4);
-  var subQuestion = "subpoll" + place;
+function onPollChange(pollThing){
+  var pollQuestion = document.getElementById($(this).attr('id')).value;
+  var questionNumber = $(this).attr('id').charAt(4);
   
-  if(document.getElementById(pollThing).value == "issue" || document.getElementById(pollThing).value == "candFame" || document.getElementById(pollThing).value == "candTrust"){
-       document.getElementById(subQuestion).style = "display:block";
+  //Record question for logging
+  theJSONEvents[questionNumber] = pollQuestion;
+  
+  var subQuestionId = "subpoll" + questionNumber;
+  var subQuestion = document.getElementById(subQuestionId)
+  
+  if(pollQuestion == "issue" || pollQuestion == "candFame" || pollQuestion == "candTrust"){
+       subQuestion.style = "display:block";
       
-      $('#' + subQuestion).empty();
+      $('#' + subQuestionId).empty();
       
       let noneOption = new Option("None", "");
       noneOption.setAttribute("class", "defaultSubOption");
-      document.getElementById(subQuestion).options.add(noneOption);
+      subQuestion.options.add(noneOption);
       
-      if(document.getElementById(pollThing).value == "issue"){
-        
-          
-       
+      if(pollQuestion == "issue"){
         
         for(var x = 0; x < 4; x++){
             let newOption = new Option(globals.positions[x], globals.positionsLower[x]);
             newOption.setAttribute("class", "defaultSubOption");
-            document.getElementById(subQuestion).options.add(newOption);
+            subQuestion.options.add(newOption);
         }
       }
-      if(document.getElementById(pollThing).value == "candFame" || document.getElementById(pollThing).value == "candTrust" ){
+      if(pollQuestion == "candFame" || pollQuestion == "candTrust" ){
           
         for(var x = 0; x < globals.candidates.length; x++){
             let newOption;
@@ -90,51 +91,18 @@ function pollOnchange(pollThing){
             }
             
             newOption.setAttribute("class", "defaultSubOption");
-            document.getElementById(subQuestion).options.add(newOption);
+            subQuestion.options.add(newOption);
         }
       }
   }
   else{
-    document.getElementById(subQuestion).style = "display:none"
+    subQuestion.style = "display:none"
   }
+  
+  dupChecker();
 }
 
-$(document).on('change', '.pollQ', function(){
-    //console.log("pollQ change");
-    
-  var pollThing =$(this).attr('id');
-    pollOnchange(pollThing);
-
-});
-
-$(document).on('change','.pollQ', function(){
-      var quest = $(this).val();
-      var place = $(this).attr('id');
-      var x = place.charAt(4);
-      theJSONEvents[x] = quest;
- });
-
-$(document).on('change','.pollQ', function(){
-      var quest = $(this).val();
-      var place = $(this).attr('id');
-      var x = place.charAt(4);
-      theJSONEvents[x] = quest;
- });
- 
-$(document).on('change','.pollQ',function(){
-      document.getElementById("poll0").style.color = "black"
-      document.getElementById("poll1").style.color = "black"
-	  if(document.getElementById("poll2") != null)
-      document.getElementById("poll2").style.color = "black"
-	  if(document.getElementById("poll3") != null)
-      document.getElementById("poll3").style.color = "black"
-	  if(document.getElementById("poll4") != null)
-      document.getElementById("poll4").style.color = "black"
-	  if(document.getElementById("poll5") != null)
-      document.getElementById("poll5").style.color = "black"
-      document.getElementById("duplicateParagraph").style.display = "none"
-	  dupChecker();
- });
+$(document).on('change', '.pollQ', onPollChange);
 
 $(document).on('change','.subPollQ',function(){
       document.getElementById("subpoll0").style.color = "black"

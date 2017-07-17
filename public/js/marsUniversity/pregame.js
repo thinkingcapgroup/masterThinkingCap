@@ -23,7 +23,7 @@ function startCharacterSelect(){
     
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
- 	getSession(globals.gameOver);
+ 	updateSession(globals.gameOver);
 	resetGame();
     
     document.getElementById("centerDisplay").innerHTML = views["characterSelect"]({});
@@ -127,3 +127,12 @@ function Candidate(name){
 	this.funcPos= 0;
 	this.funcNeg= 0;
 };
+
+function firstPollInfo()
+{
+    clearScreen();
+    document.getElementById("mainContent").classList.add("center");
+
+    document.getElementById("mainContent").innerHTML += "<h1>First Poll</h1> <br><p>Ready to start your Campaign at Mars U? It's time to get that initial data from the Student Government. Let them know what questions you would like to know the answers to.</p>";
+    document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='drawPoll("+POLL_STATES.FIRST+", true, false)'>Take Your First Poll</button>";
+}
