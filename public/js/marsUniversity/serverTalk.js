@@ -110,8 +110,8 @@ $(document).on('change', '.sampleOptions', function(){
 })
 
 function onPollChange(pollThing){
-  var pollQuestion =$(this).attr('id');
-  var questionNumber = pollQuestion.charAt(4);
+  var pollQuestion = document.getElementById($(this).attr('id')).value;
+  var questionNumber = $(this).attr('id').charAt(4);
   
   //Record question for logging
   theJSONEvents[questionNumber] = pollQuestion;
@@ -119,7 +119,7 @@ function onPollChange(pollThing){
   var subQuestionId = "subpoll" + questionNumber;
   var subQuestion = document.getElementById(subQuestionId)
   
-  if(pollQuestion.value == "issue" || pollQuestion.value == "candFame" || pollQuestion.value == "candTrust"){
+  if(pollQuestion == "issue" || pollQuestion == "candFame" || pollQuestion == "candTrust"){
        subQuestion.style = "display:block";
       
       $('#' + subQuestionId).empty();
@@ -128,7 +128,7 @@ function onPollChange(pollThing){
       noneOption.setAttribute("class", "defaultSubOption");
       subQuestion.options.add(noneOption);
       
-      if(pollQuestion.value == "issue"){
+      if(pollQuestion == "issue"){
         
         for(var x = 0; x < 4; x++){
             let newOption = new Option(globals.positions[x], globals.positionsLower[x]);
@@ -136,7 +136,7 @@ function onPollChange(pollThing){
             subQuestion.options.add(newOption);
         }
       }
-      if(pollQuestion.value == "candFame" || document.getElementById(pollThing).value == "candTrust" ){
+      if(pollQuestion == "candFame" || pollQuestion == "candTrust" ){
           
         for(var x = 0; x < globals.candidates.length; x++){
             let newOption;

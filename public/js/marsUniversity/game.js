@@ -3,18 +3,18 @@ var saveState;
 let mapBackground;
 let myTemplate;
 
-let topBarView;
-let splashScreenView;
+//let topBarView;
+//let splashScreenView;
 
 let loadProgress = 0;
 
-let tutorialPages = [];
+//let tutorialPages = [];
 let headSheet;
 let bodySheet;
 
-$(document).ready(function(){
-  startGame();
-})
+//$(document).ready(function(){
+//  startSession();
+//})
 
 function GameObject(){
   this.currentCandidates = [];
@@ -39,475 +39,475 @@ function GameObject(){
   this.studentTypes = globals.studentTypes;
 }
 
-//starts the game
-function startGame()
-{
-    globals.playerCandidate= new Candidate("ph");
-    globals.opponentCandidate= new Candidate("Karma");
-    fakeCandidateYou = new Candidate('Candidate1');
-    fakeCandidateOther = new Candidate('Candidate2');
-    fakeCandidateYou.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
-    fakeCandidateOther.fame = [1,1,1,1,1,1,1,1];
-    fakeCandidateYou.issueScore = [1.5,0.5,1.5,0.5];
-    fakeCandidateOther.issueScore = [1,1,1,1];
-    globals.spriteHead.src = "../img/spritehead.png";
-    globals.heads.src="../img/spritehead.png";
-    globals.thinBody.src="../img/thinSpritesheet.png";
-    globals.medBody.src="../img/medSpritesheet.png";
-    globals.lgBody.src="../img/plusSpritesheet.png";
-    globals.chairBody.src="../img/chairSpritesheet.png";
-    globals.imgArrayBody = [globals.thinBody, globals.medBody, globals.lgBody, globals.chairBody];
-    globals.fakeCandidateHolder.push(fakeCandidateYou);
-    globals.fakeCandidateHolder.push(fakeCandidateOther);
-	//whatever other things we have to do when initiaKarmaing the game here
-	var date = Date.now();
+////starts the game
+//function startSession()
+//{
+//    globals.playerCandidate= new Candidate("ph");
+//    globals.opponentCandidate= new Candidate("Karma");
+//    fakeCandidateYou = new Candidate('Candidate1');
+//    fakeCandidateOther = new Candidate('Candidate2');
+//    fakeCandidateYou.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
+//    fakeCandidateOther.fame = [1,1,1,1,1,1,1,1];
+//    fakeCandidateYou.issueScore = [1.5,0.5,1.5,0.5];
+//    fakeCandidateOther.issueScore = [1,1,1,1];
+//    globals.spriteHead.src = "../img/spritehead.png";
+//    globals.heads.src="../img/spritehead.png";
+//    globals.thinBody.src="../img/thinSpritesheet.png";
+//    globals.medBody.src="../img/medSpritesheet.png";
+//    globals.lgBody.src="../img/plusSpritesheet.png";
+//    globals.chairBody.src="../img/chairSpritesheet.png";
+//    globals.imgArrayBody = [globals.thinBody, globals.medBody, globals.lgBody, globals.chairBody];
+//    globals.fakeCandidateHolder.push(fakeCandidateYou);
+//    globals.fakeCandidateHolder.push(fakeCandidateOther);
+//	//whatever other things we have to do when initiaKarmaing the game here
+//	var date = Date.now();
+//
+//    mapBackground = new Image();
+//    mapBackground.src = '../../img/map/mapMU600pxW.png';
+//    
+//	//Gets the questions and events from the Json
+//	var Json;
+//	var oReq = new XMLHttpRequest();
+//	oReq.onload = function (e)
+//	{
+//		Json = JSON.parse(this.responseText);
+//		globals.events = Json.events;
+//		globals.questions = Json.questions;
+//	};
+//	oReq.open("get", "json/data.json", true);
+//	oReq.send();
+//    
+//    preloadEventImages(globals.events);
+//    //preloadUI();  
+//  
+//    createAreas();
+//    createTutorialPages();
+//    
+//    loadViews(50);
+//    preloadImages(54);
+//    generateStudentBiases();
+//}
 
-    mapBackground = new Image();
-    mapBackground.src = '../../img/map/mapMU600pxW.png';
-    
-	//Gets the questions and events from the Json
-	var Json;
-	var oReq = new XMLHttpRequest();
-	oReq.onload = function (e)
-	{
-		Json = JSON.parse(this.responseText);
-		globals.events = Json.events;
-		globals.questions = Json.questions;
-	};
-	oReq.open("get", "json/data.json", true);
-	oReq.send();
-    
-    preloadEventImages(globals.events);
-    //preloadUI();  
-  
-    createAreas();
-    createTutorialPages();
-    
-    loadViews(50);
-    preloadImages(54);
-    generateStudentBiases();
-}
+//function BiasDistribution(mean, stdDeviation){
+//    this.mean = mean;
+//    this.stdDeviation = stdDeviation;
+//    if(this.stdDeviation < 0) this.stdDeviation = 0;
+//}
+//
+//function StudentType(name, id, type, medical, budget, tuition, functions){
+//  this.name = name;
+//  this.id = id;
+//  this.type = type;
+//  this.medical = medical;
+//  this.budget = budget;
+//  this.tuition = tuition;
+//  this.functions = functions;
+//}
+//
+//function loadGroupBiases(){
+//  let groupBiases = {};
+//  groupBiases["business"] = {
+//    budgetMeanBias: new BiasDistribution(3, .4),
+//    budgetDeviationBias: new BiasDistribution(2, .5),
+//    medicalMeanBias: new BiasDistribution(-3, 2),
+//    medicalDeviationBias: new BiasDistribution(3, .2),
+//    functionsMeanBias: new BiasDistribution(3, .2),
+//    functionsDeviationBias: new BiasDistribution(3, 1),
+//    tuitionMeanBias: new BiasDistribution(1, 2),
+//    tuitionDeviationBias: new BiasDistribution(1, 1)
+//  };
+//  groupBiases["socialite"] = {
+//    budgetMeanBias: new BiasDistribution(0, .5),
+//    budgetDeviationBias: new BiasDistribution(3, 1),
+//    medicalMeanBias: new BiasDistribution(-3, 2),
+//    medicalDeviationBias: new BiasDistribution(2, 1),
+//    functionsMeanBias: new BiasDistribution(4, .2),
+//    functionsDeviationBias: new BiasDistribution(3, 1),
+//    tuitionMeanBias: new BiasDistribution(3, 2),
+//    tuitionDeviationBias: new BiasDistribution(3, 1)
+//  };
+//  
+//  return groupBiases;
+//}
+//
+//const studentTypes = {};
+//
+//function getBiasValue(bias, property, defaults, presets){
+//  //Check if the value is a string aka either a default or a preset
+//  if(typeof(bias[property]) == "string" ){
+//    
+//    //If shortcuts were passed in and the value isn't "default"
+//    //get that shortcut value from the list
+//    if(presets && bias[property] != "default"){
+//      return presets[bias[property]];
+//    }
+//    
+//    //otherwise, return the default value
+//    //Even if the value wasn't actually "default", returning the default is the best solution
+//    return defaults[property];
+//  }
+//  
+//  //If it's a normal number, just return that
+//  return bias[property];
+//}
 
-function BiasDistribution(mean, stdDeviation){
-    this.mean = mean;
-    this.stdDeviation = stdDeviation;
-    if(this.stdDeviation < 0) this.stdDeviation = 0;
-}
+////Normal Distribution based off the Box-Muller Transform
+//function normalDistribution (mu, sigma) {
+//    var u1 = Math.random();
+//    var u2 = Math.random();
+//  
+//    //U1 will probably never be 0, but it COULD be. 
+//    //Math.log(0) = infinity, so that would be very bad.
+//    while(u1 == 0){
+//      u1 = Math.random();
+//    }
+//
+//    var z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(Math.PI*2 * u2);
+//    var z1 = Math.sqrt(-2.0 * Math.log(u1)) * Math.sin(Math.PI*2 * u2);
+//  
+//    /*So basically the issue behind only using z0 or z1 is that Math.Random() doesn't include 1, so if you only use cosine the value is less likely to equal 0. If you only use sine, the value is less likely to equal 1. 
+//    
+//    On a unit circle, each cosine/sine value reoccurs twice. Cosine is .8777 at .5 rad and at -.5 rad and 1 at 0 rad and 2PI rad. That second one can't ever happen, since it requires u2 to equal 1. The Box Muller's solution is to change between cosine and sine, so that it lessens the flaw (I'm sure that to some extent, it still exists).
+//    
+//    In our implementation, the function is used for a lot of different cases, so using a static flip boolean isn't really a fix. We could pass in a lot of different flip booleans, but that'd be a lot of extra code and doesn't work for some situations. So, we are just doing a coin flip. It's kind of hacksy and is probably secretly biased, but it is unlikely that the minutia of variance and probability will actually affect gameplay.*/
+//    
+//    if(Math.floor(Math.random() * 2) == 0){
+//      return z1 * sigma + mu;
+//    }
+//    
+//    return z0 * sigma + mu;
+//} 
 
-function StudentType(name, id, type, medical, budget, tuition, functions){
-  this.name = name;
-  this.id = id;
-  this.type = type;
-  this.medical = medical;
-  this.budget = budget;
-  this.tuition = tuition;
-  this.functions = functions;
-}
-
-function loadGroupBiases(){
-  let groupBiases = {};
-  groupBiases["business"] = {
-    budgetMeanBias: new BiasDistribution(3, .4),
-    budgetDeviationBias: new BiasDistribution(2, .5),
-    medicalMeanBias: new BiasDistribution(-3, 2),
-    medicalDeviationBias: new BiasDistribution(3, .2),
-    functionsMeanBias: new BiasDistribution(3, .2),
-    functionsDeviationBias: new BiasDistribution(3, 1),
-    tuitionMeanBias: new BiasDistribution(1, 2),
-    tuitionDeviationBias: new BiasDistribution(1, 1)
-  };
-  groupBiases["socialite"] = {
-    budgetMeanBias: new BiasDistribution(0, .5),
-    budgetDeviationBias: new BiasDistribution(3, 1),
-    medicalMeanBias: new BiasDistribution(-3, 2),
-    medicalDeviationBias: new BiasDistribution(2, 1),
-    functionsMeanBias: new BiasDistribution(4, .2),
-    functionsDeviationBias: new BiasDistribution(3, 1),
-    tuitionMeanBias: new BiasDistribution(3, 2),
-    tuitionDeviationBias: new BiasDistribution(3, 1)
-  };
-  
-  return groupBiases;
-}
-
-const studentTypes = {};
-
-function getBiasValue(bias, property, defaults, presets){
-  //Check if the value is a string aka either a default or a preset
-  if(typeof(bias[property]) == "string" ){
-    
-    //If shortcuts were passed in and the value isn't "default"
-    //get that shortcut value from the list
-    if(presets && bias[property] != "default"){
-      return presets[bias[property]];
-    }
-    
-    //otherwise, return the default value
-    //Even if the value wasn't actually "default", returning the default is the best solution
-    return defaults[property];
-  }
-  
-  //If it's a normal number, just return that
-  return bias[property];
-}
-
-//Normal Distribution based off the Box-Muller Transform
-function normalDistribution (mu, sigma) {
-    var u1 = Math.random();
-    var u2 = Math.random();
-  
-    //U1 will probably never be 0, but it COULD be. 
-    //Math.log(0) = infinity, so that would be very bad.
-    while(u1 == 0){
-      u1 = Math.random();
-    }
-
-    var z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(Math.PI*2 * u2);
-    var z1 = Math.sqrt(-2.0 * Math.log(u1)) * Math.sin(Math.PI*2 * u2);
-  
-    /*So basically the issue behind only using z0 or z1 is that Math.Random() doesn't include 1, so if you only use cosine the value is less likely to equal 0. If you only use sine, the value is less likely to equal 1. 
-    
-    On a unit circle, each cosine/sine value reoccurs twice. Cosine is .8777 at .5 rad and at -.5 rad and 1 at 0 rad and 2PI rad. That second one can't ever happen, since it requires u2 to equal 1. The Box Muller's solution is to change between cosine and sine, so that it lessens the flaw (I'm sure that to some extent, it still exists).
-    
-    In our implementation, the function is used for a lot of different cases, so using a static flip boolean isn't really a fix. We could pass in a lot of different flip booleans, but that'd be a lot of extra code and doesn't work for some situations. So, we are just doing a coin flip. It's kind of hacksy and is probably secretly biased, but it is unlikely that the minutia of variance and probability will actually affect gameplay.*/
-    
-    if(Math.floor(Math.random() * 2) == 0){
-      return z1 * sigma + mu;
-    }
-    
-    return z0 * sigma + mu;
-} 
-
-function generateStudentBiases(){
-  let json;
-  var oReq = new XMLHttpRequest();
-  oReq.onload = function (e){
-      json = JSON.parse(this.responseText);
-      
-      let defaults = json.biasDefaults;
-      let meanOfMeanPresets = json.meanOfMeanPresets;
-      let deviationOfMeanPresets = json.deviationOfMeanPresets;
-      let meanOfDeviationPresets = json.meanOfDeviationPresets;
-    
-      let studentTypes = json.studentTypes;
-      
-      for(let i = 0; i < studentTypes.length; i++){
-        let name = studentTypes[i].name;
-        let id = studentTypes[i].id;
-        let type = studentTypes[i].type;
-
-        
-        let studentBiases = {};
-        let biasValues = studentTypes[i].biases;
-        
-        for(let j = 0; j < biasValues.length; j++){
-          let issue = biasValues[j].issue;
-          let meanOfMean = getBiasValue(biasValues[j], "meanOfMean", defaults, meanOfMeanPresets);
-          let deviationOfMean = getBiasValue(biasValues[j], "deviationOfMean", defaults, deviationOfMeanPresets);
-          let meanOfDeviation = getBiasValue(biasValues[j], "meanOfDeviation", defaults, meanOfDeviationPresets);
-          let deviationOfDeviation = getBiasValue(biasValues[j], "deviationOfDeviation", defaults);
-          
-          let biasMean = normalDistribution(meanOfMean, deviationOfMean);
-          let biasDeviation = normalDistribution(meanOfDeviation, deviationOfDeviation);
-          studentBiases[issue] = new BiasDistribution(biasMean, biasDeviation);
-        }
-        globals.studentTypes[id] = new StudentType(name, id, type, studentBiases["medical"], studentBiases["budget"], studentBiases["tuition"], studentBiases["functions"]);
-        
-      }
-    
-      console.log(globals.studentTypes);
-  }
-      
-    
-  oReq.open("get", "json/studentTypes.json", true);
-  oReq.send();
-}
+//function generateStudentBiases(){
+//  let json;
+//  var oReq = new XMLHttpRequest();
+//  oReq.onload = function (e){
+//      json = JSON.parse(this.responseText);
+//      
+//      let defaults = json.biasDefaults;
+//      let meanOfMeanPresets = json.meanOfMeanPresets;
+//      let deviationOfMeanPresets = json.deviationOfMeanPresets;
+//      let meanOfDeviationPresets = json.meanOfDeviationPresets;
+//    
+//      let studentTypes = json.studentTypes;
+//      
+//      for(let i = 0; i < studentTypes.length; i++){
+//        let name = studentTypes[i].name;
+//        let id = studentTypes[i].id;
+//        let type = studentTypes[i].type;
+//
+//        
+//        let studentBiases = {};
+//        let biasValues = studentTypes[i].biases;
+//        
+//        for(let j = 0; j < biasValues.length; j++){
+//          let issue = biasValues[j].issue;
+//          let meanOfMean = getBiasValue(biasValues[j], "meanOfMean", defaults, meanOfMeanPresets);
+//          let deviationOfMean = getBiasValue(biasValues[j], "deviationOfMean", defaults, deviationOfMeanPresets);
+//          let meanOfDeviation = getBiasValue(biasValues[j], "meanOfDeviation", defaults, meanOfDeviationPresets);
+//          let deviationOfDeviation = getBiasValue(biasValues[j], "deviationOfDeviation", defaults);
+//          
+//          let biasMean = normalDistribution(meanOfMean, deviationOfMean);
+//          let biasDeviation = normalDistribution(meanOfDeviation, deviationOfDeviation);
+//          studentBiases[issue] = new BiasDistribution(biasMean, biasDeviation);
+//        }
+//        globals.studentTypes[id] = new StudentType(name, id, type, studentBiases["medical"], studentBiases["budget"], studentBiases["tuition"], studentBiases["functions"]);
+//        
+//      }
+//    
+//      console.log(globals.studentTypes);
+//  }
+//      
+//    
+//  oReq.open("get", "json/studentTypes.json", true);
+//  oReq.send();
+//}
 
 
-const views = {
-  topBar: "",
-  splashScreen: "",
-  practice: "",
-  help: "",
-  tutorial: "",
-  trendMenu:"",
-  statement:"",
-  characterSelect: "",
-  takePoll:"",
-  userAction: "",
-  candidatesHelpPage: "",
-  functionsHelpPage: "",
-  graphsHelpPage: "",
-  mapHelpPage: "",
-  minigameHelpPage: "",
-  pollHelpPage: "",
-  statementsHelpPage: "",
-  studentsHelpPage: "",
-  trendsHelpPage: "",
-  myDataMenu: "",
-};
-const images = {
-  Map: '../../img/map/mapMU600pxW.png',
-  CommonsIcon: '../../img/map/icons/CommonsIcon.png',
-  GymIcon: '../../img/map/icons/GymIcon.png',
-  LabsIcon: '../../img/map/icons/LabsIcon.png',
-  LibraryIcon: '../../img/map/icons/LibraryIcon.png',
-  QuadIcon: '../../img/map/icons/QuadIcon.png',
-  budNeg: '../../img/statement/budNeg.png',
-  budPos: '../../img/statement/budPos.png',
-  funcPos: '../../img/statement/funcPos.png',
-  funcNeg: '../../img/statement/funcNeg.png',
-  medNeg: '../../img/statement/medNeg.png',
-  medPos: '../../img/statement/medPos.png',
-  tuitPos: '../../img/statement/tuitPos.png',
-  tuitNeg: '../../img/statement/tuitNeg.png',
-  tuitionIcon: '../../img/icons/tuitionIcon.png',
-  budgetIcon: '../../img/icons/budgeticon.png',
-  medicalIcon: '../../img/icons/medicalIcon.png',
-  functionsIcon: '../../img/icons/functionsIcon.png',
-  negIcon: '../../img/icons/negIcon.png',
-  posIcon: '../../img/icons/posIcon.png',
-  statementBackground: '../../img/statement/statementBackground.png',
-  statementPodium: '../../img/statement/statementPodium.png',
-  emptyIcon: '../../img/menu/emptyICON.png'
-};
+//const views = {
+//  topBar: "",
+//  splashScreen: "",
+//  practice: "",
+//  help: "",
+//  tutorial: "",
+//  trendMenu:"",
+//  statement:"",
+//  characterSelect: "",
+//  takePoll:"",
+//  userAction: "",
+//  candidatesHelpPage: "",
+//  functionsHelpPage: "",
+//  graphsHelpPage: "",
+//  mapHelpPage: "",
+//  minigameHelpPage: "",
+//  pollHelpPage: "",
+//  statementsHelpPage: "",
+//  studentsHelpPage: "",
+//  trendsHelpPage: "",
+//  myDataMenu: "",
+//};
+//const images = {
+//  Map: '../../img/map/mapMU600pxW.png',
+//  CommonsIcon: '../../img/map/icons/CommonsIcon.png',
+//  GymIcon: '../../img/map/icons/GymIcon.png',
+//  LabsIcon: '../../img/map/icons/LabsIcon.png',
+//  LibraryIcon: '../../img/map/icons/LibraryIcon.png',
+//  QuadIcon: '../../img/map/icons/QuadIcon.png',
+//  budNeg: '../../img/statement/budNeg.png',
+//  budPos: '../../img/statement/budPos.png',
+//  funcPos: '../../img/statement/funcPos.png',
+//  funcNeg: '../../img/statement/funcNeg.png',
+//  medNeg: '../../img/statement/medNeg.png',
+//  medPos: '../../img/statement/medPos.png',
+//  tuitPos: '../../img/statement/tuitPos.png',
+//  tuitNeg: '../../img/statement/tuitNeg.png',
+//  tuitionIcon: '../../img/icons/tuitionIcon.png',
+//  budgetIcon: '../../img/icons/budgeticon.png',
+//  medicalIcon: '../../img/icons/medicalIcon.png',
+//  functionsIcon: '../../img/icons/functionsIcon.png',
+//  negIcon: '../../img/icons/negIcon.png',
+//  posIcon: '../../img/icons/posIcon.png',
+//  statementBackground: '../../img/statement/statementBackground.png',
+//  statementPodium: '../../img/statement/statementPodium.png',
+//  emptyIcon: '../../img/menu/emptyICON.png'
+//};
 
-function preloadImages(totalLoadPercent){
-  const imageNames = Object.keys(images);
-  let loadPercent = totalLoadPercent / imageNames.length;
-  for(let i = 0; i < imageNames.length; i++){
-    let image = new Image();
-    image.onload = function(){
-      
-      images[imageNames[i]] = image;
-      updateLoadBar(loadPercent);
-    }
-    image.src = images[imageNames[i]];
-  }
-}
+//function preloadImages(totalLoadPercent){
+//  const imageNames = Object.keys(images);
+//  let loadPercent = totalLoadPercent / imageNames.length;
+//  for(let i = 0; i < imageNames.length; i++){
+//    let image = new Image();
+//    image.onload = function(){
+//      
+//      images[imageNames[i]] = image;
+//      updateLoadBar(loadPercent);
+//    }
+//    image.src = images[imageNames[i]];
+//  }
+//}
+//
+//function loadViews(totalLoadPercent){
+//
+//  
+//  const viewNames = Object.keys(views);
+//  let loadPercent = totalLoadPercent / viewNames.length;
+//  
+//  for(let i = 0; i < viewNames.length; i++){
+//    let viewName = viewNames[i];
+//    
+//    //Load in each view template
+//    $.get('/views/'+viewName+'.handlebars', function(data) {
+//      views[viewName] = Handlebars.compile(data);
+//      updateLoadBar(loadPercent);
+//      }, 'html');
+//  }
+//  
+//  Handlebars.registerHelper('ifEquals', function(value1, value2, options) {
+//    if(value1 === value2) {
+//      return options.fn(this);
+//    }
+//    return options.inverse(this);
+//  });
+//  Handlebars.registerHelper('ifNotEquals', function(value1, value2, options) {
+//    if(value1 !== value2) {
+//      return options.fn(this);
+//    }
+//    return options.inverse(this);
+//  });
+//  Handlebars.registerHelper('repeat', function(n, block) {
+//    block.data.index = 0;
+//    block.data.first = true;
+//    block.data.last = false;
+//    let repeated = block.fn(this);
+//    
+//    for(var i = 1; i < n; i++){
+//        block.data.index = i;
+//        block.data.first = (i === 0);
+//        block.data.last = (i === (n - 1));
+//    
+//        repeated += block.fn(this);
+//    }
+//    return repeated;
+//});
+//}
 
-function loadViews(totalLoadPercent){
+//function testP(){
+//  updateLoadBar(10);
+//}
 
-  
-  const viewNames = Object.keys(views);
-  let loadPercent = totalLoadPercent / viewNames.length;
-  
-  for(let i = 0; i < viewNames.length; i++){
-    let viewName = viewNames[i];
-    
-    //Load in each view template
-    $.get('/views/'+viewName+'.handlebars', function(data) {
-      views[viewName] = Handlebars.compile(data);
-      updateLoadBar(loadPercent);
-      }, 'html');
-  }
-  
-  Handlebars.registerHelper('ifEquals', function(value1, value2, options) {
-    if(value1 === value2) {
-      return options.fn(this);
-    }
-    return options.inverse(this);
-  });
-  Handlebars.registerHelper('ifNotEquals', function(value1, value2, options) {
-    if(value1 !== value2) {
-      return options.fn(this);
-    }
-    return options.inverse(this);
-  });
-  Handlebars.registerHelper('repeat', function(n, block) {
-    block.data.index = 0;
-    block.data.first = true;
-    block.data.last = false;
-    let repeated = block.fn(this);
-    
-    for(var i = 1; i < n; i++){
-        block.data.index = i;
-        block.data.first = (i === 0);
-        block.data.last = (i === (n - 1));
-    
-        repeated += block.fn(this);
-    }
-    return repeated;
-});
-}
+//function setBackToMapBtn(){
+//  document.getElementById("back").innerHTML = "<button onclick= 'eventMenu()'>Back to Game Map</button>";
+//}
+//function setReturnToMapBtn(){
+//  document.getElementById("next").innerHTML = "<button onclick= 'eventMenu()'>Return to Game Map</button>";
+//}
 
-function testP(){
-  updateLoadBar(10);
-}
+//let loadComplete = false;
 
-function setBackToMapBtn(){
-  document.getElementById("back").innerHTML = "<button onclick= 'eventMenu()'>Back to Game Map</button>";
-}
-function setReturnToMapBtn(){
-  document.getElementById("next").innerHTML = "<button onclick= 'eventMenu()'>Return to Game Map</button>";
-}
+//function updateLoadBar(amount){
+//  loadProgress += amount;
+//  
+//  if(loadProgress >= 100 && !loadComplete){
+//    loadComplete = true;
+//    setTimeout(function(){
+//      document.getElementById("centerDisplay").innerHTML = views["splashScreen"]({});
+//      document.getElementById("loadContainer").style.display = 'none';
+//    }, 1000)
+//
+//  }
+//  
+//  if(document.getElementById("loadBar")){
+//    document.getElementById("loadBar").value = loadProgress;
+//  }
+//}
 
-let loadComplete = false;
-
-function updateLoadBar(amount){
-  loadProgress += amount;
-  
-  if(loadProgress >= 100 && !loadComplete){
-    loadComplete = true;
-    setTimeout(function(){
-      document.getElementById("centerDisplay").innerHTML = views["splashScreen"]({});
-      document.getElementById("loadContainer").style.display = 'none';
-    }, 1000)
-
-  }
-  
-  if(document.getElementById("loadBar")){
-    document.getElementById("loadBar").value = loadProgress;
-  }
-}
-
-function TutorialPage(title, content, image){
-  this.title = title;
-  this.content = content;
-  this.image = image;
-  this.previous = "Previous";
-  this.next = "Next";
-}
-
-function createTutorialPages(){
-  //Page 1: How To Play
-  let title = "How To Play";
-  let content = "<p>Hi, my name is Gui’De. I will help you find your way around Mars University. You’re a new student, and we need your help now. It’s time for the student president election and all the candidates won't do a good job. You should run for president of the Student Council!</p>";
-  tutorialPages.push(new TutorialPage(title, content, ""));
-  
-  //Areas
-  title = "Areas";
-  content = "<p>Lets Take a Tour of the school! There are five main places on the Mars U Campus. Each area attracts different people to them.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`mapHelpPage`)'></img>";
-  let image = '../img/menu/makeastatementiconNEW.png';
-  tutorialPages.push(new TutorialPage(title, content, ""));
-  
-  //Areas
-  title = "Areas - Bias";
-  content = "<p>Here is where everybody can be found! <br> Commons: Socialites and Arts Majors <br> Library: Readers and Law Majors<br> Gym: Athletes and Business Majors <br> Labs: Gamers and Technology Majors</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`mapHelpPage`)'></img>";
-  image = '../img/menu/makeastatementiconNEW.png';
-  tutorialPages.push(new TutorialPage(title, content, ""));
-  
-  //Candidates
-  title = "Candidates";
-  content = "<p>Like in any election you'll have some comptetition. There are five other people running for presisdent at Mars U.</p> <img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`mapHelpPage`)'></img>";
-  image = '../img/menu/makeastatementiconNEW.png';
-  tutorialPages.push(new TutorialPage(title, content, ""));
-  
-  //Candidates
-  title = "Candidates - Issue Candidates";
-  content = "<p>There are four candidates who don't do much campaigning. We call them the issue candidates. They're pretty well know and liked around campus so they think they don't need to campaign. Here are the Candidates in there issues. <br>Simon: Improve Medical Services <br> Zrapp: Increase the Budget <br> Boof: Lower Tuition <br> C1AMP: More School Functions</p> <img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`candidatesHelpPage`)'></img>";
-  image = '../img/menu/makeastatementiconNEW.png';
-  tutorialPages.push(new TutorialPage(title, content, ""));
-  
-  //Candidates
-  title = "Candidates - Karma";
-  content = "<p>The final candidate also transferred in recently. Karma the Chameleon is very charismatic, but isn't very well known. People like her, but they have noticed that she seems to copy the statements of other candidates.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`candidatesHelpPage`)'></img>";
-  image = '../img/menu/makeastatementiconNEW.png';
-  tutorialPages.push(new TutorialPage(title, content, ""));
-  
-  //Statements and Functions
-  title = "Statements and Functions";
-  content = "<p>You can win by doing three things: <br>-Statements<br>-Polling<br>-Student Functions <br> You have 12 hours in a day and everything you do takes time.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`statementsHelpPage`)'></img>";
-  tutorialPages.push(new TutorialPage(title, content, ""));
-  
-  //Statements
-  title = "Statements";
-  content = "<p>Statements are where you focus on the issues at school. Statements can change the way people feel about the issues. They also tell the population how you feel about the issues.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`statementsHelpPage`)'></img>";
-  image = '../img/menu/makeastatementiconNEW.png';
-  tutorialPages.push(new TutorialPage(title, content, image));
-  
-  //Statements
-  title = "Statements - Continued";
-  content = "<p>People are more likely to vote for you if they agree with you on the issues. Be sure to stick to one stance on each issue, because people won't like it if they can't trust you. Statements take an hour to prepare and perform.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`statementsHelpPage`)'></img>";
-  tutorialPages.push(new TutorialPage(title, content, image));
-  
-  //Issues
-  title = "Issues";
-  image = '../img/issues.png';
-  content = "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`statementsHelpPage`)'></img>";
-  tutorialPages.push(new TutorialPage(title, content, image));
-
-  //Student Functions
-  title = "Student Functions";
-  content = "<p>Student Functions are how you get to know the population. Becoming more famous among groups to help get you elected.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`functionsHelpPage`)'></img>";
-  tutorialPages.push(new TutorialPage(title, content, ""));
-  
-  //Student Functions
-  title = "Student Functions";
-  content = "<p>Functions take a couple hours to set up and you can add an option to that if you like, but it will take an extra hour. Functions can't be held in the quad according to the Univerity Guidelines.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`functionsHelpPage`)'></img>";
-  tutorialPages.push(new TutorialPage(title, content, ""));
-  
-  //Population - Majors
-  title = "Population - Majors";
-  image = '../img/majors.png';
-  content = "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`studentsHelpPage`)'></img>";
-  tutorialPages.push(new TutorialPage(title, content, image));
-  
-  //Population - Social Groups
-  title = "Population - Social Groups";
-  image = '../img/interests.png';
-  content = "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`studentsHelpPage`)'></img>"
-  tutorialPages.push(new TutorialPage(title, content, image));
-  
-  //Polling
-  title = "Polling";
-  content = "<p>With polls you can see how the populations around the school feel about the candidates, and issues. You take polls in different areas which will have different biases.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`pollHelpPage`)'></img>";
-  image = '../img/menu/takeapollicon.png';
-  tutorialPages.push(new TutorialPage(title, content, image));
-  
-  //Polling
-  title = "Polling - Continued";
-  content = "<p> Polls take time to conduct, but the current student government will conduct one for you at the end of each day. These will help you see your effect on the population.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`pollHelpPage`)'></img>";
-  image = '../img/menu/takeapollicon.png';
-  tutorialPages.push(new TutorialPage(title, content, image));
-		
-  //Polling Results
-  title = "Polling Results";
-  content = "<p>After you  take a poll you are given the results from a sample of students. By looking at these results you can determine what moves you should make next. Poll Results can be viewed in 3 ways: Bar Graphs, Pie Graphs and a Table.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`graphsHelpPage`)'></img>";
-  tutorialPages.push(new TutorialPage(title, content, ""));
-  
-  //Polling Results
-  title = "Polling Results - Graphs";
-  content = "<p> The Bar and Pie Graphs are for looking at more general data. Each Graph is attributed to a question. There you can see how many students answered each result in a question.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`graphsHelpPage`)'></img>";
-  tutorialPages.push(new TutorialPage(title, content, ""));
-  
-  //Polling Results
-  title = "Polling Results - Table";
-  content = "<p> The table is for when you want specific data. In the table you can see how each person who took the sample responded to all the questions. You can even filter by majors, or social groups. So if you only want results from athletes then you can just view those.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`graphsHelpPage`)'></img>";
-  tutorialPages.push(new TutorialPage(title, content, ""));
-  
-  //Polling Reports
-  title = "Old Polling Reports";
-  content = "<p>Poll Results are saved for you after you take them so you can go back and view them at the poll menu whenever you like.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`graphsHelpPage`)'></img>";
-  tutorialPages.push(new TutorialPage(title, content, ""));
-  
-  //Trend Reports
-  title = "Trend Reports"
-  content = "<p>If you ask the same question more than once, it will appear on the trend report. A place where you can see the summary of all the graphs for that question. This is great for looking quickly at how public opinion has changed. </p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`trendsHelpPage`)'></img>";
-  image = '../img/menu/trendreport.png';
-  tutorialPages.push(new TutorialPage(title, content, image));
-  
-  //Help Pages
-  title = "Help Pages"
-  content = "<p>You can return here later or use the help button displayed above to open the help page related to the page you are currently on. From that page you can navigate through the help menu to any other help page or return to the page you were on. I've created when you have questions. </p>";
-  image = '../img/menu/QuestionICON.png';
-  tutorialPages.push(new TutorialPage(title, content, image));
-  
-  //Practice Area
-  title = "Practice Area";
-  content = "<p>After this tutorial you will enter a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data does not represent the actual students or candidates. You can start your election or return to the tutorial at any time.</p>";
-  tutorialPages.push(new TutorialPage(title, content, ""));
-  
-  //Set previous and nexts
-  for(let i = 0; i < tutorialPages.length; i++){
-    if(i > 0){
-      tutorialPages[i].previous = tutorialPages[i-1].title;
-    }
-    if(i < tutorialPages.length - 1){
-      tutorialPages[i].next = tutorialPages[i+1].title;
-    }
-  }
-}
+//function TutorialPage(title, content, image){
+//  this.title = title;
+//  this.content = content;
+//  this.image = image;
+//  this.previous = "Previous";
+//  this.next = "Next";
+//}
+//
+//function createTutorialPages(){
+//  //Page 1: How To Play
+//  let title = "How To Play";
+//  let content = "<p>Hi, my name is Gui’De. I will help you find your way around Mars University. You’re a new student, and we need your help now. It’s time for the student president election and all the candidates won't do a good job. You should run for president of the Student Council!</p>";
+//  tutorialPages.push(new TutorialPage(title, content, ""));
+//  
+//  //Areas
+//  title = "Areas";
+//  content = "<p>Lets Take a Tour of the school! There are five main places on the Mars U Campus. Each area attracts different people to them.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`mapHelpPage`)'></img>";
+//  let image = '../img/menu/makeastatementiconNEW.png';
+//  tutorialPages.push(new TutorialPage(title, content, ""));
+//  
+//  //Areas
+//  title = "Areas - Bias";
+//  content = "<p>Here is where everybody can be found! <br> Commons: Socialites and Arts Majors <br> Library: Readers and Law Majors<br> Gym: Athletes and Business Majors <br> Labs: Gamers and Technology Majors</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`mapHelpPage`)'></img>";
+//  image = '../img/menu/makeastatementiconNEW.png';
+//  tutorialPages.push(new TutorialPage(title, content, ""));
+//  
+//  //Candidates
+//  title = "Candidates";
+//  content = "<p>Like in any election you'll have some comptetition. There are five other people running for presisdent at Mars U.</p> <img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`mapHelpPage`)'></img>";
+//  image = '../img/menu/makeastatementiconNEW.png';
+//  tutorialPages.push(new TutorialPage(title, content, ""));
+//  
+//  //Candidates
+//  title = "Candidates - Issue Candidates";
+//  content = "<p>There are four candidates who don't do much campaigning. We call them the issue candidates. They're pretty well know and liked around campus so they think they don't need to campaign. Here are the Candidates in there issues. <br>Simon: Improve Medical Services <br> Zrapp: Increase the Budget <br> Boof: Lower Tuition <br> C1AMP: More School Functions</p> <img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`candidatesHelpPage`)'></img>";
+//  image = '../img/menu/makeastatementiconNEW.png';
+//  tutorialPages.push(new TutorialPage(title, content, ""));
+//  
+//  //Candidates
+//  title = "Candidates - Karma";
+//  content = "<p>The final candidate also transferred in recently. Karma the Chameleon is very charismatic, but isn't very well known. People like her, but they have noticed that she seems to copy the statements of other candidates.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`candidatesHelpPage`)'></img>";
+//  image = '../img/menu/makeastatementiconNEW.png';
+//  tutorialPages.push(new TutorialPage(title, content, ""));
+//  
+//  //Statements and Functions
+//  title = "Statements and Functions";
+//  content = "<p>You can win by doing three things: <br>-Statements<br>-Polling<br>-Student Functions <br> You have 12 hours in a day and everything you do takes time.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`statementsHelpPage`)'></img>";
+//  tutorialPages.push(new TutorialPage(title, content, ""));
+//  
+//  //Statements
+//  title = "Statements";
+//  content = "<p>Statements are where you focus on the issues at school. Statements can change the way people feel about the issues. They also tell the population how you feel about the issues.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`statementsHelpPage`)'></img>";
+//  image = '../img/menu/makeastatementiconNEW.png';
+//  tutorialPages.push(new TutorialPage(title, content, image));
+//  
+//  //Statements
+//  title = "Statements - Continued";
+//  content = "<p>People are more likely to vote for you if they agree with you on the issues. Be sure to stick to one stance on each issue, because people won't like it if they can't trust you. Statements take an hour to prepare and perform.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`statementsHelpPage`)'></img>";
+//  tutorialPages.push(new TutorialPage(title, content, image));
+//  
+//  //Issues
+//  title = "Issues";
+//  image = '../img/issues.png';
+//  content = "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`statementsHelpPage`)'></img>";
+//  tutorialPages.push(new TutorialPage(title, content, image));
+//
+//  //Student Functions
+//  title = "Student Functions";
+//  content = "<p>Student Functions are how you get to know the population. Becoming more famous among groups to help get you elected.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`functionsHelpPage`)'></img>";
+//  tutorialPages.push(new TutorialPage(title, content, ""));
+//  
+//  //Student Functions
+//  title = "Student Functions";
+//  content = "<p>Functions take a couple hours to set up and you can add an option to that if you like, but it will take an extra hour. Functions can't be held in the quad according to the Univerity Guidelines.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`functionsHelpPage`)'></img>";
+//  tutorialPages.push(new TutorialPage(title, content, ""));
+//  
+//  //Population - Majors
+//  title = "Population - Majors";
+//  image = '../img/majors.png';
+//  content = "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`studentsHelpPage`)'></img>";
+//  tutorialPages.push(new TutorialPage(title, content, image));
+//  
+//  //Population - Social Groups
+//  title = "Population - Social Groups";
+//  image = '../img/interests.png';
+//  content = "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`studentsHelpPage`)'></img>"
+//  tutorialPages.push(new TutorialPage(title, content, image));
+//  
+//  //Polling
+//  title = "Polling";
+//  content = "<p>With polls you can see how the populations around the school feel about the candidates, and issues. You take polls in different areas which will have different biases.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`pollHelpPage`)'></img>";
+//  image = '../img/menu/takeapollicon.png';
+//  tutorialPages.push(new TutorialPage(title, content, image));
+//  
+//  //Polling
+//  title = "Polling - Continued";
+//  content = "<p> Polls take time to conduct, but the current student government will conduct one for you at the end of each day. These will help you see your effect on the population.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`pollHelpPage`)'></img>";
+//  image = '../img/menu/takeapollicon.png';
+//  tutorialPages.push(new TutorialPage(title, content, image));
+//		
+//  //Polling Results
+//  title = "Polling Results";
+//  content = "<p>After you  take a poll you are given the results from a sample of students. By looking at these results you can determine what moves you should make next. Poll Results can be viewed in 3 ways: Bar Graphs, Pie Graphs and a Table.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`graphsHelpPage`)'></img>";
+//  tutorialPages.push(new TutorialPage(title, content, ""));
+//  
+//  //Polling Results
+//  title = "Polling Results - Graphs";
+//  content = "<p> The Bar and Pie Graphs are for looking at more general data. Each Graph is attributed to a question. There you can see how many students answered each result in a question.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`graphsHelpPage`)'></img>";
+//  tutorialPages.push(new TutorialPage(title, content, ""));
+//  
+//  //Polling Results
+//  title = "Polling Results - Table";
+//  content = "<p> The table is for when you want specific data. In the table you can see how each person who took the sample responded to all the questions. You can even filter by majors, or social groups. So if you only want results from athletes then you can just view those.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`graphsHelpPage`)'></img>";
+//  tutorialPages.push(new TutorialPage(title, content, ""));
+//  
+//  //Polling Reports
+//  title = "Old Polling Reports";
+//  content = "<p>Poll Results are saved for you after you take them so you can go back and view them at the poll menu whenever you like.</p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`graphsHelpPage`)'></img>";
+//  tutorialPages.push(new TutorialPage(title, content, ""));
+//  
+//  //Trend Reports
+//  title = "Trend Reports"
+//  content = "<p>If you ask the same question more than once, it will appear on the trend report. A place where you can see the summary of all the graphs for that question. This is great for looking quickly at how public opinion has changed. </p><img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px' onclick = 'chooseHelpPage(`trendsHelpPage`)'></img>";
+//  image = '../img/menu/trendreport.png';
+//  tutorialPages.push(new TutorialPage(title, content, image));
+//  
+//  //Help Pages
+//  title = "Help Pages"
+//  content = "<p>You can return here later or use the help button displayed above to open the help page related to the page you are currently on. From that page you can navigate through the help menu to any other help page or return to the page you were on. I've created when you have questions. </p>";
+//  image = '../img/menu/QuestionICON.png';
+//  tutorialPages.push(new TutorialPage(title, content, image));
+//  
+//  //Practice Area
+//  title = "Practice Area";
+//  content = "<p>After this tutorial you will enter a practice polling area where you can create polls and look at polling results. Try it out, but remember, the data does not represent the actual students or candidates. You can start your election or return to the tutorial at any time.</p>";
+//  tutorialPages.push(new TutorialPage(title, content, ""));
+//  
+//  //Set previous and nexts
+//  for(let i = 0; i < tutorialPages.length; i++){
+//    if(i > 0){
+//      tutorialPages[i].previous = tutorialPages[i-1].title;
+//    }
+//    if(i < tutorialPages.length - 1){
+//      tutorialPages[i].next = tutorialPages[i+1].title;
+//    }
+//  }
+//}
 
 
 const POLL_STATES = {
@@ -520,146 +520,146 @@ const POLL_STATES = {
 }
 
 
-function preloadEventImages(actions) {
-	for (let i = 1; i < actions.length; i++) {
-		globals.images[i] = new Image();
-		globals.images[i].src = actions[i].path;
-	}
-}
+//function preloadEventImages(actions) {
+//	for (let i = 1; i < actions.length; i++) {
+//		globals.images[i] = new Image();
+//		globals.images[i].src = actions[i].path;
+//	}
+//}
 
-const areaChoices = {};
+//const areaChoices = {};
+//
+//function MapArea(name, id, labelX, labelY, coordinates, collisionRects){
+//    this.name = name;
+//    this.labelX = labelX;
+//    this.labelY = labelY;
+//    this.id = id;
+//    this.coordinates = coordinates;
+//    this.collisionRects = collisionRects;
+//    this.events = [];
+//}
 
-function MapArea(name, id, labelX, labelY, coordinates, collisionRects){
-    this.name = name;
-    this.labelX = labelX;
-    this.labelY = labelY;
-    this.id = id;
-    this.coordinates = coordinates;
-    this.collisionRects = collisionRects;
-    this.events = [];
-}
+//function Rectangle(x1, x2, y1, y2){
+//    this.x1 = x1;
+//    this.x2 = x2;
+//    this.y1 = y1;
+//    this.y2 = y2;
+//}
 
-function Rectangle(x1, x2, y1, y2){
-    this.x1 = x1;
-    this.x2 = x2;
-    this.y1 = y1;
-    this.y2 = y2;
-}
+//function createAreas(){    
+//    //Create Gym Object
+//    let coords = [
+//        [360, 15],
+//        [585, 15],
+//        [585, 235],
+//        [485, 235],
+//        [485, 120],
+//        [360, 120]
+//    ];
+//    
+//    let rects = [new Rectangle(360, 585, 15, 120), new Rectangle(480, 590, 115, 235)];
+//    areaChoices["Gym"] = new MapArea("Gym", 2, 475, 50, coords, rects);
+//    
+//    //Create Labs
+//    coords = [
+//        [148, 15],
+//        [255, 15],
+//        [255, 135],
+//        [226, 135],
+//        [226, 165],
+//        [180, 165],
+//        [180, 135],
+//        [148, 135]
+//    ];
+//    rects = [new Rectangle(145, 255, 15, 135), new Rectangle(180, 230, 135, 165)];
+//    areaChoices["Labs"] = new MapArea("Labs", 3, 145, 30, coords, rects);
+//    
+//    //Create Commons
+//    coords = [
+//        [90, 275],
+//        [207, 275],
+//        [207, 397],
+//        [90, 397]
+//    ];
+//    
+//    rects = [new Rectangle(90, 205, 275, 395)];
+//    areaChoices["Commons"] = new MapArea("Commons", 1, 90, 285, coords, rects);
+//    
+//    //Create Library
+//    coords = [
+//        [400, 275],
+//        [588, 275],
+//        [588, 399],
+//        [400, 399]
+//    ];
+//    
+//    rects = [new Rectangle(400, 590, 255, 400)];
+//    areaChoices["Library"] = new MapArea("Library", 4, 435, 270, coords, rects);
+//    
+//    //Create Quad
+//    coords = [
+//        [135, 190],
+//        [305, 190],
+//        [305, 246],
+//        [135, 246]
+//    ];
+//    
+//    rects = [new Rectangle(135, 300, 190, 250)];
+//    areaChoices["Quad"] = new MapArea("Quad", -1, 160, 160, coords, rects);
+//}
 
-function createAreas(){    
-    //Create Gym Object
-    let coords = [
-        [360, 15],
-        [585, 15],
-        [585, 235],
-        [485, 235],
-        [485, 120],
-        [360, 120]
-    ];
-    
-    let rects = [new Rectangle(360, 585, 15, 120), new Rectangle(480, 590, 115, 235)];
-    areaChoices["Gym"] = new MapArea("Gym", 2, 475, 50, coords, rects);
-    
-    //Create Labs
-    coords = [
-        [148, 15],
-        [255, 15],
-        [255, 135],
-        [226, 135],
-        [226, 165],
-        [180, 165],
-        [180, 135],
-        [148, 135]
-    ];
-    rects = [new Rectangle(145, 255, 15, 135), new Rectangle(180, 230, 135, 165)];
-    areaChoices["Labs"] = new MapArea("Labs", 3, 145, 30, coords, rects);
-    
-    //Create Commons
-    coords = [
-        [90, 275],
-        [207, 275],
-        [207, 397],
-        [90, 397]
-    ];
-    
-    rects = [new Rectangle(90, 205, 275, 395)];
-    areaChoices["Commons"] = new MapArea("Commons", 1, 90, 285, coords, rects);
-    
-    //Create Library
-    coords = [
-        [400, 275],
-        [588, 275],
-        [588, 399],
-        [400, 399]
-    ];
-    
-    rects = [new Rectangle(400, 590, 255, 400)];
-    areaChoices["Library"] = new MapArea("Library", 4, 435, 270, coords, rects);
-    
-    //Create Quad
-    coords = [
-        [135, 190],
-        [305, 190],
-        [305, 246],
-        [135, 246]
-    ];
-    
-    rects = [new Rectangle(135, 300, 190, 250)];
-    areaChoices["Quad"] = new MapArea("Quad", -1, 160, 160, coords, rects);
-}
+//function isPointInRect(pointX, pointY, rect){
+//    return ((pointX >= rect.x1 && pointX <= rect.x2) && (pointY >= rect.y1 && pointY <= rect.y2));
+//}
 
-function isPointInRect(pointX, pointY, rect){
-    return ((pointX >= rect.x1 && pointX <= rect.x2) && (pointY >= rect.y1 && pointY <= rect.y2));
-}
+//function isPointInArea(pointX, pointY, mapArea){
+//    
+//    //If one of the area rectangles contains the point, return true
+//    for(let i = 0; i < mapArea.collisionRects.length; i++){
+//        if(isPointInRect(pointX, pointY, mapArea.collisionRects[i])){
+//            return true;
+//        }
+//    }
+//    return false;
+//}
+//
+//function drawAreaPath(mapArea){
+//    
+//    globals.ctx.beginPath();
+//    globals.ctx.moveTo(mapArea.coordinates[0][0], mapArea.coordinates[0][1]);
+//    for(let i = 1; i < mapArea.coordinates.length; i++){
+//        globals.ctx.lineTo(mapArea.coordinates[i][0], mapArea.coordinates[i][1]);
+//    }
+//    globals.ctx.closePath();
+//}
 
-function isPointInArea(pointX, pointY, mapArea){
-    
-    //If one of the area rectangles contains the point, return true
-    for(let i = 0; i < mapArea.collisionRects.length; i++){
-        if(isPointInRect(pointX, pointY, mapArea.collisionRects[i])){
-            return true;
-        }
-    }
-    return false;
-}
-
-function drawAreaPath(mapArea){
-    
-    globals.ctx.beginPath();
-    globals.ctx.moveTo(mapArea.coordinates[0][0], mapArea.coordinates[0][1]);
-    for(let i = 1; i < mapArea.coordinates.length; i++){
-        globals.ctx.lineTo(mapArea.coordinates[i][0], mapArea.coordinates[i][1]);
-    }
-    globals.ctx.closePath();
-}
-
-function updateTopBar(currentScreen){
-  
-    var dayCycleIndex = (globals.totalDays + 1) - globals.days;
-    var context = { "totalDays" : globals.totalDays, "dayCycle" : dayCycleIndex, "remainingHours":globals.remainingHoursDay, "playerHeadImg": images["playerHeadImg"]};
-    var html = views["topBar"](context);
-  
-    //$("#templateTest").append(html);
-    document.getElementById("playerInfo").innerHTML = html;
-  
-    //Putting onclick event at the bottom because it won't load otherwise
-    document.getElementById("helpIcon").onclick = function(){
-      ////CONSOLE.LOG("check help");
-      helpScreen(currentScreen);
-      
-    }
-    
-    document.getElementById('topBar').style.display = "inline-flex";
-}
-
-/*GAME INTRO FUNCTIONS8*/
-function mainMenu()
-{
-	emergencyStop();
-    //Shows the title screen
-	clearScreen();
-	document.getElementById("centerDisplay").innerHTML = views["splashScreen"]({});
-}
+//function updateTopBar(currentScreen){
+//  
+//    var dayCycleIndex = (globals.totalDays + 1) - globals.days;
+//    var context = { "totalDays" : globals.totalDays, "dayCycle" : dayCycleIndex, "remainingHours":globals.remainingHoursDay, "playerHeadImg": images["playerHeadImg"]};
+//    var html = views["topBar"](context);
+//  
+//    //$("#templateTest").append(html);
+//    document.getElementById("playerInfo").innerHTML = html;
+//  
+//    //Putting onclick event at the bottom because it won't load otherwise
+//    document.getElementById("helpIcon").onclick = function(){
+//      ////CONSOLE.LOG("check help");
+//      helpScreen(currentScreen);
+//      
+//    }
+//    
+//    document.getElementById('topBar').style.display = "inline-flex";
+//}
+//
+///*GAME INTRO FUNCTIONS8*/
+//function mainMenu()
+//{
+//	emergencyStop();
+//    //Shows the title screen
+//	clearScreen();
+//	document.getElementById("centerDisplay").innerHTML = views["splashScreen"]({});
+//}
 
 function startAnimatic()
 {
@@ -681,36 +681,36 @@ function startAnimatic()
   
 }
 
-function practiceMenu()
-{
-    // Shows the practice screen menu
-	clearScreen();
-	globals.practice = true;
-    
-    //Generate biases for this practice session
-    generateStudentBiases();
-  
-	document.getElementById("centerDisplay").innerHTML = views["practice"]({}); 
-
-}
-
-function helpScreen(previousScreen)
-{
-	globals.practice = true;
-    //Shows the Help screen 
-	clearScreen();
-    document.getElementById("mainContent").classList.add("center");
-  
-    //Show the top bar
-    document.getElementById('topBar').style.display = "inline-flex";
-  
-	globals.section = 1;
-    
-    document.getElementById("mainContent").innerHTML = views["help"]({});
-    document.getElementById("back").innerHTML = "<button class = 'logHelp' id='helpBack' class = 'logHelpEnd'>Exit </button>";
-    document.getElementById("helpBack").onclick = previousScreen;
-    
-}
+//function practiceMenu()
+//{
+//    // Shows the practice screen menu
+//	clearScreen();
+//	globals.practice = true;
+//    
+//    //Generate biases for this practice session
+//    generateStudentBiases();
+//  
+//	document.getElementById("centerDisplay").innerHTML = views["practice"]({}); 
+//
+//}
+//
+//function helpScreen(previousScreen)
+//{
+//	globals.practice = true;
+//    //Shows the Help screen 
+//	clearScreen();
+//    document.getElementById("mainContent").classList.add("center");
+//  
+//    //Show the top bar
+//    document.getElementById('topBar').style.display = "inline-flex";
+//  
+//	globals.section = 1;
+//    
+//    document.getElementById("mainContent").innerHTML = views["help"]({});
+//    document.getElementById("back").innerHTML = "<button class = 'logHelp' id='helpBack' class = 'logHelpEnd'>Exit </button>";
+//    document.getElementById("helpBack").onclick = previousScreen;
+//    
+//}
 
 function backToHelp(){
   document.getElementById('mapIcons').style.display = 'none';
@@ -722,99 +722,99 @@ function backToHelp(){
   document.getElementById('mainHelp').style.display = 'block';
 }
 
-function pollMenu()
-{
-    //Shows the Poll Menu
-    clearScreen();
-    
-    if(hourChecker()){
-      updateTopBar(pollMenu);
-      document.getElementById("mainContent").classList.add("center");
-
-      if(globals.remainingHoursDay >=3)
-      {
-          document.getElementById("mainContent").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' class='primaryBtn' onclick='drawPoll("+POLL_STATES.IN_GAME+", false, false)'> Take A Poll </button><br><br>";
-          if(globals.pastPollResults.length > 0)
-              document.getElementById("mainContent").innerHTML += "<h2> Previous Poll Results</h2>";
-      }
-      else
-      {
-          document.getElementById("mainContent").innerHTML += "<h2> Poll</h2> <button type='button' > Cannot Take a Poll </button> ";
-          if(globals.pastPollResults.length > 0)
-              document.getElementById("mainContent").innerHTML += "<h2> Previous Poll Results</h2>";
-      }
-
-      //Adds buttons for each poll that has been taken already
-      for(var i=0; i<globals.pastPollResults.length;i++)
-      {
-          globals.num = i+1;
-          document.getElementById("mainContent").innerHTML += "<button class='otherBtn' onclick='viewPollResult("+i+")' >View Poll "+ globals.num +" Result </button>";
-      }
-      document.getElementById("mainContent").innerHTML += "<br>";
-      document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`pollHelpPage`)' ></img>";
-
-      setBackToMapBtn();
-    }
-}
-function trendReportMenu()
-{
-    //Sets up the trend report menu
-	clearScreen();
-  
-    if(hourChecker()){
-      document.getElementById("mainContent").classList.add("center");
-      updateTopBar(trendReportMenu);
-
-
-      document.getElementById("mainContent").innerHTML = views["trendMenu"]({"candidates": globals.candidates});
-
-      var currentTrendReports = [];
-
-
-       document.getElementById("mainContent").innerHTML += "</div><br> <div id = 'trendArea' style = 'display:none'> <svg id='visualisation' width='800' height='450'><path id='segments-line' /><path id='gap-line' /><text font-family='sans-serif' font-size='20px'>Blah</text></svg> </div>";
-        for(var x =0; x < globals.pastPollChoices.length; x++){
-          for(var y = 0; y < globals.pastPollChoices[x].length; y++){
-              if(currentTrendReports.includes(globals.pastPollChoices[x][y])){
-
-              }
-              else{
-                  currentTrendReports.push(globals.pastPollChoices[x][y])
-              }
-          }
-        }
-      var thing;
-      var buttonHolder = document.getElementsByClassName('trendButton')
-
-      for(var x = 0; x < buttonHolder.length; x++){
-          var idName = buttonHolder[x].getAttribute('id');   
-
-          for(var y =0; y < currentTrendReports.length; y++){
-
-              if(currentTrendReports[y] == idName){    	
-                  document.getElementById(idName).disabled = false;
-              }
-          }
-      }
-       document.getElementById("mainContent").innerHTML += "<br>"
-       document.getElementById("mainContent").innerHTML += "<button id ='buttonViewer' style = 'display:none'>Choose Another Trend Report</button>";
-       document.getElementById("back").innerHTML += "<button onclick= 'eventMenu()'>Back to Game Map</button>";
-       document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`trendHelpPage`)' ></img>";
-    }
-}
-function myDataMenu()
-{
-    //Sets up the trend report menu
-	clearScreen();
-  
-    if(hourChecker()){
-      document.getElementById("mainContent").classList.add("center");
-      updateTopBar(myDataMenu);
-
-
-      document.getElementById("mainContent").innerHTML = views["myDataMenu"]({"playerImg": images["playerImg"], "player": globals.playerCandidate});
-    }
-  
-}
+//function pollMenu()
+//{
+//    //Shows the Poll Menu
+//    clearScreen();
+//    
+//    if(hourChecker()){
+//      updateTopBar(pollMenu);
+//      document.getElementById("mainContent").classList.add("center");
+//
+//      if(globals.remainingHoursDay >=3)
+//      {
+//          document.getElementById("mainContent").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' class='primaryBtn' onclick='drawPoll("+POLL_STATES.IN_GAME+", false, false)'> Take A Poll </button><br><br>";
+//          if(globals.pastPollResults.length > 0)
+//              document.getElementById("mainContent").innerHTML += "<h2> Previous Poll Results</h2>";
+//      }
+//      else
+//      {
+//          document.getElementById("mainContent").innerHTML += "<h2> Poll</h2> <button type='button' > Cannot Take a Poll </button> ";
+//          if(globals.pastPollResults.length > 0)
+//              document.getElementById("mainContent").innerHTML += "<h2> Previous Poll Results</h2>";
+//      }
+//
+//      //Adds buttons for each poll that has been taken already
+//      for(var i=0; i<globals.pastPollResults.length;i++)
+//      {
+//          globals.num = i+1;
+//          document.getElementById("mainContent").innerHTML += "<button class='otherBtn' onclick='viewPollResult("+i+")' >View Poll "+ globals.num +" Result </button>";
+//      }
+//      document.getElementById("mainContent").innerHTML += "<br>";
+//      document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`pollHelpPage`)' ></img>";
+//
+//      setBackToMapBtn();
+//    }
+//}
+//function trendReportMenu()
+//{
+//    //Sets up the trend report menu
+//	clearScreen();
+//  
+//    if(hourChecker()){
+//      document.getElementById("mainContent").classList.add("center");
+//      updateTopBar(trendReportMenu);
+//
+//
+//      document.getElementById("mainContent").innerHTML = views["trendMenu"]({"candidates": globals.candidates});
+//
+//      var currentTrendReports = [];
+//
+//
+//       document.getElementById("mainContent").innerHTML += "</div><br> <div id = 'trendArea' style = 'display:none'> <svg id='visualisation' width='800' height='450'><path id='segments-line' /><path id='gap-line' /><text font-family='sans-serif' font-size='20px'>Blah</text></svg> </div>";
+//        for(var x =0; x < globals.pastPollChoices.length; x++){
+//          for(var y = 0; y < globals.pastPollChoices[x].length; y++){
+//              if(currentTrendReports.includes(globals.pastPollChoices[x][y])){
+//
+//              }
+//              else{
+//                  currentTrendReports.push(globals.pastPollChoices[x][y])
+//              }
+//          }
+//        }
+//      var thing;
+//      var buttonHolder = document.getElementsByClassName('trendButton')
+//
+//      for(var x = 0; x < buttonHolder.length; x++){
+//          var idName = buttonHolder[x].getAttribute('id');   
+//
+//          for(var y =0; y < currentTrendReports.length; y++){
+//
+//              if(currentTrendReports[y] == idName){    	
+//                  document.getElementById(idName).disabled = false;
+//              }
+//          }
+//      }
+//       document.getElementById("mainContent").innerHTML += "<br>"
+//       document.getElementById("mainContent").innerHTML += "<button id ='buttonViewer' style = 'display:none'>Choose Another Trend Report</button>";
+//       document.getElementById("back").innerHTML += "<button onclick= 'eventMenu()'>Back to Game Map</button>";
+//       document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`trendHelpPage`)' ></img>";
+//    }
+//}
+//function myDataMenu()
+//{
+//    //Sets up the trend report menu
+//	clearScreen();
+//  
+//    if(hourChecker()){
+//      document.getElementById("mainContent").classList.add("center");
+//      updateTopBar(myDataMenu);
+//
+//
+//      document.getElementById("mainContent").innerHTML = views["myDataMenu"]({"playerImg": images["playerImg"], "player": globals.playerCandidate});
+//    }
+//  
+//}
 
 function chooseHelpPage(page)
 {
@@ -831,7 +831,7 @@ function startCharacterSelect(){
     
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
- 	getSession(globals.gameOver);
+ 	updateSession(globals.gameOver);
 	resetGame();
     
     document.getElementById("centerDisplay").innerHTML = views["characterSelect"]({});
@@ -846,520 +846,520 @@ function startCharacterSelect(){
 	drawOnCanvas(headSheet, bodySheet);
 }
 
-function drawOnCanvas(headsheet,bodysheet){
-	//clear the canvas
-	//globals.c = document.getElementById("myCanvas");
-	//globals.ctx = globals.c.getContext("2d")
-    
-  
-    let ctx = bodysheet.context;
-    let canvas = ctx.canvas;
-	//clears everything
-	//globals.ctx.clearRect(0,0,globals.c.width,globals.c.height);
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-	//draw the body
-	drawBody(bodysheet);
-	//draws the head
-	drawHeads(headsheet,bodysheet)
-};
-
-//draws the head
-function drawHeads(heads,body){
-	//fixes the head coordinates
-	var x = fixHeadCord(heads,body);
-	heads.render(x[0],x[1]);
-}
-
-function drawBody(body){
-	body.renderBody(150,200);
-}
-
-function fixHeadCord(heads, body){
-
-	//head coords
-	var xCord = 156;
-	var yCord = 40;
-	//array that holds all th
-	var coordChange = [
-
-	[
-		[
-		//thin body NB
-			[
-				[[3,1]],
-				[[2,-1]],
-				[[-7,0]],
-				[[-7,0]],
-				[[2,2]],
-				[[2,2]]
-			],
-			[
-				[[3,-1]],
-				[[5,-2]],
-				[[-2,-2]],
-				[[-2,-2]],
-				[[1,0]],
-				[[2,1]]
-			],
-			[
-				[[5,-1]],
-				[[7,-1]],
-				[[-8,0]],
-				[[-8,0]],
-				[[2,-2]],
-				[[2,-2]]
-			]
-		],
-		[//thin body female
-			[
-				[[3,1]],
-				[[2,-1]],
-				[[-7,0]],
-				[[-7,0]],
-				[[2,2]],
-				[[2,2]]
-			],
-			[
-				[[3,-1]],
-				[[5,-2]],
-				[[-4,-3]],
-				[[-4,-3]],
-				[[-1,0]],
-				[[-1,1]]
-			],
-			[
-				[[4,-1]],
-				[[5,-1]],
-				[[-10,0]],
-				[[-8,0]],
-				[[0,-2]],
-				[[0,-2]]
-			]
-		],//thin body male
-		[
-			[
-				[[10,1]],
-				[[10,-1]],
-				[[-1,0]],
-				[[-1,0]],
-				[[8,2]],
-				[[9,2]]
-			],
-			[
-				[[8,-1]],
-				[[10,-2]],
-				[[4,-2]],
-				[[4,-2]],
-				[[5,0]],
-				[[7,1]]
-			],
-			[
-				[[10,-1]],
-				[[12,-2]],
-				[[-2,-2]],
-				[[0,-2]],
-				[[8,-1]],
-				[[8,-1]]
-			]
-		]
-	],
-	[
-		[
-			[
-				[[17,0]],
-				[[15,0]],
-				[[10,0]],
-				[[10,0]],
-				[[17,2]],
-				[[17,2]]
-			],
-			[
-				[[17,0]],
-				[[17,-1]],
-				[[10,-2]],
-				[[10,0]],
-				[[15,2]],
-				[[16,2]]
-			],
-			[
-				[[18,0]],
-				[[18,0]],
-				[[7,0]],
-				[[10,0]],
-				[[15,-1]],
-				[[15,-1]]
-			]
-		],
-		[
-			[
-				[[17,0]],
-				[[15,0]],
-				[[8,0]],
-				[[8,0]],
-				[[15,2]],
-				[[15,2]]
-			],
-			[
-				[[17,0]],
-				[[17,-2]],
-				[[10,-3]],
-				[[10,-2]],
-				[[13,0]],
-				[[14,0]]
-			],
-			[
-				[[18,-2]],
-				[[18,-2]],
-				[[3,0]],
-				[[8,0]],
-				[[12,-3]],
-				[[12,-3]]
-			]
-		],
-		[
-			[
-				[[19,0]],
-				[[17,0]],
-				[[8,0]],
-				[[8,0]],
-				[[17,2]],
-				[[17,2]]
-			],
-			[
-				[[18,0]],
-				[[18,-4]],
-				[[12,-4]],
-				[[10,-3]],
-				[[13,0]],
-				[[16,0]]
-			],
-			[
-				[[19,-2]],
-				[[19,-2]],
-				[[4,-1]],
-				[[9,-1]],
-				[[14,-3]],
-				[[14,-3]]
-			]
-		]
-	],
-	[
-		[
-			[
-				[[46,3]],
-				[[44,3]],
-				[[38,3]],
-				[[38,3]],
-				[[44,5]],
-				[[44,5]]
-			],
-			[
-				[[46,3]],
-				[[46,1]],
-				[[38,1]],
-				[[38,3]],
-				[[44,3]],
-				[[45,4]]
-			],
-			[
-				[[46,3]],
-				[[44,3]],
-				[[35,3]],
-				[[38,3]],
-				[[44,2]],
-				[[44,2]]
-			]
-		],
-		[
-			[
-				[[46,5]],
-				[[44,4]],
-				[[36,3]],
-				[[38,5]],
-				[[44,5]],
-				[[44,5]]
-			],
-			[
-				[[46,3]],
-				[[46,1]],
-				[[38,1]],
-				[[38,3]],
-				[[44,4]],
-				[[45,5]]
-			],
-			[
-				[[46,3]],
-				[[44,3]],
-				[[32,3]],
-				[[38,3]],
-				[[44,2]],
-				[[44,2]]
-			]
-		],
-		[
-			[
-				[[52,0]],
-				[[50,0]],
-				[[43,0]],
-				[[43,0]],
-				[[50,3]],
-				[[52,3]]
-			],
-			[
-				[[52,0]],
-				[[54,-3]],
-				[[46,-1]],
-				[[46,-1]],
-				[[50,0]],
-				[[52,0]]
-			],
-			[
-				[[52,-2]],
-				[[54,-3]],
-				[[42,-1]],
-				[[44,-1]],
-				[[50,-2]],
-				[[50,-2]]
-			]
-		]
-	],
-	[
-		[
-			[
-				[[53,30]],
-				[[53,30]],
-				[[45,30]],
-				[[45,30]],
-				[[53,32]],
-				[[53,32]]
-			],
-			[
-				[[53,29]],
-				[[54,27]],
-				[[45,27]],
-				[[45,29]],
-				[[50,31]],
-				[[53,31]]
-			],
-			[
-				[[53,29]],
-				[[54,27]],
-				[[40,27]],
-				[[45,29]],
-				[[50,29]],
-				[[50,29]]
-			]
-		],
-		[
-			[
-				[[58,40]],
-				[[55,40]],
-				[[48,40]],
-				[[48,40]],
-				[[56,42]],
-				[[56,42]]
-			],
-			[
-				[[58,40]],
-				[[58,40]],
-				[[49,38]],
-				[[49,38]],
-				[[53,42]],
-				[[53,42]]
-			],
-			[
-				[[57,36]],
-				[[58,36]],
-				[[45,40]],
-				[[50,41]],
-				[[55,37]],
-				[[55,37]],
-			]
-		],
-		[
-			[
-				[[65,37]],
-				[[64,37]],
-				[[58,37]],
-				[[58,37]],
-				[[65,39]],
-				[[65,39]],
-			],
-			[
-				[[65,37]],
-				[[65,35]],
-				[[55,34]],
-				[[57,34]],
-				[[63,37]],
-				[[63,39]],
-			],
-			[
-				[[65,35]],
-				[[67,35]],
-				[[51,36]],
-				[[55,35]],
-				[[61,35]],
-				[[61,36]],
-			]
-		]
-	]
-
-	];
-	var txc = coordChange[body.bodyArrayHolder][body.frameIndexClothing][heads.frameIndexRace][heads.frameIndex][0];
-	//the adjustments for that specific head/race/gender/bodytype
-	xCord += txc[0];
-	yCord += txc[1];
-
-	var ret = [xCord, yCord];
-	return ret;
-}
-
-//changes gender
-function clothingChange(amount){
-    bodySheet.updateClothing(amount);
-    drawOnCanvas(headSheet,bodySheet);
-  
-    let shapeOptions = globals.bodyShapeArray;
-    document.getElementById("clothingType").innerHTML = shapeOptions[bodySheet.frameIndexClothing];
-}
-
-//changes head
-function headChange(amount){
-	headSheet.update(amount);
-    drawOnCanvas(headSheet,bodySheet);
-    
-    document.getElementById("headType").innerHTML = "Head "+(headSheet.frameIndex+1);
-}
-
-//changes race
-function raceChange(amount){
-	headSheet.raceUpdate(amount);
-    drawOnCanvas(headSheet,bodySheet);
-  
-    let lifeformOptions = globals.lifeformArray;
-    document.getElementById("raceType").innerHTML = lifeformOptions[headSheet.frameIndexRace];
-}
-
-//changes the body type
-function bodyChange(amount){
-  
-	bodySheet.bodyArrayHolder+= amount;
-	if(bodySheet.bodyArrayHolder > 3){
-      bodySheet.bodyArrayHolder = 0;
-	}
-    else if(bodySheet.bodyArrayHolder < 0){
-      bodySheet.bodyArrayHolder = 3;
-    }
-  
-    let z = bodySheet.bodyArrayHolder;
-	headSheet.bodyArrayHolder = z;
-
-	bodySheet.image = globals.imgArrayBody[z];
-	bodySheet.width = globals.imgArrayBodyWidth[z];
-	bodySheet.height = globals.imgArrayBodyHeight[z];
-    drawOnCanvas(headSheet,bodySheet);
-  
-    let bodyTypeOptions = globals.bodyTypeArray;
-    document.getElementById("bodyType").innerHTML = bodyTypeOptions[bodySheet.bodyArrayHolder];
-}
-
-//sprite function
-function Sprite(options){
-	var that = {};
-	that.context = options.context;
-	that.width = options.width;
-	that.height = options.height;
-	that.image = options.image;
-	that.frameIndex = 0,
-	that.frameIndexRace = 2,
-	that.frameIndexClothing = 0,
-	that.bodyArrayHolder = 0,
-	that.isMale = 0,
-
-
-	that.render = function (x,y) {
-
-        // Draw the animation
-        that.context.drawImage(
-           that.image,
-           that.width * that.frameIndex,
-           that.height* that.frameIndexRace ,
-           that.width,
-           that.height,
-           x,
-           y,
-           that.width,
-           that.height);
-    };
-
-    that.renderBody = function (x,y) {
-
-        // Draw the animation
-        that.context.drawImage(
-           that.image,
-           (0 + (globals.imgArrayBodyWidth[that.bodyArrayHolder] * that.frameIndexClothing) + that.isMale),
-           0,
-           that.width,
-           that.height,
-           x,
-           y,
-           that.width + that.isMale,
-           that.height);
-    };
-
-    that.update = function(amount){
-    	that.frameIndex += amount;
-    	if (that.frameIndex > 5){
-    		that.frameIndex = 0;
-    	}
-        else if(that.frameIndex < 0){
-          that.frameIndex = 5;
-        }
-
-    };
-
-     that.updateClothing = function(amount){
-    	that.frameIndexClothing += amount;
-    	if (that.frameIndexClothing > 2){
-    		that.frameIndexClothing = 0;
-    	}
-       else if(that.frameIndexClothing < 0){
-         that.frameIndexClothing = 2;
-       }
-
-    };
-
-
-    that.raceUpdate = function(amount){
-    	that.frameIndexRace += amount;
-    	if (that.frameIndexRace > 2){
-    		that.frameIndexRace = 0;
-    	}
-        else if(that.frameIndexRace < 0){
-          that.frameIndexRace = 2;
-        }
-        
-    	that.height = globals.imgArrayHeadHeight[that.frameIndexRace];
-    };
-
-	return that;
-}
+//function drawOnCanvas(headsheet,bodysheet){
+//	//clear the canvas
+//	//globals.c = document.getElementById("myCanvas");
+//	//globals.ctx = globals.c.getContext("2d")
+//    
+//  
+//    let ctx = bodysheet.context;
+//    let canvas = ctx.canvas;
+//	//clears everything
+//	//globals.ctx.clearRect(0,0,globals.c.width,globals.c.height);
+//    ctx.clearRect(0,0,canvas.width,canvas.height);
+//	//draw the body
+//	drawBody(bodysheet);
+//	//draws the head
+//	drawHeads(headsheet,bodysheet)
+//};
+//
+////draws the head
+//function drawHeads(heads,body){
+//	//fixes the head coordinates
+//	var x = fixHeadCord(heads,body);
+//	heads.render(x[0],x[1]);
+//}
+//
+//function drawBody(body){
+//	body.renderBody(150,200);
+//}
+//
+//function fixHeadCord(heads, body){
+//
+//	//head coords
+//	var xCord = 156;
+//	var yCord = 40;
+//	//array that holds all th
+//	var coordChange = [
+//
+//	[
+//		[
+//		//thin body NB
+//			[
+//				[[3,1]],
+//				[[2,-1]],
+//				[[-7,0]],
+//				[[-7,0]],
+//				[[2,2]],
+//				[[2,2]]
+//			],
+//			[
+//				[[3,-1]],
+//				[[5,-2]],
+//				[[-2,-2]],
+//				[[-2,-2]],
+//				[[1,0]],
+//				[[2,1]]
+//			],
+//			[
+//				[[5,-1]],
+//				[[7,-1]],
+//				[[-8,0]],
+//				[[-8,0]],
+//				[[2,-2]],
+//				[[2,-2]]
+//			]
+//		],
+//		[//thin body female
+//			[
+//				[[3,1]],
+//				[[2,-1]],
+//				[[-7,0]],
+//				[[-7,0]],
+//				[[2,2]],
+//				[[2,2]]
+//			],
+//			[
+//				[[3,-1]],
+//				[[5,-2]],
+//				[[-4,-3]],
+//				[[-4,-3]],
+//				[[-1,0]],
+//				[[-1,1]]
+//			],
+//			[
+//				[[4,-1]],
+//				[[5,-1]],
+//				[[-10,0]],
+//				[[-8,0]],
+//				[[0,-2]],
+//				[[0,-2]]
+//			]
+//		],//thin body male
+//		[
+//			[
+//				[[10,1]],
+//				[[10,-1]],
+//				[[-1,0]],
+//				[[-1,0]],
+//				[[8,2]],
+//				[[9,2]]
+//			],
+//			[
+//				[[8,-1]],
+//				[[10,-2]],
+//				[[4,-2]],
+//				[[4,-2]],
+//				[[5,0]],
+//				[[7,1]]
+//			],
+//			[
+//				[[10,-1]],
+//				[[12,-2]],
+//				[[-2,-2]],
+//				[[0,-2]],
+//				[[8,-1]],
+//				[[8,-1]]
+//			]
+//		]
+//	],
+//	[
+//		[
+//			[
+//				[[17,0]],
+//				[[15,0]],
+//				[[10,0]],
+//				[[10,0]],
+//				[[17,2]],
+//				[[17,2]]
+//			],
+//			[
+//				[[17,0]],
+//				[[17,-1]],
+//				[[10,-2]],
+//				[[10,0]],
+//				[[15,2]],
+//				[[16,2]]
+//			],
+//			[
+//				[[18,0]],
+//				[[18,0]],
+//				[[7,0]],
+//				[[10,0]],
+//				[[15,-1]],
+//				[[15,-1]]
+//			]
+//		],
+//		[
+//			[
+//				[[17,0]],
+//				[[15,0]],
+//				[[8,0]],
+//				[[8,0]],
+//				[[15,2]],
+//				[[15,2]]
+//			],
+//			[
+//				[[17,0]],
+//				[[17,-2]],
+//				[[10,-3]],
+//				[[10,-2]],
+//				[[13,0]],
+//				[[14,0]]
+//			],
+//			[
+//				[[18,-2]],
+//				[[18,-2]],
+//				[[3,0]],
+//				[[8,0]],
+//				[[12,-3]],
+//				[[12,-3]]
+//			]
+//		],
+//		[
+//			[
+//				[[19,0]],
+//				[[17,0]],
+//				[[8,0]],
+//				[[8,0]],
+//				[[17,2]],
+//				[[17,2]]
+//			],
+//			[
+//				[[18,0]],
+//				[[18,-4]],
+//				[[12,-4]],
+//				[[10,-3]],
+//				[[13,0]],
+//				[[16,0]]
+//			],
+//			[
+//				[[19,-2]],
+//				[[19,-2]],
+//				[[4,-1]],
+//				[[9,-1]],
+//				[[14,-3]],
+//				[[14,-3]]
+//			]
+//		]
+//	],
+//	[
+//		[
+//			[
+//				[[46,3]],
+//				[[44,3]],
+//				[[38,3]],
+//				[[38,3]],
+//				[[44,5]],
+//				[[44,5]]
+//			],
+//			[
+//				[[46,3]],
+//				[[46,1]],
+//				[[38,1]],
+//				[[38,3]],
+//				[[44,3]],
+//				[[45,4]]
+//			],
+//			[
+//				[[46,3]],
+//				[[44,3]],
+//				[[35,3]],
+//				[[38,3]],
+//				[[44,2]],
+//				[[44,2]]
+//			]
+//		],
+//		[
+//			[
+//				[[46,5]],
+//				[[44,4]],
+//				[[36,3]],
+//				[[38,5]],
+//				[[44,5]],
+//				[[44,5]]
+//			],
+//			[
+//				[[46,3]],
+//				[[46,1]],
+//				[[38,1]],
+//				[[38,3]],
+//				[[44,4]],
+//				[[45,5]]
+//			],
+//			[
+//				[[46,3]],
+//				[[44,3]],
+//				[[32,3]],
+//				[[38,3]],
+//				[[44,2]],
+//				[[44,2]]
+//			]
+//		],
+//		[
+//			[
+//				[[52,0]],
+//				[[50,0]],
+//				[[43,0]],
+//				[[43,0]],
+//				[[50,3]],
+//				[[52,3]]
+//			],
+//			[
+//				[[52,0]],
+//				[[54,-3]],
+//				[[46,-1]],
+//				[[46,-1]],
+//				[[50,0]],
+//				[[52,0]]
+//			],
+//			[
+//				[[52,-2]],
+//				[[54,-3]],
+//				[[42,-1]],
+//				[[44,-1]],
+//				[[50,-2]],
+//				[[50,-2]]
+//			]
+//		]
+//	],
+//	[
+//		[
+//			[
+//				[[53,30]],
+//				[[53,30]],
+//				[[45,30]],
+//				[[45,30]],
+//				[[53,32]],
+//				[[53,32]]
+//			],
+//			[
+//				[[53,29]],
+//				[[54,27]],
+//				[[45,27]],
+//				[[45,29]],
+//				[[50,31]],
+//				[[53,31]]
+//			],
+//			[
+//				[[53,29]],
+//				[[54,27]],
+//				[[40,27]],
+//				[[45,29]],
+//				[[50,29]],
+//				[[50,29]]
+//			]
+//		],
+//		[
+//			[
+//				[[58,40]],
+//				[[55,40]],
+//				[[48,40]],
+//				[[48,40]],
+//				[[56,42]],
+//				[[56,42]]
+//			],
+//			[
+//				[[58,40]],
+//				[[58,40]],
+//				[[49,38]],
+//				[[49,38]],
+//				[[53,42]],
+//				[[53,42]]
+//			],
+//			[
+//				[[57,36]],
+//				[[58,36]],
+//				[[45,40]],
+//				[[50,41]],
+//				[[55,37]],
+//				[[55,37]],
+//			]
+//		],
+//		[
+//			[
+//				[[65,37]],
+//				[[64,37]],
+//				[[58,37]],
+//				[[58,37]],
+//				[[65,39]],
+//				[[65,39]],
+//			],
+//			[
+//				[[65,37]],
+//				[[65,35]],
+//				[[55,34]],
+//				[[57,34]],
+//				[[63,37]],
+//				[[63,39]],
+//			],
+//			[
+//				[[65,35]],
+//				[[67,35]],
+//				[[51,36]],
+//				[[55,35]],
+//				[[61,35]],
+//				[[61,36]],
+//			]
+//		]
+//	]
+//
+//	];
+//	var txc = coordChange[body.bodyArrayHolder][body.frameIndexClothing][heads.frameIndexRace][heads.frameIndex][0];
+//	//the adjustments for that specific head/race/gender/bodytype
+//	xCord += txc[0];
+//	yCord += txc[1];
+//
+//	var ret = [xCord, yCord];
+//	return ret;
+//}
+//
+////changes gender
+//function clothingChange(amount){
+//    bodySheet.updateClothing(amount);
+//    drawOnCanvas(headSheet,bodySheet);
+//  
+//    let shapeOptions = globals.bodyShapeArray;
+//    document.getElementById("clothingType").innerHTML = shapeOptions[bodySheet.frameIndexClothing];
+//}
+//
+////changes head
+//function headChange(amount){
+//	headSheet.update(amount);
+//    drawOnCanvas(headSheet,bodySheet);
+//    
+//    document.getElementById("headType").innerHTML = "Head "+(headSheet.frameIndex+1);
+//}
+//
+////changes race
+//function raceChange(amount){
+//	headSheet.raceUpdate(amount);
+//    drawOnCanvas(headSheet,bodySheet);
+//  
+//    let lifeformOptions = globals.lifeformArray;
+//    document.getElementById("raceType").innerHTML = lifeformOptions[headSheet.frameIndexRace];
+//}
+//
+////changes the body type
+//function bodyChange(amount){
+//  
+//	bodySheet.bodyArrayHolder+= amount;
+//	if(bodySheet.bodyArrayHolder > 3){
+//      bodySheet.bodyArrayHolder = 0;
+//	}
+//    else if(bodySheet.bodyArrayHolder < 0){
+//      bodySheet.bodyArrayHolder = 3;
+//    }
+//  
+//    let z = bodySheet.bodyArrayHolder;
+//	headSheet.bodyArrayHolder = z;
+//
+//	bodySheet.image = globals.imgArrayBody[z];
+//	bodySheet.width = globals.imgArrayBodyWidth[z];
+//	bodySheet.height = globals.imgArrayBodyHeight[z];
+//    drawOnCanvas(headSheet,bodySheet);
+//  
+//    let bodyTypeOptions = globals.bodyTypeArray;
+//    document.getElementById("bodyType").innerHTML = bodyTypeOptions[bodySheet.bodyArrayHolder];
+//}
+//
+////sprite function
+//function Sprite(options){
+//	var that = {};
+//	that.context = options.context;
+//	that.width = options.width;
+//	that.height = options.height;
+//	that.image = options.image;
+//	that.frameIndex = 0,
+//	that.frameIndexRace = 2,
+//	that.frameIndexClothing = 0,
+//	that.bodyArrayHolder = 0,
+//	that.isMale = 0,
+//
+//
+//	that.render = function (x,y) {
+//
+//        // Draw the animation
+//        that.context.drawImage(
+//           that.image,
+//           that.width * that.frameIndex,
+//           that.height* that.frameIndexRace ,
+//           that.width,
+//           that.height,
+//           x,
+//           y,
+//           that.width,
+//           that.height);
+//    };
+//
+//    that.renderBody = function (x,y) {
+//
+//        // Draw the animation
+//        that.context.drawImage(
+//           that.image,
+//           (0 + (globals.imgArrayBodyWidth[that.bodyArrayHolder] * that.frameIndexClothing) + that.isMale),
+//           0,
+//           that.width,
+//           that.height,
+//           x,
+//           y,
+//           that.width + that.isMale,
+//           that.height);
+//    };
+//
+//    that.update = function(amount){
+//    	that.frameIndex += amount;
+//    	if (that.frameIndex > 5){
+//    		that.frameIndex = 0;
+//    	}
+//        else if(that.frameIndex < 0){
+//          that.frameIndex = 5;
+//        }
+//
+//    };
+//
+//     that.updateClothing = function(amount){
+//    	that.frameIndexClothing += amount;
+//    	if (that.frameIndexClothing > 2){
+//    		that.frameIndexClothing = 0;
+//    	}
+//       else if(that.frameIndexClothing < 0){
+//         that.frameIndexClothing = 2;
+//       }
+//
+//    };
+//
+//
+//    that.raceUpdate = function(amount){
+//    	that.frameIndexRace += amount;
+//    	if (that.frameIndexRace > 2){
+//    		that.frameIndexRace = 0;
+//    	}
+//        else if(that.frameIndexRace < 0){
+//          that.frameIndexRace = 2;
+//        }
+//        
+//    	that.height = globals.imgArrayHeadHeight[that.frameIndexRace];
+//    };
+//
+//	return that;
+//}
 
 //Creates the player candidate
-function createCharacter(){
-	globals.playerCandidate.name = document.getElementById("charName").value;
-	globals.playerCandidate.raceNum = headSheet.frameIndexRace;
-	globals.playerCandidate.genderNum = bodySheet.frameIndexClothing;
-	globals.playerCandidate.bodyTypeNum = bodySheet.bodyArrayHolder;
-	globals.playerCandidate.headNum = headSheet.frameIndex;
-	globals.playerCandidate.race = globals.lifeformArray[headSheet.frameIndexRace];
-	globals.playerCandidate.gender = globals.bodyShapeArray[bodySheet.frameIndexClothing];
-	globals.playerCandidate.bodyType = globals.bodyTypeArray[bodySheet.bodyArrayHolder];
-  
-    generatePlayerImages();
-    
-    tutorialChoice();
-}
+//function createCharacter(){
+//	globals.playerCandidate.name = document.getElementById("charName").value;
+//	globals.playerCandidate.raceNum = headSheet.frameIndexRace;
+//	globals.playerCandidate.genderNum = bodySheet.frameIndexClothing;
+//	globals.playerCandidate.bodyTypeNum = bodySheet.bodyArrayHolder;
+//	globals.playerCandidate.headNum = headSheet.frameIndex;
+//	globals.playerCandidate.race = globals.lifeformArray[headSheet.frameIndexRace];
+//	globals.playerCandidate.gender = globals.bodyShapeArray[bodySheet.frameIndexClothing];
+//	globals.playerCandidate.bodyType = globals.bodyTypeArray[bodySheet.bodyArrayHolder];
+//  
+//    generatePlayerImages();
+//    
+//    tutorialChoice();
+//}
 
 //Let the player choose whether to do the tutorial
 function tutorialChoice(){
@@ -1372,57 +1372,57 @@ function tutorialChoice(){
 	document.getElementById("mainContent").innerHTML += "<div style='display:inline-flex' ><button class='primaryBtn' onclick='tutorial("+false+")'>Yes</button><button class='primaryBtn' onclick='chooseDiff()'>No</button></div>"
 }
 
-//Sets the variables for game length and opposing candidates
-function initNewGame(isFromTut){
-
-    
-	var tutHolder = isFromTut
-	clearScreen();
-	globals.candidates = [];	
-	globals.population = 1000;
-	globals.sample = [];
-	globals.days = 1; 
-	globals.remainingHoursDay = 12; 
-    //Generates the student biases for this game
-    generateStudentBiases();
-	
-	//Decides the opponents focus which cannot be the same as the player
-    
-    opponentFame = (.05 * globals.totalDays);
-	globals.opponentCandidate.fame = [1.2,1.2,1.2,1.2,1.2,1.2,1.2,1.2];
-	globals.opponentCandidate.consMod = 0;
-	//////CONSOLE.LOG(oppFocus);
-	assignIssue(globals.opponentCandidate,[],1,false);
-	globals.candidates.push(globals.opponentCandidate);
-	
-	//Create Issue Candidates
-	var issueCand1 = new Candidate("Boof");
-	issueCand1.focus = globals.positions[0];
-	issueCand1.focusnum = 0;
-	assignRank(issueCand1,globals.chosenCandRanks,true);
-	globals.candidates.push(issueCand1);
-	var issueCand2 = new Candidate("Zrap Bannigan");
-	issueCand2.focus = globals.positions[1];
-	issueCand2.focusnum = 1;
-	assignRank(issueCand2,globals.chosenCandRanks,true);
-	globals.candidates.push(issueCand2);
-	var issueCand3 = new Candidate("C1AMP");
-	issueCand3.focus = globals.positions[2];
-	issueCand3.focusnum = 2;
-	assignRank(issueCand3,globals.chosenCandRanks,true);
-	globals.candidates.push(issueCand3);
-	var issueCand4 = new Candidate("Simon");
-	issueCand4.focus = globals.positions[3];
-	issueCand4.focusnum = 3;
-	assignRank(issueCand4,globals.chosenCandRanks,true);
-	globals.candidates.push(issueCand4);	
-  
-    //Set the currentCandidateArrayHolder to the right data
-    globals.currentCandidateArrayHolder = globals.candidates;
-  
-	//map(0,true,true);
-    firstPollInfo();
-}
+////Sets the variables for game length and opposing candidates
+//function initNewGame(isFromTut){
+//
+//    
+//	var tutHolder = isFromTut
+//	clearScreen();
+//	globals.candidates = [];	
+//	globals.population = 1000;
+//	globals.sample = [];
+//	globals.days = 1; 
+//	globals.remainingHoursDay = 12; 
+//    //Generates the student biases for this game
+//    generateStudentBiases();
+//	
+//	//Decides the opponents focus which cannot be the same as the player
+//    
+//    opponentFame = (.05 * globals.totalDays);
+//	globals.opponentCandidate.fame = [1.2,1.2,1.2,1.2,1.2,1.2,1.2,1.2];
+//	globals.opponentCandidate.consMod = 0;
+//	//////CONSOLE.LOG(oppFocus);
+//	assignIssue(globals.opponentCandidate,[],1,false);
+//	globals.candidates.push(globals.opponentCandidate);
+//	
+//	//Create Issue Candidates
+//	var issueCand1 = new Candidate("Boof");
+//	issueCand1.focus = globals.positions[0];
+//	issueCand1.focusnum = 0;
+//	assignRank(issueCand1,globals.chosenCandRanks,true);
+//	globals.candidates.push(issueCand1);
+//	var issueCand2 = new Candidate("Zrap Bannigan");
+//	issueCand2.focus = globals.positions[1];
+//	issueCand2.focusnum = 1;
+//	assignRank(issueCand2,globals.chosenCandRanks,true);
+//	globals.candidates.push(issueCand2);
+//	var issueCand3 = new Candidate("C1AMP");
+//	issueCand3.focus = globals.positions[2];
+//	issueCand3.focusnum = 2;
+//	assignRank(issueCand3,globals.chosenCandRanks,true);
+//	globals.candidates.push(issueCand3);
+//	var issueCand4 = new Candidate("Simon");
+//	issueCand4.focus = globals.positions[3];
+//	issueCand4.focusnum = 3;
+//	assignRank(issueCand4,globals.chosenCandRanks,true);
+//	globals.candidates.push(issueCand4);	
+//  
+//    //Set the currentCandidateArrayHolder to the right data
+//    globals.currentCandidateArrayHolder = globals.candidates;
+//  
+//	//map(0,true,true);
+//    firstPollInfo();
+//}
 function firstPollInfo()
 {
     clearScreen();
@@ -1502,136 +1502,136 @@ function chooseDiff()
     document.getElementById("mainContent").innerHTML += "<p> In Hard Mode You Have 5 Days to Win the Election.</p>";
 }
 
-//Sets the number of days and time remaining according to the players difficulty choice.
-function setDiff(days)
-{
-    globals.totalDays = days;
-    globals.inGame = true;
-    initNewGame(false);
-}
+////Sets the number of days and time remaining according to the players difficulty choice.
+//function setDiff(days)
+//{
+//    globals.totalDays = days;
+//    globals.inGame = true;
+//    initNewGame(false);
+//}
 
 /*GAME CYCLE FUNCTIONS8*/
-function calcFirstStatement(f)
-{
-    ////CONSOLE.LOG("calcFirstStatement");
-    
-    
-	globals.firstPoll = false;
-	globals.firstState = false;
-	globals.turnCounter = 1
-	globals.playerCandidate.focus = globals.positions[f];
-	globals.playerCandidate.focusnum = f;
-    
-    //Increases issue score based on the players choice for their initial statement
-	switch(f)
-	{
-		case 0:
-		globals.playerCandidate.issueScore[0]++;
-		break;
-		case 1:
-		globals.playerCandidate.issueScore[1]++;
-		break;
-		case 2:
-		globals.playerCandidate.issueScore[2]++;
-		break;
-		case 3:
-		globals.playerCandidate.issueScore[3]++;
-		break;
-	}
-	globals.candidates.splice(0,0,globals.playerCandidate);
-	
-    //Display Updated Top Bar
-    //updateTopBar(this);
-  
-    //Hold onto correct candidates
-    globals.currentCandidateArrayHolder = globals.candidates;
-    
-	eventMenu();
-};
+//function calcFirstStatement(f)
+//{
+//    ////CONSOLE.LOG("calcFirstStatement");
+//    
+//    
+//	globals.firstPoll = false;
+//	globals.firstState = false;
+//	globals.turnCounter = 1
+//	globals.playerCandidate.focus = globals.positions[f];
+//	globals.playerCandidate.focusnum = f;
+//    
+//    //Increases issue score based on the players choice for their initial statement
+//	switch(f)
+//	{
+//		case 0:
+//		globals.playerCandidate.issueScore[0]++;
+//		break;
+//		case 1:
+//		globals.playerCandidate.issueScore[1]++;
+//		break;
+//		case 2:
+//		globals.playerCandidate.issueScore[2]++;
+//		break;
+//		case 3:
+//		globals.playerCandidate.issueScore[3]++;
+//		break;
+//	}
+//	globals.candidates.splice(0,0,globals.playerCandidate);
+//	
+//    //Display Updated Top Bar
+//    //updateTopBar(this);
+//  
+//    //Hold onto correct candidates
+//    globals.currentCandidateArrayHolder = globals.candidates;
+//    
+//	eventMenu();
+//};
 
-//Add events to the Location choice elements
-function addLocationEvents(){
-	//Adds events to the cooresponding section based on their effect
-	for(var i = 1;i<globals.events.length;i++)
-	{
-        if(areaChoices[globals.events[i].loc]){
-          areaChoices[globals.events[i].loc].events.push(globals.events[i]);
-        }
-	}
-    globals.eventsLoaded = true;
-}
+////Add events to the Location choice elements
+//function addLocationEvents(){
+//	//Adds events to the cooresponding section based on their effect
+//	for(var i = 1;i<globals.events.length;i++)
+//	{
+//        if(areaChoices[globals.events[i].loc]){
+//          areaChoices[globals.events[i].loc].events.push(globals.events[i]);
+//        }
+//	}
+//    globals.eventsLoaded = true;
+//}
 
-//Creates the area in which users decide what to do
-function eventMenu()
-{
-    //document.getElementById("gameContents").innerHTML += "<img src='"+globals.playerImg+"' style='display:none'>"
-	if(hourChecker()){
-    
-    globals.loopable = false;
-      globals.practice = false;
-
-      //Make sure users are using the correct candidate data
-      //Extra fix for the fake data polling bug
-      globals.candidates = globals.currentCandidateArrayHolder;
-
-      //Clear previous screen
-      clearScreen();
-      
-      document.getElementById("contentContainer").classList.add("columns")
-	  document.getElementById("mainContent").classList.add("left");
-      
-      saveGame();
-      
-
-
-      //Build Game Map buttons
-
-      
-      if(!globals.eventsLoaded){
-        addLocationEvents();
-      }
-      
-      document.getElementById("map").innerHTML = "<canvas id='myCanvas' width='600px' height = '415px' style = 'position: relative; display: inline'></canvas>";
-      globals.c=document.getElementById("myCanvas");
-      globals.ctx = globals.c.getContext("2d");
-      globals.ctx.fillStyle = '#FFFFFF'
-
-      //Display Updated Top Bar
-      updateTopBar(eventMenu);
-      document.getElementById('topBar').style.display = "inline-flex";
-      
-      let timeLeft = true;
-      if(globals.remainingHoursDay == 1){
-        timeLeft = false;
-      }
-      
-      let context = {timeLeft: timeLeft, mapAreas: areaChoices};
-      document.getElementById("mainContent").innerHTML = views["userAction"](context);
-      
-      //If the hover isn't set, or if it's set to "Quad"
-      if(globals.isCurrentAreaHover < 1){
-        globals.isCurrentAreaHover = areaChoices["Commons"].id;
-      }
-      for(let key in areaChoices){
-        if(areaChoices[key].id == globals.isCurrentAreaHover){
-          document.getElementById(key+"Choice").style.display = "block";
-        }
-      }
-
-
-      globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
-      globals.c.onmousedown = doMousedownMap;
-      globals.c.onmousemove = doMouseoverMap;
-
-
-      setupMap(false);
-    
-    
-    document.getElementById("map").style.display = "block";
-    document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`mapHelpPage`)' ></img>";
-
-    }
-};
+////Creates the area in which users decide what to do
+//function eventMenu()
+//{
+//    //document.getElementById("gameContents").innerHTML += "<img src='"+globals.playerImg+"' style='display:none'>"
+//	if(hourChecker()){
+//    
+//    globals.loopable = false;
+//      globals.practice = false;
+//
+//      //Make sure users are using the correct candidate data
+//      //Extra fix for the fake data polling bug
+//      globals.candidates = globals.currentCandidateArrayHolder;
+//
+//      //Clear previous screen
+//      clearScreen();
+//      
+//      document.getElementById("contentContainer").classList.add("columns")
+//	  document.getElementById("mainContent").classList.add("left");
+//      
+//      saveGame();
+//      
+//
+//
+//      //Build Game Map buttons
+//
+//      
+//      if(!globals.eventsLoaded){
+//        addLocationEvents();
+//      }
+//      
+//      document.getElementById("map").innerHTML = "<canvas id='myCanvas' width='600px' height = '415px' style = 'position: relative; display: inline'></canvas>";
+//      globals.c=document.getElementById("myCanvas");
+//      globals.ctx = globals.c.getContext("2d");
+//      globals.ctx.fillStyle = '#FFFFFF'
+//
+//      //Display Updated Top Bar
+//      updateTopBar(eventMenu);
+//      document.getElementById('topBar').style.display = "inline-flex";
+//      
+//      let timeLeft = true;
+//      if(globals.remainingHoursDay == 1){
+//        timeLeft = false;
+//      }
+//      
+//      let context = {timeLeft: timeLeft, mapAreas: areaChoices};
+//      document.getElementById("mainContent").innerHTML = views["userAction"](context);
+//      
+//      //If the hover isn't set, or if it's set to "Quad"
+//      if(globals.isCurrentAreaHover < 1){
+//        globals.isCurrentAreaHover = areaChoices["Commons"].id;
+//      }
+//      for(let key in areaChoices){
+//        if(areaChoices[key].id == globals.isCurrentAreaHover){
+//          document.getElementById(key+"Choice").style.display = "block";
+//        }
+//      }
+//
+//
+//      globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
+//      globals.c.onmousedown = doMousedownMap;
+//      globals.c.onmousemove = doMouseoverMap;
+//
+//
+//      setupMap(false);
+//    
+//    
+//    document.getElementById("map").style.display = "block";
+//    document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`mapHelpPage`)' ></img>";
+//
+//    }
+//};
 
 function chooseEvent(choice)
 {
@@ -2022,62 +2022,62 @@ function eventResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
 };
 
 //Ends the game
-function endGame()
-{
-	//Clear previous screen
-	clearScreen();
-    votePercentage(1000, -1);
-
-	var winner;
-	var winvotes = 0;
-	globals.ranking = globals.candidates.slice();
-	globals.ranking.sort(function(a, b){return b.votes-a.votes})
-	document.getElementById("centerDisplay").innerHTML = "<h1> Rankings: </h1>";
-	for(var i = 0; i<globals.ranking.length;i++)
-	{
-		document.getElementById("centerDisplay").innerHTML += "<h1>" + (i+1) + ". " + globals.ranking[i].name + " Votes: " + globals.ranking[i].votes + "</h1><br>";
-	}
-    globals.endReset = true; 
-    globals.gameOver = true;
-	document.getElementById("centerDisplay").innerHTML += "<h1> Winner: "+ globals.ranking[0].name +"</h1> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
-};
+//function endGame()
+//{
+//	//Clear previous screen
+//	clearScreen();
+//    votePercentage(1000, -1);
+//
+//	var winner;
+//	var winvotes = 0;
+//	globals.ranking = globals.candidates.slice();
+//	globals.ranking.sort(function(a, b){return b.votes-a.votes})
+//	document.getElementById("centerDisplay").innerHTML = "<h1> Rankings: </h1>";
+//	for(var i = 0; i<globals.ranking.length;i++)
+//	{
+//		document.getElementById("centerDisplay").innerHTML += "<h1>" + (i+1) + ". " + globals.ranking[i].name + " Votes: " + globals.ranking[i].votes + "</h1><br>";
+//	}
+//    globals.endReset = true; 
+//    globals.gameOver = true;
+//	document.getElementById("centerDisplay").innerHTML += "<h1> Winner: "+ globals.ranking[0].name +"</h1> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
+//};
 
 
 
 /*Special Action Pages*/
-function tutorial (help)
-{
-    clearScreen();
-    showTutorialPage(0, help);
-}
-
-function showTutorialPage(currentPage, help){
-    let context = {"tutorialPages":tutorialPages, "currentPage":currentPage, "isHelp":help};
-    document.getElementById("centerDisplay").innerHTML = views["tutorial"](context);
-}
-
-function nextSection(currentPage, help)
-{
-  if(currentPage < tutorialPages.length-1){
-    showTutorialPage(currentPage+1,help);
-  }
-  else{
-    if(!help){
-      globals.remainingHoursDay = 12;
-      globals.days = 1;
-      drawPoll(POLL_STATES.TUTORIAL, false, true);
-    }
-    else{
-      drawPoll(POLL_STATES.IN_GAME_PRACTICE, true, true);
-    }
-  }
-	
-}
-
-function lastSection(currentPage, help)
-{
-  showTutorialPage(currentPage-1, help);
-}
+//function tutorial (help)
+//{
+//    clearScreen();
+//    showTutorialPage(0, help);
+//}
+//
+//function showTutorialPage(currentPage, help){
+//    let context = {"tutorialPages":tutorialPages, "currentPage":currentPage, "isHelp":help};
+//    document.getElementById("centerDisplay").innerHTML = views["tutorial"](context);
+//}
+//
+//function nextSection(currentPage, help)
+//{
+//  if(currentPage < tutorialPages.length-1){
+//    showTutorialPage(currentPage+1,help);
+//  }
+//  else{
+//    if(!help){
+//      globals.remainingHoursDay = 12;
+//      globals.days = 1;
+//      drawPoll(POLL_STATES.TUTORIAL, false, true);
+//    }
+//    else{
+//      drawPoll(POLL_STATES.IN_GAME_PRACTICE, true, true);
+//    }
+//  }
+//	
+//}
+//
+//function lastSection(currentPage, help)
+//{
+//  showTutorialPage(currentPage-1, help);
+//}
 
 function drawPoll(state, isFree, isFake){
     
@@ -2191,157 +2191,157 @@ function drawPoll(state, isFree, isFake){
     
 }
 
-//Draws lines on the map around the buildings
-function setupMap(poll)
-{
-	globals.isPoll = poll;
+////Draws lines on the map around the buildings
+//function setupMap(poll)
+//{
+//	globals.isPoll = poll;
+//    
+//    document.getElementById("map").innerHTML = "<canvas id='myCanvas' width='600px' height = '415px' style = 'position: relative; display: inline'></canvas>";
+//    globals.c=document.getElementById("myCanvas");
+//    globals.ctx = globals.c.getContext("2d");
+//    
+//    var mouse = globals.canvasMouse;
+//	globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
+//	globals.c.onmousedown = doMousedownMap;
+//	globals.c.onmousemove = doMouseoverMap;
+//    
+//    drawMapAreas();
+//    drawMapIcons();
+//
+//}
+//
+//    
+////Sets the clickable zones on the map for the Game Map
+// function doMousedownMap(c,e)
+//	{
+//		var mouse = globals.canvasMouse;
+//        
+//        //Loop through map areas
+//        for(let key in areaChoices){
+//            let mapArea = areaChoices[key];
+//            
+//            //Only check for quad icon during Polling
+//            if(mapArea.name != "Quad" || globals.isPoll){
+//                
+//                if(isPointInArea(mouse.x, mouse.y, mapArea)){
+//                    
+//                    //If it's during a poll, update the input value
+//                    if(globals.isPoll){
+//                        document.getElementById("location").value = mapArea.id;
+//                    }
+//                    //Otherwise display the selected choice element
+//                    else{
+//                        //Hide all Choice Elements
+//                        document.getElementById("GymChoice").style.display = 'none';
+//                        document.getElementById("LibraryChoice").style.display = 'none';
+//                        document.getElementById("LabsChoice").style.display = 'none';
+//                        document.getElementById("CommonsChoice").style.display = 'none';
+//                        
+//                        //Display only the selected area
+//                        document.getElementById(mapArea.name+"Choice").style.display = 'block';
+//                    }
+//                    
+//                    globals.isCurrentAreaHover = mapArea.id;
+//                    
+//                    //Redraw screen with new outline
+//                    doMouseoverMap();
+//                }
+//            }
+//        }
+//    }
+//
+////Fills the zone over the building that the mouse if hovering over
+//	function doMouseoverMap(c,e){
+//
+//
+//        globals.c=document.getElementById("myCanvas");
+//        globals.ctx = globals.c.getContext("2d");
+//		var mouse = globals.canvasMouse;
+//        ////CONSOLE.LOG(mouse);
+//		globals.ctx.fillStyle = 'rgba(0,255,255,0.5)';
+//        
+//        drawMapAreas();
+//        
+//        //Draw Hover shapes
+//        
+//		//Loop through map areas
+//        for(let key in areaChoices){
+//            let mapArea = areaChoices[key];
+//            
+//            //Only check for quad icon during Polling
+//            if(mapArea.name != "Quad" || globals.isPoll){
+//                
+//                if(isPointInArea(mouse.x, mouse.y, mapArea)){
+//                    drawAreaPath(mapArea);
+//                    globals.ctx.fill();
+//                }
+//            }
+//        }
+//        
+//        drawMapIcons();
+//	}
+//    
+//
+//    //Draws lines on the map around the buildings
+//    function drawMapAreas()
+//    {
+//        
+//        globals.ctx.drawImage(images["Map"], 0,0,600,414);
+//        
+//        globals.ctx.strokeStyle = '#00FFFF';
+//        globals.ctx.lineWidth = 3;
+//        
+//        
+//        //Draw outlines of map areas
+//        for(let key in areaChoices){
+//            globals.ctx.save();
+//            let mapArea = areaChoices[key];
+//
+//            //Only draw the quad icon during Polling
+//            if(mapArea.name != "Quad" || globals.isPoll){
+//                
+//                if(globals.isCurrentAreaHover == mapArea.id){
+//                    globals.ctx.strokeStyle = '#FFFF00';
+//        	        globals.ctx.lineWidth = 6;
+//                }
+//                drawAreaPath(mapArea);
+//                globals.ctx.stroke();
+//            }
+//            globals.ctx.restore();
+//        }
+//
+//    }
+//function drawMapIcons(){
+//    
+//    //Draw area icons
+//    for(let key in areaChoices){
+//        let mapArea = areaChoices[key];
+//        //Only draw the quad icon during Polling
+//        if(mapArea.name != "Quad" || globals.isPoll){
+//            let areaIcon = images[mapArea.name+"Icon"];
+//            globals.ctx.drawImage(areaIcon, mapArea.labelX, mapArea.labelY,113,75)
+//        }
+//    }
+//}
     
-    document.getElementById("map").innerHTML = "<canvas id='myCanvas' width='600px' height = '415px' style = 'position: relative; display: inline'></canvas>";
-    globals.c=document.getElementById("myCanvas");
-    globals.ctx = globals.c.getContext("2d");
-    
-    var mouse = globals.canvasMouse;
-	globals.c.addEventListener('mousemove', function(evt) {globals.canvasMouse = getMousePos(globals.c, evt);}, false);
-	globals.c.onmousedown = doMousedownMap;
-	globals.c.onmousemove = doMouseoverMap;
-    
-    drawMapAreas();
-    drawMapIcons();
-
-}
-
-    
-//Sets the clickable zones on the map for the Game Map
- function doMousedownMap(c,e)
-	{
-		var mouse = globals.canvasMouse;
-        
-        //Loop through map areas
-        for(let key in areaChoices){
-            let mapArea = areaChoices[key];
-            
-            //Only check for quad icon during Polling
-            if(mapArea.name != "Quad" || globals.isPoll){
-                
-                if(isPointInArea(mouse.x, mouse.y, mapArea)){
-                    
-                    //If it's during a poll, update the input value
-                    if(globals.isPoll){
-                        document.getElementById("location").value = mapArea.id;
-                    }
-                    //Otherwise display the selected choice element
-                    else{
-                        //Hide all Choice Elements
-                        document.getElementById("GymChoice").style.display = 'none';
-                        document.getElementById("LibraryChoice").style.display = 'none';
-                        document.getElementById("LabsChoice").style.display = 'none';
-                        document.getElementById("CommonsChoice").style.display = 'none';
-                        
-                        //Display only the selected area
-                        document.getElementById(mapArea.name+"Choice").style.display = 'block';
-                    }
-                    
-                    globals.isCurrentAreaHover = mapArea.id;
-                    
-                    //Redraw screen with new outline
-                    doMouseoverMap();
-                }
-            }
-        }
-    }
-
-//Fills the zone over the building that the mouse if hovering over
-	function doMouseoverMap(c,e){
-
-
-        globals.c=document.getElementById("myCanvas");
-        globals.ctx = globals.c.getContext("2d");
-		var mouse = globals.canvasMouse;
-        ////CONSOLE.LOG(mouse);
-		globals.ctx.fillStyle = 'rgba(0,255,255,0.5)';
-        
-        drawMapAreas();
-        
-        //Draw Hover shapes
-        
-		//Loop through map areas
-        for(let key in areaChoices){
-            let mapArea = areaChoices[key];
-            
-            //Only check for quad icon during Polling
-            if(mapArea.name != "Quad" || globals.isPoll){
-                
-                if(isPointInArea(mouse.x, mouse.y, mapArea)){
-                    drawAreaPath(mapArea);
-                    globals.ctx.fill();
-                }
-            }
-        }
-        
-        drawMapIcons();
-	}
-    
-
-    //Draws lines on the map around the buildings
-    function drawMapAreas()
-    {
-        
-        globals.ctx.drawImage(images["Map"], 0,0,600,414);
-        
-        globals.ctx.strokeStyle = '#00FFFF';
-        globals.ctx.lineWidth = 3;
-        
-        
-        //Draw outlines of map areas
-        for(let key in areaChoices){
-            globals.ctx.save();
-            let mapArea = areaChoices[key];
-
-            //Only draw the quad icon during Polling
-            if(mapArea.name != "Quad" || globals.isPoll){
-                
-                if(globals.isCurrentAreaHover == mapArea.id){
-                    globals.ctx.strokeStyle = '#FFFF00';
-        	        globals.ctx.lineWidth = 6;
-                }
-                drawAreaPath(mapArea);
-                globals.ctx.stroke();
-            }
-            globals.ctx.restore();
-        }
-
-    }
-function drawMapIcons(){
-    
-    //Draw area icons
-    for(let key in areaChoices){
-        let mapArea = areaChoices[key];
-        //Only draw the quad icon during Polling
-        if(mapArea.name != "Quad" || globals.isPoll){
-            let areaIcon = images[mapArea.name+"Icon"];
-            globals.ctx.drawImage(areaIcon, mapArea.labelX, mapArea.labelY,113,75)
-        }
-    }
-}
-    
-//makes the statement screen
-function statementMenu(){
-    
-	clearScreen();
-    
-    
-    if(hourChecker()){
-      document.getElementById("mainContent").classList.add("center");
-      updateTopBar(statementMenu);
-      
-      document.getElementById("mainContent").innerHTML = views["statement"]({"issues":globals.positions});
-
-      document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='statementCalc()' > Make Statement </button>";
-      document.getElementById("back").innerHTML += "<button type='button' onclick='eventMenu()' >Back to Game Map</button>";
-      document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`statementsHelpPage`)' ></img>";
-    }
-
-}
+////makes the statement screen
+//function statementMenu(){
+//    
+//	clearScreen();
+//    
+//    
+//    if(hourChecker()){
+//      document.getElementById("mainContent").classList.add("center");
+//      updateTopBar(statementMenu);
+//      
+//      document.getElementById("mainContent").innerHTML = views["statement"]({"issues":globals.positions});
+//
+//      document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='statementCalc()' > Make Statement </button>";
+//      document.getElementById("back").innerHTML += "<button type='button' onclick='eventMenu()' >Back to Game Map</button>";
+//      document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`statementsHelpPage`)' ></img>";
+//    }
+//
+//}
 
 //Minigame
 function minigamePlayer(id){
@@ -3594,57 +3594,57 @@ function fameCalc(cand, student)
 	return fame/4;
 }
 
-//Clears the previous screen
-function clearScreen()
-{
-  
-	var gameOutput = document.getElementById("centerDisplay");
-	var prevTable = document.getElementById("table");
-  
-	document.getElementById('next').innerHTML = "";
-    document.getElementById('back').innerHTML = "";
-
-	gameOutput.innerHTML = "";
-    
-    if(document.getElementById('topBar')){
-        document.getElementById('topBar').style.display = "none";
-    }
-    
-   // document.getElementById("map").innerHTML = "";
-    document.getElementById("map").style.display = "none";
-    
-    document.getElementById("contentContainer").className = "";
-	document.getElementById("mainContent").className = "";
-    
-    
-    document.getElementById("eventImg").innerHTML = "";
-    document.getElementById("mainContent").innerHTML = "";
-    //document.getElementById("statementMenu").innerHTML = "";
-	prevTable.innerHTML = "<table id = 'tab' class='sortable'><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
-}
+////Clears the previous screen
+//function clearScreen()
+//{
+//  
+//	var gameOutput = document.getElementById("centerDisplay");
+//	var prevTable = document.getElementById("table");
+//  
+//	document.getElementById('next').innerHTML = "";
+//    document.getElementById('back').innerHTML = "";
+//
+//	gameOutput.innerHTML = "";
+//    
+//    if(document.getElementById('topBar')){
+//        document.getElementById('topBar').style.display = "none";
+//    }
+//    
+//   // document.getElementById("map").innerHTML = "";
+//    document.getElementById("map").style.display = "none";
+//    
+//    document.getElementById("contentContainer").className = "";
+//	document.getElementById("mainContent").className = "";
+//    
+//    
+//    document.getElementById("eventImg").innerHTML = "";
+//    document.getElementById("mainContent").innerHTML = "";
+//    //document.getElementById("statementMenu").innerHTML = "";
+//	prevTable.innerHTML = "<table id = 'tab' class='sortable'><thead id='tableHead'></thead><tbody id='pollTable'></tbody></table>";
+//}
 
 //Resets the game to the characters select screen.
-function resetGame()
-{
-	globals.tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
-	globals.pastPollChoices = [];
-	globals.pastPollResults = [];
-	globals.pastPollSizes = [];
-	globals.oppChoice = [];
-	globals.currentEvents = [];
-	globals.sample = [];
-	globals.candidates=[];
-	globals.chosenCandRanks = [];
-	globals.currentEvents = [];
-	globals.playerCandidate = new Candidate("ph");
-	globals.opponentCandidate = new Candidate("Karma");
-  	if(globals.gameOver)
-    {
-        globals.gameSession++; 
-        globals.gameOver = false;
-    }
-    
-}
+//function resetGame()
+//{
+//	globals.tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
+//	globals.pastPollChoices = [];
+//	globals.pastPollResults = [];
+//	globals.pastPollSizes = [];
+//	globals.oppChoice = [];
+//	globals.currentEvents = [];
+//	globals.sample = [];
+//	globals.candidates=[];
+//	globals.chosenCandRanks = [];
+//	globals.currentEvents = [];
+//	globals.playerCandidate = new Candidate("ph");
+//	globals.opponentCandidate = new Candidate("Karma");
+//  	if(globals.gameOver)
+//    {
+//        globals.gameSession++; 
+//        globals.gameOver = false;
+//    }
+//    
+//}
 
 //Allows you to view previous polls at any time.
 function viewPollResult(id, isFirst)
@@ -4667,10 +4667,10 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
     }
 
 }
-function capitalStr(string) 
-{
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
+//function capitalStr(string) 
+//{
+//    return string.charAt(0).toUpperCase() + string.slice(1);
+//}
 function makeGraphs(graphData, graphQuestions, graphLabels)
 {
 	document.getElementById("barChartDiv").innerHTML = "";
@@ -4969,348 +4969,348 @@ function pollTimeCheck(sSize, pollQuestions)
 	return (timeRequired <= globals.remainingHoursDay);
 }
 
-function saveGame()
-{ 	
-    let saveJSON = new SaveFile();
-    //Stringify and escape special characters
-    let jsonString = JSON.stringify(saveJSON).escapeSpecialChars();
-    
-    //post all that information
-	$.post('/game/saver', {saveData: jsonString});
-    
-    
-}
-//Escapes special characters for JSON encoding
-String.prototype.escapeSpecialChars = function() {
-  return this.replace(/[\\]/g, '\\\\') //Back slash
-      .replace(/[\"]/g, '\\\"') //Double quote
-      .replace(/[\/]/g, '\\/') //Forward slash
-      .replace(/[\b]/g, '\\b') //Backspace
-      .replace(/[\f]/g, '\\f') //Form feed
-      .replace(/[\n]/g, '\\n') //New line
-      .replace(/[\r]/g, '\\r') //Carriage return
-      .replace(/[\t]/g, '\\t'); //Tab
-};
+//function saveGame()
+//{ 	
+//    let saveJSON = new SaveFile();
+//    //Stringify and escape special characters
+//    let jsonString = JSON.stringify(saveJSON).escapeSpecialChars();
+//    
+//    //post all that information
+//	$.post('/game/saver', {saveData: jsonString});
+//    
+//    
+//}
+////Escapes special characters for JSON encoding
+//String.prototype.escapeSpecialChars = function() {
+//  return this.replace(/[\\]/g, '\\\\') //Back slash
+//      .replace(/[\"]/g, '\\\"') //Double quote
+//      .replace(/[\/]/g, '\\/') //Forward slash
+//      .replace(/[\b]/g, '\\b') //Backspace
+//      .replace(/[\f]/g, '\\f') //Form feed
+//      .replace(/[\n]/g, '\\n') //New line
+//      .replace(/[\r]/g, '\\r') //Carriage return
+//      .replace(/[\t]/g, '\\t'); //Tab
+//};
+//
+////Decodes special characters
+//String.prototype.decodeSpecialChars = function() {
+//    return this.replace(/&quot;/g, '\"') //Double quote
+//      .replace(/&gt;/g, '\>') //Forward slash
+//      .replace(/&lt;/g, '\<') //Backspace
+//      .replace(/&amp;/g, '&') //Form feed
+//      .replace(/&#39;/g, "\'") //single quote
+//      .replace(/&#x27;/g, "\'"); //single quote
+//};
+//
+//function SaveFile(){
+//  this.days = globals.days;
+//  this.totalDays = globals.totalDays;
+//  this.gameSession = globals.gameSession;
+//  this.firstPoll = globals.firstPoll;
+//  this.firstState = globals.firstState;
+//  this.gameOver = globals.gameOver;
+//  this.remainingHoursDay = globals.remainingHoursDay;
+//  this.candidates = globals.candidates;
+//  this.pastPollChoices = globals.pastPollChoices;
+//  this.pastPollResults = globals.pastPollResults;
+//  this.pastPollSizes = globals.pastPollSizes;
+//  this.pastGraphData = globals.pastGraphData;
+//  this.pastGraphLabels = globals.pastGraphLabels;
+//  this.studentBiases = globals.studentBiases;
+//  this.studentTypes = globals.studentTypes;
+//}
+//
+//
+//function loadSaveFile(){
+//  
+//  let jsonString = saveState;
+//  //jsonString = jsonString.replace(/&quot;/g,'"');
+//
+//  let saveJSON = JSON.parse(jsonString.decodeSpecialChars());
+//  
+//  
+//  globals.days = saveJSON.days;
+//  globals.totalDays = saveJSON.totalDays;
+//  globals.gameSession = saveJSON.gameSession;
+//  globals.firstPoll = saveJSON.firstPoll;
+//  globals.firstState = saveJSON.firstState;
+//  globals.gameOver = saveJSON.gameOver;
+//  globals.remainingHoursDay = saveJSON.remainingHoursDay;
+//  globals.candidates = saveJSON.candidates;
+//  globals.pastPollChoices = saveJSON.pastPollChoices;
+//  globals.pastPollResults = saveJSON.pastPollResults;
+//  globals.pastPollSizes = saveJSON.pastPollSizes;
+//  globals.pastGraphData = saveJSON.pastGraphData;
+//  globals.pastGraphLabels = saveJSON.pastGraphLabels;
+//  globals.studentTypes = saveJSON.studentTypes;
+//  
+//  console.log(globals.studentTypes);
+//  
+//}
+//
+//function loadGame()
+//{
+//    try{ 
+//      loadSaveFile(); 
+//    }
+//    //If the save file doesn't work, have the player start a new game
+//    catch(e){
+//      console.log("File could not be loaded");
+//      startAnimatic();
+//      return 0;
+//    }
+//  
+//    
+//    //Set the currentCandidateArrayHolder to the right data
+//    globals.currentCandidateArrayHolder = globals.candidates;
+//    
+//    //Set player candidate
+//    globals.playerCandidate = globals.candidates[0];
+//  
+//	saveState = "";
+//    preloadEventImages(globals.events);
+//  
+//    
+//    /*let canvas = document.createElement('canvas');
+//    canvas.width = 500;
+//    canvas.height = 555;
+//    let ctx = canvas.getContext('2d');
+//  
+//
+//    
+//    //Create player Image
+//    headSheet = new Sprite({context: ctx, width: 155, height: 171, image: globals.heads});
+//    headSheet.frameIndex = globals.playerCandidate.headNum;
+//    headSheet.frameIndexRace = globals.playerCandidate.raceNum;
+//    
+//	bodySheet = new Sprite({context: ctx, width: 164, height: 343, image: globals.thinBody});
+//    bodySheet.bodyArrayHolder = globals.playerCandidate.bodyTypeNum;
+//    bodySheet.frameIndexClothing = globals.playerCandidate.genderNum;
+//  
+//    let temp = bodySheet.bodyArrayHolder;
+//	headSheet.bodyArrayHolder = temp;
+//
+//	bodySheet.image = globals.imgArrayBody[temp];
+//	bodySheet.width = globals.imgArrayBodyWidth[temp];
+//	bodySheet.height = globals.imgArrayBodyHeight[temp];
+//
+//	//draws on the canvas
+//	drawOnCanvas(headSheet, bodySheet);
+//  
+//    let image = new Image();
+//    image.src = canvas.toDataURL("image/png");
+//    images["playerImg"] = image;*/
+//  
+//    generatePlayerImages();
+//  
+//    globals.inGame = true;
+//	if(globals.firstPoll)
+//	{
+//		firstPollInfo();
+//	}
+//	else if(globals.firstState)
+//	{
+//		firstStatement();
+//	}
+//	else{eventMenu();}
+//
+//}
 
-//Decodes special characters
-String.prototype.decodeSpecialChars = function() {
-    return this.replace(/&quot;/g, '\"') //Double quote
-      .replace(/&gt;/g, '\>') //Forward slash
-      .replace(/&lt;/g, '\<') //Backspace
-      .replace(/&amp;/g, '&') //Form feed
-      .replace(/&#39;/g, "\'") //single quote
-      .replace(/&#x27;/g, "\'"); //single quote
-};
-
-function SaveFile(){
-  this.days = globals.days;
-  this.totalDays = globals.totalDays;
-  this.gameSession = globals.gameSession;
-  this.firstPoll = globals.firstPoll;
-  this.firstState = globals.firstState;
-  this.gameOver = globals.gameOver;
-  this.remainingHoursDay = globals.remainingHoursDay;
-  this.candidates = globals.candidates;
-  this.pastPollChoices = globals.pastPollChoices;
-  this.pastPollResults = globals.pastPollResults;
-  this.pastPollSizes = globals.pastPollSizes;
-  this.pastGraphData = globals.pastGraphData;
-  this.pastGraphLabels = globals.pastGraphLabels;
-  this.studentBiases = globals.studentBiases;
-  this.studentTypes = globals.studentTypes;
-}
-
-
-function loadSaveFile(){
-  
-  let jsonString = saveState;
-  //jsonString = jsonString.replace(/&quot;/g,'"');
-
-  let saveJSON = JSON.parse(jsonString.decodeSpecialChars());
-  
-  
-  globals.days = saveJSON.days;
-  globals.totalDays = saveJSON.totalDays;
-  globals.gameSession = saveJSON.gameSession;
-  globals.firstPoll = saveJSON.firstPoll;
-  globals.firstState = saveJSON.firstState;
-  globals.gameOver = saveJSON.gameOver;
-  globals.remainingHoursDay = saveJSON.remainingHoursDay;
-  globals.candidates = saveJSON.candidates;
-  globals.pastPollChoices = saveJSON.pastPollChoices;
-  globals.pastPollResults = saveJSON.pastPollResults;
-  globals.pastPollSizes = saveJSON.pastPollSizes;
-  globals.pastGraphData = saveJSON.pastGraphData;
-  globals.pastGraphLabels = saveJSON.pastGraphLabels;
-  globals.studentTypes = saveJSON.studentTypes;
-  
-  console.log(globals.studentTypes);
-  
-}
-
-function loadGame()
-{
-    try{ 
-      loadSaveFile(); 
-    }
-    //If the save file doesn't work, have the player start a new game
-    catch(e){
-      console.log("File could not be loaded");
-      startAnimatic();
-      return 0;
-    }
-  
-    
-    //Set the currentCandidateArrayHolder to the right data
-    globals.currentCandidateArrayHolder = globals.candidates;
-    
-    //Set player candidate
-    globals.playerCandidate = globals.candidates[0];
-  
-	saveState = "";
-    preloadEventImages(globals.events);
-  
-    
-    /*let canvas = document.createElement('canvas');
-    canvas.width = 500;
-    canvas.height = 555;
-    let ctx = canvas.getContext('2d');
-  
-
-    
-    //Create player Image
-    headSheet = new Sprite({context: ctx, width: 155, height: 171, image: globals.heads});
-    headSheet.frameIndex = globals.playerCandidate.headNum;
-    headSheet.frameIndexRace = globals.playerCandidate.raceNum;
-    
-	bodySheet = new Sprite({context: ctx, width: 164, height: 343, image: globals.thinBody});
-    bodySheet.bodyArrayHolder = globals.playerCandidate.bodyTypeNum;
-    bodySheet.frameIndexClothing = globals.playerCandidate.genderNum;
-  
-    let temp = bodySheet.bodyArrayHolder;
-	headSheet.bodyArrayHolder = temp;
-
-	bodySheet.image = globals.imgArrayBody[temp];
-	bodySheet.width = globals.imgArrayBodyWidth[temp];
-	bodySheet.height = globals.imgArrayBodyHeight[temp];
-
-	//draws on the canvas
-	drawOnCanvas(headSheet, bodySheet);
-  
-    let image = new Image();
-    image.src = canvas.toDataURL("image/png");
-    images["playerImg"] = image;*/
-  
-    generatePlayerImages();
-  
-    globals.inGame = true;
-	if(globals.firstPoll)
-	{
-		firstPollInfo();
-	}
-	else if(globals.firstState)
-	{
-		firstStatement();
-	}
-	else{eventMenu();}
-
-}
-
-function generatePlayerImages(){
-    let canvas = document.createElement('canvas');
-    canvas.width = 500;
-    canvas.height = 555;
-    let ctx = canvas.getContext('2d');
-  
-    //Create player Image
-    headSheet = new Sprite({context: ctx, width: 155, height: 171, image: globals.heads});
-    headSheet.frameIndex = globals.playerCandidate.headNum;
-    headSheet.frameIndexRace = globals.playerCandidate.raceNum;
-    
-	bodySheet = new Sprite({context: ctx, width: 164, height: 343, image: globals.thinBody});
-    bodySheet.bodyArrayHolder = globals.playerCandidate.bodyTypeNum;
-    bodySheet.frameIndexClothing = globals.playerCandidate.genderNum;
-  
-    let temp = bodySheet.bodyArrayHolder;
-	headSheet.bodyArrayHolder = temp;
-
-	bodySheet.image = globals.imgArrayBody[temp];
-	bodySheet.width = globals.imgArrayBodyWidth[temp];
-	bodySheet.height = globals.imgArrayBodyHeight[temp];
-
-	//draws on the canvas
-	drawOnCanvas(headSheet, bodySheet);
-    
-    //Save full size, full body Player image
-    let image = new Image();
-    image.src = canvas.toDataURL("image/png");
-    images["playerImg"] = image;
-    
-    //Clear canvas
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-  
-    let scale = .3;
-    let headWidth = 150; //Width of individual head image
-    let headHeight = 160; //Height of individual head image
-    canvas.width = 99; //Width of original blank icon image 
-    canvas.height = 100; //Height of original blank icon image 
-    
-    //Draw button background
-    ctx.drawImage(images["emptyIcon"],0,0);
-  
-    //Draw scaled down player head for MyData
-    ctx.save();
-    //Scale the head to fit the button, subtracting for extra padding
-    ctx.scale((canvas.width - 8) / headWidth, (canvas.height - 8) / headHeight)
-    headSheet.render(0,0);
-    ctx.restore();
-  
-    //Save Player head
-    image = new Image();
-    image.src = canvas.toDataURL("image/png");
-    images["playerHeadImg"] = image;
-}
+//function generatePlayerImages(){
+//    let canvas = document.createElement('canvas');
+//    canvas.width = 500;
+//    canvas.height = 555;
+//    let ctx = canvas.getContext('2d');
+//  
+//    //Create player Image
+//    headSheet = new Sprite({context: ctx, width: 155, height: 171, image: globals.heads});
+//    headSheet.frameIndex = globals.playerCandidate.headNum;
+//    headSheet.frameIndexRace = globals.playerCandidate.raceNum;
+//    
+//	bodySheet = new Sprite({context: ctx, width: 164, height: 343, image: globals.thinBody});
+//    bodySheet.bodyArrayHolder = globals.playerCandidate.bodyTypeNum;
+//    bodySheet.frameIndexClothing = globals.playerCandidate.genderNum;
+//  
+//    let temp = bodySheet.bodyArrayHolder;
+//	headSheet.bodyArrayHolder = temp;
+//
+//	bodySheet.image = globals.imgArrayBody[temp];
+//	bodySheet.width = globals.imgArrayBodyWidth[temp];
+//	bodySheet.height = globals.imgArrayBodyHeight[temp];
+//
+//	//draws on the canvas
+//	drawOnCanvas(headSheet, bodySheet);
+//    
+//    //Save full size, full body Player image
+//    let image = new Image();
+//    image.src = canvas.toDataURL("image/png");
+//    images["playerImg"] = image;
+//    
+//    //Clear canvas
+//    ctx.clearRect(0,0,canvas.width,canvas.height);
+//  
+//    let scale = .3;
+//    let headWidth = 150; //Width of individual head image
+//    let headHeight = 160; //Height of individual head image
+//    canvas.width = 99; //Width of original blank icon image 
+//    canvas.height = 100; //Height of original blank icon image 
+//    
+//    //Draw button background
+//    ctx.drawImage(images["emptyIcon"],0,0);
+//  
+//    //Draw scaled down player head for MyData
+//    ctx.save();
+//    //Scale the head to fit the button, subtracting for extra padding
+//    ctx.scale((canvas.width - 8) / headWidth, (canvas.height - 8) / headHeight)
+//    headSheet.render(0,0);
+//    ctx.restore();
+//  
+//    //Save Player head
+//    image = new Image();
+//    image.src = canvas.toDataURL("image/png");
+//    images["playerHeadImg"] = image;
+//}
 
 //Updates the Game Session
-function getSession(gameOver)
-{
-	//Takes the Whole data and splits it into sections
-	//var saveArray = saveState.split("~");
-	////CONSOLE.LOG(saveArray[9])
-	////CONSOLE.LOG(saveArray[9] !=[] && saveArray[9] != "NaN" && saveArray[9] != undefined && saveArray[9] != "")
-    
-    let gameSession = "";
-    try{
-      let saveJSON = JSON.parse(saveState);
-      gameSession = saveJSON.gameSession;
-    }
-    catch(e){
-      try{
-        var saveArray = saveState.split("~");
-        gameSession = saveArray[9];
-      }
-      catch(e){
-        console.log("JSON parsing failed");
-      }
-    }
-  
-	if(!globals.gameOver){
-    	////CONSOLE.LOG(saveArray[9] == "NaN")
-    	if(gameSession !=[] && gameSession != "NaN" && gameSession != undefined && gameSession != "")
-    	{
-        	globals.gameSession = gameSession + 1;
-        	globals.gameOver = false;
-        	globals.endReset = false;
-    	}
-    	else
-    	{
-        	globals.gameSession = 0;
-        	globals.gameOver = false;
-        	globals.endReset = false;
-    	}
-	}
-    
-}
+//function updateSession(gameOver)
+//{
+//	//Takes the Whole data and splits it into sections
+//	//var saveArray = saveState.split("~");
+//	////CONSOLE.LOG(saveArray[9])
+//	////CONSOLE.LOG(saveArray[9] !=[] && saveArray[9] != "NaN" && saveArray[9] != undefined && saveArray[9] != "")
+//    
+//    let gameSession = "";
+//    try{
+//      let saveJSON = JSON.parse(saveState);
+//      gameSession = saveJSON.gameSession;
+//    }
+//    catch(e){
+//      try{
+//        var saveArray = saveState.split("~");
+//        gameSession = saveArray[9];
+//      }
+//      catch(e){
+//        console.log("JSON parsing failed");
+//      }
+//    }
+//  
+//	if(!globals.gameOver){
+//    	////CONSOLE.LOG(saveArray[9] == "NaN")
+//    	if(gameSession !=[] && gameSession != "NaN" && gameSession != undefined && gameSession != "")
+//    	{
+//        	globals.gameSession = gameSession + 1;
+//        	globals.gameOver = false;
+//        	globals.endReset = false;
+//    	}
+//    	else
+//    	{
+//        	globals.gameSession = 0;
+//        	globals.gameOver = false;
+//        	globals.endReset = false;
+//    	}
+//	}
+//    
+//}
 /* Back Button Prevention code */
 
-//Chooses what issue each candidate represents
-function assignIssue(candidate, chosenIssues, issueVal, issueCand)
-{
-	var counter;
-	globals.oppChoice=[0,1,2,3];
+////Chooses what issue each candidate represents
+//function assignIssue(candidate, chosenIssues, issueVal, issueCand)
+//{
+//	var counter;
+//	globals.oppChoice=[0,1,2,3];
+//
+//	for(var i =0; i <chosenIssues.length;i++)
+//	{
+//		globals.oppChoice.splice(globals.oppChoice.indexOf(chosenIssues[i]),1);
+//	}
+//
+//
+//	//Decides the opponents focus which cannot be the same as the player
+//	var oppFocus = Math.floor(Math.random()*(4-chosenIssues.length));
+//	candidate.focus = globals.positions[globals.oppChoice[oppFocus]];
+//	candidate.focusnum = globals.oppChoice[oppFocus];
+//	switch(globals.oppChoice[oppFocus])
+//	{
+//		case 0:
+//		candidate.issueScore[0]=issueVal;
+//		break;
+//		case 1:
+//		candidate.issueScore[1]=issueVal;
+//		break;
+//		case 2:
+//		candidate.issueScore[2]=issueVal;
+//		break;
+//		case 3:
+//		candidate.issueScore[3]=issueVal;
+//		break;
+//	}
+//
+//	if(issueCand)
+//	{
+//		globals.chosenCandRanks.push(globals.oppChoice[oppFocus]);
+//	}
+//}
+//
+////Chooses how well the candidate ranks
+//function assignRank(candidate, chosenRanks, issueCand)
+//{
+//	var counter;
+//	globals.oppChoice=[0,1,2,3];
+//	
+//	for(var i =0; i <chosenRanks.length;i++)
+//	{
+//		globals.oppChoice.splice(globals.oppChoice.indexOf(chosenRanks[i]),1);
+//	}
+//	
+//	
+//	//Decides the opponents focus which cannot be the same as the player
+//	var oppRank = Math.floor(Math.random()*(4-chosenRanks.length));
+//    
+//  
+//	switch(globals.oppChoice[oppRank])
+//	{
+//		case 0:
+//			candidate.fame = [1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6];
+//			candidate.consMod = 0.25;
+//			candidate.issueScore[candidate.focusnum] = 3;
+//		break;
+//		case 1:
+//			candidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
+//			candidate.consMod = 0.30;
+//			candidate.issueScore[candidate.focusnum] = 2.75;
+//		break;
+//		case 2:
+//			candidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
+//			candidate.consMod = 0.35;
+//			candidate.issueScore[candidate.focusnum] = 2.5;
+//		break;
+//		case 3:
+//			candidate.fame = [1.35,1.35,1.35,1.35,1.35,1.35,1.35,1.35];
+//			candidate.consMod = 0.45;
+//			candidate.issueScore[candidate.focusnum] = 2.5;
+//		break;
+//		case 4:
+//			candidate.fame = [1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25];
+//			candidate.consMod = 0.45;
+//			candidate.issueScore[candidate.focusnum] = 2.25;
+//		break;
+//	}
+//	
+//	if(issueCand)
+//	{
+//		chosenRanks.push(globals.oppChoice[oppRank]);
+//	}
+//}
 
-	for(var i =0; i <chosenIssues.length;i++)
-	{
-		globals.oppChoice.splice(globals.oppChoice.indexOf(chosenIssues[i]),1);
-	}
-
-
-	//Decides the opponents focus which cannot be the same as the player
-	var oppFocus = Math.floor(Math.random()*(4-chosenIssues.length));
-	candidate.focus = globals.positions[globals.oppChoice[oppFocus]];
-	candidate.focusnum = globals.oppChoice[oppFocus];
-	switch(globals.oppChoice[oppFocus])
-	{
-		case 0:
-		candidate.issueScore[0]=issueVal;
-		break;
-		case 1:
-		candidate.issueScore[1]=issueVal;
-		break;
-		case 2:
-		candidate.issueScore[2]=issueVal;
-		break;
-		case 3:
-		candidate.issueScore[3]=issueVal;
-		break;
-	}
-
-	if(issueCand)
-	{
-		globals.chosenCandRanks.push(globals.oppChoice[oppFocus]);
-	}
-}
-
-//Chooses how well the candidate ranks
-function assignRank(candidate, chosenRanks, issueCand)
-{
-	var counter;
-	globals.oppChoice=[0,1,2,3];
-	
-	for(var i =0; i <chosenRanks.length;i++)
-	{
-		globals.oppChoice.splice(globals.oppChoice.indexOf(chosenRanks[i]),1);
-	}
-	
-	
-	//Decides the opponents focus which cannot be the same as the player
-	var oppRank = Math.floor(Math.random()*(4-chosenRanks.length));
-    
-  
-	switch(globals.oppChoice[oppRank])
-	{
-		case 0:
-			candidate.fame = [1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6];
-			candidate.consMod = 0.25;
-			candidate.issueScore[candidate.focusnum] = 3;
-		break;
-		case 1:
-			candidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
-			candidate.consMod = 0.30;
-			candidate.issueScore[candidate.focusnum] = 2.75;
-		break;
-		case 2:
-			candidate.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
-			candidate.consMod = 0.35;
-			candidate.issueScore[candidate.focusnum] = 2.5;
-		break;
-		case 3:
-			candidate.fame = [1.35,1.35,1.35,1.35,1.35,1.35,1.35,1.35];
-			candidate.consMod = 0.45;
-			candidate.issueScore[candidate.focusnum] = 2.5;
-		break;
-		case 4:
-			candidate.fame = [1.25,1.25,1.25,1.25,1.25,1.25,1.25,1.25];
-			candidate.consMod = 0.45;
-			candidate.issueScore[candidate.focusnum] = 2.25;
-		break;
-	}
-	
-	if(issueCand)
-	{
-		chosenRanks.push(globals.oppChoice[oppRank]);
-	}
-}
-
-//Gets the posiiton of the mouse relative to the canvas
-function getMousePos(canvas, evt) 
-{
-	var rect = canvas.getBoundingClientRect();
-	return {
-	x: evt.clientX - rect.left,
-	y: evt.clientY - rect.top
-	};
-}
+////Gets the posiiton of the mouse relative to the canvas
+//function getMousePos(canvas, evt) 
+//{
+//	var rect = canvas.getBoundingClientRect();
+//	return {
+//	x: evt.clientX - rect.left,
+//	y: evt.clientY - rect.top
+//	};
+//}
 
 //Shows the results of a minigame after it's completed
 function minigameResults(scores, tutorial, loop)
@@ -5795,31 +5795,31 @@ function createTrendReport(category)
     document.getElementById('reportButtons').style = 'display:none';
 }
 
-//Returns whether there are hours left in the current day
-//If there are not, it advances the day
-function hourChecker()
-{
-    //Always save the game
-    saveGame()
-  
-    //If the current day is over
-    if(globals.remainingHoursDay < 1){
-      //If this isn't the last day, show the end of day poll
-      if(globals.days < globals.totalDays){
-        globals.days++;
-        globals.remainingHoursDay = 12;
-        dayPollInfo();
-      }
-      //Otherwise the game ends
-      else{
-        endGame();
-      }
-      return false;
-    }
-  
-  //Return that there are hours left in the current day
-  return true;
-}
+////Returns whether there are hours left in the current day
+////If there are not, it advances the day
+//function hourChecker()
+//{
+//    //Always save the game
+//    saveGame()
+//  
+//    //If the current day is over
+//    if(globals.remainingHoursDay < 1){
+//      //If this isn't the last day, show the end of day poll
+//      if(globals.days < globals.totalDays){
+//        globals.days++;
+//        globals.remainingHoursDay = 12;
+//        dayPollInfo();
+//      }
+//      //Otherwise the game ends
+//      else{
+//        endGame();
+//      }
+//      return false;
+//    }
+//  
+//  //Return that there are hours left in the current day
+//  return true;
+//}
 
 
 function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray, sSize, graphData, graphLabels, resetter)
@@ -6198,14 +6198,14 @@ function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray
 }
 
 
-function dayPollInfo()
-{
-	clearScreen();
-    document.getElementById("mainContent").classList.add("center");
-  
-    document.getElementById("mainContent").innerHTML = "<h1>End of Day Poll</h1> <br><p>Phew! After a hard day of campaigning the current electoral office will conduct a poll for each candidate. <br>You just have to fill out the questions and decide how many people they'll talk to.<br> It wont take any time on our part!</p>";
-    document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='drawPoll("+POLL_STATES.END_OF_DAY+",true, false)'>Take Your End of Day Poll</button>";
-}
+//function dayPollInfo()
+//{
+//	clearScreen();
+//    document.getElementById("mainContent").classList.add("center");
+//  
+//    document.getElementById("mainContent").innerHTML = "<h1>End of Day Poll</h1> <br><p>Phew! After a hard day of campaigning the current electoral office will conduct a poll for each candidate. <br>You just have to fill out the questions and decide how many people they'll talk to.<br> It wont take any time on our part!</p>";
+//    document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='drawPoll("+POLL_STATES.END_OF_DAY+",true, false)'>Take Your End of Day Poll</button>";
+//}
 
 
   // Shows the bug report modal
@@ -6219,7 +6219,7 @@ function dayPollInfo()
     document.getElementById('helpPage').classList.add('hide');
   }
   
-//window.onload = startGame();
+//window.onload = startSession();
 
 /* Console Disabling Code */
 
