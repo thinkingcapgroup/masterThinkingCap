@@ -1399,6 +1399,7 @@ function createTrendReport(category)
                 });
                 var tempGraphTotal = 0;
               
+                debugger;
                 //GRAPH DATA BUG: for Stefen
                 for(var x =0; x < tempGraphData[j].length; x++){
                 	tempGraphTotal = tempGraphTotal + tempGraphData[j][x]
@@ -1698,6 +1699,7 @@ function createTrendReport(category)
 
 function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray, sSize, graphData, graphLabels, resetter)
 {
+    debugger;
 	var studentResponses =[];
 	var canAdd = true;
 	if(matchingMajor == "None" && matchingGroup== "None")
@@ -1732,9 +1734,14 @@ function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray
 			}
 		}
 	}
+  
+    var graphQuestions = [];
+    for(var i = 0; i < pollChoices.length; i++){
+      graphQuestions.push(pollChoices[i]);
+    }
 	
-	var graphQuestions = pollChoices;
-	if(pollChoices[0] != "major")
+	
+	if(graphQuestions[0] != "major")
 		graphQuestions.splice(0,0,"major","group");
 	
     let filteredData = [];
@@ -1787,12 +1794,12 @@ function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray
 			else if(groupHolder == "reader"){
 				filteredData[1][3]++;
 			}
-				console.log ("i = " + 1)
-			for(var i = 2; i < pollChoices.length+1;i++)
+		    console.log ("i = " + 1)
+			for(var i = 2; i < graphQuestions.length+1;i++)
 			{
-				if(pollChoices[i] != null)
+				if(graphQuestions[i] != null)
 				{
-					switch(pollChoices[i])
+					switch(graphQuestions[i])
 					{
 						
 						case "issFav":
@@ -1828,20 +1835,20 @@ function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray
 						break;
 	
 						case "candFav":
-							for(var k =0; k< globals.candidates.length;k++)
+							for(var k =0; k< graphLabels[i].length;k++)
 							{
 								////CONSOLE.LOG()
-								if(resultsArray[2][h] == globals.candidates[k].name){
+								if(resultsArray[2][h] == graphLabels[i][k]){
 									filteredData[i][k]++;
 								}
 							}
 						break;
 	
 						case "candOpp":
-							for(var k =0; k< globals.candidates.length;k++)
+							for(var k =0; k< graphLabels[i].length;k++)
 							{
 								////CONSOLE.LOG()
-								if(resultsArray[3][h] == globals.candidates[k].name){
+								if(resultsArray[3][h] == graphLabels[i][k]){
 									filteredData[i][k]++;
 								}
 							}
@@ -1893,11 +1900,13 @@ function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray
 							}
 						break;
 					}
+                   
+                  
 					for(var k = 0;k<globals.positions.length;k++)
 					{
-						if(pollChoices[i] == "issue" + globals.positionsLower[k])
+						if(graphQuestions[i] == "issue" + globals.positionsLower[k])
 						{
-							switch(pollChoices[i])
+							switch(graphQuestions[i])
 							{
 								case "issuetuition":
 									if(resultsArray[9][h] <= -3)
@@ -1999,7 +2008,7 @@ function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray
 					canCounter = 14;
 					for(var k = 1;k<globals.candidates.length;k++)
 					{
-						if(pollChoices[i] == "candFame" + globals.candidates[k].name)
+						if(graphQuestions[i] == "candFame" + globals.candidates[k].name)
 						{
 							var counter = canCounter;
 							if(parseFloat(resultsArray[counter][h]).toFixed(2) <= 0.2)
@@ -2027,7 +2036,7 @@ function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray
 					}
 					for(var k = 1;k<globals.candidates.length;k++)
 					{
-						if(pollChoices[i] == "candTrust" + globals.candidates[k].name)
+						if(graphQuestions[i] == "candTrust" + globals.candidates[k].name)
 						{
 							var counter = canCounter;
 							if(parseFloat(resultsArray[counter][h]).toFixed(2) <= 0.2)
@@ -2069,6 +2078,7 @@ function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray
 		document.getElementById('table').style.display = 'none';
 		//filterGraphData("None", "None", pollChoices, resultsArray, sSize, graphData, graphLabels, true)
 	}
+    debugger;
 }
 
 
