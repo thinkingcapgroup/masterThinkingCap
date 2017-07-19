@@ -1399,7 +1399,6 @@ function createTrendReport(category)
                 });
                 var tempGraphTotal = 0;
               
-                debugger;
                 //GRAPH DATA BUG: for Stefen
                 for(var x =0; x < tempGraphData[j].length; x++){
                 	tempGraphTotal = tempGraphTotal + tempGraphData[j][x]
@@ -1699,7 +1698,6 @@ function createTrendReport(category)
 
 function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray, sSize, graphData, graphLabels, resetter)
 {
-    debugger;
 	var studentResponses =[];
 	var canAdd = true;
 	if(matchingMajor == "None" && matchingGroup== "None")
@@ -2078,7 +2076,6 @@ function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray
 		document.getElementById('table').style.display = 'none';
 		//filterGraphData("None", "None", pollChoices, resultsArray, sSize, graphData, graphLabels, true)
 	}
-    debugger;
 }
 
 
