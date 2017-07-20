@@ -2078,6 +2078,72 @@ function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray
 	}
 }
 
+function PollResult(){
+  this.students = [];
+  this.questions = [];
+  this.size = 1;
+  this.numQuestions = 1;
+}
+
+function PollStudent(){
+  this.answers = {};
+}
+
+function PollQuestion(id, subId){
+  this.id = id;
+  this.subId = subId;
+  
+  if(this.subId){
+    this.type = "numerical";
+  }
+  else{
+    this.subId = "";
+    
+  }
+  
+  //Read from JSON, can either be categorical or numberical
+  //categorical questions have answers that exactly match the possibleAnswers
+  //numerical ones use the possibleAnswers as labels for ranges
+  this.type = "categorical";
+  
+  let subQuestions = ["issueOpinion", ]
+  
+  //If the question involves an issue subquestion
+  if(id.includes("issueOpinion")){
+    this.type = "numerical";
+    this.parentId = "issueOpinion";
+  }
+  //If the question involves a candidate subquestion
+  else if(id.includes("candFame") || id.includes("candTrust")){
+    //If the question is about the player's character
+    if(id.includes("Player"))){
+      
+    }
+    else{
+      
+    }
+    
+    
+  }
+  
+  //Unless this question uses the current candidates (candFav and candOpp), 
+  //The possibleAnswers can be read in from the JSON objects
+  if(id == "candFav" || id == "candOpp"){
+    for(var i = 0; i < globals.candidates.length; i++ )
+    {
+      this.possibleAnswers(globals.candidates[i].name);
+    }
+  }
+  else{
+    this.possibleAnswers = globals.questions[j].labels
+  }
+  
+  //Get data from json based on id
+  this.possibleAnswers = [];
+  this.question = "";
+  this.tableHeader = "";
+}
+
 
 
 

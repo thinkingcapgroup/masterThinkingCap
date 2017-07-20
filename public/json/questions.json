@@ -1,0 +1,156 @@
+
+	"questions":
+	[
+		{
+            "id":"issueFav",
+			"question":"What issue are you most in favor of?", 
+			"labels":[
+              "Budget",
+              "Tuition", 
+              "Functions", 
+              "Medical"
+            ],
+            "type":"categorical"
+
+		},
+		{
+            "id":"issueOpp",
+			"question":"What issue are you most in opposition to?", 
+			"labels":[
+              "Budget",
+              "Tuition", 
+              "Functions", 
+              "Medical"
+            ],
+            "type": "categorical"
+		},
+		{
+            "id":"candFav",
+			"question":"What candidate are you most in favor of?", 
+			"labels": "[CANDIDATES]",
+            "type": "categorical"	
+		},
+		{
+            "value":"candOpp",
+			"question":"What candidate are you most in opposition to?", 
+			"labels":"[CANDIDATES]",
+			"type": "categorical"
+		},
+		{
+            "id":"major",
+			"question":"What is your major?", 
+			"labels":[
+              "Business",
+              "Law", 
+              "Tech", 
+              "Arts"
+              ],
+            "type": "categorical"
+		},
+		{
+            "value":"group",
+			"question":"What group do you identify with?", 
+			"labels":[
+              "Socialite",
+              "Athlete", 
+              "Gamer",
+              "Reader"
+            ],
+            "type": "categorical"
+		},
+
+		{
+            "id":"issueOpinion",
+			"question":"How do you feel about [VALUE]?", 
+			"labels": [
+              {
+                "upperLimit": -3,
+                "label": "Hate"
+              },
+              {
+                "lowerLimit": -3,
+                "upperLimit": -1,
+                "label": "Dislike"
+              },
+              {
+                "lowerLimit": -1,
+                "upperLimit": 1,
+                "label": "Neutral"
+              },
+              {
+                "lowerLimit": 1,
+                "upperLimit": 3,
+                "label": "Like"
+              },
+              {
+                "lowerLimit": 3,
+                "label": "Love"
+              }
+              
+            ],
+			"type": "numerical"
+		},
+		{
+            "id":"candFame",
+			"question":"How well do you know [VALUE]? ", 
+            "labels": [
+                {
+                  "upperLimit": 0.2,
+                  "label": "Not At All Known"
+                },
+                {
+                  "lowerLimit": 0.2,
+                  "upperLimit": 0.4,
+                  "label": "Not Well Known"
+                },
+                {
+                  "lowerLimit": 0.4,
+                  "upperLimit": 0.6,
+                  "label": "Somewhat Known"
+                },
+                {
+                  "lowerLimit": 0.6,
+                  "upperLimit": 0.8,
+                  "label": "Well Known"
+                },
+                {
+                  "lowerLimit": 0.8,
+                  "label": "Very Well Known"
+                }
+              ],
+			"type": "numerical"
+
+		},
+		{
+            "id":"candTrust",
+			"question":"How trustworthy do you think [VALUE] is? ", 
+            "labels": [
+                {
+                  "upperLimit": 0.2,
+                  "label": "Very Trustworthy",
+                },
+                {
+                  "lowerLimit": 0.2,
+                  "upperLimit": 0.4,
+                  "label": "Fairly Trustworthy"
+                },
+                {
+                  "lowerLimit": 0.4,
+                  "upperLimit": 0.6,
+                  "label": "Sort of Trustworthy"
+                },
+                {
+                  "lowerLimit": 0.6,
+                  "upperLimit": 0.8, 
+                  "label": "Untrustworthy"
+                },
+                {
+                  "lowerLimit": 0.8,
+                  "label": "Very Untrustworthy"
+                }
+              ],
+			"type": "numerical"
+
+		},
+	]
+}

@@ -133,7 +133,15 @@ globals =
     studentGroups: {},
     currentPoll: 0,
 	loopable: false,
-	helpPage: ["Statement", "Polls", "Areas", "Candidates", "Functions", "Graphs", "Trends", "Students", "Map" ]
+	helpPage: ["Statement", "Polls", "Areas", "Candidates", "Functions", "Graphs", "Trends", "Students", "Map" ],
+    pastPollResults2: [],
+    gameIssues:
+    {
+        tuition: "Lower Tuition",
+        budget: "Increase Budget",
+        functions: "More School Functions",
+        medical: "Improve Medical Services"
+    }
 }
     
     
