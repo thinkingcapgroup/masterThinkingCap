@@ -2527,6 +2527,7 @@ function showMiniHelp(id)
 //calculated the effectiveness of your statement & consistancy modifier
 function statementCalc()
 {
+    $.post('/game/defaultLogger', {eventName: 'Statement Taken', eventType:'Statement Taken', module: 1, session: globals.gameSession});
 	if(globals.remainingHoursDay > 0)
 	{
 		var currentStatement = document.getElementById("statements").value;
@@ -3662,6 +3663,7 @@ function resetGame()
 //Allows you to view previous polls at any time.
 function viewPollResult(id, isFirst)
 {
+    $.post('/game/defaultLogger', {eventName: 'Viewed Poll Result', eventType:'Past Poll Result', module: 1, session: globals.gameSession});
 	clearScreen();
 	globals.currentPoll = id;
   //pollChoices, tableArray2, sSize, graphData, graphLabels, isFake, state, isFree, isReview
@@ -4907,6 +4909,7 @@ function changeDataDisplay(dataButton, isFake)
         if(!isFake){
           document.getElementById('chartFilters').style.display = 'none';
         }
+		$.post('/game/defaultLogger', {eventName: 'Viewed Data Table', eventType:'Poll Style Change', module: 1, session: globals.gameSession});
 	}
 	else if (dataButton == 2)
     {
@@ -4921,6 +4924,7 @@ function changeDataDisplay(dataButton, isFake)
         if(!isFake){
           document.getElementById('chartFilters').style.display = 'inline';
         }
+		$.post('/game/defaultLogger', {eventName: 'Viewed Bar Graph', eventType:'Poll Style Change', module: 1, session: globals.gameSession});
 	}
 	else if (dataButton == 3)
     {
@@ -4935,6 +4939,7 @@ function changeDataDisplay(dataButton, isFake)
         if(!isFake){
           document.getElementById('chartFilters').style.display = 'inline';
         }
+		$.post('/game/defaultLogger', {eventName: 'Viewed Pie Graph', eventType:'Poll Style Change', module: 1, session: globals.gameSession});
 	}
 }
 
@@ -5447,7 +5452,7 @@ function minigameResults(scores, tutorial, loop)
 //Creates a trend report based on past polls
 function createTrendReport(category)
 {
-   
+    $.post('/game/defaultLogger', {eventName: 'Viewed Trend Report', eventType:'Trend Report', module: 1, session: globals.gameSession});
     document.getElementById('buttonViewer').style = 'display:block';
     document.getElementById('visualisation').innerHTML = "";
     
