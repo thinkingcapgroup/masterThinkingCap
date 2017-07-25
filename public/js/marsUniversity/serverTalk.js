@@ -179,7 +179,7 @@ $(document).on('change','.subPollQ',function(){
 $(document).on('click','.logEventPoll', function(){
       //grab event ID
       //userAction
-      //$.post('/game/loggerPoll', {q1: theJSONEvents[0], q2: theJSONEvents[1], q3: theJSONEvents[2], q4: theJSONEvents[3], q5:theJSONEvents[4], q6:theJSONEvents[5], eventType: 'poll', module: 1, session: globals.gameSession});
+      $.post('/game/loggerPoll', {q1: theJSONEvents[0], q2: theJSONEvents[1], q3: theJSONEvents[2], q4: theJSONEvents[3], q5:theJSONEvents[4], q6:theJSONEvents[5], eventType: 'poll', module: 1, session: globals.gameSession});
 
 
  });
