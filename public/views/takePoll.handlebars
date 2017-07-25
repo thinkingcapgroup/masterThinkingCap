@@ -46,7 +46,7 @@
 
           {{!Add each question in the questions list}}
           {{#each questions}}
-          <option class="defaultOption" value="{{this.value}}">{{this.question}}</option>
+          <option class="defaultOption" value="{{this.id}}">{{this.question}}</option>
           {{/each}}
         </select>
         <select class = 'subPollQ totalTimeTracker' style = 'display:none' id="subpoll{{@index}}">
@@ -61,7 +61,7 @@
 
       <p id='duplicateParagraph'></p>
 
-      <button class='logEventPoll primaryBtn' onclick='pollResults({{state}}, {{free}}, {{fake}})'>Submit Poll</button>
+      <button class='logEventPoll primaryBtn' onclick='pollResults2({{state}}, {{free}}, {{fake}})'>Submit Poll</button>
 
     {{! Otherwise tell the player}}
     {{else}}

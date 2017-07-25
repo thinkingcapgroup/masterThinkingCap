@@ -62,7 +62,11 @@ function onPollChange(pollThing){
   var subQuestionId = "subpoll" + questionNumber;
   var subQuestion = document.getElementById(subQuestionId)
   
-  if(pollQuestion == "issue" || pollQuestion == "candFame" || pollQuestion == "candTrust"){
+  //Check if this question has subquestions
+  let jsonObj = getQuestionById(pollQuestion);
+  
+  if(jsonObj && jsonObj.subQuestions){
+    
        subQuestion.style = "display:block";
       
       $('#' + subQuestionId).empty();
@@ -71,16 +75,14 @@ function onPollChange(pollThing){
       noneOption.setAttribute("class", "defaultSubOption");
       subQuestion.options.add(noneOption);
       
-      if(pollQuestion == "issue"){
-        
-        for(var x = 0; x < 4; x++){
-            let newOption = new Option(globals.positions[x], globals.positionsLower[x]);
-            newOption.setAttribute("class", "defaultSubOption");
-            subQuestion.options.add(newOption);
+      if(jsonObj.subQuestions == "[ISSUES]"){
+          for(var x = 0; x < 4; x++){
+          let newOption = new Option(globals.positions[x], globals.positionsLower[x]);
+          newOption.setAttribute("class", "defaultSubOption");
+          subQuestion.options.add(newOption);
         }
       }
-      if(pollQuestion == "candFame" || pollQuestion == "candTrust" ){
-          
+      if(jsonObj.subQuestions == "[CANDIDATES]"){
         for(var x = 0; x < globals.candidates.length; x++){
             let newOption;
             if(x == 0 && globals.candidates[0].name != "Karma"){
@@ -427,25 +429,15 @@ function drawPoll(state, isFree, isFake){
 	if(isFree || globals.remainingHoursDay>= 3 )
 	{
         enoughTime = true;
-      
-        let lowerLimit = 4;
-        let upperStart = 8; 
-        if(state == POLL_STATES.FIRST){
-          lowerLimit = 4;
-          upperStart = 11;
-        }
         
 		//Populates the questions based on the JSON File
-
-			for(var j = 0; j<globals.questions.length; j++)
-			{
-              if (j < lowerLimit || j > upperStart)
-              {
-                  //CONSOLE.LOG("pushing");
-                  pollQuestions.push(globals.questions[j]);
-
-              }	
-			}
+        for(var i = 0; i<globals.questions.length; i++)
+        {
+          //As long as it's not major or social group, push the question
+          if(globals.questions[i].id != "major" &&  globals.questions[i].id != "group"){
+            pollQuestions.push(globals.questions[i]);
+          }
+        }
 		
 	}
     //CONSOLE.LOG("pollQuestions length "+pollQuestions.length);

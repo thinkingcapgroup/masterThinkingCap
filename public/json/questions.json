@@ -1,9 +1,10 @@
 
-	"questions":
+	{"questions":
 	[
 		{
             "id":"issueFav",
-			"question":"What issue are you most in favor of?", 
+			"question":"What issue are you most in favor of?",
+            "tableHeader": "Most Favored Issue",
 			"labels":[
               "Budget",
               "Tuition", 
@@ -15,7 +16,8 @@
 		},
 		{
             "id":"issueOpp",
-			"question":"What issue are you most in opposition to?", 
+			"question":"What issue are you most in opposition to?",
+            "tableHeader": "Least Favored Issue",
 			"labels":[
               "Budget",
               "Tuition", 
@@ -26,19 +28,22 @@
 		},
 		{
             "id":"candFav",
-			"question":"What candidate are you most in favor of?", 
+			"question":"What candidate are you most in favor of?",
+            "tableHeader": "Most Favored Candidate",
 			"labels": "[CANDIDATES]",
             "type": "categorical"	
 		},
 		{
             "value":"candOpp",
 			"question":"What candidate are you most in opposition to?", 
+            "tableHeader": "Least Favored Candidate",
 			"labels":"[CANDIDATES]",
 			"type": "categorical"
 		},
 		{
             "id":"major",
-			"question":"What is your major?", 
+			"question":"What is your major?",
+            "tableHeader": "Major",
 			"labels":[
               "Business",
               "Law", 
@@ -48,8 +53,9 @@
             "type": "categorical"
 		},
 		{
-            "value":"group",
+            "id":"group",
 			"question":"What group do you identify with?", 
+            "tableHeader": "Social Group",
 			"labels":[
               "Socialite",
               "Athlete", 
@@ -61,7 +67,10 @@
 
 		{
             "id":"issueOpinion",
-			"question":"How do you feel about [VALUE]?", 
+			"question":"How do you feel about this issue?",
+            "combinedQuestion":"How do you feel about [VALUE]?",
+            "subQuestions": "[ISSUES]",
+            "tableHeader": "Opinion on [VALUE]",
 			"labels": [
               {
                 "upperLimit": -3,
@@ -92,7 +101,10 @@
 		},
 		{
             "id":"candFame",
-			"question":"How well do you know [VALUE]? ", 
+			"question":"How well do you know this candidate? ",
+            "combinedQuestion":"How well do you know [VALUE]?",
+            "subQuestions": "[CANDIDATES]",
+            "tableHeader": "[VALUE]'s Fame",
             "labels": [
                 {
                   "upperLimit": 0.2,
@@ -123,11 +135,14 @@
 		},
 		{
             "id":"candTrust",
-			"question":"How trustworthy do you think [VALUE] is? ", 
+			"question":"How trustworthy do you think this candidate is? ",
+			"combinedQuestion":"How trustworthy do you think [VALUE] is? ",
+            "subQuestions": "[CANDIDATES]",
+            "tableHeader": "[VALUE]'s Trustworthiness",
             "labels": [
                 {
                   "upperLimit": 0.2,
-                  "label": "Very Trustworthy",
+                  "label": "Very Trustworthy"
                 },
                 {
                   "lowerLimit": 0.2,
@@ -151,6 +166,6 @@
               ],
 			"type": "numerical"
 
-		},
+		}
 	]
 }

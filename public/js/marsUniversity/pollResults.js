@@ -1,3 +1,4 @@
+let questionsTemp = [];
 
 //Calculates the results of each poll question from each student in the sample and stores them in an array
 function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
@@ -2089,59 +2090,645 @@ function PollStudent(){
   this.answers = {};
 }
 
-function PollQuestion(id, subId){
+function PollQuestion(id, subId, jsonObj){
   this.id = id;
   this.subId = subId;
   
+  this.type = jsonObj.type;
+  this.question = jsonObj.question;
+  this.tableHeader = jsonObj.tableHeader;
+  
+  //If this question has a subquestion, then within the JSON, the specific subquestion text has the placeholder "[VALUE]"
+  //So we need to replace [VALUE] with the accurate subquestion
   if(this.subId){
-    this.type = "numerical";
-  }
-  else{
-    this.subId = "";
+    //Replace the combined question text (displayed in bar and pie graphs)
+    this.question = jsonObj.combinedQuestion.replace("[VALUE]", this.subId);
     
-  }
-  
-  //Read from JSON, can either be categorical or numberical
-  //categorical questions have answers that exactly match the possibleAnswers
-  //numerical ones use the possibleAnswers as labels for ranges
-  this.type = "categorical";
-  
-  let subQuestions = ["issueOpinion", ]
-  
-  //If the question involves an issue subquestion
-  if(id.includes("issueOpinion")){
-    this.type = "numerical";
-    this.parentId = "issueOpinion";
-  }
-  //If the question involves a candidate subquestion
-  else if(id.includes("candFame") || id.includes("candTrust")){
-    //If the question is about the player's character
-    if(id.includes("Player"))){
-      
-    }
-    else{
-      
-    }
-    
-    
+    //Replace tableHeader text (displayed in data table)
+    this.tableHeader = this.tableHeader.replace("[VALUE]", this.subId);
   }
   
   //Unless this question uses the current candidates (candFav and candOpp), 
-  //The possibleAnswers can be read in from the JSON objects
-  if(id == "candFav" || id == "candOpp"){
+  //The possibleAnswers can be read in from the JSON object
+  if(this.labels == "[CANDIDATES]"){
     for(var i = 0; i < globals.candidates.length; i++ )
     {
       this.possibleAnswers(globals.candidates[i].name);
     }
   }
   else{
-    this.possibleAnswers = globals.questions[j].labels
+    this.possibleAnswers = jsonObj.labels;
   }
   
-  //Get data from json based on id
-  this.possibleAnswers = [];
-  this.question = "";
-  this.tableHeader = "";
+}
+
+function pollResults2(state, isFree, isFake)
+{
+	var bias = document.getElementById('location').value;
+	
+	var duplicate = false;
+	var dup1;
+  
+	var dup2;
+	
+  
+    let newPollResult = new PollResult();
+    
+	for(var i = 0; i<6 ;i++)
+	{
+		var selectedQuestion = document.getElementById("poll"+i+"");
+		if(selectedQuestion.options[selectedQuestion.selectedIndex].value != "")
+		{
+			let pollValue = selectedQuestion.options[selectedQuestion.selectedIndex].value;
+            
+            let jsonObj = getQuestionById(pollValue);
+
+            //If the question has a subquestion
+			if(jsonObj.subQuestions){
+				//grab the sub question
+				var selectedSubQuestion = document.getElementById('subpoll' + i + '');
+				var subValue = selectedSubQuestion.value;
+				
+                if(subValue != ""){
+                    let jsonObj = getQuestionById(pollValue);
+                    let newQuestion = new PollQuestion(pollValue, subValue, jsonObj);
+                    newPollResult.questions.push(newQuestion);
+                    
+                    //pollVal = pollVal +""+ subValue; 
+                    //pollChoices.push(pollVal);
+                }
+			}
+            else{
+              let jsonObj = getQuestionById(pollValue);
+              let newQuestion = new PollQuestion(pollValue, "", jsonObj);
+              newPollResult.questions.push(newQuestion);
+            }
+				
+		}
+	}
+    console.log(newPollResult);
+  
+    let pollChoices = newPollResult.questions;
+
+	//Checks for duplicate questions
+	for (var i=0; i< pollChoices.length;i++)
+	{
+		for (var j=0; j< pollChoices.length;j++)
+		{
+			if(i!=j)
+			{
+				var val1 = pollChoices[i].id + pollChoices[i].subId;
+				var val2 = pollChoices[j].id + pollChoices[j].subId;
+
+				if(val1 == val2)
+				{
+					duplicate = true;
+					dup1 = i;
+					dup2 = j;
+				}
+			}
+		}
+	}
+    var sample = document.getElementById("sample");
+    var sampleSize = parseFloat(sample.options[sample.selectedIndex].value);
+  
+	if(duplicate)
+    {
+		document.getElementById("duplicateParagraph").innerHTML = "You’re asking the same question more than once! Fix this to continue the poll."
+		document.getElementById("duplicateParagraph").style.display = "block";
+        
+        let question1 = document.getElementById("poll"+dup1+"");
+        let question2 = document.getElementById("poll"+dup2+"");
+        
+		question1.options[question1.selectedIndex].style.color = "red";
+		question2.options[question2.selectedIndex].style.color = "red";
+	}
+	else if(pollChoices.length < 2)
+	{
+       ////CONSOLE.LOG("not enough questions: "+pollChoices.length);
+		document.getElementById("duplicateParagraph").innerHTML = "Please Select 2 or More Questions";
+        document.getElementById("duplicateParagraph").style.display = "block";
+	}
+    else if(!pollTimeCheck(sampleSize, pollChoices) && !isFree){
+      ////CONSOLE.LOG("time check 1");
+        document.getElementById("duplicateParagraph").innerHTML = "You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.";
+        document.getElementById("duplicateParagraph").style.display = "block";
+    }
+    //If the poll is sucessful
+    else
+    {
+        //Clear previous screen
+        clearScreen();
+      
+        //Run poll
+        pollCalc2(newPollResult, sampleSize, bias, state, isFree, isFake);
+    
+        if(state == POLL_STATES.TUTORIAL){
+            document.getElementById("back").innerHTML += "<button onclick = 'drawPoll("+state+","+isFree+","+isFake+")'> Back to Tutorial Poll</button>";
+        }
+        else if(state == POLL_STATES.PRACTICE_AREA)
+        {
+            document.getElementById("back").innerHTML += "<button onclick = 'practiceMenu()'> Return to Practice Area</button>";
+        }
+        else if(state == POLL_STATES.FIRST)
+        {
+            document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
+    
+        }
+        else{
+            document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'eventMenu()'> Return to the Game Map </button>";
+        }
+	}
+
+    //Reset candidates back to correct candidates
+	globals.candidates = globals.currentCandidateArrayHolder;
+
+};
+
+function pollCalc2(newPollResult, sampleSize, bias, state, isFree, isFake)
+{	
+    
+    //Adds the data for Major and Social Group to the graph and label arrays
+	let graphData = [];
+	graphData.push(globals.questions[4].graph.split(','));
+	//graphData.push(globals.questions[5].graph.split(','));
+	graphData.push(globals.questions[6].graph.split(','));
+	
+	globals.tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
+	
+	var pollLabelArray = [];
+	pollLabelArray.push(globals.questions[4].labels.split(','));
+	//pollLabelArray.push(globals.questions[5].labels.split(','));
+	pollLabelArray.push(globals.questions[6].labels.split(','));
+    
+    //Goes through each question selected, exapnds the size of graphData by one and pushes the label into the pollLabelArray
+  
+    console.log("Number of candidates: ");
+	for(var i =0; i<pollChoices.length;i++)
+	{
+		switch(pollChoices[i])
+		{
+			case "candFav":
+              var array =[];
+              var array2 =[];
+              for(var j =0; j < globals.candidates.length;j++ )
+              {
+                  array.push(0);
+                  array2.push(globals.candidates[j].name);
+              }
+              graphData.push(array);
+              pollLabelArray.push(array2);
+              break;
+			case "candOpp":
+              var array =[];
+              var array2 =[];
+              for(var j =0; j < globals.candidates.length;j++ )
+              {
+                  array.push(0);
+                  array2.push(globals.candidates[j].name);
+              }
+              graphData.push(array);
+              pollLabelArray.push(array2);
+              break;
+			default:
+				for(var j =0; j < globals.questions.length; j++)
+				{
+					if(pollChoices[i] == globals.questions[j].value)
+					{
+						graphData.push(globals.questions[j].graph.split(','));
+						pollLabelArray.push(globals.questions[j].labels.split(','));
+                        console.log("check match");
+					}
+					else
+					{
+						if(globals.questions[j].value == "issue")
+						{
+							for(var k =0; k< globals.positionsLower.length; k++)
+							{
+								if(pollChoices[i] == "issue" + globals.positionsLower[k])
+								{
+									graphData.push(globals.questions[j].graph.split(','));
+									pollLabelArray.push(globals.questions[j].labels.split(','));
+								}
+							}
+						}
+						else if(globals.questions[j].value == "candFame")
+						{
+							for(var k =0; k< globals.candidates.length; k++)
+							{
+								if(pollChoices[i] == "candFame" + globals.candidates[k].name)
+								{
+									graphData.push(globals.questions[j].graph.split(','));
+									pollLabelArray.push(globals.questions[j].labels.split(','));
+								}
+							}
+						}
+						else if(globals.questions[j].value == "candTrust")
+						{
+							for(var k =0; k< globals.candidates.length; k++)
+							{
+								if(pollChoices[i] == "candTrust" + globals.candidates[k].name)
+								{
+									graphData.push(globals.questions[j].graph.split(','));
+									pollLabelArray.push(globals.questions[j].labels.split(','));
+								}
+							}
+						}
+					}
+				}
+			break;
+		}
+
+	}
+    //Creates the sample for the poll
+	votePercentage(sampleSize, bias);
+  
+    ////CONSOLE.LOG(globals.candidates);
+	//Gets the results of each question and pushes them into the proper sectionof table arrays
+	for(var j=0;j<globals.sample.length;j++)
+	{
+		globals.tableArrays[4].push(globals.sample[j].major);
+		var majorHolder = globals.sample[j].major;
+		if(majorHolder == "business"){
+			graphData[0][0]++;
+		}
+		else if(majorHolder == "law"){
+			graphData[0][1]++;
+		}
+		else if(majorHolder == "tech"){
+			graphData[0][2]++;
+		}
+		else if(majorHolder == "arts"){
+			graphData[0][3]++;
+		}
+
+		globals.tableArrays[6].push(globals.sample[j].group);
+		var groupHolder = globals.sample[j].group;
+		if(groupHolder == "socialite"){
+			graphData[1][0]++;
+		}
+		else if(groupHolder == "athlete"){
+			graphData[1][1]++;
+		}
+		else if(groupHolder == "gamer"){
+			graphData[1][2]++;
+		}
+		else if(groupHolder == "reader"){
+			graphData[1][3]++;
+		}
+		
+		//if(state == POLL_STATES.FIRST && j ==0)
+		//{
+		//	globals.candidates.splice(0,0,new Candidate(""));
+		//}
+        for(var i = 0; i < pollChoices.length ;i++)
+        {
+            ////CONSOLE.LOG(i)
+            switch(pollChoices[i])
+            {
+                case "issFav":
+                    var fav =0;
+                    var favName = "";
+                    if(fav < globals.sample[j].budgetScore ||fav==0)
+                    {
+                        fav = globals.sample[j].budgetScore;
+                        var favName = "Budget";
+                    }
+                    if(fav < globals.sample[j].tuitionScore ||fav==0)
+                    {
+                        fav = globals.sample[j].tuitionScore;
+                        var favName = "Tuition";
+                    }
+                    if(fav < globals.sample[j].functionScore ||fav==0)
+                    {
+                        fav = globals.sample[j].functionScore;
+                        var favName = "Functions";
+                    }
+                    if(fav < globals.sample[j].medicalScore ||fav==0)
+                    {
+                        fav = globals.sample[j].medicalScore;
+                        var favName = "Medical";
+                    }
+                    globals.tableArrays[0].push(favName);
+                    //find if fave
+                    if(favName == "Tuition"){
+                        graphData[i+2][0]++;
+                    }
+                    else if(favName == "Budget"){
+                        graphData[i+2][1]++;
+                    }
+                    else if(favName == "Functions"){
+                        graphData[i+2][2]++;
+                    }
+                    else if(favName == "Medical"){
+                        graphData[i+2][3]++;
+                    }
+    
+                    break;
+    
+                case "issOpp":
+                    var opp =0;
+                    var oppName = "";
+                    if(opp > globals.sample[j].budgetScore ||opp==0)
+                    {
+                        opp = globals.sample[j].budgetScore;
+                        var oppName = "Budget";
+                    }
+                    if(opp > globals.sample[j].tuitionScore ||opp==0)
+                    {
+                        opp = globals.sample[j].tuitionScore;
+                        var oppName = "Tuition";
+                    }
+                    if(opp > globals.sample[j].functionScore ||opp==0)
+                    {
+                        opp = globals.sample[j].functionScore;
+                        var oppName = "Functions";
+                    }
+                    if(opp > globals.sample[j].medicalScore ||opp==0)
+                    {
+                        opp = globals.sample[j].medicalScore;
+                        var oppName = "Medical";
+                    }
+                    globals.tableArrays[1].push(oppName);
+                    //find if oppe
+                    if(oppName == "Tuition"){
+                        graphData[i+2][0]++;
+                    }
+                    else if(oppName == "Budget"){
+                        graphData[i+2][1]++;
+                    }
+                    else if(oppName == "Functions"){
+                        graphData[i+2][2]++;
+                    }
+                    else if(oppName == "Medical"){
+                        graphData[i+2][3]++;
+                    }
+
+                    break;
+    
+                case "candFav":
+                    globals.tableArrays[2].push(globals.sample[j].results.win);
+                    for(var k =0; k< globals.candidates.length;k++)
+                    {
+                        ////CONSOLE.LOG()
+                        if(globals.sample[j].results.win == globals.candidates[k].name){
+                            graphData[i+2][k]++;
+                        }
+                    }
+                    
+                    break;
+    
+                case "candOpp":
+                    globals.tableArrays[3].push(globals.sample[j].results.los);
+                    for(var k =0; k< globals.candidates.length;k++)
+                    {
+                        if(globals.sample[j].results.los == globals.candidates[k].name){
+                            graphData[i+2][k]++;
+                        }
+                    }
+                    
+                    break;
+    
+    
+    
+                case "fame":
+                    var playFame = fameCalc(globals.candidates[0],globals.sample[j]).toFixed(3);
+                    globals.tableArrays[7].push(playFame);
+					if(playFame <= 0.2)
+					{
+                        graphData[i+2][0]++;
+					}
+					else if(playFame>0.20 && playFame<0.41)
+					{
+                        graphData[i+2][1]++;
+					}
+					else if(playFame>0.40 && playFame<0.61)
+					{
+                        graphData[i+2][2]++;
+					}
+					else if(playFame>0.60 && playFame<0.81)
+					{
+                        graphData[i+2][3]++;
+					}
+					else
+					{
+                        graphData[i+2][4]++;
+					}
+                    break;
+    
+                case "playTrust":
+                    globals.tableArrays[8].push(globals.candidates[0].consMod);
+                    var playConst = globals.candidates[0].consMod;
+					if(playConst <= 0.2)
+					{
+                        graphData[i+2][4]++;
+					}
+					else if(playConst>0.20 && playConst<0.41)
+					{
+                        graphData[i+2][3]++;
+					}
+					else if(playConst>0.40 && playConst<0.61)
+					{
+                        graphData[i+2][2]++;
+					}
+					else if(playConst>0.60 && playConst<0.81)
+					{
+                        graphData[i+2][1]++;
+					}
+					else
+					{
+                        graphData[i+2][0]++;
+					}
+                    break;
+    
+            }
+            for(var k = 0;k<globals.positions.length;k++)
+            {
+                if(pollChoices[i] == "issue" + globals.positionsLower[k])
+                {
+                    switch(pollChoices[i])
+                    {
+                        case "issuetuition":
+                            globals.tableArrays[9].push(parseFloat(globals.sample[j].tuitionScore).toFixed(2));
+							if(globals.sample[j].tuitionScore <= -3)
+							{
+                                graphData[i+2][0]++;
+							}
+							else if(globals.sample[j].tuitionScore>-3 && globals.sample[j].tuitionScore<-1)
+							{
+                                graphData[i+2][1]++;
+							}
+							else if(globals.sample[j].tuitionScore>-1 && globals.sample[j].tuitionScore<1)
+							{
+                                graphData[i+2][2]++;
+							}
+							else if(globals.sample[j].tuitionScore>1 && globals.sample[j].tuitionScore<3)
+							{
+                                graphData[i+2][3]++;
+							}
+							else
+							{
+                                graphData[i+2][4]++;
+							}
+                        break;
+    
+                        case "issuebudget":
+                            globals.tableArrays[10].push(parseFloat(globals.sample[j].budgetScore).toFixed(2));
+							if(globals.sample[j].budgetScore <= -3)
+							{
+                                graphData[i+2][0]++;
+							}
+							else if(globals.sample[j].budgetScore>-3 && globals.sample[j].budgetScore<-1)
+							{
+                                graphData[i+2][1]++;
+							}
+							else if(globals.sample[j].budgetScore>-1 && globals.sample[j].budgetScore<1)
+							{
+                                graphData[i+2][2]++;
+							}
+							else if(globals.sample[j].budgetScore>1 && globals.sample[j].budgetScore<3)
+							{
+                                graphData[i+2][3]++;
+							}
+							else
+							{
+                                graphData[i+2][4]++;
+							}
+                        break;
+    
+                        case "issuefunctions":
+                            globals.tableArrays[12].push(parseFloat(globals.sample[j].functionScore).toFixed(2));
+							if(globals.sample[j].functionScore <= -3)
+							{
+                                graphData[i+2][0]++;
+							}
+							else if(globals.sample[j].functionScore>-3 && globals.sample[j].functionScore<-1)
+							{
+                                graphData[i+2][1]++;
+							}
+							else if(globals.sample[j].functionScore>-1 && globals.sample[j].functionScore<1)
+							{
+                                graphData[i+2][2]++;
+							}
+							else if(globals.sample[j].functionScore>1 && globals.sample[j].functionScore<3)
+							{
+                                graphData[i+2][3]++;
+							}
+							else
+							{
+                                graphData[i+2][4]++;
+							}
+                        break;
+    
+                        case "issuemedical":
+                            globals.tableArrays[13].push(parseFloat(globals.sample[j].medicalScore).toFixed(2));
+							if(globals.sample[j].medicalScore <= -3)
+							{
+                                graphData[i+2][0]++;
+							}
+							else if(globals.sample[j].medicalScore>-3 && globals.sample[j].medicalScore<-1)
+							{
+                                graphData[i+2][1]++;
+							}
+							else if(globals.sample[j].medicalScore>-1 && globals.sample[j].medicalScore<1)
+							{
+                                graphData[i+2][2]++;
+							}
+							else if(globals.sample[j].medicalScore>1 && globals.sample[j].medicalScore<3)
+							{
+                                graphData[i+2][3]++;
+							}
+							else
+							{
+                                graphData[i+2][4]++;
+							}
+                        break;
+                    }
+                }
+            }
+    
+            var candCounter = 14;
+            for(var k = 1;k<globals.candidates.length;k++)
+            {
+                if(pollChoices[i] == "candFame" + globals.candidates[k].name)
+                {
+                    var calcHolder = fameCalc(globals.candidates[k], globals.sample[j]);
+                    
+                    globals.tableArrays[candCounter].push(calcHolder);				
+    
+					if(calcHolder <= 0.2)
+					{
+                        graphData[i+2][0]++;
+					}
+					else if(calcHolder>0.20 && calcHolder<0.41)
+					{
+                        graphData[i+2][1]++;
+					}
+					else if(calcHolder>0.40 && calcHolder<0.61)
+					{
+                        graphData[i+2][2]++;
+					}
+					else if(calcHolder>0.60 && calcHolder<0.81)
+					{
+                        graphData[i+2][3]++;
+					}
+					else
+					{
+                        graphData[i+2][4]++;
+					}
+                }
+    
+    
+                candCounter++;
+            }
+            for(var k = 1;k<globals.candidates.length;k++)
+            {
+                if(pollChoices[i] == "candTrust" + globals.candidates[k].name)
+                {
+                    globals.tableArrays[candCounter].push(globals.candidates[k].consMod);
+					
+					if(globals.candidates[k].consMod <= 0.2)
+					{
+                        graphData[i+2][4]++;
+					}
+					else if(globals.candidates[k].consMod>0.20 && globals.candidates[k].consMod<0.41)
+					{
+                        graphData[i+2][3]++;
+					}
+					else if(globals.candidates[k].consMod>0.40 && globals.candidates[k].consMod<0.61)
+					{
+                        graphData[i+2][2]++;
+					}
+					else if(globals.candidates[k].consMod>0.60 && globals.candidates[k].consMod<0.81)
+					{
+                        graphData[i+2][1]++;
+					}
+					else
+					{
+                        graphData[i+2][0]++;
+					}
+                }
+    
+                candCounter++;
+    
+            }
+        }
+	}
+	
+	//////CONSOLE.LOG(globals.tableArrays);
+	tableBuilder(pollChoices, globals.tableArrays, sampleSize, graphData, pollLabelArray, isFake, state, isFree, false);
+}
+
+function getQuestionById(id){
+  return globals.questions.find(getById, {"id": id});
+}
+
+function getById(element){
+  //Using array.prototype.find or filter, we'll pass in the id as an argument
+  //But since Javascript callbacks are weird, we pass in the id as the "thisArg"
+  let id = this.id;
+  
+  return element.id === id;
 }
 
 

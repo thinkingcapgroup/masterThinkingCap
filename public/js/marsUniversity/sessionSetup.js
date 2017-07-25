@@ -87,9 +87,19 @@ function startSession()
 	{
 		Json = JSON.parse(this.responseText);
 		globals.events = Json.events;
-		globals.questions = Json.questions;
+		//globals.questions = Json.questions;
 	};
 	oReq.open("get", "json/data.json", true);
+	oReq.send();
+  
+    var questionsJSON;
+	var oReq = new XMLHttpRequest();
+	oReq.onload = function (e)
+	{
+		questionsJSON = JSON.parse(this.responseText);
+		globals.questions = questionsJSON.questions;
+	};
+	oReq.open("get", "json/questions.json", true);
 	oReq.send();
     
     preloadEventImages(globals.events);
