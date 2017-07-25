@@ -64,7 +64,7 @@ function pollMenu()
       for(var i=0; i<globals.pastPollResults.length;i++)
       {
           globals.num = i+1;
-          document.getElementById("mainContent").innerHTML += "<button class='otherBtn' onclick='viewPollResult("+i+")' >View Poll "+ globals.num +" Result </button>";
+          document.getElementById("mainContent").innerHTML += "<button class='otherBtn logPollView' onclick='viewPollResult("+i+")' >View Poll "+ globals.num +" Result </button>";
       }
       document.getElementById("mainContent").innerHTML += "<br>";
       document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`pollHelpPage`)' ></img>";
@@ -216,7 +216,7 @@ function statementMenu(){
       
       document.getElementById("mainContent").innerHTML = views["statement"]({"issues":globals.positions});
 
-      document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='statementCalc()' > Make Statement </button>";
+      document.getElementById("mainContent").innerHTML += "<button class='primaryBtn logStatement' onclick='statementCalc()' > Make Statement </button>";
       document.getElementById("back").innerHTML += "<button type='button' onclick='eventMenu()' >Back to Game Map</button>";
       document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`statementsHelpPage`)' ></img>";
     }
