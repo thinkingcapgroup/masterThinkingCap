@@ -53,13 +53,35 @@ $(document).on('click','.logHelpEnd', function(req, res, next){
       
 
  });
+ 
+$(document).on('click','.logPollView', function(req, res, next){
+    $.post('/game/defaultLogger', {eventName: 'Viewed Poll Result', eventType:'Past Poll Result', module: 1, session: globals.gameSession});
+ });
+ 
+$(document).on('click','.trendButton', function(req, res, next){
+    $.post('/game/defaultLogger', {eventName: 'Viewed Trend Report', eventType:'Trend Report', module: 1, session: globals.gameSession});
+ });
+ 
+$(document).on('click','.logBarView', function(req, res, next){
+    $.post('/game/defaultLogger', {eventName: 'Viewed Bar Graph', eventType:'Poll Style Change', module: 1, session: globals.gameSession});
+ });
+ 
+$(document).on('click','.logPieView', function(req, res, next){
+    $.post('/game/defaultLogger', {eventName: 'Viewed Pie Graph', eventType:'Poll Style Change', module: 1, session: globals.gameSession});
+ });
+ 
+$(document).on('click','.logTableView', function(req, res, next){
+    $.post('/game/defaultLogger', {eventName: 'Viewed Data Table', eventType:'Poll Style Change', module: 1, session: globals.gameSession});
+ });
+$(document).on('click','.logStatement', function(req, res, next){
+    $.post('/game/defaultLogger', {eventName: 'Statement Taken', eventType:'Statement Taken', module: 1, session: globals.gameSession});
+ });
+
 
 $(document).on('click','.logHelpEndTutorial', function(req, res, next){
       //grab event ID
       //userAction
     $.post('/game/loggerHelpEndTutorial', {eventName: 'Leave Help', eventType:'Help Area', module: 1, part:globals.section, session: globals.gameSession});
-      
-
  });
 
 $(document).on('change', '.totalTimeTracker', function(){
