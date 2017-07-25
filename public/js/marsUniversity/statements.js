@@ -2,6 +2,7 @@
 //calculated the effectiveness of your statement & consistancy modifier
 function statementCalc()
 {
+    $.post('/game/defaultLogger', {eventName: 'Statement Taken', eventType:'Statement Taken', module: 1, session: globals.gameSession});
 	if(globals.remainingHoursDay > 0)
 	{
 		var currentStatement = document.getElementById("statements").value;
