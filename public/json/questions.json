@@ -1,15 +1,39 @@
 
 	{"questions":
-	[
+	 [
+        {
+            "id":"major",
+			"question":"What is your major?",
+            "tableHeader": "Major",
+			"labels":[
+              {"label":"business"},
+              {"label":"law"}, 
+              {"label":"tech"}, 
+              {"label":"arts"}
+            ],
+            "type": "categorical"
+		},
+		{
+            "id":"group",
+			"question":"What group do you identify with?", 
+            "tableHeader": "Social Group",
+			"labels":[
+              {"label":"socialite"},
+              {"label":"athlete"}, 
+              {"label":"gamer"},
+              {"label":"reader"}
+            ],
+            "type": "categorical"
+		},
 		{
             "id":"issueFav",
 			"question":"What issue are you most in favor of?",
             "tableHeader": "Most Favored Issue",
 			"labels":[
-              "Budget",
-              "Tuition", 
-              "Functions", 
-              "Medical"
+              {"label":"budget"},
+              {"label":"tuition"}, 
+              {"label":"functions"}, 
+              {"label":"medical"}
             ],
             "type":"categorical"
 
@@ -19,10 +43,10 @@
 			"question":"What issue are you most in opposition to?",
             "tableHeader": "Least Favored Issue",
 			"labels":[
-              "Budget",
-              "Tuition", 
-              "Functions", 
-              "Medical"
+              {"label":"budget"},
+              {"label":"tuition"}, 
+              {"label":"functions"}, 
+              {"label":"medical"}
             ],
             "type": "categorical"
 		},
@@ -34,39 +58,14 @@
             "type": "categorical"	
 		},
 		{
-            "value":"candOpp",
+            "id":"candOpp",
 			"question":"What candidate are you most in opposition to?", 
             "tableHeader": "Least Favored Candidate",
 			"labels":"[CANDIDATES]",
 			"type": "categorical"
 		},
 		{
-            "id":"major",
-			"question":"What is your major?",
-            "tableHeader": "Major",
-			"labels":[
-              "Business",
-              "Law", 
-              "Tech", 
-              "Arts"
-              ],
-            "type": "categorical"
-		},
-		{
-            "id":"group",
-			"question":"What group do you identify with?", 
-            "tableHeader": "Social Group",
-			"labels":[
-              "Socialite",
-              "Athlete", 
-              "Gamer",
-              "Reader"
-            ],
-            "type": "categorical"
-		},
-
-		{
-            "id":"issueOpinion",
+            "id":"issueOpinion_",
 			"question":"How do you feel about this issue?",
             "combinedQuestion":"How do you feel about [VALUE]?",
             "subQuestions": "[ISSUES]",
@@ -100,7 +99,7 @@
 			"type": "numerical"
 		},
 		{
-            "id":"candFame",
+            "id":"candFame_",
 			"question":"How well do you know this candidate? ",
             "combinedQuestion":"How well do you know [VALUE]?",
             "subQuestions": "[CANDIDATES]",
@@ -134,7 +133,7 @@
 
 		},
 		{
-            "id":"candTrust",
+            "id":"candTrust_",
 			"question":"How trustworthy do you think this candidate is? ",
 			"combinedQuestion":"How trustworthy do you think [VALUE] is? ",
             "subQuestions": "[CANDIDATES]",

@@ -203,6 +203,214 @@ function votePercentage(sampleSize, bias)
 	}
 }
 
+function TempStudent(bias){
+  let groupNumber;
+	if(bias > -1){
+		var coinFlip = Math.floor(Math.random()*2);
+		if(coinFlip == 1){
+            groupNumber = bias;
+        }
+		else{
+		  groupNumber = Math.floor(Math.random()* 4);
+          while(groupNumber == bias){
+		    groupNumber = Math.floor(Math.random()* 4);
+		  }
+		}
+	}
+    //If there's no bias, generate a random group
+	else{
+		groupNumber = Math.floor(Math.random()* 4);
+	}
+  
+    //Generate random major
+	var majorRandom = Math.floor(Math.random()* 4);
+	
+    let major = globals.majorList[majorRandom];
+    let group = globals.groupList[groupNumber];
+  
+    let averageMean = (globals.studentTypes[major]["tuition"].mean + globals.studentTypes[group]["tuition"].mean) / 2;
+    let averageDeviation = (globals.studentTypes[major]["tuition"].stdDeviation + globals.studentTypes[group]["tuition"].stdDeviation) / 2;    
+    let tuition = normalDistribution(averageMean, averageDeviation);
+      
+    averageMean = (globals.studentTypes[major]["budget"].mean + globals.studentTypes[group]["budget"].mean) / 2;
+    averageDeviation = (globals.studentTypes[major]["budget"].stdDeviation + globals.studentTypes[group]["budget"].stdDeviation) / 2;
+    let budget = normalDistribution(averageMean, averageDeviation);
+      
+    averageMean = (globals.studentTypes[major]["functions"].mean + globals.studentTypes[group]["tuition"].mean) / 2;
+    averageDeviation = (globals.studentTypes[major]["functions"].stdDeviation + globals.studentTypes[group]["tuition"].stdDeviation) / 2;
+    let functions = normalDistribution(averageMean, averageDeviation);
+      
+    averageMean = (globals.studentTypes[major]["medical"].mean + globals.studentTypes[group]["medical"].mean) / 2;
+    averageDeviation = (globals.studentTypes[major]["medical"].stdDeviation + globals.studentTypes[group]["medical"].stdDeviation) / 2;
+    let medical = normalDistribution(averageMean, averageDeviation);
+
+    tuition = tuition.toFixed(2);
+    budget = budget.toFixed(2);
+    functions = functions.toFixed(2);
+    medical = medical.toFixed(2);
+    
+    //Calculate favorite issue
+    var fav =0;
+    var favName = "";
+    if(fav < budget || fav==0)
+    {
+        fav = budget;
+        favName = "budget";
+    }
+    if(fav < tuition || fav==0)
+    {
+        fav = tuition;
+        favName = "tuition";
+    }
+    if(fav < functions || fav==0)
+    {
+        fav = functions;
+        favName = "functions";
+    }
+    if(fav < medical || fav==0)
+    {
+        fav = medical;
+        favName = "medical";
+    }
+    
+    //Calculate least favorite issue
+    var leastFav = 0;
+    var leastFavName = "";
+    if(leastFav < budget || leastFav==0)
+    {
+        leastFav = budget;
+        leastFavName = "budget";
+    }
+    if(leastFav < tuition || leastFav==0)
+    {
+        leastFav = tuition;
+        leastFavName = "tuition";
+    }
+    if(leastFav < functions || leastFav==0)
+    {
+        leastFav = functions;
+        leastFavName = "functions";
+    }
+    if(leastFav < medical || leastFav==0)
+    {
+        leastFav = medical;
+        leastFavName = "medical";
+    }  
+    
+    this.major = major;
+    this.group = group;
+    this.issueOpinion_tuition = tuition;
+    this.issueOpinion_budget = budget;
+    this.issueOpinion_functions = functions;
+    this.issueOpinion_medical = medical;
+    this.issueFav = favName;
+    this.issueOpp = leastFavName;
+}
+
+function createSample2(numStudents, bias)
+{
+    //Lower bias so that it matches group indices
+    bias--;
+  
+    let newSample = [];
+	for (var i = 0; i < numStudents; i++){
+      newSample.push(new TempStudent(bias)); 
+    }
+    
+    return newSample;
+}
+
+//Calculates the candidate who would recieve the vote for each student 
+function votePercentage2(sampleSize, bias)
+{
+	//////CONSOLE.LOG(candidates);
+	let studentSample = createSample2(sampleSize, bias);
+  
+	var finalWinner = "";
+	for(var i=0;i<globals.candidates.length; i++)
+    {
+        globals.candidates[i].votes = 0;
+    }
+  
+	for(let i = 0; i < studentSample.length; i++)
+	{
+        let student = studentSample[i];
+      
+		var winPercentage=0;
+		var winner ="";
+		var lowPercentage=0;
+		var loser ="";
+      
+		for(var j=0;j<globals.candidates.length; j++)
+		{   
+            let candidate = globals.candidates[j];
+          
+			var fame = fameCalc(candidate, student);
+            let consMod = candidate.consMod;
+            
+            //If this candidate is the player, store the fame and trust scores as "Player"
+            if(j == 0){
+              student["candFame_Player"] = fame;
+              student["candTrust_Player"] = consMod;
+            }
+            else{
+              student["candFame_"+candidate.name] = fame;
+              student["candTrust_"+candidate.name] = consMod;
+            }
+            
+			//Calculate similarity of student and candidate issues
+		    var issues = parseFloat(student.issueOpinion_tuition) * parseFloat(candidate.issueScore[0])
+            issues += parseFloat(student.issueOpinion_budget) * parseFloat(candidate.issueScore[1])
+		    issues += parseFloat(student.issueOpinion_functions)* parseFloat(candidate.issueScore[2])
+		    issues += parseFloat(student.issueOpinion_medical)  * parseFloat(candidate.issueScore[3])
+		  
+            issues = issues/4;
+          
+            
+            //If their issues score is less than zero,
+            //Hold onto that so we can reapply it after Math.pow
+            let sign = 1;
+            if(issues < 0){
+              sign = -1;
+            }
+          
+            /*
+              Fame scale: 0 to 1
+              Consistency scale: 0 to .5
+            */
+          
+            //Multiple by the sign to restore the positive/negative
+            //Multiple by modifier to boost overall score
+            //Square to make the score more extreme
+            //Subtract the consistency modifier, which is boosted by a modifier of 8
+            let candWinPer = (sign * 10 * Math.pow(fame * issues, 2)) - (8*consMod);
+
+			if(candWinPer > winPercentage|| winPercentage ==0)
+			{
+				winPercentage = candWinPer;
+				winner = candidate.name;
+			}
+
+			if(candWinPer < lowPercentage || lowPercentage ==0)
+			{
+				lowPercentage = candWinPer;
+				loser = candidate.name;
+			}
+		}
+        student.candFav = winner;
+        student.candOpp = loser;
+      
+		for(var k=0;k<globals.candidates.length; k++)
+		{
+			if(globals.candidates[k].name == winner)
+			{
+				globals.candidates[k].votes++;
+			}
+		}
+	}
+    return studentSample;
+}
+
 //Calculates the fame of the player's candidate based on a students group
 function fameCalc(cand, student)
 {
