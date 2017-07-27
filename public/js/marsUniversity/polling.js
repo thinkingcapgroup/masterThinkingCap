@@ -101,7 +101,7 @@ function onPollChange(pollThing){
     subQuestion.style = "display:none"
   }
 
-  dupChecker();
+  dupChecker_REFACTORED();
 }
 
 $(document).on('change', '.pollQ', onPollChange);
@@ -118,7 +118,7 @@ $(document).on('change','.subPollQ',function(){
 	  if(document.getElementById("subpoll5") != null)
       document.getElementById("subpoll5").style.color = "black"
       document.getElementById("duplicateParagraph").style.display = "none"
-	  dupChecker();
+	  dupChecker_REFACTORED();
  });
 
 //Subtracts time required to take a poll based on both sample size and the number of questions
@@ -260,40 +260,44 @@ function dupChecker_REFACTORED()
 
     for(var i = 0; i<6 ;i++)
   	{
-  		var selectedQuestion = document.getElementById("poll"+i+"");
+  		let selectedQuestion = document.getElementById("poll"+i+"");
+        let selectedSubQuestion;
+        let subQuestionIndex;
+        let pollVal;
+        
   		if(selectedQuestion.value != "")
   		{
-  			let pollValue = selectedQuestion.value;
-        let jsonObj = getQuestionById(pollValue);
+  			pollVal = selectedQuestion.value;
+            let jsonObj = getQuestionById(pollVal);
 
-        //If the question has a subquestion
-  			if(jsonObj.subQuestions){
-          var selectedSubQuestion = document.getElementById('subpoll' + i + '');
-  				var subValue = selectedSubQuestion.value;
+            //If the question has a subquestion
+            if(jsonObj.subQuestions){
+              selectedSubQuestion = document.getElementById('subpoll' + i + '');
+              var subValue = selectedSubQuestion.value;
 
-          if(subValue != ""){
-              subQuestionIndex = selectedSubQuestion.selectedIndex;
-              pollVal = pollVal +","+ subValue;
-          }
-          else{
-              pollVal = subValue;
-          }
-  		   }
+              if(subValue != ""){
+                  subQuestionIndex = selectedSubQuestion.selectedIndex;
+                  pollVal = pollVal +","+ subValue;
+              }
+              else{
+                  pollVal = subValue;
+              }
+            }
   	   }
-
-    if(pollVal){
+      
+      if(pollVal){
 
         questionIndex = selectedQuestion.selectedIndex;
 
-        //Make the option in all other dropdowns red
+        //Disable the option in all other dropdowns
         for(var j = 0; j < 6; j++){
             //If it's not the same dropdown
             if(j != i){
                 let question = document.getElementById("poll"+j+"");
-                debugger;
+              
                 //If the poll value involves a subquestion
-                if(subQuestionIndex != null && subQuestionIndex > -1){
-                    ////CONSOLE.LOG("is subquestion");
+                if(subQuestionIndex && subQuestionIndex > -1){
+                    
                     //If it's the same question
                     if(questionIndex == question.selectedIndex){
                         //Highlight the sub question
@@ -303,9 +307,6 @@ function dupChecker_REFACTORED()
                     }
                 }
                 else{
-
-                    //if(question.indexOf())
-                    //question.options[questionIndex].setAttribute("class", "duplicateOption2")
                     question.options[questionIndex].disabled = true;
                 }
 
