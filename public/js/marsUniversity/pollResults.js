@@ -132,7 +132,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 			graphData[1][3]++;
 		}
 		
-		//if(state == POLL_STATES.FIRST && j ==0)
+		//if(state == globals.POLL_STATES.FIRST && j ==0)
 		//{
 		//	globals.candidates.splice(0,0,new Candidate(""));
 		//}
@@ -961,9 +961,9 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
       }
     }
 	
-	document.getElementById("next").innerHTML += "<button id = 'barButton' class='otherBtn' onclick = 'changeDataDisplay(2,"+isFake+")' style = 'display:none'>Show Bar Graphs</button>";
-	document.getElementById("next").innerHTML += "<button id = 'pieButton' class='otherBtn' onclick = 'changeDataDisplay(3,"+isFake+")'>Show Pie Graphs</button>";
-	document.getElementById("next").innerHTML += "<button id = 'dataButton' class='otherBtn' onclick = 'changeDataDisplay(1,"+isFake+")'>Show Data Table</button><br>";
+	document.getElementById("next").innerHTML += "<button id = 'barButton'  class='otherBtn logBarView' onclick = 'changeDataDisplay(2,"+isFake+")' style = 'display:none'>Show Bar Graphs</button>";
+	document.getElementById("next").innerHTML += "<button id = 'pieButton'  class='otherBtn logPieView' onclick = 'changeDataDisplay(3,"+isFake+")'>Show Pie Graphs</button>";
+	document.getElementById("next").innerHTML += "<button id = 'dataButton' class='otherBtn logTableView' onclick = 'changeDataDisplay(1,"+isFake+")'>Show Data Table</button><br>";
 	for (var x = 0; x < globals.groupList.length; x++){
 		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ globals.groupList[x] +"'> "+ globals.groupList[x] +" ";
 	}
@@ -981,7 +981,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 		//	globals.candidates.splice(0,1);
 		//}
 	document.getElementById('table').style.display = 'none';
-	if (state == POLL_STATES.TUTORIAL){
+	if (state == globals.POLL_STATES.TUTORIAL){
         document.getElementById('back').innerHTML += "<button onclick = 'drawPoll("+state+",false, true)'>Back to Start</button>" ;
 	}
     //If the data isn't fake and it isn't a past poll report
@@ -1280,6 +1280,8 @@ function changeDataDisplay(dataButton, isFake)
         if(!isFake){
           document.getElementById('chartFilters').style.display = 'none';
         }
+		$.post('/game/defaultLogger', {eventName: 'Viewed Data Table', eventType:'Poll Style Change', module: 1, session: globals.gameSession});
+
 	}
 	else if (dataButton == 2)
     {
@@ -1294,6 +1296,8 @@ function changeDataDisplay(dataButton, isFake)
         if(!isFake){
           document.getElementById('chartFilters').style.display = 'inline';
         }
+		$.post('/game/defaultLogger', {eventName: 'Viewed Bar Graph', eventType:'Poll Style Change', module: 1, session: globals.gameSession});
+
 	}
 	else if (dataButton == 3)
     {
@@ -1308,6 +1312,8 @@ function changeDataDisplay(dataButton, isFake)
         if(!isFake){
           document.getElementById('chartFilters').style.display = 'inline';
         }
+		$.post('/game/defaultLogger', {eventName: 'Viewed Pie Graph', eventType:'Poll Style Change', module: 1, session: globals.gameSession});
+
 	}
 }
 
@@ -1317,7 +1323,8 @@ function viewPollResult(id, isFirst)
 	clearScreen();
 	globals.currentPoll = id;
   //pollChoices, tableArray2, sSize, graphData, graphLabels, isFake, state, isFree, isReview
-  tableBuilder(globals.pastPollChoices[id],globals.pastPollResults[id],globals.pastPollSizes[id],globals.pastGraphData[id],globals.pastGraphLabels[id], false, POLL_STATES.IN_GAME, true, true);
+    $.post('/game/defaultLogger', {eventName: 'Viewed Poll Result', eventType:'Past Poll Result', module: 1, session: globals.gameSession});
+  tableBuilder(globals.pastPollChoices[id],globals.pastPollResults[id],globals.pastPollSizes[id],globals.pastGraphData[id],globals.pastGraphLabels[id], false, globals.POLL_STATES.IN_GAME, true, true);
 	if(!isFirst){
         updateTopBar(pollMenu);
 		document.getElementById("back").innerHTML += "<button onclick = 'eventMenu()'>Back to Game Map</button>";
@@ -1330,7 +1337,7 @@ function viewPollResult(id, isFirst)
 //Creates a trend report based on past polls
 function createTrendReport(category)
 {
-   
+    $.post('/game/defaultLogger', {eventName: 'Viewed Trend Report', eventType:'Trend Report', module: 1, session: globals.gameSession});
     document.getElementById('buttonViewer').style = 'display:block';
     document.getElementById('visualisation').innerHTML = "";
     
