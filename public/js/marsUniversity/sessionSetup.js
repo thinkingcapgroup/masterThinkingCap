@@ -79,7 +79,7 @@ function startSession()
 
     mapBackground = new Image();
     mapBackground.src = '../../img/map/mapMU600pxW.png';
-    
+
 	//Gets the questions and events from the Json
 	var Json;
 	var oReq = new XMLHttpRequest();
@@ -91,7 +91,7 @@ function startSession()
 	};
 	oReq.open("get", "json/data.json", true);
 	oReq.send();
-  
+
     var questionsJSON;
 	var oReq = new XMLHttpRequest();
 	oReq.onload = function (e)
@@ -101,13 +101,13 @@ function startSession()
 	};
 	oReq.open("get", "json/questions.json", true);
 	oReq.send();
-    
+
     preloadEventImages(globals.events);
-    //preloadUI();  
-  
+    //preloadUI();
+
     createAreas();
     createTutorialPages();
-    
+
     loadViews(50);
     preloadImages(54);
     generateStudentBiases();
@@ -119,7 +119,7 @@ function preloadImages(totalLoadPercent){
   for(let i = 0; i < imageNames.length; i++){
     let image = new Image();
     image.onload = function(){
-      
+
       images[imageNames[i]] = image;
       updateLoadBar(loadPercent);
     }
@@ -129,20 +129,20 @@ function preloadImages(totalLoadPercent){
 
 function loadViews(totalLoadPercent){
 
-  
+
   const viewNames = Object.keys(views);
   let loadPercent = totalLoadPercent / viewNames.length;
-  
+
   for(let i = 0; i < viewNames.length; i++){
     let viewName = viewNames[i];
-    
+
     //Load in each view template
     $.get('/views/'+viewName+'.handlebars', function(data) {
       views[viewName] = Handlebars.compile(data);
       updateLoadBar(loadPercent);
       }, 'html');
   }
-  
+
   Handlebars.registerHelper('ifEquals', function(value1, value2, options) {
     if(value1 === value2) {
       return options.fn(this);
@@ -160,12 +160,12 @@ function loadViews(totalLoadPercent){
     block.data.first = true;
     block.data.last = false;
     let repeated = block.fn(this);
-    
+
     for(var i = 1; i < n; i++){
         block.data.index = i;
         block.data.first = (i === 0);
         block.data.last = (i === (n - 1));
-    
+
         repeated += block.fn(this);
     }
     return repeated;
@@ -174,7 +174,7 @@ function loadViews(totalLoadPercent){
 
 function updateLoadBar(amount){
   loadProgress += amount;
-  
+
   if(loadProgress >= 100 && !loadComplete){
     loadComplete = true;
     setTimeout(function(){
@@ -183,7 +183,7 @@ function updateLoadBar(amount){
     }, 1000)
 
   }
-  
+
   if(document.getElementById("loadBar")){
     document.getElementById("loadBar").value = loadProgress;
   }

@@ -1,7 +1,7 @@
 <div id="questionArea">
   <h2>Take a Poll</h2>
   <h3 style='margin-top: .5em'>Population and Sample</h3>
-  
+
   <div>
     <label for="location">Location:</label>
     <select id="location">
@@ -31,7 +31,7 @@
     {{/if}}
   </select>
   </div>
-  
+
   <div class='questionContainer'>
   <h3 style='margin-top:.4em;'>Questions</h3>
     {{! If there's enough time to take a poll}}
@@ -61,7 +61,7 @@
 
       <p id='duplicateParagraph'></p>
 
-      <button class='logEventPoll primaryBtn' onclick='pollResults2({{state}}, {{free}}, {{fake}})'>Submit Poll</button>
+      <button class='logEventPoll primaryBtn' onclick='pollResults_REFACTORED({{state}}, {{free}}, {{fake}})'>Submit Poll</button>
 
     {{! Otherwise tell the player}}
     {{else}}
