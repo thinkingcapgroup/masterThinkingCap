@@ -7,19 +7,19 @@
             "tableHeader": "Major",
 			"labels":[
               {"label":"business"},
-              {"label":"law"}, 
-              {"label":"tech"}, 
+              {"label":"law"},
+              {"label":"tech"},
               {"label":"arts"}
             ],
             "type": "categorical"
 		},
 		{
             "id":"group",
-			"question":"What group do you identify with?", 
+			"question":"What group do you identify with?",
             "tableHeader": "Social Group",
 			"labels":[
               {"label":"socialite"},
-              {"label":"athlete"}, 
+              {"label":"athlete"},
               {"label":"gamer"},
               {"label":"reader"}
             ],
@@ -31,8 +31,8 @@
             "tableHeader": "Most Favored Issue",
 			"labels":[
               {"label":"budget"},
-              {"label":"tuition"}, 
-              {"label":"functions"}, 
+              {"label":"tuition"},
+              {"label":"functions"},
               {"label":"medical"}
             ],
             "type":"categorical"
@@ -44,8 +44,8 @@
             "tableHeader": "Least Favored Issue",
 			"labels":[
               {"label":"budget"},
-              {"label":"tuition"}, 
-              {"label":"functions"}, 
+              {"label":"tuition"},
+              {"label":"functions"},
               {"label":"medical"}
             ],
             "type": "categorical"
@@ -55,11 +55,11 @@
 			"question":"What candidate are you most in favor of?",
             "tableHeader": "Most Favored Candidate",
 			"labels": "[CANDIDATES]",
-            "type": "categorical"	
+            "type": "categorical"
 		},
 		{
             "id":"candOpp",
-			"question":"What candidate are you most in opposition to?", 
+			"question":"What candidate are you most in opposition to?",
             "tableHeader": "Least Favored Candidate",
 			"labels":"[CANDIDATES]",
 			"type": "categorical"
@@ -94,7 +94,7 @@
                 "lowerLimit": 3,
                 "label": "Love"
               }
-              
+
             ],
 			"type": "numerical"
 		},
@@ -155,7 +155,7 @@
                 },
                 {
                   "lowerLimit": 0.6,
-                  "upperLimit": 0.8, 
+                  "upperLimit": 0.8,
                   "label": "Untrustworthy"
                 },
                 {

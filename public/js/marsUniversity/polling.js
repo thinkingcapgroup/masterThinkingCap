@@ -11,15 +11,15 @@ const POLL_STATES = {
 }
 
 $(document).on('change', '.totalTimeTracker', function(){
-  
-  
+
+
   var samp = document.getElementById('sample').value;
   var qLength = 0;
   for (var x = 0; x < 6; x++){
     var qpVar = document.getElementById('poll'+x+'').value;
-    
+
     theQuestionBools[x] = false;
-      
+
     //If the question isn't empty
     if(qpVar != ""){
         //If there's a subquestion involved
@@ -55,26 +55,26 @@ $(document).on('change', '.totalTimeTracker', function(){
 function onPollChange(pollThing){
   var pollQuestion = document.getElementById($(this).attr('id')).value;
   var questionNumber = $(this).attr('id').charAt(4);
-  
+
   //Record question for logging
   theJSONEvents[questionNumber] = pollQuestion;
-  
+
   var subQuestionId = "subpoll" + questionNumber;
   var subQuestion = document.getElementById(subQuestionId)
-  
+
   //Check if this question has subquestions
   let jsonObj = getQuestionById(pollQuestion);
-  
+
   if(jsonObj && jsonObj.subQuestions){
-    
+
        subQuestion.style = "display:block";
-      
+
       $('#' + subQuestionId).empty();
-      
+
       let noneOption = new Option("None", "");
       noneOption.setAttribute("class", "defaultSubOption");
       subQuestion.options.add(noneOption);
-      
+
       if(jsonObj.subQuestions == "[ISSUES]"){
           for(var x = 0; x < 4; x++){
           let newOption = new Option(globals.positions[x], globals.positionsLower[x]);
@@ -87,11 +87,11 @@ function onPollChange(pollThing){
             let newOption;
             if(x == 0 && globals.candidates[0].name != "Karma"){
               newOption = new Option(globals.candidates[x].name, "Player");
-            }               
+            }
             else{
                 newOption = new Option(globals.candidates[x].name, globals.candidates[x].name);
             }
-            
+
             newOption.setAttribute("class", "defaultSubOption");
             subQuestion.options.add(newOption);
         }
@@ -100,7 +100,7 @@ function onPollChange(pollThing){
   else{
     subQuestion.style = "display:none"
   }
-  
+
   dupChecker();
 }
 
@@ -120,7 +120,7 @@ $(document).on('change','.subPollQ',function(){
       document.getElementById("duplicateParagraph").style.display = "none"
 	  dupChecker();
  });
- 
+
 //Subtracts time required to take a poll based on both sample size and the number of questions
 function pollTime(sSize, pollQuestions)
 {
@@ -153,7 +153,7 @@ function returnTotalPollTime(sSize, pollQuestions){
 function pollTimeCheck(sSize, pollQuestions)
 {
     let timeRequired;
-  
+
 	if(pollQuestions.length%2 == 0)
 	{
 		timeRequired = sSize/10 + (pollQuestions.length*.5);
@@ -162,29 +162,29 @@ function pollTimeCheck(sSize, pollQuestions)
 	{
 		timeRequired = sSize/10 + (pollQuestions.length*0.5) +0.5;
 	}
-  
+
 	return (timeRequired <= globals.remainingHoursDay);
 }
 
 // Loops through the current questions and checks for duplicates
 function dupChecker()
 {
-    
+
 	var duplicate = false;
 	var dup1;
 	var dup2;
 	var pollChoices = [];
-    
+
     let questionIndex;
     //let subQuestionIndex;
-    
-    
+
+
     resetPollStyling();
-    
+
 	for(var i = 0; i<6 ;i++)
 	{
         let subQuestionIndex;
-        
+
 		var selectedQuestion = document.getElementById("poll"+i+"");
 		if(selectedQuestion.value != "")
 		{
@@ -194,10 +194,10 @@ function dupChecker()
 				//grab the sub question
 				var selectedSubQuestion = document.getElementById('subpoll' + i + '');
 				var subValue = selectedSubQuestion.value;
-                
+
                 if(subValue != ""){
                     subQuestionIndex = selectedSubQuestion.selectedIndex;
-                    pollVal = pollVal +","+ subValue; 
+                    pollVal = pollVal +","+ subValue;
                 }
                 else{
                     pollVal = subValue;
@@ -205,15 +205,15 @@ function dupChecker()
 			}
             if(pollVal){
                 pollChoices.push(pollVal);
-            
+
                 questionIndex = selectedQuestion.selectedIndex;
-                
+
                 //Make the option in all other dropdowns red
                 for(var j = 0; j < 6; j++){
                     //If it's not the same dropdown
                     if(j != i){
                         let question = document.getElementById("poll"+j+"");
-
+                        debugger;
                         //If the poll value involves a subquestion
                         if(subQuestionIndex != null && subQuestionIndex > -1){
                             ////CONSOLE.LOG("is subquestion");
@@ -236,12 +236,144 @@ function dupChecker()
                 }
             }
 
-   
+
 		}
 
 	}
 
 }
+
+// Loops through the current questions and checks for duplicates
+function dupChecker_REFACTORED()
+{
+
+	var duplicate = false;
+	var dup1;
+	var dup2;
+	var pollChoices = [];
+
+    let questionIndex;
+    //let subQuestionIndex;
+
+
+    resetPollStyling();
+
+	for(var i = 0; i<6 ;i++)
+	{
+        let subQuestionIndex;
+
+		var selectedQuestion = document.getElementById("poll"+i+"");
+		if(selectedQuestion.value != "")
+		{
+			var pollVal = selectedQuestion.value;
+
+			if(pollVal == 'issue'||pollVal == 'candFame'||pollVal == 'candTrust'){
+				//grab the sub question
+				var selectedSubQuestion = document.getElementById('subpoll' + i + '');
+				var subValue = selectedSubQuestion.value;
+
+                if(subValue != ""){
+                    subQuestionIndex = selectedSubQuestion.selectedIndex;
+                    pollVal = pollVal +","+ subValue;
+                }
+                else{
+                    pollVal = subValue;
+                }
+			}
+            if(pollVal){
+                pollChoices.push(pollVal);
+
+                questionIndex = selectedQuestion.selectedIndex;
+
+                //Make the option in all other dropdowns red
+                for(var j = 0; j < 6; j++){
+                    //If it's not the same dropdown
+                    if(j != i){
+                        let question = document.getElementById("poll"+j+"");
+                        debugger;
+                        //If the poll value involves a subquestion
+                        if(subQuestionIndex != null && subQuestionIndex > -1){
+                            ////CONSOLE.LOG("is subquestion");
+                            //If it's the same question
+                            if(questionIndex == question.selectedIndex){
+                                //Highlight the sub question
+                                let subQuestion = document.getElementById("subpoll"+j+"");
+                                //subQuestion.options[subQuestionIndex].setAttribute("class", "duplicateOption3")
+                                subQuestion.options[subQuestionIndex].disabled = true;
+                            }
+                        }
+                        else{
+
+                            //if(question.indexOf())
+                            //question.options[questionIndex].setAttribute("class", "duplicateOption2")
+                            question.options[questionIndex].disabled = true;
+                        }
+
+                    }
+                }
+            }
+
+
+		}
+
+	}
+
+}
+
+
+	for(var i = 0; i<6 ;i++)
+	{
+		var selectedQuestion = document.getElementById("poll"+i+"");
+		if(selectedQuestion.options[selectedQuestion.selectedIndex].value != "")
+		{
+			let pollValue = selectedQuestion.options[selectedQuestion.selectedIndex].value;
+
+            let jsonObj = getQuestionById(pollValue);
+
+            //If the question has a subquestion
+			if(jsonObj.subQuestions){
+				//grab the sub question
+				var selectedSubQuestion = document.getElementById('subpoll' + i + '');
+				var subValue = selectedSubQuestion.value;
+
+                if(subValue != ""){
+                    let newQuestion = new PollQuestion(pollValue, subValue, jsonObj);
+                    newPollResult.questions.push(newQuestion);
+
+                    //pollVal = pollVal +""+ subValue;
+                    //pollChoices.push(pollVal);
+                }
+			}
+            else{
+              let newQuestion = new PollQuestion(pollValue, "", jsonObj);
+              newPollResult.questions.push(newQuestion);
+            }
+
+		}
+	}
+    console.log(newPollResult);
+
+    let pollChoices = newPollResult.questions;
+
+	//Checks for duplicate questions
+	for (var i=0; i< pollChoices.length;i++)
+	{
+		for (var j=0; j< pollChoices.length;j++)
+		{
+			if(i!=j)
+			{
+				var val1 = pollChoices[i].id + pollChoices[i].subId;
+				var val2 = pollChoices[j].id + pollChoices[j].subId;
+
+				if(val1 == val2)
+				{
+					duplicate = true;
+					dup1 = i;
+					dup2 = j;
+				}
+			}
+		}
+	}
 
 function resetPollStyling(){
     //Set all selects and options to default styling
@@ -254,9 +386,9 @@ function resetPollStyling(){
         for(let j = 0; j < question.options.length; j++){
             question.options[j].disabled = false;
         }
-        
+
         let subQuestion = document.getElementById("subpoll"+i+"");
-        
+
         if(subQuestion){
             subQuestion.style.color = "black";
 
@@ -265,7 +397,7 @@ function resetPollStyling(){
                 subQuestion.options[j].disabled = false;
             }
         }
-        
+
     }
 }
 
@@ -273,7 +405,7 @@ function resetPollStyling(){
 function pollResults(state, isFree, isFake)
 {
 	var bias = document.getElementById('location').value;
-	
+
 	var duplicate = false;
 	var dup1;
 	var dup2;
@@ -290,16 +422,16 @@ function pollResults(state, isFree, isFake)
 				//grab the sub question
 				var selectedSubQuestion = document.getElementById('subpoll' + i + '');
 				var subValue = selectedSubQuestion.value;
-				
+
                 if(subValue != ""){
-                    pollVal = pollVal +""+ subValue; 
+                    pollVal = pollVal +""+ subValue;
                     pollChoices.push(pollVal);
                 }
 			}
             else{
               pollChoices.push(pollVal);
             }
-				
+
 		}
 	}
 
@@ -335,15 +467,15 @@ function pollResults(state, isFree, isFake)
 	}
     var sample = document.getElementById("sample");
     var sampleSize = parseFloat(sample.options[sample.selectedIndex].value);
-  
+
 	if(duplicate)
     {
 		document.getElementById("duplicateParagraph").innerHTML = "You’re asking the same question more than once! Fix this to continue the poll."
 		document.getElementById("duplicateParagraph").style.display = "block";
-        
+
         let question1 = document.getElementById("poll"+dup1+"");
         let question2 = document.getElementById("poll"+dup2+"");
-        
+
 		question1.options[question1.selectedIndex].style.color = "red";
 		question2.options[question2.selectedIndex].style.color = "red";
 	}
@@ -363,10 +495,10 @@ function pollResults(state, isFree, isFake)
     {
         //Clear previous screen
         clearScreen();
-      
+
         //Run poll
         pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake);
-    
+
         if(state == POLL_STATES.TUTORIAL){
             document.getElementById("back").innerHTML += "<button onclick = 'drawPoll("+state+","+isFree+","+isFake+")'> Back to Tutorial Poll</button>";
         }
@@ -377,7 +509,7 @@ function pollResults(state, isFree, isFake)
         else if(state == POLL_STATES.FIRST)
         {
             document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
-    
+
         }
         else{
             document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'eventMenu()'> Return to the Game Map </button>";
@@ -401,11 +533,11 @@ function addMoreQuestions(){
 }
 
 function drawPoll(state, isFree, isFake){
-    
+
 	clearScreen();
     document.getElementById("contentContainer").classList.add("columns");
     document.getElementById("mainContent").classList.add("left");
-  
+
     if(isFake){
       globals.currentCandidateArrayHolder = globals.candidates;
       globals.candidates = globals.fakeCandidateHolder;
@@ -413,23 +545,23 @@ function drawPoll(state, isFree, isFake){
     else{
       saveGame();
     }
-	
+
 	if(state == POLL_STATES.IN_GAME)
     {
         //Display Updated Top Bar
         updateTopBar(pollMenu);
     }
-    
+
 	globals.qPollHolder = 2;
 
     let pollQuestions = [];
     let enoughTime = false;
-  
+
     //If it's a free poll or if there's enough time
 	if(isFree || globals.remainingHoursDay>= 3 )
 	{
         enoughTime = true;
-        
+
 		//Populates the questions based on the JSON File
         for(var i = 0; i<globals.questions.length; i++)
         {
@@ -438,12 +570,12 @@ function drawPoll(state, isFree, isFake){
             pollQuestions.push(globals.questions[i]);
           }
         }
-		
+
 	}
     //CONSOLE.LOG("pollQuestions length "+pollQuestions.length);
-  
+
     let context = {
-      state: state, 
+      state: state,
       free: isFree,
       fake: isFake,
       areas: areaChoices,
@@ -453,20 +585,20 @@ function drawPoll(state, isFree, isFake){
       questions: pollQuestions,
       enoughTime: enoughTime
     }
-    
+
     document.getElementById("mainContent").innerHTML = views["takePoll"](context);
     document.getElementById('map').style.display = "block";
     globals.isCurrentAreaHover = areaChoices["Quad"].id;
     setupMap(true);
-  
+
     if(state == POLL_STATES.FIRST || globals.remainingHoursDay >= 4 )
 		addMoreQuestions();
 	if(state != POLL_STATES.FIRST && globals.remainingHoursDay >= 5)
 		{addMoreQuestions();}
-		
+
 //	//Displays the screen for this event
 //	document.getElementById("questionArea").innerHTML += "<p id = 'duplicateParagraph'></p><br><button class = 'logEventPoll' onclick = 'pollResults("+state+", " +isFree+","+isFake+")'> Submit Poll </button><br>";
-	
+
     //Tutorial's practice poll
 	if(state == POLL_STATES.TUTORIAL){
 		document.getElementById("next").innerHTML += "<br> <button class='primaryBtn' type='button' onclick='chooseDiff()'> Start the Game </button>";
@@ -489,39 +621,39 @@ function drawPoll(state, isFree, isFake){
     else if(state == POLL_STATES.IN_GAME || state == POLL_STATES.IN_GAME_PRACTICE){
         setBackToMapBtn();
     }
-    
+
     //Set event listeners last, after all elements have been loaded
     //Set onchange event for the location dropdown
     document.getElementById("location").onchange = function(){
         globals.isCurrentAreaHover = document.getElementById("location").value;
-        
+
         //Redraw map
         drawMapAreas();
         drawMapIcons();
     }
-    
+
 }
 
 //takes the player into a poll with fake candidates to test out polling
 function setupPracticePoll()
 {
-	
+
 
 	globals.candidates = [];
-	
+
 	globals.population = 1000;
-	globals.sample = []; 
+	globals.sample = [];
 	globals.remainingHoursTotal = 84;
-	globals.days = 1; 
-	globals.remainingHoursDay = 12; 
-	
+	globals.days = 1;
+	globals.remainingHoursDay = 12;
+
 	//Decides the opponents focus which cannot be the same as the player
 	globals.opponentCandidate.fame = [.7,.7,.7,.7,.7,.7,.7,.7];
 	globals.opponentCandidate.consMod = 0;
 	//////CONSOLE.LOG(oppFocus);
 	assignIssue(globals.opponentCandidate,[],.7,false);
 	globals.candidates.push(globals.opponentCandidate);
-	
+
 	//Create Issue Candidates
 	var issueCand1 = new Candidate("Zrap Bannigan");
 	var oppRank = Math.floor(Math.random()*4);
@@ -530,15 +662,6 @@ function setupPracticePoll()
 	assignRank(issueCand1,globals.chosenCandRanks,true);
 	globals.candidates.push(issueCand1);
 
-	
+
 	drawPoll(POLL_STATES.PRACTICE_AREA, false, true);
 }
-
-
-
-
-
-
-
-
-
