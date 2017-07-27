@@ -1,4 +1,3 @@
-
 var runningGame ={};
 var runningGame2 = {};
 var secretSticker = {};
@@ -61,44 +60,12 @@ runningGame.main =
 			bodyTypeNumber = 0
 		}
 
-		titleScreen = new Image();
-		titleScreen.src = '../img/minigame1/titlescreen.png'
-		instruction = new Image();
-		instruction.src = '../img/minigame1/instruction.png'
-		backButton = new Image();
-		backButton.src = '../img/backbutton.png'
-
-		blueBar = new Image();
-		blueBar.src = '../img/bluebar.png';
+		
 
 		bodyPixelArray = [[169,123], [185,137],[218,175],[180,194]]
-		backgroundImage= new Image();
-		backgroundImage.src ="../img/minigame1/cafebg.png";
-		playerAvatar = new Image();
-		playerAvatar.src = "../img/minigame1/headspritesheettop.png";
-		enemyAvatar = new Image();
-		enemyAvatar.src = "../img/minigame1/spriteFlip/flipheadtopsprite.png";
-		thinBodyCycle = new Image();
-		thinBodyCycle.src = "../img/minigame1/thinwalkcyclesheet.png";
-		medBodyCycle = new Image();
-		medBodyCycle.src = "../img/minigame1/medwalkcycletop.png";
-		largeBodyCycle = new Image();
-		largeBodyCycle.src = "../img/minigame1/largewalkcycletop.png";
-		chairBodyCycle = new Image();
-		chairBodyCycle.src = "../img/minigame1/chairwalkcycletop.png";
-		//enemies
-		enemythinBodyCycle = new Image();
-		enemythinBodyCycle.src = "../img/minigame1/spriteFlip/flipthinkwalkcyclesheet.png";
-		enemymedBodyCycle = new Image();
-		enemymedBodyCycle.src = "../img/minigame1/spriteFlip/flipmedwalkcyclesheet.png";
-		enemylargeBodyCycle = new Image();
-		enemylargeBodyCycle.src = "../img/minigame1/spriteFlip/fliplargewalkcyclesheet.png";
-		enemychairBodyCycle = new Image();
-		enemychairBodyCycle.src = "../img/minigame1/spriteFlip/flipchairwalkcyclesheet.png";
-		animationAssets = new Image();
-		animationAssets.src = "../img/minigame1/assetscafe.png";
-		walkCycleArray = [thinBodyCycle, medBodyCycle, largeBodyCycle, chairBodyCycle];
-		enemyWalkCycleArray = [enemythinBodyCycle, enemymedBodyCycle, enemylargeBodyCycle, enemychairBodyCycle];
+		
+		walkCycleArray = [images["thinBodyCycle"], images["medBodyCycle"], images["largeBodyCycle"], images["chairBodyCycle"]];
+		enemyWalkCycleArray = [images["enemythinBodyCycle"], images["enemymedBodyCycle"], images["enemylargeBodyCycle"], images["enemychairBodyCycle"]];
 		//lets add all the images
 
 		runningGame.main.player=
@@ -165,9 +132,7 @@ runningGame.main =
 
 		c.onmousedown = runningGame.main.doMousedown;
 		
-		titleScreen.onload = function(){
-			runningGame.main.update(c,ctx);
-		}
+		runningGame.main.update(c,ctx);
 	},
 
 	update: function (c,ctx)
@@ -199,8 +164,8 @@ runningGame.main =
 	{
 
 		if(runningGame.main.instruction == false){
-			ctx.drawImage(backgroundImage,-30,0,930,500);
-			ctx.drawImage(blueBar,0,0,c.width,30)
+			ctx.drawImage(images["coffeeRunBG"],-30,0,930,500);
+			ctx.drawImage(images["blueBar"],0,0,c.width,30)
 			ctx.fillStyle = '#000000'
 			ctx.font = "20px Arial";
 			ctx.fillText("Time Remaining: " +runningGame.main.time+"",700,22);
@@ -218,7 +183,7 @@ runningGame.main =
 		}
 		ctx.drawImage(walkCycleArray[bodyTypeNumber], (actualFrame * bodyPixelArray[bodyTypeNumber][0]) ,(genderNumber * bodyPixelArray[bodyTypeNumber][1]),bodyPixelArray[bodyTypeNumber][0],bodyPixelArray[bodyTypeNumber][1],runningGame.main.player.x-2,runningGame.main.player.y-5,runningGame.main.player.width,runningGame.main.player.height);
 		//head
-		ctx.drawImage(playerAvatar, headNumber * 154, raceNumber*162 ,154,162,runningGame.main.player.x-1,runningGame.main.player.y,runningGame.main.player.width,runningGame.main.player.height);
+		ctx.drawImage(images["playerAvatar"], headNumber * 154, raceNumber*162 ,154,162,runningGame.main.player.x-1,runningGame.main.player.y,runningGame.main.player.width,runningGame.main.player.height);
 		
 
 
@@ -232,11 +197,11 @@ runningGame.main =
 				actualFrame = frameIndex
 			}
 				ctx.drawImage(enemyWalkCycleArray[runningGame.main.enemies[i].body], (actualFrame * bodyPixelArray[runningGame.main.enemies[i].body][0]) ,(runningGame.main.enemies[i].gender * bodyPixelArray[runningGame.main.enemies[i].body][1]),bodyPixelArray[runningGame.main.enemies[i].body][0],bodyPixelArray[runningGame.main.enemies[i].body][1],runningGame.main.enemies[i].x,runningGame.main.enemies[i].y+5,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
-				ctx.drawImage(animationAssets,8,210,118,75,runningGame.main.enemies[i].x+5,runningGame.main.enemies[i].y+35,40,20)
-				ctx.drawImage(animationAssets,32,149,49,49,runningGame.main.enemies[i].x+15,runningGame.main.enemies[i].y+35,20,20)
-				ctx.drawImage(enemyAvatar,runningGame.main.enemies[i].face * 154, runningGame.main.enemies[i].race * 162 ,150,160,runningGame.main.enemies[i].x,runningGame.main.enemies[i].y,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
+				ctx.drawImage(images["animationAssets"],8,210,118,75,runningGame.main.enemies[i].x+5,runningGame.main.enemies[i].y+35,40,20)
+				ctx.drawImage(images["animationAssets"],32,149,49,49,runningGame.main.enemies[i].x+15,runningGame.main.enemies[i].y+35,20,20)
+				ctx.drawImage(images["enemyAvatar"],runningGame.main.enemies[i].face * 154, runningGame.main.enemies[i].race * 162 ,150,160,runningGame.main.enemies[i].x,runningGame.main.enemies[i].y,runningGame.main.enemies[i].width,runningGame.main.enemies[i].height);
 				if(runningGame.main.collisionDetector(runningGame.main.player, runningGame.main.enemies[i])){
-					ctx.drawImage(animationAssets,248,169,241,157,runningGame.main.enemies[i].x-50,runningGame.main.enemies[i].y-20,157,107);
+					ctx.drawImage(images["animationAssets"],248,169,241,157,runningGame.main.enemies[i].x-50,runningGame.main.enemies[i].y-20,157,107);
 				}
 				
 			}
@@ -250,9 +215,9 @@ runningGame.main =
 					actualFrame = frameIndex
 				}
 				ctx.drawImage(enemyWalkCycleArray[runningGame.main.coins[i].body],(actualFrame * bodyPixelArray[runningGame.main.coins[i].body][0]) ,(runningGame.main.coins[i].gender * bodyPixelArray[runningGame.main.coins[i].body][1]),bodyPixelArray[runningGame.main.coins[i].body][0],bodyPixelArray[runningGame.main.coins[i].body][1] ,runningGame.main.coins[i].x+2,runningGame.main.coins[i].y+5,runningGame.main.coins[i].width,runningGame.main.coins[i].height); 
-       			ctx.drawImage(enemyAvatar,runningGame.main.coins[i].face * 154, runningGame.main.coins[i].race * 162 ,150,160,runningGame.main.coins[i].x,runningGame.main.coins[i].y,runningGame.main.coins[i].width,runningGame.main.coins[i].height);
+       			ctx.drawImage(images["enemyAvatar"],runningGame.main.coins[i].face * 154, runningGame.main.coins[i].race * 162 ,150,160,runningGame.main.coins[i].x,runningGame.main.coins[i].y,runningGame.main.coins[i].width,runningGame.main.coins[i].height);
 				if(runningGame.main.collisionDetector(runningGame.main.player, runningGame.main.coins[i])){
-					ctx.drawImage(animationAssets,241,0,177,148,runningGame.main.coins[i].x-55,runningGame.main.coins[i].y-25,157,107);
+					ctx.drawImage(images["animationAssets"],241,0,177,148,runningGame.main.coins[i].x-55,runningGame.main.coins[i].y-25,157,107);
 				}
 			}
 			if(ticker > 5){
@@ -263,10 +228,10 @@ runningGame.main =
 		else{
 
 			if(runningGame.main.instructionArea == 0){
-				ctx.drawImage(titleScreen,0,0,c.width,c.height)			}
+				ctx.drawImage(images["coffeeRunTitle"],0,0,c.width,c.height)			}
 			else if (runningGame.main.instructionArea == 1){
-				ctx.drawImage(instruction,0,0,c.width,c.height)
-				ctx.drawImage(backButton,35,420,190,60)
+				ctx.drawImage(images["coffeeRunInstructions"],0,0,c.width,c.height)
+				ctx.drawImage(images["backButton"],35,420,190,60)
 			}
 		
 				runningGame.main.update(c,ctx);
@@ -553,114 +518,14 @@ runningGame2.main =
 		runningGame2.main.hover = false;
 		runningGame2.main.instructionNum = 0;
 
-		headIcons = new Image();
-		headIcons.src = '../img/spriteheadlong.png';
-		instruction = new Image();
-		instruction.src = '../img/minigame2/instruction1.png'
-		instruction2 = new Image();
-		instruction2.src = '../img/minigame2/instruction2.png'
-
-		//map icons
-		libraryIcon = new Image();
-		libraryIcon.src = '../img/map/libraryicon.png';
-		quadIcon = new Image();
-		quadIcon.src = '../img/map/icon.png';
-		gymIcon = new Image();
-		gymIcon.src = '../img/map/gymicon.png';
-		commonsicon = new Image();
-		commonsicon.src = '../img/map/commonsIcon.png';
-		labIcon = new Image();
-		labIcon.src = '../img/map/labicon.png';
-		mediaIcon = new Image();
-		mediaIcon.src =  '../img/map/mediaicon.png';
-
-		blueBar = new Image();
-		blueBar.src = '../img/bluebar.png';
-
-		titleScreen = new Image();
-		titleScreen.src = '../img/minigame2/titlescreen.png';
-
-		//peopleicons
-		tuitionIcon = new Image();
-		tuitionIcon.src = '../img/icons/tuitionsquare.png';	
-		researchIcon = new Image();
-		researchIcon.src = '../img/icons/researchsquare.png';
-		socialIcon = new Image();
-		socialIcon.src = '../img/icons/schoolevents.png';
-		medicalIcon = new Image();
-		medicalIcon.src = '../img/icons/medicalsquare.png';
-		//majoricons
-		artIcon = new Image();
-		artIcon.src = '../img/icons/artisticon.png';
-		businessIcon = new Image();
-		businessIcon.src = '../img/icons/businessicon.png'
-		lawIcon = new Image();
-		lawIcon.src = '../img/icons/lawicon.png'
-		techIcon = new Image();
-		techIcon.src = '../img/icons/techicon.png'
-
-		studentID = new Image();
-		studentID.src = '../img/studentid.png';
-
-		//backgrounds
-		cafebg = new Image();
-		cafebg.src = '../img/minigame2/backgroundcafe.png';
-		quadbg = new Image();
-		quadbg.src = '../img/minigame2/quadpicturebgNEW.png';
-		gymbg = new Image();
-		gymbg.src = '../img/minigame2/photobombgymbg.png';
-		libbg = new Image();
-		libbg.src = '../img/minigame2/Librarusnapshotbg.png';
-		labsbg = new Image();
-		labsbg.src = '../img/minigame2/labsbg.png';
-
-
-		//get people assets
-		hoverPeace1 = new Image();
-		hoverPeace1.src = "../img/minigame2/hover1peace.png";
-		hoverPeace2 = new Image();
-		hoverPeace2.src = '../img/minigame2/hover2peace.png';
-		hoverStrong = new Image();
-		hoverStrong.src = '../img/minigame2/hoverstrong.png';
-		thinPeace1 = new Image();
-		thinPeace1.src = '../img/minigame2/thinpeace1.png'
-		thinPeace2 = new Image();
-		thinPeace2.src = '../img/minigame2/thinpeace2.png'
-		thinStrong = new Image();
-		thinStrong.src = '../img/minigame2/thinstrong.png'
-		medPeace1 = new Image();
-		medPeace1.src = '../img/minigame2/medpeace.png';
-		medPeace2 = new Image();
-		medPeace2.src = '../img/minigame2/medpeace2.png';
-		medStrong = new Image();
-		medStrong.src = '../img/minigame2/medstrong.png';
-		plusPeace1 = new Image();
-		plusPeace1.src = '../img/minigame2/pluspeace1.png';
-		plusPeace2 = new Image();
-		plusPeace2.src = '../img/minigame2/pluspeace2.png';
-		plusStrong = new Image();
-		plusStrong.src = '../img/minigame2/plusstrong.png';
-
-		backButton = new Image();
-		backButton.src = '../img/backbutton.png'
-		cameraIcon = new Image();
-		cameraIcon.src = '../img/minigame3/cameraicon.png';
-		awesomePic = new Image();
-		awesomePic.src = '../img/AwesomePicture.png';
-
-		imgBArray = [[thinPeace1, thinPeace2, thinStrong], [medPeace1, medPeace2, medStrong], [plusPeace1, plusPeace2, plusStrong], [hoverPeace1, hoverPeace2, hoverStrong]]
-		iconArray = [tuitionIcon, researchIcon, socialIcon, medicalIcon];
-		majorIconArray = [artIcon,businessIcon,lawIcon,techIcon];
-		mapbackground = new Image();
-		mapbackground.src = '../img/map/map.png';
-
-
-
+		imgBArray = [[images["thinPeace1"], images["thinPeace2"], images["thinStrong"]], [images["medPeace1"], images["medPeace2"], images["medStrong"]], [images["plusPeace1"], images["plusPeace2"], images["plusStrong"]], [images["hoverPeace1"], images["hoverPeace2"], images["hoverStrong"]]]
+		iconArray = [images["tuitionIcon"], images["budgetIcon"], images["functionsIcon"], images["medicalIcon"]];
+		majorIconArray = [images["artIcon"],images["businessIcon"],images["lawIcon"],images["techIcon"]];
 
 		//now init
 		runningGame2.main.gameStop = false;
 		runningGame2.main.player.picturenum = 0;
-		runningGame2.main.player.pictures = [],
+		runningGame2.main.player.pictures = [];
 		runningGame2.main.scores.score = 0;	
 		runningGame2.main.areaNumber = -1;	
 		c.onmousedown = runningGame2.main.doMousedown;
@@ -673,9 +538,7 @@ runningGame2.main =
 		runningGame2.main.takenDemograph1=0;
 		runningGame2.main.takenDemograph2=0;
 	
-		mapbackground.onload = function(){
-			runningGame2.main.update(c,ctx);
-		}
+		runningGame2.main.update(c,ctx);
 	},
 
 	update: function (c,ctx)
@@ -758,19 +621,19 @@ runningGame2.main =
 		//draw the background for the area
 		
 		if(runningGame2.main.areaNumber == -1)
-			ctx.drawImage(titleScreen,0,0,c.width,c.height)
+			ctx.drawImage(images["photobombTitle"],0,0,c.width,c.height)
 		else if (runningGame2.main.areaNumber == -2){
-			ctx.drawImage(instruction,0,0,c.width,c.height)
-			ctx.drawImage(backButton,35,420,190,60)
+			ctx.drawImage(images["photobombInstructions"],0,0,c.width,c.height)
+			ctx.drawImage(images["backButton"],35,420,190,60)
 		}
 		else if (runningGame2.main.areaNumber == -3){
-			ctx.drawImage(instruction2,0,0,c.width,c.height)
-			ctx.drawImage(backButton,35,420,190,60)
+			ctx.drawImage(images["photobombInstructions2"],0,0,c.width,c.height)
+			ctx.drawImage(images["backButton"],35,420,190,60)
 		}
 
 		else if(!runningGame2.main.inArea && runningGame2.main.areaNumber>=0)
 		{
-			ctx.drawImage(mapbackground, 0,0,900,500);
+			ctx.drawImage(images["minigameMap"], 0,0,900,500);
 		}
 		else
         {
@@ -778,20 +641,20 @@ runningGame2.main =
             switch(runningGame2.main.areaNumber)
             {
                 case 1:
-                ctx.drawImage(quadbg, 0,0,900,500);
+                ctx.drawImage(images["quadbg"], 0,0,900,500);
                 break;
                 case 2:
-                ctx.drawImage(gymbg, 0,0,900,500);
+                ctx.drawImage(images["gymbg"], 0,0,900,500);
                 break;
                 case 3:
-                ctx.drawImage(labsbg, 0,0,900,500);            
+                ctx.drawImage(images["labsbg"], 0,0,900,500);           
                 break;
                 case 4:
                 ctx.fillStyle = '#FFFFFF';
-                ctx.drawImage(cafebg, 0,0,900,500);
+                ctx.drawImage(images["cafebg"], 0,0,900,500);
                 break;
                 case 5:
-                ctx.drawImage(libbg, 0,0,900,500);
+                ctx.drawImage(images["libbg"], 0,0,900,500);
                 break;
                 default:
                 ctx.fillStyle = '#FFFFFF';
@@ -806,7 +669,7 @@ runningGame2.main =
 					ctx.strokeStyle = '#00FFFF';
 				
 			
-					ctx.drawImage(blueBar,0,0,c.width, 35)
+					ctx.drawImage(images["blueBar"],0,0,c.width, 35)
 					ctx.fillStyle = '#000000'
 					ctx.font = '25px Arial'
 					ctx.fillText('Choose an Area', 350, 25)
@@ -863,12 +726,12 @@ runningGame2.main =
 					//labs
 		
 					//draw icon
-					ctx.drawImage(quadIcon, 255,190,150,100)
-					ctx.drawImage(libraryIcon, 665,325,150,100)
-					ctx.drawImage(gymIcon, 725,50,150,100)
+					ctx.drawImage(images["QuadIcon"], 255,190,150,100)
+					ctx.drawImage(images["LibraryIcon"], 665,325,150,100)
+					ctx.drawImage(images["GymIcon"], 725,50,150,100)
 			
-					ctx.drawImage(commonsicon, 150,335,150,100)
-					ctx.drawImage(labIcon, 230,25,150,100)
+					ctx.drawImage(images["CommonsIcon"], 150,335,150,100)
+					ctx.drawImage(images["LabsIcon"], 230,25,150,100)
                     
 					ctx.fillStyle = '#000000'
 					var scoreText = "Target Group:     " + runningGame2.main.takenDemograph1 + '/'+ runningGame2.main.requiredDemograph1 + " ";
@@ -884,14 +747,14 @@ runningGame2.main =
 		
 					runningGame2.main.drawStudents(c,ctx,runningGame2.main.studentCircles)
 					//draw the ux/ui of the game
-					ctx.drawImage(blueBar,0,430,c.width,70)
+					ctx.drawImage(images["blueBar"],0,430,c.width,70)
 
 
 				
 					ctx.fillStyle = '#000000'
 					ctx.fillRect(400,440,100,50)
 					ctx.strokeStyle = '#000000'
-					ctx.drawImage(cameraIcon,423,437,55,55)
+					ctx.drawImage(images["cameraIcon"],423,437,55,55)
 					ctx.strokeRect(400,440,100,50);
 		
 
@@ -902,20 +765,20 @@ runningGame2.main =
 					ctx.drawImage(iconArray[runningGame2.main.demograph1num], 690,440,50,50);
 					ctx.fillText(scoreText, 530,470);
 					ctx.fillText(photosLeftText, 190,470);
-					ctx.drawImage(backButton,10,440,150,50)
+					ctx.drawImage(images["backButton"],10,440,150,50)
 
 					//student ID card
 					if(runningGame2.main.hover){
-						ctx.drawImage(studentID,runningGame2.main.activeStudent.x + 50,runningGame2.main.activeStudent.y-110,210,135)
+						ctx.drawImage(images["studentID"],runningGame2.main.activeStudent.x + 50,runningGame2.main.activeStudent.y-110,210,135)
 						//draw head
-						ctx.drawImage(headIcons,154 * runningGame2.main.activeStudent.headID,0,154,172,runningGame2.main.activeStudent.x + 68,runningGame2.main.activeStudent.y-96,60,60)
+						ctx.drawImage(images["headSheet"],154 * runningGame2.main.activeStudent.headID,0,154,172,runningGame2.main.activeStudent.x + 68,runningGame2.main.activeStudent.y-96,60,60)
 						//draw icon
 						ctx.drawImage(iconArray[runningGame2.main.activeStudent.interest],runningGame2.main.activeStudent.x + 207,runningGame2.main.activeStudent.y-52,37,27)
 						ctx.drawImage(majorIconArray[runningGame2.main.activeStudent.major],runningGame2.main.activeStudent.x + 142,runningGame2.main.activeStudent.y-52,37,27)
 					}
 					if(runningGame2.main.cantTake)
 					{
-						ctx.drawImage(awesomePic,50,0,800,500);
+						ctx.drawImage(images["awesomePic"],50,0,800,500);
 					}
 				}
 		
@@ -1186,100 +1049,14 @@ secretSticker.main =
         ctx.save;
         secretSticker.main.gameStop = false;
         secretSticker.main.activeHover = false;
+
+
+        interestArray = [images["athleteIcon"], images["gamerIcon"], images["socialIcon"], images["readerIcon"]];
         
-        blueBar = new Image();
-		blueBar.src = '../img/bluebar.png';
-
-        titleScreen = new Image();
-		titleScreen.src = '../img/minigame3/titlescreen.png';
-		instruction = new Image();
-		instruction.src = '../img/minigame3/instruction1.png'
-		instruction2 = new Image();
-		instruction2.src = '../img/minigame3/instruction2.png'
-
-        //map icons
-        libraryIcon = new Image();
-        libraryIcon.src = '../img/map/libraryicon.png';
-        quadIcon = new Image();
-        quadIcon.src = '../img/map/icon.png';
-        gymIcon = new Image();
-        gymIcon.src = '../img/map/gymicon.png';
-        commonsicon = new Image();
-        commonsicon.src = '../img/map/commonsIcon.png';
-        labIcon = new Image();
-        labIcon.src = '../img/map/labicon.png';
-        mediaIcon = new Image();
-        mediaIcon.src =  '../img/map/mediaicon.png';
-
-        
-		//peopleicons
-		tuitionIcon = new Image();
-		tuitionIcon.src = '../img/icons/tuitionsquare.png';	
-		researchIcon = new Image();
-		researchIcon.src = '../img/icons/researchsquare.png';
-		socialIcon = new Image();
-		socialIcon.src = '../img/icons/socialsquare.png';
-		medicalIcon = new Image();
-		medicalIcon.src = '../img/icons/medicalsquare.png';
-		//majoricons
-		artIcon = new Image();
-		artIcon.src = '../img/icons/artisticon.png';
-		businessIcon = new Image();
-		businessIcon.src = '../img/icons/businessicon.png'
-		lawIcon = new Image();
-		lawIcon.src = '../img/icons/lawicon.png'
-		techIcon = new Image();
-		techIcon.src = '../img/icons/techicon.png'
-        
-        mapbackground = new Image();
-        mapbackground.src = '../img/map/map.png';
-
-        poster = new Image();
-        poster.src = '../img/minigame3/VotePosterProp.png';
-        sticker = new Image();
-        sticker.src = '../img/minigame3/Stickerasset.png';
-        libWall = new Image();
-        libWall.src = '../img/minigame3/Librarywallbg.png';
-        labWall = new Image();
-        labWall.src = '../img/minigame3/labwall.png'
-        quadWall = new Image();
-        quadWall.src = '../img/minigame3/posterwallbg.png';
-        gymWall = new Image();
-        gymWall.src = '../img/minigame3/WallforGymBG.png';
-        mediaWall = new Image();
-        mediaWall.src = '../img/minigame3/WallforMediaRoomBG.png';
-        cafeWall = new Image();
-        cafeWall.src = '../img/minigame3/WallforCafeBG.png';
-
-        //icons
-        tuitionIcon = new Image();
-        tuitionIcon.src = '../img/icons/tuitionsquare.png'
-       
-        researchIcon = new Image()
-        researchIcon.src = '../img/icons/researchsquare.png';
-        eventsIcon = new Image();
-        eventsIcon.src = '../img/icons/socialsquare.png'
-        medicalIcon = new Image();
-        medicalIcon.src = '../img/icons/medicalsquare.png';
-
-        interestArray = [tuitionIcon, researchIcon, eventsIcon, medicalIcon];
-
-        backButton = new Image();
-        backButton.src = '../img/backbutton.png';
-        
-        //get people assets
-        hoverBack = new Image();
-        hoverBack.src = "../img/minigame3/chairback.png";
-        thinBack = new Image();
-        thinBack.src = "../img/minigame3/thinback.png";
-        medBack = new Image();
-        medBack.src = "../img/minigame3/medback.png";
-        plusBack = new Image();
-        plusBack.src = "../img/minigame3/plusback.png";
       
-      	imgBArray = [thinBack,medBack,plusBack,hoverBack]
-        iconArray = [tuitionIcon, researchIcon, socialIcon, medicalIcon];
-		majorIconArray = [artIcon,businessIcon,lawIcon,techIcon];
+      	imgBArray = [images["thinBack"],images["medBack"],images["plusBack"],images["hoverBack"]]
+        iconArray = [images["tuitionIcon"], images["budgetIcon"], images["functionsIcon"], images["medicalIcon"]];
+		majorIconArray = [images["artIcon"],images["businessIcon"],images["lawIcon"],images["techIcon"]];
         
         secretSticker.main.player.picturenum = 0;
         secretSticker.main.scores.score = 0;	
@@ -1354,10 +1131,7 @@ secretSticker.main =
                 position3: false 
             }
         ];
-        mapbackground.onload = function()
-        {
-            secretSticker.main.update(c,ctx);
-        }
+        secretSticker.main.update(c,ctx);
     },
 
     update: function (c,ctx)
@@ -1394,41 +1168,41 @@ secretSticker.main =
         if(!secretSticker.main.inArea && secretSticker.main.areaNumber>=-0 &&secretSticker.main.areaNumber<9)
         {
             if(secretSticker.main.areaNumber == 0){
-            	ctx.drawImage(mapbackground, 0,0,900,500);
-            	ctx.drawImage(blueBar,0,0,c.width, 35)
+            	ctx.drawImage(images["minigameMap"], 0,0,900,500);
+            	ctx.drawImage(images["blueBar"],0,0,c.width, 35)
 					ctx.fillStyle = '#000000'
 					ctx.font = '25px Arial'
 					ctx.fillText('Choose an Area', 350, 25)
             }
 
             else if(secretSticker.main.areaNumber == 8){
-            	ctx.drawImage(instruction, 0,0,c.width,c.height);
-            	ctx.drawImage(backButton,35,420,190,60);
+            	ctx.drawImage(images["secretStickerInstructions"], 0,0,c.width,c.height);
+            	ctx.drawImage(images["backButton"],35,420,190,60);
             }
             else if(secretSticker.main.areaNumber == 7){
-            	ctx.drawImage(instruction2, 0,0,c.width,c.height);
-            	ctx.drawImage(backButton,35,420,190,60)
+            	ctx.drawImage(images["secretStickerInstructions2"], 0,0,c.width,c.height);
+            	ctx.drawImage(images["backButton"],35,420,190,60)
             }
         }
         else{
             switch(secretSticker.main.areaNumber)
             {
                 case 1:
-                ctx.drawImage(quadWall, 0,0,900,500);
+                ctx.drawImage(images["quadWall"], 0,0,900,500);
                 break;
                 case 2:
-                ctx.drawImage(gymWall, 0,0,900,500);
+                ctx.drawImage(images["gymWall"], 0,0,900,500);
                 break;
                 case 3:
-                ctx.fillStyle = '#FFFFFF';
-                ctx.drawImage(labWall, 0,0,900,500);            
+                ctx.fillStyle = '#FFFFFF',
+                ctx.drawImage(images["labWall"], 0,0,900,500);            
                 break;
                 case 4:
-                ctx.fillStyle = '#FFFFFF';
-                ctx.drawImage(cafeWall, 0,0,900,500);
+                ctx.fillStyle = '#FFFFFF',
+                ctx.drawImage(images["cafeWall"], 0,0,900,500);
                 break;
                 case 5:
-                ctx.drawImage(libWall, 0,0,900,500);
+                ctx.drawImage(images["libWall"], 0,0,900,500);
                 break;
                 default:
                 ctx.fillStyle = '#FFFFFF';
@@ -1496,12 +1270,12 @@ secretSticker.main =
             //labs
         
             //draw icon
-            ctx.drawImage(quadIcon, 255,190,150,100)
-            ctx.drawImage(libraryIcon, 665,325,150,100)
-            ctx.drawImage(gymIcon, 725,50,150,100)
-            //ctx.drawImage(commonsicon, 20,110,150,100)
-            ctx.drawImage(commonsicon, 150,335,150,100)
-            ctx.drawImage(labIcon, 230,25,150,100)
+            ctx.drawImage(images["QuadIcon"], 255,190,150,100)
+            ctx.drawImage(images["LibraryIcon"], 665,325,150,100)
+            ctx.drawImage(images["GymIcon"], 725,50,150,100)
+            //ctx.drawImage(images["CommonsIcon"], 20,110,150,100)
+            ctx.drawImage(images["CommonsIcon"], 150,335,150,100)
+            ctx.drawImage(images["LabsIcon"], 230,25,150,100)
             
 			ctx.fillStyle = '#000000'
 			var scoreText = "Target Group:     " + secretSticker.main.takenDemograph1 + '/'+ secretSticker.main.requiredDemograph1 + " ";
@@ -1559,15 +1333,15 @@ secretSticker.main =
                    //ctx.arc(x,y,20,0,2*Math.PI);
                    //ctx.fill();
                    //ctx.stroke();
-                    ctx.drawImage(sticker,x+35, y+70,40,40);
+                    ctx.drawImage(images["sticker"],x+35, y+70,40,40);
                }
-           };
+           }
           
            
            
 
            //draw the ux/ui of the game
-            ctx.drawImage(blueBar,0,430,c.width,70)
+            ctx.drawImage(images["blueBar"],0,430,c.width,70)
 
             ctx.fillStyle = '#000000'
             var scoreText = "Target Group:         " + secretSticker.main.takenDemograph1 + '/'+ secretSticker.main.requiredDemograph1 + "";
@@ -1578,7 +1352,7 @@ secretSticker.main =
 
 
 
-           ctx.drawImage(backButton,10,440,150,50);
+           ctx.drawImage(images["backButton"],10,440,150,50);
            
            ctx.fillStyle = '#AAAAAA'
            ctx.fillRect(0,250,25,25);
@@ -1597,7 +1371,7 @@ secretSticker.main =
            //ctx.stroke();
            
            
-           ctx.drawImage(sticker,c.width/2-30,c.height-60,50,50);
+           ctx.drawImage(images["sticker"],c.width/2-30,c.height-60,50,50);
            if(secretSticker.main.drag)
            {
                //ctx.fillStyle = '#0000FF';
@@ -1605,7 +1379,7 @@ secretSticker.main =
                //ctx.arc(mouse.x, mouse.y,20,0,2*Math.PI);
                //ctx.fill();
                //ctx.stroke();
-               ctx.drawImage(sticker,mouse.x-25, mouse.y-25,50,50);
+               ctx.drawImage(images["sticker"],mouse.x-25, mouse.y-25,50,50);
            }
 
 
@@ -1617,7 +1391,7 @@ secretSticker.main =
            else
            {
                ctx.fillStyle = '#00ff00'
-               ctx.drawImage(poster,120,30,120,170);
+               ctx.drawImage(images["poster"],120,30,120,170);
            }
            
            if (!secretSticker.main.areas[secretSticker.main.areaNumber].position2)
@@ -1628,7 +1402,7 @@ secretSticker.main =
            else
            {
                ctx.fillStyle = '#00ff00'
-               ctx.drawImage(poster,400,30,120,170);
+               ctx.drawImage(images["poster"],400,30,120,170);
            }
            
            if (!secretSticker.main.areas[secretSticker.main.areaNumber].position3)
@@ -1639,14 +1413,14 @@ secretSticker.main =
            else
            {
                ctx.fillStyle = '#00ff00'
-               ctx.drawImage(poster,680,30,120,170);
+               ctx.drawImage(images["poster"],680,30,120,170);
            }
        }
 
        if(secretSticker.main.areaNumber == 9)
        {
            
-      			ctx.drawImage(titleScreen,0,0,c.width,c.height)
+      			ctx.drawImage(images["secretStickerTitle"],0,0,c.width,c.height)
        }
       
 
@@ -2164,15 +1938,6 @@ runningGame4.main = {
 		arrayOfHeadCoords =  [runningGame4.main.thinHeadPos, runningGame4.main.medHeadPos, runningGame4.main.plusHeadPos, runningGame4.main.chairHeadPos];
 		runningGame4.main.resultText = 'Get Ready';
 		runningGame4.main.getReady = false;
-		backgroundDanceFloor = new Image();
-		backgroundDanceFloor.src = '../img/minigame4/dancebg.png';
-		backgroundAerialDanceFloor = new Image();
-		backgroundAerialDanceFloor.src = '../img/minigame4/arieldance.png';
-
-		instruction = new Image();
-		instruction.src = '../img/minigame4/instruction1.png'
-		instruction2 = new Image();
-		instruction2.src = '../img/minigame4/instruction2.png'
 
 		if(globals.practice){
                 //CONSOLE.LOG("PRACTICE GAME");
@@ -2194,95 +1959,11 @@ runningGame4.main = {
 			}
       
       
-		//words
-		getReady = new Image();
-		getReady.src = '../img/minigame4/getready.png';
-		oops = new Image();
-		oops.src = '../img/minigame4/oops.png'
-		great = new Image();
-		great.src = '../img/minigame4/great.png'
 
-		titleScreen = new Image();
-		titleScreen.src = '../img/minigame4/titlescreen.png';
 		runningGame.main.instructionArea = 0;
-		textArray = [great, oops, getReady]
+		textArray = [images["great"], images["oops"], images["getReady"]]
 
-
-		//groups
-		smallGroup = new Image();
-		smallGroup.src = '../img/minigame4/group2.png';
-		medGroup = new Image();
-		medGroup.src = '../img/minigame4/group4.png';
-		largeGroup = new Image();
-		largeGroup.src = '../img/minigame4/group6.png';
-
-		stageRed = new Image();
-		stageRed.src = '../img/minigame4/stagelightbeamred.png'
-		stageBlue = new Image();
-		stageBlue.src = '../img/minigame4/stagelightbeamblue.png'
-		stageGreen = new Image();
-		stageGreen.src = '../img/minigame4/stagelightbeamgreen.png'
-		stageLampRed = new Image();
-		stageLampRed.src = '../img/minigame4/stagelightred.png';
-		stageLampBlue = new Image();
-		stageLampBlue.src = '../img/minigame4/stagelightblue.png';
-		stageLampGreen = new Image();
-		stageLampGreen.src = '../img/minigame4/stagelightgreen.png';
-
-		//arrows
-		rightArrow = new Image();
-		rightArrow.src = '../img/minigame4/rightarrowgreyed.png';
-		rightArrowGlow = new Image();
-		rightArrowGlow.src = '../img/minigame4/rightarrowGREEN.png';
-		leftArrow = new Image();
-		leftArrow.src = '../img/minigame4/leftarrowgreyed.png';
-		leftArrowGlow = new Image();
-		leftArrowGlow.src = '../img/minigame4/leftarrowGREEN.png';
-		upArrow = new Image();
-		upArrow.src = '../img/minigame4/uparrowgreyed.png';
-		upArrowGlow = new Image();
-		upArrowGlow.src = '../img/minigame4/uparrowGREEN.png';
-		downArrow = new Image();
-		downArrow.src = '../img/minigame4/downarrowgreyed.png';
-		downArrowGlow = new Image();
-		downArrowGlow.src = '../img/minigame4/downarrowGREEN.png';
-
-		backButton = new Image();
-		backButton.src = '../img/backbutton.png'
-
-		//people
-		headSheet = new Image();
-		headSheet.src = '../img/spriteheadlong.png';
-		//thin sheets
-		thinFemale = new Image();
-		thinFemale.src = '../img/minigame4/thinfemaledancesheet.png';
-		thinMale = new Image();
-		thinMale.src = '../img/minigame4/thinmaledancesheet.png';
-		thinNB = new Image();
-		thinNB.src = '../img/minigame4/thinnbdancesheet.png'
-		//med sheets
-		medFemale = new Image();
-		medFemale.src = '../img/minigame4/medfemaledance.png';
-		medMale = new Image();
-		medMale.src = '../img/minigame4/medmaledance.png';
-		medNB = new Image();
-		medNB.src = '../img/minigame4/mednbdance.png';
-		//plus sheet
-		plusFemale = new Image();
-		plusFemale.src = '../img/minigame4/plusfemaledance.png';
-		plusMale = new Image();
-		plusMale.src = '../img/minigame4/plusmaledance.png';
-		plusNB = new Image();
-		plusNB.src = '../img/minigame4/plusnbdance.png';
-		//chair
-		chairFemale = new Image();
-		chairFemale.src = '../img/minigame4/chairfemaledance.png';
-		chairMale = new Image();
-		chairMale.src = '../img/minigame4/chairmaledance.png';
-		chairNB = new Image();
-		chairNB.src = '../img/minigame4/chairnbdance.png';
-
-		danceSheetArray = [[thinNB, thinFemale, thinMale],[medNB,medFemale,medMale], [plusNB, plusFemale, plusMale], [chairNB, chairFemale, chairMale]]
+		danceSheetArray = [[images["thinNB"], images["thinFemale"], images["thinMale"]],[images["medNB"],images["medFemale"],images["medMale"]], [images["plusNB"], images["plusFemale"], images["plusMale"]], [images["chairNB"], images["chairFemale"], images["chairMale"]]]
 
 		ctx.restore;
 		ctx.save;
@@ -2310,7 +1991,7 @@ runningGame4.main = {
 		globals.sample = 0;
 		createSample(20,0);
 
-		arrayGlowArrows = [[upArrowGlow,370,410,65,80],[downArrowGlow,451,410,65,80],[leftArrowGlow,270,420,80,65],[rightArrowGlow,526,420,80,65]]
+		arrayGlowArrows = [[images["upArrowGlow"],370,410,65,80],[images["downArrowGlow"],451,410,65,80],[images["leftArrowGlow"],270,420,80,65],[images["rightArrowGlow"],526,420,80,65]]
 		prompt = Math.floor(Math.random() * 3)
 		//focus on a target on one of the 3 statistics (major, economic group, main interest)
 		whichStatGroup = Math.floor(Math.random() * 3);
@@ -2346,30 +2027,30 @@ runningGame4.main = {
 		if(!runningGame4.main.inDanceMode){
 			if(runningGame4.main.instruction){
 				if(runningGame4.main.instructionArea == 0)
-					ctx.drawImage(titleScreen,0,0,c.width,c.height)
+					ctx.drawImage(images["meanMovesTitle"],0,0,c.width,c.height)
 				else if(runningGame4.main.instructionArea == 1){
-					ctx.drawImage(instruction,0,0,c.width,c.height)
-					ctx.drawImage(backButton,35,420,190,60)
+					ctx.drawImage(images["meanMovesInstructions"],0,0,c.width,c.height)
+					ctx.drawImage(images["backButton"],35,420,190,60)
 				}
 				else if(runningGame4.main.instructionArea == 2){
-					ctx.drawImage(instruction2,0,0,c.width,c.height)
-					ctx.drawImage(backButton,35,420,190,60)
+					ctx.drawImage(images["meanMovesInstructions2"],0,0,c.width,c.height)
+					ctx.drawImage(images["backButton"],35,420,190,60)
 				}
 
 			}
 			else{
 	
 			//draw the lights
-			ctx.drawImage(backgroundAerialDanceFloor,0,0,c.width, c.height)
+			ctx.drawImage(images["meanMovesBG2"],0,0,c.width, c.height)
 			ctx.font = "20px Serif";
 			ctx.fillStyle = '#FFFFFF';
 			ctx.fillText(runningGame4.main.groupPrompt[prompt], 335, 40);
 		
 
 		//draw groups
-			ctx.drawImage(smallGroup,600,330,130,90);
-			ctx.drawImage(medGroup,130,280,160,120);
-			ctx.drawImage(largeGroup,390,90,255,180);
+			ctx.drawImage(images["smallGroup"],600,330,130,90);
+			ctx.drawImage(images["medGroup"],130,280,160,120);
+			ctx.drawImage(images["largeGroup"],390,90,255,180);
 
 		//		
 
@@ -2381,14 +2062,14 @@ runningGame4.main = {
 	else if(runningGame4.main.inDanceMode){		
 			
 			//background
-			ctx.drawImage(backgroundAerialDanceFloor,0,0,c.width, c.height)
-			ctx.drawImage(backgroundDanceFloor,0,-40,c.width, c.height+40)
+			ctx.drawImage(images["meanMovesBG2"],0,0,c.width, c.height)
+			ctx.drawImage(images["meanMovesBG"],0,-40,c.width, c.height+40)
 			ctx.filter = 'blur(3px)';
 			
 			ctx.filter = 'none';
-			ctx.drawImage(stageLampGreen,70,20,140,120)
-			ctx.drawImage(stageLampRed,370,20,140,120)
-			ctx.drawImage(stageLampBlue,670,20,140,120)
+			ctx.drawImage(images["stageLampGreen"],70,20,140,120)
+			ctx.drawImage(images["stageLampRed"],370,20,140,120)
+			ctx.drawImage(images["stageLampBlue"],670,20,140,120)
 			//the correct 
 			//((width*3) * runningGame4.main.danceOrder[runningGame4.main.colorCounter]) + (width* runningGame4.main.studentDancingNow)
 			//nb f m
@@ -2412,10 +2093,10 @@ runningGame4.main = {
                     ctx.drawImage(danceSheetArray[bodyNum][runningGame4.main.player.gendernum],((widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum]*3) * runningGame4.main.lastClick) + (widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum]* runningGame4.main.playerDancingFrame),0,widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum],468,390,200,110,200);
 			  		
               
-                    ctx.drawImage(headSheet,154 * ((6 * runningGame4.main.player.racenum) + runningGame4.main.player.headnum),0,153,172,413,193,59,67);
+                    ctx.drawImage(images["headSheet"],154 * ((6 * runningGame4.main.player.racenum) + runningGame4.main.player.headnum),0,153,172,413,193,59,67);
 			}
 				else{
-					ctx.drawImage(headSheet,154 * ((6 * runningGame4.main.player.racenum) + runningGame4.main.player.headnum),0,153,172,arrayOfHeadCoords[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum][runningGame4.main.lastClick][runningGame4.main.playerDancingFrame][0],arrayOfHeadCoords[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum][runningGame4.main.lastClick][runningGame4.main.playerDancingFrame][1],59,67)
+					ctx.drawImage(images["headSheet"],154 * ((6 * runningGame4.main.player.racenum) + runningGame4.main.player.headnum),0,153,172,arrayOfHeadCoords[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum][runningGame4.main.lastClick][runningGame4.main.playerDancingFrame][0],arrayOfHeadCoords[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum][runningGame4.main.lastClick][runningGame4.main.playerDancingFrame][1],59,67)
                   
 					ctx.drawImage(danceSheetArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum],((widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum]*3) * runningGame4.main.lastClick) + (widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum]* runningGame4.main.playerDancingFrame),0,widthArray[runningGame4.main.player.bodynum][runningGame4.main.player.gendernum],468,390,200,110,200);
 			  	
@@ -2426,13 +2107,13 @@ runningGame4.main = {
 			stu1 = [[[118,208],[114,208],[112,210]],[[114,208],[112,220],[110,220]],[[119,207],[120,213],[126,213]],[[118,207],[113,220],[107,215]]]
 			stu2 = [[[714,209],[712,209],[708,207]],[[719,208],[714,214],[712,214]],[[718,208],[714,214],[736,214]],[[722,207],[714,214],[703,214]]]
 
-			ctx.drawImage(headSheet,154.6 * 0,0,154.6,172,stu1[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][0],stu1[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][1],59.6,62)
+			ctx.drawImage(images["headSheet"],154.6 * 0,0,154.6,172,stu1[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][0],stu1[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][1],59.6,62)
       
-			ctx.drawImage(headSheet,154.6 * 0,0,154.6,172,stu2[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][0],stu2[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][1],59.6,62)
+			ctx.drawImage(images["headSheet"],154.6 * 0,0,154.6,172,stu2[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][0],stu2[runningGame4.main.danceOrder[runningGame4.main.colorCounter]][runningGame4.main.studentDancingNow][1],59.6,62)
 
 			//other students dont care
-			ctx.drawImage(thinNB,((280*3) * runningGame4.main.danceOrder[runningGame4.main.colorCounter]) + (280* runningGame4.main.studentDancingNow),0,280,486,85,220,110,200);		
-			ctx.drawImage(thinMale,((280*3) * runningGame4.main.danceOrder[runningGame4.main.colorCounter]) + (280* runningGame4.main.studentDancingNow),0,280,486,680,220,120,200)
+			ctx.drawImage(images["thinNB"],((280*3) * runningGame4.main.danceOrder[runningGame4.main.colorCounter]) + (280* runningGame4.main.studentDancingNow),0,280,486,85,220,110,200);		
+			ctx.drawImage(images["thinMale"],((280*3) * runningGame4.main.danceOrder[runningGame4.main.colorCounter]) + (280* runningGame4.main.studentDancingNow),0,280,486,680,220,120,200)
 
 			
 			//we are stopping clicking
@@ -2478,8 +2159,8 @@ runningGame4.main = {
 					//pause between colors
 					if(runningGame4.main.areWeDelay){
 						ctx.filter = 'blur(3px)';
-						ctx.drawImage(stageGreen,72.5,90,140,320)
-						ctx.drawImage(stageBlue,672.5,90,140,320)
+						ctx.drawImage(images["stageGreen"],72.5,90,140,320)
+						ctx.drawImage(images["stageBlue"],672.5,90,140,320)
 						ctx.filter = 'none';
 						if(runningGame4.main.delayCounter == 10){
 							runningGame4.main.areWeDelay = false;
@@ -2492,8 +2173,8 @@ runningGame4.main = {
 					}
 					else{
 						ctx.filter = 'blur(3px)';
-						ctx.drawImage(stageGreen,72.5,90,140,320)
-						ctx.drawImage(stageBlue,672.5,90,140,320)
+						ctx.drawImage(images["stageGreen"],72.5,90,140,320)
+						ctx.drawImage(images["stageBlue"],672.5,90,140,320)
 						ctx.filter = 'none';
 					//doing Simon Says part
 					if(runningGame4.main.ticker == 50){
@@ -2532,7 +2213,7 @@ runningGame4.main = {
 			//are actually in gamemode
 			else{
 				ctx.filter = 'blur(3px)';
-					ctx.drawImage(stageRed,372.5,90,140,320)
+					ctx.drawImage(images["stageRed"],372.5,90,140,320)
 					ctx.filter = 'none';
 					//see if button is still lit up
 					if(runningGame4.main.ticker == 10){
@@ -2572,10 +2253,10 @@ runningGame4.main = {
 			}
 
 			//arrows
-			ctx.drawImage(leftArrow,270,420,80,65);
-			ctx.drawImage(upArrow,370,410,65,80);
-			ctx.drawImage(downArrow,451,410,65,80);
-			ctx.drawImage(rightArrow,526,420,80,65);
+			ctx.drawImage(images["leftArrow"],270,420,80,65);
+			ctx.drawImage(images["upArrow"],370,410,65,80);
+			ctx.drawImage(images["downArrow"],451,410,65,80);
+			ctx.drawImage(images["rightArrow"],526,420,80,65);
 
 			for(var s = 0; s < 4; s++){
 				if(runningGame4.main.clickColor[s] == 1){
@@ -2867,49 +2548,9 @@ tshirtCannon.main = {
 		tshirtCannon.main.students = [];
 		tshirtCannon.main.scores.score = 0;
 
-		instruction = new Image();
-		instruction.src = '../img/minigame5/instruction.png'
-		backButton = new Image();
-		backButton.src = '../img/backbutton.png'
-		//images
-		gymBG = new Image();
-		gymBG.src = '../img/minigame5/background.png'
-		thinwalk = new Image();
-		thinwalk.src = '../img/minigame5/thinwalkcyclesheet.png'
-		medwalk = new Image();
-		medwalk.src = '../img/minigame5/medwalkcycletop.png'
-		pluswalk = new Image();
-		pluswalk.src = '../img/minigame5/largewalkcycletop.png'
-		chairwalk = new Image();
-		chairwalk.src = '../img/minigame5/chairwalkcycletop.png'
 
-		titleScreen = new Image();
-		titleScreen.src = '../img/minigame5/titlescreen.png';
-		blueBar = new Image();
-		blueBar.src = '../img/bluebar.png'
-		blueBarSmall = new Image();
-		blueBarSmall.src = '../img/bluebarsmall.png';
-
-		happy = new Image();
-		happy.src = '../img/minigame5/happyreaction.png'
-		neutral = new Image();
-		neutral.src = '../img/minigame5/neutralreaction.png'
-		angry = new Image();
-		angry.src = '../img/minigame5/angryreaction.png'
-		superHappy = new Image();
-		superHappy.src = '../img/minigame5/superhapyreaction.png'
-		superAngry = new Image();
-		superAngry.src = '../img/minigame5/superangryreaction.png'
-
-		tshirt1 = new Image();
-		tshirt1.src = '../img/minigame5/tshirt1.png'
-		tshirt2 = new Image();
-		tshirt2.src = '../img/minigame5/tshirt2.png'
-		tshirt3 = new Image();
-		tshirt3.src = '../img/minigame5/tshirt3.png'
-
-		walkingArray = [thinwalk,medwalk,pluswalk,chairwalk];
-		reactionArray = [happy,neutral,angry,superHappy,superAngry];
+		walkingArray = [images["thinwalk"],images["medwalk"],images["pluswalk"],images["chairwalk"]];
+		reactionArray = [images["happy"],images["neutral"],images["angry"],images["superHappy"],images["superAngry"]];
 
 		tshirtCannon.main.instruction = true;
 
@@ -2919,9 +2560,7 @@ tshirtCannon.main = {
 	
         
 		c.onmousedown = tshirtCannon.main.doMousedown;
-		titleScreen.onload = function(){
-			tshirtCannon.main.update(c,ctx);
-		}
+		tshirtCannon.main.update(c,ctx);
 
 	},
     stop: function() 
@@ -2942,15 +2581,15 @@ tshirtCannon.main = {
 	draw: function(c,ctx){    
 	
 		if(tshirtCannon.main.instructionArea == 0)
-			ctx.drawImage(titleScreen,0,0,c.width,c.height)
+			ctx.drawImage(images["tShirtTitle"],0,0,c.width,c.height)
 		else if (tshirtCannon.main.instructionArea == 1){
-			ctx.drawImage(instruction,0,0,c.width,c.height)
-			ctx.drawImage(backButton,35,420,190,60)
+			ctx.drawImage(images["tShirtInstructions"],0,0,c.width,c.height)
+			ctx.drawImage(images["backButton"],35,420,190,60)
 		}
 
     if(tshirtCannon.main.instruction == false) {
-    	ctx.drawImage(gymBG,0,0,c.width, c.height);	
-    	ctx.drawImage(blueBar,0,0,c.width,35);
+    	ctx.drawImage(images["tShirtBG"],0,0,c.width, c.height);	
+    	ctx.drawImage(images["blueBar"],0,0,c.width,35);
 		ctx.fillStyle = "#000000";
 		ctx.font = "15px Arial";
 		ctx.fillText("Time Remaining: " +tshirtCannon.main.time+"",700,20);
@@ -3001,16 +2640,16 @@ tshirtCannon.main = {
 		
 		ctx.fillStyle = '#55DD68'
 		ctx.strokeStyle = '#55BB68'
-		ctx.drawImage(blueBarSmall,260,400,380,90)
 		ctx.beginPath();
 		ctx.arc(strokeArray[tshirtCannon.main.currentAmmo][0],strokeArray[tshirtCannon.main.currentAmmo][1],37,0,2*Math.PI);
+		ctx.drawImage(images["blueBarSmall"],260,400,380,90)
 		ctx.lineWidth = 3
 		ctx.fill();
 		ctx.stroke();
 		//draw the shirts
-		ctx.drawImage(tshirt1,305,408,65,74);
-		ctx.drawImage(tshirt2,420,408,65,74);
-		ctx.drawImage(tshirt3,535,408,65,74);
+		ctx.drawImage(images["tshirt1"],305,408,65,74);
+		ctx.drawImage(images["tshirt2"],420,408,65,74);
+		ctx.drawImage(images["tshirt3"],535,408,65,74);
 
 		}
 

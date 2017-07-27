@@ -79,6 +79,7 @@ function loadSaveFile(){
 
 function loadGame()
 {
+	$.post('/game/logRetriever', {});
     try{ 
       loadSaveFile(); 
     }
