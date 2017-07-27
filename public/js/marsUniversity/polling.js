@@ -252,128 +252,74 @@ function dupChecker_REFACTORED()
 	var dup2;
 	var pollChoices = [];
 
-    let questionIndex;
+  let questionIndex;
     //let subQuestionIndex;
 
 
     resetPollStyling();
 
-	for(var i = 0; i<6 ;i++)
-	{
-        let subQuestionIndex;
+    for(var i = 0; i<6 ;i++)
+  	{
+  		var selectedQuestion = document.getElementById("poll"+i+"");
+  		if(selectedQuestion.value != "")
+  		{
+  			let pollValue = selectedQuestion.value;
+        let jsonObj = getQuestionById(pollValue);
 
-		var selectedQuestion = document.getElementById("poll"+i+"");
-		if(selectedQuestion.value != "")
-		{
-			var pollVal = selectedQuestion.value;
+        //If the question has a subquestion
+  			if(jsonObj.subQuestions){
+          var selectedSubQuestion = document.getElementById('subpoll' + i + '');
+  				var subValue = selectedSubQuestion.value;
 
-			if(pollVal == 'issue'||pollVal == 'candFame'||pollVal == 'candTrust'){
-				//grab the sub question
-				var selectedSubQuestion = document.getElementById('subpoll' + i + '');
-				var subValue = selectedSubQuestion.value;
+          if(subValue != ""){
+              subQuestionIndex = selectedSubQuestion.selectedIndex;
+              pollVal = pollVal +","+ subValue;
+          }
+          else{
+              pollVal = subValue;
+          }
+  		   }
+  	   }
 
-                if(subValue != ""){
-                    subQuestionIndex = selectedSubQuestion.selectedIndex;
-                    pollVal = pollVal +","+ subValue;
-                }
-                else{
-                    pollVal = subValue;
-                }
-			}
-            if(pollVal){
-                pollChoices.push(pollVal);
+    if(pollVal){
 
-                questionIndex = selectedQuestion.selectedIndex;
+        questionIndex = selectedQuestion.selectedIndex;
 
-                //Make the option in all other dropdowns red
-                for(var j = 0; j < 6; j++){
-                    //If it's not the same dropdown
-                    if(j != i){
-                        let question = document.getElementById("poll"+j+"");
-                        debugger;
-                        //If the poll value involves a subquestion
-                        if(subQuestionIndex != null && subQuestionIndex > -1){
-                            ////CONSOLE.LOG("is subquestion");
-                            //If it's the same question
-                            if(questionIndex == question.selectedIndex){
-                                //Highlight the sub question
-                                let subQuestion = document.getElementById("subpoll"+j+"");
-                                //subQuestion.options[subQuestionIndex].setAttribute("class", "duplicateOption3")
-                                subQuestion.options[subQuestionIndex].disabled = true;
-                            }
-                        }
-                        else{
-
-                            //if(question.indexOf())
-                            //question.options[questionIndex].setAttribute("class", "duplicateOption2")
-                            question.options[questionIndex].disabled = true;
-                        }
-
+        //Make the option in all other dropdowns red
+        for(var j = 0; j < 6; j++){
+            //If it's not the same dropdown
+            if(j != i){
+                let question = document.getElementById("poll"+j+"");
+                debugger;
+                //If the poll value involves a subquestion
+                if(subQuestionIndex != null && subQuestionIndex > -1){
+                    ////CONSOLE.LOG("is subquestion");
+                    //If it's the same question
+                    if(questionIndex == question.selectedIndex){
+                        //Highlight the sub question
+                        let subQuestion = document.getElementById("subpoll"+j+"");
+                        //subQuestion.options[subQuestionIndex].setAttribute("class", "duplicateOption3")
+                        subQuestion.options[subQuestionIndex].disabled = true;
                     }
                 }
+                else{
+
+                    //if(question.indexOf())
+                    //question.options[questionIndex].setAttribute("class", "duplicateOption2")
+                    question.options[questionIndex].disabled = true;
+                }
+
             }
-
-
-		}
-
-	}
+        }
+    }
+  }
 
 }
 
 
-	for(var i = 0; i<6 ;i++)
-	{
-		var selectedQuestion = document.getElementById("poll"+i+"");
-		if(selectedQuestion.options[selectedQuestion.selectedIndex].value != "")
-		{
-			let pollValue = selectedQuestion.options[selectedQuestion.selectedIndex].value;
 
-            let jsonObj = getQuestionById(pollValue);
 
-            //If the question has a subquestion
-			if(jsonObj.subQuestions){
-				//grab the sub question
-				var selectedSubQuestion = document.getElementById('subpoll' + i + '');
-				var subValue = selectedSubQuestion.value;
 
-                if(subValue != ""){
-                    let newQuestion = new PollQuestion(pollValue, subValue, jsonObj);
-                    newPollResult.questions.push(newQuestion);
-
-                    //pollVal = pollVal +""+ subValue;
-                    //pollChoices.push(pollVal);
-                }
-			}
-            else{
-              let newQuestion = new PollQuestion(pollValue, "", jsonObj);
-              newPollResult.questions.push(newQuestion);
-            }
-
-		}
-	}
-    console.log(newPollResult);
-
-    let pollChoices = newPollResult.questions;
-
-	//Checks for duplicate questions
-	for (var i=0; i< pollChoices.length;i++)
-	{
-		for (var j=0; j< pollChoices.length;j++)
-		{
-			if(i!=j)
-			{
-				var val1 = pollChoices[i].id + pollChoices[i].subId;
-				var val2 = pollChoices[j].id + pollChoices[j].subId;
-
-				if(val1 == val2)
-				{
-					duplicate = true;
-					dup1 = i;
-					dup2 = j;
-				}
-			}
-		}
-	}
 
 function resetPollStyling(){
     //Set all selects and options to default styling
