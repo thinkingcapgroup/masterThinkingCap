@@ -1,14 +1,6 @@
 var theJSONEvents = []
 var theQuestionBools = [];
 
-const POLL_STATES = {
-    TUTORIAL: 1,
-    PRACTICE_AREA: 2,
-    IN_GAME_PRACTICE: 3,
-    END_OF_DAY: 0,
-    IN_GAME: 5,
-    FIRST: 4
-}
 
 $(document).on('change', '.totalTimeTracker', function(){
   
@@ -365,14 +357,14 @@ function pollResults(state, isFree, isFake)
         //Run poll
         pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake);
     
-        if(state == POLL_STATES.TUTORIAL){
+        if(state == globals.POLL_STATES.TUTORIAL){
             document.getElementById("back").innerHTML += "<button onclick = 'drawPoll("+state+","+isFree+","+isFake+")'> Back to Tutorial Poll</button>";
         }
-        else if(state == POLL_STATES.PRACTICE_AREA)
+        else if(state == globals.POLL_STATES.PRACTICE_AREA)
         {
             document.getElementById("back").innerHTML += "<button onclick = 'practiceMenu()'> Return to Practice Area</button>";
         }
-        else if(state == POLL_STATES.FIRST)
+        else if(state == globals.POLL_STATES.FIRST)
         {
             document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
     
@@ -412,7 +404,7 @@ function drawPoll(state, isFree, isFake){
       saveGame();
     }
 	
-	if(state == POLL_STATES.IN_GAME)
+	if(state == globals.POLL_STATES.IN_GAME)
     {
         //Display Updated Top Bar
         updateTopBar(pollMenu);
@@ -430,7 +422,7 @@ function drawPoll(state, isFree, isFake){
       
         let lowerLimit = 4;
         let upperStart = 8; 
-        if(state == POLL_STATES.FIRST){
+        if(state == globals.POLL_STATES.FIRST){
           lowerLimit = 4;
           upperStart = 11;
         }
@@ -467,34 +459,34 @@ function drawPoll(state, isFree, isFake){
     globals.isCurrentAreaHover = areaChoices["Quad"].id;
     setupMap(true);
   
-    if(state == POLL_STATES.FIRST || globals.remainingHoursDay >= 4 )
+    if(state == globals.POLL_STATES.FIRST || globals.remainingHoursDay >= 4 )
 		addMoreQuestions();
-	if(state != POLL_STATES.FIRST && globals.remainingHoursDay >= 5)
+	if(state != globals.POLL_STATES.FIRST && globals.remainingHoursDay >= 5)
 		{addMoreQuestions();}
 		
 //	//Displays the screen for this event
 //	document.getElementById("questionArea").innerHTML += "<p id = 'duplicateParagraph'></p><br><button class = 'logEventPoll' onclick = 'pollResults("+state+", " +isFree+","+isFake+")'> Submit Poll </button><br>";
 	
     //Tutorial's practice poll
-	if(state == POLL_STATES.TUTORIAL){
+	if(state == globals.POLL_STATES.TUTORIAL){
 		document.getElementById("next").innerHTML += "<br> <button class='primaryBtn' type='button' onclick='chooseDiff()'> Start the Game </button>";
 		document.getElementById("back").innerHTML = "<button type='button' onclick='tutorial("+false+")'>Return to Tutorial </button>";
 	}
     //Poll within Practice Area
-	else if (state == POLL_STATES.PRACTICE_AREA){
+	else if (state == globals.POLL_STATES.PRACTICE_AREA){
 		document.getElementById("back").innerHTML += "<br> <button type='button' onclick='practiceMenu()'> Back to Practice Area </button>";
 	}
     //First poll in the game
-	else if(state == POLL_STATES.FIRST){
+	else if(state == globals.POLL_STATES.FIRST){
 		document.getElementById("next").innerHTML += "<br> <button class='primaryBtn' onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
 	}
     //End of day poll
-	else if(state == POLL_STATES.END_OF_DAY){
+	else if(state == globals.POLL_STATES.END_OF_DAY){
 		document.getElementById("sample").value = "80";
         document.getElementById("next").innerHTML += "<br> <button class='otherBtn' type='button' onclick='eventMenu()' > Choose Not to Take the Poll  </button>";
     }
     //It's a poll the user has chosen to take or [oll when you retake the tutorial from within the main game
-    else if(state == POLL_STATES.IN_GAME || state == POLL_STATES.IN_GAME_PRACTICE){
+    else if(state == globals.POLL_STATES.IN_GAME || state == globals.POLL_STATES.IN_GAME_PRACTICE){
         setBackToMapBtn();
     }
     
@@ -539,7 +531,7 @@ function setupPracticePoll()
 	globals.candidates.push(issueCand1);
 
 	
-	drawPoll(POLL_STATES.PRACTICE_AREA, false, true);
+	drawPoll(globals.POLL_STATES.PRACTICE_AREA, false, true);
 }
 
 

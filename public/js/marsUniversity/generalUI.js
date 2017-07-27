@@ -49,7 +49,7 @@ function pollMenu()
 
       if(globals.remainingHoursDay >=3)
       {
-          document.getElementById("mainContent").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' class='primaryBtn' onclick='drawPoll("+POLL_STATES.IN_GAME+", false, false)'> Take A Poll </button><br><br>";
+          document.getElementById("mainContent").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' class='primaryBtn' onclick='drawPoll("+globals.POLL_STATES.IN_GAME+", false, false)'> Take A Poll </button><br><br>";
           if(globals.pastPollResults.length > 0)
               document.getElementById("mainContent").innerHTML += "<h2> Previous Poll Results</h2>";
       }
@@ -276,7 +276,7 @@ function dayPollInfo()
     document.getElementById("mainContent").classList.add("center");
   
     document.getElementById("mainContent").innerHTML = "<h1>End of Day Poll</h1> <br><p>Phew! After a hard day of campaigning the current electoral office will conduct a poll for each candidate. <br>You just have to fill out the questions and decide how many people they'll talk to.<br> It wont take any time on our part!</p>";
-    document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='drawPoll("+POLL_STATES.END_OF_DAY+",true, false)'>Take Your End of Day Poll</button>";
+    document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='drawPoll("+globals.POLL_STATES.END_OF_DAY+",true, false)'>Take Your End of Day Poll</button>";
 }
 
 function endGame()

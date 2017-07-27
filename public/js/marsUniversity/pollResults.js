@@ -132,7 +132,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 			graphData[1][3]++;
 		}
 		
-		//if(state == POLL_STATES.FIRST && j ==0)
+		//if(state == globals.POLL_STATES.FIRST && j ==0)
 		//{
 		//	globals.candidates.splice(0,0,new Candidate(""));
 		//}
@@ -981,7 +981,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 		//	globals.candidates.splice(0,1);
 		//}
 	document.getElementById('table').style.display = 'none';
-	if (state == POLL_STATES.TUTORIAL){
+	if (state == globals.POLL_STATES.TUTORIAL){
         document.getElementById('back').innerHTML += "<button onclick = 'drawPoll("+state+",false, true)'>Back to Start</button>" ;
 	}
     //If the data isn't fake and it isn't a past poll report
@@ -1324,7 +1324,7 @@ function viewPollResult(id, isFirst)
 	globals.currentPoll = id;
   //pollChoices, tableArray2, sSize, graphData, graphLabels, isFake, state, isFree, isReview
     $.post('/game/defaultLogger', {eventName: 'Viewed Poll Result', eventType:'Past Poll Result', module: 1, session: globals.gameSession});
-  tableBuilder(globals.pastPollChoices[id],globals.pastPollResults[id],globals.pastPollSizes[id],globals.pastGraphData[id],globals.pastGraphLabels[id], false, POLL_STATES.IN_GAME, true, true);
+  tableBuilder(globals.pastPollChoices[id],globals.pastPollResults[id],globals.pastPollSizes[id],globals.pastGraphData[id],globals.pastGraphLabels[id], false, globals.POLL_STATES.IN_GAME, true, true);
 	if(!isFirst){
         updateTopBar(pollMenu);
 		document.getElementById("back").innerHTML += "<button onclick = 'eventMenu()'>Back to Game Map</button>";

@@ -55,7 +55,7 @@ function firstPollInfo()
     document.getElementById("mainContent").classList.add("center");
 
     document.getElementById("mainContent").innerHTML += "<h1>First Poll</h1> <br><p>Ready to start your Campaign at Mars U? It's time to get that initial data from the Student Government. Let them know what questions you would like to know the answers to.</p>";
-    document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='drawPoll("+POLL_STATES.FIRST+", true, false)'>Take Your First Poll</button>";
+    document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='drawPoll("+globals.POLL_STATES.FIRST+", true, false)'>Take Your First Poll</button>";
 }
 
 //Sets up the buttons for the intital statement the player makes in the game.
@@ -134,5 +134,5 @@ function firstPollInfo()
     document.getElementById("mainContent").classList.add("center");
 
     document.getElementById("mainContent").innerHTML += "<h1>First Poll</h1> <br><p>Ready to start your Campaign at Mars U? It's time to get that initial data from the Student Government. Let them know what questions you would like to know the answers to.</p>";
-    document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='drawPoll("+POLL_STATES.FIRST+", true, false)'>Take Your First Poll</button>";
+    document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='drawPoll("+globals.POLL_STATES.FIRST+", true, false)'>Take Your First Poll</button>";
 }

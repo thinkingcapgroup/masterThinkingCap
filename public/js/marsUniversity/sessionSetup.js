@@ -205,6 +205,26 @@ function startSession()
 		Json = JSON.parse(this.responseText);
 		globals.events = Json.events;
 		globals.questions = Json.questions;
+		globals.opinionValues = Json.opinionValues;
+		globals.opinionLimits = Json.opinionLimits;
+		globals.helpPage = Json.helpPage;
+		globals.majorIssues = Json.majorIssues;
+		globals.groupIssues = Json.groupIssues;
+		globals.positions = Json.positions;
+		globals.positionsLower = Json.positionsLower;
+		globals.lifeformArray = Json.lifeformArray;
+		globals.bodyShapeArray = Json.bodyShapeArray;
+		globals.bodyTypeArray = Json.bodyTypeArray;
+		globals.tableHeaders = Json.tableHeaders;
+		globals.groupList = Json.groupList;
+		globals.majorList = Json.majorList;
+		globals.imgArrayBodyWidth = Json.imgArrayBodyWidth;
+		globals.imgArrayBodyHeight = Json.imgArrayBodyHeight;
+		globals.imgArrayHeadHeight = Json.imgArrayHeadHeight;
+		globals.dayCycleImage = Json.dayCycleImage;
+		globals.population = Json.population;
+		globals.POLL_STATES = Json.POLL_STATES;
+		globals.tutorialPages = Json.tutorialPages;
 	};
 	oReq.open("get", "json/data.json", true);
 	oReq.send();
@@ -213,7 +233,6 @@ function startSession()
     //preloadUI();  
   
     createAreas();
-    createTutorialPages();
     
     loadViews(50);
     preloadImages(54);
