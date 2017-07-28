@@ -276,22 +276,22 @@ function TempStudent(bias){
     //Calculate least favorite issue
     var leastFav = 0;
     var leastFavName = "";
-    if(leastFav < budget || leastFav==0)
+    if(leastFav > budget || leastFav==0)
     {
         leastFav = budget;
         leastFavName = "budget";
     }
-    if(leastFav < tuition || leastFav==0)
+    if(leastFav > tuition || leastFav==0)
     {
         leastFav = tuition;
         leastFavName = "tuition";
     }
-    if(leastFav < functions || leastFav==0)
+    if(leastFav > functions || leastFav==0)
     {
         leastFav = functions;
         leastFavName = "functions";
     }
-    if(leastFav < medical || leastFav==0)
+    if(leastFav > medical || leastFav==0)
     {
         leastFav = medical;
         leastFavName = "medical";

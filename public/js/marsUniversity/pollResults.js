@@ -1320,7 +1320,7 @@ function viewPollResult(id, isFirst)
 	clearScreen();
 	globals.currentPoll = id;
   //pollChoices, tableArray2, sSize, graphData, graphLabels, isFake, state, isFree, isReview
-  tableBuilder(globals.pastPollChoices[id],globals.pastPollResults[id],globals.pastPollSizes[id],globals.pastGraphData[id],globals.pastGraphLabels[id], false, POLL_STATES.IN_GAME, true, true);
+  tableBuilder_REFACTORED(globals.pastPollResults[id], false, POLL_STATES.IN_GAME, true, true);
 	if(!isFirst){
         updateTopBar(pollMenu);
 		document.getElementById("back").innerHTML += "<button onclick = 'eventMenu()'>Back to Game Map</button>";
@@ -2344,6 +2344,9 @@ function tableBuilder_REFACTORED(pollResult, isFake, state, isFree, isReview)
     if(!isFake){
       document.getElementById("centerDisplay").innerHTML += "<div id = 'chartFilters' style = 'display:block'> Filters: </div>";
       document.getElementById("chartFilters").innerHTML += "<br>Major: <select class = 'graphFilters' id = 'majorSelect'></select>   Social Group: <select class = 'graphFilters' id = 'groupSelect'></select>";
+      
+      document.getElementById("majorSelect").onchange = updateGraphFilters(pollResult);
+      document.getElementById("groupSelect").onchange = updateGraphFilters(pollResult);
 
       var noneOp = document.createElement("option");
       noneOp.text = "None";
@@ -2389,7 +2392,7 @@ function tableBuilder_REFACTORED(pollResult, isFake, state, isFree, isReview)
 	document.getElementById('filterArea').innerHTML +='<br>'
 	document.getElementById('filterArea').style.display = "none";
 
-	makeGraphs(graphData, graphQuestions,graphLabels);
+	makeGraphs_REFACTORED(pollResult);
 		//if(state == POLL_STATES.FIRST)
 		//{
 		//	globals.candidates.splice(0,1);
@@ -2402,21 +2405,553 @@ function tableBuilder_REFACTORED(pollResult, isFake, state, isFree, isReview)
 	if(!isFake && !isReview)
 	{
         console.log("pushing");
-		globals.pastPollResults.push(tableArray2);
-		globals.pastPollSizes.push(sSize);
-		globals.pastPollChoices.push(pollChoices);
-		globals.pastGraphData.push(graphData);
-		globals.pastGraphLabels.push(graphLabels);
-		globals.tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
+		globals.pastPollResults.push(pollResult);
 		if(!isFree)
-			pollTime(sSize, pollChoices);
-		globals.currentPoll = (globals.pastPollResults.length - 1);
+			pollTime(pollResult.students.length, pollResult.questions);
 	}
     else if(isFake){
       //Result the fake data back to normal
       globals.candidates = globals.currentCandidateArrayHolder;
     }
 
+}
+
+//$(document).on('change','.graphFilters', function()
+// {
+//	 console.log(globals.currentPoll)
+//	var major = document.getElementById("majorSelect").value;
+//	var group = document.getElementById("groupSelect").value;
+//	filterGraphData(major, group, globals.pastPollChoices[globals.currentPoll], globals.pastPollResults[globals.currentPoll], globals.pastPollSizes[globals.currentPoll], globals.pastGraphData[globals.currentPoll], globals.pastGraphLabels[globals.currentPoll], false);
+// });
+
+function updateGraphFilters(currentPoll){
+  var major = document.getElementById("majorSelect").value;
+  var group = document.getElementById("groupSelect").value;
+  filterGraphData_REFACTORED(major, group, currentPoll);
+}
+
+function filterGraphData_REFACTORED(matchingMajor, matchingGroup, pollResult)
+{
+    debugger;
+	var studentResponses =[];
+	var canAdd = true;
+	if(matchingMajor == "None" && matchingGroup== "None")
+	{
+		for(var i =0; i< sSize; i++)
+		{
+			studentResponses.push(i);
+		}
+	}
+	else
+	{
+		for(var i=0; i <resultsArray[4].length;i++)
+		{
+			if(resultsArray[4][i] == matchingMajor)
+			{
+				studentResponses.push(i);
+			}
+		}
+		for(var i=0; i <resultsArray[6].length;i++)
+		{
+			if(resultsArray[6][i] == matchingGroup)
+			{
+				studentResponses.forEach(function(element)
+				{
+					if(resultsArray[6][i] == element)
+					{
+						canAdd = false;
+					}
+				});
+				if(canAdd)
+				{studentResponses.push(i);}
+			}
+		}
+	}
+
+    var graphQuestions = [];
+    for(var i = 0; i < pollChoices.length; i++){
+      graphQuestions.push(pollChoices[i]);
+    }
+
+
+	if(graphQuestions[0] != "major")
+		graphQuestions.splice(0,0,"major","group");
+
+    let filteredData = [];
+	for(var i =0;i < graphData.length; i++)
+	{
+        filteredData.push([]);
+		for(var j =0;j < graphData[i].length; j++)
+		{
+            filteredData[i].push(0);
+		}
+	}
+	console.log(graphData);
+	for(var h = 0; h<sSize; h++)
+	{
+		var response = false;
+		studentResponses.forEach(function(element)
+			{
+				if(h == element)
+				{
+					response = true;
+				}
+			});
+		if(response)
+		{
+			var majorHolder = resultsArray[4][h];
+			if(majorHolder == "business"){
+				filteredData[0][0]++;
+			}
+			else if(majorHolder == "law"){
+				filteredData[0][1]++;
+			}
+			else if(majorHolder == "tech"){
+				filteredData[0][2]++;
+			}
+			else if(majorHolder == "arts"){
+				filteredData[0][3]++;
+			}
+				console.log ("i = " + 0)
+
+			var groupHolder =  resultsArray[6][h];
+			if(groupHolder == "socialite"){
+				filteredData[1][0]++;
+			}
+			else if(groupHolder == "athlete"){
+				filteredData[1][1]++;
+			}
+			else if(groupHolder == "gamer"){
+				filteredData[1][2]++;
+			}
+			else if(groupHolder == "reader"){
+				filteredData[1][3]++;
+			}
+		    console.log ("i = " + 1)
+			for(var i = 2; i < graphQuestions.length+1;i++)
+			{
+				if(graphQuestions[i] != null)
+				{
+					switch(graphQuestions[i])
+					{
+
+						case "issFav":
+							var favName = resultsArray[0][h];
+							if(favName == "Tuition"){
+								filteredData[i][0]++;
+							}
+							else if(favName == "Budget"){
+								filteredData[i][1]++;
+							}
+							else if(favName == "Functions"){
+								filteredData[i][2]++;
+							}
+							else if(favName == "Medical"){
+								filteredData[i][3]++;
+							}
+						break;
+
+						case "issOpp":
+							var oppName = resultsArray[1][h];
+							if(oppName == "Tuition"){
+								filteredData[i][0]++;
+							}
+							else if(oppName == "Budget"){
+								filteredData[i][1]++;
+							}
+							else if(oppName == "Functions"){
+								filteredData[i][2]++;
+							}
+							else if(oppName == "Medical"){
+								filteredData[i][3]++;
+							}
+						break;
+
+						case "candFav":
+							for(var k =0; k< graphLabels[i].length;k++)
+							{
+								////CONSOLE.LOG()
+								if(resultsArray[2][h] == graphLabels[i][k]){
+									filteredData[i][k]++;
+								}
+							}
+						break;
+
+						case "candOpp":
+							for(var k =0; k< graphLabels[i].length;k++)
+							{
+								////CONSOLE.LOG()
+								if(resultsArray[3][h] == graphLabels[i][k]){
+									filteredData[i][k]++;
+								}
+							}
+						break;
+
+						case "fame":
+							if(parseFloat(resultsArray[7][h]).toFixed(2) <= 0.2)
+							{
+								filteredData[i][0]++;
+							}
+							else if(parseFloat(resultsArray[7][h]).toFixed(2)>0.20 && parseFloat(resultsArray[7][h]).toFixed(2)<0.41)
+							{
+								filteredData[i][1]++;
+							}
+							else if(parseFloat(resultsArray[7][h]).toFixed(2)>0.40 && parseFloat(resultsArray[7][h]).toFixed(2)<0.61)
+							{
+								filteredData[i][2]++;
+							}
+							else if(parseFloat(resultsArray[7][h]).toFixed(2)>0.60 && parseFloat(resultsArray[7][h]).toFixed(2)<0.81)
+							{
+								filteredData[i][3]++;
+							}
+							else
+							{
+								filteredData[i][4]++;
+							}
+						break;
+
+						case "playTrust":
+							if(parseFloat(resultsArray[8][h]).toFixed(2) <= 0.2)
+							{
+								filteredData[i][0]++;
+							}
+							else if(parseFloat(resultsArray[8][h]).toFixed(2)>0.2 && parseFloat(resultsArray[8][h]).toFixed(2)<0.41)
+							{
+								filteredData[i][1]++;
+							}
+							else if(parseFloat(resultsArray[8][h]).toFixed(2)>0.4 && parseFloat(resultsArray[8][h]).toFixed(2)<0.61)
+							{
+								filteredData[i][2]++;
+							}
+							else if(parseFloat(resultsArray[8][h]).toFixed(2)>0.6 && parseFloat(resultsArray[8][h]).toFixed(2)<0.81)
+							{
+								filteredData[i][3]++;
+							}
+							else
+							{
+								filteredData[i][4]++;
+							}
+						break;
+					}
+
+
+					for(var k = 0;k<globals.positions.length;k++)
+					{
+						if(graphQuestions[i] == "issue" + globals.positionsLower[k])
+						{
+							switch(graphQuestions[i])
+							{
+								case "issuetuition":
+									if(resultsArray[9][h] <= -3)
+									{
+										filteredData[i][0]++;
+									}
+									else if(resultsArray[9][h]>-3 && resultsArray[9][h]<-1)
+									{
+										filteredData[i][1]++;
+									}
+									else if(resultsArray[9][h]>-1 && resultsArray[9][h]<1)
+									{
+										filteredData[i][2]++;
+									}
+									else if(resultsArray[9][h]>1 && resultsArray[9][h]<3)
+									{
+										filteredData[i][3]++;
+									}
+									else
+									{
+										filteredData[i][4]++;
+									}
+								break;
+
+								case "issuebudget":
+									if(resultsArray[10][h] <= -3)
+									{
+										filteredData[i][0]++;
+									}
+									else if(resultsArray[10][h]>-3 && resultsArray[10][h]<-1)
+									{
+										filteredData[i][1]++;
+									}
+									else if(resultsArray[10][h]>-1 && resultsArray[10][h]<1)
+									{
+										filteredData[i][2]++;
+									}
+									else if(resultsArray[10][h]>1 && resultsArray[10][h]<3)
+									{
+										filteredData[i][3]++;
+									}
+									else
+									{
+										filteredData[i][4]++;
+									}
+								break;
+
+
+								case "issuefunctions":
+									if(resultsArray[12][h] <= -3)
+									{
+										filteredData[i][0]++;
+									}
+									else if(resultsArray[12][h]>-3 && resultsArray[12][h]<-1)
+									{
+										filteredData[i][1]++;
+									}
+									else if(resultsArray[12][h]>-1 && resultsArray[12][h]<1)
+									{
+										filteredData[i][2]++;
+									}
+									else if(resultsArray[12][h]>1 && resultsArray[12][h]<3)
+									{
+										filteredData[i][3]++;
+									}
+									else
+									{
+										filteredData[i][4]++;
+									}
+								break;
+
+								case "issuemedical":
+									if(resultsArray[13][h] <= -3)
+									{
+										filteredData[i][0]++;
+									}
+									else if(resultsArray[13][h]>-3 && resultsArray[13][h]<-1)
+									{
+										filteredData[i][1]++;
+									}
+									else if(resultsArray[13][h]>-1 && resultsArray[13][h]<1)
+									{
+										filteredData[i][2]++;
+									}
+									else if(resultsArray[13][h]>1 && resultsArray[13][h]<3)
+									{
+										filteredData[i][3]++;
+									}
+									else
+									{
+										filteredData[i][4]++;
+									}
+								break;
+							}
+						}
+					}
+
+
+					canCounter = 14;
+					for(var k = 1;k<globals.candidates.length;k++)
+					{
+						if(graphQuestions[i] == "candFame" + globals.candidates[k].name)
+						{
+							var counter = canCounter;
+							if(parseFloat(resultsArray[counter][h]).toFixed(2) <= 0.2)
+							{
+								filteredData[i][0]++;
+							}
+							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.2 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.41)
+							{
+								filteredData[i][1]++;
+							}
+							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.4 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.61)
+							{
+								filteredData[i][2]++;
+							}
+							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.6 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.81)
+							{
+								filteredData[i][3]++;
+							}
+							else
+							{
+								filteredData[i][4]++;
+							}
+						}
+						canCounter++;
+					}
+					for(var k = 1;k<globals.candidates.length;k++)
+					{
+						if(graphQuestions[i] == "candTrust" + globals.candidates[k].name)
+						{
+							var counter = canCounter;
+							if(parseFloat(resultsArray[counter][h]).toFixed(2) <= 0.2)
+							{
+								filteredData[i][0]++;
+							}
+							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.2 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.41)
+							{
+								filteredData[i][1]++;
+							}
+							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.4 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.61)
+							{
+								filteredData[i][2]++;
+							}
+							else if(parseFloat(resultsArray[counter][h]).toFixed(2)>0.6 && parseFloat(resultsArray[counter][h]).toFixed(2)<0.81)
+							{
+								filteredData[i][3]++;
+							}
+							else
+							{
+								filteredData[i][4]++;
+							}
+						}
+						canCounter++;
+					}
+				}
+			}
+		}
+	}
+
+	if(!resetter)
+	{
+		document.getElementById("centerDisplay").innerHTML += "<div id = 'barChartDiv' style = 'display:block'></div>";
+		document.getElementById("centerDisplay").innerHTML += "<div id = 'pieChartDiv' style = 'display:none'></div>";
+
+		makeGraphs(filteredData, graphQuestions, graphLabels);
+		document.getElementById("majorSelect").value = matchingMajor;
+		document.getElementById("groupSelect").value = matchingGroup;
+		document.getElementById('table').style.display = 'none';
+		//filterGraphData("None", "None", pollChoices, resultsArray, sSize, graphData, graphLabels, true)
+	}
+}
+
+function makeGraphs_REFACTORED(pollResult)
+{
+    debugger;
+	document.getElementById("barChartDiv").innerHTML = "";
+	document.getElementById("pieChartDiv").innerHTML = "";
+	var counter = 0;
+	//graph dat table
+	for (var i=0;i<pollResult.questions.length;i++)
+	{
+	document.getElementById("barChartDiv").innerHTML += "<div id = 'q"+i+"text'><br></div><div class = 'barChart"+i+" chart'></div>";
+    document.getElementById("pieChartDiv").innerHTML += "<div id = 'bq"+i+"text'><br></div><div class = 'pieChart"+i+"'></div>";
+		if(i==1){
+			document.getElementById("barChartDiv").innerHTML += "<hr>";
+			document.getElementById("pieChartDiv").innerHTML += "<hr>";
+		}
+		else if( i == 5){
+
+		}
+    }
+
+	for(var i = 0; i < pollResult.questions.length; i++){
+
+		var counter = 0;
+		var data = [];
+		var data2 = [];
+		var x = 0;
+		var qID = "";
+      
+        let currentQuestion =  pollResult.questions[i];
+      
+        document.getElementById("q"+i+"text").innerHTML = currentQuestion.question;
+        document.getElementById("bq"+i+"text").innerHTML = currentQuestion.question;
+
+		//////CONSOLE.LOG("Question "+graphQuestions[i] + " has a length of: " + graphData[i].length);
+		//////CONSOLE.LOG(graphData[questionNum]);
+
+//		if(graphData[i] != null)
+//		{
+//			//GRAPH DATA BUG: for stefen
+//			for (var j = 0; j < graphData[i].length; j++)
+//			{
+//				//////CONSOLE.LOG(graphData[questionNum], " AT ", questions[qID].question)
+//				data2[j]=graphData[i][j];
+//			}
+//		}
+//        else{
+//          console.log("Null data at: "+i);
+//        }
+        let graphLabels = currentQuestion.possibleAnswers.map(function(x){
+          return x.label;
+        });
+        let graphCounts = currentQuestion.possibleAnswers.map(function(x){
+          return x.count;
+        });
+
+        //Creates the bar graphs based on the questions
+		var dataCounter = 0;
+		x = d3.scaleLinear()
+		.domain([0, d3.max(graphCounts)])
+		.range([0, 420]);
+
+
+		d3.select(".barChart" + i)
+		.selectAll("div")
+		.data(graphCounts)
+		.enter().append("div")
+		.style("width", function(d) { return x(d) + "px"; })
+		.text(function(d)
+		{
+			var zid = graphLabels[dataCounter] + "-" + d;
+			//////CONSOLE.LOG(zid);
+			dataCounter++;
+
+			return zid;
+		});
+
+//        var dataset =  [];
+//        for (var k = 0; k < graphData[i].length; k++)
+//        {
+//			////CONSOLE.LOG(graphLabels);
+//			////CONSOLE.LOG(graphData);
+//			if(graphLabels[i][k] != "undefined-NaN")
+//            dataset.push ({label: graphLabels[i][k], count: graphData[i][k]})
+//		}
+      var dataset =  [];
+        for (var k = 0; k < currentQuestion.possibleAnswers.length; k++)
+        {
+            let possibleAnswer = currentQuestion.possibleAnswers[k];
+
+			//if(graphLabels[i][k] != "undefined-NaN")
+            dataset.push ({label: possibleAnswer.label, count: possibleAnswer.count});
+		}
+        
+
+        //Creates the pie charts based on the questions
+        var width = 120;
+        var height = 120;
+        var radius = Math.min(width, height) / 2;
+        var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+        var vis = d3.select(".pieChart" + i)
+        .append("svg:svg")
+        .data([dataset])
+        .attr("width", width + 200)
+        .attr("height", height)
+        .append("svg:g")
+        .attr("transform", "translate(" + radius + "," + radius + ")")
+
+        var arc = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius);
+
+        var pie = d3.pie()
+        .value(function(d) { return d.count; })
+        //.sort(null);
+
+        var arcs = vis.selectAll("g.slice")
+        .data(pie)
+        .enter()
+        .append("svg:g")
+        .attr("class", "slice");
+
+        arcs.append("svg:path")
+        .attr("fill", function(d, i) { return color(i); } )
+        .attr("d", arc);
+
+        arcs.append("svg:text")
+
+        arcs.append("svg:text")
+        .attr("dy", ".25em")
+        //.attr("text-anchor", "middle")
+        .attr("x", function(d, i)
+        {return width/2 + 30;})
+        .attr("y", function(d, i) { return -50 + i*15; } )
+        .style("fill", function(d, i) { return color(i); } )
+        .style("font", "bold 12px Arial")
+        .text(function(d) { return d.data.label + "-" +d.data.count; });
+
+	}
 }
 
 function countAnswers(question, students){
