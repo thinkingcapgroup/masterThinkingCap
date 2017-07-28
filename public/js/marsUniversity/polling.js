@@ -73,13 +73,13 @@ function onPollChange(pollThing){
       }
       if(pollQuestion == "candFame" || pollQuestion == "candTrust" ){
           
-        for(var x = 0; x < globals.candidates.length; x++){
+        for(var x = 0; x < GameObject.candidates.length; x++){
             let newOption;
-            if(x == 0 && globals.candidates[0].name != "Karma"){
-              newOption = new Option(globals.candidates[x].name, "Player");
+            if(x == 0 && GameObject.candidates[0].name != "Karma"){
+              newOption = new Option(GameObject.candidates[x].name, "Player");
             }               
             else{
-                newOption = new Option(globals.candidates[x].name, globals.candidates[x].name);
+                newOption = new Option(GameObject.candidates[x].name, GameObject.candidates[x].name);
             }
             
             newOption.setAttribute("class", "defaultSubOption");
@@ -124,7 +124,7 @@ function pollTime(sSize, pollQuestions)
 		timeRequired = sSize/10 + (pollQuestions.length*0.5) +0.5;
 	}
 	globals.remainingHoursTotal -= timeRequired;
-	globals.remainingHoursDay -= timeRequired;
+	GameObject.remainingHoursDay -= timeRequired;
 }
 
 function returnTotalPollTime(sSize, pollQuestions){
@@ -153,7 +153,7 @@ function pollTimeCheck(sSize, pollQuestions)
 		timeRequired = sSize/10 + (pollQuestions.length*0.5) +0.5;
 	}
   
-	return (timeRequired <= globals.remainingHoursDay);
+	return (timeRequired <= GameObject.remainingHoursDay);
 }
 
 // Loops through the current questions and checks for duplicates
@@ -375,7 +375,7 @@ function pollResults(state, isFree, isFake)
 	}
 
     //Reset candidates back to correct candidates
-	globals.candidates = globals.currentCandidateArrayHolder;
+	GameObject.candidates = globals.currentCandidateArrayHolder;
 
 };
 
@@ -397,8 +397,8 @@ function drawPoll(state, isFree, isFake){
     document.getElementById("mainContent").classList.add("left");
   
     if(isFake){
-      globals.currentCandidateArrayHolder = globals.candidates;
-      globals.candidates = globals.fakeCandidateHolder;
+      globals.currentCandidateArrayHolder = GameObject.candidates;
+      GameObject.candidates = globals.fakeCandidateHolder;
     }
     else{
       saveGame();
@@ -416,7 +416,7 @@ function drawPoll(state, isFree, isFake){
     let enoughTime = false;
   
     //If it's a free poll or if there's enough time
-	if(isFree || globals.remainingHoursDay>= 3 )
+	if(isFree || GameObject.remainingHoursDay>= 3 )
 	{
         enoughTime = true;
       
@@ -447,8 +447,8 @@ function drawPoll(state, isFree, isFake){
       free: isFree,
       fake: isFake,
       areas: areaChoices,
-      allow40: (isFree || globals.remainingHoursDay > 5),
-      allow80: (isFree || globals.remainingHoursDay >= 9),
+      allow40: (isFree || GameObject.remainingHoursDay > 5),
+      allow80: (isFree || GameObject.remainingHoursDay >= 9),
       numQuestions: 6,
       questions: pollQuestions,
       enoughTime: enoughTime
@@ -459,9 +459,9 @@ function drawPoll(state, isFree, isFake){
     globals.isCurrentAreaHover = areaChoices["Quad"].id;
     setupMap(true);
   
-    if(state == globals.POLL_STATES.FIRST || globals.remainingHoursDay >= 4 )
+    if(state == globals.POLL_STATES.FIRST || GameObject.remainingHoursDay >= 4 )
 		addMoreQuestions();
-	if(state != globals.POLL_STATES.FIRST && globals.remainingHoursDay >= 5)
+	if(state != globals.POLL_STATES.FIRST && GameObject.remainingHoursDay >= 5)
 		{addMoreQuestions();}
 		
 //	//Displays the screen for this event
@@ -507,20 +507,20 @@ function setupPracticePoll()
 {
 	
 
-	globals.candidates = [];
+	GameObject.candidates = [];
 	
 	globals.population = 1000;
 	globals.sample = []; 
 	globals.remainingHoursTotal = 84;
 	globals.days = 1; 
-	globals.remainingHoursDay = 12; 
+	GameObject.remainingHoursDay = 12; 
 	
 	//Decides the opponents focus which cannot be the same as the player
 	globals.opponentCandidate.fame = [.7,.7,.7,.7,.7,.7,.7,.7];
 	globals.opponentCandidate.consMod = 0;
 	//////CONSOLE.LOG(oppFocus);
 	assignIssue(globals.opponentCandidate,[],.7,false);
-	globals.candidates.push(globals.opponentCandidate);
+	GameObject.candidates.push(globals.opponentCandidate);
 	
 	//Create Issue Candidates
 	var issueCand1 = new Candidate("Zrap Bannigan");
@@ -528,7 +528,7 @@ function setupPracticePoll()
 	issueCand1.focus = globals.positions[oppRank];
 	issueCand1.focusnum = oppRank;
 	assignRank(issueCand1,globals.chosenCandRanks,true);
-	globals.candidates.push(issueCand1);
+	GameObject.candidates.push(issueCand1);
 
 	
 	drawPoll(globals.POLL_STATES.PRACTICE_AREA, false, true);

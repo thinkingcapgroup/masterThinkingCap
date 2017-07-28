@@ -23,25 +23,25 @@ let bodySheet;
 //  this.remainingHoursDay = 0;
 //  this.remainingHoursTotal = 0;
 //  
-//  this.gameSession = globals.gameSession;
-//  this.firstPoll = globals.firstPoll;
-//  this.firstState = globals.firstState;
-//  this.gameOver = globals.gameOver;
+//  this.gameSession = GameObject.gameSession;
+//  this.firstPoll = GameObject.firstPoll;
+//  this.firstState = GameObject.firstState;
+//  this.gameOver = GameObject.gameOver;
 //
-//  this.candidates = globals.candidates;
+//  this.candidates = GameObject.candidates;
 //  this.pastPollChoices = globals.pastPollChoices;
 //  this.pastPollResults = globals.pastPollResults;
 //  this.pastPollSizes = globals.pastPollSizes;
 //  this.pastGraphData = globals.pastGraphData;
 //  this.pastGraphLabels = globals.pastGraphLabels;
 //  this.studentBiases = globals.studentBiases;
-//  this.studentTypes = globals.studentTypes;
+//  this.studentTypes = GameObject.studentTypes;
 //}
 
 ////starts the game
 //function startSession()
 //{
-//    globals.playerCandidate= new Candidate("ph");
+//    GameObject.playerCandidate= new Candidate("ph");
 //    globals.opponentCandidate= new Candidate("Karma");
 //    fakeCandidateYou = new Candidate('Candidate1');
 //    fakeCandidateOther = new Candidate('Candidate2');
@@ -210,11 +210,11 @@ let bodySheet;
 //          let biasDeviation = normalDistribution(meanOfDeviation, deviationOfDeviation);
 //          studentBiases[issue] = new BiasDistribution(biasMean, biasDeviation);
 //        }
-//        globals.studentTypes[id] = new StudentType(name, id, type, studentBiases["medical"], studentBiases["budget"], studentBiases["tuition"], studentBiases["functions"]);
+//        GameObject.studentTypes[id] = new StudentType(name, id, type, studentBiases["medical"], studentBiases["budget"], studentBiases["tuition"], studentBiases["functions"]);
 //        
 //      }
 //    
-//      console.log(globals.studentTypes);
+//      console.log(GameObject.studentTypes);
 //  }
 //      
 //    
@@ -634,8 +634,8 @@ let bodySheet;
 
 //function updateTopBar(currentScreen){
 //  
-//    var dayCycleIndex = (globals.totalDays + 1) - globals.days;
-//    var context = { "totalDays" : globals.totalDays, "dayCycle" : dayCycleIndex, "remainingHours":globals.remainingHoursDay, "playerHeadImg": images["playerHeadImg"]};
+//    var dayCycleIndex = (GameObject.totalDays + 1) - globals.days;
+//    var context = { "totalDays" : GameObject.totalDays, "dayCycle" : dayCycleIndex, "remainingHours":GameObject.remainingHoursDay, "playerHeadImg": images["playerHeadImg"]};
 //    var html = views["topBar"](context);
 //  
 //    //$("#templateTest").append(html);
@@ -662,8 +662,8 @@ let bodySheet;
 
 //function startAnimatic()
 //{
-//	globals.firstPoll = true;
-//	globals.firstState = true;
+//	GameObject.firstPoll = true;
+//	GameObject.firstState = true;
 //	
 //    //Shows the animatic
 //	document.getElementById("centerDisplay").innerHTML = "<h2>Welcome to Mars University! </h2> ";
@@ -730,7 +730,7 @@ let bodySheet;
 //      updateTopBar(pollMenu);
 //      document.getElementById("mainContent").classList.add("center");
 //
-//      if(globals.remainingHoursDay >=3)
+//      if(GameObject.remainingHoursDay >=3)
 //      {
 //          document.getElementById("mainContent").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' class='primaryBtn' onclick='drawPoll("+POLL_STATES.IN_GAME+", false, false)'> Take A Poll </button><br><br>";
 //          if(globals.pastPollResults.length > 0)
@@ -765,7 +765,7 @@ let bodySheet;
 //      updateTopBar(trendReportMenu);
 //
 //
-//      document.getElementById("mainContent").innerHTML = views["trendMenu"]({"candidates": globals.candidates});
+//      document.getElementById("mainContent").innerHTML = views["trendMenu"]({"candidates": GameObject.candidates});
 //
 //      var currentTrendReports = [];
 //
@@ -810,7 +810,7 @@ let bodySheet;
 //      updateTopBar(myDataMenu);
 //
 //
-//      document.getElementById("mainContent").innerHTML = views["myDataMenu"]({"playerImg": images["playerImg"], "player": globals.playerCandidate});
+//      document.getElementById("mainContent").innerHTML = views["myDataMenu"]({"playerImg": images["playerImg"], "player": GameObject.playerCandidate});
 //    }
 //  
 //}
@@ -830,7 +830,7 @@ let bodySheet;
 //    
 //	var prevHours = document.getElementById("playerInfo");
 //	prevHours.innerHTML = "";
-// 	updateSession(globals.gameOver);
+// 	updateSession(GameObject.gameOver);
 //	resetGame();
 //    
 //    document.getElementById("centerDisplay").innerHTML = views["characterSelect"]({});
@@ -1346,14 +1346,14 @@ let bodySheet;
 
 //Creates the player candidate
 //function createCharacter(){
-//	globals.playerCandidate.name = document.getElementById("charName").value;
-//	globals.playerCandidate.raceNum = headSheet.frameIndexRace;
-//	globals.playerCandidate.genderNum = bodySheet.frameIndexClothing;
-//	globals.playerCandidate.bodyTypeNum = bodySheet.bodyArrayHolder;
-//	globals.playerCandidate.headNum = headSheet.frameIndex;
-//	globals.playerCandidate.race = globals.lifeformArray[headSheet.frameIndexRace];
-//	globals.playerCandidate.gender = globals.bodyShapeArray[bodySheet.frameIndexClothing];
-//	globals.playerCandidate.bodyType = globals.bodyTypeArray[bodySheet.bodyArrayHolder];
+//	GameObject.playerCandidate.name = document.getElementById("charName").value;
+//	GameObject.playerCandidate.raceNum = headSheet.frameIndexRace;
+//	GameObject.playerCandidate.genderNum = bodySheet.frameIndexClothing;
+//	GameObject.playerCandidate.bodyTypeNum = bodySheet.bodyArrayHolder;
+//	GameObject.playerCandidate.headNum = headSheet.frameIndex;
+//	GameObject.playerCandidate.race = globals.lifeformArray[headSheet.frameIndexRace];
+//	GameObject.playerCandidate.gender = globals.bodyShapeArray[bodySheet.frameIndexClothing];
+//	GameObject.playerCandidate.bodyType = globals.bodyTypeArray[bodySheet.bodyArrayHolder];
 //  
 //    generatePlayerImages();
 //    
@@ -1377,47 +1377,47 @@ function tutorialChoice(){
 //    
 //	var tutHolder = isFromTut
 //	clearScreen();
-//	globals.candidates = [];	
+//	GameObject.candidates = [];	
 //	globals.population = 1000;
 //	globals.sample = [];
 //	globals.days = 1; 
-//	globals.remainingHoursDay = 12; 
+//	GameObject.remainingHoursDay = 12; 
 //    //Generates the student biases for this game
 //    generateStudentBiases();
 //	
 //	//Decides the opponents focus which cannot be the same as the player
 //    
-//    opponentFame = (.05 * globals.totalDays);
+//    opponentFame = (.05 * GameObject.totalDays);
 //	globals.opponentCandidate.fame = [1.2,1.2,1.2,1.2,1.2,1.2,1.2,1.2];
 //	globals.opponentCandidate.consMod = 0;
 //	//////CONSOLE.LOG(oppFocus);
 //	assignIssue(globals.opponentCandidate,[],1,false);
-//	globals.candidates.push(globals.opponentCandidate);
+//	GameObject.candidates.push(globals.opponentCandidate);
 //	
 //	//Create Issue Candidates
 //	var issueCand1 = new Candidate("Boof");
 //	issueCand1.focus = globals.positions[0];
 //	issueCand1.focusnum = 0;
 //	assignRank(issueCand1,globals.chosenCandRanks,true);
-//	globals.candidates.push(issueCand1);
+//	GameObject.candidates.push(issueCand1);
 //	var issueCand2 = new Candidate("Zrap Bannigan");
 //	issueCand2.focus = globals.positions[1];
 //	issueCand2.focusnum = 1;
 //	assignRank(issueCand2,globals.chosenCandRanks,true);
-//	globals.candidates.push(issueCand2);
+//	GameObject.candidates.push(issueCand2);
 //	var issueCand3 = new Candidate("C1AMP");
 //	issueCand3.focus = globals.positions[2];
 //	issueCand3.focusnum = 2;
 //	assignRank(issueCand3,globals.chosenCandRanks,true);
-//	globals.candidates.push(issueCand3);
+//	GameObject.candidates.push(issueCand3);
 //	var issueCand4 = new Candidate("Simon");
 //	issueCand4.focus = globals.positions[3];
 //	issueCand4.focusnum = 3;
 //	assignRank(issueCand4,globals.chosenCandRanks,true);
-//	globals.candidates.push(issueCand4);	
+//	GameObject.candidates.push(issueCand4);	
 //  
 //    //Set the currentCandidateArrayHolder to the right data
-//    globals.currentCandidateArrayHolder = globals.candidates;
+//    globals.currentCandidateArrayHolder = GameObject.candidates;
 //  
 //	//map(0,true,true);
 //    firstPollInfo();
@@ -1435,19 +1435,19 @@ function tutorialChoice(){
 //{
 //	
 //
-//	globals.candidates = [];
+//	GameObject.candidates = [];
 //	
 //	globals.population = 1000;
 //	globals.sample = []; 
 //	globals.days = 1; 
-//	globals.remainingHoursDay = 12; 
+//	GameObject.remainingHoursDay = 12; 
 //	
 //	//Decides the opponents focus which cannot be the same as the player
 //	globals.opponentCandidate.fame = [.7,.7,.7,.7,.7,.7,.7,.7];
 //	globals.opponentCandidate.consMod = 0;
 //	//////CONSOLE.LOG(oppFocus);
 //	assignIssue(globals.opponentCandidate,[],.7,false);
-//	globals.candidates.push(globals.opponentCandidate);
+//	GameObject.candidates.push(globals.opponentCandidate);
 //	
 //	//Create Issue Candidates
 //	var issueCand1 = new Candidate("Zrap Bannigan");
@@ -1455,7 +1455,7 @@ function tutorialChoice(){
 //	issueCand1.focus = globals.positions[oppRank];
 //	issueCand1.focusnum = oppRank;
 //	assignRank(issueCand1,globals.chosenCandRanks,true);
-//	globals.candidates.push(issueCand1);
+//	GameObject.candidates.push(issueCand1);
 //
 //	
 //	drawPoll(POLL_STATES.PRACTICE_AREA, false, true);
@@ -1466,7 +1466,7 @@ function tutorialChoice(){
 //{
 //    ////CONSOLE.LOG("first statement");
 //    
-//	globals.firstPoll = false;
+//	GameObject.firstPoll = false;
 //	saveGame();
 //	globals.first = false;
 //	clearScreen();
@@ -1504,7 +1504,7 @@ function tutorialChoice(){
 ////Sets the number of days and time remaining according to the players difficulty choice.
 //function setDiff(days)
 //{
-//    globals.totalDays = days;
+//    GameObject.totalDays = days;
 //    globals.inGame = true;
 //    initNewGame(false);
 //}
@@ -1515,35 +1515,35 @@ function tutorialChoice(){
 //    ////CONSOLE.LOG("calcFirstStatement");
 //    
 //    
-//	globals.firstPoll = false;
-//	globals.firstState = false;
+//	GameObject.firstPoll = false;
+//	GameObject.firstState = false;
 //	globals.turnCounter = 1
-//	globals.playerCandidate.focus = globals.positions[f];
-//	globals.playerCandidate.focusnum = f;
+//	GameObject.playerCandidate.focus = globals.positions[f];
+//	GameObject.playerCandidate.focusnum = f;
 //    
 //    //Increases issue score based on the players choice for their initial statement
 //	switch(f)
 //	{
 //		case 0:
-//		globals.playerCandidate.issueScore[0]++;
+//		GameObject.playerCandidate.issueScore[0]++;
 //		break;
 //		case 1:
-//		globals.playerCandidate.issueScore[1]++;
+//		GameObject.playerCandidate.issueScore[1]++;
 //		break;
 //		case 2:
-//		globals.playerCandidate.issueScore[2]++;
+//		GameObject.playerCandidate.issueScore[2]++;
 //		break;
 //		case 3:
-//		globals.playerCandidate.issueScore[3]++;
+//		GameObject.playerCandidate.issueScore[3]++;
 //		break;
 //	}
-//	globals.candidates.splice(0,0,globals.playerCandidate);
+//	GameObject.candidates.splice(0,0,GameObject.playerCandidate);
 //	
 //    //Display Updated Top Bar
 //    //updateTopBar(this);
 //  
 //    //Hold onto correct candidates
-//    globals.currentCandidateArrayHolder = globals.candidates;
+//    globals.currentCandidateArrayHolder = GameObject.candidates;
 //    
 //	eventMenu();
 //};
@@ -1571,7 +1571,7 @@ function tutorialChoice(){
 //
 //      //Make sure users are using the correct candidate data
 //      //Extra fix for the fake data polling bug
-//      globals.candidates = globals.currentCandidateArrayHolder;
+//      GameObject.candidates = globals.currentCandidateArrayHolder;
 //
 //      //Clear previous screen
 //      clearScreen();
@@ -1600,7 +1600,7 @@ function tutorialChoice(){
 //      document.getElementById('topBar').style.display = "inline-flex";
 //      
 //      let timeLeft = true;
-//      if(globals.remainingHoursDay == 1){
+//      if(GameObject.remainingHoursDay == 1){
 //        timeLeft = false;
 //      }
 //      
@@ -1649,7 +1649,7 @@ function tutorialChoice(){
 //		let chosenEvent = globals.events[choice];
 //		
 //      
-//		if(globals.remainingHoursDay >= chosenEvent.timeRequired)
+//		if(GameObject.remainingHoursDay >= chosenEvent.timeRequired)
 //		{   
 //            document.getElementById("mainContent").classList.add("left");
 //            document.getElementById("contentContainer").classList.add("columns");
@@ -1762,7 +1762,7 @@ function tutorialChoice(){
 //				for(var i =0; i<chosenEvent.options.length; i++)
 //				{
 //					var totalText = "";
-//					if( (eventHours + parseInt(chosenEvent.options[i].extraTime)) <= globals.remainingHoursDay)
+//					if( (eventHours + parseInt(chosenEvent.options[i].extraTime)) <= GameObject.remainingHoursDay)
 //					{
 //						if(i == 0)
 //						{
@@ -1930,8 +1930,8 @@ function tutorialChoice(){
 //		
 //		if(playGame)
 //		{
-//			globals.remainingHoursDay-= eventHours;
-//			calcEventScore(globals.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
+//			GameObject.remainingHoursDay-= eventHours;
+//			calcEventScore(GameObject.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
 //			minigamePlayer(parseInt(loaderNum));
 //		}
 //		else
@@ -1943,12 +1943,12 @@ function tutorialChoice(){
 //
 //function eventResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
 //{
-//	globals.remainingHoursDay-= eventHours;
+//	GameObject.remainingHoursDay-= eventHours;
 //
-//	globals.candidates[1].lastMove = chosenEvent.name;
+//	GameObject.candidates[1].lastMove = chosenEvent.name;
 //
 //	//Changes the player's score
-//	calcEventScore(globals.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
+//	calcEventScore(GameObject.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
 //	saveGame();
 //	clearScreen();
 //    updateTopBar(eventMenu);
@@ -2029,7 +2029,7 @@ function tutorialChoice(){
 //
 //	var winner;
 //	var winvotes = 0;
-//	globals.ranking = globals.candidates.slice();
+//	globals.ranking = GameObject.candidates.slice();
 //	globals.ranking.sort(function(a, b){return b.votes-a.votes})
 //	document.getElementById("centerDisplay").innerHTML = "<h1> Rankings: </h1>";
 //	for(var i = 0; i<globals.ranking.length;i++)
@@ -2037,7 +2037,7 @@ function tutorialChoice(){
 //		document.getElementById("centerDisplay").innerHTML += "<h1>" + (i+1) + ". " + globals.ranking[i].name + " Votes: " + globals.ranking[i].votes + "</h1><br>";
 //	}
 //    globals.endReset = true; 
-//    globals.gameOver = true;
+//    GameObject.gameOver = true;
 //	document.getElementById("centerDisplay").innerHTML += "<h1> Winner: "+ globals.ranking[0].name +"</h1> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
 //};
 
@@ -2062,7 +2062,7 @@ function tutorialChoice(){
 //  }
 //  else{
 //    if(!help){
-//      globals.remainingHoursDay = 12;
+//      GameObject.remainingHoursDay = 12;
 //      globals.days = 1;
 //      drawPoll(POLL_STATES.TUTORIAL, false, true);
 //    }
@@ -2085,8 +2085,8 @@ function tutorialChoice(){
 //    document.getElementById("mainContent").classList.add("left");
 //  
 //    if(isFake){
-//      globals.currentCandidateArrayHolder = globals.candidates;
-//      globals.candidates = globals.fakeCandidateHolder;
+//      globals.currentCandidateArrayHolder = GameObject.candidates;
+//      GameObject.candidates = globals.fakeCandidateHolder;
 //    }
 //    else{
 //      saveGame();
@@ -2104,7 +2104,7 @@ function tutorialChoice(){
 //    let enoughTime = false;
 //  
 //    //If it's a free poll or if there's enough time
-//	if(isFree || globals.remainingHoursDay>= 3 )
+//	if(isFree || GameObject.remainingHoursDay>= 3 )
 //	{
 //        enoughTime = true;
 //      
@@ -2135,8 +2135,8 @@ function tutorialChoice(){
 //      free: isFree,
 //      fake: isFake,
 //      areas: areaChoices,
-//      allow40: (isFree || globals.remainingHoursDay > 5),
-//      allow80: (isFree || globals.remainingHoursDay >= 9),
+//      allow40: (isFree || GameObject.remainingHoursDay > 5),
+//      allow80: (isFree || GameObject.remainingHoursDay >= 9),
 //      numQuestions: 6,
 //      questions: pollQuestions,
 //      enoughTime: enoughTime
@@ -2147,9 +2147,9 @@ function tutorialChoice(){
 //    globals.isCurrentAreaHover = areaChoices["Quad"].id;
 //    setupMap(true);
 //  
-//    if(state == POLL_STATES.FIRST || globals.remainingHoursDay >= 4 )
+//    if(state == POLL_STATES.FIRST || GameObject.remainingHoursDay >= 4 )
 //		addMoreQuestions();
-//	if(state != POLL_STATES.FIRST && globals.remainingHoursDay >= 5)
+//	if(state != POLL_STATES.FIRST && GameObject.remainingHoursDay >= 5)
 //		{addMoreQuestions();}
 //		
 ////	//Displays the screen for this event
@@ -2476,41 +2476,41 @@ function tutorialChoice(){
 //calculated the effectiveness of your statement & consistancy modifier
 //function statementCalc()
 //{
-//	if(globals.remainingHoursDay > 0)
+//	if(GameObject.remainingHoursDay > 0)
 //	{
 //		var currentStatement = document.getElementById("statements").value;
 //		var currentPosNeg = document.getElementById("posneg").value;
 //		//if positive statement
 //		if(currentPosNeg == 0){
-//			globals.candidates[0].issueScore[currentStatement] += 0.3;
+//			GameObject.candidates[0].issueScore[currentStatement] += 0.3;
 //			if(currentStatement == 0){
-//				globals.candidates[0].tuitPos += 1;
+//				GameObject.candidates[0].tuitPos += 1;
 //			}
 //			else if(currentStatement == 1){
-//				globals.candidates[0].budPos += 1;
+//				GameObject.candidates[0].budPos += 1;
 //			}
 //			else if(currentStatement == 3){
-//				globals.candidates[0].medPos += 1;
+//				GameObject.candidates[0].medPos += 1;
 //			}
 //			else if(currentStatement == 2){
-//				globals.candidates[0].funcPos += 1;
+//				GameObject.candidates[0].funcPos += 1;
 //			}
 //		}
 //		//if negative statement
 //		else{
 //		
-//				globals.candidates[0].issueScore[currentStatement] -= 0.3;
+//				GameObject.candidates[0].issueScore[currentStatement] -= 0.3;
 //				if(currentStatement == 0){
-//					globals.candidates[0].tuitNeg += 1;
+//					GameObject.candidates[0].tuitNeg += 1;
 //				}
 //				else if(currentStatement == 1){
-//					globals.candidates[0].budNeg += 1;
+//					GameObject.candidates[0].budNeg += 1;
 //				}
 //				else if(currentStatement == 3){
-//					globals.candidates[0].medNeg += 1;
+//					GameObject.candidates[0].medNeg += 1;
 //				}
 //			else if(currentStatement == 2){
-//				globals.candidates[0].funcNeg += 1;
+//				GameObject.candidates[0].funcNeg += 1;
 //				}
 //	
 //		}
@@ -2523,38 +2523,38 @@ function tutorialChoice(){
 //	
 //	
 //		//check if the issues have anything even in them
-//		if(globals.candidates[0].tuitPos>0 || globals.candidates[0].tuitNeg > 0){
-//			tuitCond = (Math.min(globals.candidates[0].tuitPos, globals.candidates[0].tuitNeg))/(globals.candidates[0].tuitPos+globals.candidates[0].tuitNeg);
+//		if(GameObject.candidates[0].tuitPos>0 || GameObject.candidates[0].tuitNeg > 0){
+//			tuitCond = (Math.min(GameObject.candidates[0].tuitPos, GameObject.candidates[0].tuitNeg))/(GameObject.candidates[0].tuitPos+GameObject.candidates[0].tuitNeg);
 //		}
 //		else{
 //			tuitCond = 0;
 //		}
 //	
-//		if(globals.candidates[0].budPos>0 || globals.candidates[0].budNeg>0){
-//			athCond = (Math.min(globals.candidates[0].budPos, globals.candidates[0].budNeg))/(globals.candidates[0].budPos+globals.candidates[0].budNeg);
+//		if(GameObject.candidates[0].budPos>0 || GameObject.candidates[0].budNeg>0){
+//			athCond = (Math.min(GameObject.candidates[0].budPos, GameObject.candidates[0].budNeg))/(GameObject.candidates[0].budPos+GameObject.candidates[0].budNeg);
 //		}
 //		else{
 //			athCond = 0;
 //		}
 //	
-//		if(globals.candidates[0].medPos>0 || globals.candidates[0].medNeg>0){
-//			medCond = (Math.min(globals.candidates[0].medPos, globals.candidates[0].medNeg))/(globals.candidates[0].medPos+globals.candidates[0].medNeg);
+//		if(GameObject.candidates[0].medPos>0 || GameObject.candidates[0].medNeg>0){
+//			medCond = (Math.min(GameObject.candidates[0].medPos, GameObject.candidates[0].medNeg))/(GameObject.candidates[0].medPos+GameObject.candidates[0].medNeg);
 //		}
 //		else{
 //			medCond = 0;
 //		}
 //	
-//		if(globals.candidates[0].funcPos>0 || globals.candidates[0].funcNeg>0){
-//			eventCond = (Math.min(globals.candidates[0].funcPos, globals.candidates[0].funcNeg))/(globals.candidates[0].funcPos+globals.candidates[0].funcNeg);
+//		if(GameObject.candidates[0].funcPos>0 || GameObject.candidates[0].funcNeg>0){
+//			eventCond = (Math.min(GameObject.candidates[0].funcPos, GameObject.candidates[0].funcNeg))/(GameObject.candidates[0].funcPos+GameObject.candidates[0].funcNeg);
 //		}
 //		else{
 //			eventCond = 0;
 //		}
 //	
 //		var condHolder = (tuitCond + athCond + medCond + eventCond)/4;
-//		globals.candidates[0].consMod = condHolder;
+//		GameObject.candidates[0].consMod = condHolder;
 //		//decrease 1 hour and continue back to user action
-//		globals.remainingHoursDay--;
+//		GameObject.remainingHoursDay--;
 //		statementCalcOtherCandidate(1);
 //	}
 //    statementResults(currentStatement, currentPosNeg);
@@ -2650,38 +2650,38 @@ function tutorialChoice(){
 //	var currentPosNeg = document.getElementById("posneg").value;
 //
 //	if(currentPosNeg == 0){
-//		globals.candidates[x].issueScore[currentStatement] += 0.75;
+//		GameObject.candidates[x].issueScore[currentStatement] += 0.75;
 //		if(currentStatement == 0){
-//			globals.candidates[x].tuitPos += 1;
+//			GameObject.candidates[x].tuitPos += 1;
 //		}
 //		else if(currentStatement == 1){
-//			globals.candidates[x].budPos += 1;
+//			GameObject.candidates[x].budPos += 1;
 //		}
 //		else if(currentStatement == 3){
-//			globals.candidates[x].medPos += 1;
+//			GameObject.candidates[x].medPos += 1;
 //		}
 //		else if(currentStatement == 2){
-//			globals.candidates[x].funcPos += 1;
+//			GameObject.candidates[x].funcPos += 1;
 //		}
 //	}
 //	else{
 //		if(currentPosNeg == 1){
-//			//globals.candidates[x].issueScore[currentStatement] -= 0.75;
+//			//GameObject.candidates[x].issueScore[currentStatement] -= 0.75;
 //			if(currentStatement == 0){
-//				globals.candidates[x].tuitNeg += 1;
+//				GameObject.candidates[x].tuitNeg += 1;
 //			}
 //			else if(currentStatement == 1){
-//				globals.candidates[x].budNeg += 1;
+//				GameObject.candidates[x].budNeg += 1;
 //			}
 //			else if(currentStatement == 3){
-//				globals.candidates[x].medNeg += 1;
+//				GameObject.candidates[x].medNeg += 1;
 //			}
 //            else if(currentStatement == 2){
-//			globals.candidates[x].funcNeg += 1;
+//			GameObject.candidates[x].funcNeg += 1;
 //			}
 //		}
 //	}
-//	globals.candidates[x].lastMove = "Statement";
+//	GameObject.candidates[x].lastMove = "Statement";
 //}
 //
 //function resetQuestions(){
@@ -2903,7 +2903,7 @@ function tutorialChoice(){
 //	}
 //
 //    //Reset candidates back to correct candidates
-//	globals.candidates = globals.currentCandidateArrayHolder;
+//	GameObject.candidates = globals.currentCandidateArrayHolder;
 //
 //};
 
@@ -3265,7 +3265,7 @@ function tutorialChoice(){
 //				break;
 //
 //		}
-//	//////CONSOLE.LOG(globals.candidates[0].issueScore);
+//	//////CONSOLE.LOG(GameObject.candidates[0].issueScore);
 //	}
 //}
 //
@@ -3362,20 +3362,20 @@ function tutorialChoice(){
 //    let major = globals.majorList[majorRandom];
 //    let group = globals.groupList[groupRandom];
 //  
-//    let averageMean = (globals.studentTypes[major]["tuition"].mean + globals.studentTypes[group]["tuition"].mean) / 2;
-//    let averageDeviation = (globals.studentTypes[major]["tuition"].stdDeviation + globals.studentTypes[group]["tuition"].stdDeviation) / 2;    
+//    let averageMean = (GameObject.studentTypes[major]["tuition"].mean + GameObject.studentTypes[group]["tuition"].mean) / 2;
+//    let averageDeviation = (GameObject.studentTypes[major]["tuition"].stdDeviation + GameObject.studentTypes[group]["tuition"].stdDeviation) / 2;    
 //    let tuition = normalDistribution(averageMean, averageDeviation);
 //      
-//    averageMean = (globals.studentTypes[major]["budget"].mean + globals.studentTypes[group]["budget"].mean) / 2;
-//    averageDeviation = (globals.studentTypes[major]["budget"].stdDeviation + globals.studentTypes[group]["budget"].stdDeviation) / 2;
+//    averageMean = (GameObject.studentTypes[major]["budget"].mean + GameObject.studentTypes[group]["budget"].mean) / 2;
+//    averageDeviation = (GameObject.studentTypes[major]["budget"].stdDeviation + GameObject.studentTypes[group]["budget"].stdDeviation) / 2;
 //    let budget = normalDistribution(averageMean, averageDeviation);
 //      
-//    averageMean = (globals.studentTypes[major]["functions"].mean + globals.studentTypes[group]["tuition"].mean) / 2;
-//    averageDeviation = (globals.studentTypes[major]["functions"].stdDeviation + globals.studentTypes[group]["tuition"].stdDeviation) / 2;
+//    averageMean = (GameObject.studentTypes[major]["functions"].mean + GameObject.studentTypes[group]["tuition"].mean) / 2;
+//    averageDeviation = (GameObject.studentTypes[major]["functions"].stdDeviation + GameObject.studentTypes[group]["tuition"].stdDeviation) / 2;
 //    let functions = normalDistribution(averageMean, averageDeviation);
 //      
-//    averageMean = (globals.studentTypes[major]["medical"].mean + globals.studentTypes[group]["medical"].mean) / 2;
-//    averageDeviation = (globals.studentTypes[major]["medical"].stdDeviation + globals.studentTypes[group]["medical"].stdDeviation) / 2;
+//    averageMean = (GameObject.studentTypes[major]["medical"].mean + GameObject.studentTypes[group]["medical"].mean) / 2;
+//    averageDeviation = (GameObject.studentTypes[major]["medical"].stdDeviation + GameObject.studentTypes[group]["medical"].stdDeviation) / 2;
 //    let medical = normalDistribution(averageMean, averageDeviation);
 //
 //     tuition = tuition.toFixed(2);
@@ -3393,9 +3393,9 @@ function tutorialChoice(){
 //	//////CONSOLE.LOG(candidates);
 //	createSample(sampleSize, bias);
 //	var finalWinner = "";
-//	for(var i=0;i<globals.candidates.length; i++)
+//	for(var i=0;i<GameObject.candidates.length; i++)
 //		{
-//			globals.candidates[i].votes = 0;
+//			GameObject.candidates[i].votes = 0;
 //		}
 //	for(var i =0; i<globals.sample.length; i++)
 //	{
@@ -3403,35 +3403,35 @@ function tutorialChoice(){
 //		var winner ="";
 //		var lowPercentage=0;
 //		var loser ="";
-//		for(var j=0;j<globals.candidates.length; j++)
+//		for(var j=0;j<GameObject.candidates.length; j++)
 //		{
 //
 //			//////CONSOLE.LOG(globals.sample[i]);
 //			var fame = 0;
 //            
-//			fame = fameCalc(globals.candidates[j], globals.sample[i]);
-//			//////CONSOLE.LOG(globals.candidates[j].name +" Fame: "+ fame);
-//		    var issues = parseFloat(globals.sample[i].tuitionScore) * parseFloat(globals.candidates[j].issueScore[0])
-//            issues += parseFloat(globals.sample[i].budgetScore) * parseFloat(globals.candidates[j].issueScore[1])
-//		    issues += parseFloat(globals.sample[i].functionScore)* parseFloat(globals.candidates[j].issueScore[2])
-//		    issues += parseFloat(globals.sample[i].medicalScore)  * parseFloat(globals.candidates[j].issueScore[3])
+//			fame = fameCalc(GameObject.candidates[j], globals.sample[i]);
+//			//////CONSOLE.LOG(GameObject.candidates[j].name +" Fame: "+ fame);
+//		    var issues = parseFloat(globals.sample[i].tuitionScore) * parseFloat(GameObject.candidates[j].issueScore[0])
+//            issues += parseFloat(globals.sample[i].budgetScore) * parseFloat(GameObject.candidates[j].issueScore[1])
+//		    issues += parseFloat(globals.sample[i].functionScore)* parseFloat(GameObject.candidates[j].issueScore[2])
+//		    issues += parseFloat(globals.sample[i].medicalScore)  * parseFloat(GameObject.candidates[j].issueScore[3])
 //		  
 //            issues = issues/4;
 //
 //            
 //            
-//			/*if(globals.candidates[j].name != "Karma")
+//			/*if(GameObject.candidates[j].name != "Karma")
 //			{
 //                if(issues < 0){
-//                  candWinPer = -10*Math.pow(fame*issues,2) - globals.candidates[j].consMod;
+//                  candWinPer = -10*Math.pow(fame*issues,2) - GameObject.candidates[j].consMod;
 //                }
 //                else{
-//                  candWinPer = 10*Math.pow(fame*issues,2) - globals.candidates[j].consMod;
+//                  candWinPer = 10*Math.pow(fame*issues,2) - GameObject.candidates[j].consMod;
 //                }
 //			}
 //			else
 //			{
-//                if(globals.totalDays>5)
+//                if(GameObject.totalDays>5)
 //                {
 //                    candWinPer = 10*0.4*issues;
 //                }
@@ -3442,7 +3442,7 @@ function tutorialChoice(){
 //			}*/
 //          
 //            let sign = 1;
-//            let consMod = globals.candidates[j].consMod;
+//            let consMod = GameObject.candidates[j].consMod;
 //          
 //          
 //            //If their issues score is less than zero,
@@ -3452,11 +3452,11 @@ function tutorialChoice(){
 //            }
 //          
 //            //If this is Karma, she has a lowered modifier
-//            /*if(globals.candidates[j].name == "Karma")
+//            /*if(GameObject.candidates[j].name == "Karma")
 //			{
 //              //Set Karma's fame to (2/Number of total days)
 //              //This makes karma's score lower when there are more days aka easier difficulty
-//              fame = (2/globals.totalDays);
+//              fame = (2/GameObject.totalDays);
 //            }*/
 //          
 //            /*
@@ -3473,13 +3473,13 @@ function tutorialChoice(){
 //			if(candWinPer > winPercentage|| winPercentage ==0)
 //			{
 //				winPercentage = candWinPer;
-//				winner = globals.candidates[j].name;
+//				winner = GameObject.candidates[j].name;
 //			}
 //
 //			if(candWinPer < lowPercentage || lowPercentage ==0)
 //			{
 //				lowPercentage = candWinPer;
-//				loser = globals.candidates[j].name;
+//				loser = GameObject.candidates[j].name;
 //			}
 //		}
 //			////CONSOLE.LOG("Current Winner" + winner + " Current Loser" + loser)
@@ -3492,11 +3492,11 @@ function tutorialChoice(){
 //		globals.sample[i].results.win = winner;
 //		globals.sample[i].results.los = loser;
 //      
-//		for(var k=0;k<globals.candidates.length; k++)
+//		for(var k=0;k<GameObject.candidates.length; k++)
 //		{
-//			if(globals.candidates[k].name == winner)
+//			if(GameObject.candidates[k].name == winner)
 //			{
-//				globals.candidates[k].votes++;
+//				GameObject.candidates[k].votes++;
 //			}
 //		}
 //	}
@@ -3594,15 +3594,15 @@ function tutorialChoice(){
 //	globals.oppChoice = [];
 //	globals.currentEvents = [];
 //	globals.sample = [];
-//	globals.candidates=[];
+//	GameObject.candidates=[];
 //	globals.chosenCandRanks = [];
 //	globals.currentEvents = [];
-//	globals.playerCandidate = new Candidate("ph");
+//	GameObject.playerCandidate = new Candidate("ph");
 //	globals.opponentCandidate = new Candidate("Karma");
-//  	if(globals.gameOver)
+//  	if(GameObject.gameOver)
 //    {
-//        globals.gameSession++; 
-//        globals.gameOver = false;
+//        GameObject.gameSession++; 
+//        GameObject.gameOver = false;
 //    }
 //    
 //}
@@ -3650,10 +3650,10 @@ function tutorialChoice(){
 //			case "candFav":
 //              var array =[];
 //              var array2 =[];
-//              for(var j =0; j < globals.candidates.length;j++ )
+//              for(var j =0; j < GameObject.candidates.length;j++ )
 //              {
 //                  array.push(0);
-//                  array2.push(globals.candidates[j].name);
+//                  array2.push(GameObject.candidates[j].name);
 //              }
 //              graphData.push(array);
 //              pollLabelArray.push(array2);
@@ -3661,10 +3661,10 @@ function tutorialChoice(){
 //			case "candOpp":
 //              var array =[];
 //              var array2 =[];
-//              for(var j =0; j < globals.candidates.length;j++ )
+//              for(var j =0; j < GameObject.candidates.length;j++ )
 //              {
 //                  array.push(0);
-//                  array2.push(globals.candidates[j].name);
+//                  array2.push(GameObject.candidates[j].name);
 //              }
 //              graphData.push(array);
 //              pollLabelArray.push(array2);
@@ -3693,9 +3693,9 @@ function tutorialChoice(){
 //						}
 //						else if(globals.questions[j].value == "candFame")
 //						{
-//							for(var k =0; k< globals.candidates.length; k++)
+//							for(var k =0; k< GameObject.candidates.length; k++)
 //							{
-//								if(pollChoices[i] == "candFame" + globals.candidates[k].name)
+//								if(pollChoices[i] == "candFame" + GameObject.candidates[k].name)
 //								{
 //									graphData.push(globals.questions[j].graph.split(','));
 //									pollLabelArray.push(globals.questions[j].labels.split(','));
@@ -3704,9 +3704,9 @@ function tutorialChoice(){
 //						}
 //						else if(globals.questions[j].value == "candTrust")
 //						{
-//							for(var k =0; k< globals.candidates.length; k++)
+//							for(var k =0; k< GameObject.candidates.length; k++)
 //							{
-//								if(pollChoices[i] == "candTrust" + globals.candidates[k].name)
+//								if(pollChoices[i] == "candTrust" + GameObject.candidates[k].name)
 //								{
 //									graphData.push(globals.questions[j].graph.split(','));
 //									pollLabelArray.push(globals.questions[j].labels.split(','));
@@ -3722,7 +3722,7 @@ function tutorialChoice(){
 //    //Creates the sample for the poll
 //	votePercentage(sampleSize, bias);
 //  
-//    ////CONSOLE.LOG(globals.candidates);
+//    ////CONSOLE.LOG(GameObject.candidates);
 //	//Gets the results of each question and pushes them into the proper sectionof table arrays
 //	for(var j=0;j<globals.sample.length;j++)
 //	{
@@ -3758,7 +3758,7 @@ function tutorialChoice(){
 //		
 //		//if(state == POLL_STATES.FIRST && j ==0)
 //		//{
-//		//	globals.candidates.splice(0,0,new Candidate(""));
+//		//	GameObject.candidates.splice(0,0,new Candidate(""));
 //		//}
 //        for(var i = 0; i < pollChoices.length ;i++)
 //        {
@@ -3847,10 +3847,10 @@ function tutorialChoice(){
 //    
 //                case "candFav":
 //                    globals.tableArrays[2].push(globals.sample[j].results.win);
-//                    for(var k =0; k< globals.candidates.length;k++)
+//                    for(var k =0; k< GameObject.candidates.length;k++)
 //                    {
 //                        ////CONSOLE.LOG()
-//                        if(globals.sample[j].results.win == globals.candidates[k].name){
+//                        if(globals.sample[j].results.win == GameObject.candidates[k].name){
 //                            graphData[i+2][k]++;
 //                        }
 //                    }
@@ -3859,9 +3859,9 @@ function tutorialChoice(){
 //    
 //                case "candOpp":
 //                    globals.tableArrays[3].push(globals.sample[j].results.los);
-//                    for(var k =0; k< globals.candidates.length;k++)
+//                    for(var k =0; k< GameObject.candidates.length;k++)
 //                    {
-//                        if(globals.sample[j].results.los == globals.candidates[k].name){
+//                        if(globals.sample[j].results.los == GameObject.candidates[k].name){
 //                            graphData[i+2][k]++;
 //                        }
 //                    }
@@ -3871,7 +3871,7 @@ function tutorialChoice(){
 //    
 //    
 //                case "fame":
-//                    var playFame = fameCalc(globals.candidates[0],globals.sample[j]).toFixed(3);
+//                    var playFame = fameCalc(GameObject.candidates[0],globals.sample[j]).toFixed(3);
 //                    globals.tableArrays[7].push(playFame);
 //					if(playFame <= 0.2)
 //					{
@@ -3896,8 +3896,8 @@ function tutorialChoice(){
 //                    break;
 //    
 //                case "playTrust":
-//                    globals.tableArrays[8].push(globals.candidates[0].consMod);
-//                    var playConst = globals.candidates[0].consMod;
+//                    globals.tableArrays[8].push(GameObject.candidates[0].consMod);
+//                    var playConst = GameObject.candidates[0].consMod;
 //					if(playConst <= 0.2)
 //					{
 //                        graphData[i+2][4]++;
@@ -4027,11 +4027,11 @@ function tutorialChoice(){
 //            }
 //    
 //            var candCounter = 14;
-//            for(var k = 1;k<globals.candidates.length;k++)
+//            for(var k = 1;k<GameObject.candidates.length;k++)
 //            {
-//                if(pollChoices[i] == "candFame" + globals.candidates[k].name)
+//                if(pollChoices[i] == "candFame" + GameObject.candidates[k].name)
 //                {
-//                    var calcHolder = fameCalc(globals.candidates[k], globals.sample[j]);
+//                    var calcHolder = fameCalc(GameObject.candidates[k], globals.sample[j]);
 //                    
 //                    globals.tableArrays[candCounter].push(calcHolder);				
 //    
@@ -4060,25 +4060,25 @@ function tutorialChoice(){
 //    
 //                candCounter++;
 //            }
-//            for(var k = 1;k<globals.candidates.length;k++)
+//            for(var k = 1;k<GameObject.candidates.length;k++)
 //            {
-//                if(pollChoices[i] == "candTrust" + globals.candidates[k].name)
+//                if(pollChoices[i] == "candTrust" + GameObject.candidates[k].name)
 //                {
-//                    globals.tableArrays[candCounter].push(globals.candidates[k].consMod);
+//                    globals.tableArrays[candCounter].push(GameObject.candidates[k].consMod);
 //					
-//					if(globals.candidates[k].consMod <= 0.2)
+//					if(GameObject.candidates[k].consMod <= 0.2)
 //					{
 //                        graphData[i+2][4]++;
 //					}
-//					else if(globals.candidates[k].consMod>0.20 && globals.candidates[k].consMod<0.41)
+//					else if(GameObject.candidates[k].consMod>0.20 && GameObject.candidates[k].consMod<0.41)
 //					{
 //                        graphData[i+2][3]++;
 //					}
-//					else if(globals.candidates[k].consMod>0.40 && globals.candidates[k].consMod<0.61)
+//					else if(GameObject.candidates[k].consMod>0.40 && GameObject.candidates[k].consMod<0.61)
 //					{
 //                        graphData[i+2][2]++;
 //					}
-//					else if(globals.candidates[k].consMod>0.60 && globals.candidates[k].consMod<0.81)
+//					else if(GameObject.candidates[k].consMod>0.60 && GameObject.candidates[k].consMod<0.81)
 //					{
 //                        graphData[i+2][1]++;
 //					}
@@ -4203,25 +4203,25 @@ function tutorialChoice(){
 //					}
 //				}
 //			}
-//			for(var k = 1;k<globals.candidates.length;k++)
+//			for(var k = 1;k<GameObject.candidates.length;k++)
 //			{
-//				if(pollChoices[h] == "candFame" + globals.candidates[k].name)
+//				if(pollChoices[h] == "candFame" + GameObject.candidates[k].name)
 //				{
 //						var cell = headRow.insertCell();
-//						var candInfo = globals.tableHeaders[10] + globals.candidates[k].name;
+//						var candInfo = globals.tableHeaders[10] + GameObject.candidates[k].name;
 //						cell.innerHTML = candInfo;
-//						graphQuestions.push("candFame" + globals.candidates[k].name);
+//						graphQuestions.push("candFame" + GameObject.candidates[k].name);
 //				}
 //			}
-//			for(var k = 1;k<globals.candidates.length;k++)
+//			for(var k = 1;k<GameObject.candidates.length;k++)
 //			{
-//				if(pollChoices[h] == "candTrust" + globals.candidates[k].name)
+//				if(pollChoices[h] == "candTrust" + GameObject.candidates[k].name)
 //				{
 //					//////CONSOLE.LOG(h);
 //						var cell = headRow.insertCell();
-//						var candInfo = globals.tableHeaders[11] + globals.candidates[k].name;
+//						var candInfo = globals.tableHeaders[11] + GameObject.candidates[k].name;
 //						cell.innerHTML = candInfo;
-//						graphQuestions.push("candTrust" + globals.candidates[k].name);
+//						graphQuestions.push("candTrust" + GameObject.candidates[k].name);
 //				}
 //			}
 //			if(h==pollChoices.length-1)
@@ -4459,10 +4459,10 @@ function tutorialChoice(){
 //
 //
 //				canCounter = 14;
-//				for(var k = 1;k<globals.candidates.length;k++)
+//				for(var k = 1;k<GameObject.candidates.length;k++)
 //				{
 //
-//					if(pollChoices[i] == "candFame" + globals.candidates[k].name)
+//					if(pollChoices[i] == "candFame" + GameObject.candidates[k].name)
 //					{
 //
 //								var cell = row.insertCell();
@@ -4495,9 +4495,9 @@ function tutorialChoice(){
 //					}
 //						canCounter++;
 //				}
-//				for(var k = 1;k<globals.candidates.length;k++)
+//				for(var k = 1;k<GameObject.candidates.length;k++)
 //				{
-//					if(pollChoices[i] == "candTrust" + globals.candidates[k].name)
+//					if(pollChoices[i] == "candTrust" + GameObject.candidates[k].name)
 //					{
 //								var cell = row.insertCell();
 //								var counter = canCounter;
@@ -4602,7 +4602,7 @@ function tutorialChoice(){
 //	makeGraphs(graphData, graphQuestions,graphLabels);
 //		//if(state == POLL_STATES.FIRST)
 //		//{
-//		//	globals.candidates.splice(0,1);
+//		//	GameObject.candidates.splice(0,1);
 //		//}
 //	document.getElementById('table').style.display = 'none';
 //	if (state == POLL_STATES.TUTORIAL){
@@ -4624,7 +4624,7 @@ function tutorialChoice(){
 //	}
 //    else if(isFake){
 //      //Result the fake data back to normal
-//      globals.candidates = globals.currentCandidateArrayHolder;
+//      GameObject.candidates = globals.currentCandidateArrayHolder;
 //    }
 //
 //}
@@ -4726,21 +4726,21 @@ function tutorialChoice(){
 //			break;
 //
 //			default:
-//			for(var k = 1;k<globals.candidates.length;k++)
+//			for(var k = 1;k<GameObject.candidates.length;k++)
 //			{
-//				if(graphQuestions[i] == "candFame" + globals.candidates[k].name)
+//				if(graphQuestions[i] == "candFame" + GameObject.candidates[k].name)
 //				{
-//					name = globals.candidates[k].name;
+//					name = GameObject.candidates[k].name;
 //					document.getElementById("q"+i+"text").innerHTML = globals.questions[10].question + " " + name;
 //					document.getElementById("bq"+i+"text").innerHTML = globals.questions[10].question + " " + name;
 //				}
 //			}
 //
-//			for(var k = 1;k<globals.candidates.length;k++)
+//			for(var k = 1;k<GameObject.candidates.length;k++)
 //			{
-//				if(graphQuestions[i] == "candTrust" + globals.candidates[k].name)
+//				if(graphQuestions[i] == "candTrust" + GameObject.candidates[k].name)
 //				{
-//					name = globals.candidates[k].name;
+//					name = GameObject.candidates[k].name;
 //					document.getElementById("q"+i+"text").innerHTML = globals.questions[11].question + " " + name;
 //					document.getElementById("bq"+i+"text").innerHTML = globals.questions[11].question + " " + name;
 //				}
@@ -4898,7 +4898,7 @@ function tutorialChoice(){
 //	{
 //		timeRequired = sSize/10 + (pollQuestions.length*0.5) +0.5;
 //	}
-//	globals.remainingHoursDay -= timeRequired;
+//	GameObject.remainingHoursDay -= timeRequired;
 //}
 //
 //function returnTotalPollTime(sSize, pollQuestions){
@@ -4927,7 +4927,7 @@ function tutorialChoice(){
 //		timeRequired = sSize/10 + (pollQuestions.length*0.5) +0.5;
 //	}
 //  
-//	return (timeRequired <= globals.remainingHoursDay);
+//	return (timeRequired <= GameObject.remainingHoursDay);
 //}
 //
 //function saveGame()
@@ -4965,20 +4965,20 @@ function tutorialChoice(){
 //
 //function SaveFile(){
 //  this.days = globals.days;
-//  this.totalDays = globals.totalDays;
-//  this.gameSession = globals.gameSession;
-//  this.firstPoll = globals.firstPoll;
-//  this.firstState = globals.firstState;
-//  this.gameOver = globals.gameOver;
-//  this.remainingHoursDay = globals.remainingHoursDay;
-//  this.candidates = globals.candidates;
+//  this.totalDays = GameObject.totalDays;
+//  this.gameSession = GameObject.gameSession;
+//  this.firstPoll = GameObject.firstPoll;
+//  this.firstState = GameObject.firstState;
+//  this.gameOver = GameObject.gameOver;
+//  this.remainingHoursDay = GameObject.remainingHoursDay;
+//  this.candidates = GameObject.candidates;
 //  this.pastPollChoices = globals.pastPollChoices;
 //  this.pastPollResults = globals.pastPollResults;
 //  this.pastPollSizes = globals.pastPollSizes;
 //  this.pastGraphData = globals.pastGraphData;
 //  this.pastGraphLabels = globals.pastGraphLabels;
 //  this.studentBiases = globals.studentBiases;
-//  this.studentTypes = globals.studentTypes;
+//  this.studentTypes = GameObject.studentTypes;
 //}
 //
 //
@@ -4991,21 +4991,21 @@ function tutorialChoice(){
 //  
 //  
 //  globals.days = saveJSON.days;
-//  globals.totalDays = saveJSON.totalDays;
-//  globals.gameSession = saveJSON.gameSession;
-//  globals.firstPoll = saveJSON.firstPoll;
-//  globals.firstState = saveJSON.firstState;
-//  globals.gameOver = saveJSON.gameOver;
-//  globals.remainingHoursDay = saveJSON.remainingHoursDay;
-//  globals.candidates = saveJSON.candidates;
+//  GameObject.totalDays = saveJSON.totalDays;
+//  GameObject.gameSession = saveJSON.gameSession;
+//  GameObject.firstPoll = saveJSON.firstPoll;
+//  GameObject.firstState = saveJSON.firstState;
+//  GameObject.gameOver = saveJSON.gameOver;
+//  GameObject.remainingHoursDay = saveJSON.remainingHoursDay;
+//  GameObject.candidates = saveJSON.candidates;
 //  globals.pastPollChoices = saveJSON.pastPollChoices;
 //  globals.pastPollResults = saveJSON.pastPollResults;
 //  globals.pastPollSizes = saveJSON.pastPollSizes;
 //  globals.pastGraphData = saveJSON.pastGraphData;
 //  globals.pastGraphLabels = saveJSON.pastGraphLabels;
-//  globals.studentTypes = saveJSON.studentTypes;
+//  GameObject.studentTypes = saveJSON.studentTypes;
 //  
-//  console.log(globals.studentTypes);
+//  console.log(GameObject.studentTypes);
 //  
 //}
 //
@@ -5023,10 +5023,10 @@ function tutorialChoice(){
 //  
 //    
 //    //Set the currentCandidateArrayHolder to the right data
-//    globals.currentCandidateArrayHolder = globals.candidates;
+//    globals.currentCandidateArrayHolder = GameObject.candidates;
 //    
 //    //Set player candidate
-//    globals.playerCandidate = globals.candidates[0];
+//    GameObject.playerCandidate = GameObject.candidates[0];
 //  
 //	saveState = "";
 //    preloadEventImages(globals.events);
@@ -5041,12 +5041,12 @@ function tutorialChoice(){
 //    
 //    //Create player Image
 //    headSheet = new Sprite({context: ctx, width: 155, height: 171, image: globals.heads});
-//    headSheet.frameIndex = globals.playerCandidate.headNum;
-//    headSheet.frameIndexRace = globals.playerCandidate.raceNum;
+//    headSheet.frameIndex = GameObject.playerCandidate.headNum;
+//    headSheet.frameIndexRace = GameObject.playerCandidate.raceNum;
 //    
 //	bodySheet = new Sprite({context: ctx, width: 164, height: 343, image: globals.thinBody});
-//    bodySheet.bodyArrayHolder = globals.playerCandidate.bodyTypeNum;
-//    bodySheet.frameIndexClothing = globals.playerCandidate.genderNum;
+//    bodySheet.bodyArrayHolder = GameObject.playerCandidate.bodyTypeNum;
+//    bodySheet.frameIndexClothing = GameObject.playerCandidate.genderNum;
 //  
 //    let temp = bodySheet.bodyArrayHolder;
 //	headSheet.bodyArrayHolder = temp;
@@ -5065,11 +5065,11 @@ function tutorialChoice(){
 //    generatePlayerImages();
 //  
 //    globals.inGame = true;
-//	if(globals.firstPoll)
+//	if(GameObject.firstPoll)
 //	{
 //		firstPollInfo();
 //	}
-//	else if(globals.firstState)
+//	else if(GameObject.firstState)
 //	{
 //		firstStatement();
 //	}
@@ -5085,12 +5085,12 @@ function tutorialChoice(){
 //  
 //    //Create player Image
 //    headSheet = new Sprite({context: ctx, width: 155, height: 171, image: globals.heads});
-//    headSheet.frameIndex = globals.playerCandidate.headNum;
-//    headSheet.frameIndexRace = globals.playerCandidate.raceNum;
+//    headSheet.frameIndex = GameObject.playerCandidate.headNum;
+//    headSheet.frameIndexRace = GameObject.playerCandidate.raceNum;
 //    
 //	bodySheet = new Sprite({context: ctx, width: 164, height: 343, image: globals.thinBody});
-//    bodySheet.bodyArrayHolder = globals.playerCandidate.bodyTypeNum;
-//    bodySheet.frameIndexClothing = globals.playerCandidate.genderNum;
+//    bodySheet.bodyArrayHolder = GameObject.playerCandidate.bodyTypeNum;
+//    bodySheet.frameIndexClothing = GameObject.playerCandidate.genderNum;
 //  
 //    let temp = bodySheet.bodyArrayHolder;
 //	headSheet.bodyArrayHolder = temp;
@@ -5155,18 +5155,18 @@ function tutorialChoice(){
 //      }
 //    }
 //  
-//	if(!globals.gameOver){
+//	if(!GameObject.gameOver){
 //    	////CONSOLE.LOG(saveArray[9] == "NaN")
 //    	if(gameSession !=[] && gameSession != "NaN" && gameSession != undefined && gameSession != "")
 //    	{
-//        	globals.gameSession = gameSession + 1;
-//        	globals.gameOver = false;
+//        	GameObject.gameSession = gameSession + 1;
+//        	GameObject.gameOver = false;
 //        	globals.endReset = false;
 //    	}
 //    	else
 //    	{
-//        	globals.gameSession = 0;
-//        	globals.gameOver = false;
+//        	GameObject.gameSession = 0;
+//        	GameObject.gameOver = false;
 //        	globals.endReset = false;
 //    	}
 //	}
@@ -5282,7 +5282,7 @@ function tutorialChoice(){
 //		var scoreToLog = scores.score;
 //		if(!tutorial)
 //		{
-//			globals.remainingHoursDay-=1;
+//			GameObject.remainingHoursDay-=1;
 //			var pos = chosenEvent.groupPos.split(',');
 //			////CONSOLE.LOG(pos);
 //			var posText =  "<h4>You completed the minigame with a score of "+scores.score+" <br>You increased your popularity with these groups: ";
@@ -5334,19 +5334,19 @@ function tutorialChoice(){
 //			{			
 //				document.getElementById("centerDisplay").innerHTML = posText;
 //				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-//				calcEventScore(globals.candidates[0], 0.1,pos,[]);
+//				calcEventScore(GameObject.candidates[0], 0.1,pos,[]);
 //			}
 //			else if(scores.score <= scores.tier2 && scores.score >scores.tier1)
 //			{
 //				document.getElementById("centerDisplay").innerHTML = posText;
 //				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-//				calcEventScore(globals.candidates[0], 0.2,pos,[]);
+//				calcEventScore(GameObject.candidates[0], 0.2,pos,[]);
 //			}
 //			else if(scores.score <= scores.tier3 && scores.score >scores.tier2)
 //			{
 //				document.getElementById("centerDisplay").innerHTML = posText;
 //				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-//				calcEventScore(globals.candidates[0], 0.3,pos,[]);
+//				calcEventScore(GameObject.candidates[0], 0.3,pos,[]);
 //			}
 //			else if(scores.score > scores.tier3)
 //			{
@@ -5356,16 +5356,16 @@ function tutorialChoice(){
 //				x = x.toFixed(2);
 //				document.getElementById("centerDisplay").innerHTML = posText;
 //				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-//				calcEventScore(globals.candidates[0], x,pos,[]);
+//				calcEventScore(GameObject.candidates[0], x,pos,[]);
 //			}
 //			else{
 //				document.getElementById("centerDisplay").innerHTML = posText;
 //				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-//				calcEventScore(globals.candidates[0], (scores * .1),pos,[]);
+//				calcEventScore(GameObject.candidates[0], (scores * .1),pos,[]);
 //			}
 //			
 //			saveGame();
-//			////$.post('/game/loggerMinigame', {minigameID: globals.lastMinigame, score: scoreToLog, module: '1', session: globals.gameSession });
+//			////$.post('/game/loggerMinigame', {minigameID: globals.lastMinigame, score: scoreToLog, module: '1', session: GameObject.gameSession });
 //				document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'eventMenu()'> Return to the Game Map </button>";
 //		}
 //		else
@@ -5445,7 +5445,7 @@ function tutorialChoice(){
 //                        if(element.value == "candFav" ||element.value == "candOpp")
 //                        {
 //                            answers = [];
-//                            globals.candidates.forEach(function(element2)
+//                            GameObject.candidates.forEach(function(element2)
 //                            {
 //                            	answers.push(element2.name);
 //                            	////CONSOLE.LOG(answers);
@@ -5764,11 +5764,11 @@ function tutorialChoice(){
 ////    saveGame()
 ////  
 ////    //If the current day is over
-////    if(globals.remainingHoursDay < 1){
+////    if(GameObject.remainingHoursDay < 1){
 ////      //If this isn't the last day, show the end of day poll
-////      if(globals.days < globals.totalDays){
+////      if(globals.days < GameObject.totalDays){
 ////        globals.days++;
-////        globals.remainingHoursDay = 12;
+////        GameObject.remainingHoursDay = 12;
 ////        dayPollInfo();
 ////      }
 ////      //Otherwise the game ends
@@ -5915,20 +5915,20 @@ function tutorialChoice(){
 //						break;
 //	
 //						case "candFav":
-//							for(var k =0; k< globals.candidates.length;k++)
+//							for(var k =0; k< GameObject.candidates.length;k++)
 //							{
 //								////CONSOLE.LOG()
-//								if(resultsArray[2][h] == globals.candidates[k].name){
+//								if(resultsArray[2][h] == GameObject.candidates[k].name){
 //									filteredData[i][k]++;
 //								}
 //							}
 //						break;
 //	
 //						case "candOpp":
-//							for(var k =0; k< globals.candidates.length;k++)
+//							for(var k =0; k< GameObject.candidates.length;k++)
 //							{
 //								////CONSOLE.LOG()
-//								if(resultsArray[3][h] == globals.candidates[k].name){
+//								if(resultsArray[3][h] == GameObject.candidates[k].name){
 //									filteredData[i][k]++;
 //								}
 //							}
@@ -6084,9 +6084,9 @@ function tutorialChoice(){
 //	
 //	
 //					canCounter = 14;
-//					for(var k = 1;k<globals.candidates.length;k++)
+//					for(var k = 1;k<GameObject.candidates.length;k++)
 //					{
-//						if(pollChoices[i] == "candFame" + globals.candidates[k].name)
+//						if(pollChoices[i] == "candFame" + GameObject.candidates[k].name)
 //						{
 //							var counter = canCounter;
 //							if(parseFloat(resultsArray[counter][h]).toFixed(2) <= 0.2)
@@ -6112,9 +6112,9 @@ function tutorialChoice(){
 //						}
 //						canCounter++;
 //					}
-//					for(var k = 1;k<globals.candidates.length;k++)
+//					for(var k = 1;k<GameObject.candidates.length;k++)
 //					{
-//						if(pollChoices[i] == "candTrust" + globals.candidates[k].name)
+//						if(pollChoices[i] == "candTrust" + GameObject.candidates[k].name)
 //						{
 //							var counter = canCounter;
 //							if(parseFloat(resultsArray[counter][h]).toFixed(2) <= 0.2)
