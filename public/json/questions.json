@@ -165,6 +165,74 @@
               ],
 			"type": "numerical"
 
+		},
+       		{
+            "id":"candFameFirst_",
+			"question":"How well do you know this candidate? ",
+            "combinedQuestion":"How well do you know [VALUE]?",
+            "subQuestions": "[CANDIDATES-PLAYER]",
+            "tableHeader": "[VALUE]'s Fame",
+            "labels": [
+                {
+                  "upperLimit": 0.2,
+                  "label": "Not At All Known"
+                },
+                {
+                  "lowerLimit": 0.2,
+                  "upperLimit": 0.4,
+                  "label": "Not Well Known"
+                },
+                {
+                  "lowerLimit": 0.4,
+                  "upperLimit": 0.6,
+                  "label": "Somewhat Known"
+                },
+                {
+                  "lowerLimit": 0.6,
+                  "upperLimit": 0.8,
+                  "label": "Well Known"
+                },
+                {
+                  "lowerLimit": 0.8,
+                  "label": "Very Well Known"
+                }
+              ],
+			"type": "numerical"
+
+		},
+		{
+            "id":"candTrustFirst_",
+			"question":"How trustworthy do you think this candidate is? ",
+			"combinedQuestion":"How trustworthy do you think [VALUE] is? ",
+            "subQuestions": "[CANDIDATES-PLAYER]",
+            "tableHeader": "[VALUE]'s Trustworthiness",
+            "labels": [
+                {
+                  "upperLimit": 0.2,
+                  "label": "Very Trustworthy"
+                },
+                {
+                  "lowerLimit": 0.2,
+                  "upperLimit": 0.4,
+                  "label": "Fairly Trustworthy"
+                },
+                {
+                  "lowerLimit": 0.4,
+                  "upperLimit": 0.6,
+                  "label": "Sort of Trustworthy"
+                },
+                {
+                  "lowerLimit": 0.6,
+                  "upperLimit": 0.8,
+                  "label": "Untrustworthy"
+                },
+                {
+                  "lowerLimit": 0.8,
+                  "label": "Very Untrustworthy"
+                }
+              ],
+			"type": "numerical"
+
 		}
 	]
 }

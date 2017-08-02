@@ -126,6 +126,8 @@ function Candidate(name){
 	this.medNeg= 0;
 	this.funcPos= 0;
 	this.funcNeg= 0;
+  
+    this.isPlayer = false;
 };
 
 function firstPollInfo()

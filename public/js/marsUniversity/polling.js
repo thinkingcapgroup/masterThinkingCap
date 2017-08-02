@@ -53,52 +53,34 @@ $(document).on('change', '.totalTimeTracker', function(){
 })
 
 function onPollChange(pollThing){
-  var pollQuestion = document.getElementById($(this).attr('id')).value;
+  var pollQuestionId = document.getElementById($(this).attr('id')).value;
   var questionNumber = $(this).attr('id').charAt(4);
-
   //Record question for logging
-  theJSONEvents[questionNumber] = pollQuestion;
+  theJSONEvents[questionNumber] = pollQuestionId;
 
   var subQuestionId = "subpoll" + questionNumber;
-  var subQuestion = document.getElementById(subQuestionId)
+  var subQuestionSelect = document.getElementById(subQuestionId)
 
   //Check if this question has subquestions
-  let jsonObj = getQuestionById(pollQuestion);
+  let pollQuestion = globals.allQuestions[pollQuestionId];
+  if(pollQuestion && pollQuestion.subQuestions && pollQuestion.subQuestions.length){
 
-  if(jsonObj && jsonObj.subQuestions){
-
-       subQuestion.style = "display:block";
+       subQuestionSelect.style = "display:block";
 
       $('#' + subQuestionId).empty();
 
       let noneOption = new Option("None", "");
       noneOption.setAttribute("class", "defaultSubOption");
-      subQuestion.options.add(noneOption);
+      subQuestionSelect.options.add(noneOption);
 
-      if(jsonObj.subQuestions == "[ISSUES]"){
-          for(var x = 0; x < 4; x++){
-          let newOption = new Option(globals.positions[x], globals.positionsLower[x]);
-          newOption.setAttribute("class", "defaultSubOption");
-          subQuestion.options.add(newOption);
-        }
-      }
-      if(jsonObj.subQuestions == "[CANDIDATES]"){
-        for(var x = 0; x < globals.candidates.length; x++){
-            let newOption;
-            if(x == 0 && globals.candidates[0].name != "Karma"){
-              newOption = new Option(globals.candidates[x].name, "Player");
-            }
-            else{
-                newOption = new Option(globals.candidates[x].name, globals.candidates[x].name);
-            }
-
-            newOption.setAttribute("class", "defaultSubOption");
-            subQuestion.options.add(newOption);
-        }
+      for(let subQuestion of pollQuestion.subQuestions){
+        let newOption = new Option(subQuestion.text, subQuestion.subId);
+        newOption.setAttribute("class", "defaultSubOption");
+        subQuestionSelect.options.add(newOption);
       }
   }
   else{
-    subQuestion.style = "display:none"
+    subQuestionSelect.style = "display:none"
   }
 
   dupChecker_REFACTORED();
@@ -122,45 +104,45 @@ $(document).on('change','.subPollQ',function(){
  });
 
 //Subtracts time required to take a poll based on both sample size and the number of questions
-function pollTime(sSize, pollQuestions)
+function pollTime(numStudents, numQuestions)
 {
   let timeRequired;
-	if(pollQuestions.length%2 == 0)
+	if(numQuestions % 2 == 0)
 	{
-		timeRequired = sSize/10 + (pollQuestions.length*.5);
+		timeRequired = numStudents/10 + (numQuestions*.5);
 	}
 	else
 	{
-		timeRequired = sSize/10 + (pollQuestions.length*0.5) +0.5;
+		timeRequired = numStudents/10 + (numQuestions*0.5) +0.5;
 	}
 	globals.remainingHoursTotal -= timeRequired;
 	globals.remainingHoursDay -= timeRequired;
 }
 
-function returnTotalPollTime(sSize, pollQuestions){
+function returnTotalPollTime(numStudents, numQuestions){
   let timeRequired;
-	if(pollQuestions% 2 == 0)
+	if(numQuestions% 2 == 0)
 	{
-		timeRequired = sSize/10 + (pollQuestions*.5);
+		timeRequired = numStudents/10 + (numQuestions*.5);
 	}
 	else
 	{
-		timeRequired = sSize/10 + (pollQuestions*0.5) +0.5;
+		timeRequired = numStudents/10 + (numQuestions*0.5) +0.5;
 	}
 	return timeRequired;
 }
 
-function pollTimeCheck(sSize, pollQuestions)
+function pollTimeCheck(numStudents, numQuestions)
 {
     let timeRequired;
 
-	if(pollQuestions.length%2 == 0)
+	if(numQuestions % 2 == 0)
 	{
-		timeRequired = sSize/10 + (pollQuestions.length*.5);
+		timeRequired = numStudents/10 + (numQuestions*.5);
 	}
 	else
 	{
-		timeRequired = sSize/10 + (pollQuestions.length*0.5) +0.5;
+		timeRequired = numStudents/10 + (numQuestions*0.5) +0.5;
 	}
 
 	return (timeRequired <= globals.remainingHoursDay);
@@ -213,7 +195,7 @@ function dupChecker()
                     //If it's not the same dropdown
                     if(j != i){
                         let question = document.getElementById("poll"+j+"");
-                        debugger;
+
                         //If the poll value involves a subquestion
                         if(subQuestionIndex != null && subQuestionIndex > -1){
                             ////CONSOLE.LOG("is subquestion");
@@ -268,10 +250,11 @@ function dupChecker_REFACTORED()
   		if(selectedQuestion.value != "")
   		{
   			pollVal = selectedQuestion.value;
-            let jsonObj = getQuestionById(pollVal);
-
+            let pollQuestion = globals.allQuestions[pollVal];
+          
+            
             //If the question has a subquestion
-            if(jsonObj.subQuestions){
+            if(pollQuestion && pollQuestion.subQuestions && pollQuestion.subQuestions.length){
               selectedSubQuestion = document.getElementById('subpoll' + i + '');
               var subValue = selectedSubQuestion.value;
 
@@ -432,7 +415,7 @@ function pollResults(state, isFree, isFake)
 		document.getElementById("duplicateParagraph").innerHTML = "Please Select 2 or More Questions";
         document.getElementById("duplicateParagraph").style.display = "block";
 	}
-    else if(!pollTimeCheck(sampleSize, pollChoices) && !isFree){
+    else if(!pollTimeCheck(sampleSize, pollChoices.length) && !isFree){
       ////CONSOLE.LOG("time check 1");
         document.getElementById("duplicateParagraph").innerHTML = "You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.";
         document.getElementById("duplicateParagraph").style.display = "block";
@@ -508,17 +491,30 @@ function drawPoll(state, isFree, isFake){
 	if(isFree || globals.remainingHoursDay>= 3 )
 	{
         enoughTime = true;
-
+      
 		//Populates the questions based on the JSON File
-        for(var i = 0; i<globals.questions.length; i++)
+        for(let key in globals.allQuestions)
         {
+          let question = globals.allQuestions[key];
           //As long as it's not major or social group, push the question
-          if(globals.questions[i].id != "major" &&  globals.questions[i].id != "group"){
-            pollQuestions.push(globals.questions[i]);
+          if(question.id != "major" &&  question.id != "group" && !question.isSubQuestion){
+            if(state == POLL_STATES.FIRST){
+              //Don't allow the regular candidate questions
+              if(question.id != "candFame_" && question.id != "candTrust_"){
+                pollQuestions.push(question);
+              }
+            }
+            else{
+              //Don't allow the first poll candidate questions
+              if(question.id != "candFameFirst_" && question.id != "candTrustFirst_"){
+                pollQuestions.push(question);
+              }
+            }
           }
         }
 
 	}
+  
     //CONSOLE.LOG("pollQuestions length "+pollQuestions.length);
 
     let context = {

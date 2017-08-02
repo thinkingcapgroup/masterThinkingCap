@@ -141,7 +141,8 @@ globals =
         budget: "Increase Budget",
         functions: "More School Functions",
         medical: "Improve Medical Services"
-    }
+    },
+    allQuestions: {}
 }
     
     

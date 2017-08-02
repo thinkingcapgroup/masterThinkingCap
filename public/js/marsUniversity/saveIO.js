@@ -2,8 +2,9 @@ function saveGame()
 { 	
     let saveJSON = new SaveFile();
     //Stringify and escape special characters
+    let testString = JSON.stringify(saveJSON);
     let jsonString = JSON.stringify(saveJSON).escapeSpecialChars();
-    
+    console.log(jsonString);
     //post all that information
 	$.post('/game/saver', {saveData: jsonString});
     
@@ -47,6 +48,7 @@ function SaveFile(){
   this.pastGraphLabels = globals.pastGraphLabels;
   this.studentBiases = globals.studentBiases;
   this.studentTypes = globals.studentTypes;
+  //this.allQuestions = globals.allQuestions;
 }
 
 
@@ -72,8 +74,14 @@ function loadSaveFile(){
   globals.pastGraphData = saveJSON.pastGraphData;
   globals.pastGraphLabels = saveJSON.pastGraphLabels;
   globals.studentTypes = saveJSON.studentTypes;
+  //globals.allQuestions = saveJSON.allQuestions;
   
+  if(!globals.allQuestions){
+    loadQuestions();
+  }
   console.log(globals.studentTypes);
+  
+
   
 }
 

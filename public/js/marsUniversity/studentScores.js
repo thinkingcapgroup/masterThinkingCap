@@ -305,6 +305,15 @@ function TempStudent(bias){
     this.issueOpinion_medical = medical;
     this.issueFav = favName;
     this.issueOpp = leastFavName;
+    
+}
+
+function getCompressedStudent(student, pollChoices){
+  let compressedStudent = {};
+  for(let questionId of pollChoices){
+    compressedStudent[questionId] = student[questionId];
+  }
+  return compressedStudent;
 }
 
 function createSample2(numStudents, bias)

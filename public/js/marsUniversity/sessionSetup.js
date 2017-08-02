@@ -58,8 +58,11 @@ $(document).ready(function(){
 function startSession()
 {
     globals.playerCandidate= new Candidate("ph");
+    globals.playerCandidate.isPlayer = true;
+  
     globals.opponentCandidate= new Candidate("Karma");
     fakeCandidateYou = new Candidate('Candidate1');
+    fakeCandidateYou.isPlayer = true;
     fakeCandidateOther = new Candidate('Candidate2');
     fakeCandidateYou.fame = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5];
     fakeCandidateOther.fame = [1,1,1,1,1,1,1,1];
@@ -92,16 +95,6 @@ function startSession()
 	oReq.open("get", "json/data.json", true);
 	oReq.send();
 
-    var questionsJSON;
-	var oReq = new XMLHttpRequest();
-	oReq.onload = function (e)
-	{
-		questionsJSON = JSON.parse(this.responseText);
-		globals.questions = questionsJSON.questions;
-	};
-	oReq.open("get", "json/questions.json", true);
-	oReq.send();
-
     preloadEventImages(globals.events);
     //preloadUI();
 
@@ -111,6 +104,73 @@ function startSession()
     loadViews(50);
     preloadImages(54);
     generateStudentBiases();
+}
+
+function loadQuestions(){
+	var oReq = new XMLHttpRequest();
+	oReq.onload = function (e)
+	{
+		let questionsJSON = JSON.parse(this.responseText);
+        let newQs = parseQuestionsJSON(questionsJSON.questions);
+        globals.allQuestions = newQs;
+	};
+	oReq.open("get", "json/questions.json", true);
+	oReq.send();
+}
+function parseQuestionsJSON(questionsJSON){
+  let allPollQuestions = {};
+  
+  for(let question of questionsJSON){
+      let pollQuestion;
+      let subQuestions = [];
+      
+      if(question.subQuestions){
+        
+        if(question.subQuestions == "[ISSUES]"){
+          for(var x = 0; x < 4; x++){
+            let subId = globals.positionsLower[x];
+            let text = globals.positions[x];
+            
+            let subQuestion = new PollQuestion(question.id, subId, question);
+            allPollQuestions[question.id+subId] = subQuestion;
+            subQuestions.push({"subId": subId, "text": text});
+          }
+        }
+        else if(question.subQuestions == "[CANDIDATES]"){
+          for(var x = 0; x < globals.candidates.length; x++){
+              let subId = globals.candidates[x].name;
+              let text = globals.candidates[x].name;
+              
+              if(globals.candidates[x].isPlayer){
+                subId = "Player";
+              }
+              let subQuestion = new PollQuestion(question.id, subId, question);
+              allPollQuestions[question.id+subId] = subQuestion;
+              subQuestions.push({"subId": subId, "text": text});
+          }
+        }
+        else if(question.subQuestions == "[CANDIDATES-PLAYER]"){
+          for(var x = 0; x < globals.candidates.length; x++){
+              if(!globals.candidates[x].isPlayer){
+                let subId = globals.candidates[x].name;
+                let subQuestion = new PollQuestion(question.id, subId, question);
+                allPollQuestions[question.id+subId] = subQuestion;
+                subQuestions.push({"subId": subId, "text": subId});
+              }
+          }
+        }
+        else{
+          for(let subQuestionId of question.subQuestions){
+            let subQuestion = new PollQuestion(question.id, subQuestionId, question);
+            allPollQuestions[question.id+subQuestionId] = subQuestion;
+            subQuestions.push({"subId": subQuestionId, "question":subQuestionId});
+          }
+        }
+      }
+    pollQuestion = new PollQuestion(question.id, "", question, subQuestions);
+    allPollQuestions[question.id] = pollQuestion;
+  }
+  return allPollQuestions;
 }
 
 function preloadImages(totalLoadPercent){

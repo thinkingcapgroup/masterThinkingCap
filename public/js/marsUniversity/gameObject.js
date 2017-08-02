@@ -43,8 +43,12 @@ function initNewGame(isFromTut){
 	assignRank(issueCand4,globals.chosenCandRanks,true);
 	globals.candidates.push(issueCand4);	
   
+  
     //Set the currentCandidateArrayHolder to the right data
     globals.currentCandidateArrayHolder = globals.candidates;
+  
+    globals.candidates.splice(0,0,globals.playerCandidate);
+    loadQuestions();
   
 	//map(0,true,true);
     firstPollInfo();
@@ -85,7 +89,7 @@ function calcFirstStatement(f)
 		globals.playerCandidate.issueScore[3]++;
 		break;
 	}
-	globals.candidates.splice(0,0,globals.playerCandidate);
+	
 	
     //Display Updated Top Bar
     //updateTopBar(this);
