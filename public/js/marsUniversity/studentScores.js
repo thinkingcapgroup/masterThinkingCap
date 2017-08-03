@@ -244,10 +244,10 @@ function TempStudent(bias){
     averageDeviation = (globals.studentTypes[major]["medical"].stdDeviation + globals.studentTypes[group]["medical"].stdDeviation) / 2;
     let medical = normalDistribution(averageMean, averageDeviation);
 
-    tuition = tuition.toFixed(2);
-    budget = budget.toFixed(2);
-    functions = functions.toFixed(2);
-    medical = medical.toFixed(2);
+    tuition = tuition.toFixedNumber(2);
+    budget = budget.toFixedNumber(2);
+    functions = functions.toFixedNumber(2);
+    medical = medical.toFixedNumber(2);
     
     //Calculate favorite issue
     var fav =0;
@@ -308,32 +308,50 @@ function TempStudent(bias){
     
 }
 
-function getCompressedStudent(student, pollChoices){
-  let compressedStudent = {};
-  for(let questionId of pollChoices){
-    compressedStudent[questionId] = student[questionId];
-  }
-  return compressedStudent;
+
+Number.prototype.toFixedNumber = function(numDigits){
+  var poweredNum = Math.pow(10 , numDigits);
+  return Math.round(this * poweredNum) / poweredNum ;
 }
 
-function createSample2(numStudents, bias)
+function getPollStudent(tempStudent, pollChoices){
+  let pollStudent = new PollStudent();
+
+  for(let questionId of pollChoices){
+    pollStudent.answers[questionId] = tempStudent[questionId];
+  }
+  return pollStudent;
+}
+
+
+function getAllCompressedStudents(students, pollChoices){
+  let compressedStudents = [];
+  debugger;
+  for(let student of students){
+    compressedStudents.push(getCompressedStudent(student, pollChoices));
+  }
+  return compressedStudents;
+}
+
+function createSample2(numStudents, bias, pollChoices)
 {
     //Lower bias so that it matches group indices
     bias--;
   
     let newSample = [];
 	for (var i = 0; i < numStudents; i++){
-      newSample.push(new TempStudent(bias)); 
+      //let tempStudent = new TempStudent(bias);
+      newSample.push(new TempStudent(bias));//getPollStudent(tempStudent, pollChoices)); 
     }
     
     return newSample;
 }
 
 //Calculates the candidate who would recieve the vote for each student 
-function votePercentage2(sampleSize, bias)
+function votePercentage2(sampleSize, bias, pollChoices)
 {
 	//////CONSOLE.LOG(candidates);
-	let studentSample = createSample2(sampleSize, bias);
+	let studentSample = createSample2(sampleSize, bias, pollChoices);
   
 	var finalWinner = "";
 	for(var i=0;i<globals.candidates.length; i++)
@@ -358,13 +376,16 @@ function votePercentage2(sampleSize, bias)
             let consMod = candidate.consMod;
             
             //If this candidate is the player, store the fame and trust scores as "Player"
-            if(j == 0){
+            if(candidate.isPlayer){
               student["candFame_Player"] = fame;
               student["candTrust_Player"] = consMod;
             }
             else{
               student["candFame_"+candidate.name] = fame;
               student["candTrust_"+candidate.name] = consMod;
+              
+              student["candFameFirst_"+candidate.name] = fame;
+              student["candTrustFirst_"+candidate.name] = consMod;
             }
             
 			//Calculate similarity of student and candidate issues
@@ -416,6 +437,10 @@ function votePercentage2(sampleSize, bias)
 				globals.candidates[k].votes++;
 			}
 		}
+      
+        
+        //Remove unnecessary questions
+        studentSample[i] = getPollStudent(student, pollChoices);
 	}
     return studentSample;
 }

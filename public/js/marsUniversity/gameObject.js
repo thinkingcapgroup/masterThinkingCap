@@ -138,7 +138,6 @@ function updateSession(gameOver)
         	globals.endReset = false;
     	}
 	}
-    
 }
 
 function resetGame()
@@ -154,6 +153,7 @@ function resetGame()
 	globals.chosenCandRanks = [];
 	globals.currentEvents = [];
 	globals.playerCandidate = new Candidate("ph");
+    globals.playerCandidate.isPlayer = true;
 	globals.opponentCandidate = new Candidate("Karma");
   	if(globals.gameOver)
     {

@@ -612,8 +612,9 @@ function pollCalc_REFACTORED(newPollResult, sampleSize, bias, state, isFree, isF
     
     //newPollResult.questions = newPollResult.questions.reverse();
     newPollResult.questionIDs = newPollResult.questionIDs.reverse();
+    
 
-    newPollResult.students = votePercentage2(sampleSize, bias);
+    newPollResult.students = votePercentage2(sampleSize, bias, newPollResult.questionIDs);
   
     //If the data isn't fake
     //Store it, subtract the time if necessary, and save
@@ -668,7 +669,7 @@ function tableBuilder_REFACTORED(pollResult, isFake, state, isFree, isReview)
           let question = globals.allQuestions[id];
 
           //Grab the answer to this specific question
-          let studentAnswer = student[question.id+question.subId];
+          let studentAnswer = student.answers[question.id+question.subId];
 
           let searchParams = {"studentAnswer": studentAnswer, "type": question.type};
           let matchingAnswer = question.possibleAnswers.find(findIsMatchingAnswer, searchParams);
@@ -892,6 +893,7 @@ function makeGraphs_REFACTORED(pollResult)
 function PollResult(){
   this.students = [];
   this.questionIDs = [];
+  this.compressedResult = {};
 }
 
 function PollStudent(){
@@ -948,7 +950,7 @@ function getAnswerCount(question, possibleAnswer, students){
   //Find each student's answer for this question
   for(let i = 0; i < students.length; i++){
       let student = students[i];
-      let studentAnswer = student[question.id+question.subId];
+      let studentAnswer = student.answers[question.id+question.subId];
 
       if(isMatchingAnswer(possibleAnswer, studentAnswer, question.type)){
         count++;
@@ -966,7 +968,7 @@ function countAnswers(question, students){
   //Find each student's answer for this question
   for(let i = 0; i < students.length; i++){
       let student = students[i];
-      let studentAnswer = student[question.id+question.subId];
+      let studentAnswer = student.answers[question.id+question.subId];
 
       let searchParams = {"studentAnswer": studentAnswer, "type": question.type};
       let matchingAnswer = question.possibleAnswers.find(findIsMatchingAnswer, searchParams);
@@ -1048,12 +1050,12 @@ function filterByStudentType(element){
   let filterGroup = this.group;
   
   if(filterMajor){
-    if(element["major"] == filterMajor){
+    if(element.answers["major"] == filterMajor){
       return true;
     }
   }
   if(filterGroup){
-    if(element["group"] == filterGroup){
+    if(element.answers["group"] == filterGroup){
       return true;
     }
   }
@@ -1072,12 +1074,12 @@ function filterByStudentType_ALTERNATE(element){
   }
   else{
     if(filterMajor){
-      if(element["major"] == filterMajor){
+      if(element.answers["major"] == filterMajor){
         return true;
       }
     }
     if(filterGroup){
-      if(element["group"] == filterGroup){
+      if(element.answers["group"] == filterGroup){
         return true;
       }
     }

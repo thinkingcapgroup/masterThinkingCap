@@ -104,6 +104,9 @@ function startSession()
     loadViews(50);
     preloadImages(54);
     generateStudentBiases();
+  
+    globals.candidates = globals.fakeCandidateHolder;
+    loadQuestions();
 }
 
 function loadQuestions(){

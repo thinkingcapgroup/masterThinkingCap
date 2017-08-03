@@ -42,13 +42,34 @@ function SaveFile(){
   this.remainingHoursDay = globals.remainingHoursDay;
   this.candidates = globals.candidates;
   this.pastPollChoices = globals.pastPollChoices;
-  this.pastPollResults = globals.pastPollResults;
   this.pastPollSizes = globals.pastPollSizes;
   this.pastGraphData = globals.pastGraphData;
   this.pastGraphLabels = globals.pastGraphLabels;
   this.studentBiases = globals.studentBiases;
   this.studentTypes = globals.studentTypes;
   //this.allQuestions = globals.allQuestions;
+  
+  this.pastPollResults = compressPollResults(globals.pastPollResults);
+}
+
+function compressPollResults(){
+  let compressedResults = [];
+  for(let pastPollResult of globals.pastPollResults){
+    let result = compressPollResult(pastPollResult);
+    compressedResults.push(result);
+  }
+  
+  return compressedResults;
+}
+
+function decompressPollResults(compressedResults){
+  let pastPollResults = [];
+  for(let compressedResult of compressedResults){
+    let result = decompressPollResult(compressedResult);
+    pastPollResults.push(result);
+  }
+  
+  return pastPollResults;
 }
 
 
@@ -76,13 +97,54 @@ function loadSaveFile(){
   globals.studentTypes = saveJSON.studentTypes;
   //globals.allQuestions = saveJSON.allQuestions;
   
-  if(!globals.allQuestions){
-    loadQuestions();
-  }
-  console.log(globals.studentTypes);
+  globals.pastPollResults = decompressPollResults(saveJSON.pastPollResults)
   
+  loadQuestions();
+  
+  
+}
 
+function compressPollResult(pollResult){
+  let compressedResult = {};
+  compressedResult.students = [];
+  compressedResult.questionIDs = pollResult.questionIDs;
   
+  for(let student of pollResult.students){
+    compressedResult.students.push(getCompressedStudent(student, pollResult.questionIDs));
+  }
+  
+  return compressedResult;
+}
+
+function getCompressedStudent(student, pollChoices){
+  let compressedStudent = {};
+  compressedStudent.answers = [];
+
+  for(let questionId of pollChoices){
+    compressedStudent.answers.push(student.answers[questionId]);
+  }
+  return compressedStudent;
+}
+
+function decompressPollResult(compressedResult){
+  let pollResult = new PollResult();
+  pollResult.questionIDs = compressedResult.questionIDs;
+  
+  for(let student of compressedResult.students){
+    pollResult.students.push(getDecompressedStudent(student, pollResult.questionIDs));
+  }
+  
+  return pollResult;
+}
+
+function getDecompressedStudent(compressedStudent, pollChoices){
+  let student = new PollStudent();
+
+  for(let i = 0; i < pollChoices.length; i++){
+    let questionId = pollChoices[i];
+    student.answers[questionId] = compressedStudent.answers[i];
+  }
+  return student;
 }
 
 function loadGame()

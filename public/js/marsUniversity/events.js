@@ -818,7 +818,7 @@ function minigameResults(scores, tutorial, loop)
 				if( scores.score> scores.tier4)
 					scores.score = scores.tier4;
 				var x = .3 + (.01*(scores.score-scores.tier3));
-				x = x.toFixed(2);
+				x = x.toFixedNumber(2);
 				document.getElementById("centerDisplay").innerHTML = posText;
 				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
 				calcEventScore(globals.candidates[0], x,pos,[]);
