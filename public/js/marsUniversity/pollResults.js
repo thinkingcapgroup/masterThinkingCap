@@ -52,9 +52,13 @@ $(document).on('change','.filterChecklist', function(){
 document.body.scrollTop = document.documentElement.scrollTop = 0
  });
 
+
+let questionCharts = [];
+
 //Changes the way that data is represented on the poll results screen
 function changeDataDisplay(dataButton)
 {
+    //Show Table
 	if(dataButton == 1){
 		document.getElementById('table').style.display = 'block';
 		document.getElementById('filterArea').style.display = 'block';
@@ -65,23 +69,37 @@ function changeDataDisplay(dataButton)
 		document.getElementById('dataButton').style.display = 'none';
         document.getElementById('chartFilters').style.display = 'none';
 	}
+    //Show Bar Charts
 	else if (dataButton == 2)
     {
 		document.getElementById('table').style.display = 'none';
 		document.getElementById('filterArea').style.display = 'none';
-		document.getElementById('pieChartDiv').style.display = 'none';
-		document.getElementById('barChartDiv').style.display = 'block';
+		//document.getElementById('pieChartDiv').style.display = 'none';
+		//document.getElementById('barChartDiv').style.display = 'block';
 		document.getElementById('pieButton').style.display = 'inline';
 		document.getElementById('barButton').style.display = 'none';
 		document.getElementById('dataButton').style.display = 'inline';
         document.getElementById('chartFilters').style.display = 'inline';
+      
+        for(let i = 0; i < questionCharts.length; i++){
+          questionCharts[i].legend.hide();
+          questionCharts[0].resize({width:400});
+          questionCharts[i].transform('bar');
+        }
 	}
+    //Show Pie Charts
 	else if (dataButton == 3)
     {
 		document.getElementById('table').style.display = 'none';
 		document.getElementById('filterArea').style.display = 'none';
-		document.getElementById('pieChartDiv').style.display = 'block';
-		document.getElementById('barChartDiv').style.display = 'none';
+      
+		//document.getElementById('pieChartDiv').style.display = 'block';
+		//document.getElementById('barChartDiv').style.display = 'none';
+        for(let i = 0; i < questionCharts.length; i++){
+          questionCharts[i].legend.show()
+          questionCharts[i].transform('pie');
+        }
+      
 		document.getElementById('pieButton').style.display = 'none';
 		document.getElementById('barButton').style.display = 'inline';
 		document.getElementById('dataButton').style.display = 'inline';
@@ -104,6 +122,499 @@ function viewPollResult(id, isFirst)
 		document.getElementById("back").innerHTML += "<button onclick = 'firstStatement()'> Back to Making Your First Statement </button>";
 
 }
+
+//Creates a trend report based on past polls
+function createTrendReport_REFACTORED(category)
+{
+
+    document.getElementById('buttonViewer').style = 'display:block';
+    document.getElementById('visualisation').innerHTML = "";
+
+    var data0 = [];
+    var data1 = [];
+    var data2 = [];
+    var data3 = [];
+    var data4 = [];
+    var data5 = [];
+    var data6 = [];
+    var answers = [];
+    var tempGraphData = [];
+
+    //for(var i =0; i< globals.pastPollChoices.length;i++)
+    //{
+    //        data0.push(
+    //        {
+    //            count: null,
+    //            poll: i
+    //        });
+    //}
+
+
+    for(var i =0; i< globals.pastPollChoices.length;i++)
+    {
+		var limit = false;
+        tempGraphData = [];
+        globals.pastGraphData[i].forEach(function(e)
+        {
+            tempGraphData.push(e);
+
+        });
+        //removes the first 2 answers from each pastGraph data
+        tempGraphData.splice(0,2);
+
+		if(globals.pastPollSizes[i] == 40)
+		{
+			limit=true;
+		}
+
+        //GOes through each question choesn by the player
+        for(var j =0; j< globals.pastPollChoices[i].length; j++)
+        {
+            //Sets the labels using the past poll data
+            if(category == globals.pastPollChoices[i][j])
+            {
+                globals.questions.forEach( function(element)
+                {
+                    if(element.value == category)
+                    {
+                        answers = element.labels.split(",")
+                        if(element.value == "candFav" ||element.value == "candOpp")
+                        {
+                            answers = [];
+                            globals.candidates.forEach(function(element2)
+                            {
+                            	answers.push(element2.name);
+                            	////CONSOLE.LOG(answers);
+                            });
+                        }
+                    }
+                    else if(element.value == category.substring(0,5))
+                    {
+                        answers = element.labels.split(",")
+                    }
+                });
+                var tempGraphTotal = 0;
+
+                //GRAPH DATA BUG: for Stefen
+                for(var x =0; x < tempGraphData[j].length; x++){
+                	tempGraphTotal = tempGraphTotal + tempGraphData[j][x]
+                }
+
+
+
+                //For each answer to the current question pushes the count of people who had this answer into a cooresponding array
+                for (var k =0; k< tempGraphData[j].length; k++)
+                {
+					var countAlt;
+                    switch(k)
+                    {
+                        case 0:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
+                        data0.push(
+                        {
+							count: countAlt,
+                            poll: i,
+                            key: answers[k]
+
+                        });
+
+                        //data0.splice(i,1,
+                        //{
+                        //    count: globals.pastGraphData[i][j][k],
+                        //    poll: i
+                        //});
+                        break;
+                        case 1:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
+                        data1.push(
+                        {
+                            count: countAlt,
+                            poll: i,
+                            key: answers[k]
+                        });
+
+                        break;
+                        case 2:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
+                        data2.push(
+                        {
+                            count: countAlt,
+                            poll: i,
+                            key: answers[k]
+                        });
+
+                        break;
+                        case 3:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
+                        data3.push(
+                        {
+                            count: countAlt,
+                            poll: i,
+                            key: answers[k]
+                        });
+
+                        break;
+                        case 4:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
+                        data4.push(
+                        {
+                            count: countAlt,
+                            poll: i,
+                            key: answers[k]
+                        });
+                        break;
+                        case 5:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
+                        data5.push(
+                        {
+                            count: countAlt,
+                            poll: i,
+                            key: answers[k]
+                        });
+                        break;
+                        case 6:
+						if(!limit)
+							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
+						else
+							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
+                        data6.push(
+                        {
+                            count: countAlt,
+                            poll: i,
+                            key: answers[k]
+                        });
+                        break;
+                    }
+                }
+            }
+
+        }
+    }
+
+    //Creates the trend report using the data from the questions
+    var margin = {top: 30, right: 20, bottom: 70, left: 50},
+    width2 = 800 - margin.left - margin.right,
+    height2 = 450 - margin.top - margin.bottom;
+
+    var legendSpace = width2/7;
+
+    var vis = d3.select("#visualisation"),
+    WIDTH = 800,
+    HEIGHT = 350,
+    MARGINS = {
+        top: 20,
+        right: 20,
+        bottom: 20,
+        left: 50
+    },
+    xScale = d3.scaleLinear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([0, 15]),
+    yScale = d3.scaleLinear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, 100]),
+
+    xAxis = d3.axisBottom()
+    .scale(xScale),
+    yAxis = d3.axisLeft()
+    .scale(yScale)
+
+    vis.append("svg:g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
+        .call(xAxis);
+    vis.append("svg:g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(" + (MARGINS.left) + ",0)")
+        .call(yAxis);
+
+    var lineGen = d3.line()
+        .x(function(d) {
+            return xScale(d.poll);
+        })
+        .y(function(d) {
+            return yScale(d.count);
+        })
+        .defined(function (d) { return d[1] !== null; });
+        //.defined(function (d) { return d.count == null; });
+
+    var line = d3.line()
+        .x(function(d) {
+            return xScale(d.poll);
+        })
+        .y(function(d) {
+            return yScale(d.count);
+        })
+        //.defined(function (d) { return d[1] !== null; });
+        .defined(function (d) { return d.count == null; });
+
+        if(data0 !=[])
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data0))
+                .attr('stroke', 'green')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 30) // spacing
+            .attr("y", height2 + 30)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'green')
+            .text(data0[0].key);
+
+            //var filteredData0 = data0.filter(lineGen.defined());
+            //vis.append('svg:path')
+            //    .attr('d', line(filteredData0))
+            //    .attr('stroke', 'black')
+            //    .style("stroke-dasharray", ("3, 3"))
+            //    .attr('stroke-width', 2)
+            //    .attr('fill', 'none');
+        }
+        if(data1.length > 0)
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data1))
+                .attr('stroke', 'violet')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 30) // spacing
+            .attr("y", height2 + 60)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'violet')
+            .text(data1[0].key);
+        }
+        if(data2.length > 0)
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data2))
+                .attr('stroke', 'blue')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 30) // spacing
+            .attr("y", height2 + 90)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'blue')
+            .text(data2[0].key);
+        }
+        if(data3.length > 0)
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data3))
+                .attr('stroke', 'red')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 180) // spacing
+            .attr("y", height2 + 30)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'red')
+            .text(data3[0].key);
+        }
+        if(data4.length > 0)
+        {
+
+            vis.append('svg:path')
+                .attr('d', lineGen(data4))
+                .attr('stroke', 'orange')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 180) // spacing
+            .attr("y", height2 + 60)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'orange')
+            .text(data4[0].key);
+        }
+        ////CONSOLE.LOG(data5)
+        if(data5.length > 0)
+        {
+
+            vis.append('svg:path')
+                .attr('d', lineGen(data5))
+                .attr('stroke', 'purple')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 180) // spacing
+            .attr("y", height2 + 90)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'purple')
+            .text(data5[0].key);
+        }
+        if(data6.length > 0)
+        {
+            vis.append('svg:path')
+                .attr('d', lineGen(data6))
+                .attr('stroke', 'yellow')
+                .attr('stroke-width', 2)
+                .attr('fill', 'none');
+            // Add the Legend
+            vis.append("svg:text")
+            .attr("x", 330) // spacing
+            .attr("y", height2 + 30)
+            .attr("class", "legend")    // style the legend
+            .style("fill", 'yellow')
+            .text(data6[0].key);
+        }
+
+
+    document.getElementById('buttonViewer').onclick = function()
+    {
+        document.getElementById('buttonViewer').style = 'display:none';
+        document.getElementById('reportButtons').style = 'display:block';
+        document.getElementById('trendArea').style = 'display:none';
+    };
+    document.getElementById('trendArea').style = 'display:block';
+    document.getElementById('reportButtons').style = 'display:none';
+}
+
+//FROM POLLING.JS, PUT IT BACK WHEN DONE
+function pollResults_REFACTORED(state, isFree, isFake)
+{
+	var bias = document.getElementById('location').value;
+
+	var duplicate = false;
+	var dup1;
+
+	var dup2;
+
+
+    let newPollResult = new PollResult();
+
+	for(var i = 0; i<6 ;i++)
+	{
+		var selectedQuestion = document.getElementById("poll"+i+"");
+		if(selectedQuestion.options[selectedQuestion.selectedIndex].value != "")
+		{
+			let pollQuestionId = selectedQuestion.options[selectedQuestion.selectedIndex].value;
+
+            let pollQuestion = globals.allQuestions[pollQuestionId];
+
+            //If the question has a subquestion
+			if(pollQuestion.subQuestions && pollQuestion.subQuestions.length){
+				//grab the sub question
+				var selectedSubQuestion = document.getElementById('subpoll' + i + '');
+				var subQuestionId = selectedSubQuestion.value;
+
+                if(subQuestionId != ""){
+                    //let newQuestion = new PollQuestion(pollQuestionId, subValue, jsonObj);
+                    //newPollResult.questions.push(newQuestion);
+                    newPollResult.questionIDs.push(pollQuestionId+subQuestionId);
+
+                    //pollVal = pollVal +""+ subValue;
+                    //pollChoices.push(pollVal);
+                }
+			}
+            else{
+              //let newQuestion = new PollQuestion(pollQuestionId, "", jsonObj);
+              //newPollResult.questions.push(newQuestion);
+              newPollResult.questionIDs.push(pollQuestionId);
+            }
+
+		}
+	}
+    console.log(newPollResult);
+
+    let pollChoices = newPollResult.questionIDs;
+
+	//Checks for duplicate questions
+	for (var i=0; i< pollChoices.length;i++)
+	{
+		for (var j=0; j< pollChoices.length;j++)
+		{
+			if(i!=j)
+			{
+				var val1 = pollChoices[i];
+				var val2 = pollChoices[j];
+
+				if(val1 == val2)
+				{
+					duplicate = true;
+					dup1 = i;
+					dup2 = j;
+				}
+			}
+		}
+	}
+    var sample = document.getElementById("sample");
+    var sampleSize = parseFloat(sample.options[sample.selectedIndex].value);
+
+	if(duplicate)
+    {
+		document.getElementById("duplicateParagraph").innerHTML = "You’re asking the same question more than once! Fix this to continue the poll."
+		document.getElementById("duplicateParagraph").style.display = "block";
+
+        let question1 = document.getElementById("poll"+dup1+"");
+        let question2 = document.getElementById("poll"+dup2+"");
+
+		question1.options[question1.selectedIndex].style.color = "red";
+		question2.options[question2.selectedIndex].style.color = "red";
+	}
+	else if(pollChoices.length < 2)
+	{
+       ////CONSOLE.LOG("not enough questions: "+pollChoices.length);
+		document.getElementById("duplicateParagraph").innerHTML = "Please Select 2 or More Questions";
+        document.getElementById("duplicateParagraph").style.display = "block";
+	}
+    else if(!pollTimeCheck(sampleSize, pollChoices.length) && !isFree){
+      ////CONSOLE.LOG("time check 1");
+        document.getElementById("duplicateParagraph").innerHTML = "You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.";
+        document.getElementById("duplicateParagraph").style.display = "block";
+    }
+    //If the poll is sucessful
+    else
+    {
+        //Clear previous screen
+        clearScreen();
+
+        //Run poll
+        pollCalc_REFACTORED(newPollResult, sampleSize, bias, state, isFree, isFake);
+
+        if(state == POLL_STATES.TUTORIAL){
+            document.getElementById("back").innerHTML += "<button onclick = 'drawPoll("+state+","+isFree+","+isFake+")'> Back to Tutorial Poll</button>";
+        }
+        else if(state == POLL_STATES.PRACTICE_AREA)
+        {
+            document.getElementById("back").innerHTML += "<button onclick = 'practiceMenu()'> Return to Practice Area</button>";
+        }
+        else if(state == POLL_STATES.FIRST)
+        {
+            document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
+
+        }
+        else{
+            document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'eventMenu()'> Return to the Game Map </button>";
+        }
+	}
+
+    //Reset candidates back to correct candidates
+	globals.candidates = globals.currentCandidateArrayHolder;
+
+};
 
 //Creates a trend report based on past polls
 function createTrendReport(category)
@@ -748,7 +1259,7 @@ function tableBuilder_REFACTORED(pollResult, isFake, state, isFree, isReview)
         document.getElementById('back').innerHTML += "<button onclick = 'drawPoll("+state+",false, true)'>Back to Start</button>" ;
 	}
   
-  	makeGraphs_REFACTORED(pollResult);
+  	makeGraphs_C3(pollResult);
     changeDataDisplay(2);
 
 }
@@ -758,7 +1269,7 @@ function updateGraphs(currentPoll){
   var group = document.getElementById("groupSelect").value;
   
   let filteredPoll = filterPollResult(major, group, currentPoll);
-  makeGraphs_REFACTORED(filteredPoll);
+  makeGraphs_C3(filteredPoll);
 }
 
 function filterPollResult(matchingMajor, matchingGroup, pollResult)
@@ -772,6 +1283,125 @@ function filterPollResult(matchingMajor, matchingGroup, pollResult)
       return filteredResult;
     }
   return pollResult;
+}
+
+
+
+function makeGraphs_C3(pollResult)
+{
+	document.getElementById("barChartDiv").innerHTML = "";
+	document.getElementById("pieChartDiv").innerHTML = "";
+	var counter = 0;
+	//graph dat table
+	for (var i=0;i<pollResult.questionIDs.length;i++)
+	{
+	document.getElementById("barChartDiv").innerHTML += "<div id = 'q"+i+"text'><br></div><div id = 'barChart"+i+"' class= 'chart'></div>";
+    document.getElementById("pieChartDiv").innerHTML += "<div id = 'bq"+i+"text'><br></div><div class = 'pieChart"+i+"'></div>";
+		if(i==1){
+			document.getElementById("barChartDiv").innerHTML += "<hr>";
+			document.getElementById("pieChartDiv").innerHTML += "<hr>";
+		}
+		else if( i == 5){
+
+		}
+    }
+
+	for(var i = 0; i < pollResult.questionIDs.length; i++){
+
+		var counter = 0;
+		var x = 0;
+        
+        let id = pollResult.questionIDs[i];
+        let currentQuestion =  globals.allQuestions[id];
+      
+        document.getElementById("q"+i+"text").innerHTML = currentQuestion.question;
+        document.getElementById("bq"+i+"text").innerHTML = currentQuestion.question;
+
+        var dataset =  [];
+        for (var k = 0; k < currentQuestion.possibleAnswers.length; k++)
+        {
+            let possibleAnswer = currentQuestion.possibleAnswers[k];
+            let count = getAnswerCount(currentQuestion, possibleAnswer, pollResult.students);
+            dataset.push ({label: capitalStr(possibleAnswer.label), count: count});
+		}
+      
+        let graphLabels = dataset.map(function(x){
+          return x.label;
+        });
+        let graphCounts = dataset.map(function(x){
+          return x.count;
+        });
+
+    var chart = c3.generate({
+      bindto: document.getElementById('barChart'+i),
+      data: {
+        columns: [
+            [graphLabels[0], graphCounts[0]],
+            [graphLabels[1], graphCounts[1]],
+            [graphLabels[2], graphCounts[2]],
+            [graphLabels[3], graphCounts[3]],
+        ],
+        type: 'bar',
+        labels: {
+            format: function (v, id, i, j) { return id + " - " + v; }
+          },
+        },
+        axis: {
+          rotated: true,
+          x: {
+            show:false
+          },
+          y: {
+            show: false
+          }
+        },
+        tooltip: {
+          grouped: false, // Default true
+          format: {
+            title: function (labelId) { return 'Data ' + labelId; },
+            value: function (value, ratio, id) {
+                var format = id === 'data1' ? d3.format(',') : d3.format('$');
+                return format(value);
+            }
+            //value: d3.format(',') // apply this format to both y and y2
+        },
+        contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
+            console.log(d[0]);
+            
+            //console.log(studentsMap[d[0].id]);
+            //let matchingStudents = studentsMap[d[0].id];
+            
+            let string = '<div class="c3-tooltip-container"><table class="c3-tooltip"><tbody>'
+            string += '<tr><th colspan="2">'+d[0].id+' | '+d[0].value+' Students</th></tr>';
+            // for(let i = 0; i < matchingStudents.length; i++){
+            //     string += '<tr class="student"><td class="name">Student '+(i+1)+'</td>';
+            //     string += '<td class="value">'+matchingStudents[i]+'</td></tr>';
+            // }
+            
+//            for(let i = 0; i < majors.length; i++){
+//                for(let j = 0; j < groups.length; j++){
+//                    if(counts[i][j] > 0){
+//                    
+//                    string += '<tr class="student"><td class="value">'+majors[i]+' '+groups[j]+'</td>';
+//                    string += '<td class="name">'+counts[i][j]+'</td></tr>';
+//                    }
+//                }
+//                
+//                
+//            }
+            
+            string+= '</tbody></table></div>';
+            return string;
+        }
+        
+    },
+    legend: {
+        show: false
+    }
+    });
+      questionCharts.push(chart);
+    }
+	
 }
 
 function makeGraphs_REFACTORED(pollResult)
