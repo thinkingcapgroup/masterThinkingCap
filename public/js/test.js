@@ -1,4 +1,5 @@
 var questions;
+var orderedQuestions = [];
 var demographics;
 var playerAnswers =[];
 var playerResults = [];
@@ -57,9 +58,9 @@ function preTestConsent()
 function showResults()
 {
 	document.getElementById("index-section").innerHTML = "";
-	for( var i =0; i < questions.length; i++)
+	for( var i =0; i < orderedQuestions.length; i++)
 	{	
-		if(questions[i].correct == playerAnswers[i])
+		if(orderedQuestions[i].correct == playerAnswers[i])
 		{
 			playerResults.push("Answer Correct");
 		}
@@ -69,7 +70,7 @@ function showResults()
 		}
 	}
     //Send the data to database
-    for(var j =0; j < questions.length;j++)
+    for(var j =0; j < orderedQuestions.length;j++)
     {
         switch(testID)
         {
@@ -243,7 +244,7 @@ function submitAnswers()
             if (radios[j].checked) {
                 // do whatever you want with the checked radio
                 playerAnswers.splice(i,1, radios[j].value)
-        
+				console.log(playerAnswers);
                 // only one radio can be logically checked, don't check the rest
                 break;
             }
@@ -312,7 +313,10 @@ function  buildTests (type)
         break;
     }
     document.getElementById("index-section").innerHTML = "<section id = 'population'><h2>POPULATION AND SAMPLE</h2></section><section id = 'category'><h2>CATEGORICAL AND NUMERICAL</h2> <p> Another word for categorical is “qualitative”. Another word for numerical is “quantitative”</p></section><section id = 'bias'section><h2>SAMPLING AND BIAS</h2></section><section id = 'mean'><h2>MEAN AND STANDARD DEVIATION</h2></section><section id = 'percentage'><h2>PROPORTION/PERCENTAGE</h2></section>";
-    questions.sort(function(a, b){return 0.5 - Math.random()});
+    questions.forEach(function(element) {
+		orderedQuestions.push(element);
+	});
+	questions.sort(function(a, b){return 0.5 - Math.random()});
 	for( var i =0; i < questions.length; i++)
 	{	
 		var questionNum = i + 1;
