@@ -21,6 +21,8 @@ const views = {
   studentsHelpPage: "",
   trendsHelpPage: "",
   myDataMenu: "",
+  myDataHelpPage: "",
+  termsHelpPage: "",
 };
 const images = {
   Map: '../../img/map/mapMU600pxW.png',

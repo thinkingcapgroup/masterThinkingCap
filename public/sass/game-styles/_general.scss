@@ -282,6 +282,7 @@ progress[value] {
 		text-align: center;
 		padding: 16px;
 		text-decoration: none;
+		cursor: pointer; 
 	}
 	
 	a:hover 
@@ -291,6 +292,14 @@ progress[value] {
 	
 	a:active{
 	background-color: #333333;
+	}
+}
+
+#helpPage
+{  
+	a 
+	{
+		cursor: pointer; 
 	}
 }
 .help-section-button {
