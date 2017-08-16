@@ -83,7 +83,6 @@ function changeDataDisplay(dataButton)
       
         for(let i = 0; i < questionCharts.length; i++){
           questionCharts[i].legend.hide();
-          questionCharts[0].resize({width:400});
           questionCharts[i].transform('bar');
         }
 	}
@@ -123,363 +122,206 @@ function viewPollResult(id, isFirst)
 
 }
 
+function createStackedAreaChart(categoryId, htmlElementId, allPollResults){
+  debugger;
+  let graphQuestion = globals.allQuestions[categoryId];
+  
+  let graphData = [];
+  
+  for(let pollResult of allPollResults){
+    let pollData = {name: pollResult.name};
+    for (var k = 0; k < graphQuestion.possibleAnswers.length; k++)
+    {
+      let possibleAnswer = graphQuestion.possibleAnswers[k];
+      let count = getAnswerCount(graphQuestion, possibleAnswer, pollResult.students);
+      
+      pollData[possibleAnswer.label] = (count/pollResult.students.length);
+    }
+    
+    graphData.push(pollData);
+  }
+  
+  let labelTypes = {}
+  let labelKeys = [];
+  for(let possibleAnswer of graphQuestion.possibleAnswers){
+    labelKeys.push(possibleAnswer.label);
+    labelTypes[possibleAnswer.label] = 'area';
+  }
+  
+  var chart = c3.generate({
+      bindto: document.getElementById(htmlElementId),
+      data: {
+        json: graphData,
+        keys: {
+          x: 'name',
+          value: labelKeys
+        },
+        types: labelTypes,
+        groups: [labelKeys],
+        selection: {
+          enabled: true,
+          isselectable: function (d) {
+
+            if(d.value){
+              if(d.value > 0){
+                return true;
+              }
+            }            
+           return false;
+          }
+        },
+        onselected: function(){console.log("selected");}
+      },
+      axis: {
+        x: {
+          type: 'category'
+        },
+        y: {
+          max: 1.05,
+          min: 0,
+         tick: {
+            format: d3.format("%")
+          },
+          padding: {top: .05, bottom: 0}
+        }
+      },
+    //,
+//      legend: {
+//        position: 'right',
+//        item: {
+//          onmouseover: function(d){
+//            console.log('test onclick '+d);
+//          }
+//        }
+//      }
+      tooltip: {
+        //grouped: false
+   }
+  });
+  
+  
+}
+
+function createDistributionChart(categoryId, htmlElementId, allPollResults){
+  debugger;
+  let graphQuestion = globals.allQuestions[categoryId];
+  
+  let graphData = [];
+  
+  let averageData = [];
+  let majorData = [];
+  let groupData = [];
+  
+  for(let pollResult of allPollResults){
+    for (var k = 0; k < graphQuestion.possibleAnswers.length; k++)
+    {
+      let possibleAnswer = graphQuestion.possibleAnswers[k];
+      
+      let totalCount = getAnswerCount(graphQuestion, possibleAnswer, pollResult.students);
+      averageData[possibleAnswer.label] = (totalCount/pollResult.students.length);
+      
+      //Loop through each major
+      /*for(let major of globals.majorList){
+        //Filter to just get the students of a particular major
+        let majorStudents = filterPollResult(major, "", pollResult);
+        
+        //Get the answer count of those students
+        let majorCount = getAnswerCount(graphQuestion, possibleAnswer, majorStudents);
+        majorData[possibleAnswer.label] = (majorCount/majorStudents.length);
+      }
+      //Loop through each social group
+      for(let group of globals.groupList){
+        //Filter to just get the students of a particular major
+        let groupStudents = filterPollResult("", group, pollResult);
+        
+        //Get the answer count of those students
+        let groupCount = getAnswerCount(graphQuestion, possibleAnswer, groupStudents);
+        groupData[possibleAnswer.label] = (groupCount/groupStudents.length);
+      }*/
+    }
+    
+  }
+  
+  let labelTypes = {}
+  let labelKeys = [];
+  for(let possibleAnswer of graphQuestion.possibleAnswers){
+    labelKeys.push(possibleAnswer.label);
+    //labelTypes[possibleAnswer.label] = 'area';
+  }
+  
+  var chart = c3.generate({
+      bindto: document.getElementById(htmlElementId),
+      data: {
+        json: graphData,
+        keys: {
+          x: 'name',
+          value: labelKeys
+        },
+        types: labelTypes,
+        groups: [labelKeys],
+        selection: {
+          enabled: true,
+          isselectable: function (d) {
+
+            if(d.value){
+              if(d.value > 0){
+                return true;
+              }
+            }            
+           return false;
+          }
+        },
+        onselected: function(){console.log("selected");}
+      },
+      axis: {
+        x: {
+          type: 'category'
+        },
+        y: {
+          max: 1.05,
+          min: 0,
+         tick: {
+            format: d3.format("%")
+          },
+          padding: {top: .05, bottom: 0}
+        }
+      },
+    //,
+//      legend: {
+//        position: 'right',
+//        item: {
+//          onmouseover: function(d){
+//            console.log('test onclick '+d);
+//          }
+//        }
+//      }
+      tooltip: {
+        //grouped: false
+   }
+  });
+  
+  
+}
+
 //Creates a trend report based on past polls
-function createTrendReport_REFACTORED(category)
+//
+function createTrendReport_REFACTORED(categoryId, graphType)
 {
 
     document.getElementById('buttonViewer').style = 'display:block';
     document.getElementById('visualisation').innerHTML = "";
-
-    var data0 = [];
-    var data1 = [];
-    var data2 = [];
-    var data3 = [];
-    var data4 = [];
-    var data5 = [];
-    var data6 = [];
-    var answers = [];
-    var tempGraphData = [];
-
-    //for(var i =0; i< globals.pastPollChoices.length;i++)
-    //{
-    //        data0.push(
-    //        {
-    //            count: null,
-    //            poll: i
-    //        });
-    //}
-
-
-    for(var i =0; i< globals.pastPollChoices.length;i++)
-    {
-		var limit = false;
-        tempGraphData = [];
-        globals.pastGraphData[i].forEach(function(e)
-        {
-            tempGraphData.push(e);
-
-        });
-        //removes the first 2 answers from each pastGraph data
-        tempGraphData.splice(0,2);
-
-		if(globals.pastPollSizes[i] == 40)
-		{
-			limit=true;
-		}
-
-        //GOes through each question choesn by the player
-        for(var j =0; j< globals.pastPollChoices[i].length; j++)
-        {
-            //Sets the labels using the past poll data
-            if(category == globals.pastPollChoices[i][j])
-            {
-                globals.questions.forEach( function(element)
-                {
-                    if(element.value == category)
-                    {
-                        answers = element.labels.split(",")
-                        if(element.value == "candFav" ||element.value == "candOpp")
-                        {
-                            answers = [];
-                            globals.candidates.forEach(function(element2)
-                            {
-                            	answers.push(element2.name);
-                            	////CONSOLE.LOG(answers);
-                            });
-                        }
-                    }
-                    else if(element.value == category.substring(0,5))
-                    {
-                        answers = element.labels.split(",")
-                    }
-                });
-                var tempGraphTotal = 0;
-
-                //GRAPH DATA BUG: for Stefen
-                for(var x =0; x < tempGraphData[j].length; x++){
-                	tempGraphTotal = tempGraphTotal + tempGraphData[j][x]
-                }
-
-
-
-                //For each answer to the current question pushes the count of people who had this answer into a cooresponding array
-                for (var k =0; k< tempGraphData[j].length; k++)
-                {
-					var countAlt;
-                    switch(k)
-                    {
-                        case 0:
-						if(!limit)
-							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
-						else
-							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
-                        data0.push(
-                        {
-							count: countAlt,
-                            poll: i,
-                            key: answers[k]
-
-                        });
-
-                        //data0.splice(i,1,
-                        //{
-                        //    count: globals.pastGraphData[i][j][k],
-                        //    poll: i
-                        //});
-                        break;
-                        case 1:
-						if(!limit)
-							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
-						else
-							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
-                        data1.push(
-                        {
-                            count: countAlt,
-                            poll: i,
-                            key: answers[k]
-                        });
-
-                        break;
-                        case 2:
-						if(!limit)
-							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
-						else
-							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
-                        data2.push(
-                        {
-                            count: countAlt,
-                            poll: i,
-                            key: answers[k]
-                        });
-
-                        break;
-                        case 3:
-						if(!limit)
-							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
-						else
-							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
-                        data3.push(
-                        {
-                            count: countAlt,
-                            poll: i,
-                            key: answers[k]
-                        });
-
-                        break;
-                        case 4:
-						if(!limit)
-							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
-						else
-							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
-                        data4.push(
-                        {
-                            count: countAlt,
-                            poll: i,
-                            key: answers[k]
-                        });
-                        break;
-                        case 5:
-						if(!limit)
-							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
-						else
-							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
-                        data5.push(
-                        {
-                            count: countAlt,
-                            poll: i,
-                            key: answers[k]
-                        });
-                        break;
-                        case 6:
-						if(!limit)
-							countAlt=(tempGraphData[j][k]/tempGraphTotal) * 100;
-						else
-							countAlt=((tempGraphData[j][k]/tempGraphTotal) * 100)/2;
-                        data6.push(
-                        {
-                            count: countAlt,
-                            poll: i,
-                            key: answers[k]
-                        });
-                        break;
-                    }
-                }
-            }
-
-        }
+  
+    let allPollResults = [];
+    debugger;
+    //Go through each pollResult and see if it included the category
+    for(let pollResult of globals.pastPollResults){
+      if(pollResult.questionIDs.includes(categoryId)){
+        allPollResults.push(pollResult);
+      }
     }
-
-    //Creates the trend report using the data from the questions
-    var margin = {top: 30, right: 20, bottom: 70, left: 50},
-    width2 = 800 - margin.left - margin.right,
-    height2 = 450 - margin.top - margin.bottom;
-
-    var legendSpace = width2/7;
-
-    var vis = d3.select("#visualisation"),
-    WIDTH = 800,
-    HEIGHT = 350,
-    MARGINS = {
-        top: 20,
-        right: 20,
-        bottom: 20,
-        left: 50
-    },
-    xScale = d3.scaleLinear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([0, 15]),
-    yScale = d3.scaleLinear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0, 100]),
-
-    xAxis = d3.axisBottom()
-    .scale(xScale),
-    yAxis = d3.axisLeft()
-    .scale(yScale)
-
-    vis.append("svg:g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
-        .call(xAxis);
-    vis.append("svg:g")
-        .attr("class", "y axis")
-        .attr("transform", "translate(" + (MARGINS.left) + ",0)")
-        .call(yAxis);
-
-    var lineGen = d3.line()
-        .x(function(d) {
-            return xScale(d.poll);
-        })
-        .y(function(d) {
-            return yScale(d.count);
-        })
-        .defined(function (d) { return d[1] !== null; });
-        //.defined(function (d) { return d.count == null; });
-
-    var line = d3.line()
-        .x(function(d) {
-            return xScale(d.poll);
-        })
-        .y(function(d) {
-            return yScale(d.count);
-        })
-        //.defined(function (d) { return d[1] !== null; });
-        .defined(function (d) { return d.count == null; });
-
-        if(data0 !=[])
-        {
-            vis.append('svg:path')
-                .attr('d', lineGen(data0))
-                .attr('stroke', 'green')
-                .attr('stroke-width', 2)
-                .attr('fill', 'none');
-
-            // Add the Legend
-            vis.append("svg:text")
-            .attr("x", 30) // spacing
-            .attr("y", height2 + 30)
-            .attr("class", "legend")    // style the legend
-            .style("fill", 'green')
-            .text(data0[0].key);
-
-            //var filteredData0 = data0.filter(lineGen.defined());
-            //vis.append('svg:path')
-            //    .attr('d', line(filteredData0))
-            //    .attr('stroke', 'black')
-            //    .style("stroke-dasharray", ("3, 3"))
-            //    .attr('stroke-width', 2)
-            //    .attr('fill', 'none');
-        }
-        if(data1.length > 0)
-        {
-            vis.append('svg:path')
-                .attr('d', lineGen(data1))
-                .attr('stroke', 'violet')
-                .attr('stroke-width', 2)
-                .attr('fill', 'none');
-
-            // Add the Legend
-            vis.append("svg:text")
-            .attr("x", 30) // spacing
-            .attr("y", height2 + 60)
-            .attr("class", "legend")    // style the legend
-            .style("fill", 'violet')
-            .text(data1[0].key);
-        }
-        if(data2.length > 0)
-        {
-            vis.append('svg:path')
-                .attr('d', lineGen(data2))
-                .attr('stroke', 'blue')
-                .attr('stroke-width', 2)
-                .attr('fill', 'none');
-            // Add the Legend
-            vis.append("svg:text")
-            .attr("x", 30) // spacing
-            .attr("y", height2 + 90)
-            .attr("class", "legend")    // style the legend
-            .style("fill", 'blue')
-            .text(data2[0].key);
-        }
-        if(data3.length > 0)
-        {
-            vis.append('svg:path')
-                .attr('d', lineGen(data3))
-                .attr('stroke', 'red')
-                .attr('stroke-width', 2)
-                .attr('fill', 'none');
-            // Add the Legend
-            vis.append("svg:text")
-            .attr("x", 180) // spacing
-            .attr("y", height2 + 30)
-            .attr("class", "legend")    // style the legend
-            .style("fill", 'red')
-            .text(data3[0].key);
-        }
-        if(data4.length > 0)
-        {
-
-            vis.append('svg:path')
-                .attr('d', lineGen(data4))
-                .attr('stroke', 'orange')
-                .attr('stroke-width', 2)
-                .attr('fill', 'none');
-            // Add the Legend
-            vis.append("svg:text")
-            .attr("x", 180) // spacing
-            .attr("y", height2 + 60)
-            .attr("class", "legend")    // style the legend
-            .style("fill", 'orange')
-            .text(data4[0].key);
-        }
-        ////CONSOLE.LOG(data5)
-        if(data5.length > 0)
-        {
-
-            vis.append('svg:path')
-                .attr('d', lineGen(data5))
-                .attr('stroke', 'purple')
-                .attr('stroke-width', 2)
-                .attr('fill', 'none');
-            // Add the Legend
-            vis.append("svg:text")
-            .attr("x", 180) // spacing
-            .attr("y", height2 + 90)
-            .attr("class", "legend")    // style the legend
-            .style("fill", 'purple')
-            .text(data5[0].key);
-        }
-        if(data6.length > 0)
-        {
-            vis.append('svg:path')
-                .attr('d', lineGen(data6))
-                .attr('stroke', 'yellow')
-                .attr('stroke-width', 2)
-                .attr('fill', 'none');
-            // Add the Legend
-            vis.append("svg:text")
-            .attr("x", 330) // spacing
-            .attr("y", height2 + 30)
-            .attr("class", "legend")    // style the legend
-            .style("fill", 'yellow')
-            .text(data6[0].key);
-        }
+  
+    //Compile into a graphable format
+    createStackedAreaChart(categoryId, 'trendArea', allPollResults);
 
 
     document.getElementById('buttonViewer').onclick = function()
@@ -997,6 +839,7 @@ function pollResults_REFACTORED(state, isFree, isFake)
 
 
     let newPollResult = new PollResult();
+    newPollResult.name += (globals.pastPollResults.length + 1);
 
 	for(var i = 0; i<6 ;i++)
 	{
@@ -1318,11 +1161,13 @@ function makeGraphs_C3(pollResult)
         document.getElementById("bq"+i+"text").innerHTML = currentQuestion.question;
 
         var dataset =  [];
+        let graphData = [];
         for (var k = 0; k < currentQuestion.possibleAnswers.length; k++)
         {
             let possibleAnswer = currentQuestion.possibleAnswers[k];
             let count = getAnswerCount(currentQuestion, possibleAnswer, pollResult.students);
             dataset.push ({label: capitalStr(possibleAnswer.label), count: count});
+            graphData.push([capitalStr(possibleAnswer.label), count]);
 		}
       
         let graphLabels = dataset.map(function(x){
@@ -1335,12 +1180,7 @@ function makeGraphs_C3(pollResult)
     var chart = c3.generate({
       bindto: document.getElementById('barChart'+i),
       data: {
-        columns: [
-            [graphLabels[0], graphCounts[0]],
-            [graphLabels[1], graphCounts[1]],
-            [graphLabels[2], graphCounts[2]],
-            [graphLabels[3], graphCounts[3]],
-        ],
+        columns: graphData,
         type: 'bar',
         labels: {
             format: function (v, id, i, j) { return id + " - " + v; }
@@ -1398,8 +1238,17 @@ function makeGraphs_C3(pollResult)
     legend: {
         show: false
     }
+    //onrendered:
     });
       questionCharts.push(chart);
+      
+      document.getElementById('table').style.display = 'none';
+      document.getElementById('filterArea').style.display = 'none';
+      document.getElementById('pieButton').style.display = 'inline';
+      document.getElementById('barButton').style.display = 'none';
+      document.getElementById('dataButton').style.display = 'inline';
+      document.getElementById('chartFilters').style.display = 'inline';
+      
     }
 	
 }
@@ -1524,6 +1373,7 @@ function PollResult(){
   this.students = [];
   this.questionIDs = [];
   this.compressedResult = {};
+  this.name = "Poll #";
 }
 
 function PollStudent(){

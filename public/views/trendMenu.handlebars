@@ -4,8 +4,8 @@
     <h3> General</h3>
     <button onclick= 'createTrendReport(`issFav`)' class = 'trendButton otherBtn' id = 'issFav' disabled>Favored Issue Report</button>
     <button onclick= 'createTrendReport(`issOpp`)' class = 'trendButton otherBtn' id = 'issOpp' disabled>Opposed Issue Report</button>
-    <button onclick= 'createTrendReport(`candFav`)' class = 'trendButton otherBtn' id = 'candFav' disabled>Favored Candidate Report</button>
-    <button onclick= 'createTrendReport(`candOpp`)' class = 'trendButton otherBtn' id = 'candOpp' disabled>Opposed Candidate Report</button>
+    <button onclick= 'createTrendReport_REFACTORED(`candFav`)' class = 'trendButton otherBtn' id = 'candFav' disabled>Favored Candidate Report</button>
+    <button onclick= 'createTrendReport_REFACTORED(`candOpp`)' class = 'trendButton otherBtn' id = 'candOpp' disabled>Opposed Candidate Report</button>
   </div>
   <br>
   <div>
@@ -21,7 +21,7 @@
       {{#if @first}}
         <button onclick= 'createTrendReport("fame")' class = 'trendButton otherBtn' id = 'fame' disabled>Fame - {{this.name}}</button>
       {{else}}
-        <button onclick= 'createTrendReport("candFame{{this.name}}")' class = 'trendButton otherBtn' id = 'candFame{{this.name}}' disabled>Fame - {{this.name}}</button>
+        <button onclick= 'createTrendReport_REFACTORED("candFame_{{this.name}}")' class = 'trendButton otherBtn' id = 'candFame_{{this.name}}' disabled>Fame - {{this.name}}</button>
       {{/if}}
     {{/each}}
   </div><br>
@@ -31,7 +31,7 @@
       {{#if @first}}
         <button onclick= 'createTrendReport("playTrust")' class = 'trendButton otherBtn' id = 'playTrust' disabled>Trust - {{this.name}}</button>
       {{else}}
-        <button onclick= 'createTrendReport("candTrust{{this.name}}")' class = 'trendButton otherBtn' id = 'candTrust{{this.name}}' disabled>Trust - {{this.name}}</button>
+        <button onclick= 'createTrendReport("candTrust_{{this.name}}")' class = 'trendButton otherBtn' id = 'candTrust_{{this.name}}' disabled>Trust - {{this.name}}</button>
       {{/if}}
     {{/each}}
   </div>

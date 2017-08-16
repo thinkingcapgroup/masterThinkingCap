@@ -108,6 +108,7 @@ function compressPollResult(pollResult){
   let compressedResult = {};
   compressedResult.students = [];
   compressedResult.questionIDs = pollResult.questionIDs;
+  compressedResult.name = pollResult.name;
   
   for(let student of pollResult.students){
     compressedResult.students.push(getCompressedStudent(student, pollResult.questionIDs));
@@ -129,6 +130,7 @@ function getCompressedStudent(student, pollChoices){
 function decompressPollResult(compressedResult){
   let pollResult = new PollResult();
   pollResult.questionIDs = compressedResult.questionIDs;
+  pollResult.name = compressedResult.name;
   
   for(let student of compressedResult.students){
     pollResult.students.push(getDecompressedStudent(student, pollResult.questionIDs));

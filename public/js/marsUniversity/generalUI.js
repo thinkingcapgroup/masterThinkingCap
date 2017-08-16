@@ -88,7 +88,7 @@ function trendReportMenu()
 
 
        document.getElementById("mainContent").innerHTML += "</div><br> <div id = 'trendArea' style = 'display:none'> <svg id='visualisation' width='800' height='450'><path id='segments-line' /><path id='gap-line' /><text font-family='sans-serif' font-size='20px'>Blah</text></svg> </div>";
-        for(var x =0; x < globals.pastPollChoices.length; x++){
+        /*for(var x =0; x < globals.pastPollChoices.length; x++){
           for(var y = 0; y < globals.pastPollChoices[x].length; y++){
               if(currentTrendReports.includes(globals.pastPollChoices[x][y])){
 
@@ -97,16 +97,21 @@ function trendReportMenu()
                   currentTrendReports.push(globals.pastPollChoices[x][y])
               }
           }
-        }
+        }*/
+      
+      
+      
       var thing;
       var buttonHolder = document.getElementsByClassName('trendButton')
 
       for(var x = 0; x < buttonHolder.length; x++){
-          var idName = buttonHolder[x].getAttribute('id');   
+          //Each button id corresponds to a poll questions
+          var idName = buttonHolder[x].getAttribute('id');
+        
+          //if one of the past polls included that question, enable the  button
+          for(let pollResult of globals.pastPollResults){
 
-          for(var y =0; y < currentTrendReports.length; y++){
-
-              if(currentTrendReports[y] == idName){    	
+              if(pollResult.questionIDs.includes(idName)){    	
                   document.getElementById(idName).disabled = false;
               }
           }
