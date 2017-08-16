@@ -17,7 +17,7 @@ function chooseEvent(choice)
 		globals.back = false;
 		
       
-		if(globals.remainingHoursDay >= chosenEvent.timeRequired)
+		if(GameObject.remainingHoursDay >= chosenEvent.timeRequired)
 		{   
             document.getElementById("mainContent").classList.add("left");
             document.getElementById("contentContainer").classList.add("columns");
@@ -130,7 +130,7 @@ function chooseEvent(choice)
 				for(var i =0; i<chosenEvent.options.length; i++)
 				{
 					var totalText = "";
-					if( (eventHours + parseInt(chosenEvent.options[i].extraTime)) <= globals.remainingHoursDay)
+					if( (eventHours + parseInt(chosenEvent.options[i].extraTime)) <= GameObject.remainingHoursDay)
 					{
 						if(i == 0)
 						{
@@ -299,8 +299,8 @@ function submitEvent(id, eventHours, Pos, Neg)
 		if(playGame)
 		{
 			globals.remainingHoursTotal-= eventHours;
-			globals.remainingHoursDay-= eventHours;
-			calcEventScore(globals.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
+			GameObject.remainingHoursDay-= eventHours;
+			calcEventScore(GameObject.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
 			minigamePlayer(parseInt(loaderNum));
 		}
 		else
@@ -314,12 +314,12 @@ function eventResults(eventHours, chosenEvent, totalPosEffects, totalNegEffects)
 {
 	////CONSOLE.LOG(globals.remainingHoursTotal)
 	globals.remainingHoursTotal-= eventHours;
-	globals.remainingHoursDay-= eventHours;
+	GameObject.remainingHoursDay-= eventHours;
 
-	globals.candidates[1].lastMove = chosenEvent.name;
+	GameObject.candidates[1].lastMove = chosenEvent.name;
 
 	//Changes the player's score
-	calcEventScore(globals.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
+	calcEventScore(GameObject.candidates[0],chosenEvent.scoreInc, totalPosEffects, totalNegEffects);
 	saveGame();
 	clearScreen();
     updateTopBar(eventMenu);
@@ -733,7 +733,7 @@ function calcEventScore(candidate, scoreInc, groupPos, groupNeg)
 				break;
 
 		}
-	//////CONSOLE.LOG(globals.candidates[0].issueScore);
+	//////CONSOLE.LOG(GameObject.candidates[0].issueScore);
 	}
 }
 
@@ -747,7 +747,7 @@ function minigameResults(scores, tutorial, loop)
 		if(!tutorial)
 		{
 			globals.remainingHoursTotal-=1;
-			globals.remainingHoursDay-=1;
+			GameObject.remainingHoursDay-=1;
 			var pos = chosenEvent.groupPos.split(',');
 			////CONSOLE.LOG(pos);
 			var posText =  "<h4>You completed the minigame with a score of "+scores.score+" <br>You increased your popularity with these groups: ";
@@ -799,19 +799,19 @@ function minigameResults(scores, tutorial, loop)
 			{			
 				document.getElementById("centerDisplay").innerHTML = posText;
 				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-				calcEventScore(globals.candidates[0], 0.1,pos,[]);
+				calcEventScore(GameObject.candidates[0], 0.1,pos,[]);
 			}
 			else if(scores.score <= scores.tier2 && scores.score >scores.tier1)
 			{
 				document.getElementById("centerDisplay").innerHTML = posText;
 				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-				calcEventScore(globals.candidates[0], 0.2,pos,[]);
+				calcEventScore(GameObject.candidates[0], 0.2,pos,[]);
 			}
 			else if(scores.score <= scores.tier3 && scores.score >scores.tier2)
 			{
 				document.getElementById("centerDisplay").innerHTML = posText;
 				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-				calcEventScore(globals.candidates[0], 0.3,pos,[]);
+				calcEventScore(GameObject.candidates[0], 0.3,pos,[]);
 			}
 			else if(scores.score > scores.tier3)
 			{
@@ -821,16 +821,16 @@ function minigameResults(scores, tutorial, loop)
 				x = x.toFixed(2);
 				document.getElementById("centerDisplay").innerHTML = posText;
 				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-				calcEventScore(globals.candidates[0], x,pos,[]);
+				calcEventScore(GameObject.candidates[0], x,pos,[]);
 			}
 			else{
 				document.getElementById("centerDisplay").innerHTML = posText;
 				document.getElementById("centerDisplay").innerHTML += "<img width = '600' src = '../img/nicework.png'> </img>";
-				calcEventScore(globals.candidates[0], (scores * .1),pos,[]);
+				calcEventScore(GameObject.candidates[0], (scores * .1),pos,[]);
 			}
 			
 			saveGame();
-			$.post('/game/loggerMinigame', {minigameID: globals.lastMinigame, score: scoreToLog, module: '1', session: globals.gameSession });
+			$.post('/game/loggerMinigame', {minigameID: globals.lastMinigame, score: scoreToLog, module: '1', session: GameObject.gameSession });
 				document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'eventMenu()'> Return to the Game Map </button>";
 		}
 		else

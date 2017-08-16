@@ -21,6 +21,8 @@ const views = {
   studentsHelpPage: "",
   trendsHelpPage: "",
   myDataMenu: "",
+  myDataHelpPage: "",
+  termsHelpPage: "",
 };
 const images = {
   Map: '../../img/map/mapMU600pxW.png',
@@ -174,7 +176,7 @@ $(document).ready(function(){
 //starts the game
 function startSession()
 {
-    globals.playerCandidate= new Candidate("ph");
+    GameObject.playerCandidate= new Candidate("ph");
     globals.opponentCandidate= new Candidate("Karma");
     fakeCandidateYou = new Candidate('Candidate1');
     fakeCandidateOther = new Candidate('Candidate2');

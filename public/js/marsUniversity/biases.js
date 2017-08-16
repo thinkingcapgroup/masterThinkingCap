@@ -67,11 +67,11 @@ function generateStudentBiases(){
           let biasDeviation = normalDistribution(meanOfDeviation, deviationOfDeviation);
           studentBiases[issue] = new BiasDistribution(biasMean, biasDeviation);
         }
-        globals.studentTypes[id] = new StudentType(name, id, type, studentBiases["medical"], studentBiases["budget"], studentBiases["tuition"], studentBiases["functions"]);
+        GameObject.studentTypes[id] = new StudentType(name, id, type, studentBiases["medical"], studentBiases["budget"], studentBiases["tuition"], studentBiases["functions"]);
         
       }
     
-      console.log(globals.studentTypes);
+      console.log(GameObject.studentTypes);
   }
       
     

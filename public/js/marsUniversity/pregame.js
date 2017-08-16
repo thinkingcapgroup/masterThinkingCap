@@ -1,7 +1,7 @@
 function startAnimatic()
 {
-	globals.firstPoll = true;
-	globals.firstState = true;
+	GameObject.firstPoll = true;
+	GameObject.firstState = true;
 	
     //Shows the animatic
 	document.getElementById("centerDisplay").innerHTML = "<h2>Welcome to Mars University! </h2> ";
@@ -23,7 +23,7 @@ function startCharacterSelect(){
     
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
- 	updateSession(globals.gameOver);
+ 	updateSession(GameObject.gameOver);
 	resetGame();
     
     document.getElementById("centerDisplay").innerHTML = views["characterSelect"]({});
@@ -63,7 +63,7 @@ function firstStatement()
 {
     ////CONSOLE.LOG("first statement");
     
-	globals.firstPoll = false;
+	GameObject.firstPoll = false;
 	saveGame();
 	globals.first = false;
 	clearScreen();

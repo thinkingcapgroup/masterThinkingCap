@@ -26,10 +26,10 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 			case "candFav":
               var array =[];
               var array2 =[];
-              for(var j =0; j < globals.candidates.length;j++ )
+              for(var j =0; j < GameObject.candidates.length;j++ )
               {
                   array.push(0);
-                  array2.push(globals.candidates[j].name);
+                  array2.push(GameObject.candidates[j].name);
               }
               graphData.push(array);
               pollLabelArray.push(array2);
@@ -37,10 +37,10 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 			case "candOpp":
               var array =[];
               var array2 =[];
-              for(var j =0; j < globals.candidates.length;j++ )
+              for(var j =0; j < GameObject.candidates.length;j++ )
               {
                   array.push(0);
-                  array2.push(globals.candidates[j].name);
+                  array2.push(GameObject.candidates[j].name);
               }
               graphData.push(array);
               pollLabelArray.push(array2);
@@ -69,9 +69,9 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 						}
 						else if(globals.questions[j].value == "candFame")
 						{
-							for(var k =0; k< globals.candidates.length; k++)
+							for(var k =0; k< GameObject.candidates.length; k++)
 							{
-								if(pollChoices[i] == "candFame" + globals.candidates[k].name)
+								if(pollChoices[i] == "candFame" + GameObject.candidates[k].name)
 								{
 									graphData.push(globals.questions[j].graph.split(','));
 									pollLabelArray.push(globals.questions[j].labels.split(','));
@@ -80,9 +80,9 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 						}
 						else if(globals.questions[j].value == "candTrust")
 						{
-							for(var k =0; k< globals.candidates.length; k++)
+							for(var k =0; k< GameObject.candidates.length; k++)
 							{
-								if(pollChoices[i] == "candTrust" + globals.candidates[k].name)
+								if(pollChoices[i] == "candTrust" + GameObject.candidates[k].name)
 								{
 									graphData.push(globals.questions[j].graph.split(','));
 									pollLabelArray.push(globals.questions[j].labels.split(','));
@@ -98,7 +98,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
     //Creates the sample for the poll
 	votePercentage(sampleSize, bias);
   
-    ////CONSOLE.LOG(globals.candidates);
+    ////CONSOLE.LOG(GameObject.candidates);
 	//Gets the results of each question and pushes them into the proper sectionof table arrays
 	for(var j=0;j<globals.sample.length;j++)
 	{
@@ -134,7 +134,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
 		
 		//if(state == globals.POLL_STATES.FIRST && j ==0)
 		//{
-		//	globals.candidates.splice(0,0,new Candidate(""));
+		//	GameObject.candidates.splice(0,0,new Candidate(""));
 		//}
         for(var i = 0; i < pollChoices.length ;i++)
         {
@@ -223,10 +223,10 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
     
                 case "candFav":
                     globals.tableArrays[2].push(globals.sample[j].results.win);
-                    for(var k =0; k< globals.candidates.length;k++)
+                    for(var k =0; k< GameObject.candidates.length;k++)
                     {
                         ////CONSOLE.LOG()
-                        if(globals.sample[j].results.win == globals.candidates[k].name){
+                        if(globals.sample[j].results.win == GameObject.candidates[k].name){
                             graphData[i+2][k]++;
                         }
                     }
@@ -235,9 +235,9 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
     
                 case "candOpp":
                     globals.tableArrays[3].push(globals.sample[j].results.los);
-                    for(var k =0; k< globals.candidates.length;k++)
+                    for(var k =0; k< GameObject.candidates.length;k++)
                     {
-                        if(globals.sample[j].results.los == globals.candidates[k].name){
+                        if(globals.sample[j].results.los == GameObject.candidates[k].name){
                             graphData[i+2][k]++;
                         }
                     }
@@ -247,7 +247,7 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
     
     
                 case "fame":
-                    var playFame = fameCalc(globals.candidates[0],globals.sample[j]).toFixed(3);
+                    var playFame = fameCalc(GameObject.candidates[0],globals.sample[j]).toFixed(3);
                     globals.tableArrays[7].push(playFame);
 					if(playFame <= 0.2)
 					{
@@ -272,8 +272,8 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
                     break;
     
                 case "playTrust":
-                    globals.tableArrays[8].push(globals.candidates[0].consMod);
-                    var playConst = globals.candidates[0].consMod;
+                    globals.tableArrays[8].push(GameObject.candidates[0].consMod);
+                    var playConst = GameObject.candidates[0].consMod;
 					if(playConst <= 0.2)
 					{
                         graphData[i+2][4]++;
@@ -403,11 +403,11 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
             }
     
             var candCounter = 14;
-            for(var k = 1;k<globals.candidates.length;k++)
+            for(var k = 1;k<GameObject.candidates.length;k++)
             {
-                if(pollChoices[i] == "candFame" + globals.candidates[k].name)
+                if(pollChoices[i] == "candFame" + GameObject.candidates[k].name)
                 {
-                    var calcHolder = fameCalc(globals.candidates[k], globals.sample[j]);
+                    var calcHolder = fameCalc(GameObject.candidates[k], globals.sample[j]);
                     
                     globals.tableArrays[candCounter].push(calcHolder);				
     
@@ -436,25 +436,25 @@ function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
     
                 candCounter++;
             }
-            for(var k = 1;k<globals.candidates.length;k++)
+            for(var k = 1;k<GameObject.candidates.length;k++)
             {
-                if(pollChoices[i] == "candTrust" + globals.candidates[k].name)
+                if(pollChoices[i] == "candTrust" + GameObject.candidates[k].name)
                 {
-                    globals.tableArrays[candCounter].push(globals.candidates[k].consMod);
+                    globals.tableArrays[candCounter].push(GameObject.candidates[k].consMod);
 					
-					if(globals.candidates[k].consMod <= 0.2)
+					if(GameObject.candidates[k].consMod <= 0.2)
 					{
                         graphData[i+2][4]++;
 					}
-					else if(globals.candidates[k].consMod>0.20 && globals.candidates[k].consMod<0.41)
+					else if(GameObject.candidates[k].consMod>0.20 && GameObject.candidates[k].consMod<0.41)
 					{
                         graphData[i+2][3]++;
 					}
-					else if(globals.candidates[k].consMod>0.40 && globals.candidates[k].consMod<0.61)
+					else if(GameObject.candidates[k].consMod>0.40 && GameObject.candidates[k].consMod<0.61)
 					{
                         graphData[i+2][2]++;
 					}
-					else if(globals.candidates[k].consMod>0.60 && globals.candidates[k].consMod<0.81)
+					else if(GameObject.candidates[k].consMod>0.60 && GameObject.candidates[k].consMod<0.81)
 					{
                         graphData[i+2][1]++;
 					}
@@ -579,25 +579,25 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 					}
 				}
 			}
-			for(var k = 1;k<globals.candidates.length;k++)
+			for(var k = 1;k<GameObject.candidates.length;k++)
 			{
-				if(pollChoices[h] == "candFame" + globals.candidates[k].name)
+				if(pollChoices[h] == "candFame" + GameObject.candidates[k].name)
 				{
 						var cell = headRow.insertCell();
-						var candInfo = globals.tableHeaders[10] + globals.candidates[k].name;
+						var candInfo = globals.tableHeaders[10] + GameObject.candidates[k].name;
 						cell.innerHTML = candInfo;
-						graphQuestions.push("candFame" + globals.candidates[k].name);
+						graphQuestions.push("candFame" + GameObject.candidates[k].name);
 				}
 			}
-			for(var k = 1;k<globals.candidates.length;k++)
+			for(var k = 1;k<GameObject.candidates.length;k++)
 			{
-				if(pollChoices[h] == "candTrust" + globals.candidates[k].name)
+				if(pollChoices[h] == "candTrust" + GameObject.candidates[k].name)
 				{
 					//////CONSOLE.LOG(h);
 						var cell = headRow.insertCell();
-						var candInfo = globals.tableHeaders[11] + globals.candidates[k].name;
+						var candInfo = globals.tableHeaders[11] + GameObject.candidates[k].name;
 						cell.innerHTML = candInfo;
-						graphQuestions.push("candTrust" + globals.candidates[k].name);
+						graphQuestions.push("candTrust" + GameObject.candidates[k].name);
 				}
 			}
 			if(h==pollChoices.length-1)
@@ -835,10 +835,10 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 
 
 				canCounter = 14;
-				for(var k = 1;k<globals.candidates.length;k++)
+				for(var k = 1;k<GameObject.candidates.length;k++)
 				{
 
-					if(pollChoices[i] == "candFame" + globals.candidates[k].name)
+					if(pollChoices[i] == "candFame" + GameObject.candidates[k].name)
 					{
 
 								var cell = row.insertCell();
@@ -871,9 +871,9 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 					}
 						canCounter++;
 				}
-				for(var k = 1;k<globals.candidates.length;k++)
+				for(var k = 1;k<GameObject.candidates.length;k++)
 				{
-					if(pollChoices[i] == "candTrust" + globals.candidates[k].name)
+					if(pollChoices[i] == "candTrust" + GameObject.candidates[k].name)
 					{
 								var cell = row.insertCell();
 								var counter = canCounter;
@@ -978,7 +978,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 	makeGraphs(graphData, graphQuestions,graphLabels);
 		//if(state == POLL_STATES.FIRST)
 		//{
-		//	globals.candidates.splice(0,1);
+		//	GameObject.candidates.splice(0,1);
 		//}
 	document.getElementById('table').style.display = 'none';
 	if (state == globals.POLL_STATES.TUTORIAL){
@@ -1000,7 +1000,7 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 	}
     else if(isFake){
       //Result the fake data back to normal
-      globals.candidates = globals.currentCandidateArrayHolder;
+      GameObject.candidates = globals.currentCandidateArrayHolder;
     }
 
 }
@@ -1150,21 +1150,21 @@ function makeGraphs(graphData, graphQuestions, graphLabels)
 			break;
 
 			default:
-			for(var k = 1;k<globals.candidates.length;k++)
+			for(var k = 1;k<GameObject.candidates.length;k++)
 			{
-				if(graphQuestions[i] == "candFame" + globals.candidates[k].name)
+				if(graphQuestions[i] == "candFame" + GameObject.candidates[k].name)
 				{
-					name = globals.candidates[k].name;
+					name = GameObject.candidates[k].name;
 					document.getElementById("q"+i+"text").innerHTML = globals.questions[10].question + " " + name;
 					document.getElementById("bq"+i+"text").innerHTML = globals.questions[10].question + " " + name;
 				}
 			}
 
-			for(var k = 1;k<globals.candidates.length;k++)
+			for(var k = 1;k<GameObject.candidates.length;k++)
 			{
-				if(graphQuestions[i] == "candTrust" + globals.candidates[k].name)
+				if(graphQuestions[i] == "candTrust" + GameObject.candidates[k].name)
 				{
-					name = globals.candidates[k].name;
+					name = GameObject.candidates[k].name;
 					document.getElementById("q"+i+"text").innerHTML = globals.questions[11].question + " " + name;
 					document.getElementById("bq"+i+"text").innerHTML = globals.questions[11].question + " " + name;
 				}
@@ -1280,7 +1280,7 @@ function changeDataDisplay(dataButton, isFake)
         if(!isFake){
           document.getElementById('chartFilters').style.display = 'none';
         }
-		$.post('/game/defaultLogger', {eventName: 'Viewed Data Table', eventType:'Poll Style Change', module: 1, session: globals.gameSession});
+		$.post('/game/defaultLogger', {eventName: 'Viewed Data Table', eventType:'Poll Style Change', module: 1, session: GameObject.gameSession});
 
 	}
 	else if (dataButton == 2)
@@ -1296,7 +1296,7 @@ function changeDataDisplay(dataButton, isFake)
         if(!isFake){
           document.getElementById('chartFilters').style.display = 'inline';
         }
-		$.post('/game/defaultLogger', {eventName: 'Viewed Bar Graph', eventType:'Poll Style Change', module: 1, session: globals.gameSession});
+		$.post('/game/defaultLogger', {eventName: 'Viewed Bar Graph', eventType:'Poll Style Change', module: 1, session: GameObject.gameSession});
 
 	}
 	else if (dataButton == 3)
@@ -1312,7 +1312,7 @@ function changeDataDisplay(dataButton, isFake)
         if(!isFake){
           document.getElementById('chartFilters').style.display = 'inline';
         }
-		$.post('/game/defaultLogger', {eventName: 'Viewed Pie Graph', eventType:'Poll Style Change', module: 1, session: globals.gameSession});
+		$.post('/game/defaultLogger', {eventName: 'Viewed Pie Graph', eventType:'Poll Style Change', module: 1, session: GameObject.gameSession});
 
 	}
 }
@@ -1323,7 +1323,7 @@ function viewPollResult(id, isFirst)
 	clearScreen();
 	globals.currentPoll = id;
   //pollChoices, tableArray2, sSize, graphData, graphLabels, isFake, state, isFree, isReview
-    $.post('/game/defaultLogger', {eventName: 'Viewed Poll Result', eventType:'Past Poll Result', module: 1, session: globals.gameSession});
+    $.post('/game/defaultLogger', {eventName: 'Viewed Poll Result', eventType:'Past Poll Result', module: 1, session: GameObject.gameSession});
   tableBuilder(globals.pastPollChoices[id],globals.pastPollResults[id],globals.pastPollSizes[id],globals.pastGraphData[id],globals.pastGraphLabels[id], false, globals.POLL_STATES.IN_GAME, true, true);
 	if(!isFirst){
         updateTopBar(pollMenu);
@@ -1337,7 +1337,7 @@ function viewPollResult(id, isFirst)
 //Creates a trend report based on past polls
 function createTrendReport(category)
 {
-    $.post('/game/defaultLogger', {eventName: 'Viewed Trend Report', eventType:'Trend Report', module: 1, session: globals.gameSession});
+    $.post('/game/defaultLogger', {eventName: 'Viewed Trend Report', eventType:'Trend Report', module: 1, session: GameObject.gameSession});
     document.getElementById('buttonViewer').style = 'display:block';
     document.getElementById('visualisation').innerHTML = "";
     
@@ -1392,7 +1392,7 @@ function createTrendReport(category)
                         if(element.value == "candFav" ||element.value == "candOpp")
                         {
                             answers = [];
-                            globals.candidates.forEach(function(element2)
+                            GameObject.candidates.forEach(function(element2)
                             {
                             	answers.push(element2.name);
                             	////CONSOLE.LOG(answers);
@@ -2011,9 +2011,9 @@ function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray
 	
 	
 					canCounter = 14;
-					for(var k = 1;k<globals.candidates.length;k++)
+					for(var k = 1;k<GameObject.candidates.length;k++)
 					{
-						if(graphQuestions[i] == "candFame" + globals.candidates[k].name)
+						if(graphQuestions[i] == "candFame" + GameObject.candidates[k].name)
 						{
 							var counter = canCounter;
 							if(parseFloat(resultsArray[counter][h]).toFixed(2) <= 0.2)
@@ -2039,9 +2039,9 @@ function filterGraphData(matchingMajor, matchingGroup, pollChoices, resultsArray
 						}
 						canCounter++;
 					}
-					for(var k = 1;k<globals.candidates.length;k++)
+					for(var k = 1;k<GameObject.candidates.length;k++)
 					{
-						if(graphQuestions[i] == "candTrust" + globals.candidates[k].name)
+						if(graphQuestions[i] == "candTrust" + GameObject.candidates[k].name)
 						{
 							var counter = canCounter;
 							if(parseFloat(resultsArray[counter][h]).toFixed(2) <= 0.2)

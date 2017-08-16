@@ -25,7 +25,7 @@ function nextSection(currentPage, help)
   }
   else{
     if(!help){
-      globals.remainingHoursDay = 12;
+      GameObject.remainingHoursDay = 12;
       globals.days = 1;
       drawPoll(globals.POLL_STATES.TUTORIAL, false, true);
     }

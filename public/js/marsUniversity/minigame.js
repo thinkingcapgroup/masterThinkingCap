@@ -47,11 +47,11 @@ runningGame.main =
 		frameIndex = 0;
 		runningGame4.main.instructionArea = 0;
 		ticker = 0;
-		if(typeof globals.playerCandidate !== 'undefined'){
-			headNumber = globals.playerCandidate.headNum
-			raceNumber = globals.playerCandidate.raceNum
-			genderNumber = globals.playerCandidate.genderNum
-			bodyTypeNumber = globals.playerCandidate.bodyTypeNum
+		if(typeof GameObject.playerCandidate !== 'undefined'){
+			headNumber = GameObject.playerCandidate.headNum
+			raceNumber = GameObject.playerCandidate.raceNum
+			genderNumber = GameObject.playerCandidate.genderNum
+			bodyTypeNumber = GameObject.playerCandidate.bodyTypeNum
 		}
 		else{
 			headNumber = 0;
@@ -1947,15 +1947,15 @@ runningGame4.main = {
 				runningGame4.main.player.bodynum = 0;
 		}
 			else{
-                    //CONSOLE.LOG("playerCandidate game Name: "+globals.playerCandidate.name);
-                  //CONSOLE.LOG("playerCandidate game HeadNum: "+globals.playerCandidate.headNum);
-                //CONSOLE.LOG("playerCandidate game BodyNum: "+globals.playerCandidate.bodyTypeNum);
-                //CONSOLE.LOG("playerCandidate game raceNum: "+globals.playerCandidate.raceNum);
+                    //CONSOLE.LOG("playerCandidate game Name: "+GameObject.playerCandidate.name);
+                  //CONSOLE.LOG("playerCandidate game HeadNum: "+GameObject.playerCandidate.headNum);
+                //CONSOLE.LOG("playerCandidate game BodyNum: "+GameObject.playerCandidate.bodyTypeNum);
+                //CONSOLE.LOG("playerCandidate game raceNum: "+GameObject.playerCandidate.raceNum);
               
-				runningGame4.main.player.headnum = globals.playerCandidate.headNum;
-				runningGame4.main.player.racenum = globals.playerCandidate.raceNum;
-				runningGame4.main.player.gendernum = globals.playerCandidate.genderNum;
-				runningGame4.main.player.bodynum = globals.playerCandidate.bodyTypeNum;
+				runningGame4.main.player.headnum = GameObject.playerCandidate.headNum;
+				runningGame4.main.player.racenum = GameObject.playerCandidate.raceNum;
+				runningGame4.main.player.gendernum = GameObject.playerCandidate.genderNum;
+				runningGame4.main.player.bodynum = GameObject.playerCandidate.bodyTypeNum;
 			}
       
       
@@ -2077,10 +2077,10 @@ runningGame4.main = {
 			//bodyTypeArray [body][gender][movetype][movefram][x/y]
       
       
-            let bodyNum = globals.playerCandidate.bodyTypeNum;
-            let genderNum = globals.playerCandidate.genderNum;
-            let headNum = globals.playerCandidate.headNum;
-            let raceNum = globals.playerCandidate.raceNum;
+            let bodyNum = GameObject.playerCandidate.bodyTypeNum;
+            let genderNum = GameObject.playerCandidate.genderNum;
+            let headNum = GameObject.playerCandidate.headNum;
+            let raceNum = GameObject.playerCandidate.raceNum;
       
             //CONSOLE.LOG("Correct Body: "+bodyNum+" current body: "+runningGame4.main.player.gendernum);
             //CONSOLE.LOG("Correct Gender: "+genderNum+" current Gender: "+runningGame4.main.player.gendernum);
