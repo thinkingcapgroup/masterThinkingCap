@@ -362,7 +362,7 @@ function  buildTests (type)
 	for(let j =0; j < questions.length; j++)
 	{
 		var confidenceBar = "rightCol"+j+"";
-		document.getElementById(confidenceBar).onclick = function(){
+		document.getElementById(confidenceBar).onmousedown = function(){
 			confidencetouched[j] = true;
 		}
 	}
