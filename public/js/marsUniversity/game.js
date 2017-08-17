@@ -752,7 +752,7 @@ function pollMenu()
       for(var i=0; i<globals.pastPollResults.length;i++)
       {
           globals.num = i+1;
-          document.getElementById("mainContent").innerHTML += "<button class='otherBtn' onclick='viewPollResult("+i+")' >View Poll "+ globals.num +" Result </button>";
+          document.getElementById("mainContent").innerHTML += "<button class='otherBtn logPollView' onclick='viewPollResult("+i+")' >View Poll "+ globals.num +" Result </button>";
       }
       document.getElementById("mainContent").innerHTML += "<br>";
       document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`pollHelpPage`)' ></img>";
@@ -2265,7 +2265,6 @@ function setupMap(poll)
 //Fills the zone over the building that the mouse if hovering over
 	function doMouseoverMap(c,e){
 
-
         globals.c=document.getElementById("myCanvas");
         globals.ctx = globals.c.getContext("2d");
 		var mouse = globals.canvasMouse;
@@ -2349,7 +2348,7 @@ function statementMenu(){
       
       document.getElementById("mainContent").innerHTML = views["statement"]({"issues":globals.positions});
 
-      document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='statementCalc()' > Make Statement </button>";
+      document.getElementById("mainContent").innerHTML += "<button class='primaryBtn logStatement' onclick='statementCalc()' > Make Statement </button>";
       document.getElementById("back").innerHTML += "<button type='button' onclick='eventMenu()' >Back to Game Map</button>";
       document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`statementsHelpPage`)' ></img>";
     }
@@ -2528,6 +2527,7 @@ function showMiniHelp(id)
 //calculated the effectiveness of your statement & consistancy modifier
 function statementCalc()
 {
+    $.post('/game/defaultLogger', {eventName: 'Statement Taken', eventType:'Statement Taken', module: 1, session: globals.gameSession});
 	if(globals.remainingHoursDay > 0)
 	{
 		var currentStatement = document.getElementById("statements").value;
@@ -3663,6 +3663,7 @@ function resetGame()
 //Allows you to view previous polls at any time.
 function viewPollResult(id, isFirst)
 {
+    $.post('/game/defaultLogger', {eventName: 'Viewed Poll Result', eventType:'Past Poll Result', module: 1, session: globals.gameSession});
 	clearScreen();
 	globals.currentPoll = id;
   //pollChoices, tableArray2, sSize, graphData, graphLabels, isFake, state, isFree, isReview
@@ -4638,9 +4639,9 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
       }
     }
 	
-	document.getElementById("next").innerHTML += "<button id = 'barButton' class='otherBtn' onclick = 'changeDataDisplay(2,"+isFake+")' style = 'display:none'>Show Bar Graphs</button>";
-	document.getElementById("next").innerHTML += "<button id = 'pieButton' class='otherBtn' onclick = 'changeDataDisplay(3,"+isFake+")'>Show Pie Graphs</button>";
-	document.getElementById("next").innerHTML += "<button id = 'dataButton' class='otherBtn' onclick = 'changeDataDisplay(1,"+isFake+")'>Show Data Table</button><br>";
+	document.getElementById("next").innerHTML += "<button id = 'barButton' class='otherBtn logBarView' onclick = 'changeDataDisplay(2,"+isFake+")' style = 'display:none'>Show Bar Graphs</button>";
+	document.getElementById("next").innerHTML += "<button id = 'pieButton' class='otherBtn logPieView' onclick = 'changeDataDisplay(3,"+isFake+")'>Show Pie Graphs</button>";
+	document.getElementById("next").innerHTML += "<button id = 'dataButton' class='otherBtn logTableView' onclick = 'changeDataDisplay(1,"+isFake+")'>Show Data Table</button><br>";
 	for (var x = 0; x < globals.groupList.length; x++){
 		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ globals.groupList[x] +"'> "+ globals.groupList[x] +" ";
 	}
@@ -4908,6 +4909,7 @@ function changeDataDisplay(dataButton, isFake)
         if(!isFake){
           document.getElementById('chartFilters').style.display = 'none';
         }
+		$.post('/game/defaultLogger', {eventName: 'Viewed Data Table', eventType:'Poll Style Change', module: 1, session: globals.gameSession});
 	}
 	else if (dataButton == 2)
     {
@@ -4922,6 +4924,7 @@ function changeDataDisplay(dataButton, isFake)
         if(!isFake){
           document.getElementById('chartFilters').style.display = 'inline';
         }
+		$.post('/game/defaultLogger', {eventName: 'Viewed Bar Graph', eventType:'Poll Style Change', module: 1, session: globals.gameSession});
 	}
 	else if (dataButton == 3)
     {
@@ -4936,6 +4939,7 @@ function changeDataDisplay(dataButton, isFake)
         if(!isFake){
           document.getElementById('chartFilters').style.display = 'inline';
         }
+		$.post('/game/defaultLogger', {eventName: 'Viewed Pie Graph', eventType:'Poll Style Change', module: 1, session: globals.gameSession});
 	}
 }
 
@@ -5448,7 +5452,7 @@ function minigameResults(scores, tutorial, loop)
 //Creates a trend report based on past polls
 function createTrendReport(category)
 {
-   
+    $.post('/game/defaultLogger', {eventName: 'Viewed Trend Report', eventType:'Trend Report', module: 1, session: globals.gameSession});
     document.getElementById('buttonViewer').style = 'display:block';
     document.getElementById('visualisation').innerHTML = "";
     

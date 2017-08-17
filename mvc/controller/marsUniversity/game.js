@@ -125,6 +125,40 @@ router.post('/loggerHelp', auth, function (req, res, next) {
   // End the response
   res.end();
 });
+router.post('/defaultLogger', auth, function (req, res, next) {
+  // Get the name of the event
+  var event = req.body.eventName,
+      // Get user id
+      id = req.user.userId,
+      username = req.user.userName,
+      type = req.body.eventType,
+      modulenum = req.body.module,
+      gameSession = req.body.session,
+      gameID = id+"_"+modulenum+"_"+gameSession,
+      date =moment().format('MMMM Do YYYY, h:mm:ss a'),
+      // Concatenate information
+      stringTem = "\n" + id + "-"+type+ "-"+ event + "-" + date + "-" +username +"-" + gameID;
+	
+
+     var timestamp = new Date().toISOString()
+    var x = timestamp.split('-')
+    var dateString =  moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC"
+   var passingObject = {userID: id, username: username, action: type, description: event, date: dateString, gameSession: gameID }
+
+
+      require('../../model/marsUniversity/logInfo.js')(req, passingObject, function(err, success) {
+    // If there was an error
+    if (err) {
+      console.error(err);
+    }
+    // Otherwise
+    else {
+    }
+  });
+
+  // End the response
+  res.end();
+});
 
 router.post('/loggerHelpEnd', auth, function (req, res, next) {
   // Get the name of the event

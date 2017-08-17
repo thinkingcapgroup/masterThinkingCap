@@ -54,12 +54,11 @@ $(document).on('click','.logHelpEnd', function(req, res, next){
 
  });
 
+
 $(document).on('click','.logHelpEndTutorial', function(req, res, next){
       //grab event ID
       //userAction
     $.post('/game/loggerHelpEndTutorial', {eventName: 'Leave Help', eventType:'Help Area', module: 1, part:globals.section, session: globals.gameSession});
-      
-
  });
 
 $(document).on('change', '.totalTimeTracker', function(){
