@@ -456,7 +456,7 @@ function addMoreQuestions(){
 }
 
 function drawPoll(state, isFree, isFake){
-
+  
 	clearScreen();
     document.getElementById("contentContainer").classList.add("columns");
     document.getElementById("mainContent").classList.add("left");
@@ -607,5 +607,6 @@ function setupPracticePoll()
 	assignRank(issueCand1,globals.chosenCandRanks,true);
 	GameObject.candidates.push(issueCand1);
 	
+    console.log(globals.POLL_STATES.PRACTICE_AREA);
 	drawPoll(globals.POLL_STATES.PRACTICE_AREA, false, true);
 }

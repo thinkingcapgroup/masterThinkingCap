@@ -49,9 +49,9 @@ router.get('/ajax', function (req, res) {
 
 //Retrieves the Log File from the public FTP
 router.post('/logRetriever', auth, function (req, res, next) {
-     var id = req.user.userId;
-   var recievingClient = new Client();
-  /*recievingClient.on('ready', function() {
+  var id = req.user.userId;
+  var recievingClient = new Client();
+  recievingClient.on('ready', function() {
     recievingClient.get('User_'+id+'_logFile.txt', function(err, stream) {
       if (err) throw err;
       stream.once('close', function() { recievingClient.end(); });
@@ -61,7 +61,7 @@ router.post('/logRetriever', auth, function (req, res, next) {
   console.log("Pulling file");
   // connect to localhost:21 as anonymous 
   recievingClient.connect({host: 'ec2-13-59-136-55.us-east-2.compute.amazonaws.com', user:'MarsUstorage', password: 'MartianD0g'});
-  res.end();*/
+  res.end();
 });
 
 //Uploads the Log File to the public FTP

@@ -2026,7 +2026,7 @@ function makeGraphs_C3(pollResult)
 	//graph dat table
 	for (var i=0;i<pollResult.questionIDs.length;i++)
 	{
-	document.getElementById("barChartDiv").innerHTML += "<div id = 'q"+i+"text'><br></div><div id = 'barChart"+i+"' class= 'chart'></div>";
+	document.getElementById("barChartDiv").innerHTML += "<div id = 'q"+i+"text'><br></div><div id = 'barChart"+i+"' class= 'chart barChart'></div>";
     document.getElementById("pieChartDiv").innerHTML += "<div id = 'bq"+i+"text'><br></div><div class = 'pieChart"+i+"'></div>";
 		if(i==1){
 			document.getElementById("barChartDiv").innerHTML += "<hr>";
@@ -2045,8 +2045,8 @@ function makeGraphs_C3(pollResult)
         let id = pollResult.questionIDs[i];
         let currentQuestion =  globals.allQuestions[id];
       
-        document.getElementById("q"+i+"text").innerHTML = currentQuestion.question;
-        document.getElementById("bq"+i+"text").innerHTML = currentQuestion.question;
+        document.getElementById("q"+i+"text").innerHTML = "<h3>"+currentQuestion.question+"</h3";
+        document.getElementById("bq"+i+"text").innerHTML = "<h3>"+currentQuestion.question+"</h3";
 
         var dataset =  [];
         let graphData = [];
@@ -2054,8 +2054,8 @@ function makeGraphs_C3(pollResult)
         {
             let possibleAnswer = currentQuestion.possibleAnswers[k];
             let count = getAnswerCount(currentQuestion, possibleAnswer, pollResult.students);
-            dataset.push ({label: capitalStr(possibleAnswer.label), count: count});
-            graphData.push([capitalStr(possibleAnswer.label), count]);
+            dataset.push ({label: possibleAnswer.label, count: count});
+            graphData.push([possibleAnswer.label, count]);
 		}
       
         let graphLabels = dataset.map(function(x){
@@ -2070,11 +2070,14 @@ function makeGraphs_C3(pollResult)
       padding: {
         top: 0
       },
+      size: {
+        height: 240
+      },
       data: {
         columns: graphData,
         type: 'bar',
         labels: {
-            format: function (v, id, i, j) { return id + " - " + v; }
+            format: function (v, id) { return id + " - " + v; }
           },
         },
         axis: {
@@ -2097,17 +2100,31 @@ function makeGraphs_C3(pollResult)
             //value: d3.format(',') // apply this format to both y and y2
         },
         contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
-            console.log(d[0]);
+            let answer = d[0].id;
             
-            //console.log(studentsMap[d[0].id]);
-            //let matchingStudents = studentsMap[d[0].id];
+            let matchingStudents = getStudentsByAnswer(pollResult.students, currentQuestion, answer)
+            
+            console.log(matchingStudents);
             
             let string = '<div class="c3-tooltip-container"><table class="c3-tooltip"><tbody>'
-            string += '<tr><th colspan="2">'+d[0].id+' | '+d[0].value+' Students</th></tr>';
-            // for(let i = 0; i < matchingStudents.length; i++){
-            //     string += '<tr class="student"><td class="name">Student '+(i+1)+'</td>';
-            //     string += '<td class="value">'+matchingStudents[i]+'</td></tr>';
-            // }
+            string += '<tr><th colspan="2">'+answer+' | '+d[0].value+' Students</th></tr>';
+//             for(let i = 0; i < matchingStudents.length; i++){
+//                 string += '<tr class="student"><td class="name">Student '+(i+1)+'</td>';
+//                 string += '<td class="value">'+matchingStudents[i]+'</td></tr>';
+//             }
+
+              for(let major of globals.majorList){
+                for(let group of globals.groupList){
+                  let filterArgs = {"major":major, "group":group, "type": "intersect"};
+                  let students = matchingStudents.filter(filterByStudentType_ALTERNATE, filterArgs);
+                  let count = students.length;
+                  
+                  if(count > 0){
+                    string += '<tr class="student"><td class="name">'+capitalStr(major)+' '+capitalStr(group)+'s</td>';
+                    string += '<td class="value">'+students.length+'</td></tr>';
+                  }
+                }
+              }
             
 //            for(let i = 0; i < majors.length; i++){
 //                for(let j = 0; j < groups.length; j++){
@@ -2119,7 +2136,7 @@ function makeGraphs_C3(pollResult)
 //                }
 //                
 //                
-//            }
+            
             
             string+= '</tbody></table></div>';
             return string;
@@ -2142,6 +2159,22 @@ function makeGraphs_C3(pollResult)
       
     }
 	
+}
+
+function getStudentsByAnswer(students, question, answer){
+  let filterArgs = {"question":question, "answer":answer};
+  
+  return students.filter(filterByAnswer, filterArgs);
+}
+
+function filterByAnswer(element){
+  let id = this.question.id+this.question.subId;
+  let answer = this.answer;
+  
+  if(isMatchingAnswer(answer, element.answers[id], this.question.type)){
+    return true;
+  }
+  return false;
 }
 
 function makeGraphs_REFACTORED(pollResult)
@@ -2440,7 +2473,9 @@ function filterByStudentType_ALTERNATE(element){
   
   if(type == "intersect"){
     if(filterMajor && filterGroup){
-      return true;
+      if(element.answers["major"] == filterMajor && element.answers["group"] == filterGroup){
+        return true;
+      }
     }
   }
   else{
