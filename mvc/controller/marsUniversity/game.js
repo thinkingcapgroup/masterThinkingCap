@@ -97,7 +97,8 @@ function saveNewLog(req,res, logStr){
   //});
   //sendingClient.connect({host: 'ec2-13-59-136-55.us-east-2.compute.amazonaws.com', user:'MarsUstorage', password: 'MartianD0g'});
   console.log("Saving to FTP ");
-  var buf = Buffer.from(logStr, 'utf8');
+  var buf = Buffer.from("Can't Do it", 'utf8');
+  var buf = Buffer.from("Can't Do it", 'utf8');
   ftp.put(buf, 'User_'+id+'_logFile.txt', function(hadError) {
   if (!hadError)
     console.log("File transferred successfully!");
