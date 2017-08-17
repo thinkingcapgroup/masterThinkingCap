@@ -1,14 +1,6 @@
 var theJSONEvents = []
 var theQuestionBools = [];
 
-const POLL_STATES = {
-    TUTORIAL: 1,
-    PRACTICE_AREA: 2,
-    IN_GAME_PRACTICE: 3,
-    END_OF_DAY: 0,
-    IN_GAME: 5,
-    FIRST: 4
-}
 
 $(document).on('change', '.totalTimeTracker', function(){
 
@@ -71,6 +63,7 @@ function onPollChange(pollThing){
 
       let noneOption = new Option("None", "");
       noneOption.setAttribute("class", "defaultSubOption");
+    
       subQuestionSelect.options.add(noneOption);
 
       for(let subQuestion of pollQuestion.subQuestions){
@@ -116,7 +109,7 @@ function pollTime(numStudents, numQuestions)
 		timeRequired = numStudents/10 + (numQuestions*0.5) +0.5;
 	}
 	globals.remainingHoursTotal -= timeRequired;
-	globals.remainingHoursDay -= timeRequired;
+	GameObject.remainingHoursDay -= timeRequired;
 }
 
 function returnTotalPollTime(numStudents, numQuestions){
@@ -144,8 +137,8 @@ function pollTimeCheck(numStudents, numQuestions)
 	{
 		timeRequired = numStudents/10 + (numQuestions*0.5) +0.5;
 	}
-
-	return (timeRequired <= globals.remainingHoursDay);
+  
+	return (timeRequired <= GameObject.remainingHoursDay);
 }
 
 // Loops through the current questions and checks for duplicates
@@ -428,15 +421,15 @@ function pollResults(state, isFree, isFake)
 
         //Run poll
         pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake);
-
-        if(state == POLL_STATES.TUTORIAL){
+    
+        if(state == globals.POLL_STATES.TUTORIAL){
             document.getElementById("back").innerHTML += "<button onclick = 'drawPoll("+state+","+isFree+","+isFake+")'> Back to Tutorial Poll</button>";
         }
-        else if(state == POLL_STATES.PRACTICE_AREA)
+        else if(state == globals.POLL_STATES.PRACTICE_AREA)
         {
             document.getElementById("back").innerHTML += "<button onclick = 'practiceMenu()'> Return to Practice Area</button>";
         }
-        else if(state == POLL_STATES.FIRST)
+        else if(state == globals.POLL_STATES.FIRST)
         {
             document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
 
@@ -447,7 +440,7 @@ function pollResults(state, isFree, isFake)
 	}
 
     //Reset candidates back to correct candidates
-	globals.candidates = globals.currentCandidateArrayHolder;
+	GameObject.candidates = globals.currentCandidateArrayHolder;
 
 };
 
@@ -469,14 +462,14 @@ function drawPoll(state, isFree, isFake){
     document.getElementById("mainContent").classList.add("left");
 
     if(isFake){
-      globals.currentCandidateArrayHolder = globals.candidates;
-      globals.candidates = globals.fakeCandidateHolder;
+      globals.currentCandidateArrayHolder = GameObject.candidates;
+      GameObject.candidates = globals.fakeCandidateHolder;
     }
     else{
       saveGame();
     }
-
-	if(state == POLL_STATES.IN_GAME)
+	
+	if(state == globals.POLL_STATES.IN_GAME)
     {
         //Display Updated Top Bar
         updateTopBar(pollMenu);
@@ -488,17 +481,24 @@ function drawPoll(state, isFree, isFake){
     let enoughTime = false;
 
     //If it's a free poll or if there's enough time
-	if(isFree || globals.remainingHoursDay>= 3 )
+	if(isFree || GameObject.remainingHoursDay>= 3 )
 	{
         enoughTime = true;
       
+        let lowerLimit = 4;
+        let upperStart = 8; 
+        if(state == globals.POLL_STATES.FIRST){
+          lowerLimit = 4;
+          upperStart = 11;
+        }
+        
 		//Populates the questions based on the JSON File
         for(let key in globals.allQuestions)
         {
           let question = globals.allQuestions[key];
           //As long as it's not major or social group, push the question
           if(question.id != "major" &&  question.id != "group" && !question.isSubQuestion){
-            if(state == POLL_STATES.FIRST){
+            if(state == globals.POLL_STATES.FIRST){
               //Don't allow the regular candidate questions
               if(question.id != "candFame_" && question.id != "candTrust_"){
                 pollQuestions.push(question);
@@ -522,8 +522,8 @@ function drawPoll(state, isFree, isFake){
       free: isFree,
       fake: isFake,
       areas: areaChoices,
-      allow40: (isFree || globals.remainingHoursDay > 5),
-      allow80: (isFree || globals.remainingHoursDay >= 9),
+      allow40: (isFree || GameObject.remainingHoursDay > 5),
+      allow80: (isFree || GameObject.remainingHoursDay >= 9),
       numQuestions: 6,
       questions: pollQuestions,
       enoughTime: enoughTime
@@ -533,35 +533,35 @@ function drawPoll(state, isFree, isFake){
     document.getElementById('map').style.display = "block";
     globals.isCurrentAreaHover = areaChoices["Quad"].id;
     setupMap(true);
-
-    if(state == POLL_STATES.FIRST || globals.remainingHoursDay >= 4 )
+  
+    if(state == globals.POLL_STATES.FIRST || GameObject.remainingHoursDay >= 4 )
 		addMoreQuestions();
-	if(state != POLL_STATES.FIRST && globals.remainingHoursDay >= 5)
+	if(state != globals.POLL_STATES.FIRST && GameObject.remainingHoursDay >= 5)
 		{addMoreQuestions();}
 
 //	//Displays the screen for this event
 //	document.getElementById("questionArea").innerHTML += "<p id = 'duplicateParagraph'></p><br><button class = 'logEventPoll' onclick = 'pollResults("+state+", " +isFree+","+isFake+")'> Submit Poll </button><br>";
 
     //Tutorial's practice poll
-	if(state == POLL_STATES.TUTORIAL){
+	if(state == globals.POLL_STATES.TUTORIAL){
 		document.getElementById("next").innerHTML += "<br> <button class='primaryBtn' type='button' onclick='chooseDiff()'> Start the Game </button>";
 		document.getElementById("back").innerHTML = "<button type='button' onclick='tutorial("+false+")'>Return to Tutorial </button>";
 	}
     //Poll within Practice Area
-	else if (state == POLL_STATES.PRACTICE_AREA){
+	else if (state == globals.POLL_STATES.PRACTICE_AREA){
 		document.getElementById("back").innerHTML += "<br> <button type='button' onclick='practiceMenu()'> Back to Practice Area </button>";
 	}
     //First poll in the game
-	else if(state == POLL_STATES.FIRST){
+	else if(state == globals.POLL_STATES.FIRST){
 		document.getElementById("next").innerHTML += "<br> <button class='primaryBtn' onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
 	}
     //End of day poll
-	else if(state == POLL_STATES.END_OF_DAY){
+	else if(state == globals.POLL_STATES.END_OF_DAY){
 		document.getElementById("sample").value = "80";
         document.getElementById("next").innerHTML += "<br> <button class='otherBtn' type='button' onclick='eventMenu()' > Choose Not to Take the Poll  </button>";
     }
     //It's a poll the user has chosen to take or [oll when you retake the tutorial from within the main game
-    else if(state == POLL_STATES.IN_GAME || state == POLL_STATES.IN_GAME_PRACTICE){
+    else if(state == globals.POLL_STATES.IN_GAME || state == globals.POLL_STATES.IN_GAME_PRACTICE){
         setBackToMapBtn();
     }
 
@@ -582,29 +582,30 @@ function setupPracticePoll()
 {
 
 
-	globals.candidates = [];
-
+	GameObject.candidates = [];
+	
 	globals.population = 1000;
 	globals.sample = [];
 	globals.remainingHoursTotal = 84;
-	globals.days = 1;
-	globals.remainingHoursDay = 12;
 
+	globals.days = 1; 
+	GameObject.remainingHoursDay = 12; 
+	
 	//Decides the opponents focus which cannot be the same as the player
 	globals.opponentCandidate.fame = [.7,.7,.7,.7,.7,.7,.7,.7];
 	globals.opponentCandidate.consMod = 0;
 	//////CONSOLE.LOG(oppFocus);
 	assignIssue(globals.opponentCandidate,[],.7,false);
-	globals.candidates.push(globals.opponentCandidate);
-
+  
+	GameObject.candidates.push(globals.opponentCandidate);
+	
 	//Create Issue Candidates
 	var issueCand1 = new Candidate("Zrap Bannigan");
 	var oppRank = Math.floor(Math.random()*4);
 	issueCand1.focus = globals.positions[oppRank];
 	issueCand1.focusnum = oppRank;
 	assignRank(issueCand1,globals.chosenCandRanks,true);
-	globals.candidates.push(issueCand1);
-
-
-	drawPoll(POLL_STATES.PRACTICE_AREA, false, true);
+	GameObject.candidates.push(issueCand1);
+	
+	drawPoll(globals.POLL_STATES.PRACTICE_AREA, false, true);
 }

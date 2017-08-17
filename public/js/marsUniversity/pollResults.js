@@ -1,12 +1,1020 @@
 let questionsTemp = [];
 
  /*$(document).on('change','.graphFilters', function()
+=======
+//Calculates the results of each poll question from each student in the sample and stores them in an array
+function pollCalc(pollChoices, sampleSize, bias, state, isFree, isFake)
+{	
+    
+    //Adds the data for Major and Social Group to the graph and label arrays
+	let graphData = [];
+	graphData.push(globals.questions[4].graph.split(','));
+	//graphData.push(globals.questions[5].graph.split(','));
+	graphData.push(globals.questions[6].graph.split(','));
+	
+	globals.tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
+	
+	var pollLabelArray = [];
+	pollLabelArray.push(globals.questions[4].labels.split(','));
+	//pollLabelArray.push(globals.questions[5].labels.split(','));
+	pollLabelArray.push(globals.questions[6].labels.split(','));
+    
+    //Goes through each question selected, exapnds the size of graphData by one and pushes the label into the pollLabelArray
+  
+    console.log("Number of candidates: ");
+	for(var i =0; i<pollChoices.length;i++)
+	{
+		switch(pollChoices[i])
+		{
+			case "candFav":
+              var array =[];
+              var array2 =[];
+              for(var j =0; j < GameObject.candidates.length;j++ )
+              {
+                  array.push(0);
+                  array2.push(GameObject.candidates[j].name);
+              }
+              graphData.push(array);
+              pollLabelArray.push(array2);
+              break;
+			case "candOpp":
+              var array =[];
+              var array2 =[];
+              for(var j =0; j < GameObject.candidates.length;j++ )
+              {
+                  array.push(0);
+                  array2.push(GameObject.candidates[j].name);
+              }
+              graphData.push(array);
+              pollLabelArray.push(array2);
+              break;
+			default:
+				for(var j =0; j < globals.questions.length; j++)
+				{
+					if(pollChoices[i] == globals.questions[j].value)
+					{
+						graphData.push(globals.questions[j].graph.split(','));
+						pollLabelArray.push(globals.questions[j].labels.split(','));
+                        console.log("check match");
+					}
+					else
+					{
+						if(globals.questions[j].value == "issue")
+						{
+							for(var k =0; k< globals.positionsLower.length; k++)
+							{
+								if(pollChoices[i] == "issue" + globals.positionsLower[k])
+								{
+									graphData.push(globals.questions[j].graph.split(','));
+									pollLabelArray.push(globals.questions[j].labels.split(','));
+								}
+							}
+						}
+						else if(globals.questions[j].value == "candFame")
+						{
+							for(var k =0; k< GameObject.candidates.length; k++)
+							{
+								if(pollChoices[i] == "candFame" + GameObject.candidates[k].name)
+								{
+									graphData.push(globals.questions[j].graph.split(','));
+									pollLabelArray.push(globals.questions[j].labels.split(','));
+								}
+							}
+						}
+						else if(globals.questions[j].value == "candTrust")
+						{
+							for(var k =0; k< GameObject.candidates.length; k++)
+							{
+								if(pollChoices[i] == "candTrust" + GameObject.candidates[k].name)
+								{
+									graphData.push(globals.questions[j].graph.split(','));
+									pollLabelArray.push(globals.questions[j].labels.split(','));
+								}
+							}
+						}
+					}
+				}
+			break;
+		}
+
+	}
+    //Creates the sample for the poll
+	votePercentage(sampleSize, bias);
+  
+    ////CONSOLE.LOG(GameObject.candidates);
+	//Gets the results of each question and pushes them into the proper sectionof table arrays
+	for(var j=0;j<globals.sample.length;j++)
+	{
+		globals.tableArrays[4].push(globals.sample[j].major);
+		var majorHolder = globals.sample[j].major;
+		if(majorHolder == "business"){
+			graphData[0][0]++;
+		}
+		else if(majorHolder == "law"){
+			graphData[0][1]++;
+		}
+		else if(majorHolder == "tech"){
+			graphData[0][2]++;
+		}
+		else if(majorHolder == "arts"){
+			graphData[0][3]++;
+		}
+
+		globals.tableArrays[6].push(globals.sample[j].group);
+		var groupHolder = globals.sample[j].group;
+		if(groupHolder == "socialite"){
+			graphData[1][0]++;
+		}
+		else if(groupHolder == "athlete"){
+			graphData[1][1]++;
+		}
+		else if(groupHolder == "gamer"){
+			graphData[1][2]++;
+		}
+		else if(groupHolder == "reader"){
+			graphData[1][3]++;
+		}
+		
+		//if(state == globals.POLL_STATES.FIRST && j ==0)
+		//{
+		//	GameObject.candidates.splice(0,0,new Candidate(""));
+		//}
+        for(var i = 0; i < pollChoices.length ;i++)
+        {
+            ////CONSOLE.LOG(i)
+            switch(pollChoices[i])
+            {
+                case "issFav":
+                    var fav =0;
+                    var favName = "";
+                    if(fav < globals.sample[j].budgetScore ||fav==0)
+                    {
+                        fav = globals.sample[j].budgetScore;
+                        var favName = "Budget";
+                    }
+                    if(fav < globals.sample[j].tuitionScore ||fav==0)
+                    {
+                        fav = globals.sample[j].tuitionScore;
+                        var favName = "Tuition";
+                    }
+                    if(fav < globals.sample[j].functionScore ||fav==0)
+                    {
+                        fav = globals.sample[j].functionScore;
+                        var favName = "Functions";
+                    }
+                    if(fav < globals.sample[j].medicalScore ||fav==0)
+                    {
+                        fav = globals.sample[j].medicalScore;
+                        var favName = "Medical";
+                    }
+                    globals.tableArrays[0].push(favName);
+                    //find if fave
+                    if(favName == "Tuition"){
+                        graphData[i+2][0]++;
+                    }
+                    else if(favName == "Budget"){
+                        graphData[i+2][1]++;
+                    }
+                    else if(favName == "Functions"){
+                        graphData[i+2][2]++;
+                    }
+                    else if(favName == "Medical"){
+                        graphData[i+2][3]++;
+                    }
+    
+                    break;
+    
+                case "issOpp":
+                    var opp =0;
+                    var oppName = "";
+                    if(opp > globals.sample[j].budgetScore ||opp==0)
+                    {
+                        opp = globals.sample[j].budgetScore;
+                        var oppName = "Budget";
+                    }
+                    if(opp > globals.sample[j].tuitionScore ||opp==0)
+                    {
+                        opp = globals.sample[j].tuitionScore;
+                        var oppName = "Tuition";
+                    }
+                    if(opp > globals.sample[j].functionScore ||opp==0)
+                    {
+                        opp = globals.sample[j].functionScore;
+                        var oppName = "Functions";
+                    }
+                    if(opp > globals.sample[j].medicalScore ||opp==0)
+                    {
+                        opp = globals.sample[j].medicalScore;
+                        var oppName = "Medical";
+                    }
+                    globals.tableArrays[1].push(oppName);
+                    //find if oppe
+                    if(oppName == "Tuition"){
+                        graphData[i+2][0]++;
+                    }
+                    else if(oppName == "Budget"){
+                        graphData[i+2][1]++;
+                    }
+                    else if(oppName == "Functions"){
+                        graphData[i+2][2]++;
+                    }
+                    else if(oppName == "Medical"){
+                        graphData[i+2][3]++;
+                    }
+
+                    break;
+    
+                case "candFav":
+                    globals.tableArrays[2].push(globals.sample[j].results.win);
+                    for(var k =0; k< GameObject.candidates.length;k++)
+                    {
+                        ////CONSOLE.LOG()
+                        if(globals.sample[j].results.win == GameObject.candidates[k].name){
+                            graphData[i+2][k]++;
+                        }
+                    }
+                    
+                    break;
+    
+                case "candOpp":
+                    globals.tableArrays[3].push(globals.sample[j].results.los);
+                    for(var k =0; k< GameObject.candidates.length;k++)
+                    {
+                        if(globals.sample[j].results.los == GameObject.candidates[k].name){
+                            graphData[i+2][k]++;
+                        }
+                    }
+                    
+                    break;
+    
+    
+    
+                case "fame":
+                    var playFame = fameCalc(GameObject.candidates[0],globals.sample[j]).toFixed(3);
+                    globals.tableArrays[7].push(playFame);
+					if(playFame <= 0.2)
+					{
+                        graphData[i+2][0]++;
+					}
+					else if(playFame>0.20 && playFame<0.41)
+					{
+                        graphData[i+2][1]++;
+					}
+					else if(playFame>0.40 && playFame<0.61)
+					{
+                        graphData[i+2][2]++;
+					}
+					else if(playFame>0.60 && playFame<0.81)
+					{
+                        graphData[i+2][3]++;
+					}
+					else
+					{
+                        graphData[i+2][4]++;
+					}
+                    break;
+    
+                case "playTrust":
+                    globals.tableArrays[8].push(GameObject.candidates[0].consMod);
+                    var playConst = GameObject.candidates[0].consMod;
+					if(playConst <= 0.2)
+					{
+                        graphData[i+2][4]++;
+					}
+					else if(playConst>0.20 && playConst<0.41)
+					{
+                        graphData[i+2][3]++;
+					}
+					else if(playConst>0.40 && playConst<0.61)
+					{
+                        graphData[i+2][2]++;
+					}
+					else if(playConst>0.60 && playConst<0.81)
+					{
+                        graphData[i+2][1]++;
+					}
+					else
+					{
+                        graphData[i+2][0]++;
+					}
+                    break;
+    
+            }
+            for(var k = 0;k<globals.positions.length;k++)
+            {
+                if(pollChoices[i] == "issue" + globals.positionsLower[k])
+                {
+                    switch(pollChoices[i])
+                    {
+                        case "issuetuition":
+                            globals.tableArrays[9].push(parseFloat(globals.sample[j].tuitionScore).toFixed(2));
+							if(globals.sample[j].tuitionScore <= -3)
+							{
+                                graphData[i+2][0]++;
+							}
+							else if(globals.sample[j].tuitionScore>-3 && globals.sample[j].tuitionScore<-1)
+							{
+                                graphData[i+2][1]++;
+							}
+							else if(globals.sample[j].tuitionScore>-1 && globals.sample[j].tuitionScore<1)
+							{
+                                graphData[i+2][2]++;
+							}
+							else if(globals.sample[j].tuitionScore>1 && globals.sample[j].tuitionScore<3)
+							{
+                                graphData[i+2][3]++;
+							}
+							else
+							{
+                                graphData[i+2][4]++;
+							}
+                        break;
+    
+                        case "issuebudget":
+                            globals.tableArrays[10].push(parseFloat(globals.sample[j].budgetScore).toFixed(2));
+							if(globals.sample[j].budgetScore <= -3)
+							{
+                                graphData[i+2][0]++;
+							}
+							else if(globals.sample[j].budgetScore>-3 && globals.sample[j].budgetScore<-1)
+							{
+                                graphData[i+2][1]++;
+							}
+							else if(globals.sample[j].budgetScore>-1 && globals.sample[j].budgetScore<1)
+							{
+                                graphData[i+2][2]++;
+							}
+							else if(globals.sample[j].budgetScore>1 && globals.sample[j].budgetScore<3)
+							{
+                                graphData[i+2][3]++;
+							}
+							else
+							{
+                                graphData[i+2][4]++;
+							}
+                        break;
+    
+                        case "issuefunctions":
+                            globals.tableArrays[12].push(parseFloat(globals.sample[j].functionScore).toFixed(2));
+							if(globals.sample[j].functionScore <= -3)
+							{
+                                graphData[i+2][0]++;
+							}
+							else if(globals.sample[j].functionScore>-3 && globals.sample[j].functionScore<-1)
+							{
+                                graphData[i+2][1]++;
+							}
+							else if(globals.sample[j].functionScore>-1 && globals.sample[j].functionScore<1)
+							{
+                                graphData[i+2][2]++;
+							}
+							else if(globals.sample[j].functionScore>1 && globals.sample[j].functionScore<3)
+							{
+                                graphData[i+2][3]++;
+							}
+							else
+							{
+                                graphData[i+2][4]++;
+							}
+                        break;
+    
+                        case "issuemedical":
+                            globals.tableArrays[13].push(parseFloat(globals.sample[j].medicalScore).toFixed(2));
+							if(globals.sample[j].medicalScore <= -3)
+							{
+                                graphData[i+2][0]++;
+							}
+							else if(globals.sample[j].medicalScore>-3 && globals.sample[j].medicalScore<-1)
+							{
+                                graphData[i+2][1]++;
+							}
+							else if(globals.sample[j].medicalScore>-1 && globals.sample[j].medicalScore<1)
+							{
+                                graphData[i+2][2]++;
+							}
+							else if(globals.sample[j].medicalScore>1 && globals.sample[j].medicalScore<3)
+							{
+                                graphData[i+2][3]++;
+							}
+							else
+							{
+                                graphData[i+2][4]++;
+							}
+                        break;
+                    }
+                }
+            }
+    
+            var candCounter = 14;
+            for(var k = 1;k<GameObject.candidates.length;k++)
+            {
+                if(pollChoices[i] == "candFame" + GameObject.candidates[k].name)
+                {
+                    var calcHolder = fameCalc(GameObject.candidates[k], globals.sample[j]);
+                    
+                    globals.tableArrays[candCounter].push(calcHolder);				
+    
+					if(calcHolder <= 0.2)
+					{
+                        graphData[i+2][0]++;
+					}
+					else if(calcHolder>0.20 && calcHolder<0.41)
+					{
+                        graphData[i+2][1]++;
+					}
+					else if(calcHolder>0.40 && calcHolder<0.61)
+					{
+                        graphData[i+2][2]++;
+					}
+					else if(calcHolder>0.60 && calcHolder<0.81)
+					{
+                        graphData[i+2][3]++;
+					}
+					else
+					{
+                        graphData[i+2][4]++;
+					}
+                }
+    
+    
+                candCounter++;
+            }
+            for(var k = 1;k<GameObject.candidates.length;k++)
+            {
+                if(pollChoices[i] == "candTrust" + GameObject.candidates[k].name)
+                {
+                    globals.tableArrays[candCounter].push(GameObject.candidates[k].consMod);
+					
+					if(GameObject.candidates[k].consMod <= 0.2)
+					{
+                        graphData[i+2][4]++;
+					}
+					else if(GameObject.candidates[k].consMod>0.20 && GameObject.candidates[k].consMod<0.41)
+					{
+                        graphData[i+2][3]++;
+					}
+					else if(GameObject.candidates[k].consMod>0.40 && GameObject.candidates[k].consMod<0.61)
+					{
+                        graphData[i+2][2]++;
+					}
+					else if(GameObject.candidates[k].consMod>0.60 && GameObject.candidates[k].consMod<0.81)
+					{
+                        graphData[i+2][1]++;
+					}
+					else
+					{
+                        graphData[i+2][0]++;
+					}
+                }
+    
+                candCounter++;
+    
+            }
+        }
+	}
+	
+	//////CONSOLE.LOG(globals.tableArrays);
+	tableBuilder(pollChoices, globals.tableArrays, sampleSize, graphData, pollLabelArray, isFake, state, isFree, false);
+}
+
+//Builds a table by looping through the Array created by pollCalc and putting each value into a cell.
+function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, isFake, state, isFree, isReview)
+{   
+  
+	////CONSOLE.LOG(tableArray2);
+	var rowCounter = 0;
+	var cellCounter = 0;
+	var graphQuestions = [];
+	var h = 0;
+
+	var table = document.getElementById("pollTable");
+	var tableHead = document.getElementById("tableHead");
+	var headRow = tableHead.insertRow(0);
+	
+		//console.log("in");
+	//Makes the table headers based on the chose questions
+	for(var h = 0; h < pollChoices.length; h++)
+	{
+
+		if(pollChoices[h] != null)
+		{
+			if(h==0)
+			{
+				graphQuestions.push("major");
+				//graphQuestions.push("class");
+				graphQuestions.push("group");
+			}
+			switch(pollChoices[h])
+			{
+				case "issFav":
+					var cell = headRow.insertCell();
+					cell.innerHTML = globals.tableHeaders[0];
+					graphQuestions.push("issFav");
+				break;
+                
+				case "issOpp":
+						var cell = headRow.insertCell();
+						cell.innerHTML = globals.tableHeaders[1];
+						graphQuestions.push("issOpp");
+				break;
+
+				case "candFav":
+						var cell = headRow.insertCell();
+						cell.innerHTML = globals.tableHeaders[2];
+						graphQuestions.push("candFav");
+				break;
+
+				case "candOpp":
+						var cell = headRow.insertCell();
+						cell.innerHTML = globals.tableHeaders[3];
+						graphQuestions.push("candOpp");
+				break;
+
+				case "fame":
+						var cell = headRow.insertCell();
+						cell.innerHTML = globals.tableHeaders[7];
+						graphQuestions.push("fame");
+				break;
+
+				case "playTrust":
+						var cell = headRow.insertCell();
+						cell.innerHTML = globals.tableHeaders[8];
+						graphQuestions.push("playTrust");
+				break;
+			}
+
+            
+			for(var k = 0;k<globals.positions.length;k++)
+			{
+
+				if(pollChoices[h] == "issue" + globals.positionsLower[k])
+				{
+                  switch(pollChoices[h])
+					{
+						case "issuetuition":
+							var cell = headRow.insertCell();
+							var posInfo = globals.tableHeaders[9] + globals.positions[0];
+							cell.innerHTML = posInfo;
+							graphQuestions.push("issuetuition");
+
+						break;
+
+						case "issuebudget":
+							var cell = headRow.insertCell();
+							var posInfo = globals.tableHeaders[9] + globals.positions[1];
+							cell.innerHTML = posInfo;
+							graphQuestions.push("issuebudget");
+						break;
+
+						case "issuefunctions":
+							var cell = headRow.insertCell();
+							var posInfo = globals.tableHeaders[9] + globals.positions[2];
+							cell.innerHTML = posInfo;
+							graphQuestions.push("issuefunctions");
+						break;
+
+						case "issuemedical":
+							var cell = headRow.insertCell();
+							var posInfo = globals.tableHeaders[9] + globals.positions[3];
+							cell.innerHTML = posInfo;
+							graphQuestions.push("issuemedical");
+						break;
+					}
+				}
+			}
+			for(var k = 1;k<GameObject.candidates.length;k++)
+			{
+				if(pollChoices[h] == "candFame" + GameObject.candidates[k].name)
+				{
+						var cell = headRow.insertCell();
+						var candInfo = globals.tableHeaders[10] + GameObject.candidates[k].name;
+						cell.innerHTML = candInfo;
+						graphQuestions.push("candFame" + GameObject.candidates[k].name);
+				}
+			}
+			for(var k = 1;k<GameObject.candidates.length;k++)
+			{
+				if(pollChoices[h] == "candTrust" + GameObject.candidates[k].name)
+				{
+					//////CONSOLE.LOG(h);
+						var cell = headRow.insertCell();
+						var candInfo = globals.tableHeaders[11] + GameObject.candidates[k].name;
+						cell.innerHTML = candInfo;
+						graphQuestions.push("candTrust" + GameObject.candidates[k].name);
+				}
+			}
+			if(h==pollChoices.length-1)
+			{
+				var cell = headRow.insertCell(0);
+				cell.innerHTML = globals.tableHeaders[4];
+
+				//var cell = headRow.insertCell(1);
+				//cell.innerHTML = globals.tableHeaders[5];
+
+				var cell = headRow.insertCell(1);
+				cell.innerHTML = globals.tableHeaders[6];
+			}
+		}
+	}
+    
+    //Creates the contents of the table based on the results of PollCalc
+	for(var h = 0; h<sSize; h++)
+	{
+        //Inserts a row into the table for each member of the sample
+		row = table.insertRow(h);
+
+
+		for(var i = 0; i < pollChoices.length+1;i++)
+		{
+			if(pollChoices[i] != null)
+			{
+				switch(pollChoices[i])
+				{
+                    
+					case "issFav":
+							var cell = row.insertCell();
+							cell.innerHTML = tableArray2[0][h];
+					break;
+
+					case "issOpp":
+								var cell = row.insertCell();
+								cell.innerHTML = tableArray2[1][h];
+					break;
+
+					case "candFav":
+								var cell = row.insertCell();
+								cell.innerHTML = tableArray2[2][h];
+					break;
+
+					case "candOpp":
+								var cell = row.insertCell();
+								cell.innerHTML = tableArray2[3][h];
+					break;
+
+					case "fame":
+								var cell = row.insertCell();
+								if(parseFloat(tableArray2[7][h]).toFixed(2) <= 0.2)
+								{
+									cell.innerHTML = "Candidate Unknown";
+									//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+								}
+								else if(parseFloat(tableArray2[7][h]).toFixed(2)>0.20 && parseFloat(tableArray2[7][h]).toFixed(2)<0.41)
+								{
+									cell.innerHTML = "Slightly Aware of Candidate";
+									//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+								}
+								else if(parseFloat(tableArray2[7][h]).toFixed(2)>0.40 && parseFloat(tableArray2[7][h]).toFixed(2)<0.61)
+								{
+									cell.innerHTML = "Aware of Candidate";
+									//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+								}
+								else if(parseFloat(tableArray2[7][h]).toFixed(2)>0.60 && parseFloat(tableArray2[7][h]).toFixed(2)<0.81)
+								{
+									cell.innerHTML = "Very Aware of Candidate";
+									//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+								}
+								else
+								{
+									cell.innerHTML = "Candidate Known";
+									//cell.innerHTML += "Score: " + parseFloat(tableArray2[7][h]).toFixed(2);
+								}
+					break;
+
+					case "playTrust":
+								var cell = row.insertCell();
+								if(parseFloat(tableArray2[8][h]).toFixed(2) <= 0.2)
+									{
+										cell.innerHTML = "Very Trustworthy";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+									}
+									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.2 && parseFloat(tableArray2[8][h]).toFixed(2)<0.41)
+									{
+										cell.innerHTML = "Fairly Trustworthy";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+									}
+									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.4 && parseFloat(tableArray2[8][h]).toFixed(2)<0.61)
+									{
+										cell.innerHTML = "Sort Of Trustworthy";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+									}
+									else if(parseFloat(tableArray2[8][h]).toFixed(2)>0.6 && parseFloat(tableArray2[8][h]).toFixed(2)<0.81)
+									{
+										cell.innerHTML = "Untrustworthy";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+									}
+									else
+									{
+										cell.innerHTML = "Very Untrustworthy";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[8][h]).toFixed(2);
+									}
+					break;
+				}
+				for(var k = 0;k<globals.positions.length;k++)
+				{
+					if(pollChoices[i] == "issue" + globals.positionsLower[k])
+					{
+                        let issueOpinion;
+						switch(pollChoices[i])
+						{
+                            
+							case "issuetuition":
+									var cell = row.insertCell();
+									if(tableArray2[9][h] <= -3)
+									{
+										cell.innerHTML = "Issue Hated";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[9][h]>-3 && tableArray2[9][h]<-1)
+									{
+										cell.innerHTML = "Issue Disliked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[9][h]>-1 && tableArray2[9][h]<1)
+									{
+										cell.innerHTML = "Issue Neutral";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[9][h]>1 && tableArray2[9][h]<3)
+									{
+										cell.innerHTML = "Issue Liked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else
+									{
+										cell.innerHTML = "Issue Loved";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+							break;
+
+							case "issuebudget":
+									var cell = row.insertCell();
+									if(tableArray2[10][h] <= -3)
+									{
+										cell.innerHTML = "Issue Hated";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[10][h]>-3 && tableArray2[10][h]<-1)
+									{
+										cell.innerHTML = "Issue Disliked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[10][h]>-1 && tableArray2[10][h]<1)
+									{
+										cell.innerHTML = "Issue Neutral";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[10][h]>1 && tableArray2[10][h]<3)
+									{
+										cell.innerHTML = "Issue Liked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else
+									{
+										cell.innerHTML = "Issue Loved";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+							break;
+
+							case "issuefunctions":
+									var cell = row.insertCell();
+									if(tableArray2[12][h] <= -3)
+									{
+										cell.innerHTML = "Issue Hated";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[12][h]>-3 && tableArray2[12][h]<-1)
+									{
+										cell.innerHTML = "Issue Disliked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[12][h]>-1 && tableArray2[12][h]<1)
+									{
+										cell.innerHTML = "Issue Neutral";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[12][h]>1 && tableArray2[12][h]<3)
+									{
+										cell.innerHTML = "Issue Liked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else
+									{
+										cell.innerHTML = "Issue Loved";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+							break;
+
+							case "issuemedical":
+                                    var cell = row.insertCell();
+									if(tableArray2[13][h] <= -3)
+									{
+										cell.innerHTML = "Issue Hated";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[13][h]>-3 && tableArray2[13][h]<-1)
+									{
+										cell.innerHTML = "Issue Disliked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[13][h]>-1 && tableArray2[13][h]<1)
+									{
+										cell.innerHTML = "Issue Neutral";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else if(tableArray2[13][h]>1 && tableArray2[13][h]<3)
+									{
+										cell.innerHTML = "Issue Liked";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+									else
+									{
+										cell.innerHTML = "Issue Loved";
+										//cell.innerHTML += "Score: " + parseFloat(tableArray2[9][h]).toFixed(2);
+									}
+							break;
+						}
+					}
+				}
+
+
+				canCounter = 14;
+				for(var k = 1;k<GameObject.candidates.length;k++)
+				{
+
+					if(pollChoices[i] == "candFame" + GameObject.candidates[k].name)
+					{
+
+								var cell = row.insertCell();
+								var counter = canCounter;
+									if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.2)
+									{
+										cell.innerHTML = "Candidate Unknown";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+									}
+									else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.2 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.41)
+									{
+										cell.innerHTML = "Slightly Aware of Candidate";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+									}
+									else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.4 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.61)
+									{
+										cell.innerHTML = "Aware of Candidate";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+									}
+									else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.6 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.81)
+									{
+										cell.innerHTML = "Very Aware of Candidate";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+									}
+									else
+									{
+										cell.innerHTML = "Candidate Known";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+									}
+					}
+						canCounter++;
+				}
+				for(var k = 1;k<GameObject.candidates.length;k++)
+				{
+					if(pollChoices[i] == "candTrust" + GameObject.candidates[k].name)
+					{
+								var cell = row.insertCell();
+								var counter = canCounter;
+								if(parseFloat(tableArray2[counter][h]).toFixed(2) <= 0.2)
+								{
+									cell.innerHTML = "Very Trustworthy";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+								}
+								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.2 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.41)
+								{
+									cell.innerHTML = "Fairly Trustworthy";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+								}
+								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.4 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.61)
+								{
+									cell.innerHTML = "Sort Of Trustworthy";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+								}
+								else if(parseFloat(tableArray2[counter][h]).toFixed(2)>0.6 && parseFloat(tableArray2[counter][h]).toFixed(2)<0.81)
+								{
+									cell.innerHTML = "Untrustworthy";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+								}
+								else
+								{
+									cell.innerHTML = "Very Untrustworthy";
+										//cell.innerHTML += "Score: "  + parseFloat(tableArray2[counter][h]).toFixed(2);
+								}		
+					}
+
+					canCounter++;
+
+				}
+			}
+		}
+        
+		var cell = row.insertCell(0);
+		cell.innerHTML = capitalStr(tableArray2[4][h]);
+
+		//var cell = row.insertCell(1);
+		//cell.innerHTML = tableArray2[5][h];
+
+		var cell = row.insertCell(1);
+		cell.innerHTML = capitalStr(tableArray2[6][h]);
+	}
+	
+	
+	sorttable.makeSortable(document.getElementById('tab'));
+	document.getElementById("next").innerHTML += "<div id = 'filterArea'></div>"
+	document.getElementById("centerDisplay").innerHTML += "<div id = 'barChartDiv' style = 'display:block'></div>";
+	document.getElementById("centerDisplay").innerHTML += "<div id = 'pieChartDiv' style = 'display:none'></div>";
+    
+  
+    //Only display the filters if this isn't fake data
+    //Quick fix for a bug when changing filter options
+    if(!isFake){
+      document.getElementById("centerDisplay").innerHTML += "<div id = 'chartFilters' style = 'display:block'> Filters: </div>";
+      document.getElementById("chartFilters").innerHTML += "<br>Major: <select class = 'graphFilters' id = 'majorSelect'></select>   Social Group: <select class = 'graphFilters' id = 'groupSelect'></select>";
+
+      var noneOp = document.createElement("option");
+      noneOp.text = "None";
+      noneOp.value = "None";
+      var noneOp2 = document.createElement("option");
+      noneOp2.text = "None";
+      noneOp2.value = "None";
+
+      var majors = document.getElementById('majorSelect');
+      majors.options.add(noneOp2);
+      for(var i =0; i<globals.majorList.length; i++)
+      {
+          var newOp = document.createElement("option");
+          newOp.text = capitalStr(globals.majorList[i]);
+          newOp.value = globals.majorList[i];
+          majors.options.add(newOp);
+      }
+
+      var groups = document.getElementById('groupSelect');
+      groups.options.add(noneOp);
+      for(var i =0; i<globals.groupList.length; i++)
+      {
+          var newOp = document.createElement("option");
+          newOp.text = capitalStr(globals.groupList[i]);
+          newOp.value = globals.groupList[i];
+          groups.options.add(newOp);
+      }
+    }
+	
+	document.getElementById("next").innerHTML += "<button id = 'barButton'  class='otherBtn logBarView' onclick = 'changeDataDisplay(2,"+isFake+")' style = 'display:none'>Show Bar Graphs</button>";
+	document.getElementById("next").innerHTML += "<button id = 'pieButton'  class='otherBtn logPieView' onclick = 'changeDataDisplay(3,"+isFake+")'>Show Pie Graphs</button>";
+	document.getElementById("next").innerHTML += "<button id = 'dataButton' class='otherBtn logTableView' onclick = 'changeDataDisplay(1,"+isFake+")'>Show Data Table</button><br>";
+	for (var x = 0; x < globals.groupList.length; x++){
+		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ globals.groupList[x] +"'> "+ globals.groupList[x] +" ";
+	}
+	document.getElementById('filterArea').innerHTML +='<br>'
+	document.getElementById('filterArea').innerHTML +='<br>'
+	for (var x = 0; x < globals.groupList.length; x++){
+		document.getElementById('filterArea').innerHTML += "<input type = 'checkbox' class = 'filterChecklist' rel = '"+ globals.majorList[x] +"'> "+ globals.majorList[x] +" ";
+	}
+	document.getElementById('filterArea').innerHTML +='<br>'
+	document.getElementById('filterArea').style.display = "none";
+
+	makeGraphs(graphData, graphQuestions,graphLabels);
+		//if(state == POLL_STATES.FIRST)
+		//{
+		//	GameObject.candidates.splice(0,1);
+		//}
+	document.getElementById('table').style.display = 'none';
+	if (state == globals.POLL_STATES.TUTORIAL){
+        document.getElementById('back').innerHTML += "<button onclick = 'drawPoll("+state+",false, true)'>Back to Start</button>" ;
+	}
+    //If the data isn't fake and it isn't a past poll report
+	if(!isFake && !isReview)
+	{
+        console.log("pushing");
+		globals.pastPollResults.push(tableArray2);
+		globals.pastPollSizes.push(sSize);
+		globals.pastPollChoices.push(pollChoices);
+		globals.pastGraphData.push(graphData);
+		globals.pastGraphLabels.push(graphLabels);
+		globals.tableArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ], [ ]];
+		if(!isFree)
+			pollTime(sSize, pollChoices);
+		globals.currentPoll = (globals.pastPollResults.length - 1);
+	}
+    else if(isFake){
+      //Result the fake data back to normal
+      GameObject.candidates = globals.currentCandidateArrayHolder;
+    }
+
+}*/
+
+ $(document).on('change','.graphFilters', function()
  {
 	 console.log(globals.currentPoll)
 	var major = document.getElementById("majorSelect").value;
 	var group = document.getElementById("groupSelect").value;
 	filterGraphData(major, group, globals.pastPollChoices[globals.currentPoll], globals.pastPollResults[globals.currentPoll], globals.pastPollSizes[globals.currentPoll], globals.pastGraphData[globals.currentPoll], globals.pastGraphLabels[globals.currentPoll], false);
- });*/
+ });
 
 $(document).on('change','.filterChecklist', function(){
   var clearEverything = false;
@@ -68,6 +1076,8 @@ function changeDataDisplay(dataButton)
 		document.getElementById('barButton').style.display = 'inline';
 		document.getElementById('dataButton').style.display = 'none';
         document.getElementById('chartFilters').style.display = 'none';
+      
+        $.post('/game/defaultLogger', {eventName: 'Viewed Data Table', eventType:'Poll Style Change', module: 1, session: GameObject.gameSession});
 	}
     //Show Bar Charts
 	else if (dataButton == 2)
@@ -80,6 +1090,8 @@ function changeDataDisplay(dataButton)
 		document.getElementById('barButton').style.display = 'none';
 		document.getElementById('dataButton').style.display = 'inline';
         document.getElementById('chartFilters').style.display = 'inline';
+      
+        $.post('/game/defaultLogger', {eventName: 'Viewed Bar Graph', eventType:'Poll Style Change', module: 1, session: GameObject.gameSession});
       
         for(let i = 0; i < questionCharts.length; i++){
           questionCharts[i].legend.hide();
@@ -98,6 +1110,8 @@ function changeDataDisplay(dataButton)
           questionCharts[i].legend.show()
           questionCharts[i].transform('pie');
         }
+        
+      $.post('/game/defaultLogger', {eventName: 'Viewed Pie Graph', eventType:'Poll Style Change', module: 1, session: GameObject.gameSession});
       
 		document.getElementById('pieButton').style.display = 'none';
 		document.getElementById('barButton').style.display = 'inline';
@@ -111,14 +1125,18 @@ function viewPollResult(id, isFirst)
 {
 	clearScreen();
 	globals.currentPoll = id;
+  
+  $.post('/game/defaultLogger', {eventName: 'Viewed Poll Result', eventType:'Past Poll Result', module: 1, session: GameObject.gameSession});
+  
   //pollChoices, tableArray2, sSize, graphData, graphLabels, isFake, state, isFree, isReview
-  tableBuilder_REFACTORED(globals.pastPollResults[id], false, POLL_STATES.IN_GAME, true, true);
+  tableBuilder_REFACTORED(globals.pastPollResults[id], false, globals.POLL_STATES.IN_GAME, true, true);
 	if(!isFirst){
         updateTopBar(pollMenu);
 		document.getElementById("back").innerHTML += "<button onclick = 'eventMenu()'>Back to Game Map</button>";
     }
 	else
 		document.getElementById("back").innerHTML += "<button onclick = 'firstStatement()'> Back to Making Your First Statement </button>";
+  
 
 }
 
@@ -307,7 +1325,8 @@ function createDistributionChart(categoryId, htmlElementId, allPollResults){
 //
 function createTrendReport_REFACTORED(categoryId, graphType)
 {
-
+    $.post('/game/defaultLogger', {eventName: 'Viewed Trend Report', eventType:'Trend Report', module: 1, session: GameObject.gameSession});
+  
     document.getElementById('buttonViewer').style = 'display:block';
     document.getElementById('visualisation').innerHTML = "";
   
@@ -370,6 +1389,24 @@ function pollResults_REFACTORED(state, isFree, isFake)
                     //pollVal = pollVal +""+ subValue;
                     //pollChoices.push(pollVal);
                 }
+			/*for(var k = 1;k<GameObject.candidates.length;k++)
+			{
+				if(graphQuestions[i] == "candFame" + GameObject.candidates[k].name)
+				{
+					name = GameObject.candidates[k].name;
+					document.getElementById("q"+i+"text").innerHTML = globals.questions[10].question + " " + name;
+					document.getElementById("bq"+i+"text").innerHTML = globals.questions[10].question + " " + name;
+				}
+			}
+
+			for(var k = 1;k<GameObject.candidates.length;k++)
+			{
+				if(graphQuestions[i] == "candTrust" + GameObject.candidates[k].name)
+				{
+					name = GameObject.candidates[k].name;
+					document.getElementById("q"+i+"text").innerHTML = globals.questions[11].question + " " + name;
+					document.getElementById("bq"+i+"text").innerHTML = globals.questions[11].question + " " + name;
+				}*/
 			}
             else{
               //let newQuestion = new PollQuestion(pollQuestionId, "", jsonObj);
@@ -436,14 +1473,14 @@ function pollResults_REFACTORED(state, isFree, isFake)
         //Run poll
         pollCalc_REFACTORED(newPollResult, sampleSize, bias, state, isFree, isFake);
 
-        if(state == POLL_STATES.TUTORIAL){
+        if(state == globals.POLL_STATES.TUTORIAL){
             document.getElementById("back").innerHTML += "<button onclick = 'drawPoll("+state+","+isFree+","+isFake+")'> Back to Tutorial Poll</button>";
         }
-        else if(state == POLL_STATES.PRACTICE_AREA)
+        else if(state == globals.POLL_STATES.PRACTICE_AREA)
         {
             document.getElementById("back").innerHTML += "<button onclick = 'practiceMenu()'> Return to Practice Area</button>";
         }
-        else if(state == POLL_STATES.FIRST)
+        else if(state == globals.POLL_STATES.FIRST)
         {
             document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
 
@@ -451,17 +1488,18 @@ function pollResults_REFACTORED(state, isFree, isFake)
         else{
             document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'eventMenu()'> Return to the Game Map </button>";
         }
+		$.post('/game/defaultLogger', {eventName: 'Viewed Pie Graph', eventType:'Poll Style Change', module: 1, session: GameObject.gameSession});
+
 	}
 
     //Reset candidates back to correct candidates
-	globals.candidates = globals.currentCandidateArrayHolder;
+	GameObject.candidates = globals.currentCandidateArrayHolder;
 
 };
 
 //Creates a trend report based on past polls
 function createTrendReport(category)
 {
-
     document.getElementById('buttonViewer').style = 'display:block';
     document.getElementById('visualisation').innerHTML = "";
 
@@ -516,7 +1554,7 @@ function createTrendReport(category)
                         if(element.value == "candFav" ||element.value == "candOpp")
                         {
                             answers = [];
-                            globals.candidates.forEach(function(element2)
+                            GameObject.candidates.forEach(function(element2)
                             {
                             	answers.push(element2.name);
                             	////CONSOLE.LOG(answers);
@@ -930,14 +1968,14 @@ function pollResults_REFACTORED(state, isFree, isFake)
         //Run poll
         pollCalc_REFACTORED(newPollResult, sampleSize, bias, state, isFree, isFake);
 
-        if(state == POLL_STATES.TUTORIAL){
+        if(state == globals.POLL_STATES.TUTORIAL){
             document.getElementById("back").innerHTML += "<button onclick = 'drawPoll("+state+","+isFree+","+isFake+")'> Back to Tutorial Poll</button>";
         }
-        else if(state == POLL_STATES.PRACTICE_AREA)
+        else if(state == globals.POLL_STATES.PRACTICE_AREA)
         {
             document.getElementById("back").innerHTML += "<button onclick = 'practiceMenu()'> Return to Practice Area</button>";
         }
-        else if(state == POLL_STATES.FIRST)
+        else if(state == globals.POLL_STATES.FIRST)
         {
             document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
 
@@ -948,7 +1986,7 @@ function pollResults_REFACTORED(state, isFree, isFake)
 	}
 
     //Reset candidates back to correct candidates
-	globals.candidates = globals.currentCandidateArrayHolder;
+	GameObject.candidates = globals.currentCandidateArrayHolder;
 
 };
 
@@ -983,7 +2021,7 @@ function pollCalc_REFACTORED(newPollResult, sampleSize, bias, state, isFree, isF
 	}
     else if(isFake){
       //Result the fake data back to normal
-      globals.candidates = globals.currentCandidateArrayHolder;
+      GameObject.candidates = globals.currentCandidateArrayHolder;
     }
 
 	tableBuilder_REFACTORED(newPollResult, isFake, state, isFree, false);
@@ -1098,7 +2136,7 @@ function tableBuilder_REFACTORED(pollResult, isFake, state, isFree, isReview)
 	document.getElementById('filterArea').innerHTML +='<br>'
 	document.getElementById('filterArea').style.display = "none";
   
-	if (state == POLL_STATES.TUTORIAL){
+	if (state == globals.POLL_STATES.TUTORIAL){
         document.getElementById('back').innerHTML += "<button onclick = 'drawPoll("+state+",false, true)'>Back to Start</button>" ;
 	}
   
@@ -1410,9 +2448,9 @@ function PollQuestion(id, subId, jsonObj, subQuestions){
   //Unless this question uses the current candidates (candFav and candOpp),
   //The possibleAnswers can be read in from the JSON object
   if(jsonObj.labels == "[CANDIDATES]"){
-    for(var i = 0; i < globals.candidates.length; i++)
+    for(var i = 0; i < GameObject.candidates.length; i++)
     {
-      this.possibleAnswers.push({"label": globals.candidates[i].name, "count":0});
+      this.possibleAnswers.push({"label": GameObject.candidates[i].name, "count":0});
     }
   }
   else{

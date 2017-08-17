@@ -259,6 +259,49 @@ progress[value] {
 #topBar img{
   cursor:pointer;
 }
+#helpNavigation
+{  
+	ul
+	{
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		background-color: #333333;
+		color: #AAAAAA;
+	}
+	li
+	{
+		display: inline;
+		float: left;
+	}
+	
+	a 
+	{
+		display: block;
+		color: white;
+		text-align: center;
+		padding: 16px;
+		text-decoration: none;
+		cursor: pointer; 
+	}
+	
+	a:hover 
+	{
+		background-color: #111111;
+	}
+	
+	a:active{
+	background-color: #333333;
+	}
+}
+
+#helpPage
+{  
+	a 
+	{
+		cursor: pointer; 
+	}
+}
 .help-section-button {
     display: flex;
     justify-content: center;
@@ -318,10 +361,6 @@ progress[value] {
 #help-section-form #help-section-title {
     text-align: center;
     margin: 1em
-}
-
-#help-section-form #helpNavigation {
-    margin: 0 1em
 }
 
 #help-section-form #help-section-fields {
@@ -406,3 +445,5 @@ progress[value] {
 #help-section-form #help-section-submit-button:hover {
     background: #2fc665
 }
+
+

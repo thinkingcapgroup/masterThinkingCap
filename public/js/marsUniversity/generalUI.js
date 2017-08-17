@@ -1,7 +1,7 @@
 function updateTopBar(currentScreen){
     
-    var dayCycleIndex = (globals.totalDays + 1) - globals.days;
-    var context = { "totalDays" : globals.totalDays, "dayCycle" : dayCycleIndex, "remainingHours":globals.remainingHoursDay, "playerHeadImg": images["playerHeadImg"]};
+    var dayCycleIndex = (GameObject.totalDays + 1) - globals.days;
+    var context = { "totalDays" : GameObject.totalDays, "dayCycle" : dayCycleIndex, "remainingHours":GameObject.remainingHoursDay, "playerHeadImg": images["playerHeadImg"]};
     var html = views["topBar"](context);
   
     //$("#templateTest").append(html);
@@ -47,9 +47,9 @@ function pollMenu()
       updateTopBar(pollMenu);
       document.getElementById("mainContent").classList.add("center");
 
-      if(globals.remainingHoursDay >=3)
+      if(GameObject.remainingHoursDay >=3)
       {
-          document.getElementById("mainContent").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' class='primaryBtn' onclick='drawPoll("+POLL_STATES.IN_GAME+", false, false)'> Take A Poll </button><br><br>";
+          document.getElementById("mainContent").innerHTML += "<h2> Poll a Sample of the Population</h2> <button type='button' class='primaryBtn' onclick='drawPoll("+globals.POLL_STATES.IN_GAME+", false, false)'> Take A Poll </button><br><br>";
           if(globals.pastPollResults.length > 0)
               document.getElementById("mainContent").innerHTML += "<h2> Previous Poll Results</h2>";
       }
@@ -64,7 +64,7 @@ function pollMenu()
       for(var i=0; i<globals.pastPollResults.length;i++)
       {
           globals.num = i+1;
-          document.getElementById("mainContent").innerHTML += "<button class='otherBtn' onclick='viewPollResult("+i+")' >View Poll "+ globals.num +" Result </button>";
+          document.getElementById("mainContent").innerHTML += "<button class='otherBtn logPollView' onclick='viewPollResult("+i+")' >View Poll "+ globals.num +" Result </button>";
       }
       document.getElementById("mainContent").innerHTML += "<br>";
       document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`pollHelpPage`)' ></img>";
@@ -82,7 +82,7 @@ function trendReportMenu()
       updateTopBar(trendReportMenu);
 
 
-      document.getElementById("mainContent").innerHTML = views["trendMenu"]({"candidates": globals.candidates});
+      document.getElementById("mainContent").innerHTML = views["trendMenu"]({"candidates": GameObject.candidates});
 
       var currentTrendReports = [];
 
@@ -132,7 +132,7 @@ function myDataMenu()
       updateTopBar(myDataMenu);
 
 
-      document.getElementById("mainContent").innerHTML = views["myDataMenu"]({"playerImg": images["playerImg"], "player": globals.playerCandidate});
+      document.getElementById("mainContent").innerHTML = views["myDataMenu"]({"playerImg": images["playerImg"], "player": GameObject.playerCandidate});
     }
   
 }
@@ -148,7 +148,7 @@ function eventMenu()
 
       //Make sure users are using the correct candidate data
       //Extra fix for the fake data polling bug
-      globals.candidates = globals.currentCandidateArrayHolder;
+      GameObject.candidates = globals.currentCandidateArrayHolder;
 
       //Clear previous screen
       clearScreen();
@@ -177,7 +177,7 @@ function eventMenu()
       document.getElementById('topBar').style.display = "inline-flex";
       
       let timeLeft = true;
-      if(globals.remainingHoursDay == 1){
+      if(GameObject.remainingHoursDay == 1){
         timeLeft = false;
       }
       
@@ -221,7 +221,7 @@ function statementMenu(){
       
       document.getElementById("mainContent").innerHTML = views["statement"]({"issues":globals.positions});
 
-      document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='statementCalc()' > Make Statement </button>";
+      document.getElementById("mainContent").innerHTML += "<button class='primaryBtn logStatement' onclick='statementCalc()' > Make Statement </button>";
       document.getElementById("back").innerHTML += "<button type='button' onclick='eventMenu()' >Back to Game Map</button>";
       document.getElementById("mainContent").innerHTML += "<img class = 'logHelp' src= '../img/menu/QuestionICON.png' style = 'width:50px'  onclick = 'chooseHelpPage(`statementsHelpPage`)' ></img>";
     }
@@ -281,7 +281,7 @@ function dayPollInfo()
     document.getElementById("mainContent").classList.add("center");
   
     document.getElementById("mainContent").innerHTML = "<h1>End of Day Poll</h1> <br><p>Phew! After a hard day of campaigning the current electoral office will conduct a poll for each candidate. <br>You just have to fill out the questions and decide how many people they'll talk to.<br> It wont take any time on our part!</p>";
-    document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='drawPoll("+POLL_STATES.END_OF_DAY+",true, false)'>Take Your End of Day Poll</button>";
+    document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='drawPoll("+globals.POLL_STATES.END_OF_DAY+",true, false)'>Take Your End of Day Poll</button>";
 }
 
 function endGame()
@@ -292,7 +292,7 @@ function endGame()
 
 	var winner;
 	var winvotes = 0;
-	globals.ranking = globals.candidates.slice();
+	globals.ranking = GameObject.candidates.slice();
 	globals.ranking.sort(function(a, b){return b.votes-a.votes})
 	document.getElementById("centerDisplay").innerHTML = "<h1> Rankings: </h1>";
 	for(var i = 0; i<globals.ranking.length;i++)
@@ -300,7 +300,7 @@ function endGame()
 		document.getElementById("centerDisplay").innerHTML += "<h1>" + (i+1) + ". " + globals.ranking[i].name + " Votes: " + globals.ranking[i].votes + "</h1><br>";
 	}
     globals.endReset = true; 
-    globals.gameOver = true;
+    GameObject.gameOver = true;
 	document.getElementById("centerDisplay").innerHTML += "<h1> Winner: "+ globals.ranking[0].name +"</h1> <button onclick = 'startCharacterSelect()'> Play Again? </button>";
 };
 
@@ -312,11 +312,11 @@ function hourChecker()
     saveGame()
   
     //If the current day is over
-    if(globals.remainingHoursDay < 1){
+    if(GameObject.remainingHoursDay < 1){
       //If this isn't the last day, show the end of day poll
-      if(globals.days < globals.totalDays){
+      if(globals.days < GameObject.totalDays){
         globals.days++;
-        globals.remainingHoursDay = 12;
+        GameObject.remainingHoursDay = 12;
         dayPollInfo();
       }
       //Otherwise the game ends

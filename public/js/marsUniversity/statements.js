@@ -2,41 +2,42 @@
 //calculated the effectiveness of your statement & consistancy modifier
 function statementCalc()
 {
-	if(globals.remainingHoursDay > 0)
+    $.post('/game/defaultLogger', {eventName: 'Statement Taken', eventType:'Statement Taken', module: 1, session: GameObject.gameSession});
+	if(GameObject.remainingHoursDay > 0)
 	{
 		var currentStatement = document.getElementById("statements").value;
 		var currentPosNeg = document.getElementById("posneg").value;
 		//if positive statement
 		if(currentPosNeg == 0){
-			globals.candidates[0].issueScore[currentStatement] += 0.3;
+			GameObject.candidates[0].issueScore[currentStatement] += 0.3;
 			if(currentStatement == 0){
-				globals.candidates[0].tuitPos += 1;
+				GameObject.candidates[0].tuitPos += 1;
 			}
 			else if(currentStatement == 1){
-				globals.candidates[0].budPos += 1;
+				GameObject.candidates[0].budPos += 1;
 			}
 			else if(currentStatement == 3){
-				globals.candidates[0].medPos += 1;
+				GameObject.candidates[0].medPos += 1;
 			}
 			else if(currentStatement == 2){
-				globals.candidates[0].funcPos += 1;
+				GameObject.candidates[0].funcPos += 1;
 			}
 		}
 		//if negative statement
 		else{
 		
-				globals.candidates[0].issueScore[currentStatement] -= 0.3;
+				GameObject.candidates[0].issueScore[currentStatement] -= 0.3;
 				if(currentStatement == 0){
-					globals.candidates[0].tuitNeg += 1;
+					GameObject.candidates[0].tuitNeg += 1;
 				}
 				else if(currentStatement == 1){
-					globals.candidates[0].budNeg += 1;
+					GameObject.candidates[0].budNeg += 1;
 				}
 				else if(currentStatement == 3){
-					globals.candidates[0].medNeg += 1;
+					GameObject.candidates[0].medNeg += 1;
 				}
 			else if(currentStatement == 2){
-				globals.candidates[0].funcNeg += 1;
+				GameObject.candidates[0].funcNeg += 1;
 				}
 	
 		}
@@ -49,39 +50,39 @@ function statementCalc()
 	
 	
 		//check if the issues have anything even in them
-		if(globals.candidates[0].tuitPos>0 || globals.candidates[0].tuitNeg > 0){
-			tuitCond = (Math.min(globals.candidates[0].tuitPos, globals.candidates[0].tuitNeg))/(globals.candidates[0].tuitPos+globals.candidates[0].tuitNeg);
+		if(GameObject.candidates[0].tuitPos>0 || GameObject.candidates[0].tuitNeg > 0){
+			tuitCond = (Math.min(GameObject.candidates[0].tuitPos, GameObject.candidates[0].tuitNeg))/(GameObject.candidates[0].tuitPos+GameObject.candidates[0].tuitNeg);
 		}
 		else{
 			tuitCond = 0;
 		}
 	
-		if(globals.candidates[0].budPos>0 || globals.candidates[0].budNeg>0){
-			athCond = (Math.min(globals.candidates[0].budPos, globals.candidates[0].budNeg))/(globals.candidates[0].budPos+globals.candidates[0].budNeg);
+		if(GameObject.candidates[0].budPos>0 || GameObject.candidates[0].budNeg>0){
+			athCond = (Math.min(GameObject.candidates[0].budPos, GameObject.candidates[0].budNeg))/(GameObject.candidates[0].budPos+GameObject.candidates[0].budNeg);
 		}
 		else{
 			athCond = 0;
 		}
 	
-		if(globals.candidates[0].medPos>0 || globals.candidates[0].medNeg>0){
-			medCond = (Math.min(globals.candidates[0].medPos, globals.candidates[0].medNeg))/(globals.candidates[0].medPos+globals.candidates[0].medNeg);
+		if(GameObject.candidates[0].medPos>0 || GameObject.candidates[0].medNeg>0){
+			medCond = (Math.min(GameObject.candidates[0].medPos, GameObject.candidates[0].medNeg))/(GameObject.candidates[0].medPos+GameObject.candidates[0].medNeg);
 		}
 		else{
 			medCond = 0;
 		}
 	
-		if(globals.candidates[0].funcPos>0 || globals.candidates[0].funcNeg>0){
-			eventCond = (Math.min(globals.candidates[0].funcPos, globals.candidates[0].funcNeg))/(globals.candidates[0].funcPos+globals.candidates[0].funcNeg);
+		if(GameObject.candidates[0].funcPos>0 || GameObject.candidates[0].funcNeg>0){
+			eventCond = (Math.min(GameObject.candidates[0].funcPos, GameObject.candidates[0].funcNeg))/(GameObject.candidates[0].funcPos+GameObject.candidates[0].funcNeg);
 		}
 		else{
 			eventCond = 0;
 		}
 	
 		var condHolder = (tuitCond + athCond + medCond + eventCond)/4;
-		globals.candidates[0].consMod = condHolder;
+		GameObject.candidates[0].consMod = condHolder;
 		//decrease 1 hour and continue back to user action
 		globals.remainingHoursTotal--;
-		globals.remainingHoursDay--;
+		GameObject.remainingHoursDay--;
 		statementCalcOtherCandidate(1);
 	}
     statementResults(currentStatement, currentPosNeg);
@@ -177,36 +178,36 @@ function statementCalcOtherCandidate(x){
 	var currentPosNeg = document.getElementById("posneg").value;
 
 	if(currentPosNeg == 0){
-		globals.candidates[x].issueScore[currentStatement] += 0.75;
+		GameObject.candidates[x].issueScore[currentStatement] += 0.75;
 		if(currentStatement == 0){
-			globals.candidates[x].tuitPos += 1;
+			GameObject.candidates[x].tuitPos += 1;
 		}
 		else if(currentStatement == 1){
-			globals.candidates[x].budPos += 1;
+			GameObject.candidates[x].budPos += 1;
 		}
 		else if(currentStatement == 3){
-			globals.candidates[x].medPos += 1;
+			GameObject.candidates[x].medPos += 1;
 		}
 		else if(currentStatement == 2){
-			globals.candidates[x].funcPos += 1;
+			GameObject.candidates[x].funcPos += 1;
 		}
 	}
 	else{
 		if(currentPosNeg == 1){
-			//globals.candidates[x].issueScore[currentStatement] -= 0.75;
+			//GameObject.candidates[x].issueScore[currentStatement] -= 0.75;
 			if(currentStatement == 0){
-				globals.candidates[x].tuitNeg += 1;
+				GameObject.candidates[x].tuitNeg += 1;
 			}
 			else if(currentStatement == 1){
-				globals.candidates[x].budNeg += 1;
+				GameObject.candidates[x].budNeg += 1;
 			}
 			else if(currentStatement == 3){
-				globals.candidates[x].medNeg += 1;
+				GameObject.candidates[x].medNeg += 1;
 			}
             else if(currentStatement == 2){
-			globals.candidates[x].funcNeg += 1;
+			GameObject.candidates[x].funcNeg += 1;
 			}
 		}
 	}
-	globals.candidates[x].lastMove = "Statement";
+	GameObject.candidates[x].lastMove = "Statement";
 }

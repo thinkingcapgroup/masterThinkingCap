@@ -63,20 +63,20 @@ function getScores(x, bias){
     let major = globals.majorList[majorRandom];
     let group = globals.groupList[groupRandom];
   
-    let averageMean = (globals.studentTypes[major]["tuition"].mean + globals.studentTypes[group]["tuition"].mean) / 2;
-    let averageDeviation = (globals.studentTypes[major]["tuition"].stdDeviation + globals.studentTypes[group]["tuition"].stdDeviation) / 2;    
+    let averageMean = (GameObject.studentTypes[major]["tuition"].mean + GameObject.studentTypes[group]["tuition"].mean) / 2;
+    let averageDeviation = (GameObject.studentTypes[major]["tuition"].stdDeviation + GameObject.studentTypes[group]["tuition"].stdDeviation) / 2;    
     let tuition = normalDistribution(averageMean, averageDeviation);
       
-    averageMean = (globals.studentTypes[major]["budget"].mean + globals.studentTypes[group]["budget"].mean) / 2;
-    averageDeviation = (globals.studentTypes[major]["budget"].stdDeviation + globals.studentTypes[group]["budget"].stdDeviation) / 2;
+    averageMean = (GameObject.studentTypes[major]["budget"].mean + GameObject.studentTypes[group]["budget"].mean) / 2;
+    averageDeviation = (GameObject.studentTypes[major]["budget"].stdDeviation + GameObject.studentTypes[group]["budget"].stdDeviation) / 2;
     let budget = normalDistribution(averageMean, averageDeviation);
       
-    averageMean = (globals.studentTypes[major]["functions"].mean + globals.studentTypes[group]["tuition"].mean) / 2;
-    averageDeviation = (globals.studentTypes[major]["functions"].stdDeviation + globals.studentTypes[group]["tuition"].stdDeviation) / 2;
+    averageMean = (GameObject.studentTypes[major]["functions"].mean + GameObject.studentTypes[group]["tuition"].mean) / 2;
+    averageDeviation = (GameObject.studentTypes[major]["functions"].stdDeviation + GameObject.studentTypes[group]["tuition"].stdDeviation) / 2;
     let functions = normalDistribution(averageMean, averageDeviation);
       
-    averageMean = (globals.studentTypes[major]["medical"].mean + globals.studentTypes[group]["medical"].mean) / 2;
-    averageDeviation = (globals.studentTypes[major]["medical"].stdDeviation + globals.studentTypes[group]["medical"].stdDeviation) / 2;
+    averageMean = (GameObject.studentTypes[major]["medical"].mean + GameObject.studentTypes[group]["medical"].mean) / 2;
+    averageDeviation = (GameObject.studentTypes[major]["medical"].stdDeviation + GameObject.studentTypes[group]["medical"].stdDeviation) / 2;
     let medical = normalDistribution(averageMean, averageDeviation);
 
      tuition = tuition.toFixed(2);
@@ -94,9 +94,9 @@ function votePercentage(sampleSize, bias)
 	//////CONSOLE.LOG(candidates);
 	createSample(sampleSize, bias);
 	var finalWinner = "";
-	for(var i=0;i<globals.candidates.length; i++)
+	for(var i=0;i<GameObject.candidates.length; i++)
 		{
-			globals.candidates[i].votes = 0;
+			GameObject.candidates[i].votes = 0;
 		}
 	for(var i =0; i<globals.sample.length; i++)
 	{
@@ -104,35 +104,35 @@ function votePercentage(sampleSize, bias)
 		var winner ="";
 		var lowPercentage=0;
 		var loser ="";
-		for(var j=0;j<globals.candidates.length; j++)
+		for(var j=0;j<GameObject.candidates.length; j++)
 		{
 
 			//////CONSOLE.LOG(globals.sample[i]);
 			var fame = 0;
             
-			fame = fameCalc(globals.candidates[j], globals.sample[i]);
-			//////CONSOLE.LOG(globals.candidates[j].name +" Fame: "+ fame);
-		    var issues = parseFloat(globals.sample[i].tuitionScore) * parseFloat(globals.candidates[j].issueScore[0])
-            issues += parseFloat(globals.sample[i].budgetScore) * parseFloat(globals.candidates[j].issueScore[1])
-		    issues += parseFloat(globals.sample[i].functionScore)* parseFloat(globals.candidates[j].issueScore[2])
-		    issues += parseFloat(globals.sample[i].medicalScore)  * parseFloat(globals.candidates[j].issueScore[3])
+			fame = fameCalc(GameObject.candidates[j], globals.sample[i]);
+			//////CONSOLE.LOG(GameObject.candidates[j].name +" Fame: "+ fame);
+		    var issues = parseFloat(globals.sample[i].tuitionScore) * parseFloat(GameObject.candidates[j].issueScore[0])
+            issues += parseFloat(globals.sample[i].budgetScore) * parseFloat(GameObject.candidates[j].issueScore[1])
+		    issues += parseFloat(globals.sample[i].functionScore)* parseFloat(GameObject.candidates[j].issueScore[2])
+		    issues += parseFloat(globals.sample[i].medicalScore)  * parseFloat(GameObject.candidates[j].issueScore[3])
 		  
             issues = issues/4;
 
             
             
-			/*if(globals.candidates[j].name != "Karma")
+			/*if(GameObject.candidates[j].name != "Karma")
 			{
                 if(issues < 0){
-                  candWinPer = -10*Math.pow(fame*issues,2) - globals.candidates[j].consMod;
+                  candWinPer = -10*Math.pow(fame*issues,2) - GameObject.candidates[j].consMod;
                 }
                 else{
-                  candWinPer = 10*Math.pow(fame*issues,2) - globals.candidates[j].consMod;
+                  candWinPer = 10*Math.pow(fame*issues,2) - GameObject.candidates[j].consMod;
                 }
 			}
 			else
 			{
-                if(globals.totalDays>5)
+                if(GameObject.totalDays>5)
                 {
                     candWinPer = 10*0.4*issues;
                 }
@@ -143,7 +143,7 @@ function votePercentage(sampleSize, bias)
 			}*/
           
             let sign = 1;
-            let consMod = globals.candidates[j].consMod;
+            let consMod = GameObject.candidates[j].consMod;
           
           
             //If their issues score is less than zero,
@@ -153,11 +153,11 @@ function votePercentage(sampleSize, bias)
             }
           
             //If this is Karma, she has a lowered modifier
-            /*if(globals.candidates[j].name == "Karma")
+            /*if(GameObject.candidates[j].name == "Karma")
 			{
               //Set Karma's fame to (2/Number of total days)
               //This makes karma's score lower when there are more days aka easier difficulty
-              fame = (2/globals.totalDays);
+              fame = (2/GameObject.totalDays);
             }*/
           
             /*
@@ -174,13 +174,13 @@ function votePercentage(sampleSize, bias)
 			if(candWinPer > winPercentage|| winPercentage ==0)
 			{
 				winPercentage = candWinPer;
-				winner = globals.candidates[j].name;
+				winner = GameObject.candidates[j].name;
 			}
 
 			if(candWinPer < lowPercentage || lowPercentage ==0)
 			{
 				lowPercentage = candWinPer;
-				loser = globals.candidates[j].name;
+				loser = GameObject.candidates[j].name;
 			}
 		}
 			////CONSOLE.LOG("Current Winner" + winner + " Current Loser" + loser)
@@ -193,11 +193,11 @@ function votePercentage(sampleSize, bias)
 		globals.sample[i].results.win = winner;
 		globals.sample[i].results.los = loser;
       
-		for(var k=0;k<globals.candidates.length; k++)
+		for(var k=0;k<GameObject.candidates.length; k++)
 		{
-			if(globals.candidates[k].name == winner)
+			if(GameObject.candidates[k].name == winner)
 			{
-				globals.candidates[k].votes++;
+				GameObject.candidates[k].votes++;
 			}
 		}
 	}
@@ -228,20 +228,20 @@ function TempStudent(bias){
     let major = globals.majorList[majorRandom];
     let group = globals.groupList[groupNumber];
   
-    let averageMean = (globals.studentTypes[major]["tuition"].mean + globals.studentTypes[group]["tuition"].mean) / 2;
-    let averageDeviation = (globals.studentTypes[major]["tuition"].stdDeviation + globals.studentTypes[group]["tuition"].stdDeviation) / 2;    
+    let averageMean = (GameObject.studentTypes[major]["tuition"].mean + GameObject.studentTypes[group]["tuition"].mean) / 2;
+    let averageDeviation = (GameObject.studentTypes[major]["tuition"].stdDeviation + GameObject.studentTypes[group]["tuition"].stdDeviation) / 2;    
     let tuition = normalDistribution(averageMean, averageDeviation);
       
-    averageMean = (globals.studentTypes[major]["budget"].mean + globals.studentTypes[group]["budget"].mean) / 2;
-    averageDeviation = (globals.studentTypes[major]["budget"].stdDeviation + globals.studentTypes[group]["budget"].stdDeviation) / 2;
+    averageMean = (GameObject.studentTypes[major]["budget"].mean + GameObject.studentTypes[group]["budget"].mean) / 2;
+    averageDeviation = (GameObject.studentTypes[major]["budget"].stdDeviation + GameObject.studentTypes[group]["budget"].stdDeviation) / 2;
     let budget = normalDistribution(averageMean, averageDeviation);
       
-    averageMean = (globals.studentTypes[major]["functions"].mean + globals.studentTypes[group]["tuition"].mean) / 2;
-    averageDeviation = (globals.studentTypes[major]["functions"].stdDeviation + globals.studentTypes[group]["tuition"].stdDeviation) / 2;
+    averageMean = (GameObject.studentTypes[major]["functions"].mean + GameObject.studentTypes[group]["tuition"].mean) / 2;
+    averageDeviation = (GameObject.studentTypes[major]["functions"].stdDeviation + GameObject.studentTypes[group]["tuition"].stdDeviation) / 2;
     let functions = normalDistribution(averageMean, averageDeviation);
       
-    averageMean = (globals.studentTypes[major]["medical"].mean + globals.studentTypes[group]["medical"].mean) / 2;
-    averageDeviation = (globals.studentTypes[major]["medical"].stdDeviation + globals.studentTypes[group]["medical"].stdDeviation) / 2;
+    averageMean = (GameObject.studentTypes[major]["medical"].mean + GameObject.studentTypes[group]["medical"].mean) / 2;
+    averageDeviation = (GameObject.studentTypes[major]["medical"].stdDeviation + GameObject.studentTypes[group]["medical"].stdDeviation) / 2;
     let medical = normalDistribution(averageMean, averageDeviation);
 
     tuition = tuition.toFixedNumber(2);
@@ -354,9 +354,9 @@ function votePercentage2(sampleSize, bias, pollChoices)
 	let studentSample = createSample2(sampleSize, bias, pollChoices);
   
 	var finalWinner = "";
-	for(var i=0;i<globals.candidates.length; i++)
+	for(var i=0;i<GameObject.candidates.length; i++)
     {
-        globals.candidates[i].votes = 0;
+        GameObject.candidates[i].votes = 0;
     }
   
 	for(let i = 0; i < studentSample.length; i++)
@@ -368,9 +368,9 @@ function votePercentage2(sampleSize, bias, pollChoices)
 		var lowPercentage=0;
 		var loser ="";
       
-		for(var j=0;j<globals.candidates.length; j++)
+		for(var j=0;j<GameObject.candidates.length; j++)
 		{   
-            let candidate = globals.candidates[j];
+            let candidate = GameObject.candidates[j];
           
 			var fame = fameCalc(candidate, student);
             let consMod = candidate.consMod;
@@ -430,11 +430,11 @@ function votePercentage2(sampleSize, bias, pollChoices)
         student.candFav = winner;
         student.candOpp = loser;
       
-		for(var k=0;k<globals.candidates.length; k++)
+		for(var k=0;k<GameObject.candidates.length; k++)
 		{
-			if(globals.candidates[k].name == winner)
+			if(GameObject.candidates[k].name == winner)
 			{
-				globals.candidates[k].votes++;
+				GameObject.candidates[k].votes++;
 			}
 		}
       

@@ -4,50 +4,50 @@ function initNewGame(isFromTut){
     
 	var tutHolder = isFromTut
 	clearScreen();
-	globals.candidates = [];	
+	GameObject.candidates = [];	
 	globals.population = 1000;
 	globals.sample = [];
 	globals.days = 1; 
-	globals.remainingHoursDay = 12; 
+	GameObject.remainingHoursDay = 12; 
     //Generates the student biases for this game
     generateStudentBiases();
 	
 	//Decides the opponents focus which cannot be the same as the player
     
-    opponentFame = (.05 * globals.totalDays);
+    opponentFame = (.05 * GameObject.totalDays);
 	globals.opponentCandidate.fame = [1.2,1.2,1.2,1.2,1.2,1.2,1.2,1.2];
 	globals.opponentCandidate.consMod = 0;
 	//////CONSOLE.LOG(oppFocus);
 	assignIssue(globals.opponentCandidate,[],1,false);
-	globals.candidates.push(globals.opponentCandidate);
+	GameObject.candidates.push(globals.opponentCandidate);
 	
 	//Create Issue Candidates
 	var issueCand1 = new Candidate("Boof");
 	issueCand1.focus = globals.positions[0];
 	issueCand1.focusnum = 0;
 	assignRank(issueCand1,globals.chosenCandRanks,true);
-	globals.candidates.push(issueCand1);
+	GameObject.candidates.push(issueCand1);
 	var issueCand2 = new Candidate("Zrap Bannigan");
 	issueCand2.focus = globals.positions[1];
 	issueCand2.focusnum = 1;
 	assignRank(issueCand2,globals.chosenCandRanks,true);
-	globals.candidates.push(issueCand2);
+	GameObject.candidates.push(issueCand2);
 	var issueCand3 = new Candidate("C1AMP");
 	issueCand3.focus = globals.positions[2];
 	issueCand3.focusnum = 2;
 	assignRank(issueCand3,globals.chosenCandRanks,true);
-	globals.candidates.push(issueCand3);
+	GameObject.candidates.push(issueCand3);
 	var issueCand4 = new Candidate("Simon");
 	issueCand4.focus = globals.positions[3];
 	issueCand4.focusnum = 3;
 	assignRank(issueCand4,globals.chosenCandRanks,true);
-	globals.candidates.push(issueCand4);	
+	GameObject.candidates.push(issueCand4);	
   
   
     //Set the currentCandidateArrayHolder to the right data
-    globals.currentCandidateArrayHolder = globals.candidates;
+    globals.currentCandidateArrayHolder = GameObject.candidates;
   
-    globals.candidates.splice(0,0,globals.playerCandidate);
+    GameObject.candidates.splice(0,0,GameObject.playerCandidate);
     loadQuestions();
   
 	//map(0,true,true);
@@ -57,7 +57,7 @@ function initNewGame(isFromTut){
 //Sets the number of days and time remaining according to the players difficulty choice.
 function setDiff(days)
 {
-    globals.totalDays = days;
+    GameObject.totalDays = days;
     globals.inGame = true;
     initNewGame(false);
 }
@@ -67,35 +67,34 @@ function calcFirstStatement(f)
     ////CONSOLE.LOG("calcFirstStatement");
     
     
-	globals.firstPoll = false;
-	globals.firstState = false;
+	GameObject.firstPoll = false;
+	GameObject.firstState = false;
 	globals.turnCounter = 1
-	globals.playerCandidate.focus = globals.positions[f];
-	globals.playerCandidate.focusnum = f;
+	GameObject.playerCandidate.focus = globals.positions[f];
+	GameObject.playerCandidate.focusnum = f;
     
     //Increases issue score based on the players choice for their initial statement
 	switch(f)
 	{
 		case 0:
-		globals.playerCandidate.issueScore[0]++;
+		GameObject.playerCandidate.issueScore[0]++;
 		break;
 		case 1:
-		globals.playerCandidate.issueScore[1]++;
+		GameObject.playerCandidate.issueScore[1]++;
 		break;
 		case 2:
-		globals.playerCandidate.issueScore[2]++;
+		GameObject.playerCandidate.issueScore[2]++;
 		break;
 		case 3:
-		globals.playerCandidate.issueScore[3]++;
+		GameObject.playerCandidate.issueScore[3]++;
 		break;
 	}
-	
 	
     //Display Updated Top Bar
     //updateTopBar(this);
   
     //Hold onto correct candidates
-    globals.currentCandidateArrayHolder = globals.candidates;
+    globals.currentCandidateArrayHolder = GameObject.candidates;
     
 	eventMenu();
 };
@@ -123,18 +122,18 @@ function updateSession(gameOver)
       }
     }
   
-	if(!globals.gameOver){
+	if(!GameObject.gameOver){
     	////CONSOLE.LOG(saveArray[9] == "NaN")
     	if(gameSession !=[] && gameSession != "NaN" && gameSession != undefined && gameSession != "")
     	{
-        	globals.gameSession = gameSession + 1;
-        	globals.gameOver = false;
+        	GameObject.gameSession = gameSession + 1;
+        	GameObject.gameOver = false;
         	globals.endReset = false;
     	}
     	else
     	{
-        	globals.gameSession = 0;
-        	globals.gameOver = false;
+        	GameObject.gameSession = 0;
+        	GameObject.gameOver = false;
         	globals.endReset = false;
     	}
 	}
@@ -149,30 +148,30 @@ function resetGame()
 	globals.oppChoice = [];
 	globals.currentEvents = [];
 	globals.sample = [];
-	globals.candidates=[];
+	GameObject.candidates=[];
 	globals.chosenCandRanks = [];
 	globals.currentEvents = [];
-	globals.playerCandidate = new Candidate("ph");
-    globals.playerCandidate.isPlayer = true;
+	GameObject.playerCandidate = new Candidate("ph");
+    GameObject.playerCandidate.isPlayer = true;
 	globals.opponentCandidate = new Candidate("Karma");
-  	if(globals.gameOver)
+  	if(GameObject.gameOver)
     {
-        globals.gameSession++; 
-        globals.gameOver = false;
+        GameObject.gameSession++; 
+        GameObject.gameOver = false;
     }
     
 }
 
 //Creates the player candidate
 function createCharacter(){
-	globals.playerCandidate.name = document.getElementById("charName").value;
-	globals.playerCandidate.raceNum = headSheet.frameIndexRace;
-	globals.playerCandidate.genderNum = bodySheet.frameIndexClothing;
-	globals.playerCandidate.bodyTypeNum = bodySheet.bodyArrayHolder;
-	globals.playerCandidate.headNum = headSheet.frameIndex;
-	globals.playerCandidate.race = globals.lifeformArray[headSheet.frameIndexRace];
-	globals.playerCandidate.gender = globals.bodyShapeArray[bodySheet.frameIndexClothing];
-	globals.playerCandidate.bodyType = globals.bodyTypeArray[bodySheet.bodyArrayHolder];
+	GameObject.playerCandidate.name = document.getElementById("charName").value;
+	GameObject.playerCandidate.raceNum = headSheet.frameIndexRace;
+	GameObject.playerCandidate.genderNum = bodySheet.frameIndexClothing;
+	GameObject.playerCandidate.bodyTypeNum = bodySheet.bodyArrayHolder;
+	GameObject.playerCandidate.headNum = headSheet.frameIndex;
+	GameObject.playerCandidate.race = globals.lifeformArray[headSheet.frameIndexRace];
+	GameObject.playerCandidate.gender = globals.bodyShapeArray[bodySheet.frameIndexClothing];
+	GameObject.playerCandidate.bodyType = globals.bodyTypeArray[bodySheet.bodyArrayHolder];
   
     generatePlayerImages();
     
@@ -187,12 +186,12 @@ function generatePlayerImages(){
   
     //Create player Image
     headSheet = new Sprite({context: ctx, width: 155, height: 171, image: globals.heads});
-    headSheet.frameIndex = globals.playerCandidate.headNum;
-    headSheet.frameIndexRace = globals.playerCandidate.raceNum;
+    headSheet.frameIndex = GameObject.playerCandidate.headNum;
+    headSheet.frameIndexRace = GameObject.playerCandidate.raceNum;
     
 	bodySheet = new Sprite({context: ctx, width: 164, height: 343, image: globals.thinBody});
-    bodySheet.bodyArrayHolder = globals.playerCandidate.bodyTypeNum;
-    bodySheet.frameIndexClothing = globals.playerCandidate.genderNum;
+    bodySheet.bodyArrayHolder = GameObject.playerCandidate.bodyTypeNum;
+    bodySheet.frameIndexClothing = GameObject.playerCandidate.genderNum;
   
     let temp = bodySheet.bodyArrayHolder;
 	headSheet.bodyArrayHolder = temp;
@@ -321,4 +320,17 @@ function assignRank(candidate, chosenRanks, issueCand)
 	{
 		chosenRanks.push(globals.oppChoice[oppRank]);
 	}
+}
+
+GameObject = 
+{
+    candidates:[],
+    playerCandidate: null,
+    studentTypes: {},
+    gameSession:0, 
+    gameOver:false,
+    firstPoll: false,
+	firstState: false,
+    totalDays: 0,
+    remainingHoursDay: 0
 }

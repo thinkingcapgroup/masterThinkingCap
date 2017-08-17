@@ -55,10 +55,10 @@
 				"The President of Mars University selects all 1400 Mars University students",
 				"The Physical Education Direction selects all of the students on the Mars U soccer team",
 				"Zrap selects his friends at Mars University as his sample",
-				"Tina selects 100 human students, 100 Martian students, and 100 'alien' students at random",
+				"Tina selects 100 human students, 100 Martian students, and 100 alien students at random",
 				"Gita randomly selects 100 faculty and staff at Mars University"
 			],
-			"correct":"Tina selects 100 human students, 100 Martian students, and 100 'alien' students at random",
+			"correct":"Tina selects 100 human students, 100 Martian students, and 100 alien students at random",
 			"id":"3"
 		},
 		{

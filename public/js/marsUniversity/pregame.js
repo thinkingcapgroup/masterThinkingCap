@@ -1,7 +1,7 @@
 function startAnimatic()
 {
-	globals.firstPoll = true;
-	globals.firstState = true;
+	GameObject.firstPoll = true;
+	GameObject.firstState = true;
 	
     //Shows the animatic
 	document.getElementById("centerDisplay").innerHTML = "<h2>Welcome to Mars University! </h2> ";
@@ -23,7 +23,7 @@ function startCharacterSelect(){
     
 	var prevHours = document.getElementById("playerInfo");
 	prevHours.innerHTML = "";
- 	updateSession(globals.gameOver);
+ 	updateSession(GameObject.gameOver);
 	resetGame();
     
     document.getElementById("centerDisplay").innerHTML = views["characterSelect"]({});
@@ -55,7 +55,7 @@ function firstPollInfo()
     document.getElementById("mainContent").classList.add("center");
 
     document.getElementById("mainContent").innerHTML += "<h1>First Poll</h1> <br><p>Ready to start your Campaign at Mars U? It's time to get that initial data from the Student Government. Let them know what questions you would like to know the answers to.</p>";
-    document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='drawPoll("+POLL_STATES.FIRST+", true, false)'>Take Your First Poll</button>";
+    document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='drawPoll("+globals.POLL_STATES.FIRST+", true, false)'>Take Your First Poll</button>";
 }
 
 //Sets up the buttons for the intital statement the player makes in the game.
@@ -63,7 +63,7 @@ function firstStatement()
 {
     ////CONSOLE.LOG("first statement");
     
-	globals.firstPoll = false;
+	GameObject.firstPoll = false;
 	saveGame();
 	globals.first = false;
 	clearScreen();
@@ -136,5 +136,5 @@ function firstPollInfo()
     document.getElementById("mainContent").classList.add("center");
 
     document.getElementById("mainContent").innerHTML += "<h1>First Poll</h1> <br><p>Ready to start your Campaign at Mars U? It's time to get that initial data from the Student Government. Let them know what questions you would like to know the answers to.</p>";
-    document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='drawPoll("+POLL_STATES.FIRST+", true, false)'>Take Your First Poll</button>";
+    document.getElementById("mainContent").innerHTML += "<button class='primaryBtn' onclick='drawPoll("+globals.POLL_STATES.FIRST+", true, false)'>Take Your First Poll</button>";
 }

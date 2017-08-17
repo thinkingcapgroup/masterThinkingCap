@@ -13,7 +13,7 @@ $(document).on('click','.logEvent', function(req, res, next){
 
      }).then( function(){
 
-     	    //$.post('/game/logger', {eventName: name, eventType: 'userAction', module: 1, session: globals.gameSession});
+     	    $.post('/game/logger', {eventName: name, eventType: 'userAction', module: 1, session: GameObject.gameSession});
      } )
  });
 
@@ -23,15 +23,15 @@ $(document).on('click','.logEventEnd', function(req, res, next){
 
      setTimeout(function(){
       var winning = 'Winner: ' + ranking[0].name;
-      var sessionID = globals.gameSession;
+      var sessionID = GameObject.gameSession;
       var playerRank = 0;
       for(var q = 0; q < ranking.length; q++){
-        if(ranking[q].name == globals.candidates[0].name){
+        if(ranking[q].name == GameObject.candidates[0].name){
           playerRank = q+1;
         }
       }
     
-        //$.post('/game/loggerEnd', {eventName: winning, rank: playerRank, eventType: 'endGame', module: 1, session: sessionID });
+        $.post('/game/loggerEnd', {eventName: winning, rank: playerRank, eventType: 'endGame', module: 1, session: sessionID });
       
       }, 1000);
  });
@@ -41,7 +41,7 @@ $(document).on('click','.logHelp', function(req, res, next){
       //userAction
 
     
-    //$.post('/game/loggerHelp', {eventName: 'Enter Help', eventType:'Help Area', module: 1, session: globals.gameSession});
+    $.post('/game/loggerHelp', {eventName: 'Enter Help', eventType:'Help Area', module: 1, session: GameObject.gameSession});
       
 
  });
@@ -49,7 +49,7 @@ $(document).on('click','.logHelp', function(req, res, next){
 $(document).on('click','.logHelpEnd', function(req, res, next){
       //grab event ID
       //userAction
-    //$.post('/game/loggerHelpEnd', {eventName: 'Leave Help', eventType:'Help Area', module: 1, session: globals.gameSession});
+    $.post('/game/loggerHelpEnd', {eventName: 'Leave Help', eventType:'Help Area', module: 1, session: GameObject.gameSession});
       
 
  });
@@ -57,7 +57,7 @@ $(document).on('click','.logHelpEnd', function(req, res, next){
 $(document).on('click','.logHelpEndTutorial', function(req, res, next){
       //grab event ID
       //userAction
-    //$.post('/game/loggerHelpEndTutorial', {eventName: 'Leave Help', eventType:'Help Area', module: 1, part:globals.section, session: globals.gameSession});
+    $.post('/game/loggerHelpEndTutorial', {eventName: 'Leave Help', eventType:'Help Area', module: 1, part:globals.section, session: GameObject.gameSession});
       
 
  });
@@ -138,13 +138,13 @@ function onPollChange(pollThing){
       }
       if(pollQuestion == "candFame" || pollQuestion == "candTrust" ){
           
-        for(var x = 0; x < globals.candidates.length; x++){
+        for(var x = 0; x < GameObject.candidates.length; x++){
             let newOption;
-            if(x == 0 && globals.candidates[0].name != "Karma"){
-              newOption = new Option(globals.candidates[x].name, "Player");
+            if(x == 0 && GameObject.candidates[0].name != "Karma"){
+              newOption = new Option(GameObject.candidates[x].name, "Player");
             }               
             else{
-                newOption = new Option(globals.candidates[x].name, globals.candidates[x].name);
+                newOption = new Option(GameObject.candidates[x].name, GameObject.candidates[x].name);
             }
             
             newOption.setAttribute("class", "defaultSubOption");
@@ -179,7 +179,7 @@ $(document).on('change','.subPollQ',function(){
 $(document).on('click','.logEventPoll', function(){
       //grab event ID
       //userAction
-      //$.post('/game/loggerPoll', {q1: theJSONEvents[0], q2: theJSONEvents[1], q3: theJSONEvents[2], q4: theJSONEvents[3], q5:theJSONEvents[4], q6:theJSONEvents[5], eventType: 'poll', module: 1, session: globals.gameSession});
+      $.post('/game/loggerPoll', {q1: theJSONEvents[0], q2: theJSONEvents[1], q3: theJSONEvents[2], q4: theJSONEvents[3], q5:theJSONEvents[4], q6:theJSONEvents[5], eventType: 'poll', module: 1, session: GameObject.gameSession});
 
 
  });

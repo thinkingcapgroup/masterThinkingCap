@@ -34,19 +34,20 @@ String.prototype.decodeSpecialChars = function() {
 
 function SaveFile(){
   this.days = globals.days;
-  this.totalDays = globals.totalDays;
-  this.gameSession = globals.gameSession;
-  this.firstPoll = globals.firstPoll;
-  this.firstState = globals.firstState;
-  this.gameOver = globals.gameOver;
-  this.remainingHoursDay = globals.remainingHoursDay;
-  this.candidates = globals.candidates;
+  this.totalDays = GameObject.totalDays;
+  this.gameSession = GameObject.gameSession;
+  this.firstPoll = GameObject.firstPoll;
+  this.firstState = GameObject.firstState;
+  this.gameOver = GameObject.gameOver;
+  this.remainingHoursDay = GameObject.remainingHoursDay;
+  this.candidates = GameObject.candidates;
   this.pastPollChoices = globals.pastPollChoices;
   this.pastPollSizes = globals.pastPollSizes;
   this.pastGraphData = globals.pastGraphData;
   this.pastGraphLabels = globals.pastGraphLabels;
   this.studentBiases = globals.studentBiases;
-  this.studentTypes = globals.studentTypes;
+  this.studentTypes = GameObject.studentTypes;
+  this.playerCandidate = GameObject.playerCandidate;
   //this.allQuestions = globals.allQuestions;
   
   this.pastPollResults = compressPollResults(globals.pastPollResults);
@@ -82,19 +83,20 @@ function loadSaveFile(){
   
   
   globals.days = saveJSON.days;
-  globals.totalDays = saveJSON.totalDays;
-  globals.gameSession = saveJSON.gameSession;
-  globals.firstPoll = saveJSON.firstPoll;
-  globals.firstState = saveJSON.firstState;
-  globals.gameOver = saveJSON.gameOver;
-  globals.remainingHoursDay = saveJSON.remainingHoursDay;
-  globals.candidates = saveJSON.candidates;
+  GameObject.totalDays = saveJSON.totalDays;
+  GameObject.gameSession = saveJSON.gameSession;
+  GameObject.firstPoll = saveJSON.firstPoll;
+  GameObject.firstState = saveJSON.firstState;
+  GameObject.gameOver = saveJSON.gameOver;
+  GameObject.remainingHoursDay = saveJSON.remainingHoursDay;
+  GameObject.candidates = saveJSON.candidates;
   globals.pastPollChoices = saveJSON.pastPollChoices;
   globals.pastPollResults = saveJSON.pastPollResults;
   globals.pastPollSizes = saveJSON.pastPollSizes;
   globals.pastGraphData = saveJSON.pastGraphData;
   globals.pastGraphLabels = saveJSON.pastGraphLabels;
-  globals.studentTypes = saveJSON.studentTypes;
+  GameObject.studentTypes = saveJSON.studentTypes;
+  GameObject.playerCandidate = saveJSON.playerCandidate;
   //globals.allQuestions = saveJSON.allQuestions;
   
   globals.pastPollResults = decompressPollResults(saveJSON.pastPollResults)
@@ -151,6 +153,7 @@ function getDecompressedStudent(compressedStudent, pollChoices){
 
 function loadGame()
 {
+	$.post('/game/logRetriever', {});
     try{ 
       loadSaveFile(); 
     }
@@ -163,10 +166,7 @@ function loadGame()
   
     
     //Set the currentCandidateArrayHolder to the right data
-    globals.currentCandidateArrayHolder = globals.candidates;
-    
-    //Set player candidate
-    globals.playerCandidate = globals.candidates[0];
+    globals.currentCandidateArrayHolder = GameObject.candidates;
   
 	saveState = "";
     preloadEventImages(globals.events);
@@ -174,11 +174,11 @@ function loadGame()
     generatePlayerImages();
   
     globals.inGame = true;
-	if(globals.firstPoll)
+	if(GameObject.firstPoll)
 	{
 		firstPollInfo();
 	}
-	else if(globals.firstState)
+	else if(GameObject.firstState)
 	{
 		firstStatement();
 	}

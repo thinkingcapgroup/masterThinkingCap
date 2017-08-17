@@ -20,6 +20,7 @@
     "express-handlebars": "^3.0.0",
     "express-recaptcha": "^2.1.0",
     "express-session": "^1.14.1",
+    "ftp": "^0.3.10",
     "json2xls": "^0.1.2",
     "lodash": "^4.17.2",
     "moment": "^2.18.1",
