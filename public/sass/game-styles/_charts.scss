@@ -21,3 +21,21 @@
 #barChartDiv, #pieChartDiv{
   text-align: left;
 }
+
+.c3-axis-y text, .c3-axis-x text, .c3-chart-texts
+{
+  font-size: 14px !important; 
+  font-family: $game-body;
+  
+}
+
+.c3-chart-texts text{
+  fill: black !important;
+}
+
+.c3-legend-item, .c3-tooltip th, .c3-tooltip td, .c3-tooltip-container
+{
+  font-size: 14px !important;
+  font-family: $game-body;
+}
+

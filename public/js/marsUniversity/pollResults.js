@@ -1008,14 +1008,6 @@ function tableBuilder(pollChoices, tableArray2, sSize, graphData, graphLabels, i
 
 }*/
 
- $(document).on('change','.graphFilters', function()
- {
-	 console.log(globals.currentPoll)
-	var major = document.getElementById("majorSelect").value;
-	var group = document.getElementById("groupSelect").value;
-	filterGraphData(major, group, globals.pastPollChoices[globals.currentPoll], globals.pastPollResults[globals.currentPoll], globals.pastPollSizes[globals.currentPoll], globals.pastGraphData[globals.currentPoll], globals.pastGraphLabels[globals.currentPoll], false);
- });
-
 $(document).on('change','.filterChecklist', function(){
   var clearEverything = false;
   var numberFlag = 0;
@@ -1356,6 +1348,7 @@ function createTrendReport_REFACTORED(categoryId, graphType)
 //FROM POLLING.JS, PUT IT BACK WHEN DONE
 function pollResults_REFACTORED(state, isFree, isFake)
 {
+  console.log("in poll results");
 	var bias = document.getElementById('location').value;
 
 	var duplicate = false;
@@ -1389,24 +1382,6 @@ function pollResults_REFACTORED(state, isFree, isFake)
                     //pollVal = pollVal +""+ subValue;
                     //pollChoices.push(pollVal);
                 }
-			/*for(var k = 1;k<GameObject.candidates.length;k++)
-			{
-				if(graphQuestions[i] == "candFame" + GameObject.candidates[k].name)
-				{
-					name = GameObject.candidates[k].name;
-					document.getElementById("q"+i+"text").innerHTML = globals.questions[10].question + " " + name;
-					document.getElementById("bq"+i+"text").innerHTML = globals.questions[10].question + " " + name;
-				}
-			}
-
-			for(var k = 1;k<GameObject.candidates.length;k++)
-			{
-				if(graphQuestions[i] == "candTrust" + GameObject.candidates[k].name)
-				{
-					name = GameObject.candidates[k].name;
-					document.getElementById("q"+i+"text").innerHTML = globals.questions[11].question + " " + name;
-					document.getElementById("bq"+i+"text").innerHTML = globals.questions[11].question + " " + name;
-				}*/
 			}
             else{
               //let newQuestion = new PollQuestion(pollQuestionId, "", jsonObj);
@@ -1865,131 +1840,6 @@ function createTrendReport(category)
     document.getElementById('reportButtons').style = 'display:none';
 }
 
-//FROM POLLING.JS, PUT IT BACK WHEN DONE
-function pollResults_REFACTORED(state, isFree, isFake)
-{
-	var bias = document.getElementById('location').value;
-
-	var duplicate = false;
-	var dup1;
-
-	var dup2;
-
-
-    let newPollResult = new PollResult();
-    newPollResult.name += (globals.pastPollResults.length + 1);
-
-	for(var i = 0; i<6 ;i++)
-	{
-		var selectedQuestion = document.getElementById("poll"+i+"");
-		if(selectedQuestion.options[selectedQuestion.selectedIndex].value != "")
-		{
-			let pollQuestionId = selectedQuestion.options[selectedQuestion.selectedIndex].value;
-
-            let pollQuestion = globals.allQuestions[pollQuestionId];
-
-            //If the question has a subquestion
-			if(pollQuestion.subQuestions && pollQuestion.subQuestions.length){
-				//grab the sub question
-				var selectedSubQuestion = document.getElementById('subpoll' + i + '');
-				var subQuestionId = selectedSubQuestion.value;
-
-                if(subQuestionId != ""){
-                    //let newQuestion = new PollQuestion(pollQuestionId, subValue, jsonObj);
-                    //newPollResult.questions.push(newQuestion);
-                    newPollResult.questionIDs.push(pollQuestionId+subQuestionId);
-
-                    //pollVal = pollVal +""+ subValue;
-                    //pollChoices.push(pollVal);
-                }
-			}
-            else{
-              //let newQuestion = new PollQuestion(pollQuestionId, "", jsonObj);
-              //newPollResult.questions.push(newQuestion);
-              newPollResult.questionIDs.push(pollQuestionId);
-            }
-
-		}
-	}
-    console.log(newPollResult);
-
-    let pollChoices = newPollResult.questionIDs;
-
-	//Checks for duplicate questions
-	for (var i=0; i< pollChoices.length;i++)
-	{
-		for (var j=0; j< pollChoices.length;j++)
-		{
-			if(i!=j)
-			{
-				var val1 = pollChoices[i];
-				var val2 = pollChoices[j];
-
-				if(val1 == val2)
-				{
-					duplicate = true;
-					dup1 = i;
-					dup2 = j;
-				}
-			}
-		}
-	}
-    var sample = document.getElementById("sample");
-    var sampleSize = parseFloat(sample.options[sample.selectedIndex].value);
-
-	if(duplicate)
-    {
-		document.getElementById("duplicateParagraph").innerHTML = "You’re asking the same question more than once! Fix this to continue the poll."
-		document.getElementById("duplicateParagraph").style.display = "block";
-
-        let question1 = document.getElementById("poll"+dup1+"");
-        let question2 = document.getElementById("poll"+dup2+"");
-
-		question1.options[question1.selectedIndex].style.color = "red";
-		question2.options[question2.selectedIndex].style.color = "red";
-	}
-	else if(pollChoices.length < 2)
-	{
-       ////CONSOLE.LOG("not enough questions: "+pollChoices.length);
-		document.getElementById("duplicateParagraph").innerHTML = "Please Select 2 or More Questions";
-        document.getElementById("duplicateParagraph").style.display = "block";
-	}
-    else if(!pollTimeCheck(sampleSize, pollChoices.length) && !isFree){
-      ////CONSOLE.LOG("time check 1");
-        document.getElementById("duplicateParagraph").innerHTML = "You dont have enough time to ask that many questions. \nPlease reselect an appropriate number of questions.";
-        document.getElementById("duplicateParagraph").style.display = "block";
-    }
-    //If the poll is sucessful
-    else
-    {
-        //Clear previous screen
-        clearScreen();
-
-        //Run poll
-        pollCalc_REFACTORED(newPollResult, sampleSize, bias, state, isFree, isFake);
-
-        if(state == globals.POLL_STATES.TUTORIAL){
-            document.getElementById("back").innerHTML += "<button onclick = 'drawPoll("+state+","+isFree+","+isFake+")'> Back to Tutorial Poll</button>";
-        }
-        else if(state == globals.POLL_STATES.PRACTICE_AREA)
-        {
-            document.getElementById("back").innerHTML += "<button onclick = 'practiceMenu()'> Return to Practice Area</button>";
-        }
-        else if(state == globals.POLL_STATES.FIRST)
-        {
-            document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'firstStatement()'> Make your Initial Statement on an Issue </button>";
-
-        }
-        else{
-            document.getElementById("next").innerHTML += "<button class='primaryBtn' onclick = 'eventMenu()'> Return to the Game Map </button>";
-        }
-	}
-
-    //Reset candidates back to correct candidates
-	GameObject.candidates = globals.currentCandidateArrayHolder;
-
-};
-
 function pollCalc_REFACTORED(newPollResult, sampleSize, bias, state, isFree, isFake)
 {
     //Add question for student group
@@ -2217,6 +2067,9 @@ function makeGraphs_C3(pollResult)
 
     var chart = c3.generate({
       bindto: document.getElementById('barChart'+i),
+      padding: {
+        top: 0
+      },
       data: {
         columns: graphData,
         type: 'bar',

@@ -825,7 +825,7 @@
 	"POLL_STATES":
 	{
 		"TUTORIAL": 1,
-		"RACTICE_AREA": 2,
+		"PRACTICE_AREA": 2,
 		"IN_GAME_PRACTICE": 3,
 		"END_OF_DAY": 0,
 		"IN_GAME": 5,
