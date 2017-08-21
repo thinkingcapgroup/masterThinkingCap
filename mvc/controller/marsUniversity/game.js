@@ -59,49 +59,49 @@ router.get('/ajax', function (req, res) {
 router.post('/logRetriever', auth, function (req, res, next) 
 {
   var id = req.user.userId;
-  //var recievingClient = new Client();
-  //recievingClient.on('ready', function() {
-  //  recievingClient.get('User_'+id+'_logFile.txt', function(err, stream) {
-  //    if (err) throw err;
-  //    stream.once('close', function() { recievingClient.end(); });
-  //    stream.pipe(fs.createWriteStream('logs/User_'+id+'_logFile.txt'));
-  //  });
-  //});
-  //recievingClient.connect({host: 'ec2-13-59-136-55.us-east-2.compute.amazonaws.com', user:'MarsUstorage', password: 'MartianD0g'});
-  
   console.log("Pulling file");
-  ftp.get('User_'+id+'_logFile.txt', function(err, socket) {
-    if (err) return;
- 
-    socket.on("data", function(d) { str += d.toString(); console.log(str);})
-    socket.on("close", function(hadErr) {
-      if (hadErr)
-        console.error('There was an error retrieving the file.');
+  var recievingClient = new Client();
+  recievingClient.on('ready', function() {
+    recievingClient.get('User_'+id+'_logFile.txt', function(err, stream) {
+      if (err) throw err;
+      stream.once('close', function() { recievingClient.end(); });
+      stream.pipe(fs.createWriteStream('efs/User_'+id+'_logFile.txt'));
     });
-    socket.resume();
   });
+  recievingClient.connect({host: 'ec2-13-59-136-55.us-east-2.compute.amazonaws.com', user:'MarsUstorage', password: 'MartianD0g'});
+  
+  //ftp.get('User_'+id+'_logFile.txt', function(err, socket) {
+  //  if (err) return;
+  //
+  //  socket.on("data", function(d) { str += d.toString(); console.log(str);})
+  //  socket.on("close", function(hadErr) {
+  //    if (hadErr)
+  //      console.error('There was an error retrieving the file.');
+  //  });
+  //  socket.resume();
+  //});
   res.end();
 });
 
 //Uploads the Log File to the public FTP
 function saveNewLog(req,res, logStr){
   var id = req.user.userId;
-  //var sendingClient = new Client();
-  //sendingClient.on('ready', function() 
-  //{
-  //  sendingClient.put('logs/User_'+id+'_logFile.txt', 'User_'+id+'_logFile.txt', function(err) 
-	//{
-  //    if (err) throw err;
-  //    sendingClient.end();
-  //  });
-  //});
-  //sendingClient.connect({host: 'ec2-13-59-136-55.us-east-2.compute.amazonaws.com', user:'MarsUstorage', password: 'MartianD0g'});
   console.log("Saving to FTP ");
-  var buf = Buffer.from(logStr, 'utf8');
-  ftp.put(buf, 'User_'+id+'_logFile.txt', function(hadError) {
-  if (!hadError)
-    console.log("File transferred successfully!");
+  var sendingClient = new Client();
+  sendingClient.on('ready', function() 
+  {
+    sendingClient.put('efs/User_'+id+'_logFile.txt', 'User_'+id+'_logFile.txt', function(err) 
+	//{
+      if (err) throw err;
+      sendingClient.end();
+    });
   });
+  sendingClient.connect({host: 'ec2-13-59-136-55.us-east-2.compute.amazonaws.com', user:'MarsUstorage', password: 'MartianD0g'});
+  //var buf = Buffer.from(logStr, 'utf8');
+  //ftp.put(buf, 'User_'+id+'_logFile.txt', function(hadError) {
+  //if (!hadError)
+  //  console.log("File transferred successfully!");
+  //});
 }
 
 
@@ -135,8 +135,8 @@ router.post('/logger', auth, function (req, res, next) {
   console.log("Updating File");
   var stringTem = "\nUsername: " +username + " ID: "+ id + " Type of Event: "+ type + " Event: "+ event + " Date: " + dateString + " Game Session: " + gameID +"\n";
   str += stringTem;
-  // Append stringTem to file 'logs/useraction.txt'
-  fs.appendFile('logs/User_'+id+'_logFile.txt', stringTem, function (err) {
+  // Append stringTem to file 'efs/Useraction.txt'
+  fs.appendFile('efs/User_'+id+'_logFile.txt', stringTem, function (err) {
     console.log('Student information logged');
   });
 
@@ -168,8 +168,8 @@ router.post('/loggerHelp', auth, function (req, res, next) {
 	
   var stringTem = "\nUsername: " +username + " ID: "+ id + " Type of Event: "+ type + " Event: "+ event + " Date: " + dateString + " Game Session: " + gameID +"\n";
   str += stringTem;
-  // Append stringTem to file 'logs/useraction.txt'
-  fs.appendFile('logs/User_'+id+'_logFile.txt', stringTem, function (err) {
+  // Append stringTem to file 'efs/Useraction.txt'
+  fs.appendFile('efs/User_'+id+'_logFile.txt', stringTem, function (err) {
     console.log('Student information logged');
   });
 
@@ -196,13 +196,13 @@ router.post('/loggerHelpEnd', auth, function (req, res, next) {
    var timestamp = new Date().toISOString()
     var x = timestamp.split('-')
     var dateString =  moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC"
-  // Append stringTem to file 'logs/useraction.txt'
+  // Append stringTem to file 'efs/Useraction.txt'
 
   
   var stringTem = "\nUsername: " +username + " ID: "+ id + " Type of Event: "+ type + " Event: "+ event + " Date: " + dateString + " Game Session: " + gameID +"\n";
   str += stringTem;
-  // Append stringTem to file 'logs/useraction.txt'
-  fs.appendFile('logs/User_'+id+'_logFile.txt', stringTem, function (err) {
+  // Append stringTem to file 'efs/Useraction.txt'
+  fs.appendFile('efs/User_'+id+'_logFile.txt', stringTem, function (err) {
     console.log('Student information logged');
   });
   
@@ -230,13 +230,13 @@ router.post('/defaultLogger', auth, function (req, res, next) {
    var timestamp = new Date().toISOString()
     var x = timestamp.split('-')
     var dateString =  moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC"
-  // Append stringTem to file 'logs/useraction.txt'
+  // Append stringTem to file 'efs/Useraction.txt'
 
   
   var stringTem = "\nUsername: " +username + " ID: "+ id + " Type of Event: "+ type + " Event: "+ event + " Date: " + dateString + " Game Session: " + gameID +"\n";
   str += stringTem;
-  // Append stringTem to file 'logs/useraction.txt'
-  fs.appendFile('logs/User_'+id+'_logFile.txt', stringTem, function (err) {
+  // Append stringTem to file 'efs/Useraction.txt'
+  fs.appendFile('efs/User_'+id+'_logFile.txt', stringTem, function (err) {
     console.log('Student information logged');
   });
   
@@ -262,7 +262,7 @@ router.post('/loggerHelpEndTutorial', auth, function (req, res, next) {
       date = moment().format('MMMM Do YYYY, h:mm:ss a');
 
   console.log(gameID);
-  // Append stringTem to file 'logs/useraction.txt'
+  // Append stringTem to file 'efs/Useraction.txt'
      var timestamp = new Date().toISOString()
     var x = timestamp.split('-')
     var dateString =  moment(timestamp).format('MMMM Do YYYY') + " " + x[2].substr(3,8) + " UTC"
@@ -271,8 +271,8 @@ router.post('/loggerHelpEndTutorial', auth, function (req, res, next) {
   
   var stringTem = "\nUsername: " +username + " ID: "+ id + " Type of Event: "+ type + " Event: "+ event + " Date: " + dateString + " Game Session: " + gameID +"\n";
   str += stringTem;
-  // Append stringTem to file 'logs/useraction.txt'
-  fs.appendFile('logs/User_'+id+'_logFile.txt', stringTem, function (err) {
+  // Append stringTem to file 'efs/Useraction.txt'
+  fs.appendFile('efs/User_'+id+'_logFile.txt', stringTem, function (err) {
     console.log('Student information logged');
   });
   
@@ -305,12 +305,12 @@ router.post('/loggerEnd', auth, function (req, res, next) {
   
   var stringTem = "\nUsername: " +username + " ID: "+ id + " Type of Event: "+ type + " Event: "+ event + " Date: " + dateString + " Game Session: " + gameID +"\n";
   str += stringTem;
-  // Append stringTem to file 'logs/useraction.txt'
-  fs.appendFile('logs/User_'+id+'_logFile.txt', stringTem, function (err) {
+  // Append stringTem to file 'efs/Useraction.txt'
+  fs.appendFile('efs/User_'+id+'_logFile.txt', stringTem, function (err) {
     console.log('Student information logged');
   });
   
-  // Append stringTem to file 'logs/useraction.txt'
+  // Append stringTem to file 'efs/Useraction.txt'
 
   //Saves the new Log FIle to the Private FTP Server
   saveNewLog(req,res,str);
@@ -379,8 +379,8 @@ router.post('/loggerPoll', auth, function (req, res, next) {
 
   var passingObject = {userID: id, username: username, action: type, description: questions, date: dateString, gameSession: gameID }
 
-  // Append stringTem to file 'logs/useraction.txt'
-  fs.appendFile('logs/User_'+id+'_logFile.txt', stringThing, function (err) {
+  // Append stringTem to file 'efs/Useraction.txt'
+  fs.appendFile('efs/User_'+id+'_logFile.txt', stringThing, function (err) {
     console.log('Student information logged');
   });
 
@@ -416,8 +416,8 @@ router.post('/loggerMinigame', auth, function (req, res, next) {
   
 
 
-  // Append stringTem to file 'logs/useraction.txt'
-  fs.appendFile('logs/User_'+id+'_logFile.txt', stringThing, function (err) {
+  // Append stringTem to file 'efs/Useraction.txt'
+  fs.appendFile('efs/User_'+id+'_logFile.txt', stringThing, function (err) {
     console.log('Student information logged');
   });
 
